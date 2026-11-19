@@ -1,0 +1,8 @@
+# UNBOUND / NOT ACTIVE: proposal recovery only
+
+These records are inactive engineering material, not app, package, workflow, fixture acquisition, signature or release authority. Do not run any real tool or media on the strength of this archive.
+
+- **Geometry collection**: reconstruct the four reviewed source/test identities using the patch against exact checkpoint 100 Git f2c8aff1effb4cf29237a1b960d5fbd78658c907 in a fresh isolated worktree. This patch was applied to fresh copies of the base files and all four reconstructed bytes matched the reviewed manifest. The original handoff said awaiting review; the separate immutable independent review approves only the inactive source capability. No catalog entry, resource-routing broadening, product runtime or media qualification.
+- **Geometry pure**: stored source-text files are exact, despite appended .txt. Restore names only in a fresh isolated review copy; independent.test.cjs uses the original relative sibling layout (separate review dir with ffmpeg-geometry102-pure as sibling). Author 12 plus three reviewer synthetic checks; no execution authority, measured resampling/noise claim or temporal proof.
+- **Ubuntu image GPG successor**: stored source-text files remain unbound and synthetic-only. Prospective pins are not live approved pins. Independent 23 synthetic checks, no GPG/network/crypto execution. Actual executable/status/back-signature behavior and trusted owned transport require separate review. Exact handoffs contain identifiers for locally retained logs, diffs or notes; referenced items not explicitly archived here are not implied recoverable.
+- No live binding, gate, executable, raw logs, or media are carried. No addition to any package/runtime manifest.

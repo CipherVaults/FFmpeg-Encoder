@@ -1,0 +1,46 @@
+{
+  "status": "APPROVED final derived/equivalence source review only",
+  "handoffSha256": "32a391be9196a4c483dc342c31f6e025938386afe362f7ee2ffa889429cb63b8",
+  "base": "e5e4d7504a2f6df2f742fe6f33708332d89c0582",
+  "verified": {
+    "exactChangedPaths": 14,
+    "correctedFunctionalPathsByteExact": 9,
+    "approvedTestOnlyPathByteExact": true,
+    "sourcePins": 151,
+    "actualPackageInputsRehashed": 269,
+    "applicationMembers": 168,
+    "sourceRows": 181,
+    "nonSourceRowsUnchanged": 88,
+    "historicalLoaderSuffixUnchanged": true,
+    "handoffLogHashesVerified": true
+  },
+  "derivedScope": [
+    "Current loader only SOURCE_PINS updates and two new fixed evidence/data memberships. Historical qualification and loader logic unchanged.",
+    "Package plan updates current source hashes and adds exactly two application source rows; all non-source rows and non-files metadata identical to baseline.",
+    "Two package/launcher tests change exact expected member/input/pin counts only.",
+    "No workflow, GPG, inactive geometry archive or unrelated changed paths."
+  ],
+  "independentTests": {
+    "command": "node --test tests/linux-inert-package.test.cjs tests/linux-candidate-launcher.test.cjs tests/operation-family-proportional.test.cjs",
+    "passed": 32,
+    "failed": 0,
+    "skipped": 0,
+    "log": "INDEPENDENT_DERIVED_TESTS.log",
+    "existingAsarNodePathUsed": true
+  },
+  "reportedFinalSourceGates": {
+    "affected": 144,
+    "genuineFinish": 9,
+    "syntax": 227,
+    "shared": 338,
+    "linux": 140,
+    "logsAndExitReceiptsInspected": true,
+    "notIndependentlyRerunOrSummed": true
+  },
+  "functionalReviewSha256": "cbda36893481c8161c128fa509bc63566e06bdd38dc73038c4a4c99f45d5ea11",
+  "limits": [
+    "Standalone v1/unified opt-in v2 remains exact approved implementation.",
+    "No package build, native/media execution, commit or publication performed.",
+    "New packaged VFR acceptance remains pending; source gates do not establish portable release."
+  ]
+}

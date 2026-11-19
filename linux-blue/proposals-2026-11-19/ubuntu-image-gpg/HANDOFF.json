@@ -1,0 +1,45 @@
+{
+  "status": "UNBOUND synthetic-only existing-gpg variant; no acquisition or cryptographic acceptance",
+  "predecessorHandoffSha256": "3d36c7d376875af5d1227df06eb9bfe2b2dcd248f2a622f14960d762cfd73683",
+  "files": [
+    {
+      "path": "adapter.py",
+      "bytes": 8828,
+      "sha256": "60440f45417952089b4d0cbbd823f32d51fb93d2061f0be8c8946b9567465245"
+    },
+    {
+      "path": "test_adapter.py",
+      "bytes": 9389,
+      "sha256": "94e28c69b446968305d4d31ceaf576d06618ca7c0e0738dbe1f4869b9f18fae1"
+    },
+    {
+      "path": "PROSPECTIVE_PINS.json",
+      "bytes": 2488,
+      "sha256": "19fa1cc9e400d7971eb5cc06eed47b44d17134665a383a552cad5365785e00d5"
+    },
+    {
+      "path": "REVIEW_BOUNDARY.md",
+      "bytes": 5005,
+      "sha256": "83de41dae7b5ddd69d08962b3c4000c0dda33e75e83b80a20366bf6feff25186"
+    },
+    {
+      "path": "GPG_VARIANT.md",
+      "bytes": 3191,
+      "sha256": "fe2a220e847dd05611655508ae7cbd90cfc228f31b9ea886029e444c0d4f8341"
+    },
+    {
+      "path": "SOURCE.diff",
+      "bytes": 7483,
+      "sha256": "0e69e82ec025b9e0bdb3f7a415f0354d0f06e4b237ff724d347ff894798c17be"
+    },
+    {
+      "path": "TESTS.log",
+      "bytes": 2104,
+      "sha256": "24d62b169b3f0273aab638c83c546338fce58d33f2fa95dca995c53a00ffc6c3"
+    }
+  ],
+  "tests": 23,
+  "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_adapter",
+  "limitsUnchanged": true,
+  "liveExecutions": 0
+}

@@ -76,13 +76,15 @@ function remuxPolicies(q){
   const base={inputFamily:'isobmff',runtimeIdentity:RUNTIME,allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'};
   return [{...base,id:'internal-isobmff-mp4-081',target:'mp4',evidenceIds:[q.evidenceId]},...(q.matroska?[{...base,id:'internal-isobmff-matroska-093',target:'matroska',evidenceIds:[q.matroska.evidenceId]}]:[]),...(q.mov?[{...base,id:'internal-isobmff-mov-096',target:'mov',sourceEnvelope:q.mov.sourceEnvelope,evidenceIds:[q.mov.evidenceId]}]:[])];
 }
-function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV/MOV additionally require CFR30 and reviewed current target evidence. MOV requires default tracks and unspecified language/default handlers; other functional metadata remains unavailable. Descriptive tags use shared warning semantics. No automatic conversion; native evidence is artifact-specific.'};}
-function admit(assessment,input,{proportionalIsobmff=false}={}) {
+function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV requires CFR30. Unified MOV with reviewed v2 evidence supports CFR30/60 and VFR up to60; complete per-output cadence verification remains mandatory. MOV requires default tracks and unspecified language/default handlers; other functional metadata remains unavailable. Descriptive tags use shared warning semantics. No automatic conversion; native evidence is artifact-specific.'};}
+function admit(assessment,input,{proportionalIsobmff=false,movSourceEnvelope=null}={}) {
   const p=getRemuxAssessmentSource(assessment), v=p.streams.filter(s=>s.codec_type==='video'), a=p.streams.filter(s=>s.codec_type==='audio');
   assert(assessment.inputFamily==='isobmff' && ['mp4','matroska','mov'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');
-  if(['matroska','mov'].includes(assessment.target))assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','MKV/MOV copy requires CFR30 source metadata');
+  if(assessment.target==='mov'&&movSourceEnvelope==='h264-aac-lc-48k-stereo-v2'){
+    for(const key of ['avg_frame_rate','r_frame_rate']){const rate=/^([1-9]\d{0,15})\/([1-9]\d{0,15})$/.exec(v[0][key]);assert(rate&&BigInt(rate[1])<=60n*BigInt(rate[2]),'MOV v2 requires positive rate summaries at most60fps; complete cadence checked at finish');}
+  }else if(['matroska','mov'].includes(assessment.target))assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','MKV/legacy MOV copy requires CFR30 source metadata');
   assert(v[0].width<=1920 && v[0].height<=1080 && v[0].width>0 && v[0].height>0);
   assert(a[0].codec_name==='aac' && a[0].profile==='LC' && a[0].sample_fmt==='fltp' && a[0].sample_rate==='48000' && a[0].channels===2 && a[0].channel_layout==='stereo');
   assert(Number.isFinite(Number(p.format.duration)) && Number(p.format.duration)>0 && /^[1-9]\d*$/.test(String(p.format.size)) && Number.isSafeInteger(Number(p.format.size)));

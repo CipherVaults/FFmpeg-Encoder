@@ -1,0 +1,241 @@
+{
+  "checkpoint": "102",
+  "cutoffUtc": "2026-11-19T15:44:45+00:00",
+  "baseLocal": "e5e4d7504a2f6df2f742fe6f33708332d89c0582",
+  "baseGitHub": "64bac48b490aa32842c370c168473e0eaca7479f",
+  "fullSourceHandoffOriginalSha256": "32a391be9196a4c483dc342c31f6e025938386afe362f7ee2ffa889429cb63b8",
+  "fullSourceHandoffRetention": "exact original has local environment reference; retained separately, not archived here",
+  "sourceFiles": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/mov-cadence-service102-audit.json",
+      "bytes": 45046,
+      "sha256": "fb7eb4164e9b5e0aa320b990869529db706922f0bb79fc1691844dab901c731b"
+    },
+    {
+      "path": "linux-blue/product-linux-mov-cadence-qualification.json",
+      "bytes": 982,
+      "sha256": "08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 40868,
+      "sha256": "e3dcf8bad695f05b2c6a75a224350a08361baf4eff7542fe4d838aa34042c21c"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-qualification.cjs",
+      "bytes": 7753,
+      "sha256": "357101b7161c698e8ee5fa12edb7ab16366bf47047cdc359ca13b89d2853f8dd"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-service.cjs",
+      "bytes": 15634,
+      "sha256": "cd3b091a5a18ac6b04bfe15c8be667ee963fccce00e10ecedbdd3bf8db236bfc"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 21010,
+      "sha256": "f7a76feef18d78150729f7b1a8184ca63fd28f7e55b2f74279ce7fc7ef516b4d"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 77931,
+      "sha256": "eb3432a684514b4edd915c4525bee744ed1ed5e58a8a2ea7e6530c28ffc54dd0"
+    },
+    {
+      "path": "tests/linux-candidate-launcher.test.cjs",
+      "bytes": 5797,
+      "sha256": "72465c41652f889638b0d60be1ac9aea67674a42eea5037c5cc054a968260301"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10333,
+      "sha256": "e0fbae16f1cf226fcb47fcf4aa7732f162aa36cd9b672f328b1fa6ecbab55cc1"
+    },
+    {
+      "path": "tests/linux-mov-qualification.test.cjs",
+      "bytes": 5253,
+      "sha256": "e2cfda348cfaa66e245a9aa081a4aa663a0c2b1eaaccd5b19c59d3c0089f0153"
+    },
+    {
+      "path": "tests/linux-product-remux-service.test.cjs",
+      "bytes": 21212,
+      "sha256": "baa126783e66506561d41cf6a5be59f595e4994c8aa06d188a71804f611c717c"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 46907,
+      "sha256": "2d1d2bc7f748b2af38fc46f113a03494d248bb3de5ab37bd13f598cc8547f753"
+    },
+    {
+      "path": "tests/operation-family-proportional.test.cjs",
+      "bytes": 20425,
+      "sha256": "2ebfeac93c9d905fa9714c92b24654ee164bc3cfec8352bb6473d291ed468a45"
+    },
+    {
+      "path": "tests/remux-service.test.cjs",
+      "bytes": 40283,
+      "sha256": "d53f5df6771a7456b930d2c6912a886cb3debbbffeb721821c641d3b8acd0c45"
+    }
+  ],
+  "sourceTestCounts": {
+    "affected": 144,
+    "genuineFinish": 9,
+    "shared": 338,
+    "linuxSelected": 140,
+    "overlappingNotSummed": true,
+    "exitCodes": {
+      "AFFECTED": "0",
+      "FINISH": "0",
+      "AGGREGATE": "0"
+    },
+    "syntax": 227
+  },
+  "sourceClosure": {
+    "pins": 151,
+    "inputs": 269,
+    "app": 168,
+    "sourceRows": 181,
+    "nonSource": 88,
+    "historicalLoaderSuffixUnchanged": true
+  },
+  "noNewPackageOrNativeAtCutoff": true,
+  "windowsSuite": "draft, under correction, not integrated or run; owner RTX5060 remains last",
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/ubuntu100-original-sanitized-report.json": {
+      "bytes": 366997,
+      "sha256": "ae603b58111a0a3dcdeb952cd86840ff4e766d2dcf05ae6f063cae629605a4b4"
+    },
+    "linux-blue/evidence-2026-11-19/hosted100-verified-outcome.json": {
+      "bytes": 5673,
+      "sha256": "5ad569de0c5d61b7ee021439b612a9e9683de4d0326a50f3aabe79cfbd681a77"
+    },
+    "linux-blue/evidence-2026-11-19/cadence-service-driver-original-review.json": {
+      "bytes": 1619,
+      "sha256": "f17e42e85dc6074de67aac7df3e487329303ab483ca6f24f5678eaf6e844dfc1"
+    },
+    "linux-blue/evidence-2026-11-19/cadence-service-driver-corrected-handoff.json": {
+      "bytes": 3203,
+      "sha256": "13800d1e2a9b6fb903f8b06e4263853129c009ffb3f6f9a973b25d97693bfd6f"
+    },
+    "linux-blue/evidence-2026-11-19/cadence-service-driver-final-unbound-handoff.json": {
+      "bytes": 3817,
+      "sha256": "932f2e4db04fc669a1c98663db5463fa6e9cb044a03f409731c95a4edfac8086"
+    },
+    "linux-blue/evidence-2026-11-19/cadence-service-driver-final-review.json": {
+      "bytes": 1753,
+      "sha256": "8bdbb1ec246cab26b786c0bc4fe50dc9e0a7cfb8bde0c285bb2db18fd863faad"
+    },
+    "linux-blue/evidence-2026-11-19/geometry101-inactive-selector-review.json": {
+      "bytes": 1883,
+      "sha256": "0597148d1a2888ff3357626103277237eb72792f586d0664fcdc01023ad2c7e9"
+    },
+    "linux-blue/evidence-2026-11-19/geometry101-inactive-selector-handoff.json": {
+      "bytes": 819,
+      "sha256": "d22af751ae174f31c8707b60dd4fb875fdafcfb50f6060f9dff372ffb04a95e0"
+    },
+    "linux-blue/studies-2026-11-19/geometry101-inactive-plan.md": {
+      "bytes": 8741,
+      "sha256": "b60f0af06f74576ee3528868aafc7754d0723bccfe03aca810bac73ddb758e71"
+    },
+    "linux-blue/studies-2026-11-19/geometry101-interface-resolution.md": {
+      "bytes": 6468,
+      "sha256": "0f372630d9516f3fa463d8d041eda985437ebd6017b72cb3de37f02f39c0aa95"
+    },
+    "linux-blue/evidence-2026-11-19/hosted101-verified-outcome.json": {
+      "bytes": 1694,
+      "sha256": "85d9c72e065b2702df1aa0661e44c9f5d185683742ce61f148832b74baf94c71"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-collection/reconstruct-against-100.patch": {
+      "bytes": 31893,
+      "sha256": "a7db66b9b73c34d867f2b93bfecc1f256b787a8b4ce68f561399386a8cd8c6be"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-collection/HANDOFF.json": {
+      "bytes": 1133,
+      "sha256": "df983ee24449a1a6d12122495ec2a9ee8ad5a6ebcd43ca8b0eb2e61a12e825a4"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-collection/INDEPENDENT_REVIEW.json": {
+      "bytes": 1815,
+      "sha256": "58ec2615d7ff99feb5ef6ee607de6aa69c621b06a4c3f282536f9c91ecb3f800"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-collection/ACTIVATION_NOTE.md": {
+      "bytes": 939,
+      "sha256": "08c53dbc5c629ba1d81ec1a18e65904d95f9d199ef51572bdc4cb0293a35f5da"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/marked-frame.cjs.txt": {
+      "bytes": 4465,
+      "sha256": "c1230ece53d6745adfd1cf552ce4c3e51d091a5ae69d9e556ff2b449dabe9649"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/marked-frame.test.cjs.txt": {
+      "bytes": 2680,
+      "sha256": "aa1bdfa1036cca1d2af45b51206c08c16d798c31cb55e951e6fbadd7b4c623d0"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/HANDOFF.json": {
+      "bytes": 954,
+      "sha256": "ca0235d4627d0c97253f90be2dfd82fb5f803896f3559482cd8bec2c45c5b2c2"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/INTERFACE_TRACE.md": {
+      "bytes": 4525,
+      "sha256": "a6bab6ee3f72c42b42717e840192d9e089333090a55a992c4f5b3dcc39861e17"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/README.md": {
+      "bytes": 2046,
+      "sha256": "a3a0d85907a10a6a131f040d0b7da1c701cd52e5cbfb13c79754ad2fdfaee6a5"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/INDEPENDENT_REVIEW.md": {
+      "bytes": 1710,
+      "sha256": "8f6db7279b8c593ddf552bb63d4de41507043f37fa3a9f05da8aba2b57687017"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-pure/independent.test.cjs.txt": {
+      "bytes": 1920,
+      "sha256": "2539dbd3f3973e146c0234bb258c5edf98029b92b2f8d97bb548f26d0e472433"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/adapter.py.txt": {
+      "bytes": 8828,
+      "sha256": "60440f45417952089b4d0cbbd823f32d51fb93d2061f0be8c8946b9567465245"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/test_adapter.py.txt": {
+      "bytes": 9389,
+      "sha256": "94e28c69b446968305d4d31ceaf576d06618ca7c0e0738dbe1f4869b9f18fae1"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/HANDOFF.json": {
+      "bytes": 1407,
+      "sha256": "ef0a1e2f13071cacf2ca60dcd5865f472695b50fb6f65efce287d40b28cecab6"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/INDEPENDENT_REVIEW.json": {
+      "bytes": 1746,
+      "sha256": "c1669275d68a5a2490a40ff0acb15d1d070918b72932dca59fee1cca5d8d8978"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/REVIEW_BOUNDARY.md": {
+      "bytes": 5005,
+      "sha256": "83de41dae7b5ddd69d08962b3c4000c0dda33e75e83b80a20366bf6feff25186"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/GPG_VARIANT.md": {
+      "bytes": 3191,
+      "sha256": "fe2a220e847dd05611655508ae7cbd90cfc228f31b9ea886029e444c0d4f8341"
+    },
+    "linux-blue/proposals-2026-11-19/ubuntu-image-gpg/PROSPECTIVE_PINS.json": {
+      "bytes": 2488,
+      "sha256": "19fa1cc9e400d7971eb5cc06eed47b44d17134665a383a552cad5365785e00d5"
+    },
+    "linux-blue/proposals-2026-11-19/README.md": {
+      "bytes": 1740,
+      "sha256": "d856bfb7b973a3c7731230cb379538a9f2d32bf34a5b0ab46e7b2e7058f98128"
+    },
+    "linux-blue/evidence-2026-11-19/mov102-functional-initial-review.json": {
+      "bytes": 1589,
+      "sha256": "85b7ea788f34c5a8b808cf68859a3b8c20bf8ee4da672563ba1a7e372239fea6"
+    },
+    "linux-blue/evidence-2026-11-19/mov102-functional-handoff.json": {
+      "bytes": 3853,
+      "sha256": "28eb12c8c711c8bf7e8fd32dd3047b19bb355dfb413806e2f1e31d06ad96d453"
+    },
+    "linux-blue/evidence-2026-11-19/mov102-functional-review.json": {
+      "bytes": 2475,
+      "sha256": "cbda36893481c8161c128fa509bc63566e06bdd38dc73038c4a4c99f45d5ea11"
+    },
+    "linux-blue/evidence-2026-11-19/mov102-derived-review.json": {
+      "bytes": 1988,
+      "sha256": "8d81eca9aa7c3f0aab1aed0d22684ef3f891906d9766e64b6638bbf5d55c75cc"
+    }
+  }
+}

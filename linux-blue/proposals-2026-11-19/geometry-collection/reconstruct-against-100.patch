@@ -1,0 +1,265 @@
+diff --git a/src/encoder-service.cjs b/src/encoder-service.cjs
+index c8e9c0b..3f5dff0 100644
+--- a/src/encoder-service.cjs
++++ b/src/encoder-service.cjs
+@@ -15,7 +15,7 @@ const catalogSettings = request => { const resolved = resolveCatalogSettings(req
+ const { encodeOutputName } = require('./operation-names.cjs');
+ const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSource, withEncodeOperationTelemetry,
+   resolveEncodeOperationInvocation, validateEncodeOperationTelemetry } = require('./encode-operation.cjs');
+-const { isProportionalFamilySelection, assertProportionalCollectionSelection } = require('./operation-family.cjs');
++const { isProportionalFamilySelection, isBoundCollectionSelection, assertProportionalCollectionSelection } = require('./operation-family.cjs');
+ const { collectOperationEvidence } = require('./operation-evidence.cjs');
+ const { createOperationTelemetry, assertTelemetryReady, collectOperationTelemetry, closeOperationTelemetry } = require('./operation-telemetry.cjs');
+ const { runTool, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
+@@ -1943,7 +1943,7 @@ class EncoderService extends EventEmitter {
+             throw fail('INPUT_CHANGED', 'The explicit original override no longer matches this file.');
+           }
+           await this.assertSourceMatches(entry, jobSignal, 'after-provenance-check', 'Source identity changed during the final provenance check.');
+-          if (isProportionalFamilySelection(qualified, entry.operationPlan)) {
++          if (isBoundCollectionSelection(qualified, entry.operationPlan)) {
+             requireQualification();
+             assertProportionalCollectionSelection(qualified, { plan: entry.operationPlan, sourcePath: entry.file,
+               sourceProbe: currentProbe, budget: qualified.budget, timingQualification: qualified.timingQualification, sourcePolicy: qualified.sourcePolicy });
+@@ -2062,7 +2062,7 @@ class EncoderService extends EventEmitter {
+               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal,
+               budget: qualified.budget, timingQualification: qualified.timingQualification,
+               ...(qualified.sourcePolicy ? { sourcePolicy: qualified.sourcePolicy } : {}),
+-              ...(isProportionalFamilySelection(qualified, entry.operationPlan) ? { familySelection: qualified } : {}),
++              ...(isBoundCollectionSelection(qualified, entry.operationPlan) ? { familySelection: qualified } : {}),
+               ...(qualified.qualification.containerDuration === 'matroska-packet-end-plus-codec-delay'
+                 ? { containerClockPolicy: qualified.qualification.containerDuration } : {}) });
+             if (remuxGroup) { entry.operationRuntimeGroup = await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }
+diff --git a/src/operation-evidence.cjs b/src/operation-evidence.cjs
+index e8af8f7..b8585e7 100644
+--- a/src/operation-evidence.cjs
++++ b/src/operation-evidence.cjs
+@@ -223,17 +223,18 @@ async function collectOperationEvidence(options) {
+     ...(own(options, 'containerClockPolicy') ? ['containerClockPolicy'] : []), ...(own(options, 'familySelection') ? ['familySelection'] : [])], 'Main collector request');
+   const { plan, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal, budget, timingQualification, familySelection, sourcePolicy, sourceProbe } = options;
+   const sourceProperties = own(options, 'sourcePolicy');
++  const squareGeometry = sourcePolicy?.id === 'short-sdr-range-square-geometry-v1';
+   const collectionBinding = () => assertProportionalCollectionSelection(familySelection, { plan, sourcePath, sourceProbe: sourceProbe, budget, timingQualification, sourcePolicy: sourcePolicy });
+   const approvedSource = own(options, 'familySelection') ? collectionBinding() : null;
+   if (sourceProperties) {
+     exact(sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
+     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
+-    need((approvedSource && [UHD_FULL, PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
++    need((approvedSource && squareGeometry && sourcePolicy.rate === 30 && sourcePolicy.maximumExtentUs === 120000000) || (approvedSource && [UHD_FULL, PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
+       || sourcePolicy.id === 'full-sdr-resize-copy-v1' && sourcePolicy.rate === 30)
+       && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy or Full-copy policy are implemented.');
+   }
+   const packetClock = own(options, 'containerClockPolicy');
+-  if (packetClock) need(sourceProperties && sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,
++  if (packetClock) need(sourceProperties && (sourcePolicy.id === 'short-sdr-range-v1' || squareGeometry && approvedSource) && options.containerClockPolicy === CONTAINER_CLOCK,
+     'The packet/codec-delay clock requires the qualified short SDR source policy.');
+   exact(budget, ['sourceDecode', 'timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes'], 'Evidence budget');
+   need(budget.sourceDecode === 'complete', 'Main must explicitly budget complete source decoding; telemetry alone does not satisfy this validator.', 'OPERATION_EVIDENCE_COST_APPROVAL');
+diff --git a/src/operation-family.cjs b/src/operation-family.cjs
+index 0e8af53..0f38d46 100644
+--- a/src/operation-family.cjs
++++ b/src/operation-family.cjs
+@@ -25,6 +25,13 @@ const proportionalResults = new WeakMap();
+ // resource authority. Callers must still requireCurrent at the normal boundary;
+ // the brand alone is not a fresh source/runtime observation or media qualification.
+ function isProportionalFamilySelection(result, plan) {
++  const issued = result && typeof result === 'object' ? proportionalResults.get(result) : null;
++  return !!issued && issued.proportional && issued.current() && (plan === undefined || plan === issued.plan);
++}
++
++// Collection eligibility is distinct from proportional resource authority.
++// Both use the existing module-private issued-result map, never public flags.
++function isBoundCollectionSelection(result, plan) {
+   const issued = result && typeof result === 'object' ? proportionalResults.get(result) : null;
+   return !!issued && issued.current() && (plan === undefined || plan === issued.plan);
+ }
+@@ -34,7 +41,7 @@ function isProportionalFamilySelection(result, plan) {
+ function assertProportionalCollectionSelection(selection, options) {
+   return checked('OPERATION_PROPORTIONAL_COLLECTION', () => {
+     const issued = selection && typeof selection === 'object' ? proportionalResults.get(selection) : null;
+-    need(issued && issued.current(), 'A genuine current proportional family selection is required.');
++    need(issued && issued.current(), 'A genuine current collection-bound family selection is required.');
+     record(options, ['plan', 'sourcePath', 'sourceProbe', 'budget', 'timingQualification', 'sourcePolicy']);
+     need(options.plan === issued.plan && options.sourcePath === issued.sourceIdentity.canonicalPath,
+       'Collection must use the exact selected plan and source path.');
+@@ -49,7 +56,7 @@ function assertProportionalCollectionSelection(selection, options) {
+ 
+ function verifyProportionalCollectedSource(selection, evidence) {
+   const issued = selection && typeof selection === 'object' ? proportionalResults.get(selection) : null;
+-  if (!issued || !issued.current()) throw new ToolError('OPERATION_PROPORTIONAL_COLLECTION', 'A current proportional selection is required.');
++  if (!issued || !issued.current()) throw new ToolError('OPERATION_PROPORTIONAL_COLLECTION', 'A current collection-bound selection is required.');
+   return issued.verify(evidence);
+ }
+ 
+@@ -58,7 +65,9 @@ const FAMILY = 'short-sdr-range-v1', MAX_EXTENT_US = 120000000, MAX_BYTES = 512
+ // were measured on a 10 s and a 31 s file, so video, audio, container and the
+ // decoded source must all last 10 to 31 s, and audio must end within one AAC
+ // frame of the video (as measured). No budget raised.
+-const FULL = 'full-sdr-resize-copy-v1', FLAC = 'short-sdr-range-flac-v1', FULL_MIN_SECONDS = 10n, FULL_MAX_SECONDS = 31n, FAMILY_IDS = Object.freeze([FAMILY, FULL, FLAC]);
++// Inactive until a main-owned catalog supplies genuine reviewed geometry evidence.
++const AAC_GEOMETRY = 'short-sdr-range-square-geometry-v1';
++const FULL = 'full-sdr-resize-copy-v1', FLAC = 'short-sdr-range-flac-v1', FULL_MIN_SECONDS = 10n, FULL_MAX_SECONDS = 31n, FAMILY_IDS = Object.freeze([FAMILY, FULL, FLAC, AAC_GEOMETRY]);
+ const AAC_FRAME = Object.freeze({ n: 1024n, d: 48000n });
+ const AMBIGUOUS = 'OPERATION_FAMILY_AMBIGUOUS';
+ const INVALID = 'INVALID_OPERATION_QUALIFICATION', REQUIRED = 'OPERATION_QUALIFICATION_REQUIRED', STALE = 'OPERATION_QUALIFICATION_STALE';
+@@ -160,6 +169,7 @@ function family(value) {
+   const evidenceIds = list(value.evidenceIds, 32, 'Family provenance').map(item => identity(item, 'Retained family evidence'));
+   need(evidenceIds.length > 0 && new Set(evidenceIds).size === evidenceIds.length, 'Family provenance needs unique retained evidence identities.');
+   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime'), config = settings(value.settings);
++  if (value.id === AAC_GEOMETRY) need(config.profileId === 'h265-cpu' && config.preset === 'slow' && config.quality === 25, 'Square geometry successor is CPU slow/25 only.');
+   need(config.profileId !== 'h265-cpu' || value.environment === null, 'The trusted CPU family must explicitly store a null environment.');
+   if (proportional) need(config.profileId === 'h265-cpu', 'The proportional family is CPU-only.');
+   const endpoint = qualification(value.qualification, runtimeIdentity), timing = timingQualification(value.timingQualification, runtimeIdentity, full || flac);
+@@ -247,7 +257,10 @@ function sourceFacts(probe, actualBytes, proportional = false, familyId = null)
+   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
+   need(video && audio && video.index !== audio.index && video.codec_name === 'h264' && video.profile === 'High' && video.pix_fmt === 'yuv420p'
+     && video.field_order === 'progressive' && Number(video.disposition?.attached_pic || 0) === 0
+-    && (familyId === UHD_FULL ? video.width === 3840 && video.height === 2160 : familyId === RESIZE_1440_PROPORTIONAL ? video.width === 2560 && video.height === 1440
++    && (familyId === AAC_GEOMETRY ? Number.isSafeInteger(video.width) && Number.isSafeInteger(video.height)
++      && video.width >= 2 && video.height >= 2 && video.width % 2 === 0 && video.height % 2 === 0
++      && video.width <= 1920 && video.height <= 1920 && video.width * video.height <= 2073600
++      : familyId === UHD_FULL ? video.width === 3840 && video.height === 2160 : familyId === RESIZE_1440_PROPORTIONAL ? video.width === 2560 && video.height === 1440
+       : video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only the fixed progressive 8-bit H264 High geometry belongs to this family.');
+   need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.');
+   // Refuse unsupported audio before side-data or clock diagnostics. Codec
+@@ -267,12 +280,13 @@ function sourceFacts(probe, actualBytes, proportional = false, familyId = null)
+   if (actualBytes !== undefined) need(actualBytes > 0n && actualBytes <= BigInt(proportional ? Number.MAX_SAFE_INTEGER : MAX_BYTES) && reportedBytes === actualBytes, 'The actual current source size must match the bounded observed container size.');
+   const ve = media.streams.find(item => item.index === video.index), ae = media.streams.find(item => item.index === audio.index);
+   need(compare(observedRational(ve.geometry.sampleAspectRatio, 'sample aspect ratio'), rat(1n)) === 0n
+-    && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), rat(16n, 9n)) === 0n, 'Only explicit square-pixel 16:9 geometry belongs to this family.');
++    && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), familyId === AAC_GEOMETRY ? rat(BigInt(video.width), BigInt(video.height)) : rat(16n, 9n)) === 0n, 'Only explicit square-pixel 16:9 geometry belongs to this family.');
+   need(['color_transfer', 'color_primaries', 'color_space'].every(key => video[key] === 'bt709') && video.color_range === 'tv' && video.chroma_location === 'left'
+     && !ve.hdr.entries.length && !ae.hdr.entries.length, 'Explicit BT709 limited-range SDR without reported HDR metadata is required.');
+   const videoTimeline = timeline(ve, proportional), audioTimeline = timeline(ae, proportional), rate = Number(video.avg_frame_rate.split('/')[0]);
+   need(compare(videoTimeline.timeBase, rat(1n, BigInt(rate))) <= 0n && compare(audioTimeline.timeBase, rat(1n, 48000n)) <= 0n, 'Observed source timestamp ticks must resolve the nominal video period and audio samples.');
+-  return { rate, width: video.width, videoIndex: video.index, audioIndex: audio.index, sourceAudio: audio,
++  if (familyId === AAC_GEOMETRY) need(rate === 30 && orientation(ve.geometry) === 'identity', 'Square geometry requires CFR30 and explicit identity orientation.');
++  return { rate, width: video.width, ...(familyId === AAC_GEOMETRY ? { height: video.height } : {}), videoIndex: video.index, audioIndex: audio.index, sourceAudio: audio,
+     majorBrand: probe.format.tags?.major_brand, videoTick: videoTimeline.timeBase,
+     audioTick: audioTimeline.timeBase, orientation: orientation(ve.geometry), videoEvidence: ve, audioEvidence: ae,
+     extents: { video: videoTimeline.duration, audio: audioTimeline.duration, container: containerExtent } };
+@@ -284,7 +298,7 @@ function rangeScope(request, facts, contract, flac = false, proportional = false
+     && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0,
+   flac ? 'Only SDR Matroska range encoding with precision FLAC and no omissions belongs to this family.'
+     : 'Only SDR Matroska range encoding with layout-default precision AAC and no omissions belongs to this family.');
+-  need(request.resolution === 'source' || request.resolution === '720' && (familyId === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 : facts.width === 1920), 'Only the fixed source/resolution pair belongs to this range family.');
++  need(request.resolution === 'source' || request.resolution === '720' && (familyId === AAC_GEOMETRY || (familyId === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 : facts.width === 1920)), 'Only the fixed source/resolution pair belongs to this range family.');
+   const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
+   need(range.kind === 'range' && range.resolved && Number.isSafeInteger(range.resolved.startUs) && Number.isSafeInteger(range.resolved.endUs), 'A resolved bounded range is required.');
+   const span = range.resolved.endUs - range.resolved.startUs;
+@@ -381,6 +395,16 @@ function bindings(value, familyId, scopeOnly = false) {
+ // Binds one family's own scope to bindings already read once; options are never re-read.
+ function forFamily(base, familyId) {
+   const request = requestScope(base.plan.contract.request, base.facts, base.plan.contract, familyId);
++  if (familyId === AAC_GEOMETRY) {
++    const geometry = resolveGeometry(base.facts.videoEvidence, request.resolution);
++    need(same(geometry, base.plan.contract.geometry), 'The original plan must carry the resolved successor geometry.');
++    need(compare(rational(geometry.output.sampleAspectRatio), rat(1n)) === 0n
++      && geometry.output.width <= base.facts.width && geometry.output.height <= base.facts.height,
++      'Square geometry cannot introduce non-square output SAR or upscaling.');
++    return { plan: base.plan, facts: base.facts, sourcePolicy: { ...base.sourcePolicy, id: familyId },
++      state: { ...base.state, familyId, request, geometryPolicy: 'square-sdr-1080-pixel-budget-v1',
++        sourceGeometry: { width: base.facts.width, height: base.facts.height }, resolvedGeometry: geometry } };
++  }
+   if (proportionalId(familyId)) {
+     const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
+     const interval = base.plan.contract.range.resolved, selectedExtentUs = (familyId === UHD_FULL || familyId === FULL_COPY_PROPORTIONAL) ? sourceExtentUs : interval.endUs - interval.startUs;
+@@ -448,7 +472,7 @@ class OperationFamilySelector {
+         budget: current.state.budget, evidenceIds: selected.evidenceIds, executionBudgetMs: current.state.executionBudgetMs, policyIdentity: this.#policy,
+         controlsRequired: true, sourcePolicy: current.sourcePolicy,
+         ...(proportional ? { proportional: true, resourcePolicy: resourcePolicy(selected.id), resources: current.state.resources } : {}) });
+-      if (proportional) { const epoch = this.#epoch; proportionalResults.set(result, { plan: current.plan, sourceIdentity: freeze(current.state.sourceIdentity),
++      if (proportional || selected.id === AAC_GEOMETRY) { const epoch = this.#epoch; proportionalResults.set(result, { proportional, plan: current.plan, sourceIdentity: freeze(current.state.sourceIdentity),
+         sourceProbeFingerprint: current.state.sourceProbeFingerprint, verify: evidence => this.#verifyCollectedSource(token, evidence), current: () => this.#epoch === epoch }); }
+       this.#selections.set(token, { epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
+     });
+@@ -575,4 +599,4 @@ class OperationFamilySelector {
+   }
+ }
+ 
+-module.exports = { OperationFamilySelector, isProportionalFamilySelection, assertProportionalCollectionSelection, verifyProportionalCollectedSource };
++module.exports = { OperationFamilySelector, isProportionalFamilySelection, isBoundCollectionSelection, assertProportionalCollectionSelection, verifyProportionalCollectedSource };
+diff --git a/tests/operation-family-square-geometry.test.cjs b/tests/operation-family-square-geometry.test.cjs
+new file mode 100644
+index 0000000..58d276f
+--- /dev/null
++++ b/tests/operation-family-square-geometry.test.cjs
+@@ -0,0 +1,79 @@
++'use strict';
++
++const test = require('node:test');
++const assert = require('node:assert/strict');
++const { OperationFamilySelector } = require('../src/operation-family.cjs');
++const { buildEncodeOperation, fingerprintEncodeSource } = require('../src/encode-operation.cjs');
++const { resolveFileRequest } = require('../src/operation-contract.cjs');
++const { classifyColor } = require('../src/media.cjs');
++
++// In-memory synthetic applicability and receipt records only. These deliberately
++// small test policies are not production calibration, retained media, hardware
++// observations, executable qualification or authorization to publish anything.
++const clone = value => structuredClone(value);
++const RUNTIME = 'a'.repeat(64), POLICY = 'synthetic-family-policy-v1';
++const CPU = { profileId: 'h265-cpu', preset: 'slow', quality: 25 }, NVIDIA = { profileId: 'h265-nvidia', preset: 'p5', quality: 25 };
++const DEVICE = { adapterIdentity: 'GPU-01234567-89ab-cdef-0123-456789abcdef', driverVersion: '581.80', runtimeVersion: `FFmpeg9.0.2:${RUNTIME}` };
++const BUDGET = { sourceDecode: 'complete', timeoutMs: 1000, maxFrameBytes: 16384, maxPcmBytes: 1048576, maxRecords: 500, maxSpoolBytes: 65536 };
++const SOURCE = { canonicalPath: require('node:path').resolve('synthetic-family/input.mp4'), dev: '1', ino: '2', size: '1000000',
++  mtimeNs: '1000', ctimeNs: '1001', birthtimeNs: '900', sparseDigest: `sha256-sparse-v1:${'b'.repeat(64)}` };
++function probe({ width = 1280, rate = 30, duration = 4, absent = false } = {}) {
++  return { streams: [{ index: 0, codec_type: 'video', codec_name: 'h264', profile: 'High', width, height: width === 1920 ? 1080 : 720,
++    pix_fmt: 'yuv420p', sample_aspect_ratio: '1:1', display_aspect_ratio: '16:9', field_order: 'progressive', avg_frame_rate: `${rate}/1`, r_frame_rate: `${rate}/1`,
++    color_transfer: 'bt709', color_primaries: 'bt709', color_space: 'bt709', color_range: 'tv', chroma_location: 'left', time_base: '1/90000',
++    start_pts: 0, start_time: '0', duration_ts: duration * 90000, duration: String(duration), disposition: { default: 1 }, ...(absent ? {} : { tags: { rotate: '0' } }) },
++  { index: 1, codec_type: 'audio', codec_name: 'aac', profile: 'LC', sample_fmt: 'fltp', sample_rate: '48000', channels: 2, channel_layout: 'stereo',
++    time_base: '1/48000', start_pts: 0, start_time: '0', duration_ts: duration * 48000, duration: String(duration), disposition: { default: 1 } }],
++  format: { format_name: 'mov,mp4,m4a,3gp,3g2,mj2', duration: String(duration), start_time: '0', size: SOURCE.size,
++    nb_streams: 2, nb_programs: 0, nb_stream_groups: 0 }, programs: [], stream_groups: [], chapters: [] };
++}
++function family(config = CPU) {
++  return { id: 'short-sdr-range-v1', evidenceIds: ['synthetic-family-endpoint', 'synthetic-family-interior'], runtimeIdentity: RUNTIME,
++    environment: config.profileId === 'h265-nvidia' ? clone(DEVICE) : null, settings: clone(config),
++    qualification: { evidenceId: 'synthetic-family-endpoint', runtimeIdentity: RUNTIME, containerDuration: 'end-timestamp',
++      tolerances: { videoTimestampUs: 1000, audioTimestampUs: 1000, avSyncUs: 2000, durationUs: 1000, sampleCount: 1024 } },
++    timingQualification: { evidenceId: 'synthetic-family-interior', runtimeIdentity: RUNTIME, videoDurationUs: 1000, audioTimelineUs: 1000,
++      aac: { alignment: 'decoded-after-signalled-skip', encoderDelaySamples: 1024, discardPaddingSamples: 0 } }, budget: clone(BUDGET), executionBudgetMs: 60000 };
++}
++function fixture(options = {}) {
++  const source = probe(options), config = options.config || CPU; options.mutate?.(source);
++  const retained = options.families ? options.families[0] : family(config), selector = new OperationFamilySelector({ families: options.empty ? [] : options.families || [retained], policyIdentity: POLICY });
++  const request = resolveFileRequest({ fileId: options.fileId || 'synthetic-file', identityRevision: 1, draftRevision: 1, operation: 'encode',
++    overrides: options.ordinary ? {} : { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-aac', ...options.overrides } });
++  const inspection = { probe: source, color: classifyColor(source), duration: Number(source.format.duration) };
++  const orientation = selector.orientationQualification({ inspection, request, runtimeIdentity: RUNTIME, settings: config });
++  const identity = { ...clone(SOURCE), ...options.identity };
++  const plan = buildEncodeOperation({ input: identity.canonicalPath, output: 'F:\\synthetic-family-owned\\output.mkv', inspection, settings: config, request,
++    runtimeIdentity: RUNTIME, ...orientation });
++  const bindings = { plan, settings: clone(config), sourceIdentity: identity, sourceProbeFingerprint: fingerprintEncodeSource(source), runtimeIdentity: RUNTIME,
++    environment: config.profileId === 'h265-nvidia' ? clone(DEVICE) : null, budget: clone(BUDGET), executionBudgetMs: 60000 };
++  return { source, inspection, request, plan, retained, selector, bindings, orientation };
++}
++
++const successor = () => ({...family(),id:'short-sdr-range-square-geometry-v1'});
++function geometry(w=960,h=1440, extra={}) { return fixture({families:[successor()],overrides:{resolution:'720',...extra.overrides},mutate:p=>{p.streams[0].width=w;p.streams[0].height=h;p.streams[0].display_aspect_ratio=`${w}:${h}`;extra.mutate?.(p);}}); }
++for(const [w,h,ow,oh] of [[960,1440,720,1080],[1080,1920,720,1280],[1440,1080,960,720],[640,480,640,480]])test(`successor ${w}x${h}`,()=>{const x=geometry(w,h);const token=x.selector.select(x.bindings);assert(x.selector.requireCurrent(token,x.bindings));assert.equal(x.plan.contract.geometry.output.width,ow);assert.equal(x.plan.contract.geometry.output.height,oh);});
++test('source preserved',()=>{const x=geometry(960,1440,{overrides:{resolution:'source'}});assert(x.selector.requireCurrent(x.selector.select(x.bindings),x.bindings));});
++test('copied token refused',()=>{const x=geometry(),token=x.selector.select(x.bindings);assert.throws(()=>x.selector.requireCurrent({...token},x.bindings));});
++test('stale epoch refused',()=>{const x=geometry(),token=x.selector.select(x.bindings);x.selector.invalidate('test epoch');assert.throws(()=>x.selector.requireCurrent(token,x.bindings));});
++test('other original plan refused',()=>{const x=geometry(),y=geometry(1440,1080),token=x.selector.select(x.bindings);assert.throws(()=>x.selector.requireCurrent(token,y.bindings));});
++for(const key of ['runtimeIdentity','sourceProbeFingerprint'])test(`changed ${key} refused`,()=>{const x=geometry(),token=x.selector.select(x.bindings);assert.throws(()=>x.selector.requireCurrent(token,{...x.bindings,[key]:'f'.repeat(64)}));});
++test('changed source identity refused',()=>{const x=geometry(),token=x.selector.select(x.bindings);assert.throws(()=>x.selector.requireCurrent(token,{...x.bindings,sourceIdentity:{...x.bindings.sourceIdentity,ino:'999'}}));});
++test('changed settings refused',()=>{const x=geometry(),token=x.selector.select(x.bindings);assert.throws(()=>x.selector.requireCurrent(token,{...x.bindings,settings:{...CPU,quality:26}}));});
++for(const [name,w,h,mutate] of [['odd',959,1440],['pixel budget',1920,1920],['large',1922,720],['bad DAR',960,1440,p=>p.streams[0].display_aspect_ratio='16:9'],['non-square SAR',960,1440,p=>p.streams[0].sample_aspect_ratio='2:1'],['absent orientation',960,1440,p=>delete p.streams[0].tags],['rotation',960,1440,p=>p.streams[0].tags.rotate='90'],['non-square resolved SAR',2,1282],['wrong cadence',960,1440,p=>{p.streams[0].avg_frame_rate='60/1';p.streams[0].r_frame_rate='60/1';}],['extra chapter',960,1440,p=>p.chapters=[{id:1}]]])test(`refuse ${name}`,()=>assert.throws(()=>{const x=geometry(w,h,{mutate});x.selector.select(x.bindings);}));
++test('old family still refuses portrait',()=>assert.throws(()=>{const x=fixture({mutate:p=>{p.streams[0].width=960;p.streams[0].height=1440;p.streams[0].display_aspect_ratio='2:3';}});x.selector.select(x.bindings);}));
++test('empty catalog grants no fallback',()=>{const x=geometry();assert.throws(()=>new OperationFamilySelector({policyIdentity:'empty',families:[]}).select(x.bindings));});
++test('legacy AAC selector still admits its original synthetic tuple',()=>{const x=fixture();assert(x.selector.requireCurrent(x.selector.select(x.bindings),x.bindings));});
++test('successor is not registered by default',()=>{const x=geometry();assert.throws(()=>new OperationFamilySelector({policyIdentity:'default'}).select(x.bindings));});
++test('wrong successor profile settings refused at catalog construction',()=>{const f=successor();f.settings.quality=26;assert.throws(()=>new OperationFamilySelector({policyIdentity:'wrong',families:[f]}));});
++
++const { isProportionalFamilySelection, isBoundCollectionSelection, assertProportionalCollectionSelection, verifyProportionalCollectedSource } = require('../src/operation-family.cjs');
++function bound(x=geometry()) { const token=x.selector.select(x.bindings),q=x.selector.requireCurrent(token,x.bindings);return {x,token,q,options:{plan:x.plan,sourcePath:x.bindings.sourceIdentity.canonicalPath,sourceProbe:x.source,budget:q.budget,timingQualification:q.timingQualification,sourcePolicy:q.sourcePolicy}}; }
++test('genuine geometry collection brand grants no proportional resource authority',()=>{const {x,q,options}=bound();assert.equal(isBoundCollectionSelection(q,x.plan),true);assert.equal(isProportionalFamilySelection(q,x.plan),false);assert.equal(q.proportional,undefined);assert.equal(q.resources,undefined);assert.equal(q.resourcePolicy,undefined);assert.deepEqual(assertProportionalCollectionSelection(q,options),x.bindings.sourceIdentity);});
++test('copied results and public proportional flags grant no collection brand',()=>{const {q,options}=bound();for(const copy of [{...q},structuredClone(q),{...q,proportional:true}]){assert.equal(isBoundCollectionSelection(copy),false);assert.equal(isProportionalFamilySelection(copy),false);assert.throws(()=>assertProportionalCollectionSelection(copy,options));}});
++for(const key of ['plan','sourcePath','sourceProbe','budget','timingQualification','sourcePolicy'])test(`collection substituted ${key} refused`,()=>{const {q,options}=bound();let replacement=key==='plan'?geometry().plan:key==='sourcePath'?options.sourcePath+'.other':structuredClone(options[key]);if(key==='sourceProbe')replacement.streams[0].height=1400;assert.throws(()=>assertProportionalCollectionSelection(q,{...options,[key]:replacement}));});
++test('collection stale epoch and verifier callback refused',()=>{const {x,q,options}=bound();x.selector.invalidate('synthetic invalidation');assert.equal(isBoundCollectionSelection(q),false);assert.throws(()=>assertProportionalCollectionSelection(q,options));assert.throws(()=>verifyProportionalCollectedSource(q,{}));});
++test('separate selector results cannot cross original plan boundary',()=>{const a=bound(),b=bound();assert.throws(()=>assertProportionalCollectionSelection(a.q,b.options));assert.equal(isBoundCollectionSelection(a.q,b.x.plan),false);});
++test('legacy fixed AAC remains outside privately bound collection extension',()=>{const {q,options}=bound(fixture());assert.equal(isBoundCollectionSelection(q),false);assert.equal(isProportionalFamilySelection(q),false);assert.throws(()=>assertProportionalCollectionSelection(q,options));});
++test('geometry verification delegates original private receipt callback',()=>{const {x,q}=bound();const evidence={schema:1,runtimeIdentity:RUNTIME,planFingerprint:x.plan.planFingerprint,sourcePath:SOURCE.canonicalPath,status:'completed',completeSource:{video:{frames:120,firstTime:{n:'0',d:'1'},endTime:{n:'4',d:'1'},maximumNominalCadenceErrorUs:0,maximumNominalDurationErrorUs:0,maximumNominalPhaseErrorUs:0,properties:{policy:successor().id,sampleAspectRatio:'1:1',chromaLocation:'left',sideDataPolicy:'h26x-unregistered-sei-only',framesChecked:120}},audio:[{inputIndex:1,sampleCount:'192000',firstTime:{n:'0',d:'1'},endTime:{n:'4',d:'1'},gaps:0}]}};assert.equal(verifyProportionalCollectedSource(q,evidence),true);for(const mutate of [r=>r.planFingerprint='f'.repeat(64),r=>r.completeSource.video.properties.policy='short-sdr-range-v1',r=>r.completeSource.video.properties.framesChecked=119]){const bad=clone(evidence);mutate(bad);assert.throws(()=>verifyProportionalCollectedSource(q,bad));}});
++test('collector refuses geometry without genuine collection authority before any run',async()=>{const {q,options}=bound();const {collectOperationEvidence}=require('../src/operation-evidence.cjs');let starts=0;const request={...options,outputProbe:{},outputPath:'/synthetic/output.mkv',stageDirectory:'/synthetic/stage',ffmpeg:'/synthetic/ffmpeg',ffprobe:'/synthetic/ffprobe',run:async()=>{starts++;throw Error('must not run');},signal:new AbortController().signal,containerClockPolicy:'matroska-packet-end-plus-codec-delay'};await assert.rejects(collectOperationEvidence(request),/Only bounded/);await assert.rejects(collectOperationEvidence({...request,familySelection:{...q}}),/genuine current/);assert.equal(starts,0);});

@@ -1,0 +1,37 @@
+{
+  "status": "inactive-source-only-awaiting-independent-review",
+  "base": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "paths": [
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 56675,
+      "sha256": "afe10d7bcdeb3c88265bd64d984f684a0eb74c9e0824e2a61f41d4ee71dbb1ae"
+    },
+    {
+      "path": "src/operation-evidence.cjs",
+      "bytes": 53682,
+      "sha256": "5d28b906a0fa7dd4e78d985699231a2a01ed49c1a9ffc16365986b235e5bc948"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 164061,
+      "sha256": "ae3a10b153a8dc05eac026ab309168e938140ef3b001854093de19081e549c75"
+    },
+    {
+      "path": "tests/operation-family-square-geometry.test.cjs",
+      "bytes": 12973,
+      "sha256": "6e8ab0e451ffb86c610d1475bf23a19759e61e6e876e511ad7e45d4a3db34039"
+    }
+  ],
+  "otherTrackedFilesVerifiedUnchanged": 1095,
+  "tests": {
+    "focused": 40,
+    "existingRegression": 134,
+    "failures": 0,
+    "skips": 0
+  },
+  "noMediaExecution": true,
+  "catalogRegistration": false,
+  "resourceRoutingBroadened": false,
+  "notesSha256": "c37e8f8aa3a09cc0c5606e0325e9e001b8fa09b91035aca8176e5fca3849c767"
+}

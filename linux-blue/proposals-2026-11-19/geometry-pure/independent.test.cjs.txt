@@ -1,0 +1,9 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const m=require('../ffmpeg-geometry102-pure/marked-frame.cjs');
+const boxes=[[24,24,96,96,32],[624,24,696,96,80],[624,984,696,1056,144],[24,984,96,1056,208],[120,120,600,132,224],[120,948,600,960,224],[120,144,132,936,224],[588,144,600,936,224],[270,450,450,462,32],[270,618,450,630,32],[270,462,282,618,32],[438,462,450,618,32]];
+function expected(){const b=Buffer.alloc(1166400,128);b.fill(96,0,777600);for(const [x,y,X,Y,v] of boxes)for(let j=y;j<Y;j++)b.fill(v,j*720+x,j*720+X);return b}
+function transform(b,fn){const c=Buffer.from(b);for(let y=0;y<1080;y++)for(let x=0;x<720;x++){const [u,v]=fn(x,y).map(Math.floor);c[y*720+x]=u>=0&&u<720&&v>=0&&v<1080?b[v*720+u]:96}return c}
+test('independently painted literal output marker coordinates and edge bounds',()=>{const a=m.analyze(expected(),true);assert.equal(a.edges.top.lo,120);assert.equal(a.edges.top.hi,132);assert.equal(a.squareWidth,168);assert.equal(a.squareHeight,168)});
+test('independent literal fixture transformations and narrower thresholds',()=>{const b=expected();for(const fn of [(x,y)=>[719-x,y],(x,y)=>[x,1079-y],(x,y)=>[16+x*688/720,16+y*1048/1080],(x,y)=>[x-4,y],(x,y)=>[360+(x-360)/1.08,y]])assert.throws(()=>m.analyze(transform(b,fn),true)); assert.doesNotThrow(()=>m.analyze(transform(b,(x,y)=>[x-2,y]),true)); assert.throws(()=>m.analyze(transform(b,(x,y)=>[x-3,y]),true),/edge/);});
+test('pending sink owns producer and abort checked at settlement, no next frame',async()=>{let release,started,count=0;const p=new Promise(r=>release=r),s=new Promise(r=>started=r),c=new AbortController();let settled=false;const task=m.streamFrames(async()=>{count++;started();await p},{count:3,signal:c.signal}).finally(()=>settled=true);await s;c.abort();await Promise.resolve();assert.equal(settled,false);release();await assert.rejects(task);assert.equal(count,1);});

@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "scope": "internal-mov-v2-cadence-not-release",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "target": "mov",
+  "sourceEnvelope": "h264-aac-lc-48k-stereo-v2",
+  "evidenceId": "saved-current099-mov-cfr60-vfr-service",
+  "audit": {
+    "file": "evidence-2026-11-19/mov-cadence-service102-audit.json",
+    "bytes": 45046,
+    "sha256": "fb7eb4164e9b5e0aa320b990869529db706922f0bb79fc1691844dab901c731b"
+  },
+  "limits": [
+    "C32sCFR60 and VMP48sVFR genuine private service preservation and fresh-state provenance; not new native desktop proof.",
+    "Inherited codec/audio/geometry/metadata and main-owned proportional resource controls unchanged. Complete cadence verification mandatory per output.",
+    "Original CFR30 and long MOV receipts unchanged; no newly measured long60/VFR or exhaustive interior video decode.",
+    "No timing normalization, shifted PCM or21ms waiver; no fixture identity admission."
+  ]
+}

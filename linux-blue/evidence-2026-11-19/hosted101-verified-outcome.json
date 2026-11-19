@@ -1,0 +1,47 @@
+{
+  "checkpoint": "101",
+  "head": "64bac48b490aa32842c370c168473e0eaca7479f",
+  "localCommit": "e5e4d7504a2f6df2f742fe6f33708332d89c0582",
+  "verifiedAtUtc": "2026-11-19T15:11:51.333150+00:00",
+  "attempt": 1,
+  "shared": {
+    "runId": 44551699044,
+    "conclusion": "success",
+    "linuxJob": 135656859820,
+    "windowsJob": 135656860470,
+    "syntaxFilesEach": 227,
+    "sharedTestsEach": 338,
+    "linuxTests": 133,
+    "failures": 0,
+    "skippedTests": 0
+  },
+  "inventory": {
+    "runId": 44551699026,
+    "conclusion": "skipped"
+  },
+  "ubuntuMetadataWorkflow": "not triggered; workflow unchanged and no rebind",
+  "windowsPackagedWorkflow": "not triggered; workflow unchanged and no rebind",
+  "newReaderTests": "130 local inert discovery tests including32 reader and98 existing Ubuntu, independently reviewed; not part of this Node shared hosted matrix",
+  "limits": [
+    "No new archive acquisition, GPG verification, installation, package build or native/media runtime.",
+    "100 actual Ubuntu report is later than101 authored cutoff and remains separately retained for next normal checkpoint."
+  ],
+  "evidence": {
+    "JOB-135656859820.log": {
+      "bytes": 78172,
+      "sha256": "e6ab854879f2c02565868b3d0edf08d546c969d6d320bcac9b387c22ed6e3c02"
+    },
+    "JOB-135656860470.log": {
+      "bytes": 63414,
+      "sha256": "1ff3346418953e87001781062c438460b4e265f919fe44dc5166876d1494d840"
+    },
+    "RUNS_FINAL.json": {
+      "bytes": 29066,
+      "sha256": "58a76f157f6e40e2a0b1805eb68f8bfd9fc922d67e9c25bbf44a245520aadf70"
+    },
+    "SHARED_JOBS.json": {
+      "bytes": 1696,
+      "sha256": "4bd0d974fffd2b0aa274d5776f1df73744eda97a2f28280a88acad4e76010748"
+    }
+  }
+}

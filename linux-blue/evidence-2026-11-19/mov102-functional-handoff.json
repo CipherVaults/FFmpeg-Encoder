@@ -1,0 +1,75 @@
+{
+  "status": "Functional source proposal only; derived closure/package/native pending",
+  "base": "e5e4d7504a2f6df2f742fe6f33708332d89c0582",
+  "files": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/mov-cadence-service102-audit.json",
+      "bytes": 45046,
+      "sha256": "fb7eb4164e9b5e0aa320b990869529db706922f0bb79fc1691844dab901c731b"
+    },
+    {
+      "path": "linux-blue/product-linux-mov-cadence-qualification.json",
+      "bytes": 982,
+      "sha256": "08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-qualification.cjs",
+      "bytes": 7753,
+      "sha256": "357101b7161c698e8ee5fa12edb7ab16366bf47047cdc359ca13b89d2853f8dd"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-service.cjs",
+      "bytes": 15634,
+      "sha256": "cd3b091a5a18ac6b04bfe15c8be667ee963fccce00e10ecedbdd3bf8db236bfc"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 21010,
+      "sha256": "f7a76feef18d78150729f7b1a8184ca63fd28f7e55b2f74279ce7fc7ef516b4d"
+    },
+    {
+      "path": "tests/linux-mov-qualification.test.cjs",
+      "bytes": 5253,
+      "sha256": "e2cfda348cfaa66e245a9aa081a4aa663a0c2b1eaaccd5b19c59d3c0089f0153"
+    },
+    {
+      "path": "tests/linux-product-remux-service.test.cjs",
+      "bytes": 21212,
+      "sha256": "baa126783e66506561d41cf6a5be59f595e4994c8aa06d188a71804f611c717c"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 46907,
+      "sha256": "2d1d2bc7f748b2af38fc46f113a03494d248bb3de5ab37bd13f598cc8547f753"
+    },
+    {
+      "path": "tests/remux-service.test.cjs",
+      "bytes": 40283,
+      "sha256": "d53f5df6771a7456b930d2c6912a886cb3debbbffeb721821c641d3b8acd0c45"
+    }
+  ],
+  "tests": {
+    "focused": 92,
+    "selectedGenuineFinish": 9,
+    "overlapNotSummed": true,
+    "noMedia": true
+  },
+  "evidence": {
+    "auditSha256": "fb7eb4164e9b5e0aa320b990869529db706922f0bb79fc1691844dab901c731b",
+    "newScope": "CFR60/VFR private genuine service preservation, not native package"
+  },
+  "retained": "Original eight-path proposal and review remain unchanged. Shared production source/runtime and original MOV30 records unchanged. Standalone retains genuine v1 finish, not merely summary filtering. No pins/build/media/native/commit.",
+  "initialFailures": "Two test iterations assumed opaque selection exposed sourceEnvelope. Preserved logs; final test checks genuine actual Start selected target/currentness and main-owned policy, no production workaround.",
+  "derivedPins": "Intentionally stale until independent functional approval; no aggregate all-green claim.",
+  "next": "One packaged VMP4 GUI after exact preservation/package gate; no repeated private campaign.",
+  "supersedes": {
+    "handoff": "ffmpeg-mov-cadence102-guidance/FUNCTIONAL_HANDOFF.json",
+    "sha256": "263c7650016e66ae865428d847eef479fe0661111c60bf31396c5db6b92e954d",
+    "reason": "Global v2 overlay widened standalone complete-cadence authority; original retained unchanged."
+  },
+  "correction": "Default loadRemuxQualification() returns exact original MOV v1 record. Only unified main-owned construction explicitly requests unifiedMovCadence:true. Shared validators unchanged. Genuine collector-backed equal30/VFR regression refuses standalone publication and permits unified v2 under identical timing facts.",
+  "testCommands": [
+    "node --test tests/linux-mov-qualification.test.cjs tests/linux-product-remux-service.test.cjs tests/linux-unified-service.test.cjs tests/linux-matroska-qualification.test.cjs tests/linux-product-remux-shell.test.cjs",
+    "node --test --test-name-pattern='Linux standalone default policy|MOV v2|collector.s own MOV|existing routes still validate complete variable' tests/remux-service.test.cjs tests/remux-operation.test.cjs"
+  ]
+}

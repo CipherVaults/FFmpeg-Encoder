@@ -1,0 +1,26 @@
+{
+  "base": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "inactive": true,
+  "productionCatalogRegistration": false,
+  "genuineMediaQualification": false,
+  "files": [
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 56177,
+      "sha256": "9b2734a3d5ac7d94cc7ba359254d74e6ebc72212c8d6055795374fdce614859d"
+    },
+    {
+      "path": "tests/operation-family-square-geometry.test.cjs",
+      "bytes": 8631,
+      "sha256": "74ffb2fa6cfc8dc5e6f02d056ab756cebdcc8e217ca6ce92634a23ff7cc9c885"
+    }
+  ],
+  "tests": {
+    "focused": 27,
+    "uhd1440": 10,
+    "otherRegressionPass": 23,
+    "otherRegressionFail": 1,
+    "identicalFailureOnUnchangedBase": true
+  },
+  "scope": "Private-selector geometry extension only; collector policy remains unregistered/refused pending genuine acquisition and review."
+}

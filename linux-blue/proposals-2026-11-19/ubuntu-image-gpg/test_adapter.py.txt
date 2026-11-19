@@ -1,0 +1,140 @@
+import unittest,copy,hashlib,datetime
+from unittest.mock import patch
+import adapter as a
+NOW=1700000000;CREATED=1600000000
+DATE=datetime.datetime.fromtimestamp(CREATED,datetime.timezone.utc).strftime('%Y-%m-%d')
+def listing(fp=a.PRIMARY,kind='pub',valid='-',created=CREATED,expiry=0):
+ return f'{kind}:{valid}:4096:1:{fp[-16:]}:{created}:{expiry}:::::sc:\nfpr:::::::::{fp}:\n'.encode()
+def status(fp=a.PRIMARY,primary=a.PRIMARY):
+ return f'[GNUPG:] NEWSIG\n[GNUPG:] KEY_CONSIDERED {a.PRIMARY} 0\n[GNUPG:] GOODSIG {fp[-16:]} synthetic\n[GNUPG:] VALIDSIG {fp} {DATE} {CREATED} 0 4 0 1 8 00 {primary}\n'.encode()
+class Response:
+ def __init__(self,url,data,io):self.url=url;self.status=200;self.data=data;self.length=len(data);self.io=io
+ def read(self,n,timeout):self.io.now+=self.io.delay;out=self.data[:n];self.data=self.data[n:];return out
+ def close(self):pass
+class IO:
+ synthetic_only=True
+ def __init__(self):self.now=0;self.delay=0;self.files={};self.identity=1;self.opened=[];self.commands=[];self.modify=None;self.badstatus=None
+ def check_owner(self):a.need(self.identity==1,'owner replaced')
+ def bytes_used(self):return sum(map(len,self.files.values()))
+ def free_bytes(self):return 30*1024**3
+ def exclusive(self,n,b):a.need(n not in self.files,'overwrite');self.files[n]=b
+ def snapshot(self,n):return (n,a.digest(self.files[n]),len(self.files[n]))
+ def open_https(self,url,**kw):
+  assert kw['proxies'] is False and kw['redirects'] is False;self.opened.append(url)
+  data=(a.PINS['reportedSha256']+' *'+a.PINS['archiveFilename']+'\n').encode() if url==a.PINS['checksumUrl'] else b'image' if url==a.PINS['archiveUrl'] else b'key-or-signature'
+  return Response(url,data,self)
+ def child(self,kind,args,**kw):
+  self.commands.append((kind,args,kw));assert kw['network'] is False and kw['stdin']=='closed';assert set(kw['env'])=={'HOME','GNUPGHOME','LC_ALL','PATH'}
+  if self.modify:self.modify(self)
+  return dict(closed=True,exit=0,stdout=listing() if '--show-keys' in args else b'binary',stderr=b'',status=self.badstatus or status())
+def protocol(io):return a.Protocol(io,lambda:io.now,lambda:NOW)
+class Tests(unittest.TestCase):
+ def test_primary(self):self.assertEqual(a.signature_status(status(),a.key_records(listing(),NOW),NOW)['primary'],a.PRIMARY)
+ def test_subkey_correlated_not_crypto_claim(self):
+  fp='A'*40;k=a.key_records(listing()+listing(fp,'sub'),NOW);self.assertTrue(a.signature_status(status(fp),k,NOW)['subkey'])
+ def test_key_negatives(self):
+  for data in [listing('A'*40),listing()+listing(),listing(valid='r'),listing(valid='e'),listing(expiry=NOW-1),listing(created=NOW+1),listing().replace(b':sc:',b':sD:'),listing().replace(b':4096:',b':1024:')]:
+   with self.subTest(data=data),self.assertRaises(a.Refusal):a.key_records(data,NOW)
+ def test_status_negatives(self):
+  k=a.key_records(listing(),NOW)
+  for data in [b'',status()+status(),status('A'*40),status(primary='B'*40),status().replace(b' 8 00 ',b' 2 00 '),status()+b'[GNUPG:] BADSIG x\n',status().replace(b'VALIDSIG',b'EXPKEYSIG'),status().replace(b' 0 4 ',b' 1 4 ')]:
+   with self.subTest(data=data),self.assertRaises(a.Refusal):a.signature_status(data,k,NOW)
+ def test_manifest(self):
+  good=(a.PINS['reportedSha256']+' *'+a.PINS['archiveFilename']+'\n').encode();a.checksum(good)
+  for bad in [good+good,good.replace(b'ubuntu-base',b'../ubuntu-base'),b'x',good.replace(a.PINS['reportedSha256'].encode(),b'0'*64)]:
+   with self.assertRaises(a.Refusal):a.checksum(bad)
+ def test_complete_synthetic_not_acceptance(self):
+  io=IO()
+  with patch.dict(a.PINS,reportedSha256=a.digest(b'image')):r=protocol(io).run()
+  self.assertTrue(r['protocolPassed']);self.assertFalse(r['accepted']);self.assertTrue(r['synthetic']);self.assertEqual((r['requests'],r['children']),(4,3))
+  self.assertEqual(io.commands[1][1],['--no-options','--batch','--no-tty','--no-autostart','--homedir','/OWNED/home','--no-default-keyring','--trustdb-name','/OWNED/home/trustdb.gpg','--no-auto-check-trustdb','--no-auto-key-import','--no-auto-key-retrieve','--disable-dirmngr','--auto-key-locate','clear','--output','-','--dearmor','/OWNED/key.asc']);self.assertEqual(io.opened[-1],a.PINS['archiveUrl'])
+ def test_no_live_backend(self):
+  io=IO();io.synthetic_only=False
+  with self.assertRaises(a.Refusal):protocol(io)
+ def test_wrong_archive_digest_retained(self):
+  io=IO()
+  with self.assertRaisesRegex(a.Refusal,'archive digest'):protocol(io).run()
+  self.assertIn('RESULT.json',io.files)
+ def test_mutation_during_verify_refused_before_archive(self):
+  io=IO();io.modify=lambda x:x.files.update({'key.asc':b'changed'})
+  with self.assertRaisesRegex(a.Refusal,'changed'):protocol(io).run()
+  self.assertEqual(len(io.opened),3)
+ def test_drip_deadline(self):
+  io=IO();io.delay=301
+  with self.assertRaisesRegex(a.Refusal,'deadline'):protocol(io).run()
+  self.assertIn('RESULT.json',io.files);self.assertEqual(len(io.commands),0)
+ def test_redirect(self):
+  io=IO();original=io.open_https
+  def changed(*args,**kw):r=original(*args,**kw);r.url+='other';return r
+  io.open_https=changed
+  with self.assertRaisesRegex(a.Refusal,'redirect'):protocol(io).run()
+ def test_truncation(self):
+  io=IO();original=io.open_https
+  def changed(*args,**kw):r=original(*args,**kw);r.length+=1;return r
+  io.open_https=changed
+  with self.assertRaisesRegex(a.Refusal,'truncated'):protocol(io).run()
+ def test_cap(self):
+  io=IO();original=io.open_https
+  def changed(*args,**kw):r=original(*args,**kw);r.data=b'x'*65537;r.length=len(r.data);return r
+  io.open_https=changed
+  with self.assertRaisesRegex(a.Refusal,'object cap'):protocol(io).run()
+ def test_owner_replacement(self):
+  io=IO();io.identity=2
+  with self.assertRaises(ExceptionGroup):protocol(io).run()
+ def test_no_overwrite(self):
+  io=IO();io.files['SHA256SUMS']=b'prior'
+  with self.assertRaisesRegex(a.Refusal,'overwrite'):protocol(io).run()
+  self.assertEqual(io.files['SHA256SUMS'],b'prior')
+ def test_failed_child(self):
+  io=IO();io.badstatus=b'[GNUPG:] ERRSIG x\n'
+  with self.assertRaises(a.Refusal):protocol(io).run()
+  self.assertEqual(len(io.opened),3)
+ def test_final_integrity(self):
+  io=IO();orig=io.open_https
+  def changed(url,**kw):
+   r=orig(url,**kw)
+   if url==a.PINS['archiveUrl']:io.files['SHA256SUMS.gpg']=b'changed'
+   return r
+  io.open_https=changed
+  with patch.dict(a.PINS,reportedSha256=a.digest(b'image')),self.assertRaisesRegex(a.Refusal,'changed'):protocol(io).run()
+ def test_late_persistence_refuses_success(self):
+  io=IO();orig=io.exclusive
+  def changed(n,b):orig(n,b);io.now=301 if n=='RESULT.json' else io.now
+  io.exclusive=changed
+  with patch.dict(a.PINS,reportedSha256=a.digest(b'image')),self.assertRaisesRegex(a.Refusal,'deadline'):protocol(io).run()
+def check_dearmor_argv(args):
+ expected=['--no-options','--batch','--no-tty','--no-autostart','--homedir','/OWNED/home','--no-default-keyring','--trustdb-name','/OWNED/home/trustdb.gpg','--no-auto-check-trustdb','--no-auto-key-import','--no-auto-key-retrieve','--disable-dirmngr','--auto-key-locate','clear','--output','-','--dearmor','/OWNED/key.asc']
+ a.need(args==expected,'wrong dearmor stdout command')
+class CommandTests(unittest.TestCase):
+ def test_exact_command_and_negative_file_or_default_output(self):
+  io=IO()
+  with patch.dict(a.PINS,reportedSha256=a.digest(b'image')):protocol(io).run()
+  args=io.commands[1][1];check_dearmor_argv(args)
+  i=args.index('--output');missing=args[:i]+args[i+2:]
+  fileout=[*args];fileout[i+1]='/OWNED/keyring.gpg'
+  for wrong in [missing,fileout,args+['--yes']]:
+   with self.assertRaises(a.Refusal):check_dearmor_argv(wrong)
+class GpgVariantTests(unittest.TestCase):
+ def test_exact_verify_policy(self):
+  io=IO()
+  with patch.dict(a.PINS,reportedSha256=a.digest(b'image')):r=protocol(io).run()
+  kind,args,kw=io.commands[2]
+  self.assertEqual(kind,'gpg')
+  self.assertEqual(args,['--no-options','--batch','--no-tty','--no-autostart','--homedir','/OWNED/home','--no-default-keyring','--trustdb-name','/OWNED/home/trustdb.gpg','--no-auto-check-trustdb','--no-auto-key-import','--no-auto-key-retrieve','--disable-dirmngr','--auto-key-locate','clear','--keyring','/OWNED/keyring.gpg','--require-cross-certification','--status-fd','3','--verify','/OWNED/SHA256SUMS.gpg','/OWNED/SHA256SUMS'])
+  self.assertFalse(r['accepted']);self.assertTrue(r['synthetic'])
+ def test_undefined_trust_is_not_fingerprint_authority(self):
+  k=a.key_records(listing(),NOW);data=status()+b'[GNUPG:] TRUST_UNDEFINED 0 pgp\n'
+  a.signature_status(data,k,NOW)
+  for bad in [data.replace(a.PRIMARY.encode(),b'A'*40),data+b'[GNUPG:] TRUST_UNDEFINED 0 pgp\n',data.replace(b'0 pgp',b'1 always')]:
+   with self.assertRaises(a.Refusal):a.signature_status(bad,k,NOW)
+ def test_revocation_lifetime_failure_statuses(self):
+  k=a.key_records(listing(),NOW)
+  for tag in ['REVKEYSIG','KEYREVOKED','EXPSIG','EXPKEYSIG','KEYEXPIRED','SIGEXPIRED','FAILURE','ERROR','NO_PUBKEY']:
+   with self.subTest(tag=tag),self.assertRaises(a.Refusal):a.signature_status(status()+('[GNUPG:] '+tag+' x\n').encode(),k,NOW)
+ def test_subkey_requires_known_pinned_primary_and_lifetime(self):
+  fp='A'*40
+  with self.assertRaises(a.Refusal):a.key_records(listing()+listing(fp,'sub',expiry=NOW),NOW)
+  keys=a.key_records(listing()+listing(fp,'sub'),NOW)
+  with self.assertRaises(a.Refusal):a.signature_status(status(fp,primary='B'*40),keys,NOW)
+if __name__=='__main__':unittest.main()
+

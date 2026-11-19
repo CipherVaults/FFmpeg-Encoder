@@ -1,0 +1,25 @@
+{
+  "status": "CORRECTION REQUIRED before functional approval",
+  "handoffSha256": "263c7650016e66ae865428d847eef479fe0661111c60bf31396c5db6b92e954d",
+  "verifiedHashes": 8,
+  "independentTests": {
+    "passed": 84,
+    "failed": 0,
+    "log": "INDEPENDENT_FOCUSED.log"
+  },
+  "finding": {
+    "id": "R1",
+    "scope": "Standalone MOV finish authority",
+    "cause": "loadRemuxQualification overlays sourceEnvelope v2 globally. createLinuxRemuxService passes remuxPolicies(qualification) directly to ProductRemuxOperations, so standalone gets v2 despite early admission retaining exact30 summaries.",
+    "impact": "Rate summaries alone do not prove constant cadence. A variable source with equal30 summaries could now pass standalone finish under v2, whereas v1 required constant source/output cadence. This contradicts unified-only scope.",
+    "required": "Keep standalone MOV policy v1; expose v2 only to explicitly main-owned unified composition. Add regression for standalone policy/finish authority with equal30 summaries and variable cadence. Preserve genuine shared collector/finish."
+  },
+  "positive": [
+    "All eight exact file identities verified. Fixed audit matches independent accepted fb7eb416 receipt.",
+    "Loader byte/hash/no-follow checks and original MOV30 record remain intact.",
+    "Shared RemuxOperations.finish remains genuine receipt-bound and unchanged; private WeakMap early admission in unified is coherent."
+  ],
+  "limits": [
+    "No media, package, build or native execution. Derived closure intentionally stale. No full functional approval yet."
+  ]
+}

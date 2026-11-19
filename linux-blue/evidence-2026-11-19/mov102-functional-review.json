@@ -1,0 +1,37 @@
+{
+  "status": "APPROVED corrected functional source; derived closure and native acceptance pending",
+  "handoffSha256": "28eb12c8c711c8bf7e8fd32dd3047b19bb355dfb413806e2f1e31d06ad96d453",
+  "base": "e5e4d7504a2f6df2f742fe6f33708332d89c0582",
+  "exactPaths": 9,
+  "independentTests": {
+    "focusedPassed": 92,
+    "selectedGenuineFinishPassed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "logs": [
+      "INDEPENDENT_FOCUSED.log",
+      "INDEPENDENT_FINISH.log"
+    ],
+    "noMediaExecution": true
+  },
+  "resolvedFinding": {
+    "id": "R1",
+    "priorReceiptSha256": "85b7ea788f34c5a8b808cf68859a3b8c20bf8ee4da672563ba1a7e372239fea6",
+    "resolution": "Default loader returns exact original MOV v1 record; only unified main factory explicitly opts into hash-loaded cadence overlay. Standalone has no v2 finish authority.",
+    "behavioralProof": "Same synthetic variable cadence with equal30 summaries traverses actual shared service/collector: default policy refuses publication REMUX_MOV_CADENCE_UNQUALIFIED; unified v2 validates and publishes. No real media subprocess."
+  },
+  "verified": [
+    "All nine immutable handoff byte lengths and hashes verified; diff check clean and exact changed scope.",
+    "Accepted audit fb7eb416 remains byte-exact; separate cadence record is fixed-hash loaded with bounded no-follow identity checks. Original MOV30 records retained.",
+    "Unified early metadata envelope is private per-instance WeakMap state from main-owned loaded policy, not renderer input. Existing selected target/currentness/cancellation boundaries remain intact.",
+    "MP4/MKV policy and shared production collector/finish/validator/runtime unchanged. Standalone retains v1 complete constant-cadence finish, not merely summary filtering.",
+    "Actual complete source/output cadence and genuine bound collector native MOV receipt still decide per-output acceptance; early positive summaries are not proof.",
+    "Codec/audio/geometry/metadata and existing proportional resource constraints unchanged."
+  ],
+  "limits": [
+    "Derived source/package pins intentionally stale until separate integration review. No aggregate/package/build/native claim.",
+    "New private proof covers C32s CFR60 and VMP48s VFR; not long60/VFR numerical or native qualification.",
+    "Original VFR160 decoded-duration versus nextPTS differences remain recorded; no normalization or tolerance change.",
+    "Next distinct packaged VMP4 acceptance remains separately gated."
+  ]
+}

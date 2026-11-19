@@ -40,7 +40,33 @@ function loadMov(runtimeIdentity) {
   for(const k of ['successPublished','collisionSkippedWithoutStart','freshStateGeneratedRescan','cancelledNoPublishedOutputOrHandle'])assert.equal(audit.cases[k],true);
   return mov;
 }
-function loadRemuxQualification() {
+function loadMovCadence(mov,runtimeIdentity) {
+  if(!mov)return null;
+  const value=boundedRead('product-linux-mov-cadence-qualification.json', 982, '08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6');
+  assert.equal(value.schema,1);assert.equal(value.scope,'internal-mov-v2-cadence-not-release');
+  assert.equal(value.runtimeIdentity,runtimeIdentity);assert.equal(value.target,'mov');assert.equal(value.sourceEnvelope,'h264-aac-lc-48k-stereo-v2');
+  const a=boundedRead(value.audit.file,value.audit.bytes,value.audit.sha256);
+  assert.equal(a.accepted,true);assert.equal(a.runtimeIdentity,runtimeIdentity);assert.equal(a.closureFacts.exitCode,0);
+  assert.equal(a.closureFacts.terminationRequested,false);assert.deepEqual(a.closureFacts.errors,[]);
+  assert.equal(a.children.live,0);assert.equal(a.children.started,a.children.closed);
+  assert.deepEqual(a.cells.map(c=>c.id),['C','VMP4']);assert.equal(a.owners.length,4);assert(a.owners.every(o=>o.closed===true));
+  for(const [i,c]of a.cells.entries()){
+    assert.equal(c.validation.valid,true);assert.deepEqual(c.validation.errors,[]);assert.equal(c.validation.target,'mov');
+    assert.equal(c.validation.verificationMethod,'packet-identity-v1');assert.equal(c.publication.kind,'published');
+    assert.equal(c.rescanOrigin.kind,'generated');assert.equal(c.publicationIdentityRechecked,true);assert.equal(c.independentPacketSpoolByteEquality,true);
+    assert.equal(c.essence.complete,true);assert.equal(c.essence.runtimeIdentity,runtimeIdentity);assert.equal(c.essence.streams.length,2);
+    const video=c.essence.streams.find(s=>s.codecType==='video'),audio=c.essence.streams.find(s=>s.codecType==='audio');
+    assert(video&&audio);assert.equal(video.source.cadence.classification,i===0?'constant':'variable');
+    if(i===0)assert.deepEqual(video.source.cadence.firstStep,{numerator:'1',denominator:'60'});
+    assert.deepEqual(video.source.cadence,video.output.cadence);
+    for(const stream of [video,audio]){assert.equal(stream.source.complete,true);assert.equal(stream.output.complete,true);
+      for(const key of ['contentSha256','metadataSha256','decoderParametersSha256','unitCount'])assert.equal(stream.source[key],stream.output[key]);
+      for(const key of ['maxPtsError','maxDurationError'])assert.equal(stream.timestamps[key].numerator,'0');}
+    assert.deepEqual(audio.source.pcm,audio.output.pcm);assert.equal(c.nativeEditLists.complete,true);
+  }
+  return {...mov,sourceEnvelope:value.sourceEnvelope,evidenceId:value.evidenceId,priorEvidenceId:mov.evidenceId,cadenceQualification:value};
+}
+function loadRemuxQualification({ unifiedMovCadence = false } = {}) {
   verifyProductSources();
   const value = boundedRead('product-linux-remux-qualification.json', 1013, '5a5080a0daf74d3c071c0739a32ada9901fb21ba94d8b9e10c1aceea4624b99c');
   const audit = boundedRead(value.audit.file, value.audit.bytes, value.audit.sha256);
@@ -53,6 +79,6 @@ function loadRemuxQualification() {
   assert.equal(mkv.status,'accepted-private-lifecycle');assert(mkv.lifecycleAudit);
   const lifecycle=boundedRead(mkv.lifecycleAudit.file,mkv.lifecycleAudit.bytes,mkv.lifecycleAudit.sha256);
   assert.equal(lifecycle.runtimeIdentity,value.runtimeIdentity);assert.equal(lifecycle.status,'accepted-saved-private-lifecycle-evidence-not-product-activation');
-  return deepFreeze({...value,matroska:mkv,mov:loadMov(value.runtimeIdentity)});
+  return deepFreeze({...value,matroska:mkv,mov:unifiedMovCadence ? loadMovCadence(loadMov(value.runtimeIdentity),value.runtimeIdentity) : loadMov(value.runtimeIdentity)});
 }
 module.exports = { loadRemuxQualification };

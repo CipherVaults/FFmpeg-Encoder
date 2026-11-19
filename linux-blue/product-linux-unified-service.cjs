@@ -22,7 +22,8 @@ const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}H265.settings(value);return 'h265';}
-class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input,{proportionalIsobmff:true});return super.prepare(options);}}
+const remuxEnvelopes=new WeakMap();
+class NarrowRemux extends RemuxOperations{constructor(options,movSourceEnvelope){super(options);remuxEnvelopes.set(this,movSourceEnvelope);}prepare(options){admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:remuxEnvelopes.get(this)});return super.prepare(options);}}
 class UnifiedService extends EncoderService{
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
@@ -55,7 +56,7 @@ class UnifiedService extends EncoderService{
     this.operationRuntime=fresh.observer;
     this.operationQualifications=createProductSelector(this.configuration.measured);
     const q=this.configuration.remux;
-    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)});
+    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope);
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
     this.operationDeadlineMs=route==='remux'?EXECUTION_BUDGET_MS:120000;
     this.ordinaryJobGuard=ordinaryRoute(route)?facts=>this.ordinaryGuard(facts,fresh):null;
@@ -183,7 +184,7 @@ async function createUnifiedService(options){
   for(const key of Reflect.ownKeys(options))assert(['runtimeRoot','stateDir','outputAccess','onChild'].includes(key)&&Object.hasOwn(Object.getOwnPropertyDescriptor(options,key),'value'));
   const {runtimeRoot,stateDir,outputAccess,onChild}=options;assert(onChild===undefined||typeof onChild==='function');
   assert(path.isAbsolute(runtimeRoot)&&path.resolve(runtimeRoot)===runtimeRoot&&path.isAbsolute(stateDir)&&path.resolve(stateDir)===stateDir);assert(outputAccess===undefined||outputAccess instanceof OutputAccess);
-  const measured=loadQualification(),remux=loadRemuxQualification();let service;
+  const measured=loadQualification(),remux=loadRemuxQualification({unifiedMovCadence:true});let service;
   service=new UnifiedService({ffmpeg:path.join(runtimeRoot,'ffmpeg'),ffprobe:path.join(runtimeRoot,'ffprobe'),stateDir,outputAccess,inspectionWorkers:1,runtimeIdentity:RUNTIME,operationTelemetry:true,
     run:(...args)=>{assert(service.generation);return service.generation.run(...args);},operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')})},{runtimeRoot,onChild,measured,remux});
   service.state.remuxSupport=remuxSupport(remux);

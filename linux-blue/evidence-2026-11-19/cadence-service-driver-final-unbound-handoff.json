@@ -1,0 +1,117 @@
+{
+  "status": "UNBOUND corrected successor; no execution or binding authority",
+  "supersedes": {
+    "handoff": {
+      "bytes": 2990,
+      "sha256": "4a115bc6034714a27640d6e9017f1b5861545bffd51a413aa4b27f0295a5830c"
+    },
+    "review": {
+      "bytes": 1619,
+      "sha256": "f17e42e85dc6074de67aac7df3e487329303ab483ca6f24f5678eaf6e844dfc1"
+    }
+  },
+  "sourceCommit": "da97ee7584c771eae8e74d345e287999c6546507",
+  "corrections": {
+    "R1": "Sticky private fatal campaign latch before new owner, before/after candidate currentness, before/after Prepare and before Start; driver make/prepare/Start fenced. Cancellation not the admission fence.",
+    "R2": "570000ms acceptance from runner entry, 600000ms unchanged supervisor;30s reserved cleanup/persistence margin, no guarantee of OS responsiveness; genuine operation budgets unchanged.",
+    "cleanup": "Post-open fatal refusal preserves primary and runtime.close rejection in ordered AggregateError; behavioral delayed-open test exercises actual helper used by make."
+  },
+  "tests": {
+    "adapterDriver": 42,
+    "supervisor": 6,
+    "noMedia": true
+  },
+  "limits": {
+    "children": 36,
+    "ownerRoles": [
+      17,
+      1,
+      17,
+      1
+    ],
+    "globalMs": 570000,
+    "childMs": 120000,
+    "treeBytes": 2147483648,
+    "floorBytes": 28991029248,
+    "outerMs": 600000
+  },
+  "fixtureAuthority": null,
+  "runtimeManifest": null,
+  "files": [
+    {
+      "path": "acquisition.cjs",
+      "bytes": 13008,
+      "sha256": "96328f11a71fe00ea467e52afe344a4f65a63afca9867500bc1ed0011c4a26ae"
+    },
+    {
+      "path": "runner.cjs",
+      "bytes": 11664,
+      "sha256": "b716fc712bfd7f8ce68f6cb8f16bd4c606ab603c67eac736b611e68604415aa2"
+    },
+    {
+      "path": "ownership.cjs",
+      "bytes": 1420,
+      "sha256": "aa58dcc12fb573ca0fdea49a3612a71dd103d5b88530a96b9a96c1b0ff4ac98b"
+    },
+    {
+      "path": "supervise.py",
+      "bytes": 6374,
+      "sha256": "8366603d7351a7d19977b3fc83907e5bb6ae76b6d9f5ea9abe9fed921072e293"
+    },
+    {
+      "path": "adapter.test.cjs",
+      "bytes": 17235,
+      "sha256": "3c3755ba839f67cbccca42af2b0f6489654975fde9d5f29846884fb47cb8bd59"
+    },
+    {
+      "path": "driver.test.cjs",
+      "bytes": 4993,
+      "sha256": "65a038b7063e93127c173b9272bc4991b07bf902793a8715f6cd27aa637028ba"
+    },
+    {
+      "path": "test-supervisor.py",
+      "bytes": 1644,
+      "sha256": "f57f740a89a11a01b26aed2064ff4657d552ddb175fb03467737418638b76041"
+    },
+    {
+      "path": "BINDING.json",
+      "bytes": 185647,
+      "sha256": "37c94f95d130b26afd0d30a8115d0e4ce75afe6da2492ad18196291d7299e018"
+    },
+    {
+      "path": "ACQUISITION_INPUTS.json",
+      "bytes": 2649,
+      "sha256": "044d0ac9f854a21f07d0ef3454bf6e5ae7380da221c5ad811bea997eb00e8659"
+    },
+    {
+      "path": "PLAN.md",
+      "bytes": 4129,
+      "sha256": "2bd94e11bc11ccd2e5f8eb42a250d1501779bc39a18c77b258871efbb0a3489a"
+    },
+    {
+      "path": "CORRECTED_TESTS.log",
+      "bytes": 3129,
+      "sha256": "339da1fbcb70b8fba54bac481f8df462aecc1dd70ffcaa901dd893ad854fe52f"
+    },
+    {
+      "path": "CORRECTED_PYTHON.log",
+      "bytes": 104,
+      "sha256": "b95b5805bef96b568b1b2424b637003cd6f306e6312d682e4f2e4e23f635b26a"
+    },
+    {
+      "path": "FINAL_TESTS.log",
+      "bytes": 3217,
+      "sha256": "8602ee568b0d75886766d0d80283f82bc99fa492683b06aa20468d5a366ca78b"
+    },
+    {
+      "path": "FINAL_PYTHON.log",
+      "bytes": 104,
+      "sha256": "b95b5805bef96b568b1b2424b637003cd6f306e6312d682e4f2e4e23f635b26a"
+    }
+  ],
+  "testNote": "Initial unittest discovery matched zero hyphenated test files; retained PYTHON_DISCOVERY_ZERO_TESTS.log; direct file invocation then passed6.",
+  "supersedesCorrected": {
+    "bytes": 3203,
+    "sha256": "13800d1e2a9b6fb903f8b06e4263853129c009ffb3f6f9a973b25d97693bfd6f"
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "checkpoint": "100",
+  "verifiedAtUtc": "2026-11-19T15:03:40.748908+00:00",
+  "head": "c2aaafc1b0dad1c7ee68b15a815033df165327e6",
+  "localCommit": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "attempt": 1,
+  "shared": {
+    "runId": 44546837377,
+    "conclusion": "success",
+    "windowsJob": 135639555895,
+    "linuxJob": 135639556508,
+    "syntaxFilesEach": 227,
+    "sharedTestsEach": 338,
+    "linuxTests": 133,
+    "failures": 0,
+    "skippedTests": 0,
+    "scope": "selected source contracts; no native/package runtime"
+  },
+  "ubuntu": {
+    "runId": 44546836707,
+    "jobId": 135639551383,
+    "conclusion": "success",
+    "inertTests": 98,
+    "artifact": {
+      "id": 14543605845,
+      "name": "ubuntu-lock-44546836707-1",
+      "size_in_bytes": 367143,
+      "url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14543605845",
+      "archive_download_url": "https://api.github.com/repos/CipherVaults/FFmpeg-Encoder-Blue-Linux/actions/artifacts/14543605845/zip",
+      "expired": false,
+      "created_at": "2026-11-19T15:01:49Z",
+      "expires_at": "2026-11-22T15:01:49Z",
+      "updated_at": "2026-11-19T15:01:49Z",
+      "digest": "sha256:8dde46a914d55aa5ca9600b95b3a07ca26bf7ba79613db4bbb59034b7006454a",
+      "workflow_run": {
+        "id": 44546836707,
+        "repository_id": 1460111553,
+        "head_repository_id": 1460111553,
+        "head_branch": "blue/linux-development",
+        "head_sha": "c2aaafc1b0dad1c7ee68b15a815033df165327e6"
+      }
+    },
+    "independentZipSha256": "8dde46a914d55aa5ca9600b95b3a07ca26bf7ba79613db4bbb59034b7006454a",
+    "originalReportBytes": 366997,
+    "originalReportSha256": "ae603b58111a0a3dcdeb952cd86840ff4e766d2dcf05ae6f063cae629605a4b4",
+    "status": "candidate-for-review",
+    "ready": false,
+    "completedDiagnosticStages": [
+      "BASELINE_COPY",
+      "CONFIGURE_ISOLATION",
+      "BASELINE_PARSE",
+      "BASELINE_VALIDATE",
+      "BASELINE_QUERY",
+      "BASELINE_COMPARE",
+      "TOOL_IDENTITIES",
+      "METADATA_UPDATE",
+      "RELEASE_AUTHENTICATION",
+      "TRANSACTION_SIMULATION",
+      "TRANSACTION_PARSE",
+      "CANDIDATE_MAPPING",
+      "FINAL_BASELINE_CHECK"
+    ],
+    "baselineStatusSha256": "05257d5fe4568d38f05df10bcdf54c36642ec8cc6672b7f02b0344c8060c11d8",
+    "baselineInstalledCount": 1212,
+    "transactionCompletion": {
+      "installed": 7,
+      "configured": 7,
+      "intermediateSuffixes": 0,
+      "finalConfigurationWithoutBreaks": true
+    },
+    "transaction": [
+      {
+        "package": "libjsoncpp25",
+        "version": "1.9.5-6build1"
+      },
+      {
+        "package": "librhash0",
+        "version": "1.4.3-3build1"
+      },
+      {
+        "package": "cmake-data",
+        "version": "3.28.3-1build7"
+      },
+      {
+        "package": "cmake",
+        "version": "3.28.3-1build7"
+      },
+      {
+        "package": "ninja-build",
+        "version": "1.11.1-2"
+      },
+      {
+        "package": "meson",
+        "version": "1.3.2-1ubuntu1"
+      },
+      {
+        "package": "nasm",
+        "version": "2.16.01-1build1"
+      }
+    ],
+    "signedReleases": [
+      {
+        "sha256": "56bddc7d04cfcbbd2c4434d6deb41f9cc508f0fecffe350b0938370f3230fa20",
+        "dateFields": [
+          "Suite: noble-updates",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026 13:26:52 UTC"
+        ]
+      },
+      {
+        "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+        "dateFields": [
+          "Suite: noble",
+          "Codename: noble",
+          "Date: Thu, 25 Apr 2024 15:10:33 UTC"
+        ]
+      },
+      {
+        "sha256": "9251541a5a6d09e128695c7c7dc717c380741badc599e68a8e856cafdbbf45a3",
+        "dateFields": [
+          "Suite: noble-security",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026  5:57:09 UTC"
+        ]
+      }
+    ],
+    "candidateMetadataRecordsCount": 1175,
+    "unresolvedCount": 44,
+    "candidateMetadataAuthentication": "apt-cache-fields-only; exact signed index association not established by this legacy mapping",
+    "dependencyClosure": "incomplete conservative-installed-plus-transaction-superset; provider graph and tool payload integrity still require review",
+    "mappingCompleted": true,
+    "installedChangeReviewPresent": false,
+    "newSignedIndexAssociationExercised": false,
+    "associationReason": "No installed-change refusal; hook was not reached. New source behavior is not runtime-qualified by this report."
+  },
+  "windowsPackagedRun": "not requested; unchanged one-shot workflow not rebound",
+  "inventoryRun": "skipped",
+  "limits": [
+    "No installs, dispatch, retry or host upgrade performed.",
+    "1175 candidate rows remain legacy apt-cache metadata, not an authenticated dependency closure.",
+    "No new app/package/native/runtime claim.",
+    "Outcome is later than checkpoint101 writer cutoff14:58:25 and belongs in next normal record."
+  ],
+  "originalEvidence": {
+    "UBUNTU_ARTIFACT.zip": {
+      "bytes": 367143,
+      "sha256": "8dde46a914d55aa5ca9600b95b3a07ca26bf7ba79613db4bbb59034b7006454a"
+    },
+    "UBUNTU_REPORT.json": {
+      "bytes": 366997,
+      "sha256": "ae603b58111a0a3dcdeb952cd86840ff4e766d2dcf05ae6f063cae629605a4b4"
+    },
+    "JOB-135639551383.log": {
+      "bytes": 21476,
+      "sha256": "b218c38dd891110274317caeeb8308f32fc4b2728bd0d705cd8df772f4bdf387"
+    },
+    "JOB-135639555895.log": {
+      "bytes": 63448,
+      "sha256": "bcd9c2394430419bf883f368313e1133135b692ccbfd786c2ef4331553610ecb"
+    },
+    "JOB-135639556508.log": {
+      "bytes": 78186,
+      "sha256": "9bd05e47e22aa2931e586ba9868c9b51f19e1f778298e9fb949334c53926c2f9"
+    }
+  }
+}

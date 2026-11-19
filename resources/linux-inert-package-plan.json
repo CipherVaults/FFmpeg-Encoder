@@ -772,8 +772,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 40523,
-      "sha256": "cecdfc50e6ee7a853ecec85e1cb3165134ba81e918ab43cde1b40b2c056146c0"
+      "bytes": 40868,
+      "sha256": "e3dcf8bad695f05b2c6a75a224350a08361baf4eff7542fe4d838aa34042c21c"
     },
     {
       "root": "source",
@@ -1972,8 +1972,8 @@
       "source": "linux-blue/product-linux-remux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-remux-service.cjs",
       "group": "application",
-      "bytes": 15172,
-      "sha256": "f11300463d91577eaff0dca15f89f8da6b66899c6c226e9bffa05fd2dc2b9db8"
+      "bytes": 15634,
+      "sha256": "cd3b091a5a18ac6b04bfe15c8be667ee963fccce00e10ecedbdd3bf8db236bfc"
     },
     {
       "root": "source",
@@ -1988,8 +1988,8 @@
       "source": "linux-blue/product-linux-remux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-remux-qualification.cjs",
       "group": "application",
-      "bytes": 5048,
-      "sha256": "4275fc9293fe85b73883ccbe28aad5a851be3f33cfa95fc39d63ed74924cd244"
+      "bytes": 7753,
+      "sha256": "357101b7161c698e8ee5fa12edb7ab16366bf47047cdc359ca13b89d2853f8dd"
     },
     {
       "root": "source",
@@ -2020,8 +2020,8 @@
       "source": "linux-blue/product-linux-unified-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-unified-service.cjs",
       "group": "application",
-      "bytes": 20787,
-      "sha256": "b4e15bac3498afbe0ab024b8e018d044d4373660e48d82195e97700e865a5d3a"
+      "bytes": 21010,
+      "sha256": "f7a76feef18d78150729f7b1a8184ca63fd28f7e55b2f74279ce7fc7ef516b4d"
     },
     {
       "root": "source",
@@ -2150,6 +2150,22 @@
       "group": "application",
       "bytes": 16479,
       "sha256": "cf6a8229e89e3bff74f0f2e3a14198aa13f81d489e4e79a468ae478ca43f6230"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/mov-cadence-service102-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/mov-cadence-service102-audit.json",
+      "group": "application",
+      "bytes": 45046,
+      "sha256": "fb7eb4164e9b5e0aa320b990869529db706922f0bb79fc1691844dab901c731b"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-mov-cadence-qualification.json",
+      "target": "electron/resources/app/linux-blue/product-linux-mov-cadence-qualification.json",
+      "group": "application",
+      "bytes": 982,
+      "sha256": "08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6"
     }
   ]
 }

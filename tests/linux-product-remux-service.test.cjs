@@ -168,3 +168,13 @@ for(const [label,change] of [
  ['no-default',p=>delete p.streams[1].disposition.default],['unknown-disposition',p=>p.streams[1].disposition.custom=1],
  ['fps60',p=>p.streams[0].avg_frame_rate='60/1'],['case-duplicate',p=>p.streams[1].tags={language:'und',LANGUAGE:'und'}]
 ])test('Long MOV target-local refusal '+label,()=>assert.throws(()=>admit(assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);change(p);},'mov'),'/owned/source.mp4',{proportionalIsobmff:true})));
+
+test('MOV v2 early summaries require main-owned envelope while MKV and standalone stay CFR30',()=>{
+ const options={proportionalIsobmff:true,movSourceEnvelope:'h264-aac-lc-48k-stereo-v2'};
+ for(const [avg,rate]of [['30/1','30/1'],['60/1','60/1'],['40/1','60/1']]){
+  const a=assessment(p=>{p.streams[0].avg_frame_rate=avg;p.streams[0].r_frame_rate=rate;},'mov');admit(a,'/owned/input.mp4',options);assert.equal(a.executionReady,false);
+  if(avg!=='30/1'){assert.throws(()=>admit(a,'/owned/input.mp4',{proportionalIsobmff:true}));assert.throws(()=>admit(assessment(p=>{p.streams[0].avg_frame_rate=avg;p.streams[0].r_frame_rate=rate;},'matroska'),'/owned/input.mp4',options));}
+ }
+ for(const rate of ['0/0','61/1','120/1','-30/1','NaN','60000000000000000/1'])assert.throws(()=>admit(assessment(p=>p.streams[0].avg_frame_rate=rate,'mov'),'/owned/input.mp4',options));
+ for(const change of [p=>p.streams[0].width=3840,p=>p.streams[1].sample_rate='44100',p=>p.streams[1].tags={language:'eng'},p=>p.chapters=[{}]])assert.throws(()=>admit(assessment(change,'mov'),'/owned/input.mp4',options));
+});

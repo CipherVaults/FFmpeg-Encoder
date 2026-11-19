@@ -1,0 +1,28 @@
+{
+  "approved": true,
+  "scope": "Unbound private actual-service v2 driver source only; exact binding and separate lead release still required",
+  "handoffSha256": "932f2e4db04fc669a1c98663db5463fa6e9cb044a03f409731c95a4edfac8086",
+  "independentTests": {
+    "node": 42,
+    "python": 6
+  },
+  "resolved": [
+    "R1 sticky fatal campaign latch before new owner and before/after async currentness, Prepare return and Start, with deferred behavioral zero-executor controls",
+    "R2 570s acceptance versus600s outer reserves30s bounded finalization margin without changing896000/600000 genuine source-derived contracts",
+    "Delayed runtime open fatal plus close failure preserved as ordered AggregateError, actual helper used by make and tested"
+  ],
+  "verified": [
+    "Exact final handoff identities and inactive fixture/runtime authority; no owner/gate/attempt",
+    "Original genuine shared EncoderService/RemuxOperations v2 finish/native MOV receipt checks unchanged",
+    "Four serial success/rescan owners17/1/17/1 and36 requested ceiling;2GiB sampled tree/27GiB floor/120s observer retained",
+    "No VFR duration normalization; exact warning allowlist; provenance rescan uses fresh owner state",
+    "Original rejected/corrected preparation retained separately"
+  ],
+  "limitations": [
+    "No real v2 media preservation or lifecycle evidence yet",
+    "Resource monitoring and outer process census remain sampled;30s margin is not an OS responsiveness guarantee",
+    "Failure persistence still depends on owned directory remaining safe to write",
+    "Injected reveal is not native GUI evidence; no product catalog/loader authority or activation",
+    "Exact source/runtime/fixture/preservation and gate binding need separate review"
+  ]
+}

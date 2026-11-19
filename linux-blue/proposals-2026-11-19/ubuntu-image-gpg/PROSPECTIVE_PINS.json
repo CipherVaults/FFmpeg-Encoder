@@ -1,0 +1,29 @@
+{
+  "scope": "Public primary-source identification only; not an acquisition or signature acceptance receipt",
+  "archiveFilename": "ubuntu-base-24.04.5-base-amd64.tar.gz",
+  "archiveUrl": "https://cdimage.ubuntu.com/ubuntu-base/releases/24.04/release/ubuntu-base-24.04.5-base-amd64.tar.gz",
+  "reportedSha256": "e77b6f10c2590cef872b33ee9f635a0e3fd1f57fb074c0e52b5c7f56147a0c86",
+  "checksumUrl": "https://cdimage.ubuntu.com/ubuntu-base/releases/24.04/release/SHA256SUMS",
+  "signatureUrl": "https://cdimage.ubuntu.com/ubuntu-base/releases/24.04/release/SHA256SUMS.gpg",
+  "proposedImageSigningPrimaryFingerprint": "843938DF228D22F7B3742BC0D94AA3F0EFE21092",
+  "signingIdentityDocumentation": "https://ubuntu.com/tutorials/how-to-verify-ubuntu",
+  "signingIdentity": "Ubuntu CD Image Automatic Signing Key (2012)",
+  "actualDetachedSignatureSignerVerified": false,
+  "checksumSignatureVerified": false,
+  "keyBytesAcquiredOrInstalled": false,
+  "archiveDownloaded": false,
+  "verifiedExactArchiveBytes": null,
+  "exactSizeCandidateNotPinned": 30028293,
+  "exactSizeCandidateSource": "Search-index excerpt for https://ru.releases.ubuntu.com/ubuntu-cdimage/ubuntu-base/releases/24.04.1/release/; direct read timed out",
+  "officialPrimaryListingSize": "29M rounded only",
+  "sizeStatus": "Do not bind unverified search excerpt as exact size. Require successful bounded official metadata read/HEAD or future approved exact-byte acquisition.",
+  "keyDistinction": "Image checksum signing identity is separate from the Ubuntu archive signing keys used for InRelease. A familiar keyring filename does not establish the image signature chain.",
+  "releasePrerequisites": [
+    "Freeze and verify actual key bytes against the documented full image-key fingerprint in a separately reviewed owned keyring, without modifying user/system keyrings.",
+    "Acquire exact bounded checksum and detached-signature bytes and retain their SHA256 identities; perform genuine verification with the pinned verifier and record full signer status.",
+    "Require exactly one matching filename/checksum line; compare to proposed archive digest, no silent update if current bytes differ.",
+    "Resolve the exact size pin before the archive acquisition gate. The search-index candidate is not authority.",
+    "After separately authorized archive download, verify complete byte count/digest and fixed signature prerequisite before calling the unbound reader's future reviewed adapter."
+  ],
+  "acceptance": false
+}

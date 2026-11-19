@@ -1,0 +1,34 @@
+{
+  "approved": false,
+  "scope": "unbound full driver review; no execution",
+  "handoffSha256": "4a115bc6034714a27640d6e9017f1b5861545bffd51a413aa4b27f0295a5830c",
+  "independentTests": {
+    "node": 37,
+    "python": 6
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "issue": "Fatal sampled storage/ownership monitor failure is not latched into pre-child admission. Pending Prepare may return ready after cancelCurrent, then Start runs without monitorFailure check; adapter only guards its own time/closed/caller signal.",
+      "required": "Sticky private campaign failure refusal before/after async currentness and before new owner/Start; behavioral controls prove zero later executor calls."
+    },
+    {
+      "id": "R2",
+      "issue": "Inner600s acceptance and outer600s termination have no guaranteed finalization margin; outer clock starts earlier. Failure retention can be interrupted before RESULT persistence.",
+      "required": "Explicit finite cleanup/persistence margin between acceptance deadline and outer cap, preserving genuine derived service budget contracts; behavioral expiration/retention test."
+    }
+  ],
+  "retainedPositiveChecks": [
+    "All handoff hashes exact; reviewed adapter unchanged",
+    "Genuine shared v2 finish and MOV representation authority retained",
+    "Four owner17/1/17/1 global36 controls and serial closes present",
+    "Finite2GiB accounting and27GiB floor; exact warning allowlist, no duration normalization",
+    "Failure receipt separated from normal acceptance checks"
+  ],
+  "notPerformed": [
+    "media",
+    "gate",
+    "binding",
+    "source edits"
+  ]
+}

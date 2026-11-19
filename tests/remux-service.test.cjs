@@ -462,3 +462,21 @@ test('copy and complete-verification cancellation never publish a destination', 
     if (cancelStage === 'verification') assert.equal(h.entry.operationEvidence.status, 'cancelled');
   }
 });
+
+test('Linux standalone default policy refuses genuine variable finish hidden by equal30 summaries; unified v2 permits it', async t => {
+ const Module=require('node:module'),syncFs=require('node:fs');
+ const filename=require.resolve('../linux-blue/product-linux-remux-qualification.cjs');
+ const m=new Module(filename,module);m.filename=filename;m.paths=Module._nodeModulePaths(path.dirname(filename));const real=m.require.bind(m);
+ m.require=id=>id==='./product-linux-qualification.cjs'?{verifyProductSources(){}}:real(id);
+ m._compile(syncFs.readFileSync(filename,'utf8'),filename);
+ const {remuxPolicies}=require('../linux-blue/product-linux-remux-service.cjs');
+ for(const unified of [false,true]){
+  const q=m.exports.loadRemuxQualification(unified?{unifiedMovCadence:true}:undefined);
+  const policy=remuxPolicies(q).find(p=>p.target==='mov');
+  const h=await cadenceJob(t,{sourceVariable:true,outputVariable:true,average:'30/1',nominal:'30/1',sourceEnvelope:policy.sourceEnvelope});
+  assert.equal(h.entry.operationEvidence.status,'completed');
+  assert.equal(h.result.outputDisposition.published,unified);
+  if(!unified){assert.equal(h.result.reasonCode,'REMUX_MOV_CADENCE_UNQUALIFIED');await assert.rejects(fs.stat(h.entry.destination),{code:'ENOENT'});}
+  else assert.equal(h.result.status,'success',h.result.reason);
+ }
+});

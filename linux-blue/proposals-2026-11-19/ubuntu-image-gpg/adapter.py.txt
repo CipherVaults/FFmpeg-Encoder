@@ -1,0 +1,124 @@
+"""UNBOUND protocol/parser prototype. Synthetic adapters only; no live backend."""
+import hashlib,json,re,datetime
+from pathlib import Path
+PINS=json.loads(Path(__file__).with_name('PROSPECTIVE_PINS.json').read_text())
+PRIMARY=PINS['proposedImageSigningPrimaryFingerprint']
+MAX_STREAM=1024*1024
+class Refusal(Exception):pass
+def need(ok,reason):
+ if not ok:raise Refusal(reason)
+def digest(data):return hashlib.sha256(data).hexdigest()
+def integer(text):
+ need(bool(re.fullmatch(r'0|[1-9][0-9]{0,11}',text)),'invalid numeric field');return int(text)
+def key_records(data,now):
+ need(len(data)<=MAX_STREAM,'listing cap');keys={};pending=None;primary=None
+ for line in data.decode('ascii').splitlines():
+  need(len(line)<=16384,'listing line cap');f=line.split(':');kind=f[0]
+  if kind in ('pub','sub'):
+   need(pending is None and len(f)>=12,'key structure');need(f[1] not in ('r','e','d','i','n') and 'D' not in f[11],'invalid key')
+   created=integer(f[5]);expires=integer(f[6] or '0');need(0<created<=now and (expires==0 or now<expires),'key lifetime')
+   need(f[3] in ('1','3') and integer(f[2])>=2048,'initial RSA signing scope')
+   if kind=='pub':need(primary is None and not keys,'multiple primary');primary=True
+   else:need(primary is not None,'orphan subkey')
+   pending={'kind':kind,'created':created,'expires':expires,'signing':'s' in f[11],'keyid':f[4]}
+  elif kind=='fpr':
+   need(pending is not None and len(f)>9 and re.fullmatch('[A-F0-9]{40}',f[9]),'fingerprint context');fp=f[9]
+   need(fp not in keys and pending['keyid']==fp[-16:],'key identity');keys[fp]=pending
+   if pending['kind']=='pub':need(fp==PRIMARY,'wrong primary')
+   pending=None
+  elif kind in ('uid','uat','tru','grp'):
+   need(pending is None,'missing fingerprint')
+  else:raise Refusal('unsupported listing record')
+ need(pending is None and PRIMARY in keys,'missing primary');return keys
+
+def signature_status(data,keys,now):
+ need(len(data)<=MAX_STREAM,'status cap');records=[]
+ for line in data.decode('ascii').splitlines():
+  need(len(line)<=16384 and line.startswith('[GNUPG:] '),'status framing');parts=line[9:].split();need(parts,'empty status');records.append(parts)
+ allowed={'NEWSIG','KEY_CONSIDERED','SIG_ID','GOODSIG','VALIDSIG','TRUST_UNDEFINED'}
+ need(all(r[0] in allowed for r in records),'failure or unsupported status')
+ need(sum(r[0]=='TRUST_UNDEFINED' for r in records)<=1,'trust ambiguity')
+ for kind in ('NEWSIG','GOODSIG','VALIDSIG'):need(sum(r[0]==kind for r in records)==1,'signature ambiguity')
+ kinds=[r[0] for r in records];need(kinds.index('NEWSIG')<kinds.index('GOODSIG')<kinds.index('VALIDSIG'),'signature order')
+ v=next(r for r in records if r[0]=='VALIDSIG');need(len(v)==11,'explicit primary required');fp,date,ts,exp,version,reserved,algo,hashalgo,cls,primary=v[1:]
+ need(primary==PRIMARY and fp in keys,'unknown signer or binding');k=keys[fp];need(k['signing'],'not signing material')
+ created=integer(ts);expires=integer(exp);need(k['created']<=created<=now and keys[PRIMARY]['created']<=created,'signature creation');need(expires==0 or created<expires and now<expires,'signature expired')
+ need(date==datetime.datetime.fromtimestamp(created,datetime.timezone.utc).strftime('%Y-%m-%d'),'signature date mismatch')
+ need(version=='4' and reserved=='0' and algo in ('1','3') and hashalgo in ('8','9','10') and cls=='00','signature algorithms/class')
+ g=next(r for r in records if r[0]=='GOODSIG');need(len(g)>=2 and g[1]==fp[-16:],'GOODSIG identity')
+ for r in records:
+  if r[0]=='KEY_CONSIDERED':need(len(r)==3 and r[1]==PRIMARY and r[2]=='0','key context')
+  if r[0]=='TRUST_UNDEFINED':need(r==['TRUST_UNDEFINED','0','pgp'],'unexpected trust status')
+  if r[0]=='NEWSIG':need(len(r)<=2,'NEWSIG shape')
+  if r[0]=='SIG_ID':need(len(r)==4 and r[2]==date and r[3]==ts,'SIG_ID shape')
+ # This parser correlates verifier output; it cannot prove an OpenPGP binding.
+ # Actual verifier binding/cross-certification behavior needs separately pinned validation.
+ return {'primary':primary,'signer':fp,'subkey':fp!=primary,'created':created,'expires':expires}
+
+def checksum(data):
+ need(len(data)<=65536,'checksum cap');found=[]
+ for line in data.decode('ascii').splitlines():
+  m=re.fullmatch(r'([0-9a-f]{64}) [ *]([A-Za-z0-9][A-Za-z0-9_.+-]{0,200})',line);need(m is not None,'checksum grammar')
+  if m[2]==PINS['archiveFilename']:found.append(m[1])
+ need(found==[PINS['reportedSha256']],'selected checksum missing/changed/duplicate')
+
+class Protocol:
+ """Only in-memory synthetic transport/child/store adapters can be used here.
+ A future live implementation requires a separately reviewed owner/supervisor,
+ executable+dependency pins, real no-follow files and verifier semantics proof.
+ """
+ def __init__(self,io,clock,wall):
+  need(getattr(io,'synthetic_only',False) is True,'UNBOUND: no live adapter authority')
+  self.io=io;self.clock=clock;self.wall=wall;self.end=clock()+300;self.requests=0;self.children=0;self.pins={};self.trace=[]
+ def check(self):
+  need(self.clock()<self.end,'deadline');self.io.check_owner();need(self.io.bytes_used()<=128*1024*1024,'tree cap');need(self.io.free_bytes()>=27*1024**3,'free floor')
+ def integrity(self):
+  self.check()
+  for name,identity in self.pins.items():need(self.io.snapshot(name)==identity,'input changed')
+ def save(self,name,data):
+  self.check();self.io.exclusive(name,data);self.pins[name]=self.io.snapshot(name);self.check()
+ def fetch(self,name,url,cap):
+  self.check();self.requests+=1;need(self.requests<=4,'request ceiling')
+  response=self.io.open_https(url,timeout=min(20,self.end-self.clock()),proxies=False,redirects=False)
+  try:
+   need(response.url==url and response.status==200,'redirect/status');out=bytearray()
+   while True:
+    self.check();chunk=response.read(min(65536,cap+1-len(out)),timeout=min(20,self.end-self.clock()));self.check()
+    if not chunk:break
+    out.extend(chunk);need(len(out)<=cap,'object cap')
+   need(response.length is None or response.length==len(out),'truncated length');data=bytes(out)
+  finally:response.close()
+  self.save(name,data);self.trace.append({'url':url,'bytes':len(data),'sha256':digest(data)});return data
+ def child(self,kind,args):
+  self.integrity();self.children+=1;need(self.children<=3,'child ceiling')
+  env={'HOME':'/OWNED/home','GNUPGHOME':'/OWNED/home','LC_ALL':'C','PATH':'/NO_SEARCH'}
+  result=self.io.child(kind,args,env=env,timeout=min(30,self.end-self.clock()),stream_cap=MAX_STREAM,network=False,stdin='closed')
+  self.integrity();need(result['closed'] is True and result['exit']==0,'child closure/exit')
+  for k in ('stdout','stderr','status'):need(type(result[k]) is bytes and len(result[k])<=MAX_STREAM,'child stream cap')
+  self.trace.append({'child':kind,'argv':args,'exit':0,'statusSha256':digest(result['status'])});return result
+ def run(self):
+  failure=None;receipt={'accepted':False,'synthetic':True}
+  try:
+   base=['--no-options','--batch','--no-tty','--no-autostart','--homedir','/OWNED/home','--no-default-keyring','--trustdb-name','/OWNED/home/trustdb.gpg','--no-auto-check-trustdb','--no-auto-key-import','--no-auto-key-retrieve','--disable-dirmngr','--auto-key-locate','clear']
+   sums=self.fetch('SHA256SUMS',PINS['checksumUrl'],65536);self.fetch('SHA256SUMS.gpg',PINS['signatureUrl'],65536)
+   keyurl='https://keyserver.ubuntu.com/pks/lookup?op=get&options=mr&search=0x'+PRIMARY
+   self.fetch('key.asc',keyurl,262144)
+   listing=self.child('gpg',base+['--with-colons','--with-fingerprint','--with-subkey-fingerprint','--show-keys','/OWNED/key.asc'])
+   keys=key_records(listing['stdout'],self.wall())
+   binary=self.child('gpg',base+['--output','-','--dearmor','/OWNED/key.asc'])
+   # Explicit stdout destination; parent creates exclusive keyring, no GPG file overwrite.
+   need(0<len(binary['stdout'])<=262144,'binary keyring cap');self.save('keyring.gpg',binary['stdout'])
+   verified=self.child('gpg',base+['--keyring','/OWNED/keyring.gpg','--require-cross-certification','--status-fd','3','--verify','/OWNED/SHA256SUMS.gpg','/OWNED/SHA256SUMS'])
+   signer=signature_status(verified['status'],keys,self.wall());checksum(sums)
+   image=self.fetch(PINS['archiveFilename'],PINS['archiveUrl'],64*1024*1024);need(digest(image)==PINS['reportedSha256'],'archive digest');self.integrity()
+   receipt.update(protocolPassed=True,signer=signer,archiveBytes=len(image),archiveSha256=digest(image))
+  except Exception as e:failure=e;receipt['failure']=str(e)[:1000]
+  finally:
+   receipt.update(requests=self.requests,children=self.children,trace=self.trace)
+   try:self.io.check_owner();self.io.exclusive('RESULT.json',json.dumps(receipt,sort_keys=True).encode());self.io.check_owner()
+   except Exception as cleanup:
+    if failure:raise ExceptionGroup('primary and receipt failure',[failure,cleanup])
+    raise
+  if failure:raise failure
+  self.check()
+  return receipt

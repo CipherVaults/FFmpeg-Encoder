@@ -182,8 +182,40 @@ test('only current branded matching encode selection routes derived limits; remu
   const remux = { remux: true, resources: { pipeBytes: 123 }, executionBudgetMs: 456 };
   assert.deepEqual(operationCostLimits({ remux: true }, remux), { pipeBytes: 123, executionBudgetMs: 456 });
   const source = fs.readFileSync(path.join(__dirname, '../src/encoder-service.cjs'), 'utf8');
-  assert.match(source, /const qualified = requireQualification\(\);\s*const costLimits = operationCostLimits\(entry, qualified\)/);
+  assertQualificationCostOrdering(source);
   assert.match(source, /maxBytes: costLimits\.telemetryBytes \?\? 4 \* 1024 \* 1024, maxRecords: costLimits\.telemetryRecords \?\? 20000/);
+});
+// Structural wiring check, supplementary to the genuine selector/cost behavior above.
+// The ordinary guard deliberately executes between qualification and cost derivation.
+function assertQualificationCostOrdering(source) {
+  const start = source.indexOf('const qualified = requireQualification();');
+  const end = source.indexOf('const costLimits = operationCostLimits(entry, qualified);', start);
+  assert(start >= 0 && end > start && end - start < 1600, 'Current qualification must feed bounded downstream cost derivation');
+  const between = source.slice(start, end);
+  assert.match(between, /if \(this\.ordinaryJobGuard\) \{/);
+  assert.match(between, /if \(qualified \|\| entry\.remux \|\| entry\.hdr \|\| entry\.vendor \|\| entry\.operationPlan\?\.compatibilityPath !== true\)/);
+  assert.match(between, /ordinaryGuard = await this\.ordinaryJobGuard\(/);
+  assert.match(between, /throw fail\('ORDINARY_GUARD_INVALID'/);
+}
+test('qualification/cost wiring check rejects removed qualification, wrong input and missing or misplaced ordinary guard', () => {
+  const source = fs.readFileSync(path.join(__dirname, '../src/encoder-service.cjs'), 'utf8');
+  assertQualificationCostOrdering(source);
+  for (const [before, after] of [
+    ['const qualified = requireQualification();', 'const qualified = null;'],
+    ['operationCostLimits(entry, qualified)', 'operationCostLimits(entry, null)'],
+    ['operationCostLimits(entry, qualified)', 'operationCostLimits(otherEntry, qualified)'],
+    ['if (this.ordinaryJobGuard) {', 'if (false) {'],
+    ['ordinaryGuard = await this.ordinaryJobGuard(', 'ordinaryGuard = fakeGuard('],
+    ["throw fail('ORDINARY_GUARD_INVALID'", "throw fail('OTHER'"]
+  ]) {
+    const offset = source.indexOf('const qualified = requireQualification();');
+    const tail = source.slice(offset);
+    assert(tail.includes(before));
+    assert.throws(() => assertQualificationCostOrdering(source.slice(0, offset) + tail.replace(before, after)), before);
+  }
+  const q = 'const qualified = requireQualification();';
+  const c = 'const costLimits = operationCostLimits(entry, qualified);';
+  assert.throws(() => assertQualificationCostOrdering(source.replace(q, q + '\n' + c).replace(c + '\n          let evidenceRemainingBytes', 'let evidenceRemainingBytes')));
 });
 test('unbranded proportional collector policy refuses before any runner call', async () => {
   const h = fixture(), { result } = choose(h); let calls = 0;

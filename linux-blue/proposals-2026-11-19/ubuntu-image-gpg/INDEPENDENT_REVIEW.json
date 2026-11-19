@@ -1,0 +1,25 @@
+{
+  "status": "APPROVED UNBOUND SYNTHETIC SOURCE ONLY",
+  "handoffSha256": "ef0a1e2f13071cacf2ca60dcd5865f472695b50fb6f65efce287d40b28cecab6",
+  "verifiedFiles": 7,
+  "independentTests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v test_adapter",
+    "passed": 23,
+    "failed": 0
+  },
+  "findings": [],
+  "verifiedScope": [
+    "Explicit stdout dearmor fixes prior command-model issue; exact argv and default/file-output negatives pass.",
+    "Three command descriptions now use gpg with owned home/keyring/trustdb, explicit verify and require-cross-certification; retrieval/default configuration switches remain explicit.",
+    "Only exact singleton TRUST_UNDEFINED 0 pgp added; it supplies no identity authority. Existing pinned primary/signer, lifetime, algorithm, failure-status and ambiguity checks retained.",
+    "Four-request/three-child, stream/object/tree/floor/deadline contracts unchanged; accepted remains false and synthetic remains true.",
+    "Original corrected prototype preserved; inspected SOURCE.diff and complete adapter/boundary documents."
+  ],
+  "limits": [
+    "No GPG, network, acquisition, binding, installation or cryptographic validation executed.",
+    "Synthetic adapter flags and closed/owner contracts are not actual transport, OS network isolation, no-follow ownership or process closure proof.",
+    "Actual pinned executable option/status compatibility and cryptographic binding/backsignature negative controls remain prerequisites before live acceptance.",
+    "Source documentation references were read as supplied design context, not independently re-fetched or treated as an installed-binary pin.",
+    "No authority to activate a live backend or accept an image is granted."
+  ]
+}

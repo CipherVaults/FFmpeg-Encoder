@@ -1,0 +1,31 @@
+{
+  "approved": true,
+  "scope": "Inactive two-file selector extension only, no catalog registration or genuine media authority",
+  "handoffSha256": "d22af751ae174f31c8707b60dd4fb875fdafcfb50f6060f9dff372ffb04a95e0",
+  "base": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "independentTests": {
+    "newGeometry": 27,
+    "existingUhdAnd1440": 10
+  },
+  "verified": [
+    "Only new explicit family ID enters geometry branches; legacy geometry/rate/orientation route restrictions retained",
+    "New family CPU slow25, CFR30, identity orientation, square SAR/coherent DAR/even bounded dimensions and2073600 pixel ceiling",
+    "Shared resolveGeometry original branded plan equality, no upscale/non-square output SAR; width and height plus policy retained in private selection state",
+    "Existing private WeakMap/epoch/currentness mechanisms unchanged; copied,stale,changed-plan/runtime/source/settings controls pass",
+    "No collector policy registration, fixed measured receipt, runtime/catalog/default or package changes"
+  ],
+  "baselineFailure": {
+    "test": "only current branded matching encode selection routes derived limits; remux/HDR/ordinary remain separate",
+    "path": "tests/operation-family-proportional.test.cjs:176",
+    "classification": "Retained unchanged-base failure in static adjacency regex; source and test not changed by this patch. Current service has intervening prepared-control checks between qualified and costLimits. Author tracing separate bounded test correction; not silently counted as pass.",
+    "evidence": [
+      "BASELINE_REGRESSION.txt",
+      "OTHER_REGRESSION.txt"
+    ]
+  },
+  "limits": [
+    "Synthetic test descriptors are not actual qualification",
+    "Collector currently refuses unregistered family; actual acquisition/qualification and package integration remain separate",
+    "No media or source edits in this review"
+  ]
+}

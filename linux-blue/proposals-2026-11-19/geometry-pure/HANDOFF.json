@@ -1,0 +1,37 @@
+{
+  "status": "source-only-unbound-pure-helper",
+  "tests": {
+    "passed": 12,
+    "failed": 0,
+    "mediaExecuted": false
+  },
+  "files": [
+    {
+      "path": "INTERFACE_TRACE.md",
+      "bytes": 4525,
+      "sha256": "a6bab6ee3f72c42b42717e840192d9e089333090a55a992c4f5b3dcc39861e17"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2046,
+      "sha256": "a3a0d85907a10a6a131f040d0b7da1c701cd52e5cbfb13c79754ad2fdfaee6a5"
+    },
+    {
+      "path": "TESTS.log",
+      "bytes": 822,
+      "sha256": "86982325d0f3ad51071a0ebfd6767a4d155a2af3a635e705b8d8ac93cb349d6a"
+    },
+    {
+      "path": "marked-frame.cjs",
+      "bytes": 4465,
+      "sha256": "c1230ece53d6745adfd1cf552ce4c3e51d091a5ae69d9e556ff2b449dabe9649"
+    },
+    {
+      "path": "marked-frame.test.cjs",
+      "bytes": 2680,
+      "sha256": "aa1bdfa1036cca1d2af45b51206c08c16d798c31cb55e951e6fbadd7b4c623d0"
+    }
+  ],
+  "applicationChanges": false,
+  "authorityChanges": false
+}

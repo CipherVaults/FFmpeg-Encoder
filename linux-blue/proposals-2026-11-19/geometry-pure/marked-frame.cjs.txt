@@ -1,0 +1,47 @@
+'use strict';
+const assert = require('node:assert/strict');
+const SPEC = Object.freeze({ sourceWidth:960, sourceHeight:1440, outputWidth:720, outputHeight:1080, frames:240, base:96, chroma:128, meanTolerance:16, edgeTolerance:2, erosion:8, captureLimit:16*1024*1024 });
+function geometry(output=false) { const s=output?0.75:1; return {w:960*s,h:1440*s,s}; }
+function rectangles(output=false) {
+ const {s}=geometry(output); const r=(name,x,y,w,h,Y)=>Object.freeze({name,x:x*s,y:y*s,w:w*s,h:h*s,Y});
+ return [r('tl',32,32,96,96,32),r('tr',832,32,96,96,80),r('br',832,1312,96,96,144),r('bl',32,1312,96,96,208),r('top',160,160,640,16,224),r('bottom',160,1264,640,16,224),r('left',160,192,16,1056,224),r('right',784,192,16,1056,224),r('square-top',360,600,240,16,32),r('square-bottom',360,824,240,16,32),r('square-left',360,616,16,208,32),r('square-right',584,616,16,208,32)];
+}
+function frame(index,output=false) {
+ assert(Number.isInteger(index)&&index>=0&&index<SPEC.frames); const {w,h,s}=geometry(output); const b=Buffer.alloc(w*h*3/2,128); b.fill(96,0,w*h);
+ function paint(r) { for(let y=r.y;y<r.y+r.h;y++) b.fill(r.Y,y*w+r.x,y*w+r.x+r.w); }
+ for(const r of rectangles(output)) paint(r);
+ // 16px square traverses only the unmeasured square interior. Integer positions
+ // divisible by four ensure exact 3/4 analytical projection, not a resampler.
+ paint({x:(400+4*(index%32))*s,y:680*s,w:16*s,h:16*s,Y:192}); return b;
+}
+function requireFrame(b,output) { const {w,h}=geometry(output); assert(Buffer.isBuffer(b)&&b.length===w*h*3/2,'exact YUV420 frame length'); return {w,h}; }
+function analyze(b,output=false) {
+ const {w,h}=requireFrame(b,output), rs=rectangles(output), measurements=[];
+ for(const r of rs.slice(0,4)) { let sum=0,n=0; const e=output?8:12; for(let y=r.y+e;y<r.y+r.h-e;y++)for(let x=r.x+e;x<r.x+r.w-e;x++){sum+=b[y*w+x];n++;} const mean=sum/n; assert(Math.abs(mean-r.Y)<=16,`corner ${r.name}`); measurements.push({name:r.name,mean}); }
+ // Every edge uses its own fixed non-intersecting center scanline. Search only
+ // a fixed +/-8px neighborhood, never optimize alignment or fit a transform.
+ const edges={};
+ for(const r of rs.slice(4)) { const horizontal=r.w>r.h, center=Math.floor(horizontal?r.x+r.w/2:r.y+r.h/2),start=horizontal?r.y:r.x,length=horizontal?r.h:r.w, threshold=(96+r.Y)/2;
+  const at=t=>b[horizontal?t*w+center:center*w+t]; const inside=v=>r.Y>96?v>threshold:v<threshold; const hits=[];
+  for(let t=start-8;t<start+length+8;t++)if(inside(at(t)))hits.push(t);
+  assert(hits.length>0,`missing ${r.name}`); assert(hits.every((x,i)=>!i||x===hits[i-1]+1),`fragmented ${r.name}`);
+  const lo=hits[0],hi=hits.at(-1)+1;assert(Math.abs(lo-start)<=2&&Math.abs(hi-start-length)<=2,`edge ${r.name}`);edges[r.name]={lo,hi,center:(lo+hi)/2};
+ }
+ const sw=edges['square-right'].center-edges['square-left'].center,sh=edges['square-bottom'].center-edges['square-top'].center;
+ assert(Math.abs(sw-sh)<=2,'square aspect');
+ // Patch order is not numeric clockwise order: source levels are fixed by name.
+ const means=Object.fromEntries(measurements.map(x=>[x.name,x.mean]));assert(means.tl<means.tr&&means.tr<means.br&&means.br<means.bl,'corner order');
+ return {width:w,height:h,measurements,edges,squareWidth:sw,squareHeight:sh};
+}
+function compare(source,output) { const a=analyze(source,false),b=analyze(output,true);for(let i=0;i<4;i++)assert(Math.abs(a.measurements[i].mean-b.measurements[i].mean)<=16,'paired means');return {source:a,output:b}; }
+async function streamFrames(write,{count=240,signal}={}) {
+ assert(typeof write==='function'&&Number.isInteger(count)&&count>=1&&count<=240);
+ // Await each sink acknowledgement before allocating the next frame. The sink
+ // must implement backpressure and must not retain more than one prior buffer.
+ for(let i=0;i<count;i++){signal?.throwIfAborted(); const b=frame(i); await write(b,i);signal?.throwIfAborted();}
+}
+function captureThree(output=false) {
+ const {w,h}=geometry(output),expected=w*h*3/2*3;assert(expected<=SPEC.captureLimit); const all=Buffer.alloc(expected); let bytes=0,finished=false;
+ return {push(b){assert(!finished&&Buffer.isBuffer(b));assert(bytes+b.length<=expected,'extra frame bytes');b.copy(all,bytes);bytes+=b.length;},finish(){assert(!finished);finished=true;assert.equal(bytes,expected,'truncated frames');return [0,1,2].map(i=>all.subarray(i*expected/3,(i+1)*expected/3));}};
+}
+module.exports={SPEC,frame,analyze,compare,streamFrames,captureThree,rectangles};

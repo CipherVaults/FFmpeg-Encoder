@@ -1,0 +1,116 @@
+{
+  "checkpoint": "084",
+  "cutoff": "2026-11-19T04:27:09.385843+00:00",
+  "status": "Reviewed UI correction integrated; native084 not run",
+  "baseCommit": "36325df564b19277dd6d6e3acb698da823011e1a",
+  "sourceHandoff": {
+    "base": "36325df564b19277dd6d6e3acb698da823011e1a",
+    "files": [
+      {
+        "path": "linux-blue/product-linux-qualification.cjs",
+        "bytes": 37487,
+        "sha256": "1a0235a587df61fc4c7cd21a5a2543e3201a2d8a54335be147afde66fb12079d"
+      },
+      {
+        "path": "linux-blue/product-linux-unified-service.cjs",
+        "bytes": 14082,
+        "sha256": "44f95cfd305ef49c7eaaaf28b0ef217ac54eadc5305f15a201b028f3a5b66242"
+      },
+      {
+        "path": "resources/linux-inert-package-plan.json",
+        "bytes": 72197,
+        "sha256": "1147b65f24f76a1039ebfb9d29cffb14b5866584a0c4fa5de433471675f5cbad"
+      },
+      {
+        "path": "tests/linux-unified-service.test.cjs",
+        "bytes": 14397,
+        "sha256": "18df6c3c9ddcc3d16ceeb8faa0385bea632a0db7d6f31e7143cd89daa5168bef"
+      },
+      {
+        "path": "tests/ui-workbench.test.cjs",
+        "bytes": 115932,
+        "sha256": "a0ef2cc681e50b47fd1405eb04643af80b7726a4ebaedbc8b4a451553d305b5d"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 156190,
+        "sha256": "2a682d29ddb5d78430194a712f3bdecb5c1548f2f32479c12db80dd0b3d0ab0e"
+      }
+    ],
+    "review": "d99e11a2b88bb9881b1d0c19d231a5595ded0f7f8ba9978e281b5c2ea3193e36",
+    "tests": {
+      "focused": 103,
+      "syntax": 223,
+      "shared": 323,
+      "rendererIncluded": 80,
+      "linux": 40
+    },
+    "closure": {
+      "sourcePins": 137,
+      "packageInputs": 252,
+      "applicationRows": 154,
+      "sourceRows": 164,
+      "changedPins": [
+        "ui/renderer.js",
+        "linux-blue/product-linux-unified-service.cjs"
+      ],
+      "changedPackageRows": [
+        "linux-blue/product-linux-qualification.cjs",
+        "ui/renderer.js",
+        "linux-blue/product-linux-unified-service.cjs"
+      ]
+    },
+    "limits": [
+      "No package/native execution; protocol fixture is not native acceptance",
+      "Production defaults/main admission/historical evidence/Ubuntu one-shot binding unchanged"
+    ]
+  },
+  "sourceHandoffSha256": "d6f12aaeb519ad4a90cf928d802524bbe6b24ebd3dab7a7abb38d393a1b3e90a",
+  "finalReviewSha256": "08104f7031bc1f2d2f5dfb033026a8fda879909d301698bf86fc9048934f9ffa",
+  "predecessorSession": {
+    "bytes": 2625646,
+    "sha256": "efeff857fdd70376ade571d87685ba9cd4e2681ee652364caf4dec8e3471a6b1"
+  },
+  "predecessorMirrorReceipt": {
+    "bytes": 5754,
+    "sha256": "a08c4c7f6051159eb611fb0eb23f374b79e577118d5b087c1353d00351d1bc69"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native083-partial-saved-audit.json": {
+      "bytes": 6088,
+      "sha256": "5dd0685b821be645a69779786c7b3ab3594c2035c41d980b51719e2491969377"
+    },
+    "linux-blue/evidence-2026-11-19/hosted083-verified-outcome.json": {
+      "bytes": 2342,
+      "sha256": "e993e48238b88893f34d994a8ca43dd4097fcc3e424cc073a4319e5dead2a824"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu083-inventory-report.json": {
+      "bytes": 6491,
+      "sha256": "3f6a240e76681bc3f39ecac1cc1216918b0038fe4b05a8c3e605e55a9a7a834f"
+    }
+  },
+  "inertNativeReferences": {
+    "linux-blue/recovery-references/native084-unbound/supervise-native.py.txt": {
+      "bytes": 8160,
+      "sha256": "f5ce83b9c42bb53cc9eb8ccc5afeb9c09aedcce0d7402bf7b81475866f3ded32"
+    },
+    "linux-blue/recovery-references/native084-unbound/test-supervisor.py.txt": {
+      "bytes": 3631,
+      "sha256": "baa70beaf208a4da08dd368fa276bb75092ad4690b5adf283713cbe6181c7b7c"
+    },
+    "linux-blue/recovery-references/native084-unbound/PLAN.md.txt": {
+      "bytes": 5922,
+      "sha256": "4f508883f9217b2bfd8ba96e376abe1277bfbbe2101683d9202dc49c76c5858e"
+    },
+    "linux-blue/recovery-references/native084-unbound/README.md": {
+      "bytes": 821,
+      "sha256": "19dc68c2bca3d3241a1a97338f87e777c37a128f39b21700b087067b1dae8f20"
+    }
+  },
+  "limits": [
+    "Only two of three native083 routes completed; Remux never prepared",
+    "Native084 not run; no package/native promotion",
+    "Current ctime mismatch/no reveal retained",
+    "Inventory incomplete is not signature failure or build qualification"
+  ]
+}

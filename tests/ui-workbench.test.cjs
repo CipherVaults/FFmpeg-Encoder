@@ -1498,3 +1498,34 @@ test('prepare rechecks current main target availability and selection after pend
     assert.match(h.byId('error-banner').textContent, /availability or selection changed/);
   }
 });
+
+test('unified main snapshot permits explicit MP4 Remux after same-session encode completion', async () => {
+ const marker={enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false};
+ const state=(revision,phase)=>({revision,phase,batchId:'encode-owner',items:[],counts:{},developerProduct:marker,remuxSupport:{targets:['mp4']}});
+ const h=await harness({getSnapshot:async()=>state(1,'idle'),getPreferences:async()=>({settingsByProfile:{},profileId:'h265-cpu',inputFolder:{id:'in'},outputFolder:{id:'out'},notices:[]}),prepareRemuxBatch:async()=>({...state(5,'ready'),operation:'remux'})});
+ h.update(state(2,'running'));assert.equal(h.byId('prepare-remux').disabled,true);
+ h.update(state(3,'completed'));await h.byId('new-batch').click();await h.byId('tab-remux').click();
+ assert.equal(h.byId('remux-target').value,'matroska');assert.equal(h.byId('prepare-remux').disabled,true);
+ h.byId('remux-target').value='mp4';await h.byId('remux-target').emit('change');
+ assert.equal(h.byId('prepare-remux').disabled,false);await h.byId('prepare-remux').click();
+ assert.deepEqual(h.calls.filter(c=>c.name==='prepareRemuxBatch').map(c=>c.args),[[{inputFolderId:'in',outputFolderId:'out',target:'mp4'}]]);
+});
+
+test('legacy and malformed developer snapshots cannot unlock Remux through target projection',async()=>{
+ for(const developerProduct of [{enabled:true},{enabled:true,composition:'other',relaunchRequired:false},{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:true}]){
+  const h=await harness({getSnapshot:async()=>({revision:1,phase:'idle',items:[],counts:{},developerProduct,remuxSupport:{targets:['mp4']}}),getPreferences:async()=>({settingsByProfile:{},profileId:'h265-cpu',inputFolder:{id:'in'},outputFolder:{id:'out'},notices:[]})});
+  h.byId('remux-target').value='mp4';await h.byId('remux-target').emit('change');assert.equal(h.byId('prepare-remux').disabled,true);
+  await h.byId('prepare-remux').emit('click');assert.equal(h.calls.some(c=>c.name==='prepareRemuxBatch'),false);
+ }
+});
+
+test('unified remux permission is rechecked after pending settings persistence',async()=>{
+ let release;const pending=new Promise(resolve=>{release=resolve;});
+ const state=(revision,composition)=>({revision,phase:'idle',items:[],counts:{},developerProduct:{enabled:true,composition,relaunchRequired:false},remuxSupport:{targets:['mp4']}});
+ const h=await harness({getSnapshot:async()=>state(1,'unified-linux-operations-v1'),getPreferences:async()=>({settingsByProfile:{},profileId:'h265-cpu',inputFolder:{id:'in'},outputFolder:{id:'out'},notices:[]}),saveSettings:async()=>{await pending;return {notices:[]};}});
+ h.byId('remux-target').value='mp4';await h.byId('remux-target').emit('change');
+ h.byId('quality').value='24';await h.byId('quality').emit('input');
+ const clicked=h.byId('prepare-remux').emit('click');await settle();assert(h.calls.some(c=>c.name==='saveSettings'));
+ h.update(state(2,'legacy-encode-only'));release();await clicked;await settle();
+ assert.equal(h.calls.some(c=>c.name==='prepareRemuxBatch'),false);assert.equal(h.byId('prepare-remux').disabled,true);
+});

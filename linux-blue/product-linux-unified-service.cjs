@@ -93,7 +93,7 @@ class UnifiedService extends EncoderService{
     else for(const id of request.fileIds)assert(this.plan.entries.get(id)?.remux);
     return super.startBatch(request);
   }
-  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264 ordinary Full/source, four measured H265 families, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Exact host/runtime only; unified native acceptance and portability remain unqualified.'}};}
+  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264 ordinary Full/source, four measured H265 families, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Exact host/runtime only; unified native acceptance and portability remain unqualified.'}};}
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
   getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:{...recipe},mediaNote:'Fixed internal candidate settings; not a new production default. '+recipe.mediaNote};}
   async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}

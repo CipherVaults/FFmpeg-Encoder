@@ -1038,6 +1038,13 @@
       ? targets : [];
   }
 
+  // Only the current main-owned unified composition may lift the legacy
+  // encode-preview lock. Target admission and main validation remain separate.
+  function remuxPreviewBlocked() {
+    return Boolean(developerPreview) && !(snapshot.developerProduct?.enabled === true
+      && snapshot.developerProduct.composition === 'unified-linux-operations-v1'
+      && snapshot.developerProduct.relaunchRequired === false && !developerSessionClosed);
+  }
   function remuxTargetAvailable(target = byId('remux-target').value) {
     return availableRemuxTargets().includes(target);
   }
@@ -1911,7 +1918,7 @@
     renderNativeStatus();
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked;
     byId('remux-target').disabled = locked;
-    byId('prepare-remux').disabled = Boolean(developerPreview) || locked || !remuxTargetAvailable() || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
+    byId('prepare-remux').disabled = remuxPreviewBlocked() || locked || !remuxTargetAvailable() || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
     byId('profile').disabled = locked || !capabilities;
     for (const id of ['preset', 'quality', 'quality-slider', 'tested-default']) byId(id).disabled = locked || !selectedProfile();
     const candidate = profileRecipe();
@@ -2173,9 +2180,9 @@
     if (!inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false) throw new Error('Choose both folders before preparing Remux.');
     if (hasOperationEdits()) throw new Error('Apply or discard processing edits before preparing a new Remux batch.');
     const target = byId('remux-target').value;
-    if (!remuxTargetAvailable(target)) throw new Error('Choose a currently available Remux target.');
+    if (remuxPreviewBlocked() || !remuxTargetAvailable(target)) throw new Error('Choose a currently available Remux target.');
     drainPendingSave(); await saveChain;
-    if (!remuxTargetAvailable(target) || byId('remux-target').value !== target) throw new Error('Remux target availability or selection changed. Review it before preparing.');
+    if (remuxPreviewBlocked() || !remuxTargetAvailable(target) || byId('remux-target').value !== target) throw new Error('Remux target availability or selection changed. Review it before preparing.');
     const next = await api.prepareRemuxBatch({ inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, target });
     preparedFolderPair = next?.phase === 'ready' && next.operationDraft?.id
       ? { inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, draftId: next.operationDraft.id } : null;

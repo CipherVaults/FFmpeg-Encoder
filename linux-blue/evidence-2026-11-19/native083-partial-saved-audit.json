@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "status": "partial-native083-acceptance-two-encode-routes-pass-remux-ui-blocked",
+  "sourceCommit": "36325df564b19277dd6d6e3acb698da823011e1a",
+  "sourceFilesVerifiedAgainstGit": 899,
+  "packageFilesVerified": 255,
+  "normalExecutableFiles": 5,
+  "allOtherModes": "0600",
+  "sourceAndThreeOwnedFixtureCopiesUnchanged": true,
+  "runtimeDependencyFilesVerified": 7,
+  "receipts": {
+    "closure": {
+      "bytes": 1875,
+      "sha256": "413ac7ca4f56354aebb024a58fc9f2e9318ce368cbe038d493ffb5b2476a8128"
+    },
+    "packageAudit": {
+      "bytes": 63376,
+      "sha256": "4a1f07aecaa5468676b5bef1de9c68ce8624e2bad820c1143b8617fd81697859"
+    },
+    "collector": {
+      "bytes": 15976,
+      "sha256": "ef5900aa9aa1c7aae93eb7fea57b11a10dc2a5d9c3afc14d5b368fd2a0ca198a"
+    }
+  },
+  "savedLifecycle": {
+    "diagnosticDigestsVerified": 42,
+    "provenanceChecksumsVerified": 4,
+    "folderRegistrations": 6,
+    "encodeStarts": 2,
+    "encodeCloses": 2,
+    "publications": [
+      {
+        "route": "ordinary",
+        "outputId": "095f102c-51ee-4494-a81e-32054918e1aa",
+        "bytes": 4805537,
+        "sha256": "480bb897a2621321da51e4ee56e233e05285821477f3b507272e34f0e97f98b2",
+        "publicationDevInodeSizeMtimeMatches": true,
+        "publicationCtimeMatches": false
+      },
+      {
+        "route": "measured",
+        "outputId": "8906b9ed-6c09-428b-8a58-28a100891d48",
+        "bytes": 590045,
+        "sha256": "4f857e3a7d0a0ec528c27d0758c840bdbf69e09cb6ee08b940a5c028a45280b2",
+        "publicationDevInodeSizeMtimeMatches": true,
+        "publicationCtimeMatches": false
+      }
+    ],
+    "batches": [
+      {
+        "phase": "completed",
+        "counts": {
+          "success": 1,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSecondsAtDiagnostic": 1.994
+      },
+      {
+        "phase": "completed",
+        "counts": {
+          "success": 1,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSecondsAtDiagnostic": 7.145
+      }
+    ],
+    "remuxStarts": 0,
+    "revealDispatches": 0,
+    "remuxOutputEmpty": true
+  },
+  "measured": {
+    "sourceGeometry": "1080p",
+    "outputGeometry": "720p",
+    "requestedRangeUs": [
+      613000,
+      2721000
+    ],
+    "sourceCounts": {
+      "frames": 90,
+      "samples": 144000
+    },
+    "decodedEvidence": {
+      "video": {
+        "sourceFrameCount": 63,
+        "outputFrameCount": 63,
+        "comparedFrames": 63,
+        "firstSourcePtsUs": 633333,
+        "lastSourcePtsUs": 2700000,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 20000,
+        "lastOutputPtsUs": 2087000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 101184,
+          "outputSampleCount": 101184,
+          "firstSourcePtsUs": 613000,
+          "lastSourceEndUs": 2721000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 2107667,
+          "encoderDelaySamples": 0,
+          "discardPaddingSamples": 0,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "outputHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "sourceBytes": 404736,
+            "outputBytes": 404736
+          }
+        }
+      ]
+    },
+    "timelineComparisons": {
+      "video": {
+        "comparedFrames": 63,
+        "maximumDurationErrorUs": 334,
+        "toleranceUs": 1067
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-flac",
+          "selectedSourceGaps": 0,
+          "unmatchedSourceTailSamples": 0,
+          "unmatchedOutputTailSamples": 0,
+          "comparedSamples": 101184,
+          "intersectedSpans": 465,
+          "maximumElapsedClockErrorUs": 334,
+          "toleranceUs": 1042,
+          "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+          "contentIdentity": false
+        }
+      ]
+    },
+    "collectorInvocations": 7,
+    "sealedSpoolsRehashed": 3,
+    "collectorDiagnosticChildren": 10,
+    "publicationAndQualificationGrantedByCollector": false
+  },
+  "leadObservedUi": {
+    "source": "Parent direct desktop observation, not reconstructed screenshot evidence",
+    "ordinarySucceededElapsed": "00:02",
+    "measuredSucceededElapsed": "00:07",
+    "sameSessionRouteSwitch": true,
+    "remuxExplicitMp4Selected": true,
+    "unavailableMatroskaAndQuickTimeShown": true,
+    "remuxPrepareDisabledAfterFolderRegistration": true,
+    "normalAppClose": true,
+    "noRevealOrCancellation": true
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 420.59979280600055,
+    "forcedTermination": false,
+    "errors": [],
+    "closureObserved": true,
+    "sampledOnly": true,
+    "knownIdentities": 16,
+    "currentlyLiveMatchingKnownIdentities": [],
+    "scope": "Observed owned process group and known identities only, not global descendant census"
+  },
+  "limitations": [
+    "Only two of three planned routes completed; no full same-session unified-route acceptance.",
+    "No Remux preparation, copy, publication, reveal or cancellation in this attempt. UI blocker requires separate diagnosis/fix.",
+    "Ordinary AAC copy is not a precision PCM claim. Measured PCM/count claims apply only to the measured route.",
+    "Diagnostic batch elapsed precedes final UI snapshot; 1.994 seconds differs from observed terminal 00:02. No contradiction inferred.",
+    "No extra media probes, app launches, source edits or tests during saved audit.",
+    "Current publication ctime mismatch remains explicit; no OutputAccess reveal was attempted, so this run does not prove action-time identity validation.",
+    "No Windows, GPU, portability, arbitrary media or release qualification."
+  ]
+}

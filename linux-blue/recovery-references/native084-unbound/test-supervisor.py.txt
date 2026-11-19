@@ -1,0 +1,63 @@
+import importlib.util,unittest,tempfile,os
+from pathlib import Path
+from unittest.mock import patch
+s=importlib.util.spec_from_file_location('supervisor',Path(__file__).with_name('supervise-native.py'));m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+class Tests(unittest.TestCase):
+ def test_import_inert(self):self.assertFalse((m.ROOT/'ATTEMPT_STARTED.json').exists())
+ def test_inert_package_modes_refused(self):
+  with self.assertRaises(AssertionError):m.verify_package()
+ def test_fixture_setup(self):
+  import hashlib
+  with tempfile.TemporaryDirectory()as d:
+   root=Path(d);inputs={}
+   for name in m.INPUTS:
+    (root/name).mkdir();(root/name/'fixture').write_bytes(b'x')
+    inputs[name]=('fixture',1,hashlib.sha256(b'x').hexdigest())
+   with patch.object(m,'ROOT',root),patch.object(m,'INPUTS',inputs):
+    self.assertTrue(m.verify_inputs())
+    (root/'owned-input-measured'/'fixture').write_bytes(b'y')
+    with self.assertRaises(AssertionError):m.verify_inputs()
+ def test_three_route_layout_and_flag(self):
+  self.assertEqual(len(m.INPUTS),3);self.assertEqual(len(m.OUTPUTS),3)
+  self.assertEqual(len(set(v[2] for v in m.INPUTS.values())),2)
+  self.assertEqual(len(set(m.OUTPUTS)),3)
+  self.assertIn("'--linux-unified-candidate'",Path(m.__file__).read_text())
+ def test_limits_cover_all_route_directories(self):
+  with tempfile.TemporaryDirectory()as d,patch.object(m,'ROOT',Path(d)),patch.object(m,'FLOOR',0):
+   for name in [*m.INPUTS,*m.OUTPUTS,'owned-profile']:(Path(d)/name).mkdir()
+   for name in m.OUTPUTS:(Path(d)/name/'sample').write_bytes(b'x')
+   self.assertEqual(m.limits(),3)
+   with patch.object(m,'MAX_BYTES',2):
+    with self.assertRaises(AssertionError):m.limits()
+ def test_exclusive_receipt(self):
+  with tempfile.TemporaryDirectory()as d,patch.object(m,'ROOT',Path(d)):
+   m.write_once('x.json',{'a':1})
+   with self.assertRaises(FileExistsError):m.write_once('x.json',{})
+ def test_symlink_refused(self):
+  with tempfile.TemporaryDirectory()as d:
+   a=Path(d)/'a';a.write_text('x');b=Path(d)/'b';b.symlink_to(a)
+   with self.assertRaises(AssertionError):m.regular(b)
+ def test_no_gate_no_launch(self):
+  with tempfile.TemporaryDirectory()as d,patch.object(m,'ROOT',Path(d)),patch.object(m.sys,'argv',['s','--execute-reviewed-once']),patch.dict(os.environ,{'DISPLAY':':fixture'},clear=True),patch.object(m.subprocess,'Popen')as launch:
+   with self.assertRaises(FileNotFoundError):m.main()
+   launch.assert_not_called()
+ def test_waitid_keeps_leader_unreaped(self):
+  with patch.object(m.os,'waitid',return_value=object())as wait:
+   self.assertTrue(m.exited_unreaped(123));wait.assert_called_once_with(m.os.P_PID,123,m.os.WEXITED|m.os.WNOHANG|m.os.WNOWAIT)
+ def test_identity_change_refused(self):
+  with patch.object(m,'leader_identity',return_value=(123,999)):
+   with self.assertRaises(AssertionError):m.require_owner((123,1))
+ def test_census_permission_error_not_silenced(self):
+  class Entry:
+   name='123'
+   def stat(self):raise PermissionError('unreadable')
+  with patch.object(m.Path,'iterdir',return_value=iter([Entry()])):
+   with self.assertRaises(PermissionError):m.group_rows(123)
+ def test_electron_overrides_refused(self):
+  for name in ['ELECTRON_RUN_AS_NODE','ELECTRON_FORCE_IS_PACKAGED','ELECTRON_DISABLE_SANDBOX']:
+   with patch.dict(m.os.environ,{name:''},clear=True):
+    with self.assertRaises(AssertionError):m.loader_guard()
+ def test_no_early_reap_in_source(self):
+  text=Path(m.__file__).read_text();self.assertNotIn('proc.poll()',text)
+  self.assertLess(text.index("result['closureObserved']=not any"),text.index('proc.wait(timeout=1)'))
+unittest.main()

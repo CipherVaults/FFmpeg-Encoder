@@ -1,0 +1,73 @@
+{
+  "head": "49db33949dd0c0eaf4046314114366683dad5b33",
+  "shared": {
+    "run": 44456952683,
+    "attempt": 1,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "job": 135334183344,
+        "os": "ubuntu-24.04",
+        "syntax": 223,
+        "shared": 320,
+        "linuxAdditional": 40,
+        "logSha256": "7d3e15b1442bcf87f48be46861850de10da4523dc1b22b6f9f12bb19021b86b6"
+      },
+      {
+        "job": 135334183674,
+        "os": "windows-2022",
+        "syntax": 223,
+        "shared": 320,
+        "logSha256": "84cc1179a6fac118b47956a2d438f19909b356e9916656776fc06650833ce83f"
+      }
+    ],
+    "failures": 0,
+    "skips": 0
+  },
+  "inventory": {
+    "run": 44456952763,
+    "job": 135334183202,
+    "attempt": 1,
+    "conclusion": "failure",
+    "exitCode": 2,
+    "sourcePinPreflightPassed": true,
+    "inertTestsPassed": 16,
+    "reportStatus": "unresolved-installed-version-or-missing-package",
+    "signedPackageCorrespondences": 7,
+    "missingDpkgPackages": [
+      "cmake",
+      "meson",
+      "ninja-build",
+      "nasm"
+    ],
+    "missingUsrBinTools": [
+      "cmake",
+      "meson",
+      "ninja",
+      "nasm"
+    ],
+    "image": "20261116.133.1",
+    "signedSuites": [
+      "noble",
+      "noble-updates"
+    ],
+    "artifactId": 14498291311,
+    "zipBytes": 6647,
+    "zipSha256": "94787bfa9130292508b7a83c7f0c4e02cc4229f5cd95219aa06cd89d584fa3ef",
+    "reportBytes": 6491,
+    "reportSha256": "3f6a240e76681bc3f39ecac1cc1216918b0038fe4b05a8c3e605e55a9a7a834f",
+    "artifactDigestMatchedApiAndJobLog": true,
+    "exactSingleZipMember": "inventory-report.json",
+    "logSha256": "18e2bbe58382a05cf0dddb172dda3f70a1d33ea740225986efa39102331d15a5",
+    "dependencyClosureComplete": false
+  },
+  "limits": [
+    "No actual packaged Windows run from this source CI.",
+    "Inventory only; no installation, build, media or downloaded code execution.",
+    "Missing tool observations concern dpkg and fixed /usr/bin paths, not an exhaustive PATH search.",
+    "Signed archive correspondence does not establish installed file integrity or full dependency closure.",
+    "No historical-version absence observed among seven installed package tuples; four requested packages were not installed.",
+    "No workflow dispatch or retry.",
+    "Original upload-action Node deprecation warnings retained in logs."
+  ]
+}

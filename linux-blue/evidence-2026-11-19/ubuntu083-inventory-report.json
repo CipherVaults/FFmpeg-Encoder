@@ -1,0 +1,181 @@
+{
+  "scope": "ubuntu24.04-inventory-only",
+  "status": "unresolved-installed-version-or-missing-package",
+  "packages": [
+    {
+      "name": "gcc",
+      "version": "4:13.2.0-7ubuntu1",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "0e0bb8b25153ed1c44ab92bc219eed469fcb5820c5c0bc6454b2fd366a33d3ee",
+      "archiveBytes": 5018,
+      "archiveFilename": "pool/main/g/gcc-defaults/gcc_13.2.0-7ubuntu1_amd64.deb",
+      "suite": "noble",
+      "indexSha256": "2a6a199e1031a5c279cb346646d594993f35b1c03dd4a82aaa0323980dd92451"
+    },
+    {
+      "name": "g++",
+      "version": "4:13.2.0-7ubuntu1",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "800a84b369c64b18d65f0fb5c1533de0446c880ee4f1cadad64e3363327f63f0",
+      "archiveBytes": 1100,
+      "archiveFilename": "pool/main/g/gcc-defaults/g++_13.2.0-7ubuntu1_amd64.deb",
+      "suite": "noble",
+      "indexSha256": "2a6a199e1031a5c279cb346646d594993f35b1c03dd4a82aaa0323980dd92451"
+    },
+    {
+      "name": "binutils",
+      "version": "2.42-4ubuntu2.10",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "b3b5a84181a38fd191820b2cdcc1a3eeb1cd6333ad472f2092f96e81047e9c74",
+      "archiveBytes": 18154,
+      "archiveFilename": "pool/main/b/binutils/binutils_2.42-4ubuntu2.10_amd64.deb",
+      "suite": "noble-updates",
+      "indexSha256": "23a07725860f6c1f45b9a7a2da1174368ef98e311907755a4d74949e94047bd8"
+    },
+    {
+      "name": "libc6-dev",
+      "version": "2.39-0ubuntu8.12",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "d81dd6dc9d515762cc93f338efa6219252acf3e2e87b5b89dd7dc517741e6eed",
+      "archiveBytes": 2124506,
+      "archiveFilename": "pool/main/g/glibc/libc6-dev_2.39-0ubuntu8.12_amd64.deb",
+      "suite": "noble-updates",
+      "indexSha256": "23a07725860f6c1f45b9a7a2da1174368ef98e311907755a4d74949e94047bd8"
+    },
+    {
+      "name": "linux-libc-dev",
+      "version": "6.8.0-149.149",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "e4b7b9c5023ba727908868661e1113d28ed9b68e47aed00e314723dad4b2b31d",
+      "archiveBytes": 1698546,
+      "archiveFilename": "pool/main/l/linux/linux-libc-dev_6.8.0-149.149_amd64.deb",
+      "suite": "noble-updates",
+      "indexSha256": "23a07725860f6c1f45b9a7a2da1174368ef98e311907755a4d74949e94047bd8"
+    },
+    {
+      "name": "make",
+      "version": "4.3-4.1build2",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "1fe6a815b56c7b6e9ce4086a363f09444bbd0a0d30e230c453d0b78e44b57a99",
+      "archiveBytes": 179752,
+      "archiveFilename": "pool/main/m/make-dfsg/make_4.3-4.1build2_amd64.deb",
+      "suite": "noble",
+      "indexSha256": "2a6a199e1031a5c279cb346646d594993f35b1c03dd4a82aaa0323980dd92451"
+    },
+    {
+      "name": "pkgconf",
+      "version": "1.8.1-2build1",
+      "architecture": "amd64",
+      "state": "exact-version-in-signed-official-index",
+      "archiveSha256": "834a58031069d97d7cfb8b2f5bfd5effc69cecf7f30cc362071875f1f8dc1828",
+      "archiveBytes": 16790,
+      "archiveFilename": "pool/main/p/pkgconf/pkgconf_1.8.1-2build1_amd64.deb",
+      "suite": "noble",
+      "indexSha256": "2a6a199e1031a5c279cb346646d594993f35b1c03dd4a82aaa0323980dd92451"
+    },
+    {
+      "name": "cmake",
+      "state": "missing-or-not-installed"
+    },
+    {
+      "name": "meson",
+      "state": "missing-or-not-installed"
+    },
+    {
+      "name": "ninja-build",
+      "state": "missing-or-not-installed"
+    },
+    {
+      "name": "nasm",
+      "state": "missing-or-not-installed"
+    }
+  ],
+  "tools": [
+    {
+      "name": "gcc",
+      "sha256": "1b99826121ae6682a634e5efe09bd3e3df58ce58e0b28f849114ab5b89139c26",
+      "bytes": 1023032,
+      "elfHeaderSha256": "26bf8d8a5c46c716737debf374a116faed308542ee1c7cad6e1594efb6515399",
+      "elf": true
+    },
+    {
+      "name": "g++",
+      "sha256": "1353e9bdd29a7295c7226bf6c63abccce056d8cac31f112e5cdbecc3f28c2769",
+      "bytes": 1027128,
+      "elfHeaderSha256": "675266ff17818647f7e139166d46388a923ef6bea4b054332ad86d9dcad675d5",
+      "elf": true
+    },
+    {
+      "name": "ld",
+      "sha256": "e9ceb054c12207970f2726dfc07e9a66b411602748628baf27399f02a9bbb31b",
+      "bytes": 1359128,
+      "elfHeaderSha256": "3cc45819b0572f79d3cfd1e9240365bbe2f3fef72f87f9b51fb225940d83b431",
+      "elf": true
+    },
+    {
+      "name": "ar",
+      "sha256": "6452af2eea333b8c65e1adb92964fc8f97863ab003fa13f9d12bff5345cd7dbe",
+      "bytes": 55792,
+      "elfHeaderSha256": "5bfe0257b98ba0bd2b6f909a515c4ead1839cad4733280b206f7126178bbae24",
+      "elf": true
+    },
+    {
+      "name": "make",
+      "sha256": "d78b8f1d099fbcfb6f2f49ab87223b9b68fb3956642f92d6ec6de812e8afa965",
+      "bytes": 259808,
+      "elfHeaderSha256": "3ea95c1c393708055d529344b49cb2d32a6bfad1356dbbd72c7eb4f743e436ce",
+      "elf": true
+    },
+    {
+      "name": "pkg-config",
+      "sha256": "7e8152db1b0c7e49d47b4b82a70dc9997b557951c5d4d938b0e7f208ce9eb10b",
+      "bytes": 45168,
+      "elfHeaderSha256": "08f4e0287b786581833e95af000173ae95cf83e083120030b9e63d5d13e865d0",
+      "elf": true
+    },
+    {
+      "name": "cmake",
+      "state": "missing"
+    },
+    {
+      "name": "meson",
+      "state": "missing"
+    },
+    {
+      "name": "ninja",
+      "state": "missing"
+    },
+    {
+      "name": "nasm",
+      "state": "missing"
+    }
+  ],
+  "authentication": "exact-version-correspondence-only-not-installed-file-integrity",
+  "execution": "no install/build/media",
+  "ImageOS": "ubuntu24",
+  "ImageVersion": "20261116.133.1",
+  "signedMetadata": [
+    {
+      "suite": "noble",
+      "inReleaseSha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+      "signatureVerified": true
+    },
+    {
+      "suite": "noble-updates",
+      "inReleaseSha256": "21587f93c1b50cc198584851e35f49738b792aea787be607efe2a828e9943284",
+      "signatureVerified": true
+    }
+  ],
+  "dependencyClosureComplete": false,
+  "limits": [
+    "Initial named build tools only; transitive installed dependency closure requires follow-on before build approval.",
+    "Current official indexes may omit old hosted versions; report unresolved, never substitute candidate version.",
+    "No deb download or installed binary reproduction verified."
+  ]
+}

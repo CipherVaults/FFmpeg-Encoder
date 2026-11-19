@@ -9,7 +9,7 @@ function harness({holdOpen=false,failClose=false,genuineSelector=false}={}){
 }
 async function setup(t,options={}){const root=await fsp.mkdtemp(path.join(os.tmpdir(),'unified-'));const h=harness(options);const service=await h.createUnifiedService({runtimeRoot:path.join(root,'runtime'),stateDir:path.join(root,'state'),outputAccess:options.outputAccess});t.after(async()=>{await service.closeOperationResources().catch(()=>{});await service.closeDiagnostics().catch(()=>{});await fsp.rm(root,{recursive:true,force:true});});return {h,service,root};}
 test('one real EncoderService preserves identity while cancelling READY encode authority and preparing a new generation',async t=>{
- const {h,service}=await setup(t);const {EncoderService}=require('../src/encoder-service.cjs');assert(service instanceof EncoderService);
+ const {h,service}=await setup(t);const {EncoderService}=require('../src/encoder-service.cjs');assert(service instanceof EncoderService);assert.equal(service.snapshot().developerProduct.composition,'unified-linux-operations-v1');
  service.state.phase='ready';service.state.items=[{id:'old',status:'ready'}];service.state.planId='old-plan';service.plan={operation:'encode',id:'old-plan',entries:new Map()};
  await service.cancelCurrent();assert.equal(service.plan,null);assert.equal(service.state.planId,null);assert.equal(service.state.items[0].status,'cancelled');assert(h.generations[0].closed);assert.equal(service.admissionClosed,false);
  await assert.rejects(service.startBatch({planId:'old-plan',fileIds:['old']}));

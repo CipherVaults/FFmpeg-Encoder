@@ -1,11 +1,10 @@
-# Current State — 083 unified internal application
+# Current State — 084 explicit unified remux UI permission
 
-Evidence cutoff 2026-11-19T04:04:15.997412+00:00. Reviewed source and documentation are ready; commit, full preservation and new package/native journey remain pending.
+Evidence cutoff 2026-11-19T04:27:09.385843+00:00. Reviewed source/PBS ready; commit, full preservation and native084 remain pending. Native084 has not run.
 
-- 082 preservation complete: 881 files, 82 commits and all complete native history entries verified; remote 14c958333c26af69ac59d0856a89ab0ca685120e. Shared CI passed 220 syntax/317 shared tests both OS plus 40 Linux tests. No packaged Windows run listed.
-- Exact native 082 MP4 remux accepted: one source, one Start/publication, strict packet/PCM proof, actual Thunar reveal, visible 00:02 frozen afterward. Batch 2.019 seconds differs from session 173.708 seconds. Normal close, sampled ownership only; no new cancellation/collision/general-media claim.
-- Original ctime mismatch retained with separate source-backed owned hard-link cleanup explanation. OutputAccess uses strict post-cleanup identity; no syscall-trace or blanket mutation-proof claim.
-- 083 integrates one persistent internal service/output owner with fresh runtime generations and explicit ordinary/measured/remux routes. Corrected mutation/cancellation ordering and renderer controls reviewed; production defaults and Windows behavior not promoted.
-- Final tests: 29 focused, 223 syntax, 320 shared including 77 renderer, 40 Linux and 16 Ubuntu inventory inert tests. Closure: 137 source pins, 252 package inputs, 154 application rows, 164 source rows. No new package/native execution yet.
-- Optional one-shot Ubuntu inventory is not a build or portability acceptance. Native 083 recovery references are inert/unbound. Next actual acceptance is ordinary → measured → remux in one app; native cancellation remains separate.
-- Next: explicit commit and Git → Notion → GitHub, exact inert package audit, independently bound native journey, then remaining release/portability/notices and owner Windows desktop/RTX gates. v0.8 themes/languages/guide/onboarding remain future; HDR v0.9.
+- 083 fully preserved: 899 files/83 commits; remote 49db33949dd0c0eaf4046314114366683dad5b33. Shared CI passed 223 syntax/320 shared both OS plus 40 Linux tests.
+- Native083 partially accepted: same-app ordinary and measured encodes published, visible 00:02/00:07. Measured 63 frames and 101,184 PCM samples verified. Remux Prepare stayed disabled; no Remux preparation/Start, reveal or cancellation. Normal closure 420.600 seconds, sampled ownership only.
+- 084 fixes only explicit main-owned unified remux preview permission and rechecks after settings-save await. Backend admission/defaults unchanged. Six source paths independently reviewed; 103 focused/223 syntax/323 shared including 80 renderer/40 Linux checks passed.
+- Source/package counts unchanged: 137 pins, 252 inputs, 154 app rows, 164 source rows. No new package/native proof from source checks.
+- Ubuntu inventory produced valid exit 2 incomplete report: seven installed tuples authenticated, four requested dpkg/fixed-path tools absent. Not signature failure or a runtime build. Exact reports retained.
+- Next: explicit commit, full Git → Notion → GitHub, exact package audit and fresh bounded same-app ordinary → measured → remux journey. Native cancellation and owner Windows/RTX remain separate. No broad portability or release promotion.

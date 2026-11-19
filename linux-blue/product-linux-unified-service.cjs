@@ -24,6 +24,12 @@ function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){asse
 class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input);return super.prepare(options);}}
 class UnifiedService extends EncoderService{
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
+  resolveEncodeControls(plan,settings){
+    if(plan?.contract?.range?.kind==='range'&&plan?.contract?.audio?.policy==='precision-aac'
+        &&settings?.profileId==='h265-cpu'&&settings.preset==='slow'&&settings.quality===25)
+      return {budget:EVIDENCE_BUDGET,executionBudgetMs:EXECUTION_BUDGET_MS};
+    return super.resolveEncodeControls(plan,settings);
+  }
   async mutate(name,args){
     assert(!this.shuttingDown&&!this.cancellation&&!this.mutationOwner,'Operation admission is fenced');
     const owner={epoch:this.epoch};this.mutationOwner=owner;
@@ -101,6 +107,7 @@ class UnifiedService extends EncoderService{
       assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);assert.equal(request.fileIds.length,1);
       const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);assert(item&&['ready','conflict'].includes(item.status)&&entry);
       let kind;if(entry.operationPlan?.compatibilityPath){H265.requireEntry(this,item);kind='h265-ordinary';}else{this.requireMeasuredEntry(entry);kind='measured';}
+      this.requirePreparedEncodeControls(entry);
       assert(!this.executionBinding);this.executionBinding=Object.freeze({planId:this.plan.id,generation:this.generation,fileId,entry,kind});
       const generation=this.generation;this.ordinaryJobGuard=kind==='h265-ordinary'?facts=>this.ordinaryGuard(facts,generation):null;
     }
@@ -125,7 +132,7 @@ class UnifiedService extends EncoderService{
       throw new AggregateError(failures,this.state.error,{cause:error});
     }
   }
-  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264/AV1 and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), four measured H265 slow25 families, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
+  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264/AV1 and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), five measured H265 slow25 families, including short CFR30 H264/AAC stereo48k precision ranges, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
   getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:value.profileId==='h265-cpu'?recipe.testedDefault:{...recipe},mediaNote:(value.profileId==='h265-cpu'?'Existing H265 settings/defaults; transformed measured operations still require slow/25. ':'Fixed internal candidate settings; ')+ 'Not a new production default. '+recipe.mediaNote};}
   async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1.SETTINGS.profileId?AV1.SETTINGS:request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}

@@ -1,0 +1,24 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "6c87d1313660c758ebf2d0ca0c38860dbb38277b",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "diagnosticStage": "BASELINE_COMPARE",
+  "completedDiagnosticStages": [
+    "BASELINE_COPY",
+    "CONFIGURE_ISOLATION",
+    "BASELINE_PARSE",
+    "BASELINE_VALIDATE",
+    "BASELINE_QUERY"
+  ],
+  "baselineDifferences": {
+    "missingFromQuery": 0,
+    "extraInQuery": 0,
+    "versionMismatch": 3,
+    "architectureMismatch": 0
+  },
+  "status": "blocked",
+  "failureType": "AssertionError",
+  "failureReason": "BASELINE_SET_MISMATCH"
+}

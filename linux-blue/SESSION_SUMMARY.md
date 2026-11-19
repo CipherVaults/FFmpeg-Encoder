@@ -1,3 +1,79 @@
+# 📘 Session: Bind measured AAC, retain actual hosted proof and guard the live Ubuntu baseline
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated separate review of source changes, calibration acquisition, saved-only evidence, archived reconstruction and the next native plan. Exact preserved bytes are distinct from conductor reports, inferences from primary source, and plans not yet executed. This entry uses the adopted single-project Session form with full prior Session bytes following it.
+
+## 🕒 Time
+November 19, 2026 UTC. Source base: local 090 5343c59247dcb87d9c655fb168b7e5d82356cdb9, tree 7ff81737d720930085c556b17a99f661698bfc76, and exact verified GitHub mapping 6c87d1313660c758ebf2d0ca0c38860dbb38277b. Evidence cutoff: 2026-11-19T10:32:45+00:00. Preserve 090's own evidence cutoff and record new results as later observations.
+
+## 🎯 Session Goal
+Move from dormant AAC preparation to a narrowly reviewed Linux product path with real current-runtime numerical evidence, without mistaking that evidence for native acceptance. Preserve the latest Windows two-file package result; improve Ubuntu baseline authority without weakening exact tuple equality; keep calibration protocol reconstructible after a workspace reset without publishing local paths, launch permissions, raw logs or media.
+
+## 🛠️ Actions Taken
+### Verify actual 090 hosted results
+Exact 090 shared run 44502696055 passed 226 syntax checks and 325 shared tests per platform plus 40 Linux checks. Actual Windows package run 44502696287/job 135486268759 reached INTEGRATION_PASSED: two H264 CPU requests, one Start, two required readbacks without extra decodes, two collision skips, stable timer 1.031 seconds across a 2,217 ms observed wait and reset, and normal close. Packaged sandbox/context isolation remained enabled; Node integration remained disabled. Source/package unchanged; sampled eight observations, 12 descendants and no observed live process after close, not an exhaustive census. Picker result was substituted; this is not native Windows desktop, owner PC, GPU, running cancellation or Linux H265 evidence. Original sanitized Windows report is retained; report retention is not executable retention.
+
+Separate Ubuntu run 44502696342/job 135486268481 reached BASELINE_COMPARE and stopped at BASELINE_SET_MISMATCH before APT. It saw exactly three version differences, zero missing/extra/architecture differences and ready:false. The exact original report is retained. A difference is not by itself proof of snapshot drift, field formatting, update activity or a particular package.
+
+### Make future Ubuntu baseline observations coherent without hiding live state
+Python parsed a bounded copied status file; the dpkg child previously queried the live database without an explicit admindir. The Noble manual documents directory/root selectors. Upstream dpkg 1.22.6 read-only query opens the database, whose loader reads main status and applies numbered update fragments even in read-only mode. This is a possible explanation, not observed cause. The child already uses a four-variable explicit environment, so inherited DPKG_ADMINDIR/ROOT is not an evidenced cause. Reject the tempting status-only isolated query: it could manufacture agreement while ignoring pending authoritative state.
+
+The reviewed successor explicitly queries the fixed live admin directory at both boundaries. Bounded immutable-read checks compare stable live status and owned APT copy; canonical inspectable updates must be empty around both queries. A first found entry yields a safe lower bound of one, never its name. Both live tuple maps must exactly equal the independently parsed snapshot, with no normalization, lock, wait, retry, update flush or installation. Failed equality still produces bounded counts, not a lock. Boundary sampling is not continuous quiescence. A persistent pending-updates block stays blocked and may motivate a separately qualified clean baseline. Exact successor authority binds ordinary attempt one to the verified 090 remote only.
+
+### Acquire and independently audit current AAC numerical evidence
+The corrected calibration protocol kept monotonic deadlines through final checks and fresh owned directories with current UID/no-link and device/inode verification. Both cases use frozen H265 slow/25, stereo 48 kHz AAC LC source/output, Matroska and layout-default 320 kb/s. Thresholds derive from observed source tick and fixed output tick before encoding; separate pure zero-lag f32 comparisons retain signal/channel evidence without fitted shifts. The exact attached source/runtime was checkpoint 089 and paired identity dfbae18e…, not arbitrary runtime authority.
+
+Attempt 1 separately accepted case A: 8-second 1280×720 source, range 0.613–2.721 and Keep source, 63 frames and 101,184 selected audio sample instants versus 101,376 decoded output. Extra 192 tail samples within frozen 1,023 limit, no source shortage; 1,024 decoder-signaled priming and zero discard, not inferred from count. Maximum observed rebased/clock error 334 µs remained inside 1,067/1,042 µs limits. Saved-only audit rehashed source/runtime and original spools, PCM/telemetry and actual artifact; pure comparator reproduced six two-channel windows with minimum correlation 0.9999406 and evaluated best lag 0. Strict decode exit 0. Lossy evidence is not sample equality or perceptual quality.
+
+Attempt 1 did **not** accept B. The 31-second B source required metadata plus start/middle/end inspections. Its ledger allowed two inspect requests; middle and end were refused before subprocess creation, then ordinary inspector properly returned AMBIGUOUS_COLOR because evidence was incomplete. No B plan or encode occurred; exactly three B children and 14 A children actually closed, 17 total. Outer exit 1 remains immutable. This was a procedure defect, not an AAC codec, HDR, or valid-color failure.
+
+A fresh B-only attempt used reviewed inspect:4 and serial 16-child ceiling, not an automatic rerun or relaxation of media validation. Actual B used 31-second 1920×1080 source, late range 28.013–30.087, output 1280×720. Independent saved-only audit confirmed 62 frames, 99,552 selected audio instants and 100,352 decoded output. Its 800-sample terminal excess is within the same frozen bound, not signaled discard. Signaled priming 1,024 and discard zero, sampled channel/timing checks valid and strict decode passed. All 16 children closed and runtime closed; x265 CPU-mask and thread-pool warnings retained. A and fresh B have distinct endpoint/range residues; no clip publication or application activation occurred during either acquisition.
+
+### Prepare active AAC source and preserve exact lineage
+The shared EncoderService change is a main-owned per-entry control seam only for changed non-preservation Encode plans. It recursively copies/freezes inert controls and settings before runtime observation, then revalidates ownership and derived values after awaiting it. Linux admits only actual validated range Precision AAC/slow25 plans to the exact AAC evidence budget and 600-second execution policy; global deadlines, runtime phase controls and existing ordinary/FLAC/Remux/HDR/preservation paths remain unchanged. The shared Start path verifies prepared control currentness before queue/draft mutation. H265 unified dispatch adds the same verification before acquiring executionBinding or installing an ordinary stage guard; a composed stale-Start test verifies unchanged plan, task, generation, draft and items, followed by a valid retry. This preserves authority rather than converting stale request refusal into an owner retirement error.
+
+Main-owned selector binds the fixed A/B evidence, explicit 30 fps, clock checks, 720p source, 1080→720 and the narrowly reasoned 1080→source combination. No path/hash/fixture identity is a product eligibility condition. For 1080→source the no-scale branch removes only video scaling; exact integer-origin trim, AAC layout/filter/bitrate, measured clock and evidence paths remain. Compute cost can increase and existing bounded refusal still applies. Neither retained A nor retained B proves a 1080→source output yet. Real composed service tests inject inspection/runtime and defer execution; they are not actual encode/publication. The package-source closure had seven expected Linux failures before derived pins were refreshed, not hidden compatibility failures or a reason to change validation. A later derived run identified two additional stale tests: the product-proposal still expected four families and treated the historical SERVICE_SUCCESSOR map as current service authority. Keep that historical object byte-exact; add an explicit AAC prior-to-current chain and update scoped compatibility count/identity expectations without changing producer evidence. Final aggregate follows from the exact derived source.
+
+The prospective Windows package rebind points the same two-file H264 package harness at the exact 090 predecessor to cover shared EncoderService changes on the unchanged Windows path. It is not a repeat of actual 090 evidence or a 091 workflow result. No Windows dialog/GPU or other profile acceptance. Final exact 20-path source scope comprised ten functional paths, three Ubuntu binding paths, two Windows binding paths and five derived paths. Independent derived review verified all twenty hashes and all 259 current package input bytes, 141 pins, 158 app members, 171 source inputs, 88 unchanged non-source/launcher rows, 391,595,602 bytes total, unchanged historical objects/maps and successful rerun of all 38 affected controls. Final selected checks: 227 syntax, 330 shared, 68 Linux and separately 51 focused / 38 affected / 37 Ubuntu / 77 Windows inert tests, with no final failures or skips. Overlapping counts are not summed. Derived review SHA256 0d3a309657a44d53360a46242c6dd10e16acb14f4febf8df15a7e52ae5b589f9; exact final source manifest SHA256 d6cc59d8279390104d51994e00b60f329011b240745321fb4916eab467c75449.
+
+These are two numerical cells, not a third 1080→source output and not generic AAC, playback, lossless or resize support. The third geometry is a mechanism-reviewed scope only until one actual unified packaged Start. The separate unbound plan uses a fresh copy of the retained B input at 0.613–2.721, Keep source 1080p and Precision AAC default 320; one Start/reveal/close, 600-second lifespan and 180-second operator margin. No 091 package or native run occurred at this cutoff.
+
+The archive proposal deduplicates exact common runner code, preserves the original two-case ledger defect and exact corrected B-only acquisition source, and retains sanitized A/B audits and 090 hosted originals. No raw reports, media, outputs, machine-bound BINDING or launch releases. The archived B-only test source refers to omitted private inputs, rather than being described as a standalone test; reconstruct with fresh reviewed bindings only.
+
+## 🧠 Key Insights
+Two differently aligned cells passed a deliberately frozen packet clock, not an arbitrary allowance for presentation shift. Distinguish signaled priming/discard, decoded terminal excess and steady interior time. The historical about-21-ms remux/ordinary AAC observation is not a tolerance and never authorizes silent Copy→re-encode.
+
+A clearer diagnostic can reveal an acquisition error without proving a complete baseline. For AAC, request count is not spawned count. For Ubuntu, a status snapshot can agree with itself while missing live authoritative updates. Both require retaining the original failing evidence and observed boundary rather than explaining by conjecture.
+
+## 📌 Decisions Made
+Keep exact current source and runtime identity, new AAC strict preparation/execution grants and bounded CPU settings only. Do not replace Copy, loosen FLAC/Remux or promote a new default. Keep the Linux internal candidate distinct from portable release. Hold Ubuntu to exact live equality with one narrow attempt and no state normalization. Freeze the independently qualified v0.7 candidate before the final owner Windows RTX gate. Themes, languages and guided learning remain v0.8; HDR remains v0.9.
+
+## ⚠️ Difficulties / Friction
+B attempt 1 exposed inadequate inspection ledger accounting. Broader AAC activation source needed explicit stale-request handling before acquiring ownership so a refused stale edit cannot retire or replace valid authority. Exact correction and final test evidence are recorded below only at freeze. Ubuntu 090 surfaced three exact version differences without proving the source of those differences.
+
+## 🔧 Adjustments Made
+Used the separately reviewed B-only acquisition with four inspection requests, 16 children, preserved old proof, and no additional media outside the reviewed scope. Revised the Ubuntu plan after checking upstream fragment semantics rather than making a status-copy shortcut. Preserve both actual hosted report and provenance hashes independent of artifact expiry.
+
+## ❌ Mistakes / Risks Noted
+Do not infer all profiles, geometries, audio tracks, container readers, quality or exact waveform from the two AAC cells; observed excess is not zero padding after every possible range. Do not claim current native 1080→source until packaged validation. A future Ubuntu failed fragment guard is not license to flush, mutate, suppress or compare only a partial live view. No owner hardware or general release promise follows from a hosted package test.
+
+## 📍 Current Position
+090 is preserved with actual hosted scopes above. 091 is pending exact source/document freeze and independently verified preservation. No 091 run, live Ubuntu acquisition, packaged native or publication claim in this entry.
+
+## 🔜 Next Steps
+1. Seal reviewed source and full Session record in one scoped commit. Verify exact archive restoration and full Notion-readable records before GitHub.
+2. Observe exact hosted bound checks and retain original sanitized reports; verify actual changed source against the published head.
+3. Separately audit and release an exact native package and attempt one narrow 1080→source AAC test. Consider MP4→MKV remux as a later separately proved Q row, not a fallback. Named-platform/runtime manufacture, notices, portable versioning, durable artifact retention and owner-last boundary remain.
+
+## ❓ Open Questions
+Will exact packaged 091 produce verified AAC source-resolution output under native ownership? Will the next fixed live Ubuntu observation be both quiescent and tuple-equal? Which supported named-platform artifact and corresponding source can be distributed and reproduced independently?
+
+## 🧾 Session Outcome
+Exact 090 hosted results retained, independent A/B calibration acquired without rewriting the failed intermediate result, and bounded 091 source and future acceptance prepared. No new package or native proof claimed.
+
+## 🔍 Confidence Level
+High for current source/runtime identity, saved case-specific calibration and exact hosted 090 outcomes. Not established for active packaged acceptance, broad AAC/player behavior, cause of Ubuntu mismatch, portability, owner hardware, or v0.7 release readiness.
+
 # 📘 Session: Preserve H265 acceptance and stage bounded AAC, Ubuntu and Windows successors
 
 ## 🤖 Models, Effort, Roles and Provenance

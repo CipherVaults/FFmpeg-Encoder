@@ -7,6 +7,7 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const root = path.resolve(__dirname, '..');
 const shared = [
+  'tests/encode-entry-controls.test.cjs',
   'tests/media.test.cjs',
   'tests/container-clock.test.cjs',
   'tests/appearance.test.cjs',
@@ -20,7 +21,7 @@ const shared = [
   'tests/windows-hosted-archive-check.test.cjs',
   'tests/windows-hosted-diagnostics.test.cjs',
 ];
-const linux = ['linux-blue/ui-policy.test.cjs', 'tests/linux-runtime-staging.test.cjs', 'tests/linux-product-proposal.test.cjs'];
+const linux = ['tests/aac-range-qualification.test.cjs', 'tests/aac-range-binding.test.cjs', 'tests/linux-unified-service.test.cjs', 'linux-blue/ui-policy.test.cjs', 'tests/linux-runtime-staging.test.cjs', 'tests/linux-product-proposal.test.cjs'];
 
 function run(args) {
   const result = spawnSync(process.execPath, args, {

@@ -772,8 +772,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 37777,
-      "sha256": "1d4d92d23e42f33751d33951273b448925543786bd6ec6d206b902e70f893476"
+      "bytes": 39114,
+      "sha256": "c30321a0903ff698664b7eddf21dd1c6d33206f7aae3e8078c57f2c731f7dfef"
     },
     {
       "root": "source",
@@ -788,8 +788,8 @@
       "source": "linux-blue/product-linux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
       "group": "application",
-      "bytes": 11770,
-      "sha256": "957f2c6778ad41064adbb7df8c5ebe4e358d753c81a6e12036ed7d0699ce4384"
+      "bytes": 13304,
+      "sha256": "ffd0abed05bb5e568cef426d9f961fac2ba79d817e0ae2bdf5db1139d3cf7f7c"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 160678,
-      "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+      "bytes": 164039,
+      "sha256": "b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2"
     },
     {
       "root": "source",
@@ -2020,8 +2020,8 @@
       "source": "linux-blue/product-linux-unified-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-unified-service.cjs",
       "group": "application",
-      "bytes": 18604,
-      "sha256": "63d7666ff6106a0d358a92e257fc67a922b8920d296c08b3f5bb893e64240d01"
+      "bytes": 19075,
+      "sha256": "a94faeed461da4333936ef9d80104d2f06a2fa6b3a2ccd6a3851ff78df124416"
     },
     {
       "root": "source",
@@ -2070,6 +2070,22 @@
       "group": "application",
       "bytes": 1270,
       "sha256": "5e7a3b571f9b6d2f15491e9ecbd565948c354720117ce30a358e7462013dbdb2"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/aac-range-qualification.cjs",
+      "target": "electron/resources/app/linux-blue/aac-range-qualification.cjs",
+      "group": "application",
+      "bytes": 3172,
+      "sha256": "43eb35001e6040b34fdd833698921c36b4a16268ef93f7f91a361fa56efe669c"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/aac-range-qualification.json",
+      "target": "electron/resources/app/linux-blue/aac-range-qualification.json",
+      "group": "application",
+      "bytes": 24514,
+      "sha256": "aa127a854c3faff7d928905da4ad605630154a5f8e96a845873f79ade7f27517"
     }
   ]
 }

@@ -1,0 +1,119 @@
+{
+  "status": "accepted-saved-evidence-A-passed-B-pre-encode-procedure-blocked",
+  "sourceCommit": "852afc3c83c4475a393696e5b206a22e0f17231e",
+  "all946SourceBytesVerified": true,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "twoToolsAndSevenHostDependenciesRehashed": true,
+  "sourceManifestSha256": "5f07ac5187f6ac6c4a06b166fb75ca3b35079f9286ab5f98a9f9d504cc30c670",
+  "runtimeManifestSha256": "744272e9e7f2aa8f443162031284521a173bed0394028bba8de5438249652cc4",
+  "summarySha256": "6e112d57547b99c501a89c6775a9271b36a7cf75114f0751d6755c07ef5bb191",
+  "terminalReceiptSha256": "ab1cf985e021b98b61ca90a8ee803197f0f4f2d4396f34afea52e52b835a1d87",
+  "outerExitCode": 1,
+  "runtimeClosed": true,
+  "totalActuallySpawnedAndClosed": 17,
+  "liveAtEnd": 0,
+  "peakParallelChildren": 1,
+  "A": {
+    "status": "passed-one-bounded-cell",
+    "rangeUs": [
+      613000,
+      2721000
+    ],
+    "resolution": "source 1280x720",
+    "sourceSha256": "67092cd7829a3988aca7c41491b42d13a993a8a8f7ebeb589899159451d997a6",
+    "outputSha256": "33748c906db2dea3a4485101722df9b1e1b776d1d8e2a710e14bf7e8200fd749",
+    "outputBytes": 813066,
+    "actualChildren": 14,
+    "strictDecodeExitedZero": true,
+    "retainedSpoolsVerified": 3,
+    "rawTelemetryStreamsRehashed": 2,
+    "frozenEndpointBounds": {
+      "videoTimestampUs": 1067,
+      "audioTimestampUs": 22355,
+      "avSyncUs": 23422,
+      "durationUs": 1088,
+      "sampleCount": 1023
+    },
+    "video": {
+      "sourceFrameCount": 63,
+      "outputFrameCount": 63,
+      "comparedFrames": 63,
+      "firstSourcePtsUs": 633333,
+      "lastSourcePtsUs": 2700000,
+      "lastSourceDurationUs": 33333,
+      "firstOutputPtsUs": 20000,
+      "lastOutputPtsUs": 2087000,
+      "lastOutputDurationUs": 33000,
+      "maxRebasedTimestampErrorUs": 334
+    },
+    "audio": {
+      "inputIndex": 1,
+      "sourceSampleCount": 101184,
+      "outputSampleCount": 101376,
+      "firstSourcePtsUs": 613000,
+      "lastSourceEndUs": 2721000,
+      "firstOutputPtsUs": 0,
+      "lastOutputEndUs": 2112333,
+      "encoderDelaySamples": 1024,
+      "discardPaddingSamples": 0
+    },
+    "audioMaximumComparedClockErrorUs": 334,
+    "audioInteriorBoundUs": 1042,
+    "sourcePcmSha256": "122f5c01f73ee751198a35371c72f5f628d8fb7603a053bb406cb0bdd66d17f5",
+    "outputPcmSha256": "e546285c5437d7bf2736d0e51de7d6d70d1a174296f3561eda09259d3c90f268",
+    "signal": {
+      "savedPcmRecomputedWithExactPureComparator": true,
+      "sixWindowPairs": 6,
+      "twoChannels": true,
+      "frozenThresholds": {
+        "format": "f32le-interleaved",
+        "channels": 2,
+        "sampleRate": 48000,
+        "windowSamples": 4096,
+        "lagRadiusSamples": 2048,
+        "coarseLagStep": 16,
+        "coarseSampleStride": 8,
+        "fractions": [
+          0,
+          0.25,
+          0.5,
+          0.75,
+          1
+        ],
+        "minimumCorrelation": 0.9,
+        "maximumNormalizedRmsError": 0.45,
+        "maximumCrossChannelCorrelation": 0.8,
+        "minimumChannelSeparation": 0.1,
+        "maximumAcceptedLagSamples": 0,
+        "tieEpsilon": 1e-12
+      },
+      "minimumSameChannelCorrelation": 0.9999406023291193,
+      "maximumNormalizedRmsError": 0.011072564039726892,
+      "allEvaluatedBestLagSamples": 0
+    },
+    "truthfulLimits": "Lossy AAC not sample-identical. 192 extra decoded output tail samples under frozen final-block bound are not signaled discard; no source shortage. 1024 signaled priming and zero discard observed; not a blanket tolerance. x265 CPU mask/no-thread-pool warnings retained."
+  },
+  "B": {
+    "status": "failed-retained-before-plan-or-encode",
+    "proposedRangeUs": [
+      28013000,
+      30087000
+    ],
+    "sourceSha256": "0037a3a3440d86a12456ed139fcd77c2e63d3b44d7709a0dba092fd43fb2dde6",
+    "ledgerAllowedInspectRequests": 2,
+    "actualInspectRequests": 4,
+    "inspectChildrenActuallySpawned": 2,
+    "generateChildren": 1,
+    "totalActuallyClosed": 3,
+    "middleAndEndPreSpawnRefusals": "ERR_ASSERTION / per-phase inspect ledger",
+    "resultingConservativeInspectionFailure": "AMBIGUOUS_COLOR",
+    "encodeChildren": 0
+  },
+  "publicationAuthorized": false,
+  "catalogActivated": false,
+  "limits": [
+    "No media subprocess, decode, regeneration, retry, product route or native launch during audit.",
+    "Pure signal recomputation read the retained f32 bytes only; no real-codec B inference or broad player/content/quality claim.",
+    "No second endpoint alignment acceptance; A alone cannot activate a family."
+  ]
+}

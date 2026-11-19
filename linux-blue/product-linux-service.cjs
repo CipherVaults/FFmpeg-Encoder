@@ -12,6 +12,8 @@ const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
 const { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
+const { describeEncodeOperationSource } = require('../src/encode-operation.cjs');
+const { loadAacRangeQualification } = require('./aac-range-qualification.cjs');
 const { loadQualification, verifyProductSources } = require('./product-linux-qualification.cjs');
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
 const sha = b => createHash('sha256').update(b).digest('hex');
@@ -67,8 +69,25 @@ function loaderGuard() {
 }
 // The four explicit families independently match the explicit request and source.
 // Do not silently fall back to the ordinary compatibility encode path.
+function aacRequest(plan) { return plan?.contract?.range?.kind === 'range' && plan?.contract?.audio?.policy === 'precision-aac'; }
+function requireAacCadence(probe, resolution) {
+  const video = probe?.streams?.find(stream => stream.codec_type === 'video');
+  const applicability = loadAacRangeQualification().applicability;
+  need(applicability.geometries.some(g => g.sourceWidth === video?.width && g.sourceHeight === video?.height && g.resolution === resolution), 'This AAC range source/resolution combination is not yet qualified.');
+  need(video?.avg_frame_rate === '30/1' && video?.r_frame_rate === '30/1',
+    'AAC precision ranges currently require explicitly qualified CFR 30 fps.');
+}
 class ProductFamilySelector extends ClockQualifiedFamilySelector {
+  orientationQualification(options) {
+    if (options.request?.range && options.request?.audioPolicy === 'precision-aac') requireAacCadence(options.inspection?.probe, options.request.resolution);
+    return super.orientationQualification(options);
+  }
+  requireCurrent(token, options) {
+    if (aacRequest(options.plan)) requireAacCadence(describeEncodeOperationSource(options.plan), options.plan.contract.request.resolution);
+    return super.requireCurrent(token, options);
+  }
   select(options) {
+    if (aacRequest(options.plan)) requireAacCadence(describeEncodeOperationSource(options.plan), options.plan.contract.request.resolution);
     const token = super.select(options);
     need(token !== null, 'Choose an explicitly qualified product family; compatibility fallback is unavailable.');
     return token;
@@ -112,6 +131,7 @@ class OwnedCandidateService extends CandidateTrimService {
   }
 }
 function createProductSelector(report) {
+    const aac = loadAacRangeQualification();
     const { qualification, timingQualification } = report.family;
     return new ProductFamilySelector({ policyIdentity: 'product-range1440-range1080-full1080-copy-and-uhd-full-candidate', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
@@ -128,7 +148,7 @@ function createProductSelector(report) {
       id: UHD_FULL_FAMILY_ID, resourcePolicy: UHD_FULL_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification: report.uhdFull.family.qualification, timingQualification: report.uhdFull.family.timingQualification,
       evidenceIds: report.uhdFull.family.evidenceIds,
-    }] });
+    }, aac.family] });
 }
 async function createLinuxProductService(options) {
   need(options && Object.getPrototypeOf(options) === Object.prototype, 'Inert main-owned options required.');

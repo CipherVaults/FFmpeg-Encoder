@@ -105,10 +105,10 @@ test('Windows construction matches frozen reviewed baseline except declaration s
  assert(current.includes('let nativeFilesFailure = null;'));
 });
 
-test('four candidate families keep separate exact qualifiers without changing the range record', async()=>{
+test('five candidate families keep separate exact qualifiers without changing the range record', async()=>{
  const f=serviceFixture(),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
  const families=s.options.operationQualifications.options.families;
- assert.equal(families.length,4);
+ assert.equal(families.length,5);assert.equal(families[4].id,'short-sdr-range-v1');
  assert.equal(families[0].id,'cfr-sdr-range-resize1440-flac-v1');
  assert.equal(families[1].id,'cfr-sdr-full-resize-copy-v1');
  assert.equal(families[2].id,'cfr-sdr-range-resize-flac-v1');
@@ -205,7 +205,7 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
  assert.equal(Object.keys(original).length,97);
  const successor=require(qualificationFile).SERVICE_SUCCESSOR;assert.equal(successor.nativeProof,null);let changed=0;
- for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);assert.equal(actual,successor.currentEncoderService.sha256);changed++;}else if(successor.uhdSourceDeltas[name]){assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,4);
+ for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);const aac=require(qualificationFile).AAC_SERVICE_SUCCESSOR;assert.deepEqual(aac.priorCurrentSource,successor.currentEncoderService);assert.equal(aac.nativeProof,null);assert.equal(actual,aac.currentSource.sha256);changed++;}else if(successor.uhdSourceDeltas[name]){assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,4);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

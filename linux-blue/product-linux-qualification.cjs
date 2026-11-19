@@ -13,8 +13,8 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "bytes": 11770,
-    "sha256": "957f2c6778ad41064adbb7df8c5ebe4e358d753c81a6e12036ed7d0699ce4384"
+    "bytes": 13304,
+    "sha256": "ffd0abed05bb5e568cef426d9f961fac2ba79d817e0ae2bdf5db1139d3cf7f7c"
   },
   "linux-blue/product-linux-shell.cjs": {
     "bytes": 5805,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 160678,
-    "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+    "bytes": 164039,
+    "sha256": "b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "aac599d13d18be757cb83874122c5fb3847060337aeb94116946667d1d25b961"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 18604,
-    "sha256": "63d7666ff6106a0d358a92e257fc67a922b8920d296c08b3f5bb893e64240d01"
+    "bytes": 19075,
+    "sha256": "a94faeed461da4333936ef9d80104d2f06a2fa6b3a2ccd6a3851ff78df124416"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
@@ -563,6 +563,14 @@ const SOURCE_PINS = {
   "linux-blue/h265-ordinary-policy.cjs": {
     "bytes": 1270,
     "sha256": "5e7a3b571f9b6d2f15491e9ecbd565948c354720117ce30a358e7462013dbdb2"
+  },
+  "linux-blue/aac-range-qualification.cjs": {
+    "bytes": 3172,
+    "sha256": "43eb35001e6040b34fdd833698921c36b4a16268ef93f7f91a361fa56efe669c"
+  },
+  "linux-blue/aac-range-qualification.json": {
+    "bytes": 24514,
+    "sha256": "aa127a854c3faff7d928905da4ad605630154a5f8e96a845873f79ade7f27517"
   }
 };
 const CLOSED_RECORD = {
@@ -893,7 +901,22 @@ const SERVICE_SUCCESSOR = {
     }
   }
 };
-frozen(SOURCE_PINS); frozen(CLOSED_RECORD); frozen(SERVICE_SUCCESSOR);
+const AAC_SERVICE_SUCCESSOR = {
+  "scope": "explicit-reviewed-AAC-entry-controls-successor-not-historical-requalification",
+  "priorCurrentSource": {
+    "bytes": 160678,
+    "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+  },
+  "currentSource": {
+    "bytes": 164039,
+    "sha256": "b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2"
+  },
+  "functionalReviewSha256": "f01f99c4d6b970bd477c766bfa297068c4b8b563447cd199d135377dab62f9a3",
+  "basis": "Default per-entry controls preserve existing service globals. Linux fixed AAC uses copied frozen prepared controls, checked before ownership, after awaited currentness and at execution; no global deadline widening. Original historical SERVICE_SUCCESSOR and numerical producer maps remain unchanged.",
+  "evidence": "Fixed separately audited A and B records in aac-range-qualification.json;1080 source is mechanism-supported rather than a third acquired cell.",
+  "nativeProof": null
+};
+frozen(SOURCE_PINS); frozen(CLOSED_RECORD); frozen(SERVICE_SUCCESSOR); frozen(AAC_SERVICE_SUCCESSOR);
 const stamp = s => ['dev','ino','nlink','size','mtimeNs','ctimeNs','birthtimeNs'].map(k => String(s[k]));
 function ordinaryRead(root, relative, cap) {
   assert(path.isAbsolute(root) && path.resolve(root) === root && fs.realpathSync(root) === root);
@@ -948,4 +971,4 @@ function loadQualification() {
   return qualification;
 }
 
-module.exports = { loadQualification, readCompactQualification, verifyProductSources, SERVICE_SUCCESSOR };
+module.exports = { loadQualification, readCompactQualification, verifyProductSources, SERVICE_SUCCESSOR, AAC_SERVICE_SUCCESSOR };

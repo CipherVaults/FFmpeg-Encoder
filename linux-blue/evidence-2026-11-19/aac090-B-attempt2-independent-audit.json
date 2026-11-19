@@ -1,0 +1,455 @@
+{
+  "schema": "independent-saved-aac-B-audit/v1",
+  "status": "accepted-experimental-B-only-not-activation",
+  "method": "Saved file hashes/identities, source/runtime closure, original collector and telemetry, and exact recomputation of saved float PCM comparator; no media or probe invoked.",
+  "source": {
+    "commit": "852afc3c83c4475a393696e5b206a22e0f17231e",
+    "tree": "3b1871c6c584bf13c6e49bbac31c4453cbead015",
+    "filesVerified": 946
+  },
+  "runtime": {
+    "identity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+    "toolsVerified": 2,
+    "dependenciesVerified": 7
+  },
+  "summarySha256": "f4913304a49386b4052c8f9366a78da98c29e858ee6188929c979ff75ca8dc34",
+  "terminalReceiptSha256": "1fbc191ec9f3139922d1a1e103f697e29b77fb8a8f4cc622d9d04d1a13bc92da",
+  "spec": {
+    "id": "B",
+    "seconds": 31,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "resolution": "720",
+    "startUs": 28013000,
+    "endUs": 30087000,
+    "frequency": 617
+  },
+  "input": {
+    "bytes": 22082739,
+    "sha256": "0037a3a3440d86a12456ed139fcd77c2e63d3b44d7709a0dba092fd43fb2dde6",
+    "completeVideoFrames": 930,
+    "completeAudioSamples": 1488000
+  },
+  "output": {
+    "bytes": 504696,
+    "sha256": "34badbdb061287d69dfa147350a49758c8a97cf8879fe2567c7e14c3a413818b",
+    "width": 1280,
+    "height": 720
+  },
+  "decodedEvidence": {
+    "video": {
+      "sourceFrameCount": 62,
+      "outputFrameCount": 62,
+      "comparedFrames": 62,
+      "firstSourcePtsUs": 28033333,
+      "lastSourcePtsUs": 30066667,
+      "lastSourceDurationUs": 33333,
+      "firstOutputPtsUs": 20000,
+      "lastOutputPtsUs": 2054000,
+      "lastOutputDurationUs": 33000,
+      "maxRebasedTimestampErrorUs": 334
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "sourceSampleCount": 99552,
+        "outputSampleCount": 100352,
+        "firstSourcePtsUs": 28013000,
+        "lastSourceEndUs": 30087000,
+        "firstOutputPtsUs": 0,
+        "lastOutputEndUs": 2090333,
+        "encoderDelaySamples": 1024,
+        "discardPaddingSamples": 0
+      }
+    ],
+    "containerClock": {
+      "representation": "matroska-packet-end-plus-codec-delay",
+      "streams": [
+        {
+          "outputIndex": 0,
+          "packetCount": 62,
+          "packetEnd": {
+            "n": "2087",
+            "d": "1000"
+          },
+          "codecDelaySamples": 0,
+          "sampleRate": null
+        },
+        {
+          "outputIndex": 1,
+          "packetCount": 99,
+          "packetEnd": {
+            "n": "2074",
+            "d": "1000"
+          },
+          "codecDelaySamples": 1024,
+          "sampleRate": 48000
+        }
+      ]
+    }
+  },
+  "timelineComparisons": {
+    "video": {
+      "comparedFrames": 62,
+      "maximumDurationErrorUs": 334,
+      "toleranceUs": 1067
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "mode": "precision-aac",
+        "selectedSourceGaps": 0,
+        "unmatchedSourceTailSamples": 0,
+        "unmatchedOutputTailSamples": 800,
+        "comparedSamples": 99552,
+        "intersectedSpans": 195,
+        "maximumElapsedClockErrorUs": 334,
+        "toleranceUs": 1042,
+        "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+        "contentIdentity": false
+      }
+    ]
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "Audio 1: measured decoded sample-count difference 800; not sample-identical."
+    ],
+    "validation": "decoded-operation-contract",
+    "qualificationEvidenceId": "aac090-B:endpoints",
+    "timing": {
+      "timeline": "request-relative",
+      "requested": {
+        "startUs": 28013000,
+        "endUs": 30087000
+      },
+      "resolved": {
+        "startUs": 28013000,
+        "endUs": 30087000
+      },
+      "video": {
+        "startUs": 28033333,
+        "endUs": 30100000,
+        "frames": 62,
+        "outputStartUs": 20000,
+        "outputEndUs": 2087000
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-aac",
+          "startUs": 28013000,
+          "endUs": 30087000,
+          "outputStartUs": 0,
+          "outputEndUs": 2090333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "sampleCountDifference": 800
+        }
+      ]
+    }
+  },
+  "telemetryValidation": {
+    "valid": true,
+    "scope": "encoder-input-count-and-timeline-only",
+    "streams": [
+      {
+        "outputIndex": 0,
+        "kind": "video",
+        "unknownInputRecords": "0",
+        "correspondence": "reported-input-and-independent-selected-source"
+      },
+      {
+        "outputIndex": 1,
+        "kind": "audio",
+        "unknownInputRecords": "0",
+        "correspondence": "reported-input-and-independent-selected-source"
+      }
+    ],
+    "doesNotEstablish": [
+      "video-pixel-identity",
+      "lossless-audio-identity",
+      "last-video-frame-duration",
+      "output-or-publication-validity"
+    ]
+  },
+  "signalRecomputedExactly": true,
+  "signal": {
+    "scope": "channel-specific-gross-signal-and-decoder-alignment-only",
+    "thresholdsFrozenBeforeEncode": {
+      "format": "f32le-interleaved",
+      "channels": 2,
+      "sampleRate": 48000,
+      "windowSamples": 4096,
+      "lagRadiusSamples": 2048,
+      "coarseLagStep": 16,
+      "coarseSampleStride": 8,
+      "fractions": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "minimumCorrelation": 0.9,
+      "maximumNormalizedRmsError": 0.45,
+      "maximumCrossChannelCorrelation": 0.8,
+      "minimumChannelSeparation": 0.1,
+      "maximumAcceptedLagSamples": 0,
+      "tieEpsilon": 1e-12
+    },
+    "commonSamples": 99552,
+    "sourceSamples": 99552,
+    "outputSamples": 100352,
+    "windows": [
+      {
+        "startSample": 0,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9994941861668872,
+              "normalizedRmsError": 0.032030548439740916
+            },
+            "crossChannelCorrelation": 0.003235603136789769,
+            "bestLag": null,
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9997792027991123,
+              "normalizedRmsError": 0.02130084215999741
+            },
+            "crossChannelCorrelation": 0.005197597205101449,
+            "bestLag": null,
+            "valid": true
+          }
+        ]
+      },
+      {
+        "startSample": 2048,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999993745153746,
+              "normalizedRmsError": 0.0011190743620609215
+            },
+            "crossChannelCorrelation": -0.011292483856498043,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999993745153746,
+              "normalizedRmsError": 0.0011190743620609215
+            },
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.999999684323394,
+              "normalizedRmsError": 0.0010051225174372803
+            },
+            "crossChannelCorrelation": -0.011319824080824187,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.999999684323394,
+              "normalizedRmsError": 0.0010051225174372803
+            },
+            "valid": true
+          }
+        ]
+      },
+      {
+        "startSample": 24888,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999994734396028,
+              "normalizedRmsError": 0.0010788388616377188
+            },
+            "crossChannelCorrelation": -0.0037293789873229367,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999994734396028,
+              "normalizedRmsError": 0.0010788388616377188
+            },
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996662232384,
+              "normalizedRmsError": 0.0008486728703978977
+            },
+            "crossChannelCorrelation": -0.0037405622854502526,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996662232384,
+              "normalizedRmsError": 0.0008486728703978977
+            },
+            "valid": true
+          }
+        ]
+      },
+      {
+        "startSample": 47728,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999997005115793,
+              "normalizedRmsError": 0.0007772629746917275
+            },
+            "crossChannelCorrelation": -0.008906601068523614,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999997005115793,
+              "normalizedRmsError": 0.0007772629746917275
+            },
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999995580905219,
+              "normalizedRmsError": 0.0009518391325707144
+            },
+            "crossChannelCorrelation": -0.008888525502509551,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999995580905219,
+              "normalizedRmsError": 0.0009518391325707144
+            },
+            "valid": true
+          }
+        ]
+      },
+      {
+        "startSample": 70568,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999994477773401,
+              "normalizedRmsError": 0.0010754322614384378
+            },
+            "crossChannelCorrelation": -0.008347474978685158,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999994477773401,
+              "normalizedRmsError": 0.0010754322614384378
+            },
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996070442286,
+              "normalizedRmsError": 0.0009083397761061414
+            },
+            "crossChannelCorrelation": -0.008338556742569458,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996070442286,
+              "normalizedRmsError": 0.0009083397761061414
+            },
+            "valid": true
+          }
+        ]
+      },
+      {
+        "startSample": 93408,
+        "samples": 4096,
+        "channels": [
+          {
+            "channel": 0,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996273688511,
+              "normalizedRmsError": 0.0008792299043599539
+            },
+            "crossChannelCorrelation": 0.006172931815503936,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999996273688511,
+              "normalizedRmsError": 0.0008792299043599539
+            },
+            "valid": true
+          },
+          {
+            "channel": 1,
+            "zeroLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999995481846944,
+              "normalizedRmsError": 0.0009556992281600824
+            },
+            "crossChannelCorrelation": 0.006162157302943586,
+            "bestLag": {
+              "lagSamples": 0,
+              "correlation": 0.9999995481846944,
+              "normalizedRmsError": 0.0009556992281600824
+            },
+            "valid": true
+          }
+        ]
+      }
+    ],
+    "valid": true,
+    "limitations": [
+      "No fitted shift or independent timestamp zeroing is applied.",
+      "First common window starts at sample0; lag searches use fixed2048-sample margins.",
+      "AAC waveform identity, inaudibility, perceptual quality and unexamined signal content are not established."
+    ]
+  },
+  "counts": {
+    "generate": 1,
+    "inspect": 4,
+    "encode": 1,
+    "outputProbe": 1,
+    "sourcePcm": 1,
+    "outputPcm": 1,
+    "collect": 6,
+    "strictDecode": 1
+  },
+  "census": {
+    "spawned": 16,
+    "closed": 16,
+    "live": 0,
+    "maximum": 1
+  },
+  "runtimeClosed": true,
+  "exitCode": 0,
+  "ownedBytes": 24537158,
+  "warnings": [
+    "x265 [error]: Failed to genrate CPU mask\nx265 [warning]: No thread pool allocated, --wpp disabled\nx265 [warning]: No thread pool allocated, --lookahead-slices disabled\n"
+  ],
+  "publicationAuthorized": false,
+  "catalogActivated": false,
+  "limitations": [
+    "This is the separate B-only attempt 2; prior failed B remains failed and unchanged. Accepted A is separate evidence, not rerun here.",
+    "62 selected frames and 99,552 selected audio samples; decoded AAC contains 100,352 samples, including 800 terminal excess samples within the predeclared 1,023-sample allowance. This is not waveform or sample identity.",
+    "Decoder-signalled delay is 1,024 samples and discard padding is zero; the 800 excess samples are not relabelled as signalled padding.",
+    "Clock tolerances were derived from source ticks and fixed output tick, not fitted to this result. Signal tests establish only sampled channel-specific gross alignment, not perceptual quality or arbitrary input coverage.",
+    "No product admission, catalogue activation, publication authority, GUI acceptance or general AAC qualification granted.",
+    "No new media execution; child closure is retained runner evidence, not an independent historical OS census."
+  ]
+}

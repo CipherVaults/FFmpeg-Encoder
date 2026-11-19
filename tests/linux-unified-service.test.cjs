@@ -150,3 +150,26 @@ test('H265 ordinary binding and mandatory guard survive deferred execution then 
  await service.taskPromise;assert.equal(service.executionBinding,null);assert.equal(service.ordinaryJobGuard,null);assert.equal(service.generation.snapshot().phase,null);
  // Fake runtime deliberately refuses any media execution; this tests ownership, not an encode.
 });
+
+test('actual AAC Prepare and Start bind frozen per-entry controls without widening service defaults',async t=>{
+ const {service,root}=await setup(t,{genuineSelector:true});const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);
+ const file=path.join(input,'source.mp4');await fsp.writeFile(file,'Independent inert prepared input, not acquired media.');
+ const probe=measuredProbe((await fsp.stat(file)).size);Object.assign(probe.streams[0],{width:1280,height:720,duration:'8',duration_ts:122880});Object.assign(probe.streams[1],{codec_name:'aac',profile:'LC',sample_fmt:'fltp',duration:'8',duration_ts:384000});probe.format.duration='8';
+ service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},duration:8,summary:{selectedVideoIndex:0,codec:'h264',width:1280,height:720,bitDepth:8}});
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+ const mutableBudget=structuredClone(require('../src/operation-controls.cjs').EVIDENCE_BUDGET),resolve=service.resolveEncodeControls.bind(service);
+ service.resolveEncodeControls=(plan,settings)=>{const controls=resolve(plan,settings);return controls.budget?{...controls,budget:mutableBudget}:controls;};
+ const first=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:{profileId:'h265-cpu',preset:'slow',quality:25}});
+ const ready=await service.updateFileOperations({planId:first.planId,draftId:first.operationDraft.id,revision:first.operationDraft.revision,fileIds:[first.items[0].id],overrides:{resolution:'source',range:{startUs:613000,endUs:2721000},audioPolicy:'precision-aac'}});
+ assert.equal(ready.items[0].status,'ready',ready.items[0].reason);const entry=service.plan.entries.get(ready.items[0].id);
+ assert.equal(entry.encodeControls.executionBudgetMs,600000);assert(Object.isFrozen(entry.encodeControls));assert(Object.isFrozen(entry.encodeControls.budget));assert(Object.isFrozen(entry.encodeControlsSettings));
+ assert.equal(service.operationDeadlineMs,120000);assert.equal(service.operationEvidenceBudget,null);assert.equal(service.ordinaryJobGuard,null);
+ assert.notEqual(entry.encodeControls.budget,mutableBudget);const max=mutableBudget.maxRecords;mutableBudget.maxRecords=1;assert.equal(entry.encodeControls.budget.maxRecords,max);assert.throws(()=>service.requirePreparedEncodeControls(entry),{code:'OPERATION_CONTROLS_STALE'});const beforePlan=service.plan,beforeTask=service.taskPromise,beforeGeneration=service.generation,beforeDraft=service.plan.draft.snapshot(),beforeItems=structuredClone(service.state.items);
+ await assert.rejects(service.startBatch({planId:ready.planId,fileIds:[ready.items[0].id]}),{code:'OPERATION_CONTROLS_STALE'});
+ assert.equal(service.plan,beforePlan);assert.equal(service.taskPromise,beforeTask);assert.equal(service.generation,beforeGeneration);assert.equal(service.executionBinding,null);assert.equal(service.ordinaryJobGuard,null);assert.deepEqual(service.plan.draft.snapshot(),beforeDraft);assert.deepEqual(service.state.items,beforeItems);assert.equal(service.state.phase,'ready');mutableBudget.maxRecords=max;
+ let release,entered;const began=new Promise(r=>entered=r);const originalExecute=service.execute;
+ service.execute=async()=>{assert.equal(service.executionBinding.kind,'measured');assert.equal(service.ordinaryJobGuard,null);entered();await new Promise(r=>release=r);assert.equal(service.requirePreparedEncodeControls(entry).executionBudgetMs,600000);service.generation.settle();service.state.phase='completed';};
+ await service.startBatch({planId:ready.planId,fileIds:[ready.items[0].id]});await began;assert.equal(service.executionBinding.entry,entry);release();await service.taskPromise;service.execute=originalExecute;
+ await service.cancelCurrent();assert.equal(service.plan,null);
+});

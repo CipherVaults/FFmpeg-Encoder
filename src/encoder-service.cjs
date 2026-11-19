@@ -1,3 +1,4 @@
+const { isDeepStrictEqual } = require('node:util');
 const { EventEmitter } = require('node:events');
 const fs = require('node:fs/promises');
 const { createReadStream } = require('node:fs');
@@ -51,6 +52,29 @@ const REMUX_EXTENSIONS = new Set([...EXTENSIONS, '.ts']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
+// Controls are main-owned inert data. Never retain mutable override references.
+function frozenControlCopy(value, depth = 0) {
+  if (depth > 12) throw fail('OPERATION_CONTROLS_INVALID', 'Operation controls are too deeply nested.');
+  if (value === null || typeof value === 'string' || typeof value === 'boolean' || (typeof value === 'number' && Number.isFinite(value))) return value;
+  if (!value || typeof value !== 'object' || Object.getPrototypeOf(value) !== Object.prototype)
+    throw fail('OPERATION_CONTROLS_INVALID', 'Operation controls must be inert records.');
+  const copy = {};
+  for (const key of Reflect.ownKeys(value)) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (typeof key !== 'string' || !Object.hasOwn(descriptor, 'value')) throw fail('OPERATION_CONTROLS_INVALID', 'Operation control accessors are not admitted.');
+    Object.defineProperty(copy, key, { value: frozenControlCopy(descriptor.value, depth + 1), enumerable: true });
+  }
+  return Object.freeze(copy);
+}
+function encodeControls(value) {
+  const copy = frozenControlCopy(value);
+  if (!copy || Object.keys(copy).sort().join(',') !== 'budget,executionBudgetMs'
+      || !(copy.budget === null || typeof copy.budget === 'object')
+      || !Number.isSafeInteger(copy.executionBudgetMs) || copy.executionBudgetMs <= 0 || copy.executionBudgetMs > 1800000)
+    throw fail('OPERATION_CONTROLS_INVALID', 'A finite main-owned Encode control contract is required.');
+  return copy;
+}
+
 // Ordinary/legacy encode defaults remain unchanged. Main-private Remux or a
 // genuine plan-bound proportional encode selection supplies its own limits.
 const LEGACY_OPERATION_COSTS = Object.freeze({ pipeBytes: 256 * 1024 * 1024, evidenceBytes: 256 * 1024 * 1024,
@@ -1070,15 +1094,22 @@ class EncoderService extends EventEmitter {
         throw error;
       }
       if (this.operationTelemetry) operationPlan = withEncodeOperationTelemetry(operationPlan);
+      const preparedControls = operationPlan.compatibilityPath || encodePreservationSelection ? null
+        : encodeControls(this.resolveEncodeControls(operationPlan, settings));
+      const preparedControlSettings = preparedControls ? frozenControlCopy(settings) : null;
       const operationRuntimeToken = !operationPlan.compatibilityPath && this.operationRuntime
         ? await this.operationRuntime.observe({ hardware: profile.hardware, signal }) : null;
       const runtimeObservation = operationRuntimeToken ? this.operationRuntime.snapshot(operationRuntimeToken) : null;
       if (runtimeObservation && runtimeObservation.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current executable pair differs from the prepared runtime.');
+      if (preparedControls && (this.plan !== preparedPlan || signal.aborted || !isDeepStrictEqual(settings, preparedPlan.settings)
+          || !isDeepStrictEqual(preparedControlSettings, settings)
+          || !isDeepStrictEqual(preparedControls, encodeControls(this.resolveEncodeControls(operationPlan, settings)))))
+        throw fail('OPERATION_CONTROLS_STALE', 'Preparation ownership changed. Prepare this batch again.');
       const qualificationBindings = operationPlan.compatibilityPath || encodePreservationSelection ? null : {
         plan: operationPlan, settings, sourceIdentity: identity,
         sourceProbeFingerprint: fingerprintEncodeSource(inspection.probe), runtimeIdentity: this.runtimeIdentity,
         environment: runtimeObservation ? runtimeObservation.environment : this.operationEnvironment ? clone(this.operationEnvironment()) : null,
-        budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs,
+        budget: preparedControls.budget, executionBudgetMs: preparedControls.executionBudgetMs,
       };
       const qualificationSelection = qualificationBindings
         ? this.operationQualifications.select(qualificationBindings) : null;
@@ -1094,6 +1125,8 @@ class EncoderService extends EventEmitter {
       this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
         reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
         outputId, generationDescription, operationPlan, preparedArgs, qualificationBindings, qualificationSelection, operationRuntimeToken,
+        ...(preparedControls ? { encodeControls: preparedControls, encodeControlsOwner: preparedPlan,
+          encodeControlsSettings: preparedControlSettings } : {}),
         ...(encodePreservationSelection ? { encodePreservation: true, encodePreservationSelection, encodePreservationOwner: this.plan,
           preparedPlanId: this.plan.id, encodePreservationRequest: item.operationRequest } : {}) });
       if (encodePreservationSelection) requireEncodePreservation.call(this, this.plan.entries.get(item.id));
@@ -1651,6 +1684,20 @@ class EncoderService extends EventEmitter {
     }
   }
 
+  resolveEncodeControls(operationPlan, settings) {
+    return { budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
+  }
+
+  requirePreparedEncodeControls(entry) {
+    if (!entry?.operationPlan || entry.operationPlan.compatibilityPath || entry.encodePreservation || entry.remux || entry.hdr || entry.native || entry.vendor) return null;
+    const expected = encodeControls(this.resolveEncodeControls(entry.operationPlan, this.plan.settings));
+    if (!entry.encodeControls || entry.encodeControlsOwner !== this.plan
+        || !isDeepStrictEqual(entry.encodeControlsSettings, this.plan.settings)
+        || !isDeepStrictEqual(entry.encodeControls, expected))
+      throw fail('OPERATION_CONTROLS_STALE', 'Operation controls changed. Prepare this batch again.');
+    return entry.encodeControls;
+  }
+
   startBatch(request) {
     objectKeys(request, ['planId', 'fileIds']);
     this.requireIdle();
@@ -1667,6 +1714,7 @@ class EncoderService extends EventEmitter {
         vendorGuard('start-entry', Boolean(entry?.vendor), 'INVALID_PLAN');
       }
       if (entry?.vendor) requireVendorArgs(entry);
+      this.requirePreparedEncodeControls(entry);
       requireEncodePreservation.call(this, this.plan.entries.get(fileId));
       const key = item.outputName.toLowerCase();
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
@@ -1712,7 +1760,8 @@ class EncoderService extends EventEmitter {
           const sourceFingerprint = entry.remux ? remuxProbeFingerprint : entry.hdr ? fingerprintHdrProbe : fingerprintEncodeSource;
           const qualificationBindings = () => ({ ...entry.qualificationBindings, settings: this.plan.settings,
             sourceIdentity: entry.fingerprint, sourceProbeFingerprint: sourceFingerprint(entry.inspection.probe),
-            runtimeIdentity: this.runtimeIdentity, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs,
+            runtimeIdentity: this.runtimeIdentity,
+            ...(this.requirePreparedEncodeControls(entry) || { budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs }),
             environment: entry.operationRuntimeToken ? this.operationRuntime.snapshot(entry.operationRuntimeToken).environment
               : this.operationEnvironment ? clone(this.operationEnvironment()) : null });
           const requireQualification = () => {

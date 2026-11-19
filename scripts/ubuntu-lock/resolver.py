@@ -1,10 +1,12 @@
 """One-shot official Ubuntu metadata and simulation only. No package installation."""
-import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal
+import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='7ba5174e3d20833b69d1ce28f164db9b8f6d1f78'
+PARENT='6c87d1313660c758ebf2d0ca0c38860dbb38277b'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
+STATUS_CAP=32*1024**2
+LIVE_DB=pathlib.Path('/var/lib/dpkg')
 
 def sha(b):return hashlib.sha256(b).hexdigest()
 def authority(env,event):
@@ -158,6 +160,51 @@ def compare_baseline(query,installed,result):
   raise AssertionError('BASELINE_SET_MISMATCH')
 
 
+def db_identity(st):
+ return st.st_dev,st.st_ino,st.st_mode,st.st_size,st.st_mtime_ns,st.st_ctime_ns
+
+def read_status(path):
+ assert path.resolve(strict=True)==path,'BASELINE_STATUS_UNSAFE'
+ fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+ with os.fdopen(fd,'rb') as stream:
+  before=os.fstat(stream.fileno())
+  assert stat.S_ISREG(before.st_mode),'BASELINE_STATUS_UNSAFE'
+  assert before.st_size<=STATUS_CAP,'BASELINE_STATUS_BOUND'
+  data=stream.read(STATUS_CAP+1)
+  assert len(data)<=STATUS_CAP,'BASELINE_STATUS_BOUND'
+  after=os.fstat(stream.fileno())
+  assert db_identity(before)==db_identity(after)==db_identity(path.lstat()) and len(data)==after.st_size,'BASELINE_STATUS_CHANGED'
+ return data
+
+def require_empty_updates(result):
+ path=LIVE_DB/'updates'
+ assert path.resolve(strict=True)==path,'BASELINE_UPDATES_UNSAFE'
+ fd=os.open(path,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+ try:
+  before=os.fstat(fd)
+  with os.scandir(fd) as rows:
+   if next(rows,None) is not None:
+    # A lower bound, not a scan or disclosure of pending entry names.
+    result['pendingUpdateEntriesAtLeast']=1
+    raise AssertionError('BASELINE_UPDATES_PENDING')
+  assert db_identity(before)==db_identity(os.fstat(fd))==db_identity(path.lstat()),'BASELINE_UPDATES_CHANGED'
+ finally:os.close(fd)
+
+def require_stable_baseline(root,status,result):
+ require_empty_updates(result)
+ assert read_status(LIVE_DB/'status')==status,'BASELINE_STATUS_CHANGED'
+ assert read_status(root/'status')==status,'BASELINE_COPY_CHANGED'
+ require_empty_updates(result)
+
+def query_live_baseline(root,status,result,end):
+ require_stable_baseline(root,status,result)
+ # run() supplies only its fixed allowlisted environment, never DPKG_ROOT
+ # or DPKG_ADMINDIR. Retain the full live read-only view as authority.
+ query,_=run(['/usr/bin/dpkg-query','--admindir='+str(LIVE_DB),'-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n'],root,end)
+ require_stable_baseline(root,status,result)
+ return query
+
+
 def retain_mapping(installed,changes,root,end,result):
  # Publish incremental evidence before acquisition. Fatal bounds propagate and
  # stop work, but must not discard an already parsed transaction or exact rows.
@@ -177,7 +224,7 @@ def retain_mapping(installed,changes,root,end,result):
 
 # Diagnostics are closed enums, never exception text, environment or host data.
 DIAGNOSTIC_STAGES=('BASELINE_COPY','CONFIGURE_ISOLATION','BASELINE_PARSE','BASELINE_VALIDATE','BASELINE_QUERY','BASELINE_COMPARE','TOOL_IDENTITIES','METADATA_UPDATE','RELEASE_AUTHENTICATION','TRANSACTION_SIMULATION','TRANSACTION_PARSE','CANDIDATE_MAPPING','FINAL_BASELINE_CHECK')
-DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
+DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_STATUS_UNSAFE','BASELINE_STATUS_BOUND','BASELINE_STATUS_CHANGED','BASELINE_COPY_CHANGED','BASELINE_UPDATES_UNSAFE','BASELINE_UPDATES_PENDING','BASELINE_UPDATES_CHANGED','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
 FAILURE_TYPES=frozenset(('AssertionError','BoundFailure','ChildFailure','KeyError','ValueError','UnicodeDecodeError','FileNotFoundError','PermissionError','OSError','TimeoutExpired'))
 
 @contextmanager
@@ -206,7 +253,10 @@ def main():
  result={'schema':'ubuntu-lock-candidate/v1','ready':False,'head':os.environ['GITHUB_SHA'],'scope':'metadata-and-simulation-only','unresolved':[]}
  try:
   with diagnostic_stage(result,'BASELINE_COPY'):
-   status=pathlib.Path('/var/lib/dpkg/status').read_bytes();assert len(status)<=32*1024**2;(root/'status').write_bytes(status)
+   require_empty_updates(result)
+   status=read_status(LIVE_DB/'status')
+   with (root/'status').open('xb') as snapshot:snapshot.write(status)
+   require_stable_baseline(root,status,result)
   with diagnostic_stage(result,'CONFIGURE_ISOLATION'):
    config(root)
   with diagnostic_stage(result,'BASELINE_PARSE'):
@@ -214,7 +264,7 @@ def main():
   with diagnostic_stage(result,'BASELINE_VALIDATE'):
    installed=baseline(installedRecords);assert len(installed)<10000
   with diagnostic_stage(result,'BASELINE_QUERY'):
-   query,_=run(['/usr/bin/dpkg-query','-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n'],root,end)
+   query=query_live_baseline(root,status,result,end)
   with diagnostic_stage(result,'BASELINE_COMPARE'):
    compare_baseline(query,installed,result)
    result['baselineStatusSha256']=sha(status);result['baselineInstalledCount']=len(installed)
@@ -235,7 +285,7 @@ def main():
   with diagnostic_stage(result,'CANDIDATE_MAPPING'):
    retain_mapping(installed,changes,root,end,result)
   with diagnostic_stage(result,'FINAL_BASELINE_CHECK'):
-   assert pathlib.Path('/var/lib/dpkg/status').read_bytes()==status
+   compare_baseline(query_live_baseline(root,status,result,end),installed,result)
   result['status']='candidate-for-review'
  except Exception as e:
   record_failure(result,e)

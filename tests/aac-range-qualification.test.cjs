@@ -1,0 +1,21 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
+const {createHash}=require('node:crypto');
+const root=path.join(__dirname,'..','linux-blue');
+const {loadAacRangeQualification}=require('../linux-blue/aac-range-qualification.cjs');
+const {EVIDENCE_BUDGET}=require('../src/operation-controls.cjs');
+const sha=b=>createHash('sha256').update(b).digest('hex');
+function copy(t){const d=fs.mkdtempSync(path.join(os.tmpdir(),'aac-record-'));t.after(()=>fs.rmSync(d,{recursive:true,force:true}));for(const n of ['aac-range-qualification.cjs','aac-range-qualification.json'])fs.copyFileSync(path.join(root,n),path.join(d,n));return d;}
+test('fixed family uses audited predeclared controls',()=>{
+ const {family:f,applicability:a}=loadAacRangeQualification();assert.deepEqual(f.budget,EVIDENCE_BUDGET);assert.equal(f.executionBudgetMs,600000);
+ assert.deepEqual(f.qualification.tolerances,{videoTimestampUs:1067,audioTimestampUs:22355,avSyncUs:23422,durationUs:1088,sampleCount:1023});
+ assert.deepEqual(f.timingQualification.aac,{alignment:'decoded-after-signalled-skip',encoderDelaySamples:1024,discardPaddingSamples:0});assert.equal(f.timingQualification.audioTimelineUs,1042);assert.equal(a.fps,'30/1');
+ assert.deepEqual(a.geometries,[{sourceWidth:1280,sourceHeight:720,resolution:'source'},{sourceWidth:1920,sourceHeight:1080,resolution:'720'},{sourceWidth:1920,sourceHeight:1080,resolution:'source'}]);assert.deepEqual(f.evidenceIds,['aac090-A:endpoints','aac090-A:interior','aac090-B:endpoints','aac090-B:interior']);
+});
+test('deep frozen fresh record',()=>{const a=loadAacRangeQualification(),b=loadAacRangeQualification();assert.notEqual(a,b);assert.deepEqual(a,b);assert.throws(()=>{a.family.budget.timeoutMs=1});assert.throws(()=>a.applicability.geometries.push({}));assert.throws(()=>{a.family.timingQualification.aac.discardPaddingSamples=3});});
+test('caller catalog cannot supply authority',()=>{for(const v of [null,{},'other.json'])assert.throws(()=>loadAacRangeQualification(v));});
+test('exact original audits retain failed attempt and lossy tail limits',()=>{const r=JSON.parse(fs.readFileSync(path.join(root,'aac-range-qualification.json')));for(const e of r.evidence){assert.equal(Buffer.byteLength(e.auditJson),e.bytes);assert.equal(sha(e.auditJson),e.sha256);}const a=JSON.parse(r.evidence[0].auditJson),b=JSON.parse(r.evidence[1].auditJson);assert.equal(a.outerExitCode,1);assert.equal(a.B.encodeChildren,0);assert.equal(b.exitCode,0);assert.equal(b.validation.valid,true);assert.equal(b.census.closed,16);assert.equal(a.A.audio.outputSampleCount-a.A.audio.sourceSampleCount,192);assert.equal(b.decodedEvidence.audio[0].outputSampleCount-b.decodedEvidence.audio[0].sourceSampleCount,800);assert.equal(b.decodedEvidence.audio[0].discardPaddingSamples,0);});
+test('changed runtime limits or evidence refuse',t=>{const d=copy(t),p=path.join(d,'aac-range-qualification.json'),original=fs.readFileSync(p);const load=require(path.join(d,'aac-range-qualification.cjs')).loadAacRangeQualification;for(const edit of [r=>r.family.runtimeIdentity='0'.repeat(64),r=>r.applicability.fps='60/1',r=>r.family.budget.timeoutMs=999999,r=>r.family.timingQualification.aac.discardPaddingSamples=1,r=>r.evidence[0].auditJson='{}']){const r=JSON.parse(original);edit(r);fs.writeFileSync(p,JSON.stringify(r,null,2)+'\n');assert.throws(load);}fs.writeFileSync(p,original);assert.doesNotThrow(load);});
+test('linked missing record refuses; relocated exact pair works',t=>{const d=copy(t),p=path.join(d,'aac-range-qualification.json');const load=require(path.join(d,'aac-range-qualification.cjs')).loadAacRangeQualification;assert.doesNotThrow(load);fs.unlinkSync(p);assert.throws(load);fs.symlinkSync(path.join(root,'aac-range-qualification.json'),p);assert.throws(load);});
+
+test('third geometry is mechanism-supported, not invented third acquisition',()=>{const r=JSON.parse(fs.readFileSync(path.join(root,'aac-range-qualification.json')));assert.equal(r.evidence.length,2);assert(r.limits.some(x=>x.includes('not a third directly acquired AAC cell')));assert.equal(r.geometryMechanismReview.independentReviewSha256,'f37a728976feb5b8158f98c66c3ee093d00139a13bdb5b7e7bfc72b456ed0f15');});

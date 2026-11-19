@@ -1,0 +1,82 @@
+{
+  "checkpoint": 90,
+  "head": "6c87d1313660c758ebf2d0ca0c38860dbb38277b",
+  "event": "push",
+  "attempt": 1,
+  "shared": {
+    "run": 44502696055,
+    "conclusion": "success",
+    "jobs": [
+      135486268247,
+      135486268714
+    ],
+    "syntaxFilesPerOs": 226,
+    "sharedTestsPerOs": 325,
+    "additionalLinuxTests": 40,
+    "failed": 0,
+    "skipped": 0
+  },
+  "ubuntu": {
+    "run": 44502696342,
+    "job": 135486268481,
+    "conclusion": "failure",
+    "ready": false,
+    "diagnosticStage": "BASELINE_COMPARE",
+    "failureReason": "BASELINE_SET_MISMATCH",
+    "baselineDifferences": {
+      "missingFromQuery": 0,
+      "extraInQuery": 0,
+      "versionMismatch": 3,
+      "architectureMismatch": 0
+    },
+    "artifact": 14518007723,
+    "expiresAt": "2026-11-22T10:07:38Z",
+    "zipSha256": "d148e32999fc1761d542d35894132af85fb9cebc517e4ca9b119b3fa45394563",
+    "reportSha256": "052155a50212e8c841df9f33d356cc6c6792f2a3afeb8c418eadde551a7b5178"
+  },
+  "windows": {
+    "run": 44502696287,
+    "job": 135486268759,
+    "conclusion": "success",
+    "state": "INTEGRATION_PASSED",
+    "artifact": 14519265505,
+    "expiresAt": "2026-11-22T10:10:26Z",
+    "zipSha256": "76b2dcd74afb9c8aa4ad0af8e59e66a1e7d16301ef2993ff283af71c5d6e966c",
+    "reportSha256": "ebbbcd74323b6c6db142fe78dc05811e3c70cbc950accbc61ea4e79a0aa2b985",
+    "requestedEncodes": 2,
+    "startClicks": 1,
+    "probeReadbackCalls": 2,
+    "extraDecodeCalls": 0,
+    "collisionSkips": 2,
+    "terminalTimer": {
+      "frozen": true,
+      "domMatchesSnapshot": true,
+      "reset": true,
+      "observedWaitMs": 2217,
+      "elapsedSeconds": 1.031
+    },
+    "security": {
+      "packaged": true,
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false
+    },
+    "processObservation": {
+      "kind": "sampled-not-exhaustive",
+      "samples": 8,
+      "observedDescendants": 12,
+      "observedStartupMedia": 1,
+      "observedLiveAfterClose": 0
+    },
+    "normalClose": true,
+    "sourceUnchanged": true,
+    "packageUnchanged": true
+  },
+  "independentDownloadsAndApiLogHashesMatched": true,
+  "limits": [
+    "Windows H264 two-file current-package path only; picker return substituted, no native desktop/GPU/owner PC or Linux H265 qualification.",
+    "Sampled process observations, not exhaustive census.",
+    "Ubuntu versionMismatch3 narrows discrepancy but does not establish cause; no normalization/retry/install.",
+    "Only sanitized reports retained, not executable package."
+  ]
+}

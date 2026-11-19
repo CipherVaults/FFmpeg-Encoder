@@ -38,7 +38,8 @@ function family(config = CPU) {
 }
 function fixture(options = {}) {
   const source = probe(options), config = options.config || CPU; options.mutate?.(source);
-  const retained = options.families ? options.families[0] : family(config), selector = createAacRangeBinding(retained);
+  if(options.product){source.streams[0].time_base='1/15360';source.streams[0].duration_ts=Number(source.format.duration)*15360;}
+  const retained = options.families ? options.families[0] : family(config), selector = options.product ? require('../linux-blue/product-linux-service.cjs').createProductSelector(require('../linux-blue/product-linux-qualification.json')) : createAacRangeBinding(retained);
   const request = resolveFileRequest({ fileId: options.fileId || 'synthetic-file', identityRevision: 1, draftRevision: 1, operation: 'encode',
     overrides: options.ordinary ? {} : { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-aac', ...options.overrides } });
   const inspection = { probe: source, color: classifyColor(source), duration: Number(source.format.duration) };
@@ -56,3 +57,28 @@ test('copy, unqualified clock/padding and wrong CPU contracts cannot be silently
 test('existing family continues refusing unsupported media properties',()=>{for(const mutate of [p=>p.streams[1].sample_rate='44100',p=>p.streams[1].channels=1,p=>p.streams[0].pix_fmt='yuv420p10le'])assert.throws(()=>{const h=fixture({mutate});h.selector.select(h.bindings);});});
 
 test('main-owned family rejects accessors without invoking them',()=>{const f=family();let calls=0;Object.defineProperty(f,'budget',{get(){calls++;return BUDGET;}});assert.throws(()=>createAacRangeBinding(f));assert.equal(calls,0);});
+
+test('fixed active AAC selector admits property-matching files and refuses 60 fps and unmeasured geometry',()=>{
+ for(const options of [{},{width:1920},{width:1920,overrides:{resolution:'720'}}]){const h=fixture({...options,product:true});const token=h.selector.select(h.bindings);assert(token);assert(h.selector.requireCurrent(token,h.bindings));
+  for(const mutate of [b=>b.runtimeIdentity='a'.repeat(64),b=>b.executionBudgetMs=120000,b=>b.budget={...BUDGET,maxRecords:2}]){const b=clone(h.bindings);b.plan=h.plan;mutate(b);assert.throws(()=>h.selector.requireCurrent(token,b));}}
+ for(const options of [{rate:60},{width:2560},{width:3840},{width:1920,rate:60,overrides:{resolution:'720'}}])assert.throws(()=>{const h=fixture({...options,product:true});h.selector.select(h.bindings);});
+ const h=fixture({product:true}),token=h.selector.select(h.bindings),other=fixture({product:true,identity:{ino:'3'}});assert.throws(()=>h.selector.requireCurrent(token,other.bindings));
+});
+test('active currentness itself refuses sixty fps even when a generic preparation adapter built the plan',()=>{
+ const active=fixture({product:true}),token=active.selector.select(active.bindings);
+ const generic=fixture({rate:60,mutate:p=>{p.streams[0].time_base='1/15360';p.streams[0].duration_ts=Number(p.format.duration)*15360;}});
+ assert.throws(()=>active.selector.requireCurrent(token,generic.bindings),/30 fps/);
+});
+
+test('mechanism-supported 1080 source keeps exact range and audio graph while removing only video resize',()=>{
+ const source=fixture({product:true,width:1920}),resized=fixture({product:true,width:1920,overrides:{resolution:'720'}});
+ for(const h of [source,resized]){const t=h.selector.select(h.bindings);assert(h.selector.requireCurrent(t,h.bindings));}
+ assert.equal(source.plan.contract.geometry.output.width,1920);assert.equal(source.plan.contract.geometry.output.height,1080);
+ assert.equal(resized.plan.contract.geometry.output.width,1280);assert.equal(resized.plan.contract.geometry.output.height,720);
+ assert.deepEqual(source.plan.expectedOutput.filters.audio,resized.plan.expectedOutput.filters.audio);
+ assert.deepEqual(source.plan.contract.range,resized.plan.contract.range);
+ assert.deepEqual(source.plan.contract.audio,resized.plan.contract.audio);
+ assert(source.plan.expectedOutput.filters.video.every(part=>!part.includes('scale=')));
+ assert(resized.plan.expectedOutput.filters.video.some(part=>part.includes('scale=')));
+ for(const part of source.plan.expectedOutput.filters.video)assert(resized.plan.expectedOutput.filters.video.includes(part));
+});

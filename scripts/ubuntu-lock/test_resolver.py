@@ -104,7 +104,8 @@ class Diagnostics(unittest.TestCase):
   status=b'Package: x\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n'
   for target in m.DIAGNOSTIC_STAGES:
    with self.subTest(target=target),tempfile.TemporaryDirectory()as d:
-    root=pathlib.Path(d);event=root/'event.json';event.write_text('{}')
+    root=pathlib.Path(d);event=root/'event.json';event.write_text('{}');live=root/'fake-live-dpkg';live.mkdir();(live/'updates').mkdir()
+    (live/'status').write_bytes(status)
     def readbytes(path,*a,**kw):
      if str(path)=='/var/lib/dpkg/status':return status
      if str(path).startswith('/usr/'):return b'inert tool identity'
@@ -122,7 +123,7 @@ class Diagnostics(unittest.TestCase):
      with real_stage(result,name):
       if name==target:raise AssertionError('private detail must not escape')
       yield
-    with mock.patch.object(m,'ROOT',root),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',side_effect=fake_run)as run,mock.patch.object(m,'diagnostic_stage',injected),mock.patch.object(m.subprocess,'Popen')as spawn:
+    with mock.patch.object(m,'ROOT',root),mock.patch.object(m,'LIVE_DB',live),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',side_effect=fake_run)as run,mock.patch.object(m,'diagnostic_stage',injected),mock.patch.object(m.subprocess,'Popen')as spawn:
      self.assertEqual(m.main(),2);spawn.assert_not_called()
     report=m.json.loads((root/'lock-report.json').read_text());self.assertEqual(report['diagnosticStage'],target);self.assertEqual(report.get('completedDiagnosticStages',[]),list(m.DIAGNOSTIC_STAGES[:m.DIAGNOSTIC_STAGES.index(target)]));self.assertEqual(report['failureReason'],'UNCLASSIFIED_FAILURE');self.assertFalse(report['ready']);self.assertNotIn('private detail',m.json.dumps(report));self.assertNotIn(d,m.json.dumps(report))
     if m.DIAGNOSTIC_STAGES.index(target)<m.DIAGNOSTIC_STAGES.index('METADATA_UPDATE'):self.assertFalse(any(c.args[0][:2]==['/usr/bin/apt-get','update'] for c in run.call_args_list))
@@ -162,14 +163,15 @@ class BaselineCompare(unittest.TestCase):
  def test_main_mismatch_never_reaches_apt(self):
   original_bytes=pathlib.Path.read_bytes;original_text=pathlib.Path.read_text
   with tempfile.TemporaryDirectory()as d:
-   root=pathlib.Path(d);event=root/'event.json';event.write_text('{}')
+   root=pathlib.Path(d);event=root/'event.json';event.write_text('{}');live=root/'fake-live-dpkg';live.mkdir();(live/'updates').mkdir()
+   (live/'status').write_bytes(b'Package: redacted-a\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n')
    def readbytes(p,*a,**kw):
     if str(p)=='/var/lib/dpkg/status':return b'Package: redacted-a\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n'
     return original_bytes(p,*a,**kw)
    def readtext(p,*a,**kw):
     if str(p)=='/etc/os-release':return 'ID=ubuntu\nVERSION_ID="24.04"\n'
     return original_text(p,*a,**kw)
-   with mock.patch.object(m,'ROOT',root),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',return_value=(b'redacted-b\t1\tamd64\tinstall ok installed\n',b''))as run,mock.patch.object(m.subprocess,'Popen')as spawn:
+   with mock.patch.object(m,'ROOT',root),mock.patch.object(m,'LIVE_DB',live),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',return_value=(b'redacted-b\t1\tamd64\tinstall ok installed\n',b''))as run,mock.patch.object(m.subprocess,'Popen')as spawn:
     self.assertEqual(m.main(),2);spawn.assert_not_called();self.assertEqual([c.args[0][0] for c in run.call_args_list],['/usr/bin/dpkg-query'])
    report=(root/'lock-report.json').read_text();j=m.json.loads(report)
    self.assertFalse(j['ready']);self.assertEqual(j['failureReason'],'BASELINE_SET_MISMATCH')
@@ -180,6 +182,80 @@ class BaselineCompare(unittest.TestCase):
   try:m.compare_baseline(b'\xffsecret',{},r)
   except UnicodeDecodeError as e:m.record_failure(r,e)
   self.assertEqual(r,{'status':'blocked','failureType':'UnicodeDecodeError','failureReason':'UNCLASSIFIED_FAILURE'})
+
+class LiveBaseline(unittest.TestCase):
+ def setUp(self):
+  guard=tempfile.TemporaryDirectory();self.addCleanup(guard.cleanup)
+  self.root=pathlib.Path(guard.name).resolve()
+  self.live=self.root/'live';self.live.mkdir()
+  self.snapshot=self.root/'owned';self.snapshot.mkdir()
+  self.updates=self.live/'updates';self.updates.mkdir()
+  self.status=b'baseline-status-bytes'
+  for d in (self.live,self.snapshot):(d/'status').write_bytes(self.status)
+  patcher=mock.patch.object(m,'LIVE_DB',self.live);patcher.start(); self.addCleanup(patcher.stop)
+ def test_exact_admin_dir_and_equal_views(self):
+  with mock.patch.dict(m.os.environ,{'DPKG_ADMINDIR':'/inert/other','DPKG_ROOT':'/inert/root'}),mock.patch.object(m,'run',return_value=(b'known',b''))as run:
+   self.assertEqual(m.query_live_baseline(self.snapshot,self.status,{},0),b'known')
+   argv=run.call_args.args[0]
+   self.assertEqual(argv[:3],['/usr/bin/dpkg-query','--admindir='+str(self.live),'-W'])
+  child=mock.Mock(pid=52,returncode=0)
+  with mock.patch.dict(m.os.environ,{'DPKG_ADMINDIR':'/inert/other','DPKG_ROOT':'/inert/root'}),mock.patch.object(m.subprocess,'Popen',return_value=child)as spawn,mock.patch.object(m,'proc_identity'),mock.patch.object(m,'monitor'),mock.patch.object(m,'close_owned'):
+   m.run(argv,self.snapshot,float('inf'))
+   self.assertEqual(set(spawn.call_args.kwargs['env']),{'PATH','LC_ALL','HOME','APT_CONFIG'})
+ def test_fragment_refuses_even_with_unchanged_status(self):
+  (self.updates/'0000').write_text('inert fragment')
+  r={}
+  with mock.patch.object(m,'run')as run,self.assertRaisesRegex(AssertionError,'^BASELINE_UPDATES_PENDING$'):
+   m.query_live_baseline(self.snapshot,self.status,r,0)
+  run.assert_not_called()
+  self.assertEqual(r,{'pendingUpdateEntriesAtLeast':1})
+ def test_mid_query_mutation_refuses(self):
+  for relative,reason in [('live/status','BASELINE_STATUS_CHANGED'),('owned/status','BASELINE_COPY_CHANGED'),('live/updates/0001','BASELINE_UPDATES_PENDING')]:
+   with self.subTest(relative=relative):
+    f=self.root/relative
+    def run(*_):f.write_bytes(b'mutated');return b'unchanged query',b''
+    with mock.patch.object(m,'run',side_effect=run),self.assertRaisesRegex(AssertionError,'^'+reason+'$'):
+     m.query_live_baseline(self.snapshot,self.status,{},0)
+    if f.parent==self.updates:f.unlink()
+    else:f.write_bytes(self.status)
+ def test_symlinked_updates_and_status_refused(self):
+  self.updates.rmdir();self.updates.symlink_to(self.snapshot,target_is_directory=True)
+  with self.assertRaisesRegex(AssertionError,'BASELINE_UPDATES_UNSAFE'):m.require_empty_updates({})
+  f=self.live/'status';f.unlink();f.symlink_to(self.snapshot/'status')
+  with self.assertRaisesRegex(AssertionError,'BASELINE_STATUS_UNSAFE'):m.read_status(f)
+ def test_status_size_bound_and_unreadable_updates(self):
+  with mock.patch.object(m,'STATUS_CAP',1),self.assertRaisesRegex(AssertionError,'BASELINE_STATUS_BOUND'):m.read_status(self.live/'status')
+  with mock.patch.object(m.os,'scandir',side_effect=PermissionError),self.assertRaises(PermissionError):m.require_empty_updates({})
+
+ def test_main_keeps_exact_final_live_tuple_gate(self):
+  (self.live/'status').write_bytes(b'Package: alpha\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n')
+  event=self.root/'event.json';event.write_text('{}')
+  real_text=pathlib.Path.read_text; real_bytes=pathlib.Path.read_bytes
+  def readtext(p,*a,**kw):
+   if str(p)=='/etc/os-release':return 'ID=ubuntu\nVERSION_ID="24.04"\n'
+   return real_text(p,*a,**kw)
+  def readbytes(p,*a,**kw):
+   if str(p).startswith('/usr/'):return b'inert tool identity'
+   return real_bytes(p,*a,**kw)
+  for final_ver,expected in [(b'1',0),(b'2',2)]:
+   with self.subTest(final_ver=final_ver):
+    seen=[]
+    def fake_run(argv,root,end):
+     if argv[0]=='/usr/bin/dpkg-query':
+      seen.append(argv)
+      ver=b'1' if len(seen)==1 else final_ver
+      return (b'alpha\t'+ver+b'\tamd64\tinstall ok installed\n',b'')
+     if argv[:2]==['/usr/bin/apt-get','update']:
+      for i in range(3):(root/'lists'/f'inert{i}InRelease').write_text('Codename: noble\n')
+     return b'',b''
+    with mock.patch.object(m,'ROOT',self.root),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':str(self.root),'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(m,'run',side_effect=fake_run),mock.patch.object(m.subprocess,'Popen')as spawn:
+     self.assertEqual(m.main(),expected);spawn.assert_not_called()
+    self.assertEqual(len(seen),2);self.assertEqual(seen[0],seen[1])
+    j=m.json.loads((self.root/'lock-report.json').read_text());self.assertFalse(j['ready'])
+    if expected:
+     self.assertEqual(j['diagnosticStage'],'FINAL_BASELINE_CHECK')
+     self.assertEqual(j['failureReason'],'BASELINE_SET_MISMATCH')
+     self.assertEqual(j['baselineDifferences'],{'missingFromQuery':0,'extraInQuery':0,'versionMismatch':1,'architectureMismatch':0})
 
 if __name__=='__main__':unittest.main()
 

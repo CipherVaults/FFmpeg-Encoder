@@ -1,0 +1,187 @@
+{
+  "checkpoint": "091",
+  "cutoffUtc": "2026-11-19T10:32:45+00:00",
+  "baseLocal": "5343c59247dcb87d9c655fb168b7e5d82356cdb9",
+  "status": "writer released; no 091 package or runtime",
+  "sourceManifestSha256": "d6cc59d8279390104d51994e00b60f329011b240745321fb4916eab467c75449",
+  "independentDerivedReviewSha256": "0d3a309657a44d53360a46242c6dd10e16acb14f4febf8df15a7e52ae5b589f9",
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "512ef139d99de60178ee10b7004463087dce1118a9baa07fefd1132d4b5c070f"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "9d69237c10da2b3c6854fa315938b50c36d773e0068dd50ca4305ce9d5203e4f"
+    },
+    {
+      "path": "linux-blue/aac-range-qualification.cjs",
+      "bytes": 3172,
+      "sha256": "43eb35001e6040b34fdd833698921c36b4a16268ef93f7f91a361fa56efe669c"
+    },
+    {
+      "path": "linux-blue/aac-range-qualification.json",
+      "bytes": 24514,
+      "sha256": "aa127a854c3faff7d928905da4ad605630154a5f8e96a845873f79ade7f27517"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 39114,
+      "sha256": "c30321a0903ff698664b7eddf21dd1c6d33206f7aae3e8078c57f2c731f7dfef"
+    },
+    {
+      "path": "linux-blue/product-linux-service.cjs",
+      "bytes": 13304,
+      "sha256": "ffd0abed05bb5e568cef426d9f961fac2ba79d817e0ae2bdf5db1139d3cf7f7c"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 19075,
+      "sha256": "a94faeed461da4333936ef9d80104d2f06a2fa6b3a2ccd6a3851ff78df124416"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 74348,
+      "sha256": "dd99a7b6809f6cabf5ee35fe3235604c39ed2ecd9540159c7776c42106db8a11"
+    },
+    {
+      "path": "scripts/ci-source-contracts.cjs",
+      "bytes": 2679,
+      "sha256": "e35fe6da3683f0f159b35935084c8d102389861411ef2924c6d5ab50d6364bb3"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 17626,
+      "sha256": "15f5ae04d58d749a2b3fb9840684eb6322b672fcb988fe8c27fa13fe913dd52f"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 20040,
+      "sha256": "6e25c251e98495afdc4f5c29e7a62c839a84b0b7886433780ed2fdc462a6c623"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "f4c71cf347cf39ebac83c2e603bd9be8c7acc22b8856b9e429419cf74fd2a4f0"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 164039,
+      "sha256": "b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2"
+    },
+    {
+      "path": "tests/aac-range-binding.test.cjs",
+      "bytes": 9795,
+      "sha256": "82fab752a8dbfd60a2299fe3a8943b2cb6a49713cd15566bcc81126410643169"
+    },
+    {
+      "path": "tests/aac-range-qualification.test.cjs",
+      "bytes": 4287,
+      "sha256": "289f9fe6b7cfdda465e59509efdc069513d1838c031d156b987257cc340123f7"
+    },
+    {
+      "path": "tests/encode-entry-controls.test.cjs",
+      "bytes": 3118,
+      "sha256": "bb9a8c0534db746a4638cb6ca2a482e8db2ece91aff9799dcb64bf0380e6bd99"
+    },
+    {
+      "path": "tests/linux-candidate-launcher.test.cjs",
+      "bytes": 5797,
+      "sha256": "a3cc3c561688f16a102afd89f2ed62d762d78ebe98ffa164780f9816b2085e6c"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10333,
+      "sha256": "48dc909a3a0fd2f1b95e99e58c56888e8428e3171c2bf59935d4438aa426cc78"
+    },
+    {
+      "path": "tests/linux-product-proposal.test.cjs",
+      "bytes": 21189,
+      "sha256": "4672fdf94061a7215ada3de7be9ec33f3fae350d2e5d2929e4c045c64f9a54a0"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 28112,
+      "sha256": "86b9a505d5bf5e74330154e7272a3f773c38adc120f0fce9431da4043fb78560"
+    }
+  ],
+  "checks": {
+    "syntax": 227,
+    "shared": 330,
+    "linux": 68,
+    "focused": 51,
+    "affected": 38,
+    "ubuntuInert": 37,
+    "windowsInert": 77,
+    "countsOverlap": true,
+    "pins": 141,
+    "packageInputs": 259,
+    "applicationInputs": 158,
+    "sourceInputs": 171,
+    "nonSourceInputs": 88,
+    "bytes": 391595602,
+    "failures": 0,
+    "skips": 0
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted090-verified-outcome.json": {
+      "bytes": 2504,
+      "sha256": "09b7c3da1497d1523957e68716bb434f4a7abead165707bf4b8e3541a5ce3b98"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu090-original-sanitized-report.json": {
+      "bytes": 613,
+      "sha256": "052155a50212e8c841df9f33d356cc6c6792f2a3afeb8c418eadde551a7b5178"
+    },
+    "linux-blue/evidence-2026-11-19/windows090-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "ebbbcd74323b6c6db142fe78dc05811e3c70cbc950accbc61ea4e79a0aa2b985"
+    },
+    "linux-blue/evidence-2026-11-19/aac090-attempt1-independent-audit.json": {
+      "bytes": 4550,
+      "sha256": "3836647e82ff45969950149a01e7f62bcfa658dafe8beb1560b0bd4196e20127"
+    },
+    "linux-blue/evidence-2026-11-19/aac090-B-attempt2-independent-audit.json": {
+      "bytes": 13946,
+      "sha256": "0a6aedaf064f61d4c84e5379aa733637b273b8ff9a861d93261eda66354c8676"
+    },
+    "linux-blue/calibration/aac-range-090/attempt1/driver.cjs": {
+      "bytes": 17606,
+      "sha256": "bb869335ffafbf4b4dedf441362ef245d9d185a4a76a294c37fab5c9e3d0c814"
+    },
+    "linux-blue/calibration/aac-range-090/attempt2-B/driver.cjs": {
+      "bytes": 17479,
+      "sha256": "3e283488325cf6078887b0bc57be00e0f8d400a06d6bfc904001cab8e37450b4"
+    },
+    "linux-blue/calibration/aac-range-090/shared/frozen-checks.cjs": {
+      "bytes": 8271,
+      "sha256": "ba89c9815084b01a32af449ac6ea7e1d42314bd6b7d3b01a31f945661bdedd77"
+    },
+    "linux-blue/calibration/aac-range-090/shared/entry.cjs": {
+      "bytes": 346,
+      "sha256": "32986ac0cf6ce9dfeaa2f29bad3d4c646b0a1af448226ef6acb04a492a58ac72"
+    },
+    "linux-blue/calibration/aac-range-090/attempt1/driver.test.cjs": {
+      "bytes": 4327,
+      "sha256": "0f2ecbd332970573257f171c63f4f2217d7ff846332c91403912f864a0d99dde"
+    },
+    "linux-blue/calibration/aac-range-090/attempt2-B/B_ONLY.test.cjs.txt": {
+      "bytes": 2996,
+      "sha256": "cac1501e6c2e0b8b1d25c76e0cade6867b3f5ef3d912430a4177fb9ec36523fc"
+    },
+    "linux-blue/calibration/aac-range-090/README.md": {
+      "bytes": 2435,
+      "sha256": "b67b5565fd1252dc90204ebdb742e322773addbf74815c41b5c1847744ea2939"
+    },
+    "linux-blue/calibration/aac-range-090/shared/BINDING.json": {
+      "bytes": 95,
+      "sha256": "a9f0702575ff481e35cf6253054219b85e586377b388bb6781d62222612c0a81"
+    }
+  },
+  "limits": [
+    "No new media/runtime or 091 package/hosted run",
+    "No raw media, logs, live bindings or release approval retained",
+    "089 calibration source and original reports remain immutable"
+  ]
+}

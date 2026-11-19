@@ -1,0 +1,28 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {SPEC,streamFrames}=require('./marked-frame.cjs');
+const FRAME=SPEC.sourceWidth*SPEC.sourceHeight*3/2;
+// Exactly one write outstanding. Callback completion, not a permissive true
+// return value, advances production. Abort/close rejects a blocked write.
+async function produce(stdin,signal,source=streamFrames){
+ let count=0,bytes=0,pending=false,ended=false;
+ const check=()=>{signal.throwIfAborted();assert(!stdin.destroyed,'stdin destroyed');};
+ function operation(start){return new Promise((resolve,reject)=>{
+  let done=false;
+  const finish=e=>{if(done)return;done=true;signal.removeEventListener('abort',aborted);stdin.removeListener('error',finish);stdin.removeListener('close',closed);e?reject(e):resolve();};
+  const aborted=()=>finish(signal.reason||new Error('producer aborted'));
+  const closed=()=>finish(new Error('stdin closed before write settlement'));
+  signal.addEventListener('abort',aborted,{once:true});stdin.once('error',finish);stdin.once('close',closed);
+  try{check();start(finish);}catch(e){finish(e);}
+ });}
+ await source(async(buffer,index)=>{
+  check();assert(!pending,'concurrent producer write');assert(Buffer.isBuffer(buffer)&&buffer.length===FRAME,'one exact frame');assert(index===count&&count<SPEC.frames,'frame order/count');
+  pending=true;
+  try{await operation(done=>stdin.write(buffer,done));check();count++;bytes+=buffer.length;}
+  finally{pending=false;}
+ },{count:SPEC.frames,signal});
+ check();assert.equal(count,SPEC.frames);assert.equal(bytes,FRAME*SPEC.frames);
+ await operation(done=>stdin.end(done));signal.throwIfAborted();ended=true;
+ return {frames:count,bytes,ended,maximumPendingFrames:1};
+}
+module.exports={produce,FRAME};

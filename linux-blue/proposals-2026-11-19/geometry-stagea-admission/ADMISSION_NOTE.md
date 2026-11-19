@@ -1,0 +1,11 @@
+# Conditional admission successor, still UNBOUND
+
+Original approved StageA remains unchanged. Three source/test changes only: new admission.cjs and admission.test.cjs; driver adds helper pin, pre-generation reservation, immediate post-inspection metadata gate and actual pre-encode source/token/budget/capacity gate.
+
+Pre-generation free minus2GiB must leave27GiB (29GiB initial threshold); existing27GiB running floor/2GiB tree and16-child ceiling unchanged. Remaining reservation later subtracts actual used bytes, not the whole2GiB twice. Reservation is a conservative forecast, not a filesystem lease/quota. Actual budget must equal genuine selector's existing complete-source120s/8MiBframe/128MiBPCM/20000records/32MiBspool with600s contract, separately limited by570s observer.
+
+Post-inspection requires supplied observed8s format and rational video extent,240 reportedframes, exact960×1440 progressive square-pixel30fps H264High/BT709limited and stereo48kAAC-LC, no chapters/extrastreams and actual hash/size≤512MiB. It never fills missing fields or invents probe evidence. Missing/mismatch throws before encode and before any extra probe, so generation+inspection consumes at most3 actual children; a larger actual inspection schedule is independently capped before spawn. Metadata summaries are not complete cadence proof; genuine final complete-source collection remains mandatory. Existing selector separately enforces orientation, streams and complete policy.
+
+Before encode the helper rechecks actual source seal, exact issued current result, budget and observed free/used capacity, then owner/source/currentness after awaited boundaries. Runtime invocation retains existing separate currentness checks. These are observation fences, not claims of immunity to hostile concurrent modifications between check and OS read. No fixture hash allowlist. Unpublished StageA only, no service/native/product acceptance.
+
+47 inert tests pass, including7 new behavioral gate tests: threshold boundaries, unchanged supplied synthetic metadata, missing/wrong facts, byte limits, exact issued budget, zero subsequent encode on refusal, changed seals/copied selections/capacity, delayed source change/expiry. All source fixtures in tests are explicitly synthetic records, not generated probes. No media, process, live binding, gate, catalog or canonical change.

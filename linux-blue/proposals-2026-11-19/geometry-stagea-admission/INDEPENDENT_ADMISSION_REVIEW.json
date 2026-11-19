@@ -1,0 +1,17 @@
+{
+  "status": "APPROVED_UNBOUND_CONDITIONAL_ADMISSION_SOURCE_ONLY",
+  "handoffSha256": "25122e2bcac0baf68a98657e1d75a07be91af11d8fcd8e3be6b656db4d803810",
+  "independentInertTestsPassed": 47,
+  "verified": "All listed hashes; only existing driver changed plus two new admission files. Prior input, retention and geometry helpers unchanged.",
+  "review": [
+    "29GiB initial free requirement reserves full2GiB above unchanged27GiB floor. Before encode remaining reserve subtracts observed owned bytes, not additional duplicate reservation.",
+    "Source gate consumes actual inspection fields and actual generated file seal: exact8s/240frames/960x1440 H264High420 BT709 progressive square pixels and stereo48kAAC. Missing facts refuse; no synthetic fill or added probes.",
+    "Preencode compares full source seal twice, requires same genuinely issued selector result and exact existing evidence/execution budget, rechecks after awaited storage/currentness/owner steps. Existing selector returns same frozen result identity.",
+    "Gate executes before encode; generation+inspection remain at most3 requested children, total16 phase ceiling unchanged. Negative controls cover metadata/size/seal/copied-selection/budget/capacity and deferred expiry."
+  ],
+  "limits": [
+    "No generated source yet, acquired evidence, binding, gate, media execution or product activation.",
+    "Storage remains sampled conservative admission, not filesystem quota; exact future private source/runtime/override binding and outer release still required.",
+    "Acceptance still depends on actual complete collector/geometry/PCM results and independent saved audit, not metadata gate alone."
+  ]
+}

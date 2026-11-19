@@ -1,0 +1,1 @@
+'use strict';require('./driver.cjs').runOnce().catch(error=>{process.stderr.write(String(error.message)+'\n');process.exitCode=1;});

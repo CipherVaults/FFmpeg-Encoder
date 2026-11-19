@@ -1,0 +1,30 @@
+{
+  "status": "APPROVED_PROSPECTIVE_INACTIVE_ARCHIVE_EQUIVALENCE",
+  "intakeSha256": "748f25bf8b570af29ad9275d3689a9382daf4472fd894b8e3314696f60573f2b",
+  "paths": 23,
+  "bytes": 95900,
+  "finalSourceAndTestsRecovered": [
+    "driver.cjs",
+    "retention.cjs",
+    "retention.test.cjs",
+    "frozen-checks.cjs",
+    "geometry-controls.cjs",
+    "marked-frame.cjs",
+    "executor.cjs",
+    "producer.cjs",
+    "process-runner-private.cjs",
+    "entry.cjs",
+    "supervise.py",
+    "BINDING.json",
+    "input.test.cjs",
+    "marked-frame.test.cjs",
+    "stage.test.cjs",
+    "CORRECTIONS.md",
+    "PLAN.md",
+    "FINAL_BOUNDARIES.md"
+  ],
+  "reconstruction": "Applied existing committed geometry-collection patch to exact102 three baseline blobs in temporary directory; all four resulting hashes equal reconciliation handoff. No full repository copy or canonical changes.",
+  "markerReuse": "Both existing102 geometry-pure marker files exactly match final handoff.",
+  "exclusions": "No live gate, active binding, raw logs, runtime payload or package-membership change. BINDING template all-null UNBOUND. Historical failed/corrected reviews retained as distinct receipts; raw-log hashes are references, not retained-log claims.",
+  "limits": "Source recovery only. Original40 inert tests were reviewed previously, not rerun here; no media. Source/runtime/private override binding, resource admission and separate execution release remain required."
+}

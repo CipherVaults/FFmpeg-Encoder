@@ -1,0 +1,86 @@
+{
+  "checkpoint": "103",
+  "commit": "1d0b1eb6463b293ba66d8ca47a1f63501214361e",
+  "tree": "f07f68655f68c0d0c8281b0ce2beddc617109b47",
+  "sourceFilesVerified": 1174,
+  "historyCommitsVerified": 103,
+  "freshNotionDownload": true,
+  "archiveHashesVerified": true,
+  "completeNativeRecordsVerified": true,
+  "sessionEntries": 103,
+  "fullSessionVerification": "Complete per-entry normalized text equality after exact four original bare URL identity substitutions; JSON exact semantic equality. Byte-exact originals separately restored.",
+  "nativeEquivalenceSha256": "4dc3027011932ef9726a9c5af7397fb1d05f348a32a94c64a3bab7644418b91b",
+  "githubPending": false,
+  "runtimeBinaryUpload": false,
+  "nativePages": {
+    "session": "41dbd7ad-e63b-816c-88f3-c7065833257f",
+    "current": "41dbd7ad-e63b-81d4-8744-f12c09ffa022",
+    "execution": "41dbd7ad-e63b-8150-948c-eccd12557aa5",
+    "receipt": "41dbd7ad-e63b-8124-9b47-c7e4afa4884d",
+    "index": "41dbd7ad-e63b-8179-8c65-da8f5cf2f8b3"
+  },
+  "nativeReadbacks": [
+    {
+      "name": "current-native-readback.json",
+      "bytes": 2010,
+      "sha256": "997f6411ad32959e4e8beb946814aa2b9c72bc5c8c723820e9722e7cdf64c3cb"
+    },
+    {
+      "name": "execution-native-readback.json",
+      "bytes": 8795,
+      "sha256": "5ed29b6264cbbb55ec280ff365c7adf71f475a57bc2ecfebcd107b8b1975085f"
+    },
+    {
+      "name": "index-native-readback.json",
+      "bytes": 197278,
+      "sha256": "ce7895beae210c89f3c2e47fee34a682956a43d15f26419fde8f684832d49bd0"
+    },
+    {
+      "name": "receipt-native-readback.json",
+      "bytes": 5650,
+      "sha256": "738d013ea3110a93c4435eb9a3c1b254674a05ad21f57d56c23d735a8f8b7b9b"
+    },
+    {
+      "name": "session-native-readback.json",
+      "bytes": 2962265,
+      "sha256": "a457a76e141287ab02bf1da5b7207eeeb717eaa6392f99da3dbc72983a4685ba"
+    }
+  ],
+  "checkpointPage": "41dbd7ad-e63b-8171-9c92-cb6d16c2c4cb",
+  "verifiedAt": "2026-11-19T16:29:40.507020+00:00",
+  "writerReleased": true,
+  "remoteMapping": {
+    "localCommit": "1d0b1eb6463b293ba66d8ca47a1f63501214361e",
+    "remoteCommit": "06bb6f5ea86750e09ac0e1bfa24ea2a24cedb22a",
+    "remoteTree": "cb7da19687c09e962057487c94aec7cd73ce322a",
+    "remoteParent": "e4cfeb33a6bf40a6539de039416985851340a3c8",
+    "all1174LocalBlobIdentitiesMatchRemoteTree": true,
+    "changed24CreatedBlobIdentitiesMatchExactLocalBytes": true,
+    "fullRemoteTreeFiles": 1556,
+    "unchangedFiles": 1532,
+    "newFiles": 22,
+    "modifiedFiles": 2,
+    "deletedFiles": 0,
+    "freshRefReadbackMatches": true,
+    "evidenceScope": "Independent saved full tree/parent/commit/ref and blob creation receipt verification; exact bytes hash to remote Git blob identities, not separate raw-content retrieval for every file."
+  },
+  "hostedOutcomeAtMapping": "Pending; later outcomes belong next coherent record.",
+  "finalReadbacks": [
+    {
+      "name": "checkpoint-final-readback.json",
+      "bytes": 5302,
+      "sha256": "2e0c5df83bab292bf34f9a02980c49171654d9c9c89f10772e2507783394aabf"
+    },
+    {
+      "name": "current-final-readback.json",
+      "bytes": 2935,
+      "sha256": "adf5d3703c34c60d2af101ef8dc8566846e24db346b66338be44a3901f0a1e80"
+    },
+    {
+      "name": "hub-final-readback.json",
+      "bytes": 138780,
+      "sha256": "1efe450e96ca0bb8c9f2b1f256e9f13d5918a454908acd4bddf53ad264f25b96"
+    }
+  ],
+  "finalizedAt": "2026-11-19T16:37:00.385709+00:00"
+}

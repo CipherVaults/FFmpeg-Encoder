@@ -1,0 +1,59 @@
+{
+  "status": "INACTIVE_FOUR_PATH_SOURCE_RECONCILIATION_REVIEW_REQUEST",
+  "base": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "reviewedPriorHandoff": "df983ee24449a1a6d12122495ec2a9ee8ad5a6ebcd43ca8b0eb2e61a12e825a4",
+  "priorAndCurrentBaseThreeModulesByteIdentical": true,
+  "paths": [
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 56675,
+      "sha256": "afe10d7bcdeb3c88265bd64d984f684a0eb74c9e0824e2a61f41d4ee71dbb1ae"
+    },
+    {
+      "path": "src/operation-evidence.cjs",
+      "bytes": 53682,
+      "sha256": "5d28b906a0fa7dd4e78d985699231a2a01ed49c1a9ffc16365986b235e5bc948"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 164061,
+      "sha256": "ae3a10b153a8dc05eac026ab309168e938140ef3b001854093de19081e549c75"
+    },
+    {
+      "path": "tests/operation-family-square-geometry.test.cjs",
+      "bytes": 12973,
+      "sha256": "6e8ab0e451ffb86c610d1475bf23a19759e61e6e876e511ad7e45d4a3db34039"
+    }
+  ],
+  "unchangedTrackedGitBlobs": 1149,
+  "tests": {
+    "focused": 40,
+    "existingRegression": 148,
+    "syntaxModules": 3,
+    "diffCheck": "passed",
+    "failures": 0
+  },
+  "limits": [
+    "No active catalog registration, fixture, timing evidence or runtime execution",
+    "Current source pins/package plan unchanged and intentionally stale for modified private source; not a build-ready package",
+    "No acquisition implementation/binding/gate/media; no canonical changes",
+    "Prior whole source100 not copied; exact four reviewed files only on frozen102"
+  ],
+  "receipts": [
+    {
+      "path": "FOCUSED.log",
+      "bytes": 2244,
+      "sha256": "5b78d84596d2df55bab0305387fa82db5ab6d931eb42a4ceb242ef698dffec12"
+    },
+    {
+      "path": "REGRESSION.log",
+      "bytes": 14798,
+      "sha256": "8da118277efebcf94b4ab2e772a9ffd659e9ae680843b1cf64d186deb0e65f0b"
+    },
+    {
+      "path": "RECONCILIATION.json",
+      "bytes": 895,
+      "sha256": "856012b8cdf1db17bed320f69b2244bb33022726e466f317dd45ca076c8b1a13"
+    }
+  ]
+}

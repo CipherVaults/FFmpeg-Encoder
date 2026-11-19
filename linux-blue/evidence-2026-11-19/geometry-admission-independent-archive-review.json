@@ -1,0 +1,8 @@
+{
+  "status": "APPROVED_INACTIVE_ADMISSION_ARCHIVE_EQUIVALENCE",
+  "intakeSha256": "af39238751f1e3d1de934dccb4dc9c482f3e9b66e2c3072df718d0aff7105d27",
+  "paths": 7,
+  "bytes": 24385,
+  "verified": "All seven staged hashes; actual temporary round-trip of archived predecessor driver through exact diff yields approved successor. Both new helper/test hashes exact. Other files inherited from already verified23-path archive and102 pure marker archive.",
+  "limits": "No raw logs/live gates/binding/runtime/package membership. UNBOUND remains all-null. No tests/media rerun; reconstruction only."
+}

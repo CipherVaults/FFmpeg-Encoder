@@ -1,0 +1,7 @@
+# UNBOUND / INACTIVE: portrait Stage A recovery only
+
+This is an engineering archive, not application/runtime/package membership, a live execution gate, catalog support or acquired timing/geometry measurement. The final review approved exact source and 40 inert tests only. No media was generated or inspected by this cohort.
+
+Retain the established layout in a fresh isolated review directory. The .cjs.txt and .py.txt files are exact reviewed source bytes; the extra .txt suffix is archival only. Copy the exact marked-frame.cjs.txt and marked-frame.test.cjs.txt from the sibling geometry-pure checkpoint-102 archive as these were reused unchanged. Rename source-text copies to their manifest names only in that isolated tree; verify all source digests. BINDING.json is an all-null UNBOUND template, not a usable gate. Reconstruct the separate reviewed four-path inactive source layer on exact committed checkpoint 102 using the sibling geometry-collection/reconstruct-against-100.patch and the reconciliation handoff identities (three base module blobs are unchanged); never apply it to an active checkout from this note. No copied fork or repeated patch.
+
+The final handoff includes inert-log identity references, not a claim that raw logs or predecessor file versions are carried. The original and corrected independent reviews preserve the failed checks and change rationale. Raw logs and live worker/gate/runtime state are not in this archive. Any actual binding, fixture acquisition, acceptance and package integration requires separately reviewed and authorized work.

@@ -1,0 +1,160 @@
+{
+  "checkpoint": "104",
+  "cutoffUtc": "2026-11-19T16:45:49+00:00",
+  "baseLocal": "1d0b1eb6463b293ba66d8ca47a1f63501214361e",
+  "baseTree": "f07f68655f68c0d0c8281b0ce2beddc617109b47",
+  "baseGitHub": "06bb6f5ea86750e09ac0e1bfa24ea2a24cedb22a",
+  "scope": "documents and inactive engineering custody only; no application/package/workflow edits or rebuild",
+  "native102": "one successful affirmative picker; earlier cancellation cause unresolved; startup CPU probes, no Prepare, Start, remux, output or reveal",
+  "geometry": "UNBOUND, inactive Stage A and admission successor; source reconstruction verified, no media or qualification",
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/checkpoint103-final-notion-verification.json": {
+      "bytes": 3396,
+      "sha256": "9d1e0f71a6c4e90b67925774a107364cf19b615e0093e67136c7d49cd969ebb2"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint103-final-mirror-release.json": {
+      "bytes": 265,
+      "sha256": "bea225930c36c3e471228dc339c2eb97528f7bcbdae9b39d72cbbaf1b59d9e47"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint103-verified-remote.json": {
+      "bytes": 702,
+      "sha256": "510359687b7e5c67db805a19153abf10f14787d38828770c2c8b3ad172e53fe4"
+    },
+    "linux-blue/evidence-2026-11-19/hosted103-verified-outcome.json": {
+      "bytes": 1052,
+      "sha256": "cf7b9f6d208e28c311ba06a6a606ef4911dd1bed87ac336a076dbfa180058c77"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/driver.cjs.txt": {
+      "bytes": 19669,
+      "sha256": "fe23d51fadd69988b254ae7249874437c84525afee0c8dd5fb7ed73398536d8b"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/retention.cjs.txt": {
+      "bytes": 3383,
+      "sha256": "e5189e4b3ac8a0923e194d29a3fef1debde1b0bc95a0b88ff9f15434952212d8"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/retention.test.cjs.txt": {
+      "bytes": 4798,
+      "sha256": "dba332306f47da5c2e7d5437b1414b81e990615f2d92beaeb9dc7fd4dbefeed4"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/frozen-checks.cjs.txt": {
+      "bytes": 8287,
+      "sha256": "135a8fdee1e1aef8a5f449a6a030a929f11436974d7ae06c25cc7731226e9a3f"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/geometry-controls.cjs.txt": {
+      "bytes": 2612,
+      "sha256": "f01b795660bdf9dd44d89d510986cbc504d6a955e2f044e2400bf7be4cf96c4b"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/executor.cjs.txt": {
+      "bytes": 960,
+      "sha256": "be49894c7931f580d2ac08a200dca147ff8735fa11a2a7591e816a52a6505223"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/producer.cjs.txt": {
+      "bytes": 1745,
+      "sha256": "d3384d24c3d52e90bd46dc5fee65bb53c99760a0e7f16afa7782cbc31f9511a8"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/process-runner-private.cjs.txt": {
+      "bytes": 18320,
+      "sha256": "ca3f98c43dc8f04f2fc2af7e7562ac109c975e4272ea001cfe8d968c1d3b32c6"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/entry.cjs.txt": {
+      "bytes": 133,
+      "sha256": "1616e1743fe3d444dd2626a9a78adde7ff0efbf9e84ca12c0aa56b626c07ca84"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/supervise.py.txt": {
+      "bytes": 6499,
+      "sha256": "5d675c12feb6ba986cf3bb487f48d11f12838029d7027a726673eef28a8f3c28"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/BINDING.json": {
+      "bytes": 265,
+      "sha256": "3d9d487528c22dc71df8f86d969ca8525d1de5e35d22bb7931507b28cefa7a97"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/input.test.cjs.txt": {
+      "bytes": 4613,
+      "sha256": "4414914707df2a24464a8f7b42e2030a65e651add15d000ab65c53e10cc45ed0"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/stage.test.cjs.txt": {
+      "bytes": 3680,
+      "sha256": "32d733aa7795b1bf02b962cd42647dbd484c4ff2fb86203b1d071478b3ccfaf3"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/CORRECTIONS.md": {
+      "bytes": 2293,
+      "sha256": "74fdf2a9ad65fb5ec393c6aec9a0a182d96bd96058dbfe75191f18ca254dae2b"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/PLAN.md": {
+      "bytes": 5846,
+      "sha256": "4f2fe49066aae1cc0a13d52dbca7aa0204366d56b0e85655da8345fde48cdbdd"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/FINAL_BOUNDARIES.md": {
+      "bytes": 586,
+      "sha256": "6ab75ae201ac6d5557a09f2442d9f7488cd3464bf066dfed5f12fc161bb32197"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/FINAL_HANDOFF.json": {
+      "bytes": 3145,
+      "sha256": "aa9137d9b9234049131df3b1052dcc90409a47d9a3dd2948f19a2d1aa016175b"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/INDEPENDENT_FINAL_REVIEW.json": {
+      "bytes": 1393,
+      "sha256": "c65545d86264044cfdbeb822781abf52fcbcfc8f76012389fe09be88823f044f"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/INDEPENDENT_STAGEA_REVIEW.json": {
+      "bytes": 2387,
+      "sha256": "623432bf63c29f312187220bd151632d903030c5fc0781ff0f527113b12608a2"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/INDEPENDENT_CORRECTED_REVIEW.json": {
+      "bytes": 875,
+      "sha256": "a11e07709b6df65ea2a10a1222e2c0ce2f5be69f81e84cfbfe471edc34f8f077"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/RECONCILIATION_HANDOFF.json": {
+      "bytes": 1997,
+      "sha256": "06a8763da221ec310de32a6d187a5b3447af07ca7f40d1fd72192d8ce53b71fd"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/INDEPENDENT_RECONCILIATION_REVIEW.json": {
+      "bytes": 837,
+      "sha256": "9d4604038561596ba4ed3d7e0dba7b8acd6a236c62bf9392ef5c69d9729c789b"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea/README.md": {
+      "bytes": 1577,
+      "sha256": "790052437b19a72bfa607b26dcfbd042cd4a81021ba39cf65fee1d20bd672f70"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/ADMISSION_HANDOFF.json": {
+      "bytes": 3980,
+      "sha256": "25122e2bcac0baf68a98657e1d75a07be91af11d8fcd8e3be6b656db4d803810"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/INDEPENDENT_ADMISSION_REVIEW.json": {
+      "bytes": 1679,
+      "sha256": "df03a6ec57f47065961df993e2060e57d4fe72b243d26808b78846418600bf93"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/ADMISSION_NOTE.md": {
+      "bytes": 2362,
+      "sha256": "76985f595d0d02e315e76309cf2d255d2c051aff07c33067fcd75e885e3a4ee1"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/ADMISSION_DRIVER.diff": {
+      "bytes": 7747,
+      "sha256": "1ed47b34008abe08ac880d0dcbaa8cba34f14378a10bcc58c39dece2b41f449c"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/admission.cjs.txt": {
+      "bytes": 3940,
+      "sha256": "b057b1b2084d32dab604226391d47f149e3c5a2e3b2ecffe708af9991fc4559f"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/admission.test.cjs.txt": {
+      "bytes": 3624,
+      "sha256": "9008882448bd8e598ddfa54a3dc4680e8d5feddecee1fd526d46cdf3ca706fe7"
+    },
+    "linux-blue/proposals-2026-11-19/geometry-stagea-admission/README.md": {
+      "bytes": 1053,
+      "sha256": "04aeacda12213d2d19a2db88ad480ef4c273099aa8579d7042a0ef5da35f5b42"
+    },
+    "linux-blue/evidence-2026-11-19/native102-affirmative-picker-only-saved-audit.json": {
+      "bytes": 3933,
+      "sha256": "27d549651a1bd593bef09cef197f52bd2a316cd053c85543796f04e93fc6e1ac"
+    },
+    "linux-blue/evidence-2026-11-19/geometry-stagea-independent-archive-review.json": {
+      "bytes": 1449,
+      "sha256": "f6bda6b069a6737c5d8ee4557904f2009cf39dc2d7af4e308dcb6b3abc8d9bb1"
+    },
+    "linux-blue/evidence-2026-11-19/geometry-admission-independent-archive-review.json": {
+      "bytes": 596,
+      "sha256": "4692b8aac2765132951bbd27261b11957ac20a3f13ac7e99d6d8752d38ba0096"
+    }
+  }
+}

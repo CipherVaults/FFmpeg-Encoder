@@ -1,0 +1,26 @@
+{
+  "status": "CORRECTIONS_REQUIRED_UNBOUND_SOURCE_ONLY",
+  "handoffSha256": "6ddad4a2306c8b0cceb2d2b1e354cd3e6830ee3405709fadb9ccd61e1279333f",
+  "allFilesVerified": 16,
+  "independentTestsPassed": 28,
+  "findings": [
+    {
+      "id": "R1",
+      "where": "driver.cjs runOnce preflight/runtime opening and totalCurrent initialization",
+      "finding": "570-second acceptance deadline/timer starts only after verifySource, owner creation and awaited runtime opening. These steps consume outer600 seconds but not inner570, so the stated30-second cleanup margin is not guaranteed. Runtime identity assertion is also before the runtime-owning try/finally.",
+      "required": "Start monotonic acceptance deadline at entry before awaited setup, recheck through source/currentness/open; adopt already-reviewed checked-open cleanup semantics and preserve primary+close failure. Test delayed setup/open consuming budget prevents subsequent child and still closes any obtained runtime."
+    },
+    {
+      "id": "R2",
+      "where": "driver.cjs case report and final summary persistence",
+      "finding": "Plain unbounded JSON.stringify/fs.writeFile report/summary writes do not implement PLAN8MiB report bound. A failed report owner check/write in finally can replace the original case failure; summary write can likewise replace retained primary. These are actual failure retention paths, not covered by current substring tests.",
+      "required": "Use a bounded exclusive current-owned persistence helper with ordered primary/cleanup/persistence errors and post-write deadline outcome. Preserve original failed result plus separate persistence failure. Add behavioral tests invoking that actual helper for overcap/owner/write failures and delayed persistence."
+    }
+  ],
+  "positiveScope": [
+    "Exact fixed raw marker producer and one-shot execute seam reused; canonical source reference removes geometry filters without replacing trim timing.",
+    "Genuine selector-issued collection brand passed; no shipped catalog authority or publication.16 requested phase ceiling and serial census retained.",
+    "Prospective AAC timing rules are explicitly not acquired evidence; source/private override binding remains absent."
+  ],
+  "limits": "28 tests are inert helpers/source contracts, not a composed media run. No binding, gate, network, subprocess/media or source edits performed."
+}

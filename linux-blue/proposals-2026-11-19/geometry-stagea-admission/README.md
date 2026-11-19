@@ -1,0 +1,5 @@
+# UNBOUND / INACTIVE: conditional Stage A successor
+
+The sibling geometry-stagea archive is immutable predecessor aa9137d9. To reconstruct this inactive review proposal, copy its archived exact driver.cjs.txt to driver.cjs in a fresh isolated tree and apply ADMISSION_DRIVER.diff explicitly to that file. This process has been round-tripped and matches successor driver digest in ADMISSION_HANDOFF.json. Restore admission.cjs.txt and admission.test.cjs.txt as the two new source names; retain all other predecessor bytes and the all-null UNBOUND template. Inherited marked-frame source/test dependencies remain in the earlier geometry-pure archive. Inert test log is referenced, not carried.
+
+47 inert checks and approval cover a tighter 29 GiB storage admission and conditional actual metadata checks. They are not fixture acquisition, measured qualification or authority to launch a tool. No runtime/package membership, catalog registration, live gate or artifact is carried. Any binding or execution requires separate fresh review and authorization.

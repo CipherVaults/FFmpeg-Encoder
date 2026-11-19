@@ -1,0 +1,133 @@
+{
+  "status": "UNBOUND_CONDITIONAL_ADMISSION_REVIEW_REQUEST",
+  "predecessor": "aa9137d9b9234049131df3b1052dcc90409a47d9a3dd2948f19a2d1aa016175b",
+  "predecessorReview": "c65545d86264044cfdbeb822781abf52fcbcfc8f76012389fe09be88823f044f",
+  "testsPassed": 47,
+  "changedSourcePaths": [
+    "driver.cjs",
+    "admission.cjs",
+    "admission.test.cjs"
+  ],
+  "files": [
+    {
+      "path": "driver.cjs",
+      "bytes": 20458,
+      "sha256": "5c0f72741f09b7173dcc072799e25ad93b028ba7b07dc618212fe45d20df9275"
+    },
+    {
+      "path": "retention.cjs",
+      "bytes": 3383,
+      "sha256": "e5189e4b3ac8a0923e194d29a3fef1debde1b0bc95a0b88ff9f15434952212d8"
+    },
+    {
+      "path": "retention.test.cjs",
+      "bytes": 4798,
+      "sha256": "dba332306f47da5c2e7d5437b1414b81e990615f2d92beaeb9dc7fd4dbefeed4"
+    },
+    {
+      "path": "frozen-checks.cjs",
+      "bytes": 8287,
+      "sha256": "135a8fdee1e1aef8a5f449a6a030a929f11436974d7ae06c25cc7731226e9a3f"
+    },
+    {
+      "path": "geometry-controls.cjs",
+      "bytes": 2612,
+      "sha256": "f01b795660bdf9dd44d89d510986cbc504d6a955e2f044e2400bf7be4cf96c4b"
+    },
+    {
+      "path": "marked-frame.cjs",
+      "bytes": 4465,
+      "sha256": "c1230ece53d6745adfd1cf552ce4c3e51d091a5ae69d9e556ff2b449dabe9649"
+    },
+    {
+      "path": "executor.cjs",
+      "bytes": 960,
+      "sha256": "be49894c7931f580d2ac08a200dca147ff8735fa11a2a7591e816a52a6505223"
+    },
+    {
+      "path": "producer.cjs",
+      "bytes": 1745,
+      "sha256": "d3384d24c3d52e90bd46dc5fee65bb53c99760a0e7f16afa7782cbc31f9511a8"
+    },
+    {
+      "path": "process-runner-private.cjs",
+      "bytes": 18320,
+      "sha256": "ca3f98c43dc8f04f2fc2af7e7562ac109c975e4272ea001cfe8d968c1d3b32c6"
+    },
+    {
+      "path": "entry.cjs",
+      "bytes": 133,
+      "sha256": "1616e1743fe3d444dd2626a9a78adde7ff0efbf9e84ca12c0aa56b626c07ca84"
+    },
+    {
+      "path": "supervise.py",
+      "bytes": 6499,
+      "sha256": "5d675c12feb6ba986cf3bb487f48d11f12838029d7027a726673eef28a8f3c28"
+    },
+    {
+      "path": "BINDING.json",
+      "bytes": 265,
+      "sha256": "3d9d487528c22dc71df8f86d969ca8525d1de5e35d22bb7931507b28cefa7a97"
+    },
+    {
+      "path": "input.test.cjs",
+      "bytes": 4613,
+      "sha256": "4414914707df2a24464a8f7b42e2030a65e651add15d000ab65c53e10cc45ed0"
+    },
+    {
+      "path": "marked-frame.test.cjs",
+      "bytes": 2680,
+      "sha256": "aa1bdfa1036cca1d2af45b51206c08c16d798c31cb55e951e6fbadd7b4c623d0"
+    },
+    {
+      "path": "stage.test.cjs",
+      "bytes": 3680,
+      "sha256": "32d733aa7795b1bf02b962cd42647dbd484c4ff2fb86203b1d071478b3ccfaf3"
+    },
+    {
+      "path": "CORRECTIONS.md",
+      "bytes": 2293,
+      "sha256": "74fdf2a9ad65fb5ec393c6aec9a0a182d96bd96058dbfe75191f18ca254dae2b"
+    },
+    {
+      "path": "PLAN.md",
+      "bytes": 5846,
+      "sha256": "4f2fe49066aae1cc0a13d52dbca7aa0204366d56b0e85655da8345fde48cdbdd"
+    },
+    {
+      "path": "FINAL_TESTS.log",
+      "bytes": 3201,
+      "sha256": "f306a46e5182a68af0db5263fdf5e9e0555db559817014d1e9004638415ab5c0"
+    },
+    {
+      "path": "FINAL_BOUNDARIES.md",
+      "bytes": 586,
+      "sha256": "6ab75ae201ac6d5557a09f2442d9f7488cd3464bf066dfed5f12fc161bb32197"
+    },
+    {
+      "path": "admission.cjs",
+      "bytes": 3940,
+      "sha256": "b057b1b2084d32dab604226391d47f149e3c5a2e3b2ecffe708af9991fc4559f"
+    },
+    {
+      "path": "admission.test.cjs",
+      "bytes": 3624,
+      "sha256": "9008882448bd8e598ddfa54a3dc4680e8d5feddecee1fd526d46cdf3ca706fe7"
+    },
+    {
+      "path": "ADMISSION_TESTS.log",
+      "bytes": 3768,
+      "sha256": "baf23ae4bc4d370f76073c50508c09bcd675b9dff83ec08d1b7eeda53711870c"
+    },
+    {
+      "path": "ADMISSION_DRIVER.diff",
+      "bytes": 7747,
+      "sha256": "1ed47b34008abe08ac880d0dcbaa8cba34f14378a10bcc58c39dece2b41f449c"
+    },
+    {
+      "path": "ADMISSION_NOTE.md",
+      "bytes": 2362,
+      "sha256": "76985f595d0d02e315e76309cf2d255d2c051aff07c33067fcd75e885e3a4ee1"
+    }
+  ]
+}

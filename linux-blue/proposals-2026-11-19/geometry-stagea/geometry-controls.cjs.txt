@@ -1,0 +1,22 @@
+'use strict';
+const assert=require('node:assert/strict');
+const SPEC=Object.freeze({id:'portrait',seconds:8,width:960,height:1440,fps:30,resolution:'720',startUs:613000,endUs:2721000,frequency:523});
+const FAMILY='short-sdr-range-square-geometry-v1';
+function generation(source){return ['-hide_banner','-nostdin','-v','error','-n','-f','rawvideo','-pixel_format','yuv420p','-video_size','960x1440','-framerate','30','-i','pipe:0','-f','lavfi','-i','aevalsrc=0.18*sin(2*PI*(523*t+5.5*t*t))|0.18*sin(2*PI*(742*t+6.5*t*t)):s=48000:c=stereo:d=8','-map','0:v:0','-map','1:a:0','-map_metadata','-1','-map_chapters','-1','-vf','setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709','-c:v','libx264','-preset','veryfast','-crf','23','-profile:v','high','-pix_fmt','yuv420p','-x264-params','keyint=60:min-keyint=60:scenecut=0:bframes=3:b-adapt=0:open-gop=0','-c:a','aac','-b:a','320k','-ar','48000','-ac','2','-t','8','-movflags','+faststart',source];}
+function controls(plan){
+ const e=plan.expectedOutput,g=e.geometry.output;
+ assert.equal(g.width,720);assert.equal(g.height,1080);
+ const filters=e.filters.video;assert(Array.isArray(filters));
+ const scale=filters.filter(x=>x.startsWith('scale='));assert.equal(scale.length,1);assert(scale[0].startsWith('scale=w=720:h=1080:'));
+ assert.equal(filters.filter(x=>x.startsWith('setsar=')).length,1);
+ assert.equal(filters.filter(x=>x.startsWith('trim=start_pts=')).length,1);
+ assert.equal(filters.filter(x=>x.startsWith('setpts=')).length,1);
+ assert(filters.every(x=>/^(scale=|setsar=|sidedata=mode=delete:type=DISPLAYMATRIX$|trim=start_pts=|setpts=)/.test(x)),'unexpected geometry transform');
+ assert.equal(plan.args[plan.args.indexOf('-filter:v:0')+1],filters.join(','));
+ // Frame count follows the fixed CFR source and interval; actual collected
+ // frames must independently agree. Filter tick strings come from plan only.
+ const first=Math.ceil(SPEC.startUs*30/1e6),end=Math.ceil(SPEC.endUs*30/1e6);assert.equal(end-first,63);
+ return {referenceFilters:filters.filter(x=>!x.startsWith('scale=')&&!x.startsWith('setsar=')&&!x.startsWith('sidedata=')),frames:63,indices:[0,31,62],sourceIndices:[first,first+31,first+62]};
+}
+function imageArgs(input,index,filters=[]){return ['-hide_banner','-nostdin','-v','error','-protocol_whitelist','file,pipe','-copyts','-noautorotate','-i',input,'-map',`0:${index}`,'-an','-sn','-dn','-vf',[...filters,'select=eq(n\\,0)+eq(n\\,31)+eq(n\\,62)'].join(','),'-fps_mode','passthrough','-pix_fmt','yuv420p','-f','rawvideo','pipe:1'];}
+module.exports={SPEC,FAMILY,generation,controls,imageArgs};

@@ -1,0 +1,22 @@
+{
+  "status": "APPROVED_UNBOUND_STAGEA_SOURCE_ONLY",
+  "handoffSha256": "aa9137d9b9234049131df3b1052dcc90409a47d9a3dd2948f19a2d1aa016175b",
+  "filesVerified": 19,
+  "independentTestsPassed": 40,
+  "resolved": [
+    "570s monotonic acceptance starts at entry and remaining budget shrinks through setup.",
+    "checkedOpen/checkedSetup retain runtime cleanup ownership and ordered failures, including post-open expiry; partial timers cleared.",
+    "Bounded8MiB exclusive nofollow report persistence and ordered primary/cleanup/persistence errors used by actual driver.",
+    "finalGuard rechecks deadline after awaited owner check; behavioral expiry control refuses success."
+  ],
+  "retainedScope": [
+    "One portrait experimental unpublished acquisition; exact16 serial phase ceiling, fixed raw marker/chirps, canonical reference trim and genuine collection brand.",
+    "Prospective AAC contract is not acquired qualification; no catalog activation or service/native claim.",
+    "Source/runtime manifest and private geometry override binding, resource admission, outer supervisor and separate release remain required.",
+    "40 inert tests and supervisor AST only; no runtime/process/media/gate/binding execution."
+  ],
+  "priorReviews": [
+    "623432bf63c29f312187220bd151632d903030c5fc0781ff0f527113b12608a2",
+    "a11e07709b6df65ea2a10a1222e2c0ce2f5be69f81e84cfbfe471edc34f8f077"
+  ]
+}

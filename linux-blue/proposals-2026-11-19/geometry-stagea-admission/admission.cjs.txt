@@ -1,0 +1,32 @@
+'use strict';
+const assert=require('node:assert/strict');
+const GiB=1024n**3n,RESERVE=2n*GiB,FLOOR=27n*GiB,MAX_SOURCE=512n*1024n**2n;
+const BUDGET=Object.freeze({sourceDecode:'complete',timeoutMs:120000,maxFrameBytes:8*1024**2,maxPcmBytes:128*1024**2,maxRecords:20000,maxSpoolBytes:32*1024**2});
+function ratio(s,separator='/'){assert(typeof s==='string');const m=new RegExp('^(\\d+)'+separator+'([1-9]\\d*)$').exec(s);assert(m,'explicit rational metadata');return [BigInt(m[1]),BigInt(m[2])];}
+function equalRatio(s,n,d,separator='/'){const [a,b]=ratio(s,separator);assert.equal(a*BigInt(d),BigInt(n)*b);}
+function integer(s){assert((typeof s==='string'&&/^\d+$/.test(s))||Number.isSafeInteger(s)&&s>=0,'explicit integer metadata');return BigInt(s);}
+function sourceMetadata(inspection,seal){
+ const probe=inspection?.probe;assert(probe&&Array.isArray(probe.streams)&&probe.streams.length===2,'exact two observed streams');
+ const video=probe.streams.find(x=>x.codec_type==='video'),audio=probe.streams.find(x=>x.codec_type==='audio');assert(video&&audio,'observed video and audio');
+ assert.equal(video.codec_name,'h264');assert.equal(video.profile,'High');assert.equal(video.pix_fmt,'yuv420p');assert.equal(video.field_order,'progressive');assert.equal(video.width,960);assert.equal(video.height,1440);
+ for(const k of ['color_space','color_primaries','color_transfer'])assert.equal(video[k],'bt709');assert.equal(video.color_range,'tv');
+ equalRatio(video.sample_aspect_ratio,1,1,':');equalRatio(video.display_aspect_ratio,2,3,':');equalRatio(video.avg_frame_rate,30,1);equalRatio(video.r_frame_rate,30,1);
+ assert.equal(integer(video.nb_frames),240n);const [n,d]=ratio(video.time_base);assert.equal(integer(video.duration_ts)*n,8n*d);
+ assert(typeof probe.format?.duration==='string'&&/^8(?:\.0+)?$/.test(probe.format.duration),'observed8s container');
+ assert.equal(audio.codec_name,'aac');assert.equal(audio.profile,'LC');assert.equal(integer(audio.sample_rate),48000n);assert.equal(audio.channels,2);assert.equal(audio.channel_layout,'stereo');
+ assert(Array.isArray(probe.chapters)&&probe.chapters.length===0,'observed no chapters');
+ const bytes=integer(seal?.identity?.size);assert(bytes>0n&&bytes<=MAX_SOURCE,'actual source byte cap');assert(/^[a-f0-9]{64}$/.test(seal.sha256),'actual source hash');
+ return {observed:true,sourceSha256:seal.sha256,sourceBytes:String(bytes),width:video.width,height:video.height,reportedFrames:String(video.nb_frames),durationTicks:String(video.duration_ts),timeBase:video.time_base,formatDuration:probe.format.duration,rate:video.avg_frame_rate};
+}
+function storage({freeBytes,usedBytes},preGeneration=false){
+ const free=BigInt(freeBytes),used=BigInt(usedBytes);assert(used>=0n&&used<=RESERVE,'owned tree cap');const remaining=preGeneration?RESERVE:RESERVE-used;
+ assert(free-remaining>=FLOOR,'free bytes after conservative reservation below27GiB');
+ return {reservationBytes:String(RESERVE),remainingBytes:String(remaining),observedUsedBytes:String(used),observedFreeBytes:String(free),floorBytes:String(FLOOR)};
+}
+async function preEncode({check,ownerCheck,readSeal,originalSeal,requireCurrent,qualified,readStorage,inspection}){
+ check();await ownerCheck();check();const seal=await readSeal();check();assert.deepEqual(seal,originalSeal,'generated source seal changed');
+ const metadata=sourceMetadata(inspection,seal);const q=await requireCurrent();check();assert.strictEqual(q,qualified,'issued selection changed');assert.deepEqual(q.budget,BUDGET);assert.equal(q.executionBudgetMs,600000);
+ const capacity=storage(await readStorage());check();await ownerCheck();check();assert.deepEqual(await readSeal(),originalSeal,'generated source changed during admission');check();assert.strictEqual(await requireCurrent(),qualified);check();
+ return {metadata,capacity,evidenceBudget:{...q.budget},executionBudgetMs:q.executionBudgetMs};
+}
+module.exports={sourceMetadata,storage,preEncode,BUDGET};

@@ -1,0 +1,51 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs/promises'),constants=require('node:fs').constants;
+const LIMIT=8*1024*1024;
+function serialize(value,limit=LIMIT){
+ const chunks=[],seen=new Set();let bytes=0,nodes=0;
+ function add(s){const b=Buffer.from(s);assert(bytes+b.length<=limit,'report8MiB cap');bytes+=b.length;chunks.push(b);}
+ function string(s){assert(Buffer.byteLength(s)<=limit,'report string cap');add(JSON.stringify(s));}
+ function visit(v,depth){
+  assert(depth<=32&&++nodes<=200000,'report structural cap');
+  if(v===null){add('null');return;}
+  if(typeof v==='string'){string(v);return;}
+  if(typeof v==='number'){add(Number.isFinite(v)?String(v):'null');return;}
+  if(typeof v==='boolean'){add(String(v));return;}
+  assert(v&&typeof v==='object'&&!seen.has(v),'report unsupported/cyclic value');seen.add(v);
+  const array=Array.isArray(v);assert(array||Object.getPrototypeOf(v)===Object.prototype||Object.getPrototypeOf(v)===null,'report plain records only');
+  add(array?'[':'{');let first=true;
+  if(array)assert(v.length<=200000,'report array cap');
+  const keys=array?Array.from({length:v.length},(_,i)=>String(i)):Object.keys(v);assert(keys.length<=200000,'report entry cap');
+  for(const k of keys){const d=Object.getOwnPropertyDescriptor(v,k);assert(d&&Object.hasOwn(d,'value'),'report accessors/sparse arrays refused');if(!array&&d.value===undefined)continue;
+   if(!first)add(',');first=false;if(!array){string(k);add(':');}visit(d.value===undefined?null:d.value,depth+1);
+  }
+  add(array?']':'}');seen.delete(v);
+ }
+ visit(value,0);return Buffer.concat(chunks,bytes);
+}
+function combined(errors,label){return errors.length===0?null:errors.length===1?errors[0]:new AggregateError(errors,label);}
+async function checkedOpen(check,open,validate){
+ check();const handle=await open();
+ try{check();await validate(handle);check();return handle;}
+ catch(primary){const errors=[primary];try{await handle.close();}catch(cleanup){errors.push(cleanup);}throw combined(errors,'runtime opening and cleanup');}
+}
+async function persist(owner,file,value,{io=fs,limit=LIMIT}={}){
+ const errors=[];let h;
+ try{await owner.check();const bytes=serialize(value,limit);h=await io.open(file,constants.O_WRONLY|constants.O_CREAT|constants.O_EXCL|constants.O_NOFOLLOW,0o600);
+  let pos=0;while(pos<bytes.length){await owner.check();const w=await h.write(bytes,pos,Math.min(65536,bytes.length-pos),pos);assert(w.bytesWritten>0,'report short write');pos+=w.bytesWritten;}
+  await h.sync();await owner.check();
+ }catch(e){errors.push(e);}
+ finally{if(h)try{await h.close();}catch(e){errors.push(e);}}
+ const error=combined(errors,'report persistence and close');if(error)throw error;
+}
+async function finalize(primary,cleanups,write){
+ const errors=primary?[primary]:[];
+ for(const cleanup of cleanups)try{await cleanup();}catch(e){errors.push(e);}
+ try{await write(errors);}catch(e){errors.push(e);}
+ return combined(errors,'primary, cleanup and report failures');
+}
+async function checkedSetup(handle,setup){
+ try{return await setup();}catch(primary){const errors=[primary];try{await handle.close();}catch(cleanup){errors.push(cleanup);}throw combined(errors,'runtime setup and cleanup');}
+}
+async function finalGuard(check,guard){check();await guard();check();}
+module.exports={LIMIT,serialize,checkedOpen,checkedSetup,finalGuard,persist,finalize};

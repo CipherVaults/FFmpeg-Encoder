@@ -1,0 +1,49 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {EventEmitter}=require('node:events');const {PassThrough,Writable}=require('node:stream');
+const {produce,FRAME}=require('./producer.cjs'),{runTool}=require('./process-runner-private.cjs'),{createGenerationExecutor}=require('./executor.cjs');
+function child(mode='success'){
+ const c=new EventEmitter();c.stdout=new PassThrough();c.stderr=new PassThrough();c.bytes=0;c.calls=0;c.kills=[];c.closed=false;
+ c.close=(code=0)=>{if(c.closed)return;c.closed=true;c.stdout.end();c.stderr.end();c.emit('close',code,null);};
+ c.stdin=new Writable({highWaterMark:1,write(buffer,encoding,done){c.bytes+=buffer.length;c.calls++;if(mode==='blocked')return;if(mode==='error'){done(new Error('pipe failure'));return;}setImmediate(done);}});
+ c.stdin.on('finish',()=>setImmediate(()=>c.close(0)));
+ c.kill=sig=>{c.kills.push(sig);setImmediate(()=>c.close(137));return true;};
+ return c;
+}
+test('fixed generator writes exactly240 frames serially and closes stdin before success',async()=>{
+ const c=child();const r=await runTool('/fake',['gen'],{markedInput:true,timeoutMs:10000,spawnImpl:()=>c});
+ assert.equal(c.bytes,FRAME*240);assert.equal(c.calls,240);assert(c.stdin.writableFinished);assert.equal(r.producerReceipt.frames,240);assert.equal(r.producerReceipt.maximumPendingFrames,1);assert.equal(r.exitCode,0);
+});
+test('abort blocked write settles producer and waits actual child close',async()=>{
+ const c=child('blocked'),abort=new AbortController();let finished=false;
+ const p=runTool('/fake',['gen'],{markedInput:true,signal:abort.signal,spawnImpl:()=>c}).finally(()=>finished=true);
+ await new Promise(r=>setImmediate(r));assert.equal(c.calls,1);abort.abort();assert.equal(finished,false);
+ await assert.rejects(p,e=>e.code==='CANCELLED'&&!!e.producerFailure&&e.exitCode===137);assert(c.closed);assert.equal(c.calls,1);
+});
+test('timeout blocked write is observed and retains both producer and child failure',async()=>{
+ const c=child('blocked');await assert.rejects(runTool('/fake',['gen'],{markedInput:true,timeoutMs:10,spawnImpl:()=>c}),e=>e.code==='TIMEOUT'&&!!e.producerFailure&&e.exitCode===137);assert(c.closed);
+});
+test('premature zero child close cannot grant generation success',async()=>{
+ const c=child('blocked');const p=runTool('/fake',['gen'],{markedInput:true,spawnImpl:()=>c});await new Promise(r=>setImmediate(r));c.close(0);await assert.rejects(p,e=>e.code==='PIPE_FAILED'&&!!e.producerFailure);
+});
+test('pipe rejection retains cleanup through child closure',async()=>{
+ const c=child('error');await assert.rejects(runTool('/fake',['gen'],{markedInput:true,spawnImpl:()=>c}),e=>e.code==='PIPE_FAILED'&&!!e.producerFailure);assert(c.closed);assert.equal(c.calls,1);
+});
+test('producer rejects concurrent writes and malformed/missing frames without a process',async()=>{
+ for(const source of [async write=>write(Buffer.alloc(1),0),async()=>{},async write=>{await Promise.all([write(Buffer.alloc(FRAME),0),write(Buffer.alloc(FRAME),0)]);}]){
+  const stdin=new Writable({write(b,e,done){setImmediate(done);}});await assert.rejects(produce(stdin,new AbortController().signal,source));stdin.destroy();
+ }
+});
+test('unchanged ordinary stdin ignore and64KiB byte limit',async()=>{
+ let shape;const c=child();await runTool('/fake',[],{spawnImpl:(x,a,o)=>{shape=o.stdio;setImmediate(()=>c.close());return c;}});assert.equal(shape[0],'ignore');
+ let called=false;await assert.rejects(runTool('/fake',[],{input:Buffer.alloc(65537),spawnImpl:()=>{called=true;return c;}}),e=>e.code==='INPUT_LIMIT');assert.equal(called,false);
+ await assert.rejects(runTool('/fake',[],{markedInput:true,input:Buffer.alloc(0)}),e=>e.code==='INVALID_INPUT');
+});
+test('only exact frozen generation argv uses private executor, once',async()=>{
+ const calls=[];const original=(...a)=>{calls.push(['ordinary',...a]);return 1;};const privateRun=(...a)=>{calls.push(['private',...a]);return 2;};
+ const argv=['-f','rawvideo','-i','pipe:0','/owned/source.mp4'];const exec=createGenerationExecutor({ffmpeg:'/pinned/ffmpeg',generationArgv:argv,originalRun:original,privateRun});argv[0]='MUTATED';
+ assert.equal(exec('/pinned/ffmpeg',['-version']),1);assert.equal(exec('/other',['-f','rawvideo','-i','pipe:0','/owned/source.mp4']),1);
+ assert.equal(exec('/pinned/ffmpeg',['-f','rawvideo','-i','pipe:0','/owned/source.mp4']),2);assert.equal(calls[2][3].markedInput,true);
+ assert.throws(()=>exec('/pinned/ffmpeg',['-f','rawvideo','-i','pipe:0','/owned/source.mp4']),/one-shot/);
+ assert.throws(()=>exec('/pinned/ffmpeg',[],{markedInput:true}));
+});

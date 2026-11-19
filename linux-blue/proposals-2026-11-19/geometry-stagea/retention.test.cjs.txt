@@ -1,0 +1,53 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');
+const {checkedOpen,persist,finalize,serialize}=require('./retention.cjs');
+const {deadline}=require('./driver.cjs');
+test('delayed runtime opening expires and closes returned handle before use',async()=>{
+ let now=0n,closed=0,validated=0;const current=deadline(1,()=>now);
+ await assert.rejects(checkedOpen(current,async()=>{await Promise.resolve();now=2000000n;return {close:async()=>closed++};},async()=>validated++),/deadline expired/);
+ assert.equal(closed,1);assert.equal(validated,0);
+});
+test('wrong runtime identity and rejected close retain ordered errors',async()=>{
+ const primary=Error('wrong identity'),cleanup=Error('close refused');
+ await assert.rejects(checkedOpen(()=>{},async()=>({close:async()=>{throw cleanup;}}),async()=>{throw primary;}),e=>e instanceof AggregateError&&e.errors[0]===primary&&e.errors[1]===cleanup);
+});
+test('expired setup cannot call opener',async()=>{
+ let called=false;await assert.rejects(checkedOpen(()=>{throw Error('expired');},async()=>{called=true;},()=>{}),/expired/);assert.equal(called,false);
+});
+test('bounded serialization preserves JSON values and refuses oversized/cyclic/accessor reports',()=>{
+ const value={a:'α',b:[true,null,undefined],c:undefined};assert.deepEqual(JSON.parse(serialize(value)),JSON.parse(JSON.stringify(value)));
+ assert.throws(()=>serialize({a:'a'.repeat(65)},64),/cap/);assert.throws(()=>serialize({a:'\n'.repeat(40)},64),/cap/);
+ const cycle={};cycle.x=cycle;assert.throws(()=>serialize(cycle),/cyclic/);assert.throws(()=>serialize({get a(){throw Error('invoked');}}),/accessors/);
+});
+test('actual persistence helper retains diagnostic after acceptance expiry and closes handle',async()=>{
+ const chunks=[];let closed=0,checked=0;const io={open:async()=>({write:async(b,p,n)=>{chunks.push(Buffer.from(b.subarray(p,p+n)));return {bytesWritten:n};},sync:async()=>{},close:async()=>closed++})};
+ let now=2n;const current=deadline(1,()=>now);now=2000000n;assert.throws(current);
+ await persist({check:async()=>checked++},'/synthetic/report.json',{status:'failed-expired'},{io});assert.equal(JSON.parse(Buffer.concat(chunks)).status,'failed-expired');assert.equal(closed,1);assert(checked>=3);
+});
+test('oversized receipt refuses before opening output',async()=>{let opens=0;await assert.rejects(persist({check:async()=>{}},'/report',{a:'a'.repeat(100)},{limit:64,io:{open:async()=>opens++}}),/cap/);assert.equal(opens,0);});
+test('primary cleanup and owner-persistence errors remain ordered through actual helper',async()=>{
+ const primary=Error('encode failed'),cleanup=Error('runtime close failed'),owner=Error('owner changed');
+ const failure=await finalize(primary,[async()=>{throw cleanup;}],async()=>persist({check:async()=>{throw owner;}},'/report',{}));
+ assert(failure instanceof AggregateError);assert.deepEqual(failure.errors,[primary,cleanup,owner]);
+});
+test('write and close failures survive alongside original operation failure',async()=>{
+ const primary=Error('original'),write=Error('disk'),close=Error('fd close');
+ const io={open:async()=>({write:async()=>{throw write;},close:async()=>{throw close;}})};
+ const failure=await finalize(primary,[],()=>persist({check:async()=>{}},'/report',{a:1},{io}));
+ assert.equal(failure.errors[0],primary);assert.deepEqual(failure.errors[1].errors,[write,close]);
+});
+
+test('remaining observer budget shrinks across awaited setup rather than restarting',async()=>{let now=0n;const current=deadline(570000,()=>now);await Promise.resolve();now=500000000000n;assert.equal(current.remainingMs(),70000);now=570000000000n;assert.throws(()=>current.remainingMs(),/expired/);});
+
+test('final actual guard refuses expiry during awaited owner check',async()=>{
+ const {finalGuard}=require('./retention.cjs');let now=0n;const check=deadline(1,()=>now);let returned=false;
+ await assert.rejects(async()=>{await finalGuard(check,async()=>{await Promise.resolve();now=2000000n;});returned=true;},/expired/);assert.equal(returned,false);
+});
+test('expired remaining-budget setup closes already obtained runtime',async()=>{
+ const {checkedSetup}=require('./retention.cjs');let now=0n,closed=0,timers=0;const check=deadline(1,()=>now);const handle={close:async()=>closed++};now=2000000n;
+ await assert.rejects(checkedSetup(handle,async()=>{check.remainingMs();timers++;}),/expired/);assert.equal(closed,1);assert.equal(timers,0);
+});
+test('post-open setup primary and rejected close are both retained',async()=>{
+ const {checkedSetup}=require('./retention.cjs');const primary=Error('setup'),cleanup=Error('close');
+ await assert.rejects(checkedSetup({close:async()=>{throw cleanup;}},async()=>{throw primary;}),e=>e instanceof AggregateError&&e.errors[0]===primary&&e.errors[1]===cleanup);
+});

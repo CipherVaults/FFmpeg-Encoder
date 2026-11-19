@@ -1,0 +1,11 @@
+# Stage A R1/R2 successor
+
+Original proposal and review623432bf… remain unchanged in ffmpeg-geometry103-stagea-unbound. This directory supersedes that source handoff only; no execution/binding.
+
+R1: single570s deadline begins at runOnce entry before its first awaited setup. Source-manifest verification checks it per file. Runtime opening uses checkedOpen: deadline before open, after awaited open, after identity/owner validation; failed validation or expiry closes the returned handle, retaining opening and close errors in order. Actual global timer and child timeout are clipped to the deadline's remaining time, not restarted after setup. Failed open before a handle is returned remains the existing candidate opener's cleanup responsibility. No child or runtime probe was executed in tests.
+
+R2: preregistration, per-case report and final summary use bounded persistence. Serializer enforces8MiB cumulative UTF8 output,32levels,200000nodes, plain inert values/no accessors or cycles. Strings are prebounded before escaping; bounded intermediate allocation is not an RSS guarantee. File opens are exclusive/no-follow0600; writes are at most64KiB each, checking owner before/between/after, then sync/close. Receipt persistence deliberately does not require unexpired acceptance, so failure evidence survives deadline. Actual acceptance still requires final authoritative deadline checks and outerexit/closure; late pass-looking text never overrides a nonzero outer result.
+
+Per-case and outer finalization collect primary failure, ordered cleanup failures and report/owner failures without finally masking the primary. Cleanup continues to runtime.close even when storage monitoring has failed. Actual error chains retain their nested causes; bounded report metadata describes failure without claiming success. Failure to persist is propagated, never silently waived.
+
+37 inert tests pass: previous28 plus9 behavioral controls for delayed/expired open, wrong identity+close failure, shrinking remaining budget, serializer caps/accessors/cycles, expired diagnostic persistence, oversize-before-open, and ordered primary/cleanup/owner/write/close failures. Approved marker/input/frozen geometry controls remain exact. No real children/network/media, runtime binding or source activation.

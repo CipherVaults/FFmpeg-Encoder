@@ -1,0 +1,19 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict');const a=require('./admission.cjs');
+const G=1024n**3n;
+function fixture(){return {inspection:{probe:{streams:[{codec_type:'video',codec_name:'h264',profile:'High',pix_fmt:'yuv420p',field_order:'progressive',width:960,height:1440,color_space:'bt709',color_primaries:'bt709',color_transfer:'bt709',color_range:'tv',sample_aspect_ratio:'1:1',display_aspect_ratio:'2:3',avg_frame_rate:'30/1',r_frame_rate:'30/1',nb_frames:'240',time_base:'1/15360',duration_ts:'122880'},{codec_type:'audio',codec_name:'aac',profile:'LC',sample_rate:'48000',channels:2,channel_layout:'stereo'}],chapters:[],format:{duration:'8.000000'}}},seal:{identity:{size:'1000000'},sha256:'a'.repeat(64)}};}
+function setup(){const f=fixture(),q={budget:{...a.BUDGET},executionBudgetMs:600000};return {f,q,options:{check:()=>{},ownerCheck:async()=>{},readSeal:async()=>structuredClone(f.seal),originalSeal:f.seal,requireCurrent:()=>q,qualified:q,readStorage:async()=>({freeBytes:30n*G,usedBytes:1000000}),inspection:f.inspection}};}
+test('29GiB exact pre-generation reservation, unchanged27GiB ongoing floor',()=>{assert(a.storage({freeBytes:29n*G,usedBytes:0},true));assert.throws(()=>a.storage({freeBytes:29n*G-1n,usedBytes:0},true));assert(a.storage({freeBytes:28n*G,usedBytes:G}));assert.throws(()=>a.storage({freeBytes:28n*G-1n,usedBytes:G}));});
+test('actual supplied metadata passes unchanged, never filled or normalized',()=>{const f=fixture(),before=structuredClone(f);const r=a.sourceMetadata(f.inspection,f.seal);assert.deepEqual(f,before);assert.equal(r.reportedFrames,'240');assert.equal(r.sourceSha256,f.seal.sha256);});
+test('missing/wrong extent count geometry audio and actual bytes refuse',()=>{
+ for(const mutate of [f=>delete f.inspection.probe.streams[0].nb_frames,f=>f.inspection.probe.streams[0].nb_frames='241',f=>f.inspection.probe.streams[0].duration_ts='122881',f=>f.inspection.probe.format.duration='31',f=>f.inspection.probe.streams[0].width=1280,f=>f.inspection.probe.streams[1].channels=1,f=>f.seal.identity.size=String(512n*1024n**2n+1n),f=>f.seal.sha256=null]){const f=fixture();mutate(f);assert.throws(()=>a.sourceMetadata(f.inspection,f.seal));}
+});
+test('actual preencode gate uses issued identity and exact budget',async()=>{const x=setup();const r=await a.preEncode(x.options);assert.equal(r.executionBudgetMs,600000);assert.deepEqual(r.evidenceBudget,a.BUDGET);});
+test('missing metadata stops before any selected encoding callback',async()=>{const x=setup();delete x.f.inspection.probe.streams[0].nb_frames;let starts=0;await assert.rejects(async()=>{await a.preEncode(x.options);starts++;});assert.equal(starts,0);});
+test('changed seal copied selection changed budget and capacity refuse',async()=>{
+ for(const mutate of [x=>x.options.readSeal=async()=>({...x.f.seal,sha256:'b'.repeat(64)}),x=>x.options.requireCurrent=()=>({...x.q}),x=>x.q.budget.maxSpoolBytes++,x=>x.options.readStorage=async()=>({freeBytes:27n*G,usedBytes:1})]){const x=setup();mutate(x);await assert.rejects(a.preEncode(x.options));}
+});
+test('deferred source change and expiry refuse after storage await',async()=>{
+ const x=setup();let reads=0;x.options.readSeal=async()=>++reads===1?structuredClone(x.f.seal):({...x.f.seal,sha256:'b'.repeat(64)});await assert.rejects(a.preEncode(x.options),/changed during/);
+ const y=setup();let expired=false;y.options.check=()=>assert(!expired,'expired');y.options.readStorage=async()=>{await Promise.resolve();expired=true;return {freeBytes:30n*G,usedBytes:1};};await assert.rejects(a.preEncode(y.options),/expired/);
+});

@@ -1,0 +1,13 @@
+{
+  "status": "NARROW_FINAL_BOUNDARY_CORRECTION_REQUIRED",
+  "handoffSha256": "51e283e6507a85652409b524f1be7649dee21dfe31c430c2697737c3599d01a5",
+  "independentTestsPassed": 37,
+  "all18HashesVerified": true,
+  "resolved": "Entry-anchored570s deadline, checked-open failure cleanup, bounded8MiB serialization and ordered primary/cleanup/persistence failures address substantive R1/R2.",
+  "remaining": [
+    "Final totalCurrent check occurs before awaited owner.check; recheck after await before success return.",
+    "Post-checkedOpen remainingMs/timer setup still occurs outside runtime-owning try/finally; ensure expiry/setup exception there closes returned runtime."
+  ],
+  "requestedTests": "Actual helper behavioral delayed-final-owner and expired post-open setup controls.",
+  "limits": "Unbound source review only; no media/runtime/binding/gate or live authority."
+}

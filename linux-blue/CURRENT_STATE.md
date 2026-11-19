@@ -1,8 +1,8 @@
-# Current State: checkpoint 103 writer release
+# Current State: checkpoint 104 writer release
 
-Evidence cutoff 2026-11-19T16:20:39+00:00. Scoped documentation/owner-suite cohort awaits Git → verified Notion → GitHub. Application/package inputs unchanged.
+Evidence cutoff 2026-11-19T16:45:49+00:00. Reviewed documentary records await scoped Git → verified Notion → GitHub. App, package and workflows unchanged.
 
-- Verified 102 Git, restored Notion and GitHub closure (1,534 exact remote identities); source CI passed. No binary publication, new Windows package or Ubuntu metadata run.
-- Exact 102 inert package succeeded on separately reviewed attempt 2; attempt 1 had ENOENT before copying. No rebuild for these documentary changes.
-- First 102 packaged VFR native attempt opened the app, ran startup probes and closed normally after input chooser returned cancellation. No Prepare, Start, remux, output or reveal; chooser cause unknown, native VFR still unaccepted. Prior private cadence proof is separate.
-- Owner Windows suite revision 2 retained under windows-owner-acceptance with exact manual fallback/integrity. 28 NOT_RUN cases and 43 mapped requirements; UNBOUND, no owner execution. Keep Windows RTX 5060 last after independent exact release freeze. v0.8 separate; HDR v0.9.
+- 103 complete custody and shared CI passed; prior exact owner Windows suite is preserved. 28 owner cases remain NOT_RUN; owner RTX 5060 test remains last after exact independent release freeze.
+- 102 exact packaged diagnostic successfully registered one input using the visible affirmative chooser action, then closed normally. Startup CPU probes ran; no output picker, Prepare, Start, remux, output or reveal. Earlier cancellation cause unresolved; complete packaged VFR acceptance still pending.
+- Exact inactive geometry Stage A and conditional admission source are recoverable, with independently verified reconstruction. No catalog support, package registration, live binding, acquired measurement or media.
+- Separate Ubuntu hosted staging is not included. Continue portable release work and separate approved native VFR test; v0.8 separate; HDR v0.9.

@@ -1,0 +1,16 @@
+'use strict';
+const assert=require('node:assert/strict');
+const privateRunner=require('./process-runner-private.cjs');
+function createGenerationExecutor({ffmpeg,generationArgv,originalRun,privateRun=privateRunner.runTool}){
+ assert(typeof ffmpeg==='string'&&Array.isArray(generationArgv)&&generationArgv.every(x=>typeof x==='string'));assert(typeof originalRun==='function');
+ const frozen=Object.freeze([...generationArgv]);let used=false;
+ return (executable,args,options={})=>{
+  // No user-supplied private switch may bypass the exact main-built argv gate.
+  assert(!Object.hasOwn(options,'markedInput'));
+  const same=executable===ffmpeg&&Array.isArray(args)&&args.length===frozen.length&&args.every((x,i)=>x===frozen[i]);
+  if(!same)return originalRun(executable,args,options);
+  assert(!used,'generation is one-shot');used=true;
+  return privateRun(executable,[...frozen],{...options,markedInput:true});
+ };
+}
+module.exports={createGenerationExecutor};

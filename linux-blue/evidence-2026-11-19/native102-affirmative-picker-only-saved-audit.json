@@ -1,0 +1,111 @@
+{
+  "schema": "native102-picker-only-saved-audit-v1",
+  "outcome": "INPUT_REGISTERED_NORMAL_CLOSE_NO_MEDIA_JOB",
+  "pickerAlternativeAccepted": true,
+  "nativeRemuxAccepted": false,
+  "source": {
+    "commit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+    "tree": "535208a353fd98df7dd310776d3691148184ce64",
+    "filesRehashedAndGitBlobVerified": 1152
+  },
+  "artifact": {
+    "physicalFilesRehashed": 272,
+    "deviceInodeBytesUnchanged": true,
+    "ordinary0755": 6,
+    "remainingModes": "0600",
+    "checkpoint": 102
+  },
+  "fixture": {
+    "bytes": 3615957,
+    "sha256": "3c10746e684124de77a0e5930aff42ad7e4547ffb779b7c166fdd4067186e551",
+    "originalAndDistinctCopyVerified": true
+  },
+  "journal": {
+    "digestsVerified": 8,
+    "sequence": "0..7",
+    "events": [
+      {
+        "sequence": 0,
+        "atUtc": "2026-11-19T16:41:10.061000+00:00",
+        "reason": "SESSION_STARTED"
+      },
+      {
+        "sequence": 1,
+        "atUtc": "2026-11-19T16:41:10.267000+00:00",
+        "reason": "CAPABILITY_STARTED"
+      },
+      {
+        "sequence": 2,
+        "atUtc": "2026-11-19T16:41:14.330000+00:00",
+        "reason": "RUNTIME_IDENTIFIED"
+      },
+      {
+        "sequence": 3,
+        "atUtc": "2026-11-19T16:41:14.338000+00:00",
+        "reason": "CAPABILITY_FINISHED"
+      },
+      {
+        "sequence": 4,
+        "atUtc": "2026-11-19T16:41:14.344000+00:00",
+        "reason": "PROVENANCE_RECOVERY_FINISHED"
+      },
+      {
+        "sequence": 5,
+        "atUtc": "2026-11-19T16:41:55.174000+00:00",
+        "reason": "FOLDER_PICKER_REQUESTED"
+      },
+      {
+        "sequence": 6,
+        "atUtc": "2026-11-19T16:42:29.146000+00:00",
+        "reason": "FOLDER_PICKER_REGISTERED"
+      },
+      {
+        "sequence": 7,
+        "atUtc": "2026-11-19T16:42:34.867000+00:00",
+        "reason": "SESSION_ENDED"
+      }
+    ],
+    "inputRequested": 1,
+    "inputRegistered": 1,
+    "outputPicker": 0,
+    "prepare": 0,
+    "start": 0,
+    "jobs": 0,
+    "reveal": 0,
+    "outputEmpty": true
+  },
+  "closure": {
+    "elapsedSeconds": 86.0609792260002,
+    "exitCode": 0,
+    "terminationRequested": false,
+    "errors": [],
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 3757520,
+    "sampledOnly": true
+  },
+  "sampledIdentitiesCount": 8,
+  "closureSha256": "458a19663d1ad2c93f0da107e92ae426ddbd0ba198ed46234b6ae968d0c0b7a8",
+  "visual": {
+    "attribution": "Lead GUI operator report, no independent visual replay",
+    "observation": "Remux tab, one input chooser; Ctrl+L then documented bound per-character exact path entry. No Sky type_text or Return. One visible bottom-right Open button click; app displayed selected input and Change input folder. Normal X close; app absent and Terminal visible. No output picker, Prepare, Start, jobs or reveal."
+  },
+  "startup": "Saved capability completion confirms CPU calibration media probes ran. No zero-FFmpeg-child claim; exact total child count not established by sampled census.",
+  "stderr": {
+    "bytes": 624,
+    "sha256": "df4abb965e0495c829dcea481bb24923f63e1cd072e4353e3954641ae0521db3",
+    "classification": "Three system D-Bus connection errors and one SSL net_error -202, also present in prior cancelled attempt; no causal attribution."
+  },
+  "stdoutBytes": 0,
+  "inventory": {
+    "files": 52,
+    "sha256": "85f6e1f2f6b95a3f5a39d7afeb7e61f73f97782bfbb814e0fb55f0ec98cef7c7"
+  },
+  "priorCancelledAuditSha256": "6219c9a64792b2d2d2985fbf7a2e4104bc66ee8eb7c28ca7635aba4fb1592975",
+  "limits": [
+    "Successful alternate explicit affirmative-button path does not explain prior Return/cancelled outcome; prior failure remains unresolved and immutable.",
+    "This is picker-only evidence, not VFR remux/output-preservation/timer/reveal proof.",
+    "Closure is sampled owned-group accounting, not every child globally.",
+    "Saved-only hashing and journal inspection; no media/probe/decode/GUI/relaunch."
+  ]
+}

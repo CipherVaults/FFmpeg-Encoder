@@ -10,7 +10,7 @@ jobs:
       github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' &&
       github.event.repository.private == true && github.actor == 'AE0101' &&
       github.run_attempt == 1 && github.event.forced == false && github.event.deleted == false &&
-      github.event.created == false && github.event.before == '1b9838a0c4a9379ef36032ddea4c422e66aaea9b'
+      github.event.created == false && github.event.before == '6ff32d8dabd490e7b930e0f68cee0fc61ddfd18b'
     runs-on: windows-2022
     timeout-minutes: 40
     env:

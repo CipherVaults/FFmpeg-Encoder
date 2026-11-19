@@ -17,12 +17,13 @@ $appName='FFmpeg Encoder.exe'
 $setup=Join-Path $compiled 'FFmpeg-Encoder-0.7.0-alpha.1-Setup-win32-x64.exe'
 $iw=Join-Path $Work 'installer-check'
 $ico=Join-Path $Kit 'gauge-app.ico'
-node "$Kit/installer.cjs" --stage $b.stage --out $compiled --icon $ico; Gate
-node "$Kit/pe-icon.cjs" (Join-Path $b.stage $appName) $ico; Gate
-node "$Kit/pe-icon.cjs" $setup $ico 103; Gate
 # The verified builder produced this ZIP; compare every expanded byte to staging before launch.
 node "$Kit/expand.cjs" $Source $b.stage $b.zip $portable; Gate
+node "$Kit/pe-icon.cjs" (Join-Path $portable $appName) $ico; Gate
 node "$Kit/native-smoke.cjs" --source $Source --app (Join-Path $portable $appName) --work (Join-Path $Work 'portable-smoke') --form portable; Gate
+Write-Output "Portable extraction, Gauge icon and CPU smoke passed; beginning bounded installer compilation."
+node "$Kit/installer.cjs" --stage $b.stage --out $compiled --icon $ico; Gate
+node "$Kit/pe-icon.cjs" $setup $ico 103; Gate
 $installed= & node "$Kit/verify-installer.cjs" install --compiled $compiled --work $iw
 Gate
 if($installed -is [array]) { throw 'Expected one exact installed executable path' }

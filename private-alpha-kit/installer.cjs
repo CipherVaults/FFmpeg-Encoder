@@ -174,7 +174,8 @@ async function main() {
   const nsis=render(rows,stage,setup,icon);
   await fsp.mkdir(out);
   await fsp.writeFile(path.join(out,'setup.nsi'),'\uFEFF'+nsis,{flag:'wx'});
-  run(compiler,['/NOCONFIG','/V2','/WX',path.join(out,'setup.nsi')],out);
+  // Solid-LZMA compression of the verified full payload can exceed three minutes on a standard runner.
+  run(compiler,['/NOCONFIG','/V2','/WX',path.join(out,'setup.nsi')],out,12*60*1000);
   assert.equal(await digest(compiler),compilerSha256,'Compiler changed during build.');
   await assertPlain(setup,false);
   assert((await fsp.stat(setup)).size>1024*1024,'Setup did not include a plausible payload.');

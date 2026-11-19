@@ -12,7 +12,7 @@ async function existingTarget(root,rel,bytes){const filename=await stock(root,re
 function authority(env,event){
  A.equal(env.GITHUB_REPOSITORY,C.privateRepo); A.equal(env.GITHUB_EVENT_NAME,'push');
  A.equal(env.GITHUB_REF,'refs/heads/blue/private-windows-alpha-preflight-20261121');
- A.equal(event.repository.private,true);A.equal(event.forced,false);A.equal(event.deleted,false);A.equal(event.created,false);A.equal(event.before,C.original,'Only the reserved source parent can trigger this first rehearsal');
+ A.equal(event.repository.private,true);A.equal(event.forced,false);A.equal(event.deleted,false);A.equal(event.created,false);A.equal(event.before,C.rehearsalParent,'Only the exact preceding rehearsal commit can trigger this successor');
  A.equal(env.GITHUB_SHA,event.after);A.equal(env.GITHUB_RUN_ATTEMPT,'1');A.equal(env.GITHUB_ACTOR,'AE0101');A.equal(env.RUNNER_ENVIRONMENT,'github-hosted');
  A.match(env.GITHUB_SHA,/^[a-f0-9]{40}$/); A.equal(env.RUNNER_OS,'Windows');
 }

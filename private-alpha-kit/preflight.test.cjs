@@ -10,9 +10,9 @@ test('official asset identity refuses wrong size, digest, missing digest, redire
  }});
 test('only first named actor push on intended private hosted Windows branch',()=>{
  const env={GITHUB_REPOSITORY:C.privateRepo,GITHUB_EVENT_NAME:'push',GITHUB_REF:'refs/heads/blue/private-windows-alpha-preflight-20261121',GITHUB_SHA:'b'.repeat(40),GITHUB_RUN_ATTEMPT:'1',GITHUB_ACTOR:'AE0101',RUNNER_OS:'Windows',RUNNER_ENVIRONMENT:'github-hosted'};
- const ev={repository:{private:true},forced:false,deleted:false,created:false,before:C.original,after:env.GITHUB_SHA};authority(env,ev);
+ const ev={repository:{private:true},forced:false,deleted:false,created:false,before:C.rehearsalParent,after:env.GITHUB_SHA};authority(env,ev);
  for(const opt of [{GITHUB_REPOSITORY:'AE0101/FFmpeg-Encoder'},{GITHUB_RUN_ATTEMPT:'2'},{GITHUB_ACTOR:'remote-helper'},{GITHUB_REF:'refs/heads/codex/v0.7-candidate'},{GITHUB_EVENT_NAME:'pull_request'},{RUNNER_ENVIRONMENT:'self-hosted'}])A.throws(()=>authority({...env,...opt},ev));
- for(const patch of [{repository:{private:false}},{forced:true},{deleted:true},{created:true},{before:'1'.repeat(40)},{after:'a'.repeat(40)}])A.throws(()=>authority(env,{...ev,...patch}));
+ for(const patch of [{repository:{private:false}},{forced:true},{deleted:true},{created:true},{before:C.original},{before:'1'.repeat(40)},{after:'a'.repeat(40)}])A.throws(()=>authority(env,{...ev,...patch}));
 });
 test('Gauge input is the exact 7-frame private ICO and malformed PE fails',()=>{
  const i=fs.readFileSync(P.join(__dirname,'gauge-app.ico'));A.equal(H.createHash('sha256').update(i).digest('hex'),C.ico);
@@ -28,4 +28,16 @@ test('smoke bounded parser & media facts',()=>{
  const {parse,checkProbe}=require('./native-smoke.cjs');A.throws(()=>parse([]));A.throws(()=>parse(['--app','x','--app','x']));
  const j={streams:[{codec_type:'video',codec_name:'h264',width:320,height:180,nb_read_frames:48},{codec_type:'audio',codec_name:'aac'}]};
  checkProbe(JSON.stringify(j));j.streams[0].nb_read_frames=47;A.throws(()=>checkProbe(JSON.stringify(j)));
+});
+
+test('successor retains source pin, starts with independently qualified portable, only NSIS compilation receives twelve minutes',()=>{
+ const read=name=>fs.readFileSync(P.join(__dirname,name),'utf8');
+ const yaml=read('hosted-workflow.yml.template'), script=read('finish.ps1'), compiler=read('installer.cjs');
+ A.equal(yaml,read('../.github/workflows/private-alpha-preflight.yml'));
+ A(yaml.includes("github.event.before == '"+C.rehearsalParent+"'"));A(!yaml.includes("github.event.before == '"+C.original+"'"));
+ A(yaml.includes('ref: '+C.original));A(yaml.includes('timeout-minutes: 40'));
+ A(compiler.includes("run(compiler,['/VERSION'],path.dirname(out),5000)"));
+ A(compiler.includes("run(compiler,['/NOCONFIG','/V2','/WX',path.join(out,'setup.nsi')],out,12*60*1000)"));
+ const steps=['$Kit/expand.cjs','$Kit/pe-icon.cjs" (Join-Path $portable','--form portable','$Kit/installer.cjs','$setup $ico 103; Gate','--form installed','$Kit/verify-installer.cjs" uninstall'];
+ const positions=steps.map(s=>script.indexOf(s));A(positions.every((v,i)=>v>=0&&(!i||v>positions[i-1])));
 });

@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='e4f688b46963fa03c5c908e571f10f330614f4b2'
+PARENT='7ba5174e3d20833b69d1ce28f164db9b8f6d1f78'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 
@@ -129,6 +129,35 @@ def baseline(records):
  assert all(r['Architecture']in ['amd64','all']for r in records),'FOREIGN_ARCHITECTURE'
  return {r['Package']:r for r in records}
 
+def compare_baseline(query,installed,result):
+ # Non-installed rows may lack version/architecture. Do not admit them or
+ # normalize installed fields. Counts never carry names or inventory values.
+ queried={}
+ assert len(query)<=CAP,'LOG_BOUND'
+ for line in query.decode().removesuffix('\n').split('\n') if query else []:
+  fields=line.split('\t')
+  assert len(fields)==4,'BASELINE_QUERY_ROW'
+  name,version,arch,status=fields
+  assert re.fullmatch(r'[a-z0-9][a-z0-9+.-]*',name),'BASELINE_QUERY_NAME'
+  assert re.fullmatch(r'(unknown|install|hold|deinstall|purge) (ok|reinstreq) (not-installed|config-files|half-installed|unpacked|half-configured|triggers-awaited|triggers-pending|installed)',status),'BASELINE_QUERY_STATUS'
+  if status!='install ok installed':continue
+  assert version and not any(c.isspace() for c in version),'BASELINE_QUERY_VERSION'
+  assert arch in ['amd64','all'],'BASELINE_QUERY_ARCHITECTURE'
+  assert name not in queried,'BASELINE_QUERY_DUPLICATE'
+  queried[name]=[version,arch,status]
+  assert len(queried)<10000,'BASELINE_QUERY_COUNT'
+ expected={n:[r['Version'],r['Architecture'],r['Status']]for n,r in installed.items()}
+ if queried!=expected:
+  common=queried.keys()&expected.keys()
+  result['baselineDifferences']={
+   'missingFromQuery':len(expected.keys()-queried.keys()),
+   'extraInQuery':len(queried.keys()-expected.keys()),
+   'versionMismatch':sum(queried[n][0]!=expected[n][0]for n in common),
+   'architectureMismatch':sum(queried[n][1]!=expected[n][1]for n in common)
+  }
+  raise AssertionError('BASELINE_SET_MISMATCH')
+
+
 def retain_mapping(installed,changes,root,end,result):
  # Publish incremental evidence before acquisition. Fatal bounds propagate and
  # stop work, but must not discard an already parsed transaction or exact rows.
@@ -148,7 +177,7 @@ def retain_mapping(installed,changes,root,end,result):
 
 # Diagnostics are closed enums, never exception text, environment or host data.
 DIAGNOSTIC_STAGES=('BASELINE_COPY','CONFIGURE_ISOLATION','BASELINE_PARSE','BASELINE_VALIDATE','BASELINE_QUERY','BASELINE_COMPARE','TOOL_IDENTITIES','METADATA_UPDATE','RELEASE_AUTHENTICATION','TRANSACTION_SIMULATION','TRANSACTION_PARSE','CANDIDATE_MAPPING','FINAL_BASELINE_CHECK')
-DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
+DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
 FAILURE_TYPES=frozenset(('AssertionError','BoundFailure','ChildFailure','KeyError','ValueError','UnicodeDecodeError','FileNotFoundError','PermissionError','OSError','TimeoutExpired'))
 
 @contextmanager
@@ -187,8 +216,7 @@ def main():
   with diagnostic_stage(result,'BASELINE_QUERY'):
    query,_=run(['/usr/bin/dpkg-query','-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n'],root,end)
   with diagnostic_stage(result,'BASELINE_COMPARE'):
-   queried={line.split('\t')[0]:line.split('\t')[1:] for line in query.decode().splitlines()if line.endswith('\tinstall ok installed')}
-   assert queried=={n:[r['Version'],r['Architecture'],r['Status']]for n,r in installed.items()},'BASELINE_SET_MISMATCH'
+   compare_baseline(query,installed,result)
    result['baselineStatusSha256']=sha(status);result['baselineInstalledCount']=len(installed)
   with diagnostic_stage(result,'TOOL_IDENTITIES'):
    result['toolIdentities']={p:sha(pathlib.Path(p).resolve().read_bytes())for p in ['/usr/bin/apt-get','/usr/bin/apt-cache','/usr/bin/gpgv','/usr/share/keyrings/ubuntu-archive-keyring.gpg']}

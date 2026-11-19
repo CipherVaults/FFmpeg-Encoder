@@ -127,5 +127,59 @@ class Diagnostics(unittest.TestCase):
     report=m.json.loads((root/'lock-report.json').read_text());self.assertEqual(report['diagnosticStage'],target);self.assertEqual(report.get('completedDiagnosticStages',[]),list(m.DIAGNOSTIC_STAGES[:m.DIAGNOSTIC_STAGES.index(target)]));self.assertEqual(report['failureReason'],'UNCLASSIFIED_FAILURE');self.assertFalse(report['ready']);self.assertNotIn('private detail',m.json.dumps(report));self.assertNotIn(d,m.json.dumps(report))
     if m.DIAGNOSTIC_STAGES.index(target)<m.DIAGNOSTIC_STAGES.index('METADATA_UPDATE'):self.assertFalse(any(c.args[0][:2]==['/usr/bin/apt-get','update'] for c in run.call_args_list))
 
+class BaselineCompare(unittest.TestCase):
+ def test_exact_with_noninstalled_blanks_and_epoch(self):
+  installed={'alpha':{'Version':'2:1.0-2ubuntu3','Architecture':'amd64','Status':'install ok installed'},
+             'data':{'Version':'4','Architecture':'all','Status':'install ok installed'}}
+  result={}
+  m.compare_baseline(b'data\t4\tall\tinstall ok installed\nother\t\t\tunknown ok not-installed\nalpha\t2:1.0-2ubuntu3\tamd64\tinstall ok installed\n',installed,result)
+  self.assertEqual(result,{})
+ def test_diffs_aggregate_without_payload(self):
+  installed={n:{'Version':'1','Architecture':'amd64','Status':'install ok installed'}for n in ('secret-missing','secret-version','secret-arch','secret-hold')}
+  q=b'secret-version\t2:secret-version\tamd64\tinstall ok installed\nsecret-extra\t1\tamd64\tinstall ok installed\nsecret-arch\t1\tall\tinstall ok installed\nsecret-hold\t1\tamd64\thold ok installed\n'
+  result={}
+  with self.assertRaisesRegex(AssertionError,'^BASELINE_SET_MISMATCH$'):m.compare_baseline(q,installed,result)
+  self.assertEqual(result['baselineDifferences'],{'missingFromQuery':2,'extraInQuery':1,'versionMismatch':1,'architectureMismatch':1})
+  self.assertNotIn('secret',m.json.dumps(result))
+ def test_parse_failures_not_counts(self):
+  row=b'alpha\t1\tamd64\tinstall ok installed\n'
+  for q,reason in [
+   (row+row,'DUPLICATE'),(b'alpha\tbad\tfield\tamd64\tinstall ok installed\n','ROW'),
+   (row+b'\n','ROW'),(b'alpha:amd64\t1\tamd64\tinstall ok installed\n','NAME'),
+   (b'alpha\t1\tamd64\tinstall ok installed\r\n','STATUS'),
+   (b'alpha\t1\ti386\tinstall ok installed\n','ARCHITECTURE'),
+   (b'alpha\t\tamd64\tinstall ok installed\n','VERSION')]:
+   with self.subTest(reason=reason):
+    result={}
+    with self.assertRaisesRegex(AssertionError,'^BASELINE_QUERY_'+reason+'$'):m.compare_baseline(q,{},result)
+    self.assertEqual(result,{})
+ def test_query_count_and_byte_caps(self):
+  result={}
+  q=b''.join(('x%d\t1\tamd64\tinstall ok installed\n'%i).encode()for i in range(10000))
+  with self.assertRaisesRegex(AssertionError,'^BASELINE_QUERY_COUNT$'):m.compare_baseline(q,{},result)
+  with mock.patch.object(m,'CAP',1),self.assertRaisesRegex(AssertionError,'^LOG_BOUND$'):m.compare_baseline(q,{},result)
+  self.assertEqual(result,{})
+ def test_main_mismatch_never_reaches_apt(self):
+  original_bytes=pathlib.Path.read_bytes;original_text=pathlib.Path.read_text
+  with tempfile.TemporaryDirectory()as d:
+   root=pathlib.Path(d);event=root/'event.json';event.write_text('{}')
+   def readbytes(p,*a,**kw):
+    if str(p)=='/var/lib/dpkg/status':return b'Package: redacted-a\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n'
+    return original_bytes(p,*a,**kw)
+   def readtext(p,*a,**kw):
+    if str(p)=='/etc/os-release':return 'ID=ubuntu\nVERSION_ID="24.04"\n'
+    return original_text(p,*a,**kw)
+   with mock.patch.object(m,'ROOT',root),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',return_value=(b'redacted-b\t1\tamd64\tinstall ok installed\n',b''))as run,mock.patch.object(m.subprocess,'Popen')as spawn:
+    self.assertEqual(m.main(),2);spawn.assert_not_called();self.assertEqual([c.args[0][0] for c in run.call_args_list],['/usr/bin/dpkg-query'])
+   report=(root/'lock-report.json').read_text();j=m.json.loads(report)
+   self.assertFalse(j['ready']);self.assertEqual(j['failureReason'],'BASELINE_SET_MISMATCH')
+   self.assertEqual(j['baselineDifferences'],{'missingFromQuery':1,'extraInQuery':1,'versionMismatch':0,'architectureMismatch':0})
+   self.assertNotIn('redacted-',report)
+ def test_malformed_utf8_not_serialized(self):
+  r={}
+  try:m.compare_baseline(b'\xffsecret',{},r)
+  except UnicodeDecodeError as e:m.record_failure(r,e)
+  self.assertEqual(r,{'status':'blocked','failureType':'UnicodeDecodeError','failureReason':'UNCLASSIFIED_FAILURE'})
+
 if __name__=='__main__':unittest.main()
 

@@ -1,17 +1,15 @@
-# Current State — Checkpoint 089 writer proposal
+# Current State — Checkpoint 090 writer release
 
-Evidence cutoff: 2026-11-19T09:27:42.957059+00:00. Final independent derived review accepted; writer proposal released for lead merging. No 089 commit or off-device preservation claim yet; 088 remains the latest verified durable checkpoint.
+Evidence cutoff: 2026-11-19T09:56:19+00:00. The exact 090 source and documentation still need scoped commit and Notion/GitHub preservation.
 
 ## Verified
-- Native 088 one-file AV1 Full/source Matroska AAC-copy publication, actual reveal and normal close accepted. Exact audit retained with compatibility-only validation, ctime, timing, sampling and warning limits.
-- 088 shared CI passed 224 syntax / 325 shared per OS plus 40 Linux. Last actual Windows packaged proof remains 085; report retention is not executable retention.
-- Thirteen current 089 source paths integrated: six independently reviewed ordinary H265 functional paths, three reviewed metadata diagnostic paths, four derived qualification/package/count paths. Final 62 focused / 100 affected / 225 syntax / 325 shared / 40 Linux checks passed, overlapping counts not summed.
-- 139 product pins and all 257 package inputs verified: 156 app rows, 169 source rows, 391,561,213 bytes. Historical measured producers, runtime/library/launcher identities and default Windows composition unchanged.
+- 089 is preserved in Git, Notion and GitHub. Exact package independently accepted ordinary H265 Full/source at slow/25 with AAC copy, then one **separate** measured range 0.613–2.721 to 720p/Precision FLAC. 63 frames and 101,184 exact saved PCM sample instants accepted; both sessions closed normally. No same-owner switch or broader runtime acceptance.
+- 089 hosted shared checks passed on Windows and Linux. Separate Ubuntu resolver stopped at BASELINE_COMPARE / BASELINE_SET_MISMATCH, before APT; root cause unobserved. Exact original report retained.
+- 090 is seven reviewed preparation/diagnostic source paths: inactive AAC binding, strict names-free Ubuntu comparator diagnostics, and exact predecessor binding for future Ubuntu/Windows one-shot jobs. No package pin changes; 139 pins, 257 inputs, 156 app members retained. Final 68 AAC / 77 Windows / 31 Ubuntu and 226 syntax / 325 shared / 40 Linux checks passed, not additive.
 
 ## Pending
-- Lead merge of exact writer paths, scoped commit and full Git → Notion → GitHub preservation.
-- Build and qualify the actual new ordinary H265 capability. Source supports shared preset/CRF controls with slow/25 default, one input, retained Matroska 1/1000 preparation-clock constraint and immutable prepared-entry execution dispatch; no 089 native acceptance yet.
-- Actual Ubuntu diagnostic attempt after full preservation/publication. Original 087 AssertionError cause remains unknown; no validation guard relaxed.
-- Broader accepted N–S compatibility/precision/remux/settings scope, named-platform support and corresponding-source/manufacturing/version/binary-retention obligations. A future current-source Windows two-file regression does not qualify running cancellation or Linux-specific admission.
+- Preserve exact 090 source/readable records before ordinary GitHub publication; audit actual hosted results without blind retries.
+- Separately review and run current-host AAC calibration across different endpoint alignments; AAC Copy remains distinct from lossy Precision AAC. No 090 package, native, active AAC admission, or Windows package result yet.
+- Named-platform manufacture, corresponding-source notices, exact candidate verification and durable executable retention before the last owner Windows/RTX gate. Themes, localization and guidance remain v0.8; HDR v0.9.
 
-Freeze the independently qualified candidate before the LAST owner Windows desktop / RTX gate. No full v0.7 release claim. New themes/languages/guide remain v0.8; HDR v0.9. Complete rationale and exact evidence are retained in the owning execution record and full Session history.
+Full rationale, evidence limits and unchanged historical suffix are in SESSION_SUMMARY.md and 2026-11-19_H265_Evidence_and_Bounded_Successors.md/.json.

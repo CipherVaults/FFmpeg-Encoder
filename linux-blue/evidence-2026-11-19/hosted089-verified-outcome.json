@@ -1,0 +1,46 @@
+{
+  "checkpoint": 89,
+  "head": "7ba5174e3d20833b69d1ce28f164db9b8f6d1f78",
+  "event": "push",
+  "attempt": 1,
+  "shared": {
+    "run": 44498190262,
+    "conclusion": "success",
+    "jobs": [
+      135470677525,
+      135470677928
+    ],
+    "syntaxFilesPerOs": 225,
+    "sharedTestsPerOs": 325,
+    "additionalLinuxTests": 40,
+    "failed": 0,
+    "skipped": 0
+  },
+  "ubuntu": {
+    "run": 44498190310,
+    "job": 135470677495,
+    "conclusion": "failure",
+    "ready": false,
+    "diagnosticStage": "BASELINE_COMPARE",
+    "completedDiagnosticStages": [
+      "BASELINE_COPY",
+      "CONFIGURE_ISOLATION",
+      "BASELINE_PARSE",
+      "BASELINE_VALIDATE",
+      "BASELINE_QUERY"
+    ],
+    "failureReason": "BASELINE_SET_MISMATCH",
+    "artifact": 14515957465,
+    "expiresAt": "2026-11-22T09:38:05Z",
+    "zipSha256": "4b37289eefcea06b304fbd4a89424f1c62d26e562b678caf9054b901a705e492",
+    "reportSha256": "b7e1da1816f91ba4ad6e57226126ba6abf02c92aac0235876092b37b83f263f0",
+    "independentDownloadAndApiLogDigestVerified": true
+  },
+  "ubuntuInventory": "skipped",
+  "limits": [
+    "No rerun, install or native Windows rebind.",
+    "BASELINE_SET_MISMATCH is a measured finite boundary, not yet an established root cause. No later resolver stage is proved.",
+    "Shared CI is source-contract evidence, not native H265 or distribution qualification.",
+    "Raw sanitized report retained separately for next durable checkpoint."
+  ]
+}

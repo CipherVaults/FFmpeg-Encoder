@@ -1,0 +1,224 @@
+{
+  "status": "accepted-separate-owner-measured089-regression",
+  "sourceCommit": "852afc3c83c4475a393696e5b206a22e0f17231e",
+  "sourceFilesVerified": 946,
+  "packageFilesVerified": 260,
+  "currentNormalExecutableModesVerified": 6,
+  "packageHashesAndInodesUnchanged": true,
+  "fileAuditSha256": "5aed3aebc55df6eca94b6fe45672f0ad394ae6fd7510c6203b98e24a4e0e354a",
+  "closureSha256": "ffc0cd00460774e5150875cde3788f363831bab5e08cb06fff6225f2b9793e49",
+  "visualReceiptSha256": "7b23f09cb246ab93ed6e42eba1f6ac8f43c94d95f250ab59f0e64369178c8a92",
+  "savedInventory": {
+    "files": 89,
+    "sha256": "8161f6e8b780c76dfc77420d0eb06c35d9e2a28e158657658cf8ab562be261be"
+  },
+  "events": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 2,
+    "FOLDER_PICKER_REGISTERED": 2,
+    "PREPARATION_STARTED": 1,
+    "FILE_INSPECTED": 2,
+    "PREPARATION_FINISHED": 1,
+    "DRAFT_REPREPARATION_STARTED": 1,
+    "DRAFT_REPREPARATION_FINISHED": 1,
+    "ENCODE_STARTED": 1,
+    "ENCODE_CLOSED": 1,
+    "OPERATION_EVIDENCE_COLLECTED": 1,
+    "OUTPUT_CHECKED": 1,
+    "SOURCE_ASSESSED": 1,
+    "OUTPUT_PUBLISHED": 1,
+    "JOB_DISPOSITION": 1,
+    "BATCH_FINISHED": 1,
+    "OUTPUT_ACTION_DISPATCHED": 1,
+    "SESSION_ENDED": 1
+  },
+  "diagnosticDigestsVerified": 25,
+  "provenanceChecksumsVerified": 2,
+  "operation": {
+    "profile": "H265 CPU",
+    "preset": "slow",
+    "crf": 25,
+    "requestedRangeSeconds": [
+      0.613,
+      2.721
+    ],
+    "resolution": "720p",
+    "audio": "Precision FLAC"
+  },
+  "retainedEvidence": {
+    "receiptSha256": "c29984d0148da193ebe9f8f0ff3081761a8915acf1591122692ca3373255d85a",
+    "spoolsReadbackVerified": 3,
+    "completedCollectorInvocations": 7,
+    "decoded": {
+      "video": {
+        "sourceFrameCount": 63,
+        "outputFrameCount": 63,
+        "comparedFrames": 63,
+        "firstSourcePtsUs": 633333,
+        "lastSourcePtsUs": 2700000,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 20000,
+        "lastOutputPtsUs": 2087000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 101184,
+          "outputSampleCount": 101184,
+          "firstSourcePtsUs": 613000,
+          "lastSourceEndUs": 2721000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 2107667,
+          "encoderDelaySamples": 0,
+          "discardPaddingSamples": 0,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "outputHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "sourceBytes": 404736,
+            "outputBytes": 404736
+          }
+        }
+      ]
+    },
+    "timelineComparisons": {
+      "video": {
+        "comparedFrames": 63,
+        "maximumDurationErrorUs": 334,
+        "toleranceUs": 1067
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-flac",
+          "selectedSourceGaps": 0,
+          "unmatchedSourceTailSamples": 0,
+          "unmatchedOutputTailSamples": 0,
+          "comparedSamples": 101184,
+          "intersectedSpans": 465,
+          "maximumElapsedClockErrorUs": 334,
+          "toleranceUs": 1042,
+          "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+          "contentIdentity": false
+        }
+      ]
+    },
+    "originalTimingQualification": {
+      "evidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:interior",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "videoDurationUs": 1067,
+      "audioTimelineUs": 1042,
+      "aac": null
+    },
+    "validator": {
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "validation": "decoded-operation-contract",
+      "qualificationEvidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:endpoints",
+      "timing": {
+        "timeline": "request-relative",
+        "requested": {
+          "startUs": 613000,
+          "endUs": 2721000
+        },
+        "resolved": {
+          "startUs": 613000,
+          "endUs": 2721000
+        },
+        "video": {
+          "startUs": 633333,
+          "endUs": 2733333,
+          "frames": 63,
+          "outputStartUs": 20000,
+          "outputEndUs": 2120000
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "precision-flac",
+            "startUs": 613000,
+            "endUs": 2721000,
+            "outputStartUs": 0,
+            "outputEndUs": 2107667,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "sampleCountDifference": 0
+          }
+        ]
+      }
+    },
+    "limits": "PCM identities are original streaming collection receipts; saved-only audit did not regenerate PCM or video pixels. Timeline contentIdentity:false is timing-only; separate pcmIdentity records equality."
+  },
+  "output": {
+    "name": "fixture_H265-CPU.mkv",
+    "bytes": 590045,
+    "sha256": "1df1c298f0d7224199a490560019c3815e6f7a2ee20fb62fad269980eb1dd60a",
+    "deviceInodeSizeMtimeMatchOriginalReceipt": true,
+    "ctimeDiffersFromPublishedRecord": true,
+    "ctimeLimit": "Consistent with stage/publication link cleanup; not an independently established cause."
+  },
+  "elapsedJournalSeconds": 6.719,
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 240.44055366300017,
+    "errors": [],
+    "terminationRequested": false,
+    "sampledIdentities": 12,
+    "notExhaustive": true
+  },
+  "leadVisualObservations": {
+    "scope": "native089-separate-measured-range-regression",
+    "genuineFolderPickers": true,
+    "profile": "H265 CPU slow25",
+    "initialFullCopyUnsupported": true,
+    "applyCount": 1,
+    "verifiedBeforeApply": {
+      "start": 0.613,
+      "end": 2.721,
+      "resolution": "720p",
+      "audio": "Precision FLAC"
+    },
+    "readyObserved": true,
+    "selectedFiles": 1,
+    "remainingBeforeStartSeconds": 415.8,
+    "startCount": 1,
+    "positiveProgressObserved": false,
+    "successCount": 1,
+    "otherDispositionCounts": 0,
+    "keptVideoUi": "0.633333\u20132.733333s,63frames",
+    "keptAudioUi": "0.613\u20132.721s",
+    "actualThunarSelection": "owned-output-measured/fixture_H265-CPU.mkv",
+    "outputBytesVisible": 590045,
+    "elapsedVisible": "00:06",
+    "frozenDisplayObservedMoreThan3seconds": true,
+    "normalFileManagerAndAppClose": true,
+    "limits": [
+      "Separate owner, not same-session ordinary\u2192measured switch",
+      "Saved-only content/timing audit pending; no extra media calls"
+    ]
+  },
+  "warnings": {
+    "journalTruncatedEvents": [
+      "FILE_INSPECTED",
+      "FILE_INSPECTED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "JOB_DISPOSITION"
+    ],
+    "collectorStderr": [],
+    "appStderrBytes": 620
+  },
+  "limits": [
+    "No new probe/decode/media/desktop/process invocation during audit.",
+    "Separate owner; does not prove same-session ordinary to measured switch.",
+    "Original ordinary089 success and skipped measured setup remain immutable.",
+    "One retained synthetic fixture; no broader duration, GPU, portability or release readiness claim."
+  ]
+}

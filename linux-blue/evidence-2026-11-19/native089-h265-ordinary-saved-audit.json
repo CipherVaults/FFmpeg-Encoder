@@ -1,0 +1,110 @@
+{
+  "status": "accepted-H265-ordinary-only-measured-not-run",
+  "sourceCommit": "852afc3c83c4475a393696e5b206a22e0f17231e",
+  "sourceFilesVerified": 946,
+  "packagePhysicalFilesVerified": 260,
+  "ordinaryExecutableModesVerified": 6,
+  "packageBytesAndInodesUnchanged": true,
+  "fileAuditSha256": "5aed3aebc55df6eca94b6fe45672f0ad394ae6fd7510c6203b98e24a4e0e354a",
+  "closureSha256": "fe64262b81c13a45cd67fc3b662f10aa8c719fca1cd42eb18137f8ccb541f5a3",
+  "leadVisualReceiptSha256": "83a6d5d3044e22be799b4a14be7b69e01ba7e13944f8d3703d47790dee2d1a7a",
+  "modeVerificationMethod": "Current modes checked against exact audited package finalization list; no separate prior mode-transition receipt asserted.",
+  "savedInventory": {
+    "files": 82,
+    "sha256": "83e9c06ccc21ca36beb2eac579c6e65d3cdf03a074d9fb580822890177c38214"
+  },
+  "diagnosticDigestsVerified": 28,
+  "provenanceChecksumsVerified": 2,
+  "events": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 4,
+    "FOLDER_PICKER_REGISTERED": 4,
+    "PREPARATION_STARTED": 2,
+    "FILE_INSPECTED": 2,
+    "PREPARATION_FINISHED": 2,
+    "ENCODE_STARTED": 1,
+    "ENCODE_CLOSED": 1,
+    "OUTPUT_CHECKED": 1,
+    "SOURCE_ASSESSED": 1,
+    "OUTPUT_PUBLISHED": 1,
+    "JOB_DISPOSITION": 1,
+    "BATCH_FINISHED": 1,
+    "OUTPUT_ACTION_DISPATCHED": 1,
+    "SESSION_ENDED": 1
+  },
+  "settings": {
+    "profileId": "h265-cpu",
+    "preset": "slow",
+    "quality": 25
+  },
+  "operation": {
+    "range": "Full",
+    "resolution": "Keep source 1920x1080",
+    "target": "Matroska",
+    "audio": "AAC copy",
+    "pixelFormat": "yuv420p",
+    "validation": "ordinary accepted-full compatibility validator; valid true and no saved errors"
+  },
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "output": {
+    "name": "fixture_H265-CPU.mkv",
+    "bytes": 6691875,
+    "sha256": "f0f095983bab64dc14fbaa23912e1bfaa2f4f15ae9ea70ed286bba45a50a3d81",
+    "publicationDeviceInodeSizeMtimeMatch": true,
+    "ctimeChangedAfterPublication": true,
+    "identityLimit": "Full SHA256 independently measured now; sparse publication digest not recomputed. ctime difference alone is consistent with stage-link cleanup, not independently proven cause."
+  },
+  "measuredRegression": {
+    "status": "not-run",
+    "freshPreparationObserved": true,
+    "preparedItemStatus": "unsupported",
+    "preparedReason": "Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.",
+    "outputs": 0,
+    "appliedOperationEdits": false,
+    "encodeStarts": 0,
+    "reason": "Lead stopped before optional measured Start because remaining UI budget was below180seconds; normal closure, not runtime timeout."
+  },
+  "batch": {
+    "counts": {
+      "success": 1,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "unprocessed": 0
+    },
+    "elapsedSeconds": 31.222,
+    "timingLimit": "Saved batch journal elapsed, not a retained final DOM snapshot or encode-only duration."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 552.6805114669987,
+    "terminationRequested": false,
+    "errors": [],
+    "sampledIdentities": 11,
+    "sampledNotExhaustive": true,
+    "unreapedLeaderZombieOnlyBeforeReap": true
+  },
+  "leadVisualObservation": "Lead observed genuine ordinary H265 slow25 Full/source AAC-copy completion, one Start only, terminal00:31 frozen after Thunar revealed the selected fixture_H265-CPU.mkv. Fresh measured setup reached Prepare; range0.613/2.721 typed, but leftover2160p and Copy audio not applied, no measured Apply/Start. With67s left lead closed normally instead of violating180s Start cutoff. Visual claims attributed to lead, not replayed.",
+  "diagnostics": {
+    "stdoutBytes": 0,
+    "stderrBytes": 620,
+    "retainedWarnings": [
+      "Three missing system D-Bus socket errors",
+      "One TLS handshake net_error -202"
+    ],
+    "contextTruncatedDisposition": true
+  },
+  "limits": [
+    "No further media/probe/decode/desktop/launch or permission change during audit.",
+    "Ordinary validator success is not fresh streaming PCM equality, packet identity or perceptual-quality measurement.",
+    "No new measured regression,10-bit,GPU,resize,trim,FLAC,Windows or portable-release acceptance. Unsupported measured draft is not an encode failure or timeout.",
+    "One retained synthetic eight-second H264/AAC input; historical evidence remains tied to its own artifacts."
+  ]
+}

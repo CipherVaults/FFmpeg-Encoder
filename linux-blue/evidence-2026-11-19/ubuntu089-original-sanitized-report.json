@@ -1,0 +1,18 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "7ba5174e3d20833b69d1ce28f164db9b8f6d1f78",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "diagnosticStage": "BASELINE_COMPARE",
+  "completedDiagnosticStages": [
+    "BASELINE_COPY",
+    "CONFIGURE_ISOLATION",
+    "BASELINE_PARSE",
+    "BASELINE_VALIDATE",
+    "BASELINE_QUERY"
+  ],
+  "status": "blocked",
+  "failureType": "AssertionError",
+  "failureReason": "BASELINE_SET_MISMATCH"
+}

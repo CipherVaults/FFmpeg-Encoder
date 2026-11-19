@@ -1,0 +1,93 @@
+{
+  "checkpoint": "090",
+  "cutoffUtc": "2026-11-19T09:56:19+00:00",
+  "baseLocal": "852afc3c83c4475a393696e5b206a22e0f17231e",
+  "status": "writer released; no commit or 090 run",
+  "combinedSourceHandoffSha256": "3b004969879aace72da932af5bb8a7efc164d3d4127d88ec083afb6a33f1a782",
+  "sourceScope": [
+    {
+      "path": "linux-blue/aac-range-binding.cjs",
+      "bytes": 2779,
+      "sha256": "a4e583b87d99492e4c419a4ff92c8a3d429a0c486cac3de0bb498bcf5448d26f"
+    },
+    {
+      "path": "tests/aac-range-binding.test.cjs",
+      "bytes": 6938,
+      "sha256": "57af1a671111e73de1459e257ef0d4ce2346aacfa5674a15fe758b40e747fcc1"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 15389,
+      "sha256": "5a95ac5b0d5c92a733e2fdffbeacdad0f64ba5e7db450c0dd24b635e9717383b"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 14594,
+      "sha256": "25cb44e023331c8c6cacb2bf5d0caf4ecd5a0a2b3223eea8bff07f4803013237"
+    },
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "a47bcd33fda9dfdffba2350eb9688637100ae60b0cec9765ad7eada94c127b47"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "fd14c29fee9e6da81a01492ba88f002a19b837a0ec6b3c966ee67f2c66495d0c"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "713ee0868713dd6923aba742db43cc51e3e8f1e1502b9656470678c4882ae2f4"
+    }
+  ],
+  "tests": {
+    "aac": 68,
+    "windows": 77,
+    "ubuntu": 31,
+    "syntax": 226,
+    "shared": 325,
+    "linux": 40,
+    "failed": 0,
+    "skipped": 0,
+    "countsOverlap": true
+  },
+  "currentClosure": {
+    "currentPins": 139,
+    "packageInputs": 257,
+    "applicationMembers": 156,
+    "changedPathsOverlapPins": [],
+    "changedPathsOverlapPackageSourceRows": [],
+    "loaderAndPlanByteIdenticalTo089": true,
+    "currentLoaderVerificationPassed": true,
+    "aacActive": false
+  },
+  "limits": [
+    "Two AAC paths are source preparation only, deliberately absent from shipped package/source pins and active imports.",
+    "Ubuntu metadata-only and Windows H264 one-shot workflows require preservation and exact ordinary successor parent7ba5174e before publication; no dispatch/rerun here.",
+    "No historical qualification/runtime/library/launcher/default changes.",
+    "No commit, build, native/media, desktop or publication. All sibling proposals preserved."
+  ],
+  "evidence": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/native089-h265-ordinary-saved-audit.json",
+      "bytes": 4583,
+      "sha256": "a6c269a45a9853943d8b71c3f843a48eb80c2ce7ae8ed76fc8b6c3cd06aad78d"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/native089-h265-measured-saved-audit.json",
+      "bytes": 7454,
+      "sha256": "634a7b82b7ab622d127ea6498e5d2387f7c6d9c632184bfe20dd9feb0f1370d6"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/hosted089-verified-outcome.json",
+      "bytes": 1441,
+      "sha256": "8905df23c6eb96861956b3d1737ec2b4be6919feecdbe8ce95f5d0ce55553620"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/ubuntu089-original-sanitized-report.json",
+      "bytes": 475,
+      "sha256": "b7e1da1816f91ba4ad6e57226126ba6abf02c92aac0235876092b37b83f263f0"
+    }
+  ]
+}

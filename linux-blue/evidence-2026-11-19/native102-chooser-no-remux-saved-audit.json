@@ -1,0 +1,115 @@
+{
+  "schema": "native102-saved-only-audit-v1",
+  "outcome": "NORMAL_CLOSE_AFTER_INPUT_CHOOSER_CANCELLED_NO_REMUX_JOB",
+  "nativeRemuxAccepted": false,
+  "source": {
+    "commit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+    "tree": "535208a353fd98df7dd310776d3691148184ce64",
+    "filesRehashedAndGitBlobVerified": 1152
+  },
+  "package": {
+    "physicalFilesVerified": 272,
+    "byteDeviceInodeIdentitiesUnchanged": true,
+    "ordinary0755Count": 6,
+    "otherModes": "0600",
+    "fileAuditSha256": "dc35898cbae62a68dca3917422d0e0cdd9fe6ecccc89d3c2df67f74577637c2d"
+  },
+  "fixture": {
+    "bytes": 3615957,
+    "sha256": "3c10746e684124de77a0e5930aff42ad7e4547ffb779b7c166fdd4067186e551",
+    "originalAndDistinctCopyVerified": true
+  },
+  "journal": {
+    "digestsVerified": 8,
+    "contiguousSequence": "0..7",
+    "events": [
+      {
+        "sequence": 0,
+        "atUtc": "2026-11-19T16:14:24.533000+00:00",
+        "reason": "SESSION_STARTED"
+      },
+      {
+        "sequence": 1,
+        "atUtc": "2026-11-19T16:14:24.728000+00:00",
+        "reason": "CAPABILITY_STARTED"
+      },
+      {
+        "sequence": 2,
+        "atUtc": "2026-11-19T16:14:28.963000+00:00",
+        "reason": "RUNTIME_IDENTIFIED"
+      },
+      {
+        "sequence": 3,
+        "atUtc": "2026-11-19T16:14:28.969000+00:00",
+        "reason": "CAPABILITY_FINISHED"
+      },
+      {
+        "sequence": 4,
+        "atUtc": "2026-11-19T16:14:28.974000+00:00",
+        "reason": "PROVENANCE_RECOVERY_FINISHED"
+      },
+      {
+        "sequence": 5,
+        "atUtc": "2026-11-19T16:15:03.511000+00:00",
+        "reason": "FOLDER_PICKER_REQUESTED"
+      },
+      {
+        "sequence": 6,
+        "atUtc": "2026-11-19T16:15:46.879000+00:00",
+        "reason": "FOLDER_PICKER_CANCELLED"
+      },
+      {
+        "sequence": 7,
+        "atUtc": "2026-11-19T16:17:26.927000+00:00",
+        "reason": "SESSION_ENDED"
+      }
+    ],
+    "prepareCount": 0,
+    "startCount": 0,
+    "remuxJobs": 0,
+    "publicationCount": 0,
+    "revealCount": 0,
+    "outputDirectoryEmpty": true
+  },
+  "startupCapability": {
+    "performed": true,
+    "scope": "Saved CAPABILITY_FINISHED records successful two-frame8/10-bit CPU H264/H265/AV1 checks; NVIDIA refused CPU-only. Startup media probes did run; no zero-FFmpeg-children claim.",
+    "exactTotalChildrenNotEstablished": true
+  },
+  "closure": {
+    "elapsedSeconds": 183.94675186899985,
+    "exitCode": 0,
+    "terminationRequested": false,
+    "errors": [],
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 3757052,
+    "sampledOnly": true
+  },
+  "sampledIdentitiesCount": 11,
+  "closureSha256": "4231b46f5d0ddca03ecc9dbe9e62fc237c4fbc649c149a19bbb48a5c9a01e67f",
+  "visualObservation": {
+    "attribution": "Lead GUI operator report, not independent replay",
+    "summary": "Remux tab and input chooser opened. AT-SPI type_text failed before typing; documented per-character method entered reviewed path visibly. Return closed chooser with no selected folder. No explicit Cancel or reopening; no Prepare, Start, Open or Reveal. Normal app close and Terminal window visible; saved closure separately confirms exit."
+  },
+  "stderr": {
+    "bytes": 624,
+    "sha256": "117b340bc125582bf5964342da241a29ae4452a22a892e5f99be2ad1c9b9f60d",
+    "observedCategories": [
+      "Three system D-Bus connection errors",
+      "One SSL handshake net_error -202"
+    ],
+    "causality": "No saved evidence establishes these as chooser-cancellation cause; not erased because closure errors is empty."
+  },
+  "stdoutBytes": 0,
+  "savedInventory": {
+    "files": 51,
+    "sha256": "55b9ba2d04f1b54f9ebf6f88bf9aa6722232b3c4df69969a6614e5d0e9adf762"
+  },
+  "limits": [
+    "Chooser cancellation cause unresolved; journal cancelled outcome is not proof user explicitly cancelled.",
+    "No remux collector/output preservation/timer/reveal acceptance from this attempt. Prior private cadence proof remains separate.",
+    "Sampled owned group closure is not universal descendant accounting.",
+    "Saved-only file hashing and journal inspection; no new media/probe/decode/GUI/rerun."
+  ]
+}

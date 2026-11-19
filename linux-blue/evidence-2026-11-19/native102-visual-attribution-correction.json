@@ -1,0 +1,7 @@
+{
+  "reason": "Lead corrected visual attribution: terminal shell prompt was not independently readable; Terminal window visible and saved closure separately confirms exit.",
+  "oldSha256": "7a9e35e9dd2127b5aac9e8861fbc13c27f25074f790b9f81a930310110ba0e76",
+  "newSha256": "6219c9a64792b2d2d2985fbf7a2e4104bc66ee8eb7c28ca7635aba4fb1592975",
+  "onlyChange": "Exact single visual-summary sentence replacement",
+  "noRerun": true
+}

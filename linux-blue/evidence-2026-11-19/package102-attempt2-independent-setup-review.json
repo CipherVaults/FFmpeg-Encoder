@@ -1,0 +1,19 @@
+{
+  "status": "APPROVED setup delta only; separate explicit attempt2 release required",
+  "handoffSha256": "40975cb29088e6a5b9929328ceac2612eb671e868021ffb5d25615a42124955e",
+  "verifiedFiles": 9,
+  "checks": [
+    "Distinct preparation and output namespace; execute-build differs only by output-parent literal.",
+    "Original frozen source/input preflight retained and clearly historical; current successor helper separately pinned.",
+    "Exclusive mkdir without exist_ok, canonical current-UID ordinary directory and empty state captured; same dev/inode/UID/emptiness plus27GiB floor rechecked immediately pre-builder.",
+    "Existing source/Git/input/ASAR/builder and exact early restoration checks unchanged.",
+    "Wrapper parsed without execution; parent/result/attempt/release absent at review.",
+    "Attempt1 original failure remains untouched; no artifact existed for that attempt."
+  ],
+  "limits": [
+    "No build, mkdir, modes, native or media performed by reviewer.",
+    "Wrapper release receipt records externally supplied lead authorization; it cannot itself grant that authorization.",
+    "Fresh lead release must cover exactly one successor attempt; no automatic replay after failure.",
+    "Actual272-file artifact still requires independent audit after successful build."
+  ]
+}

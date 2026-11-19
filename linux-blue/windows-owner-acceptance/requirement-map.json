@@ -1,0 +1,649 @@
+{
+  "N01": {
+    "cases": [
+      "W01"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Preserve full reviewed plan and controlling Goal; isolate codex/v0.7-candidate, state and accepted/benchmark boundaries",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-governance-prerequisite"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "N02": {
+    "cases": [
+      "W01"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Shared typed evidence/draft/plan/result/incident contracts and requirement-to-evidence tracker",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-governance-prerequisite"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "N03": {
+    "cases": [
+      "W05",
+      "W22"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Threat review, independent review and parent documentation synchronization rules",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-governance-prerequisite"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "N04": {
+    "cases": [
+      "W01",
+      "W02",
+      "W27"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Ownership, network/storage/time ledger and one-real-media-job scheduling",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-governance-prerequisite"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O01": {
+    "cases": [
+      "W22",
+      "W28"
+    ],
+    "disposition": "pending-final-evidence",
+    "note": "Original Resolve/laptop mapping requires retained original-case evidence or exact unresolved gap; synthetic negatives do not replace original repros.",
+    "original_requirement": "Diagnose Resolve and laptop candidates independently using accepted runtime; unknown historical mapping remains explicit",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O02": {
+    "cases": [
+      "W22"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Bounded typed HDR/DOVI, geometry, timeline, audio, program/group/container evidence with cache invalidation",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O03": {
+    "cases": [
+      "W19"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "ctime-only complete comparable post-validation checks safely publish with warning, no whole-file prerequisite",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O04": {
+    "cases": [
+      "W17",
+      "W18",
+      "W19",
+      "W20",
+      "W21"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Stronger source changes/incomplete sampling/invalid output/collision/cancel retain distinct outcomes; strict cache/grants unchanged",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O05": {
+    "cases": [
+      "W16",
+      "W18",
+      "W21",
+      "W22",
+      "W24",
+      "W27"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Durable diagnostics across admission, preparation, unsupported-only, capabilities, invoke, validation, publication, cancel and recovery",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O06": {
+    "cases": [
+      "W18",
+      "W21",
+      "W24"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Bounded retention, safe reparse handling, privacy/redacted exports, truthful write failures and interruption recovery",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O07": {
+    "cases": [
+      "W13",
+      "W14"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Named per-file ancillary decisions or useful compatible alternatives; no silent global dropping",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "O08": {
+    "cases": [
+      "W01",
+      "W03"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Separate Electron and paired FFmpeg maintenance trial checkpoints with verified provenance and rollback",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "maintenance-trial-prerequisite",
+      "manufacture",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Separate Electron and paired-FFmpeg trials, provenance and rollback.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "P01": {
+    "cases": [
+      "W07"
+    ],
+    "disposition": "pending-final-evidence",
+    "note": "AMD absent; software/injected tests plus named missing real-hardware qualification.",
+    "original_requirement": "Useful AMF H264/HEVC/AV1 native CQP/QVBR adapters, explicit device, per-depth/RC support",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-adapter-contract",
+      "external-hardware-qualification"
+    ],
+    "closure_status": "BLOCKED_EXTERNAL_HARDWARE"
+  },
+  "P02": {
+    "cases": [
+      "W07"
+    ],
+    "disposition": "pending-final-evidence",
+    "note": "Intel absent; software/injected tests plus named missing real-hardware qualification.",
+    "original_requirement": "Useful QSV H264/HEVC/AV1 native ICQ/CQP adapters, actual RC verification and no substitution",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-adapter-contract",
+      "external-hardware-qualification"
+    ],
+    "closure_status": "BLOCKED_EXTERNAL_HARDWARE"
+  },
+  "P03": {
+    "cases": [
+      "W07"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Discovered/untested/verified/unavailable/stale capability cells keyed by exact binary/device/driver/RC/depth/transform",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "P04": {
+    "cases": [
+      "W06",
+      "W07",
+      "W08"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Unchanged ordinary CPU/NVIDIA Full/KeepSource SDR args/defaults and ArchiveCQ29",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Golden ordinary Full/KeepSource argv/default and ArchiveCQ29 comparison.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "P05": {
+    "cases": [],
+    "disposition": "deferred-owner-scope",
+    "note": "HDR moved to v0.9 by later owner scope; preserve historical evidence/failure and do not claim complete.",
+    "original_requirement": "Qualified PQ/HDR10 and HLG preservation, truthful static/dynamic metadata and output signaling",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "deferred-v0.9"
+    ],
+    "closure_status": "DEFERRED_NOT_PASSED"
+  },
+  "P06": {
+    "cases": [],
+    "disposition": "deferred-owner-scope",
+    "note": "HDR moved to v0.9 by later owner scope; preserve historical evidence/failure and do not claim complete.",
+    "original_requirement": "Actual explicit HDR-to-SDR tone mapping, numerical/color/metadata evidence and no silent SDR",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "deferred-v0.9"
+    ],
+    "closure_status": "DEFERRED_NOT_PASSED"
+  },
+  "P07": {
+    "cases": [],
+    "disposition": "deferred-owner-scope",
+    "note": "HDR moved to v0.9 by later owner scope; preserve historical evidence/failure and do not claim complete.",
+    "original_requirement": "Supplied iPhone compatible HLG route with separate mebx dispositions and no retained-DV claim",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "deferred-v0.9"
+    ],
+    "closure_status": "DEFERRED_NOT_PASSED"
+  },
+  "P08": {
+    "cases": [],
+    "disposition": "deferred-owner-scope",
+    "note": "HDR moved to v0.9 by later owner scope; preserve historical evidence/failure and do not claim complete.",
+    "original_requirement": "Bounded DV-aware PQ on/off qualification and explicit evidence-backed limitations/usable route",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "deferred-v0.9"
+    ],
+    "closure_status": "DEFERRED_NOT_PASSED"
+  },
+  "P09": {
+    "cases": [],
+    "disposition": "deferred-owner-scope",
+    "note": "HDR moved to v0.9 by later owner scope; preserve historical evidence/failure and do not claim complete.",
+    "original_requirement": "Small legitimate varied HDR corpus with terms/origin/bytes/hash/probe, private supplied metadata",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "deferred-v0.9"
+    ],
+    "closure_status": "DEFERRED_NOT_PASSED"
+  },
+  "Q01": {
+    "cases": [
+      "W08",
+      "W09"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Orientation/SAR/DAR-aware single output2160/1440/1080/720, no upscale/crop/stretch/fps/deinterlace, KeepSource preserved",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Explicit2160 plus1440/1080/720 and positive orientation/SAR/DAR behavior.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "Q02": {
+    "cases": [
+      "W10"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Per-file Full initial/single range, visible handles/exact fields, explicit batch apply",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "Q03": {
+    "cases": [
+      "W10",
+      "W11",
+      "W12"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Precision trimmed-audio re-encode entire selected segment; quality-conscious codec/rate/channel/sample-rate policy",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "Q04": {
+    "cases": [
+      "W10",
+      "W11",
+      "W12"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Full compatible audio copy; explicit supported range-copy override with disclosed packet limits",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Explicit supported range-copy override with disclosed packet edges.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "Q05": {
+    "cases": [
+      "W08",
+      "W09",
+      "W10",
+      "W11",
+      "W12"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Requested/effective boundaries, rebasedPTS, delay/padding, decoded sync tolerances, start/end/both/late/VFR/multitrack tests",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "Q06": {
+    "cases": [
+      "W13",
+      "W14"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Qualified subtitle overlap/chapter rebasing; unsupported combinations explicit",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Successful qualified subtitle overlap and chapter rebase, not only refusal/full copy.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "Q07": {
+    "cases": [
+      "W13"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "MKV/MP4 and qualified MOV remux targets; TS input program/stream relationships; full only",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "TS program/stream relationships required, not silently optional.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "Q08": {
+    "cases": [
+      "W12",
+      "W13",
+      "W14"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Remux essence/representation/metadata/disposition/provenance/timestamps validated; no hidden transcode/loss",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R01": {
+    "cases": [
+      "W05",
+      "W16",
+      "W25"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Polished distinct Encode/Remux/Activity/Help plus dedicated App Settings; inspectable previews",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R02": {
+    "cases": [
+      "W15",
+      "W23"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Main-validated app\u2192batch\u2192file preference precedence, effective values/override disclosure",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R03": {
+    "cases": [
+      "W23"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Atomic versioned preferences/migration/corruption/reset and isolated0.7 state",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R04": {
+    "cases": [
+      "W15",
+      "W16"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Frozen queued/running plans immutable; draft edits invalidate appropriately; navigation never mutates authority",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R05": {
+    "cases": [
+      "W06",
+      "W25"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Visible expert settings/native quality/help/recipe/actual canonical argv; no magic settings",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R06": {
+    "cases": [
+      "W25"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Accessible keyboard/slider precise alternatives, narrow640x480/resize, navigation during active work",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "R07": {
+    "cases": [
+      "W03",
+      "W05",
+      "W24",
+      "W26"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Original icon; actual versions/license/credits and diagnostic reviewable export UI",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED",
+    "required_subcriteria_gate": {
+      "status": "UNBOUND",
+      "obligation": "Original icon, versions, licenses, credits and reviewable diagnostic export.",
+      "evidence": [],
+      "missing_disposition": "BLOCKED"
+    }
+  },
+  "R08": {
+    "cases": [
+      "W14",
+      "W23"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Generated exclusion/temporary exact reencode/omission authority preserved and never restored at restart",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S01": {
+    "cases": [
+      "W06",
+      "W15",
+      "W27",
+      "W28"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "LocalCPU/NVIDIA real cross-feature evidence + proportional direct regression/negative/security/lifecycle tests",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S02": {
+    "cases": [
+      "W02",
+      "W16",
+      "W17",
+      "W18",
+      "W19",
+      "W20",
+      "W21",
+      "W27"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Samefolder/collision/intentionalreencode/provenance/races/cancel/restart/shutdown and source-protection evidence",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S03": {
+    "cases": [
+      "W03",
+      "W04",
+      "W26"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Fresh0.7 prerelease ZIP extracted isolated, alternatecwd/restrictedPATH/offline-process/data persistence tests",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "manufacture",
+      "owner-windows-final",
+      "owner-signoff"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S04": {
+    "cases": [
+      "W01",
+      "W28"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "Independent requirement-to-evidence review with resolved findings and honest supportmatrix",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S05": {
+    "cases": [
+      "W04",
+      "W28"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "One owner-review entry/checklist, exact artifact hash/path/version, rollback and final handoff",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "manufacture",
+      "owner-windows-final",
+      "owner-signoff"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  },
+  "S06": {
+    "cases": [
+      "W28"
+    ],
+    "disposition": "pending-final-evidence",
+    "original_requirement": "No accepted0.7/publication/benchmark continuation; hardware/display/independentmachine/owner acceptance gaps explicit",
+    "source_git_blob": "17106c10cc05ed665e279e3a28cc3bae4370607d",
+    "lanes": [
+      "shared-contract",
+      "owner-windows-final"
+    ],
+    "closure_status": "NOT_ASSESSED"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "checkpoint": "103",
+  "cutoffUtc": "2026-11-19T16:20:39+00:00",
+  "baseLocal": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "baseTree": "535208a353fd98df7dd310776d3691148184ce64",
+  "baseGitHub": "e4cfeb33a6bf40a6539de039416985851340a3c8",
+  "scope": "documentation, reviewed unbound owner suite and exact prior evidence; no application changes and no rebuild",
+  "native102": "normal close after cancelled input chooser; no Prepare/Start/remux/output; startup media probes ran",
+  "qualification": "packaged VFR pending; no owner execution",
+  "suite": {
+    "requirementsMapped": 43,
+    "casesNotRun": 28,
+    "executionReady": false,
+    "revision": 2
+  },
+  "evidence": {
+    "linux-blue/windows-owner-acceptance/MANUAL_RUN_SHEET.md": {
+      "bytes": 5468,
+      "sha256": "44d4fa03687dcbfae84400f88bf6a0ce4a0721a5bc1e079d738c3eb72a63cccc"
+    },
+    "linux-blue/windows-owner-acceptance/README.md": {
+      "bytes": 14253,
+      "sha256": "93fcd4cd58b8a199d147436d73cb22910a7de5ed4a7ae796794a345ab3107cd0"
+    },
+    "linux-blue/windows-owner-acceptance/case-manifest.json": {
+      "bytes": 25565,
+      "sha256": "a19fa54a7ec700c5ae8e2a59f0a7020cfa997f53ddb8ffeaa1ee59eb91ac0d21"
+    },
+    "linux-blue/windows-owner-acceptance/checklist.md": {
+      "bytes": 22331,
+      "sha256": "8bd30e2ff700f23a3a210743f2f0b602217449c6c996f027ae52970ba3b96ec1"
+    },
+    "linux-blue/windows-owner-acceptance/original-requirements.json": {
+      "bytes": 6730,
+      "sha256": "935d586d11cf78e9c26418c0c20d229c2a3bb9f9dc9234bc86c83e46a6b8d073"
+    },
+    "linux-blue/windows-owner-acceptance/requirement-map.json": {
+      "bytes": 20606,
+      "sha256": "ca2a3d49fb39138d8cad8869b9c0d7668385ddbca352bd753667991834e966e5"
+    },
+    "linux-blue/windows-owner-acceptance/validate_manifest.py": {
+      "bytes": 1776,
+      "sha256": "0788cab918210e02b87638f8df9d6e19ad76abaf9d186003e6050049ca7ec5e5"
+    },
+    "linux-blue/windows-owner-acceptance/REVISION2_SHA256.json": {
+      "bytes": 645,
+      "sha256": "dd513fbb1eb87730e8997806d7ee9762833e378a25f3ef0b99911ba73b6ba339"
+    },
+    "linux-blue/windows-owner-acceptance/REVISION2_REVIEW.json": {
+      "bytes": 2237,
+      "sha256": "3919ca197215e8d952bc9376a16ac6a81027c8ea9d328facbf3b47beb74a4a5e"
+    },
+    "linux-blue/evidence-2026-11-19/package102-attempt1-outer-completion.json": {
+      "bytes": 197,
+      "sha256": "cbcb9d9edd494ff3628efb0c47b4559c110289eb2866235b8c26d4d290c872ea"
+    },
+    "linux-blue/evidence-2026-11-19/package102-attempt2-outer-completion.json": {
+      "bytes": 196,
+      "sha256": "d63e702f666861e31d5a7f76f9ec24b403de83b0273970dbb9f4709c790c1b36"
+    },
+    "linux-blue/evidence-2026-11-19/package102-attempt2-independent-inert-audit.json": {
+      "bytes": 1090,
+      "sha256": "77b10fb521ad65090116a6b1e2a593340f6643bf6fe7443e0fc9754258755ed8"
+    },
+    "linux-blue/evidence-2026-11-19/package102-attempt2-independent-setup-review.json": {
+      "bytes": 1302,
+      "sha256": "4d311057e2b0c2df6a6f24678a1dc7d5712f609804c3ab8e6be8b4907b979194"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint102-final-notion-verification.json": {
+      "bytes": 3399,
+      "sha256": "ef543514c6d88c8622f15ee5515a6965746f3767ffefe1fb06e320bfbf5c6db3"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint102-final-mirror-release.json": {
+      "bytes": 265,
+      "sha256": "9cfe7b62b2f451fdbd006359d6730a169e22f6b037f38bddcee241a9b73d8f65"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint102-verified-remote.json": {
+      "bytes": 783,
+      "sha256": "717522ddc1ccb50cb644cb79a892d9f2af556030b19612b310155070327115ee"
+    },
+    "linux-blue/evidence-2026-11-19/hosted102-verified-outcome.json": {
+      "bytes": 903,
+      "sha256": "18ff6aa39bc9022e64d06384a73282e6fd4c35ca19207ff1397b4c7376d7e6cd"
+    },
+    "linux-blue/evidence-2026-11-19/native102-chooser-no-remux-saved-audit.json": {
+      "bytes": 4120,
+      "sha256": "6219c9a64792b2d2d2985fbf7a2e4104bc66ee8eb7c28ca7635aba4fb1592975"
+    },
+    "linux-blue/evidence-2026-11-19/native102-visual-attribution-correction.json": {
+      "bytes": 428,
+      "sha256": "832e69fad2eaef5fcb32eb7cfccd52bc5ae3f029e89f03e7f72065239b21c651"
+    },
+    "linux-blue/evidence-2026-11-19/native099-102-chooser-saved-comparison.json": {
+      "bytes": 4467,
+      "sha256": "f81ad8b42e0b24a64e58935e29093fb9d7e2ea441beea1ec064d1b8176caa112"
+    }
+  }
+}

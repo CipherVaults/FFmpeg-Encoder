@@ -1,0 +1,30 @@
+{
+  "checkpoint": "102",
+  "head": "e4cfeb33a6bf40a6539de039416985851340a3c8",
+  "shared": {
+    "runId": 44562597562,
+    "attempt": 1,
+    "conclusion": "success",
+    "linuxJob": 135695636510,
+    "windowsJob": 135695637232,
+    "syntaxEach": 227,
+    "sharedTestsEach": 338,
+    "linuxSelectedTests": 140,
+    "failures": 0,
+    "skippedTests": 0
+  },
+  "inventory": {
+    "runId": 44562597962,
+    "attempt": 1,
+    "conclusion": "skipped"
+  },
+  "limits": [
+    "No Windows packaged workflow or Ubuntu metadata resolver rebind/run.",
+    "Hosted selected source tests only; no native/media/GPU/package qualification.",
+    "Native102 acceptance pending separate reviewed gate."
+  ],
+  "logSha256": {
+    "JOB-135695636510.log": "e9dcf4c6291bd980efe5d05f4211f70953f2d963ae364ab1ff4a12d31896c13b",
+    "JOB-135695637232.log": "7f02f972bf51ad59acf2ba6cc19f6827dc335c317f3be2adae1594afb6cac214"
+  }
+}

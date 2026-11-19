@@ -1,0 +1,101 @@
+{
+  "scope": "Read-only saved picker comparison; not full native audit or replay",
+  "observations": {
+    "native099-long-mov-preparation": {
+      "pickerEvents": [
+        {
+          "sequence": 5,
+          "atUtc": "2026-11-19T14:26:38.545000+00:00",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "requested"
+          },
+          "eventFileSha256": "e08594fc1e63819f8af80715ce5fc55686c34374e3df2ba7aea49c6010008da0"
+        },
+        {
+          "sequence": 6,
+          "atUtc": "2026-11-19T14:27:05.036000+00:00",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "registered"
+          },
+          "eventFileSha256": "088598b9fefe3ec3ed72d94daf30a1d55592e806b5870c8331757072b6ddab52"
+        },
+        {
+          "sequence": 7,
+          "atUtc": "2026-11-19T14:27:09.789000+00:00",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "context": {
+            "action": "choose-output-folder",
+            "outcome": "requested"
+          },
+          "eventFileSha256": "47ccb911d502ffad13021879a6eaf9abce3d530292f29212540eb0a954475fd6"
+        },
+        {
+          "sequence": 8,
+          "atUtc": "2026-11-19T14:27:36.703000+00:00",
+          "reason": "FOLDER_PICKER_REGISTERED",
+          "context": {
+            "action": "choose-output-folder",
+            "outcome": "registered"
+          },
+          "eventFileSha256": "fe56f3d083e583dc1c39240aba4b42e655573e888826b261a52a47d94d59badf"
+        }
+      ],
+      "stderrSha256": "5bca5d931bf5e5e02313b1bc1c1ec93e0ab51e6d259164a3101665693512fc4a",
+      "closureSha256": "055d80e2512452136bad80ec2a7a06da7924640989542a7754f8c0ff861b7793",
+      "exitCode": 0,
+      "elapsedSeconds": 185.68412412999896,
+      "closureObserved": true,
+      "terminationRequested": false
+    },
+    "native102-vmp4-mov-preparation": {
+      "pickerEvents": [
+        {
+          "sequence": 5,
+          "atUtc": "2026-11-19T16:15:03.511000+00:00",
+          "reason": "FOLDER_PICKER_REQUESTED",
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "requested"
+          },
+          "eventFileSha256": "e11dc5a4efefae1b1b01ebbe1d7388362ebcb953d5833d7d198a403ec385ffb6"
+        },
+        {
+          "sequence": 6,
+          "atUtc": "2026-11-19T16:15:46.879000+00:00",
+          "reason": "FOLDER_PICKER_CANCELLED",
+          "context": {
+            "action": "choose-input-folder",
+            "outcome": "cancelled"
+          },
+          "eventFileSha256": "377dba42c77b130f990e17fcab2786ffc0d1cb27e47b8da0ffc739f851de97d9"
+        }
+      ],
+      "stderrSha256": "117b340bc125582bf5964342da241a29ae4452a22a892e5f99be2ad1c9b9f60d",
+      "closureSha256": "4231b46f5d0ddca03ecc9dbe9e62fc237c4fbc649c149a19bbb48a5c9a01e67f",
+      "exitCode": 0,
+      "elapsedSeconds": 183.94675186899985,
+      "closureObserved": true,
+      "terminationRequested": false
+    }
+  },
+  "unchanged099to102Source": {
+    "main.js": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa",
+    "src/ipc.cjs": "278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd",
+    "ui/renderer.js": "2adcbe117e55cc8914e5615f6fedc5263e61d00194b581f24f94f3723876894a"
+  },
+  "stderrComparison": "Both contain missing system bus socket and SSL -202. No portal-specific diagnostic observed. These shared messages do not establish cancellation cause.",
+  "operatorEvidence": {
+    "102": "Parent reports Ctrl+L, AT-SPI type_text failure before typing, bound picker.typeCharacters exact visible path, Sky Return then dialog closed with no folder selected. No explicit cancellation observed.",
+    "099": "Retained audit confirms real accepted folder pickers and publication, but does not preserve exact focus/Return/acceptance-button sequence. Not reconstructed or inferred."
+  },
+  "sourceMeaning": "src/ipc.cjs lines28\u201331 records CANCELLED only for selection.canceled === true, before path validation/registration. This does not establish who or what cancelled the native dialog.",
+  "limits": [
+    "No desktop, application, media, probe, GPG or system modification.",
+    "102 reached no Prepare/Start; no inference of cadence/service failure.",
+    "Focus target/native response code/portal backend are not recorded; identical source does not exclude environmental behavior."
+  ]
+}

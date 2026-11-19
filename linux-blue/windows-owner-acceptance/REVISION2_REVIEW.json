@@ -1,0 +1,29 @@
+{
+  "status": "APPROVED AS UNBOUND LIVING ACCEPTANCE DRAFT ONLY",
+  "revisionManifestSha256": "dd513fbb1eb87730e8997806d7ee9762833e378a25f3ef0b99911ba73b6ba339",
+  "files": {
+    "MANUAL_RUN_SHEET.md": "44d4fa03687dcbfae84400f88bf6a0ce4a0721a5bc1e079d738c3eb72a63cccc",
+    "README.md": "93fcd4cd58b8a199d147436d73cb22910a7de5ed4a7ae796794a345ab3107cd0",
+    "case-manifest.json": "a19fa54a7ec700c5ae8e2a59f0a7020cfa997f53ddb8ffeaa1ee59eb91ac0d21",
+    "checklist.md": "8bd30e2ff700f23a3a210743f2f0b602217449c6c996f027ae52970ba3b96ec1",
+    "original-requirements.json": "935d586d11cf78e9c26418c0c20d229c2a3bb9f9dc9234bc86c83e46a6b8d073",
+    "requirement-map.json": "ca2a3d49fb39138d8cad8869b9c0d7668385ddbca352bd753667991834e966e5",
+    "validate_manifest.py": "0788cab918210e02b87638f8df9d6e19ad76abaf9d186003e6050049ca7ec5e5"
+  },
+  "checks": [
+    "Both inert validator stages passed",
+    "All43 original requirement texts match independent pinned GitHub readback",
+    "Reciprocal mappings and28 checklist procedures/expected results match",
+    "Missing original subcriteria explicitly gated; unchanged owner scope and deferred HDR retained",
+    "Candidate/fixture/numerical inputs UNBOUND and execution_ready false",
+    "Manual no-Codex fallback, unsafe-fault refusal, local-only receipts and independent technical measurements explicit",
+    "Historical busy-close/picker/Open/Reveal/restart/grants/61-entry storyboard are scenario seeds, not current acceptance",
+    "Private cadence accepted/source102 approved/package still pending distinct"
+  ],
+  "remainingBeforeExecution": [
+    "Exact frozen candidate and fixtures/numerical contracts; per-case finite reviewed budgets/measurement commands",
+    "Manufacture/maintenance/source/other-vendor prerequisites remain separate;28 cases are not whole43 acceptance",
+    "Any actual software installs/security permissions/sharing still require applicable authorization"
+  ],
+  "limits": "No Windows, owner PC, media, GPG/network or package execution. No author files changed. Original review remains intact. Historical Nov18/Oct23 scenario claims were reviewed as supplied author reconciliation; this rereview does not claim independent complete read of those two bodies."
+}

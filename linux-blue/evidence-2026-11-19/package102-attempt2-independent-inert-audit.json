@@ -1,0 +1,24 @@
+{
+  "approved": true,
+  "scope": "102 attempt2 actual inert package audit only",
+  "sourceCommit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "sourceFilesVerified": 1152,
+  "planInputsVerified": 269,
+  "physicalFilesVerified": 272,
+  "applicationAsarMembersVerified": 168,
+  "currentSourcePinsVerified": 151,
+  "allFilesMode": "0600",
+  "activeAsarAbsent": true,
+  "metadataVerified": true,
+  "targetQualificationAuditInputsVerified": 6,
+  "originalMp4QualificationRetained": true,
+  "fileAuditSha256": "dc35898cbae62a68dca3917422d0e0cdd9fe6ecccc89d3c2df67f74577637c2d",
+  "asarSourceAuditSha256": "72bac97d67f7290fa9979ae90e3bd5fe309a1dc85e23d15db4c38b2e6f68b8fb",
+  "attempt1": "Retained separate ENOENT setup failure before copying; attempt2 explicitly reviewed and released.",
+  "cadenceAuditAndStandaloneUnifiedBoundaryVerified": true,
+  "limits": [
+    "No executable mode changes or runtime/media execution.",
+    "Exact source and artifact only; no native acceptance or distribution readiness.",
+    "Full preservation and separate native binding/release remain required."
+  ]
+}

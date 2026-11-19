@@ -4,7 +4,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
-const EXPECTED_SHA = '6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9';
+const EXPECTED_SHA = '08a097ef9eae71aa3340ad496c475ae5a3115adb8f7636b265c2eaee9e0274f3';
 // Reviewed code is the trust anchor, not a caller manifest or writable JSON flag.
 // This loader cannot hash itself recursively; package/source review binds it.
 const SOURCE_PINS = {
@@ -13,8 +13,8 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "bytes": 11002,
-    "sha256": "318f332c7140ba7c82a4921023581b97cfd0724fa0927151034d45e6b43941a8"
+    "bytes": 11662,
+    "sha256": "cd13c3ba3d5a7f0944467afcc58841774a2e6c44846149f38055523ae84beaf4"
   },
   "linux-blue/product-linux-shell.cjs": {
     "bytes": 5782,
@@ -293,20 +293,20 @@ const SOURCE_PINS = {
     "sha256": "9c4a25e65021be52bff887830a5cbdf5db07c03720be69b0352020437707251a"
   },
   "src/operation-evidence.cjs": {
-    "bytes": 53356,
-    "sha256": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4"
+    "bytes": 53448,
+    "sha256": "55cb42b3e8e5f7886e1909058a136a63723c5b4cb4056a89345d3df16a7eef44"
   },
   "src/operation-family.cjs": {
-    "bytes": 52210,
-    "sha256": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3"
+    "bytes": 54395,
+    "sha256": "2f30becd87c6b181873c99fbbbe0b5cf2ddc75c33cfb30189d5bedf237e63fb9"
   },
   "src/operation-names.cjs": {
     "bytes": 1511,
     "sha256": "185a019d034db77c0e6c4f06ffc7a4d32817296cf394f1fe6b8ede383977e56c"
   },
   "src/operation-resource-budget.cjs": {
-    "bytes": 8323,
-    "sha256": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6"
+    "bytes": 9231,
+    "sha256": "2afe94d17bfced1bac25911d484dbf415f52a44404fdc9725858c3811e54cf6d"
   },
   "src/operation-runtime.cjs": {
     "bytes": 24676,
@@ -511,11 +511,23 @@ const SOURCE_PINS = {
   "linux-blue/evidence-2026-11-19/admission075-reasoning.json": {
     "bytes": 2203,
     "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+  },
+  "linux-blue/evidence-2026-11-19/uhd-matrix-saved-audit.json": {
+    "bytes": 5294,
+    "sha256": "25ce864dfe915365f0c6e718807f8dd242b7d3f49748e5b22ef9a12c197f58fe"
+  },
+  "linux-blue/product-linux-qualification077-historical.json": {
+    "bytes": 9245,
+    "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+  },
+  "linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json": {
+    "bytes": 4224,
+    "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
   }
 };
 const CLOSED_RECORD = {
-  "schema": "linux-product-three-family-qualification/v4-runtime-successor",
-  "scope": "internal-opt-in-three-family-candidate",
+  "schema": "linux-product-four-family-qualification/v5-uhd-full",
+  "scope": "internal-opt-in-four-family-candidate",
   "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
   "rawCalibration": {
     "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16",
@@ -738,6 +750,75 @@ const CLOSED_RECORD = {
       "H264High30fpsSDRBT709 squarepixel stereo48kHzs16PCM source; no arbitrary AAC/VFR/HDR/GPU admission.",
       "Historical long campaigns remain old runtime evidence, not silently reassigned to this pair."
     ]
+  },
+  "uhdFull": {
+    "rawMatrixSummary": {
+      "bytes": 198731,
+      "sha256": "d749b09c1eee5096376c7f667642e8214d3e2c8df02553dd31c2a6608d3bc478"
+    },
+    "savedAudit": {
+      "path": "linux-blue/evidence-2026-11-19/uhd-matrix-saved-audit.json",
+      "bytes": 5294,
+      "sha256": "25ce864dfe915365f0c6e718807f8dd242b7d3f49748e5b22ef9a12c197f58fe"
+    },
+    "predecessorRecord": {
+      "path": "linux-blue/product-linux-qualification077-historical.json",
+      "bytes": 9245,
+      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+    },
+    "nativeProof": null,
+    "relocatedPublication": null,
+    "family": {
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "resourcePolicy": "cfr2160p30-full-to1440-1080-720-flac-resources-v1",
+      "sourceGeometry": {
+        "width": 3840,
+        "height": 2160
+      },
+      "resolutions": [
+        "1440",
+        "1080",
+        "720"
+      ],
+      "qualification": {
+        "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "containerDuration": "end-timestamp",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:interior",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      },
+      "evidenceIds": [
+        "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+        "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:interior"
+      ]
+    },
+    "limits": [
+      "Fresh eight-second synthetic SDR CFR30 H264 High/yuv420p BT709 square-pixel unrotated QuickTime with stereo48kHz s16 PCM; three Full-source H265slow25 FLAC targets only.",
+      "HDR, VFR, DCI4K, AAC, range and GPU routes remain outside this family. No ordinary/default changes.",
+      "Original clock-derived bounds unchanged; supplementary SSIM is not a perceptual threshold or independent visual-correctness proof.",
+      "No new packaged/native publication or broad-duration/performance qualification; per-output original validation/currentness guards remain mandatory."
+    ],
+    "frozenReferences": {
+      "path": "linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json",
+      "bytes": 4224,
+      "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
+    }
   }
 };
 const digest = b => createHash('sha256').update(b).digest('hex');
@@ -753,10 +834,24 @@ const SERVICE_SUCCESSOR = {
     "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
   },
   "historicalRangeProducerCount": 97,
-  "unchangedRangeProducerCount": 96,
+  "unchangedRangeProducerCount": 93,
   "historicalFullCopyProducerCount": 26,
   "nativeProof": null,
-  "basis": "Optional ordinary guard is absent on measured service instances. Original raw producer maps and numerical calibration records remain unchanged; current service integration requires separate review/tests and fresh packaged native regression."
+  "basis": "Optional ordinary guard is absent on measured service instances. Original raw producer maps and numerical calibration records remain unchanged; current service integration requires separate review/tests and fresh packaged native regression. Explicit UHD-only Full family, output-sized budget extension and collector policy are separate reviewed successor changes; legacy branches remain unchanged. UHD saved matrix tests the new paths, not historical binary reassignment.",
+  "uhdSourceDeltas": {
+    "src/operation-family.cjs": {
+      "historicalSha256": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3",
+      "currentSha256": "2f30becd87c6b181873c99fbbbe0b5cf2ddc75c33cfb30189d5bedf237e63fb9"
+    },
+    "src/operation-resource-budget.cjs": {
+      "historicalSha256": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6",
+      "currentSha256": "2afe94d17bfced1bac25911d484dbf415f52a44404fdc9725858c3811e54cf6d"
+    },
+    "src/operation-evidence.cjs": {
+      "historicalSha256": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4",
+      "currentSha256": "55cb42b3e8e5f7886e1909058a136a63723c5b4cb4056a89345d3df16a7eef44"
+    }
+  }
 };
 frozen(SOURCE_PINS); frozen(CLOSED_RECORD); frozen(SERVICE_SUCCESSOR);
 const stamp = s => ['dev','ino','nlink','size','mtimeNs','ctimeNs','birthtimeNs'].map(k => String(s[k]));

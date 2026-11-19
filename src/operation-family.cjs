@@ -12,14 +12,14 @@ const { normalizeProbe } = require('./inspection.cjs');
 const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation-contract.cjs');
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
 
-const { FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
+const { UHD_FULL_FAMILY_ID: UHD_FULL, UHD_FULL_RESOURCE_POLICY, deriveCfrUhdFullFlacResources, FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
   RESIZE_1440_FAMILY_ID: RESIZE_1440_PROPORTIONAL, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources,
   RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, RESIZE_RESOURCE_POLICY, deriveCfrResizeFlacResources,
   FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources } = require('./operation-resource-budget.cjs');
 // Fixed main-owned resource policies; proportional resources do not imply FLAC audio.
-const proportionalId = id => id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL || id === FULL_COPY_PROPORTIONAL;
-const proportionalFlacId = id => id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL;
-const resourcePolicy = id => id === RESIZE_1440_PROPORTIONAL ? RESIZE_1440_RESOURCE_POLICY : id === FULL_COPY_PROPORTIONAL ? FULL_COPY_RESOURCE_POLICY : id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
+const proportionalId = id => id === UHD_FULL || id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL || id === FULL_COPY_PROPORTIONAL;
+const proportionalFlacId = id => id === UHD_FULL || id === PROPORTIONAL || id === RESIZE_1440_PROPORTIONAL || id === RESIZE_PROPORTIONAL;
+const resourcePolicy = id => id === UHD_FULL ? UHD_FULL_RESOURCE_POLICY : id === RESIZE_1440_PROPORTIONAL ? RESIZE_1440_RESOURCE_POLICY : id === FULL_COPY_PROPORTIONAL ? FULL_COPY_RESOURCE_POLICY : id === RESIZE_PROPORTIONAL ? RESIZE_RESOURCE_POLICY : RESOURCE_POLICY;
 const proportionalResults = new WeakMap();
 // A result's private issuing epoch and plan identity, never a public flag, carry
 // resource authority. Callers must still requireCurrent at the normal boundary;
@@ -247,7 +247,7 @@ function sourceFacts(probe, actualBytes, proportional = false, familyId = null) 
   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
   need(video && audio && video.index !== audio.index && video.codec_name === 'h264' && video.profile === 'High' && video.pix_fmt === 'yuv420p'
     && video.field_order === 'progressive' && Number(video.disposition?.attached_pic || 0) === 0
-    && (familyId === RESIZE_1440_PROPORTIONAL ? video.width === 2560 && video.height === 1440
+    && (familyId === UHD_FULL ? video.width === 3840 && video.height === 2160 : familyId === RESIZE_1440_PROPORTIONAL ? video.width === 2560 && video.height === 1440
       : video.width === 1920 && video.height === 1080 || video.width === 1280 && video.height === 720), 'Only the fixed progressive 8-bit H264 High geometry belongs to this family.');
   need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.');
   // Refuse unsupported audio before side-data or clock diagnostics. Codec
@@ -314,6 +314,21 @@ function fullScope(request, facts, contract, proportional = false) {
     'The canonical audio contract must copy exactly the one AAC source stream.');
   return Object.fromEntries(['range', 'resolution', 'target', 'hdrPolicy', 'audioPolicy', 'aacBitrateKbps', 'omissionRequestIds'].map(key => [key, structuredClone(request[key])]));
 }
+function uhdFullScope(request, facts, contract) {
+  need(request.operation === 'encode' && request.target === 'matroska' && ['preserve','sdr'].includes(request.hdrPolicy)
+    && request.range === null && ['1440','1080','720'].includes(request.resolution)
+    && request.audioPolicy === 'precision-flac' && request.aacBitrateKbps === null
+    && Array.isArray(request.omissionRequestIds) && request.omissionRequestIds.length === 0,
+    'Only UHD whole-source SDR resize with precision FLAC and no omissions belongs to this family.');
+  const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
+  need(range.kind === 'full', 'UHD range encoding is not admitted.');
+  const audio = contract?.audio || resolveAudio([facts.audioEvidence], { target: request.target, range, audioPolicy: request.audioPolicy, aacBitrateKbps: request.aacBitrateKbps });
+  need(audio.streams.length === 1 && audio.streams[0].index === facts.audioIndex && audio.streams[0].mode === 'precision-flac'
+    && audio.streams[0].codec === 'flac' && audio.streams[0].sourceSampleFormat === 's16'
+    && audio.streams[0].sampleRate === 48000 && audio.streams[0].channels === 2 && audio.streams[0].channelLayout === 'stereo'
+    && audio.streams[0].bitrateKbps === null, 'UHD Full requires the exact stereo PCM to FLAC contract.');
+  return Object.fromEntries(['range','resolution','target','hdrPolicy','audioPolicy','aacBitrateKbps','omissionRequestIds'].map(key => [key,structuredClone(request[key])]));
+}
 function maximum(a, b) { return compare(a, b) >= 0n ? a : b; }
 // Whole-file copied-audio extents, from metadata or from the decoded source.
 function fullExtents(video, audio, label, proportional = false) {
@@ -325,7 +340,7 @@ function fullExtents(video, audio, label, proportional = false) {
 function requestScope(request, facts, contract, id = FAMILY) {
   const audio = facts.sourceAudio, proportional = proportionalId(id), fullCopy = id === FULL_COPY_PROPORTIONAL, flac = id === FLAC || proportionalFlacId(id);
   if (proportional) {
-    need(facts.rate === 30 && (id === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 && request.resolution === '720' : id === RESIZE_PROPORTIONAL || fullCopy
+    need(facts.rate === 30 && (id === UHD_FULL ? facts.width === 3840 && ['1440','1080','720'].includes(request.resolution) : id === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 && request.resolution === '720' : id === RESIZE_PROPORTIONAL || fullCopy
       ? facts.width === 1920 && request.resolution === '720'
       : facts.width === 1280 && request.resolution === 'source'),
     'Only the exact fixed geometry, cadence and resolution tuple belongs to its respective proportional family.');
@@ -344,7 +359,7 @@ function requestScope(request, facts, contract, id = FAMILY) {
       : audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'),
   flac ? 'Only 48 kHz stereo pcm_s16le/s16 source audio belongs to the precision-FLAC range family.'
     : 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
-  return id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional, id);
+  return id === UHD_FULL ? uhdFullScope(request, facts, contract) : id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional, id);
 }
 const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
 function bindings(value, familyId, scopeOnly = false) {
@@ -368,9 +383,9 @@ function forFamily(base, familyId) {
   const request = requestScope(base.plan.contract.request, base.facts, base.plan.contract, familyId);
   if (proportionalId(familyId)) {
     const sourceExtentUs = extentUs(maximum(maximum(base.facts.extents.video, base.facts.extents.audio), base.facts.extents.container));
-    const interval = base.plan.contract.range.resolved, selectedExtentUs = familyId === FULL_COPY_PROPORTIONAL ? sourceExtentUs : interval.endUs - interval.startUs;
-    const derive = familyId === RESIZE_1440_PROPORTIONAL ? deriveCfrResize1440FlacResources : familyId === FULL_COPY_PROPORTIONAL ? deriveCfrFullResizeCopyResources : familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
-    const derived = derive({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size });
+    const interval = base.plan.contract.range.resolved, selectedExtentUs = (familyId === UHD_FULL || familyId === FULL_COPY_PROPORTIONAL) ? sourceExtentUs : interval.endUs - interval.startUs;
+    const derive = familyId === UHD_FULL ? deriveCfrUhdFullFlacResources : familyId === RESIZE_1440_PROPORTIONAL ? deriveCfrResize1440FlacResources : familyId === FULL_COPY_PROPORTIONAL ? deriveCfrFullResizeCopyResources : familyId === RESIZE_PROPORTIONAL ? deriveCfrResizeFlacResources : deriveCfrFlacResources;
+    const derived = derive({ sourceExtentUs, selectedExtentUs, sourceBytes: base.state.sourceIdentity.size, ...(familyId === UHD_FULL ? {resolution: request.resolution} : {}) });
     return { plan: base.plan, facts: base.facts, sourcePolicy: { id: familyId, rate: base.facts.rate, maximumExtentUs: sourceExtentUs },
       state: { ...base.state, familyId, request, resourcePolicy: resourcePolicy(familyId), sourceExtentUs, selectedExtentUs,
         inputBudget: base.state.budget, inputExecutionBudgetMs: base.state.executionBudgetMs, ...derived } };
@@ -450,7 +465,9 @@ class OperationFamilySelector {
     // This helper can only interpret absence for the one resize route. Avoid
     // adding family/runtime preconditions, including the bounded inert walk,
     // to unrelated ordinary Full requests.
-    if (resolutionOf(options.request) !== '720') return {};
+    const resolution = resolutionOf(options.request);
+    if (resolution !== '720' && (!['1080','1440'].includes(resolution)
+      || !this.#families.some(item => item.id === UHD_FULL))) return {};
     inert(options.inspection); inert(options.request);
     // Ordinary Full settings and known recipes can legitimately be outside the
     // family; they receive no orientation override and keep their existing path.

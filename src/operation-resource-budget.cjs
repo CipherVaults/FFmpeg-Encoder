@@ -17,6 +17,8 @@ const FULL_1440_RESIZE_FAMILY_ID = 'cfr-sdr-full-1440-to720-flac-v1';
 const FULL_1440_RESIZE_RESOURCE_POLICY = 'cfr1440p30-full-to720p-flac-resources-v1';
 const FULL_COPY_FAMILY_ID = 'cfr-sdr-full-resize-copy-v1';
 const FULL_COPY_RESOURCE_POLICY = 'cfr1080p30-full-to720-copy-resources-v1';
+const UHD_FULL_FAMILY_ID = 'cfr-sdr-uhd-full-resize-flac-v1';
+const UHD_FULL_RESOURCE_POLICY = 'cfr2160p30-full-to1440-1080-720-flac-resources-v1';
 const MiB = 1024n * 1024n, TIMER = 2147483647n;
 const fault = message => { throw Object.assign(new Error(message), { code: 'OPERATION_RESOURCE_CAPACITY' }); };
 const ceil = (n, d) => (n + d - 1n) / d;
@@ -28,7 +30,7 @@ function number(value, label, maximum = BigInt(Number.MAX_SAFE_INTEGER)) {
   if (value <= 0n || value > maximum) fault(`${label} exceeds the current resource capacity; no truncation or fallback is permitted.`);
   return Number(value);
 }
-function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, decodePerSecond, scaling, aacTail = false, fullCopy = false) {
+function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, decodePerSecond, scaling, aacTail = false, fullCopy = false, encodePerSecond = 15000n) {
   const source = integer(sourceExtentUs, 'Source extent'), selected = integer(selectedExtentUs, 'Selected extent');
   if (selected > source) fault('Selected extent exceeds source extent.');
   if (typeof sourceBytes !== 'string' || !/^[1-9]\d{0,18}$/.test(sourceBytes)) fault('Exact positive source size is required.');
@@ -65,8 +67,8 @@ function deriveResources({ sourceExtentUs, selectedExtentUs, sourceBytes }, deco
   // Aggregate CPU allowances are twice per-child, as in the original policy.
   const decodeMs = sourceSeconds * decodePerSecond;
   const scaleMs = scaling ? selectedSeconds * decodePerSecond : 0n;
-  const timeoutMs = number(30000n + decodeMs + scaleMs + selectedSeconds * 15000n + 2n * ioMs, 'Child deadline', TIMER);
-  const executionBudgetMs = number(60000n + 2n * (decodeMs + scaleMs) + selectedSeconds * 30000n + 8n * ioMs, 'Operation deadline', TIMER);
+  const timeoutMs = number(30000n + decodeMs + scaleMs + selectedSeconds * encodePerSecond + 2n * ioMs, 'Child deadline', TIMER);
+  const executionBudgetMs = number(60000n + 2n * (decodeMs + scaleMs) + selectedSeconds * 2n * encodePerSecond + 8n * ioMs, 'Operation deadline', TIMER);
   // Five frame/packet passes plus margin, and both complete PCM streams.
   // Full copy: nine collector streams (two video/two audio frame scans,
   // output padding, two packet identities and two headers), no PCM decode.
@@ -103,4 +105,12 @@ function deriveCfrFull1440ResizeFlacResources({ sourceExtentUs, sourceBytes }) {
 function deriveCfrFullResizeCopyResources({ sourceExtentUs, sourceBytes }) {
   return deriveResources({ sourceExtentUs, selectedExtentUs: sourceExtentUs, sourceBytes }, 3375n, true, false, true);
 }
-module.exports = { RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources, AAC_FAMILY_ID, AAC_RESOURCE_POLICY, AAC_DECODED_TAIL_SAMPLES, deriveCfrAacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };
+// UHD input decode/scale: nine times 720p pixels. Output encoding is charged
+// at its own pixel ratio, not the old fixed 720p allowance. These are conservative
+// scheduling forecasts, not measured speed or runtime qualification.
+function deriveCfrUhdFullFlacResources({ sourceExtentUs, sourceBytes, resolution }) {
+  const coefficients = { '1440': 60000n, '1080': 33750n, '720': 15000n };
+  if (!Object.hasOwn(coefficients, resolution)) fault('Unsupported UHD output resolution.');
+  return deriveResources({ sourceExtentUs, selectedExtentUs: sourceExtentUs, sourceBytes }, 13500n, true, false, false, coefficients[resolution]);
+}
+module.exports = { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, deriveCfrUhdFullFlacResources, RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, deriveCfrFullResizeCopyResources, AAC_FAMILY_ID, AAC_RESOURCE_POLICY, AAC_DECODED_TAIL_SAMPLES, deriveCfrAacResources, FULL_1440_RESIZE_FAMILY_ID, FULL_1440_RESIZE_RESOURCE_POLICY, deriveCfrFull1440ResizeFlacResources, FULL_RESIZE_FAMILY_ID, FULL_RESIZE_RESOURCE_POLICY, deriveCfrFullResizeFlacResources, RESOURCE_POLICY, FAMILY_ID, deriveCfrFlacResources, RESIZE_RESOURCE_POLICY, RESIZE_FAMILY_ID, deriveCfrResizeFlacResources };

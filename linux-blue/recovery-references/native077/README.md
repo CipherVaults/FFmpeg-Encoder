@@ -1,0 +1,9 @@
+# Exact inert native 077 reconstruction references
+
+These .py.txt files preserve exact reviewed source bytes, not an installed tool, runnable package or fresh launch authorization. Original supervisor SHA-256 b319d6ae348a58562c9013a4428013abfecfd266fdf4747ec2ed9ab4c6320c0f. The adjacent independent review records eleven inert tests before the actual attempt; do not rerun those tests blindly against the completed attempt state.
+
+Reconstruction requires restoring the script filenames in a separately owned native077 preparation directory, the exact sibling package layout ffmpeg-inert-build077-output/linux-inert-package-DIFdEX, and the original private file inventory at ffmpeg-package077-preflight/INDEPENDENT_FILE_AUDIT.json with SHA-256 4dc2c23b6231630fdf16b6ffa876cbfc65c5459ab6c9b89420645388c06ba07a. That inventory includes path/stat identity and is not bundled here. A rebuilt/relocated inventory needs explicit reviewed successor binding, not a forged old digest.
+
+Also required: two exact regular fixture copies, empty separately owned output/profile, verified package hashes and the five authorized normal executable modes, actual supported desktop context, resource floors and a fresh reviewed gate referencing exact independent review/preservation receipts. Original gate and completed attempt markers are not reusable permission for another launch. Never delete markers to retry in place. No sandbox or environment bypass is authorized by these references.
+
+These documents intentionally exclude raw profile, media, logs, machine-specific inventory and active gate. Restoring the reference text alone cannot reconstruct or authorize the entire experiment. They remain outside packaged runtime and product-source closure; future use must preserve their historical identity and review any necessary adaptation.

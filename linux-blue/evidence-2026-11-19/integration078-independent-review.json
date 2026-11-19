@@ -1,0 +1,107 @@
+{
+  "approved": true,
+  "scope": "078 isolated source integration and preservation; no actual package/native release",
+  "handoffSha256": "ab43ec3597e7a869612463f9557a80a4512ce947df477e13d23b726128f2174d",
+  "baseCommit": "da9a526fbc57a78b3f57498d6993f12e004cd712",
+  "files": [
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 36212,
+      "sha256": "ac30bc6cc26c3510dfd66f5b67b7124b451b4d049b7c900a853c699ad9ef6e3d"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.json",
+      "bytes": 11969,
+      "sha256": "08a097ef9eae71aa3340ad496c475ae5a3115adb8f7636b265c2eaee9e0274f3"
+    },
+    {
+      "path": "linux-blue/product-linux-service.cjs",
+      "bytes": 11662,
+      "sha256": "cd13c3ba3d5a7f0944467afcc58841774a2e6c44846149f38055523ae84beaf4"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 69585,
+      "sha256": "3b543ec545538a32ed19a72e1a8110d94c52418596b26efea18a1ca17c013313"
+    },
+    {
+      "path": "scripts/ci-source-contracts.cjs",
+      "bytes": 2519,
+      "sha256": "bc12851804e7fcf388e94c4577fae747141a8845cb946f2e9b8dd46b06c47204"
+    },
+    {
+      "path": "src/operation-evidence.cjs",
+      "bytes": 53448,
+      "sha256": "55cb42b3e8e5f7886e1909058a136a63723c5b4cb4056a89345d3df16a7eef44"
+    },
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 54395,
+      "sha256": "2f30becd87c6b181873c99fbbbe0b5cf2ddc75c33cfb30189d5bedf237e63fb9"
+    },
+    {
+      "path": "src/operation-resource-budget.cjs",
+      "bytes": 9231,
+      "sha256": "2afe94d17bfced1bac25911d484dbf415f52a44404fdc9725858c3811e54cf6d"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10333,
+      "sha256": "32329a03d7437b3b759d77b6aace42e95dc2fde7ebf3103adcefe7f2a8029c2e"
+    },
+    {
+      "path": "tests/linux-product-proposal.test.cjs",
+      "bytes": 20986,
+      "sha256": "62e972b16786dd26091fcacfb701b2deba0f689b16675a2fd63e7a74fe408dcf"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json",
+      "bytes": 4224,
+      "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/uhd-matrix-saved-audit.json",
+      "bytes": 5294,
+      "sha256": "25ce864dfe915365f0c6e718807f8dd242b7d3f49748e5b22ef9a12c197f58fe"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification077-historical.json",
+      "bytes": 9245,
+      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+    },
+    {
+      "path": "linux-blue/uhd-full-case.cjs",
+      "bytes": 4212,
+      "sha256": "319e79bff9be0b981c5f7ba2842f98a84bc7a41081908f4cc1684a349e686c82"
+    },
+    {
+      "path": "tests/operation-family-uhd-full.test.cjs",
+      "bytes": 8636,
+      "sha256": "3ded5af2d9e9961f49c01061c803acc0b2e9d7a7a50042a6c3aef1e231045824"
+    }
+  ],
+  "verified": [
+    "Five previously reviewed UHD source files transferred exactly; three existing compact family records unchanged, original077 compact preserved byte-exact.",
+    "Fourth explicit UHD Full PCM-to-FLAC candidate descriptor uses exact original frozen clock bounds and accepted saved audit. No ordinary/default or UI-control changes.",
+    "129 current product source pins and244 package rows/146app source rows coherent; runtime/Electron/notices unchanged. Historical producer maps remain preserved with explicit current successor differences.",
+    "Portable renderer DOM/VM harness added to shared CI array; Linux execution passed, actual Windows hosted run not asserted."
+  ],
+  "tests": {
+    "independentPassed": 121,
+    "failed": 0,
+    "skipped": 0,
+    "components": [
+      104,
+      17
+    ],
+    "logs": [
+      "42c501f5c522b91f89f9afd1a9ec3cdf340188132846beaa39dc15dc09402c4e",
+      "1ed0f7680d4b38b71a4a7177dc86904e529b6b72743ada95222c6fd78afd9f56"
+    ]
+  },
+  "limits": [
+    "Only internal measured candidate admission expanded; no production/default, packaging, native publication or release qualification.",
+    "UHD empirical coverage one8-second synthetic SDR30fps PCM source at three resolutions; per-output validators/resources remain mandatory, no broad-duration/performance guarantee.",
+    "Shared core modules changed: original historical measurements not relabelled as new-current producer identities."
+  ]
+}

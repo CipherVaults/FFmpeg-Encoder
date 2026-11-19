@@ -10,6 +10,7 @@ const shared = [
   'tests/media.test.cjs',
   'tests/container-clock.test.cjs',
   'tests/appearance.test.cjs',
+  'tests/ui-workbench.test.cjs',
   'tests/app-settings.test.cjs',
   'tests/main-lifecycle.test.cjs',
   'tests/process-runner.test.cjs',

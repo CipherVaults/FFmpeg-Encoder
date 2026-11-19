@@ -1,0 +1,147 @@
+{
+  "scope": "Data-only exact six source-payload reacquisition and read-only Debian packaging inspection",
+  "sourcePayloads": [
+    {
+      "source": "x264",
+      "version": "2:0.164.3108+git31e19f9-2",
+      "filename": "x264_0.164.3108+git31e19f9.orig.tar.gz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x264/x264_0.164.3108%2Bgit31e19f9.orig.tar.gz",
+      "bytes": 954789,
+      "sha256": "41606cb8e788a7f8c4514290646d4ba5c7bc68d9e1ccd1a73f446a90546913eb"
+    },
+    {
+      "source": "x264",
+      "version": "2:0.164.3108+git31e19f9-2",
+      "filename": "x264_0.164.3108+git31e19f9-2.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x264/x264_0.164.3108%2Bgit31e19f9-2.debian.tar.xz",
+      "bytes": 24600,
+      "sha256": "35afd5e6896432acc7ed675eb077f71f37d92d748c41652f19470c18403fcb58"
+    },
+    {
+      "source": "x265",
+      "version": "4.1-2",
+      "filename": "x265_4.1.orig.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_4.1.orig.tar.xz",
+      "bytes": 1113508,
+      "sha256": "85abb8a850000bf693947459c42a666a3ecd6de10a2ac6b3c6647554b14d3270"
+    },
+    {
+      "source": "x265",
+      "version": "4.1-2",
+      "filename": "x265_4.1-2.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/x/x265/x265_4.1-2.debian.tar.xz",
+      "bytes": 13920,
+      "sha256": "05daa2bd9395f3e5cc6eed64aa47c044856b38a3dab12cd59008d60ec9f8c3cb"
+    },
+    {
+      "source": "numactl",
+      "version": "2.0.19-1",
+      "filename": "numactl_2.0.19.orig.tar.gz",
+      "url": "https://deb.debian.org/debian/pool/main/n/numactl/numactl_2.0.19.orig.tar.gz",
+      "bytes": 218333,
+      "sha256": "8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4"
+    },
+    {
+      "source": "numactl",
+      "version": "2.0.19-1",
+      "filename": "numactl_2.0.19-1.debian.tar.xz",
+      "url": "https://deb.debian.org/debian/pool/main/n/numactl/numactl_2.0.19-1.debian.tar.xz",
+      "bytes": 7340,
+      "sha256": "93b4e00d8b7b1e465d931b29e65d220fadd84ac76431437307ecd075277355d3"
+    }
+  ],
+  "totalPayloadBytes": 2332490,
+  "descriptors": [
+    {
+      "file": "numactl_2.0.19-1.dsc",
+      "bytes": 1967,
+      "sha256": "b56e7893fc7da5374946f3767518e8d7b3707e0487a4d92fb76d672a988921e2"
+    },
+    {
+      "file": "x264_0.164.3108+git31e19f9-2.dsc",
+      "bytes": 1758,
+      "sha256": "323a100cb9942a7a9030e335d77980b1da77947c54778083dc31d99d0fd7b888"
+    },
+    {
+      "file": "x265_4.1-2.dsc",
+      "bytes": 1695,
+      "sha256": "eaa5b43fbc4b6878a0d18751e6e0d8d087b416b2a11c8f1671659b4f8502cb31"
+    }
+  ],
+  "sourcesIndexSha256": "6002f81f463a2d976d84b34170367cc16da2d60bd0ba9ab9d868d6e1c1a935d9",
+  "authentication": "Sources index bytes match retained previously signature-verified InRelease SHA0584fba32e13e0ab8285fb16c27adea1ec03a73669c18702821094fd6ca86675. All six tarballs and three descriptors match Sources SHA256. No independent maintainer signature validation or newest-state assertion.",
+  "archiveInspection": [
+    {
+      "archive": "x265_4.1.orig.tar.xz",
+      "members": 423,
+      "regularFiles": 377,
+      "links": 0,
+      "extracted": false
+    },
+    {
+      "archive": "x264_0.164.3108+git31e19f9-2.debian.tar.xz",
+      "members": 30,
+      "regularFiles": 25,
+      "links": 0,
+      "extracted": false
+    },
+    {
+      "archive": "numactl_2.0.19-1.debian.tar.xz",
+      "members": 23,
+      "regularFiles": 19,
+      "links": 0,
+      "extracted": false
+    },
+    {
+      "archive": "x264_0.164.3108+git31e19f9.orig.tar.gz",
+      "members": 259,
+      "regularFiles": 241,
+      "links": 0,
+      "extracted": false
+    },
+    {
+      "archive": "numactl_2.0.19.orig.tar.gz",
+      "members": 97,
+      "regularFiles": 91,
+      "links": 0,
+      "extracted": false
+    },
+    {
+      "archive": "x265_4.1-2.debian.tar.xz",
+      "members": 28,
+      "regularFiles": 24,
+      "links": 0,
+      "extracted": false
+    }
+  ],
+  "x264Linkage": {
+    "binaryVersion": "2:0.164.3108+git31e19f9-2+b1",
+    "declaredSourceVersion": "2:0.164.3108+git31e19f9-2",
+    "evidence": "Authenticated retained .deb control and packaged changelog.Debian.amd64.gz",
+    "binaryOnlyReason": "No source changes; rebuild with binutils >=2.44-2 to build without executable stack",
+    "scope": "Declared source relationship established. Exact .buildinfo/compiler environment and bit-for-bit reproducibility not established."
+  },
+  "packagingFindings": [
+    "x264 Debian rules explicitly build static then shared library; patch series contains x32 detection and PPC pointer-type corrections.",
+    "x265 Debian rules build 10-bit and 12-bit static archives plus 8-bit and combine archives; four patches cover ARM flags, x32, removal of unreachable dlopen path and ARM assembly.",
+    "numactl has empty patch series and debhelper rules; tests are skipped by packaging with stated non-NUMA rationale."
+  ],
+  "remaining": [
+    "Assemble exact corresponding source, Debian patches/build rules and actual FFmpeg successor recipe into a reviewed distribution source-delivery plan; downloads alone do not establish compliance.",
+    "Determine combined license/required notices and distribution method with qualified review; no legal clearance claimed.",
+    "Exact binary buildinfo and reproducibility remain distinct evidence gaps, not automatically legal prerequisites.",
+    "Seven dynamic host libraries remain unbundled and exact-host pinned; no portability claim.",
+    "Raw acquired source payloads are local-only; committed URL/hash inventory remains recovery route, not durable archive storage."
+  ],
+  "actionsNotTaken": [
+    "No archive code/build scripts executed",
+    "No installation",
+    "No public upload",
+    "No canonical edits",
+    "No runtime repin",
+    "No license acceptance or release promotion"
+  ],
+  "friction": [
+    "Initial parser omitted empty-valued multiline Sources headers; corrected parser before descriptor download. No authentication check relaxed."
+  ]
+}

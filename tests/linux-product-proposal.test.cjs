@@ -4,7 +4,7 @@ const fs = require('node:fs'), path = require('node:path');
 const root = path.join(__dirname, '..');
 test('internal qualification binds exact accepted evidence while native/release acceptance stays pending', () => {
  const q=require('../linux-blue/product-linux-qualification.cjs').loadQualification();
- assert.equal(q.scope,'internal-opt-in-three-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
+ assert.equal(q.scope,'internal-opt-in-four-family-candidate');assert.equal(q.nativeProof,null);assert.equal(q.productIntegrationReview,null);
  assert.equal(q.internalCandidateDecision.distributionReady,false);assert(q.supportingEvidence.precisionAudit.bytes>0);assert.match(q.supportingEvidence.precisionAudit.sha256,/^[a-f0-9]{64}$/);
 });
 test('compact calibration record carries measured values, not runtime approval flags', () => {
@@ -44,7 +44,7 @@ test('ordinary compact reader refuses oversized, modified, linked and nonregular
  const q=injected(qualificationFile,{},temp);
  fs.writeFileSync(dest,bytes);assert.equal(q.readCompactQualification().nativeProof,null);
  fs.writeFileSync(dest,Buffer.alloc(16385));assert.throws(()=>q.readCompactQualification(),{code:'LINUX_PRODUCT_QUALIFICATION_CHANGED'});
- fs.writeFileSync(dest,Buffer.from(bytes.toString().replace('internal-opt-in-three-family-candidate','changed')));assert.throws(()=>q.readCompactQualification());
+ fs.writeFileSync(dest,Buffer.from(bytes.toString().replace('internal-opt-in-four-family-candidate','changed')));assert.throws(()=>q.readCompactQualification());
  fs.unlinkSync(dest);fs.symlinkSync(path.join(root,'linux-blue/product-linux-qualification.json'),dest);assert.throws(()=>q.readCompactQualification());
  fs.unlinkSync(dest);fs.mkdirSync(dest);assert.throws(()=>q.readCompactQualification());
 });
@@ -105,10 +105,10 @@ test('Windows construction matches frozen reviewed baseline except declaration s
  assert(current.includes('let nativeFilesFailure = null;'));
 });
 
-test('three candidate families keep separate exact qualifiers without changing the range record', async()=>{
+test('four candidate families keep separate exact qualifiers without changing the range record', async()=>{
  const f=serviceFixture(),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
  const families=s.options.operationQualifications.options.families;
- assert.equal(families.length,3);
+ assert.equal(families.length,4);
  assert.equal(families[0].id,'cfr-sdr-range-resize1440-flac-v1');
  assert.equal(families[1].id,'cfr-sdr-full-resize-copy-v1');
  assert.equal(families[2].id,'cfr-sdr-range-resize-flac-v1');
@@ -150,7 +150,7 @@ function productProbe(seconds = 150, tick = 15360) {
     nb_streams: 2, nb_programs: 0, nb_stream_groups: 0, tags: { major_brand: 'qt  ' } }, programs: [], stream_groups: [], chapters: [] };
 }
 
-test('real combined selector admits only the three explicit families, with no cross-family fallback',async()=>{
+test('real combined selector admits only the four explicit families, with no cross-family fallback',async()=>{
  const f=serviceFixture({realSelector:true}),s=await f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'});
  const selector=s.options.operationQualifications;
  const {buildEncodeOperation,fingerprintEncodeSource}=require('../src/encode-operation.cjs');
@@ -158,8 +158,8 @@ test('real combined selector admits only the three explicit families, with no cr
  const {classifyColor}=require('../src/media.cjs');
  const settings={profileId:'h265-cpu',preset:'slow',quality:25};
  function bindings({range=null,audioPolicy='copy',width=1920,resolution='720',quality=25,pcm=false,mutateSource=()=>{}}={}){
-  const source=productProbe(11); source.streams[0].width=width;source.streams[0].height=width===2560?1440:1080;
-  if(width===2560||pcm){source.streams[1].codec_name='pcm_s16le';source.streams[1].sample_fmt='s16';delete source.streams[1].profile;}
+  const source=productProbe(11); source.streams[0].width=width;source.streams[0].height=width===3840?2160:width===2560?1440:1080;
+  if(width===2560||width===3840||pcm){source.streams[1].codec_name='pcm_s16le';source.streams[1].sample_fmt='s16';delete source.streams[1].profile;}
   mutateSource(source);
   const identity={canonicalPath:'/synthetic-product/input.mov',dev:'1',ino:'2',size:source.format.size,mtimeNs:'1000',ctimeNs:'1001',birthtimeNs:'900',sparseDigest:`sha256-sparse-v1:${'b'.repeat(64)}`};
   const config={...settings,quality};
@@ -167,10 +167,10 @@ test('real combined selector admits only the three explicit families, with no cr
   const plan=buildEncodeOperation({input:identity.canonicalPath,output:'/synthetic-product/output.mkv',settings:config,inspection:{probe:source,color:classifyColor(source),duration:11},request,runtimeIdentity:f.candidate.runtimeIdentity});
   return {plan,settings:config,sourceIdentity:identity,sourceProbeFingerprint:fingerprintEncodeSource(source),runtimeIdentity:f.candidate.runtimeIdentity,environment:null,budget:null,executionBudgetMs:120000};
  }
- for(const args of [{},{pcm:true,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{width:2560,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'}]){
+ for(const args of [...['1440','1080','720'].map(resolution=>({width:3840,resolution,audioPolicy:'precision-flac'})),{},{pcm:true,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{width:2560,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'}]){
   const b=bindings(args),token=selector.select(b);assert(token);assert(selector.requireCurrent(token,b).controlsRequired);
  }
- for(const args of [{width:2560},{range:{startUs:413000,endUs:8621000}},{audioPolicy:'precision-flac'},{range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{pcm:true,range:{startUs:413000,endUs:8621000}},{resolution:'source'},{quality:24}])assert.throws(()=>selector.select(bindings(args)));
+ for(const args of [{width:3840,audioPolicy:'copy'},{width:3840,audioPolicy:'precision-flac',range:{startUs:0,endUs:1000000}},{width:3840,audioPolicy:'precision-flac',resolution:'source'},{width:4096,audioPolicy:'precision-flac'},{width:2560},{range:{startUs:413000,endUs:8621000}},{audioPolicy:'precision-flac'},{range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac'},{pcm:true,range:{startUs:413000,endUs:8621000}},{resolution:'source'},{quality:24}])assert.throws(()=>selector.select(bindings(args)));
  for(const mutateSource of [p=>p.streams[0].avg_frame_rate='30000/1001',p=>p.streams[0].color_transfer='smpte2084',p=>p.streams[1].channels=1,p=>p.streams[1].sample_rate='44100',p=>p.streams[0].profile='Main']){
   assert.throws(()=>selector.select(bindings({pcm:true,range:{startUs:413000,endUs:8621000},audioPolicy:'precision-flac',mutateSource})));
  }
@@ -198,14 +198,14 @@ test('1080 range compact record preserves original clocks and refuses mutated sc
  }
 });
 
-test('historical 97 pins remain intact; exactly one explicit service successor with 96 unchanged',()=>{
+test('historical 97 pins remain intact; explicit service and UHD source deltas with historical identities intact',()=>{
  const crypto=require('node:crypto');
  const source=fs.readFileSync(path.join(root,'linux-blue/candidate-resize-service.cjs'),'utf8');
  const original=JSON.parse(source.match(/const PRODUCERS = Object.freeze\((\{[\s\S]*?\n\})\);/)[1]);
  const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
  assert.equal(Object.keys(original).length,97);
  const successor=require(qualificationFile).SERVICE_SUCCESSOR;assert.equal(successor.nativeProof,null);let changed=0;
- for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);assert.equal(actual,successor.currentEncoderService.sha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,1);
+ for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);assert.equal(actual,successor.currentEncoderService.sha256);changed++;}else if(successor.uhdSourceDeltas[name]){assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,4);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

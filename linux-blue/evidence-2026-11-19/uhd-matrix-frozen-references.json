@@ -1,0 +1,89 @@
+{
+  "scope": "Exact original frozen UHD qualification references, not product activation",
+  "summarySha256": "d749b09c1eee5096376c7f667642e8214d3e2c8df02553dd31c2a6608d3bc478",
+  "acceptedAuditSha256": "25ce864dfe915365f0c6e718807f8dd242b7d3f49748e5b22ef9a12c197f58fe",
+  "sourceSha256": "e1227fc45c4a753a261f4b008d3756452b08497e100b798092f22fbbe947c021",
+  "sourceBytes": 21284230,
+  "sourceExtentUs": 8000000,
+  "frozen": {
+    "frozenBeforeEncode": true,
+    "expectedOutputTimeBase": "1/1000",
+    "derivation": {
+      "sourceVideoTimeBase": "1/15360",
+      "sourceAudioTimeBase": "1/48000",
+      "outputTimeBaseHypothesis": "1/1000",
+      "video": "source video tick + fixed output tick + one microsecond representation allowance",
+      "audioInterior": "source audio tick + one source sample + fixed output tick",
+      "audioEndpoint": "audio interior quantization only; FLAC adds no coding tail",
+      "containerDuration": "end-timestamp: max decoded video/audio output end; duration bound = video bound + ceil(one sample)",
+      "sampleCount": "zero: complete selected canonical s16le PCM byte/hash/sample identity",
+      "noObservedCandidateErrorUsed": true
+    },
+    "qualification": {
+      "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "containerDuration": "end-timestamp",
+      "tolerances": {
+        "videoTimestampUs": 1067,
+        "audioTimestampUs": 1042,
+        "avSyncUs": 2109,
+        "durationUs": 1088,
+        "sampleCount": 0
+      }
+    },
+    "timingQualification": {
+      "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:interior",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "videoDurationUs": 1067,
+      "audioTimelineUs": 1042,
+      "aac": null
+    }
+  },
+  "cases": [
+    {
+      "id": "uhd-to-1440",
+      "planFingerprint": "62d2a6de5ca39461cdb7c64137f54cdec7f966bf13e80ad81f45f13a8aafe83b",
+      "outputIdentity": {
+        "bytes": 7546362,
+        "sha256": "56546a97a43e3501b96a049faa3bbcac47873d6eb91b3a48cc97dcb706ec7548"
+      },
+      "identityOrientationInterpretation": {
+        "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "sourceEvidenceFingerprint": "6d7546ef1dc85370bb5246b52b34bb1eec8edf4bcbdeca78817d9f45861ad2a6",
+        "videoIndex": 0,
+        "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+      }
+    },
+    {
+      "id": "uhd-to-1080",
+      "planFingerprint": "a8bb1315ad2b3b6cae2cef9cca1421b454997a6bbbdbbf993ef1f7741e060a69",
+      "outputIdentity": {
+        "bytes": 3342339,
+        "sha256": "9453717c182ec9fc69282be1a59a0dbff3c26e7f205bd9105fedaaeffb0efd2e"
+      },
+      "identityOrientationInterpretation": {
+        "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "sourceEvidenceFingerprint": "6d7546ef1dc85370bb5246b52b34bb1eec8edf4bcbdeca78817d9f45861ad2a6",
+        "videoIndex": 0,
+        "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+      }
+    },
+    {
+      "id": "uhd-to-720",
+      "planFingerprint": "d264213bc8a5b668bb0407544b7b97890f77fc607398188131bdfed4f2f3be69",
+      "outputIdentity": {
+        "bytes": 1165667,
+        "sha256": "91b4684c3b97eab6a8479027b56a65d90390ff50f6fb909f7fa729713e050bd6"
+      },
+      "identityOrientationInterpretation": {
+        "evidenceId": "fresh-uhdFull-zeTK39:fresh-eight-second-uhd:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "sourceEvidenceFingerprint": "6d7546ef1dc85370bb5246b52b34bb1eec8edf4bcbdeca78817d9f45861ad2a6",
+        "videoIndex": 0,
+        "basis": "Owned unrotated test-signal construction with unchanged independently hashed source; no rotation tag is fabricated."
+      }
+    }
+  ]
+}

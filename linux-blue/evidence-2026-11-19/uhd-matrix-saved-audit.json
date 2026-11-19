@@ -1,0 +1,155 @@
+{
+  "accepted": true,
+  "scope": "Saved original UHD eight-second three-output acquisition only; not product qualification",
+  "summarySha256": "d749b09c1eee5096376c7f667642e8214d3e2c8df02553dd31c2a6608d3bc478",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "sourceSha256": "e1227fc45c4a753a261f4b008d3756452b08497e100b798092f22fbbe947c021",
+  "sourceBytes": 21284230,
+  "sourcePinsVerified": 814,
+  "census": {
+    "spawned": 37,
+    "closed": 37,
+    "live": 0,
+    "maximum": 1
+  },
+  "runtimeClosed": true,
+  "spoolsVerified": 9,
+  "telemetryStreamsVerified": 6,
+  "savedFilesHashed": 88,
+  "outputs": [
+    {
+      "id": "uhd-to-1440",
+      "width": 2560,
+      "height": 1440,
+      "sar": "1:1",
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "output": {
+        "bytes": 7546362,
+        "sha256": "56546a97a43e3501b96a049faa3bbcac47873d6eb91b3a48cc97dcb706ec7548"
+      },
+      "ssimDiagnostic": 0.987586,
+      "elapsedMs": 61914,
+      "timing": {
+        "timeline": "source-timestamps",
+        "requested": null,
+        "resolved": null,
+        "video": {
+          "startUs": 0,
+          "endUs": 8000000,
+          "frames": 240,
+          "outputStartUs": 0,
+          "outputEndUs": 8000000
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "precision-flac",
+            "startUs": 0,
+            "endUs": 8000000,
+            "outputStartUs": 0,
+            "outputEndUs": 8000333,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "sampleCountDifference": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "uhd-to-1080",
+      "width": 1920,
+      "height": 1080,
+      "sar": "1:1",
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "output": {
+        "bytes": 3342339,
+        "sha256": "9453717c182ec9fc69282be1a59a0dbff3c26e7f205bd9105fedaaeffb0efd2e"
+      },
+      "ssimDiagnostic": 0.987193,
+      "elapsedMs": 40831,
+      "timing": {
+        "timeline": "source-timestamps",
+        "requested": null,
+        "resolved": null,
+        "video": {
+          "startUs": 0,
+          "endUs": 8000000,
+          "frames": 240,
+          "outputStartUs": 0,
+          "outputEndUs": 8000000
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "precision-flac",
+            "startUs": 0,
+            "endUs": 8000000,
+            "outputStartUs": 0,
+            "outputEndUs": 8000333,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "sampleCountDifference": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "uhd-to-720",
+      "width": 1280,
+      "height": 720,
+      "sar": "1:1",
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "output": {
+        "bytes": 1165667,
+        "sha256": "91b4684c3b97eab6a8479027b56a65d90390ff50f6fb909f7fa729713e050bd6"
+      },
+      "ssimDiagnostic": 0.985785,
+      "elapsedMs": 24097,
+      "timing": {
+        "timeline": "source-timestamps",
+        "requested": null,
+        "resolved": null,
+        "video": {
+          "startUs": 0,
+          "endUs": 8000000,
+          "frames": 240,
+          "outputStartUs": 0,
+          "outputEndUs": 8000000
+        },
+        "audio": [
+          {
+            "inputIndex": 1,
+            "mode": "precision-flac",
+            "startUs": 0,
+            "endUs": 8000000,
+            "outputStartUs": 0,
+            "outputEndUs": 8000333,
+            "encoderDelaySamples": 0,
+            "discardPaddingSamples": 0,
+            "sampleCountDifference": 0
+          }
+        ]
+      }
+    }
+  ],
+  "retainedWarnings": [
+    "x265 [error]: Failed to genrate CPU mask",
+    "x265 [warning]: No thread pool allocated, --lookahead-slices disabled",
+    "x265 [warning]: No thread pool allocated, --wpp disabled"
+  ],
+  "limits": [
+    "No new probe/decode or media execution. PCM equality is original streaming collector evidence, not independent re-decode.",
+    "SSIM is supplementary scaled-reference diagnostic only, not losslessness or perceptual threshold.",
+    "Single synthetic8-second3840x2160 SDR CFR30 stereoPCM source; no range,60fps,HDR,AAC,portrait,performance,portable-host or GPU claim.",
+    "No product catalog/default/UI activation, publication or native acceptance. Proposals and raw artifacts remain local only."
+  ],
+  "originalEvidenceIntegrity": "Exact original collector spool hashes/identities, telemetry stream raw hashes/identities, source/output before-after identities and output hashes verified; fixed validators passed without fitted bounds.",
+  "outputMetadataCorroboration": "Each original SSIM child retained stderr independently reports HEVC Main yuv420p BT709 progressive30fps at2560x1440/1920x1080/1280x720, SAR1:1 and stereo48kHzs16 FLAC; no new probe.",
+  "processAccountingLimit": "Original runner ledger37 closed/live0/max1, plus terminal OS exit0 reported by lead; saved records do not constitute a fresh operating-system process sweep."
+}

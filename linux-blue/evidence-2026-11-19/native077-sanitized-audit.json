@@ -1,0 +1,157 @@
+{
+  "status": "accepted-native-startup-picker-reset-and-two-file-refusal-evidence-only",
+  "sourceCommit": "da9a526fbc57a78b3f57498d6993f12e004cd712",
+  "packageFilesRehashed": 244,
+  "fiveOrdinaryExecutableModesVerified": true,
+  "inputFilesRehashed": 2,
+  "outputDirectoryEmpty": true,
+  "closure": {
+    "exitCode": 0,
+    "terminationRequested": false,
+    "closureObserved": true,
+    "elapsedSeconds": 146.4586342700004,
+    "sampledOnly": true,
+    "errors": []
+  },
+  "sampledIdentities": 9,
+  "closureNote": "Unreaped leader was zombie at final owned-group observation and was subsequently reaped; no live member recorded. Sampled owned-session scope, not global census.",
+  "events": {
+    "FOLDER_PICKER_CANCELLED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "FOLDER_PICKER_REGISTERED": 2,
+    "FOLDER_PICKER_REQUESTED": 3,
+    "SESSION_STARTED": 1,
+    "PREPARATION_STARTED": 1,
+    "PREPARATION_FINISHED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "CAPABILITY_STARTED": 1,
+    "SESSION_ENDED": 1,
+    "PREPARATION_FAILED": 1
+  },
+  "preparationOutcome": {
+    "phase": "failed",
+    "counts": {
+      "success": 0,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "unprocessed": 2
+    },
+    "settings": {
+      "profileId": "h264-cpu",
+      "preset": "veryfast",
+      "quality": 23
+    },
+    "code": "ERR_ASSERTION"
+  },
+  "causeVerifiedInSource": "ordinary-cpu-service.cjs prepareWithWorkers asserts this.state.items.length === 1 before original worker preparation. Two-file input refused intentionally under current candidate policy.",
+  "leadVisualObservations": [
+    "Native startup Ready; first Return-based input picker attempt cancelled; subsequent explicit Open registered input and output.",
+    "Ordinary reset selected H264 veryfast CRF23.",
+    "Prepare displayed Ordinary candidate accepts one input per batch, 2 !== 1.",
+    "Normal app close; initial python command unavailable, python3 invoked the single actual attempt."
+  ],
+  "notAccepted": [
+    "No two-file encoding or output publication",
+    "No terminal batch elapsed freeze acceptance",
+    "No encoding-performance or GPU claims"
+  ],
+  "diagnosticArtifacts": [
+    {
+      "relativeName": "CLOSURE.json",
+      "bytes": 1279,
+      "sha256": "f90245827409f160ec5d015170747ba87681e2c306f721dbba41288765de493d"
+    },
+    {
+      "relativeName": "APP.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativeName": "APP.stderr",
+      "bytes": 612,
+      "sha256": "90d580bd0520df368314bb6f744829f14a5ff67eee0dc2faed548d3eb09113d0"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/41cd091f-f7d3-48c9-a105-55e728eb933c.json",
+      "bytes": 433,
+      "sha256": "d553e315f6ad785c067624187fbd1d905b95504b15e9adcbcb12a174c7ffa259"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/54447f0a-552d-418a-b7cb-8cc95fcd718c.json",
+      "bytes": 480,
+      "sha256": "5181f6950ab9fe142723a2a451fec72cbf33cd7598da5176b7871211389e5dae"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/5db3cb76-7912-419c-b5b9-d8470fccc850.json",
+      "bytes": 437,
+      "sha256": "8a32fa7cfc0b6b0eaff8de2b43646fce3b3076ac11bda05ee859c33aa21368c5"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/7e6ec15a-eeaf-4753-88ba-b0fe005aac46.json",
+      "bytes": 433,
+      "sha256": "576f099b9a209893854507d32c47b4414e5763017f97d16891f394aa4be4814c"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/88ed333b-61b4-4256-89cd-9b3f288b7616.json",
+      "bytes": 434,
+      "sha256": "dd187452239e2d180bea6b18298489f4b497711a43793a6023a524fb582f77d9"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/aafa33a7-3220-46b1-90c2-91e38d018903.json",
+      "bytes": 462,
+      "sha256": "eb750ef98b710e9fb6bd93791e1b38e73745c3acacbdcc38be0e14d7993697a0"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/b04177d2-c30f-469c-b365-1b326dfe878e.json",
+      "bytes": 713,
+      "sha256": "380e7689eee7597e168777dd094b484f2cbee6339127304fc0ba69e0b3b5c2aa"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/b142513d-45ea-4175-8085-cf1d019f3f6f.json",
+      "bytes": 841,
+      "sha256": "9086d03feccc45476047d1e61ef133352da98181bf8aa6d0b9112b440b1cb709"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/b152de3f-e107-4279-b37c-10406c58cd84.json",
+      "bytes": 435,
+      "sha256": "9b5058ee2e54668baeb10b5f6649762a3e3c4459a7ec7e58a95ffca18ef3d8a2"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/b9822650-c098-40c8-a70f-14712c9f5031.json",
+      "bytes": 5937,
+      "sha256": "68d2ecefaaa4e8996fd0a9f57e4b61ecbc30192c139fc13e985c4c766e94e3aa"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/d1175ea4-ca03-4520-8d64-b9bb2c8d598d.json",
+      "bytes": 533,
+      "sha256": "e61443b076225aa061bc2fef85a0e29e5fcbb9d13c7bea20970b76ad591bcaa6"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/d1da24e8-972d-4b48-b94f-1dd693247e0c.json",
+      "bytes": 388,
+      "sha256": "f3b12df27ebfa4c15e0cb73e0bdfa01ab3e6669e4951b8552d345073f6607749"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/e160fc0b-c789-4f78-b3fe-1654cc91414a.json",
+      "bytes": 361,
+      "sha256": "0df3965457f91bfb3ea5ec269e25df867115564475609a0bc393383ecc99aad2"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/ec0a5844-85c9-4bbf-a08f-36844e39ab46.json",
+      "bytes": 433,
+      "sha256": "90504f512535e2b62f00f416e5569b2dfe1166b17e21d64b5f62584cce45416b"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/fe7c02fc-2e18-4a53-8ef7-79a3565abf4e.json",
+      "bytes": 712,
+      "sha256": "92206a83b555719fa37d63474f0324092d5e5c89a5093beb0189fee6f1951cbd"
+    }
+  ],
+  "stderrClassification": "Retained Electron DBus connection and SSL handshake errors; raw messages and local paths remain local. Normal app exit does not imply warning-free startup.",
+  "futureAction": "Choose separately reviewed one-file execution for existing policy, or intentionally implement/review multi-file ordinary support before repeating multi-file timer acceptance. Do not silently bypass admission.",
+  "rerun": false,
+  "extraMediaProbes": 0,
+  "canonicalEdited": false
+}

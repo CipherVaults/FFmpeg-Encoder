@@ -1,0 +1,227 @@
+{
+  "schema": "linux-product-three-family-qualification/v4-runtime-successor",
+  "scope": "internal-opt-in-three-family-candidate",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "rawCalibration": {
+    "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16",
+    "sizeBytes": 78526
+  },
+  "independentCalibrationAuditSha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da",
+  "nativeProof": null,
+  "productIntegrationReview": null,
+  "family": {
+    "settings": {
+      "profileId": "h265-cpu",
+      "preset": "slow",
+      "quality": 25
+    },
+    "resourcePolicy": "cfr1440p30-to720p-flac-resources-v1",
+    "geometry": {
+      "sourceWidth": 2560,
+      "sourceHeight": 1440,
+      "resolution": "720",
+      "outputWidth": 1280,
+      "outputHeight": 720
+    },
+    "qualification": {
+      "evidenceId": "fresh-resize1440to720-E8Fm1C:long-pattern:endpoints",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "containerDuration": "end-timestamp",
+      "tolerances": {
+        "videoTimestampUs": 1067,
+        "audioTimestampUs": 1042,
+        "avSyncUs": 2109,
+        "durationUs": 1088,
+        "sampleCount": 0
+      }
+    },
+    "timingQualification": {
+      "evidenceId": "fresh-resize1440to720-E8Fm1C:long-pattern:interior",
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "videoDurationUs": 1067,
+      "audioTimelineUs": 1042,
+      "aac": null
+    },
+    "evidenceIds": [
+      "fresh-resize1440to720-DhJaK3:fresh-three-second-heldout:endpoints",
+      "fresh-resize1440to720-DhJaK3:fresh-three-second-heldout:interior",
+      "fresh-resize1440to720-E8Fm1C:long-pattern:endpoints",
+      "fresh-resize1440to720-E8Fm1C:long-pattern:interior"
+    ]
+  },
+  "runtimeSuccessor": {
+    "historicalRecord": {
+      "path": "linux-blue/product-linux-qualification074-historical.json",
+      "bytes": 8752,
+      "sha256": "faa88a7c347e1a81c65c6c45f3d79b04453349d1da18ca40c3fbbcde5178f89a"
+    },
+    "historicalRuntimeIdentity": "1980b0c0480dba85e00fb69f6994e9fd022b46d6355538ee24a445c87da337b9",
+    "measuredActivation": true,
+    "lateRangeEvidence": {
+      "path": "linux-blue/evidence-2026-11-19/late-range075-saved-audit.json",
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da",
+      "report": {
+        "bytes": 78526,
+        "sha256": "d8e48f1cbb9df2b5b55595d7c7d9860ef3421147e832e02efc31d06b0e08bb16"
+      },
+      "selectedFrames": 1200,
+      "selectedSamples": 1920000,
+      "completeSourceFrames": 4500,
+      "completeSourceSamples": 7200000
+    },
+    "basis": "Fresh accepted short 1080/1440 precision, a 150-second 1440 source with a 100\u2013140-second selection, and eight-second Full-copy evidence bind the new exact runtime. Reviewed shared clocks, validators, resource policy and unchanged producer mechanisms support unchanged internal family admission; this is not measurement of every admitted duration or native/package acceptance. Historical runtime records retain their original identities.",
+    "retainedLimits": [
+      "27GiB free-space floor and existing family resource admission unchanged.",
+      "Two-frame CPU tests are not broad encoding or performance qualification.",
+      "x265 CPU-mask and thread-pool warnings retained; no affinity/security workaround.",
+      "Remux evidence is media-only and does not activate remux.",
+      "Actual fresh Full-copy coverage is the eight-second AAC case; the separate 11-second AAC heldout remains untested on this runtime. No 43.217-second FLAC evidence is represented as AAC-copy coverage.",
+      "Other admitted durations and native journeys are not newly measured. Each output still requires the existing independent validation, currentness and publication guards."
+    ],
+    "admissionReasoning": {
+      "path": "linux-blue/evidence-2026-11-19/admission075-reasoning.json",
+      "bytes": 2203,
+      "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+    }
+  },
+  "internalCandidateDecision": {
+    "scope": "Explicit Linux internal candidate successor; not shipping catalog",
+    "basis": "Accepted fresh bounded media audits and explicit shared-mechanism retest-scope review support internal admission, not inherited historical binary or native qualification.",
+    "nativePublication": "pending new preserved and audited package",
+    "productionDefault": "unchanged",
+    "distributionReady": false,
+    "pending": [
+      "independent integration review and source preservation",
+      "new inert package audit and bounded native journeys",
+      "corresponding-source/notices and portable dependency obligations"
+    ]
+  },
+  "supportingEvidence": {
+    "precisionAudit": {
+      "bytes": 4145,
+      "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
+    },
+    "cpuAudit": {
+      "bytes": 4645,
+      "sha256": "96565b7fea8ccf103e2b3291abcf153f6b89ccd9fba9336947b1d4da8f8ea207"
+    },
+    "lateRangeAudit": {
+      "bytes": 19599,
+      "sha256": "f0d9178b0f4f8d5d6ccfb7b7618bf6b54833020418fedbab35172d90679415da"
+    }
+  },
+  "fullCopy": {
+    "rawCalibration": {
+      "sha256": "950f7a464d77410a73ad22af5ab77487da4a023069aaff6d99ba06451d203640",
+      "sizeBytes": 69420
+    },
+    "supportingEvidence": {
+      "calibrationAudit": {
+        "bytes": 22243,
+        "sha256": "afc414c9c349f45346b7a4fbfcf36a92737b1cbceffcd4eb9cdc140895d72445"
+      }
+    },
+    "nativeProof": null,
+    "relocatedPublication": null,
+    "family": {
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "resourcePolicy": "cfr1080p30-full-to720-copy-resources-v1",
+      "geometry": {
+        "sourceWidth": 1920,
+        "sourceHeight": 1080,
+        "resolution": "720",
+        "outputWidth": 1280,
+        "outputHeight": 720
+      },
+      "qualification": {
+        "evidenceId": "successor075-short-full-copy-950f7a464d77410a:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "containerDuration": "matroska-copy-end-plus-codec-delay",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "successor075-short-full-copy-950f7a464d77410a:interior",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      },
+      "evidenceIds": [
+        "successor075-short-full-copy-950f7a464d77410a:endpoints",
+        "successor075-short-full-copy-950f7a464d77410a:interior"
+      ]
+    },
+    "limits": [
+      "New eight-second1080p30 whole-file720pH265slow25 copiedAAC experiment only.",
+      "Exact packet/header identity and padding/timeline evidence retained in owning audit. No automatic long-duration, native, GPU or production qualification."
+    ]
+  },
+  "range1080": {
+    "rawCalibration": {
+      "sha256": "a2f7a2d143f7b7f1063550da7443a7c96177a8894f2809ad0f8787f9847320fc",
+      "sizeBytes": 75744
+    },
+    "supportingEvidence": {
+      "calibrationAudit": {
+        "bytes": 4145,
+        "sha256": "62ffebf1766562a869836dd8f004687bcc422e143198e5fddff948e71100c46a"
+      }
+    },
+    "nativeProof": null,
+    "relocatedPublication": null,
+    "family": {
+      "settings": {
+        "profileId": "h265-cpu",
+        "preset": "slow",
+        "quality": 25
+      },
+      "resourcePolicy": "cfr1080p30-to720p-flac-resources-v1",
+      "geometry": {
+        "sourceWidth": 1920,
+        "sourceHeight": 1080,
+        "resolution": "720",
+        "outputWidth": 1280,
+        "outputHeight": 720
+      },
+      "qualification": {
+        "evidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:endpoints",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "containerDuration": "end-timestamp",
+        "tolerances": {
+          "videoTimestampUs": 1067,
+          "audioTimestampUs": 1042,
+          "avSyncUs": 2109,
+          "durationUs": 1088,
+          "sampleCount": 0
+        }
+      },
+      "timingQualification": {
+        "evidenceId": "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:interior",
+        "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+        "videoDurationUs": 1067,
+        "audioTimelineUs": 1042,
+        "aac": null
+      },
+      "evidenceIds": [
+        "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:endpoints",
+        "fresh-resize1080to720-hsl22R:fresh-three-second-heldout:interior"
+      ]
+    },
+    "limits": [
+      "New three-second source/nonaligned0.613\u20132.721 range experiment only.",
+      "H264High30fpsSDRBT709 squarepixel stereo48kHzs16PCM source; no arbitrary AAC/VFR/HDR/GPU admission.",
+      "Historical long campaigns remain old runtime evidence, not silently reassigned to this pair."
+    ]
+  }
+}

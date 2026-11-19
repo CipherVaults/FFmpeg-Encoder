@@ -1,0 +1,24 @@
+{
+  "approved": true,
+  "scope": "native077-two-file-ordinary-elapsed-reset",
+  "supervisorSha256": "b319d6ae348a58562c9013a4428013abfecfd266fdf4747ec2ed9ab4c6320c0f",
+  "fileAuditSha256": "4dc2c23b6231630fdf16b6ffa876cbfc65c5459ab6c9b89420645388c06ba07a",
+  "tests": {
+    "passed": 11,
+    "failed": 0,
+    "runtimeExecuted": false,
+    "logSha256": "73e11a6c4bac538eae66f4bb616dd0a401e3ec41b18114f7780d0c11475268c4"
+  },
+  "checks": [
+    "Unreaped WNOWAIT leader retains pid/startTicks/session/group authority until final census; require_owner before every group signal and final closure; no poll/reap before group closure.",
+    "PermissionError no longer silently ignored; identity/census failure records closure-unverifiable, no unverified group signalling.",
+    "NODE_OPTIONS/LD and Electron run-as-node/force-packaged/disable-sandbox overrides refused; normal real desktop DISPLAY required, no bypass flags.",
+    "Fixed244 files and five ordinary0755 executable paths, remaining0600, exact hashes; owned inputs exact two regular fixture copies. Profile/output empty and gate/attempt absent at review.",
+    "Bound600-second lifetime,27GiB floor,2GiB observed tree/8MiB perlog; sampled process scope explicitly not exhaustive. Independent execution,closure and post-integrity failures retained."
+  ],
+  "limits": [
+    "Lead must authorize modes and complete preservation/gate binding before actual normal desktop launch. No modes or runtime by reviewer.",
+    "Observed disk/log ceilings are polling thresholds, not hard quotas. Group sampling does not assert detached/global descendant completeness.",
+    "Native media/output/elapsed/reset acceptance remains pending."
+  ]
+}

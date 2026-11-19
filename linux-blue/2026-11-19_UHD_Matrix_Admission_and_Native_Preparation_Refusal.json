@@ -1,0 +1,89 @@
+{
+  "checkpoint": "078",
+  "cutoff": "2026-11-19T01:57:19Z",
+  "status": "Reviewed source for preservation; not committed or mirrored at cutoff",
+  "baseCommit": "da9a526fbc57a78b3f57498d6993f12e004cd712",
+  "predecessorSession": {
+    "bytes": 2558198,
+    "sha256": "d84eb3db277f077ac4931f6852ff420b0a22aae01596f2484fe4b3133bef5fd6"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/integration078-independent-review.json": {
+      "bytes": 4364,
+      "sha256": "bf46c6d57931abfd54b166adab8698052a86a29ae319dc64605440f0cda49b9d"
+    },
+    "linux-blue/evidence-2026-11-19/native077-sanitized-audit.json": {
+      "bytes": 6436,
+      "sha256": "32b1edd68b764460ca40773db89f6899ce1b8de56bae3481116e895926732808"
+    },
+    "linux-blue/evidence-2026-11-19/source-closure078-report.json": {
+      "bytes": 6010,
+      "sha256": "474003eabc28798baa8e3cb4a376771e647b3429c00b1d095f55485fbc091b2c"
+    }
+  },
+  "externalSavedReferences": {
+    "ffmpeg-package077-review/checkpoint077/mirror/INDEPENDENT_REMOTE_MAPPING.json": {
+      "bytes": 741,
+      "sha256": "75c455319352d4e89a5c570da096d1e94fc11119189a195436b56886c16d6eac"
+    },
+    "ffmpeg-package077-review/checkpoint077/mirror/notion-checkpoint-077-verification.json": {
+      "bytes": 3176,
+      "sha256": "dea6e267dd1553704fc9ab520c6f0dcbabc72569c2dec37b0de319f7d8b42109"
+    },
+    "ffmpeg-package077-preflight/INDEPENDENT_INERT_AUDIT.json": {
+      "bytes": 3034,
+      "sha256": "545640c23d94c98edcc382bf5a814b98a03cbc4f42f2f0e2ad78e81198439f0e"
+    },
+    "ffmpeg-uhd-matrix-driver-proposal/INTEGRATION078_HANDOFF.json": {
+      "bytes": 4037,
+      "sha256": "ab43ec3597e7a869612463f9557a80a4512ce947df477e13d23b726128f2174d"
+    },
+    "ffmpeg-uhd-matrix-driver-proposal/INTEGRATION078_AGGREGATE_CI.log": {
+      "bytes": 36661,
+      "sha256": "f4c646910913ee00e810e95ef7f092d5defce451babea4415d53d0fd4d5ee410"
+    }
+  },
+  "tests": {
+    "focused": 121,
+    "syntax": 216,
+    "shared": 315,
+    "rendererIncludedInShared": 72,
+    "linux": 40,
+    "failed": 0,
+    "skipped": 0,
+    "overlappingNotSummed": true
+  },
+  "scope": {
+    "productPins": 129,
+    "packageInputs": 244,
+    "appFiles": 146,
+    "inputBytes": 391494216,
+    "candidateOnly": true,
+    "ordinaryDefaultsUnchanged": true
+  },
+  "limits": [
+    "077 package and raw reacquired archives remain local-only",
+    "Native077 two-input preparation refused; no encode/output/terminal elapsed acceptance",
+    "UHD saved acquisition is not078 package/native acceptance",
+    "No owner hardware/GPU, portability, distribution or license clearance",
+    "Historical records and source-pin maps not rewritten"
+  ],
+  "inertReconstructionReferences": {
+    "linux-blue/recovery-references/native077/supervise-native.py.txt": {
+      "bytes": 7799,
+      "sha256": "b319d6ae348a58562c9013a4428013abfecfd266fdf4747ec2ed9ab4c6320c0f"
+    },
+    "linux-blue/recovery-references/native077/test-supervisor.py.txt": {
+      "bytes": 2476,
+      "sha256": "c62441734dbd67c2830f769836a17c0c184d1dea6dcf1cfe23b3b3bcd262698c"
+    },
+    "linux-blue/recovery-references/native077/independent-review.json": {
+      "bytes": 1688,
+      "sha256": "bd40a6581c02b1751e5ed94e043ab91114159325e8fcc37b2e527ec8e6634b06"
+    },
+    "linux-blue/recovery-references/native077/README.md": {
+      "bytes": 1826,
+      "sha256": "f61672389c0210b5a96c8b112e16131dbb42f7b78ce40bf367da679edd592d75"
+    }
+  }
+}

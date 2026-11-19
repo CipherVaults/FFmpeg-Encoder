@@ -10,7 +10,7 @@ const { ClockQualifiedFamilySelector, clockGuardedRunner } = require('./workbenc
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
-const { RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
+const { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, RESIZE_1440_FAMILY_ID: FAMILY_ID, RESIZE_1440_RESOURCE_POLICY: RESOURCE_POLICY, FULL_COPY_FAMILY_ID, FULL_COPY_RESOURCE_POLICY, RESIZE_FAMILY_ID, RESIZE_RESOURCE_POLICY } = require('../src/operation-resource-budget.cjs');
 const RUNTIME_ID = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 const { loadQualification, verifyProductSources } = require('./product-linux-qualification.cjs');
 const SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
@@ -65,7 +65,7 @@ function loaderGuard() {
   need(process.platform === 'linux' && process.arch === 'x64', 'Only the inspected Linux x64 candidate is admitted.');
   need(!process.env.NODE_OPTIONS && !Object.keys(process.env).some(k => k.startsWith('LD_') && process.env[k]), 'Loader overrides are not admitted.');
 }
-// The three existing families independently match the explicit request and source.
+// The four explicit families independently match the explicit request and source.
 // Do not silently fall back to the ordinary compatibility encode path.
 class ProductFamilySelector extends ClockQualifiedFamilySelector {
   select(options) {
@@ -85,13 +85,13 @@ class OwnedCandidateService extends CandidateTrimService {
         if (!entry?.qualificationSelection || !entry.operationRuntimeToken || !entry.operationPlan?.instrumentation || entry.operationPlan.compatibilityPath) {
           this.plan?.entries?.delete(item.id);
           item.status = 'unsupported'; item.reasonCode = 'CANDIDATE_PRODUCT_FAMILY_REQUIRED';
-          item.reason = 'Inspection only: explicitly choose a 1440p or qualified 1080p PCM range with precision FLAC, or a whole 1080p file with Copy audio, both at 720p, then Apply. Other combinations are not qualified.';
+          item.reason = 'Inspection only: explicitly choose a 1440p or qualified 1080p PCM range with precision FLAC, or a whole 1080p file with Copy audio, both at 720p; or a whole UHD3840×2160 PCM file with precision FLAC at1440p,1080p or720p, then Apply. Other combinations are not qualified.';
         }
       }
     }
     const snapshot = super.snapshot();
     if (this.workbenchMode) snapshot.developerProduct = { enabled: true, relaunchRequired: this.admissionClosed,
-      notice: 'Experimental three-family candidate: qualified 1440p30 or 1080p30 PCM range → 720p with precision FLAC; or whole 1080p30 file → 720p with copied AAC. Explicit per-file choices required. H265 CPU slow / CRF 25 only. Keep source, other combinations and Remux unavailable. This runtime-successor three-family package has not undergone native publication testing; historical native proofs apply only to their exact predecessor artifacts. Fresh bounded media evidence is not broad media or release qualification. The 1080p range path requires H264 High CFR SDR bt709 and stereo 48 kHz s16 PCM QuickTime, not arbitrary AAC/VFR sources. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
+      notice: 'Experimental four-family candidate: qualified 1440p30 or 1080p30 PCM range → 720p with precision FLAC; or whole 1080p30 file → 720p with copied AAC. UHD3840×2160 PCM Full-source →1440p,1080p or720p with precision FLAC is also available. The new UHD matrix has only bounded eight-second synthetic media evidence, not native or broad media qualification. Explicit per-file choices required. H265 CPU slow / CRF 25 only. Keep source, other combinations and Remux unavailable. This runtime-successor four-family package has not undergone native publication testing; historical native proofs apply only to their exact predecessor artifacts. Fresh bounded media evidence is not broad media or release qualification. The 1080p range path requires H264 High CFR SDR bt709 and stereo 48 kHz s16 PCM QuickTime, not arbitrary AAC/VFR sources. CPU topology/thread-pool warnings remain; native threading/performance is not qualified.',
       relaunchNotice: 'This developer session is closed to new work. Close and relaunch to obtain a new verified runtime; same-session retry is unavailable.' };
     return snapshot;
   }
@@ -138,7 +138,7 @@ async function createLinuxProductService(options) {
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
     const { qualification, timingQualification } = report.family;
-    const selector = new ProductFamilySelector({ policyIdentity: 'product-range1440-range1080-and-full1080-copy-candidate', families: [{
+    const selector = new ProductFamilySelector({ policyIdentity: 'product-range1440-range1080-full1080-copy-and-uhd-full-candidate', families: [{
       id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification, timingQualification, evidenceIds: report.family.evidenceIds,
     }, {
@@ -149,6 +149,10 @@ async function createLinuxProductService(options) {
       id: RESIZE_FAMILY_ID, resourcePolicy: RESIZE_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
       qualification: report.range1080.family.qualification, timingQualification: report.range1080.family.timingQualification,
       evidenceIds: report.range1080.family.evidenceIds,
+    }, {
+      id: UHD_FULL_FAMILY_ID, resourcePolicy: UHD_FULL_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification: report.uhdFull.family.qualification, timingQualification: report.uhdFull.family.timingQualification,
+      evidenceIds: report.uhdFull.family.evidenceIds,
     }] });
     return new OwnedCandidateService({ ffmpeg: candidate.pins.ffmpeg.path, ffprobe: candidate.pins.ffprobe.path,
       runtimeIdentity: RUNTIME_ID, stateDir, outputAccess, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,

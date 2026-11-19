@@ -772,24 +772,24 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 32026,
-      "sha256": "7ae0f6b66c0e235470d7127d475bb6df300b367a3e3b02e5e521b016c09aee61"
+      "bytes": 36212,
+      "sha256": "ac30bc6cc26c3510dfd66f5b67b7124b451b4d049b7c900a853c699ad9ef6e3d"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-qualification.json",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.json",
       "group": "application",
-      "bytes": 9245,
-      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+      "bytes": 11969,
+      "sha256": "08a097ef9eae71aa3340ad496c475ae5a3115adb8f7636b265c2eaee9e0274f3"
     },
     {
       "root": "source",
       "source": "linux-blue/product-linux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-service.cjs",
       "group": "application",
-      "bytes": 11002,
-      "sha256": "318f332c7140ba7c82a4921023581b97cfd0724fa0927151034d45e6b43941a8"
+      "bytes": 11662,
+      "sha256": "cd13c3ba3d5a7f0944467afcc58841774a2e6c44846149f38055523ae84beaf4"
     },
     {
       "root": "source",
@@ -1396,16 +1396,16 @@
       "source": "src/operation-evidence.cjs",
       "target": "electron/resources/app/src/operation-evidence.cjs",
       "group": "application",
-      "bytes": 53356,
-      "sha256": "5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4"
+      "bytes": 53448,
+      "sha256": "55cb42b3e8e5f7886e1909058a136a63723c5b4cb4056a89345d3df16a7eef44"
     },
     {
       "root": "source",
       "source": "src/operation-family.cjs",
       "target": "electron/resources/app/src/operation-family.cjs",
       "group": "application",
-      "bytes": 52210,
-      "sha256": "3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3"
+      "bytes": 54395,
+      "sha256": "2f30becd87c6b181873c99fbbbe0b5cf2ddc75c33cfb30189d5bedf237e63fb9"
     },
     {
       "root": "source",
@@ -1436,8 +1436,8 @@
       "source": "src/operation-resource-budget.cjs",
       "target": "electron/resources/app/src/operation-resource-budget.cjs",
       "group": "application",
-      "bytes": 8323,
-      "sha256": "9a328f902ee4203465083da4afd477ad86d045654104fe33409cb571cd02d3f6"
+      "bytes": 9231,
+      "sha256": "2afe94d17bfced1bac25911d484dbf415f52a44404fdc9725858c3811e54cf6d"
     },
     {
       "root": "source",
@@ -1942,6 +1942,30 @@
       "group": "application",
       "bytes": 2203,
       "sha256": "1732b21e588af64fef4ca85b45c5e575c56fbe16b0b907df3a7012ae3a7a349f"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/uhd-matrix-saved-audit.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/uhd-matrix-saved-audit.json",
+      "group": "application",
+      "bytes": 5294,
+      "sha256": "25ce864dfe915365f0c6e718807f8dd242b7d3f49748e5b22ef9a12c197f58fe"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-linux-qualification077-historical.json",
+      "target": "electron/resources/app/linux-blue/product-linux-qualification077-historical.json",
+      "group": "application",
+      "bytes": 9245,
+      "sha256": "6f7b0543f499e5c8dc58bbd0a0d9d77f0e8ecce4c4dd68b44127b4cec68b63d9"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json",
+      "target": "electron/resources/app/linux-blue/evidence-2026-11-19/uhd-matrix-frozen-references.json",
+      "group": "application",
+      "bytes": 4224,
+      "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
     }
   ]
 }

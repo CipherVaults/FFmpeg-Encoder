@@ -1,0 +1,7090 @@
+{
+  "accepted": true,
+  "scope": "Exact098 packaged180s MP4-to-Matroska Full native journey saved-only audit",
+  "sourceCommit": "0747b9fbc6bea7ef4505263878917a7e9d82197c",
+  "sourceFilesVerified": 1082,
+  "packageFilesVerified": 270,
+  "postModes": "Six explicit0755,allothers0600; exact bytes/device/inode retained",
+  "packageFileAuditSha256": "2acd2ca0411764095ded76c044874d29729e8bd9bb13b42ff53c9772def5237d",
+  "closureSha256": "c56186267d4882fa4cfbc38ba95f17abe3294847f9a43ee5e334e53bb9d5e8fe",
+  "closure": {
+    "scope": "native098-long-mkv-full-copy-180s",
+    "status": "closed-awaiting-evidence-audit",
+    "sampledOnly": true,
+    "terminationRequested": false,
+    "errors": [],
+    "leaderPid": 13158,
+    "leaderIdentity": [
+      13158,
+      4875973
+    ],
+    "leaderExitObservedUnreaped": true,
+    "remainingGroupRows": [
+      {
+        "pid": 13158,
+        "startTicks": 4875973,
+        "state": "Z"
+      }
+    ],
+    "closureObserved": true,
+    "exitCode": 0,
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 1377640028,
+    "sampledIdentities": [
+      {
+        "pid": 13158,
+        "startTicks": 4875973,
+        "state": "S"
+      },
+      {
+        "pid": 13161,
+        "startTicks": 4875976,
+        "state": "S"
+      },
+      {
+        "pid": 13162,
+        "startTicks": 4875976,
+        "state": "S"
+      },
+      {
+        "pid": 13164,
+        "startTicks": 4875979,
+        "state": "S"
+      },
+      {
+        "pid": 13189,
+        "startTicks": 4875994,
+        "state": "S"
+      },
+      {
+        "pid": 13191,
+        "startTicks": 4875994,
+        "state": "S"
+      },
+      {
+        "pid": 13236,
+        "startTicks": 4876035,
+        "state": "S"
+      },
+      {
+        "pid": 13613,
+        "startTicks": 4876372,
+        "state": "S"
+      },
+      {
+        "pid": 13730,
+        "startTicks": 4876415,
+        "state": "S"
+      },
+      {
+        "pid": 13855,
+        "startTicks": 4892399,
+        "state": "S"
+      },
+      {
+        "pid": 13858,
+        "startTicks": 4892699,
+        "state": "R"
+      },
+      {
+        "pid": 13859,
+        "startTicks": 4893060,
+        "state": "S"
+      },
+      {
+        "pid": 13860,
+        "startTicks": 4893066,
+        "state": "R"
+      },
+      {
+        "pid": 13862,
+        "startTicks": 4893165,
+        "state": "S"
+      },
+      {
+        "pid": 13863,
+        "startTicks": 4893166,
+        "state": "S"
+      },
+      {
+        "pid": 13897,
+        "startTicks": 4893837,
+        "state": "S"
+      },
+      {
+        "pid": 13912,
+        "startTicks": 4893839,
+        "state": "S"
+      }
+    ],
+    "elapsedSeconds": 437.5158831700028
+  },
+  "fixture": {
+    "bytes": 678829334,
+    "sha256": "0f5ff1b084052e076a0f989740cf62ff203f643423ff38ee49c09d8bf6d371ad",
+    "originalStillMatches": true,
+    "distinctCopyInode": true
+  },
+  "output": {
+    "bytes": 678751355,
+    "sha256": "614d2d850c987f23abce3f2bebaece3fabe1a3188cf1701549de6510f8c0e9d1"
+  },
+  "journal": {
+    "events": 22,
+    "contiguous": true,
+    "reasons": {
+      "SESSION_STARTED": 1,
+      "CAPABILITY_STARTED": 1,
+      "RUNTIME_IDENTIFIED": 1,
+      "CAPABILITY_FINISHED": 1,
+      "PROVENANCE_RECOVERY_FINISHED": 1,
+      "FOLDER_PICKER_REQUESTED": 2,
+      "FOLDER_PICKER_REGISTERED": 2,
+      "PREPARATION_STARTED": 1,
+      "FILE_INSPECTED": 1,
+      "PREPARATION_FINISHED": 1,
+      "REMUX_STARTED": 1,
+      "REMUX_CLOSED": 1,
+      "OPERATION_EVIDENCE_COLLECTED": 1,
+      "OUTPUT_CHECKED": 1,
+      "SOURCE_ASSESSED": 1,
+      "OUTPUT_PUBLISHED": 1,
+      "JOB_DISPOSITION": 1,
+      "BATCH_FINISHED": 1,
+      "OUTPUT_ACTION_DISPATCHED": 1,
+      "SESSION_ENDED": 1
+    },
+    "batchFinished": {
+      "phase": "completed",
+      "counts": {
+        "success": 1,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "unprocessed": 0
+      },
+      "settings": null,
+      "elapsedSeconds": 15.832,
+      "totalItems": 1,
+      "jobDetails": "Correlate JOB_DISPOSITION records by batchId and fileId. Retention/truncation status applies."
+    },
+    "contextTruncatedEvents": [
+      "FILE_INSPECTED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "JOB_DISPOSITION"
+    ]
+  },
+  "collector": {
+    "receiptSha256": "575d577a7c4fd2196a85ed5342acc55622c4107b07573a80524c6080849ab31b",
+    "artifactCount": 21,
+    "spoolBytes": 19699003,
+    "budget": {
+      "sourceDecode": "complete",
+      "timeoutMs": 1221000,
+      "maxFrameBytes": 8388608,
+      "maxPcmBytes": 139776000,
+      "maxRecords": 36175,
+      "maxSpoolBytes": 675286912,
+      "maxTextBytes": 74086400,
+      "maxDurationSeconds": 182,
+      "maxSourceBytes": 678829334,
+      "maxOutputBytes": 869944284
+    },
+    "streams": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "codecType": "video",
+        "source": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "e9461d1fe4049f2bc9a5983fd23135338342cad513282258e11e187f38744f21",
+          "metadataSha256": "a32477c946a4068a3a921c236a04eae2600f1e2174638bb6a008a9a5f44013ad",
+          "decoderParametersSha256": "461e09711c984a0b2d8172ccb5c61a89c17eb6ad3ad66d588099c9a28546b347",
+          "unitCount": "5400",
+          "firstPts": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "cadence": {
+            "version": 1,
+            "classification": "constant",
+            "intervalCount": "5399",
+            "firstStep": {
+              "numerator": "1",
+              "denominator": "30"
+            },
+            "differingStep": null
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "h264-parameter-sei-v1",
+            "configurationSha256": "1cb482ccdb9d09390a8a3d5d16407ea7d72dac1031423f911d83fffd207c4c40",
+            "parameterSets": 0,
+            "seiUnits": 5491,
+            "scannedBytes": 61423,
+            "headerSyntax": {
+              "version": 1,
+              "complete": true,
+              "method": "ffmpeg-cbs-h264-v1",
+              "nalUnits": 16285,
+              "sliceHeaders": 5400,
+              "fillerBytes": 673754122,
+              "interiorDecoded": false
+            }
+          },
+          "decodedWindows": {
+            "start": {
+              "keyPacketIndex": 0,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            },
+            "end": {
+              "keyPacketIndex": 5340,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            }
+          }
+        },
+        "output": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "e9461d1fe4049f2bc9a5983fd23135338342cad513282258e11e187f38744f21",
+          "metadataSha256": "a32477c946a4068a3a921c236a04eae2600f1e2174638bb6a008a9a5f44013ad",
+          "decoderParametersSha256": "461e09711c984a0b2d8172ccb5c61a89c17eb6ad3ad66d588099c9a28546b347",
+          "unitCount": "5400",
+          "firstPts": {
+            "numerator": "0",
+            "denominator": "1"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "cadence": {
+            "version": 1,
+            "classification": "variable",
+            "intervalCount": "5399",
+            "firstStep": {
+              "numerator": "33",
+              "denominator": "1000"
+            },
+            "differingStep": {
+              "numerator": "17",
+              "denominator": "500"
+            }
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "h264-parameter-sei-v1",
+            "configurationSha256": "1cb482ccdb9d09390a8a3d5d16407ea7d72dac1031423f911d83fffd207c4c40",
+            "parameterSets": 0,
+            "seiUnits": 5491,
+            "scannedBytes": 61423,
+            "headerSyntax": {
+              "version": 1,
+              "complete": true,
+              "method": "ffmpeg-cbs-h264-v1",
+              "nalUnits": 16285,
+              "sliceHeaders": 5400,
+              "fillerBytes": 673754122,
+              "interiorDecoded": false
+            }
+          },
+          "decodedWindows": {
+            "start": {
+              "keyPacketIndex": 0,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            },
+            "end": {
+              "keyPacketIndex": 5340,
+              "frameCount": 1,
+              "sha256": "3aae69bfa41e5abd397dc507f4c468cc6dc5fae80bed537b6649d293eb5085af"
+            }
+          }
+        },
+        "timestamps": {
+          "complete": true,
+          "comparedUnits": "5400",
+          "maxPtsError": {
+            "numerator": "1",
+            "denominator": "3000"
+          },
+          "maxDurationError": {
+            "numerator": "1",
+            "denominator": "3000"
+          }
+        }
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "codecType": "audio",
+        "source": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "a7b3b4a47934b482fbe8cd400c5e27b3bc3af9f67154994d4c9e4d20e6b42752",
+          "metadataSha256": "11842701929752a707c7f4fd162d21028a07e06d34fa77cd309944da3a7d4407",
+          "decoderParametersSha256": "de3cd01572e05fd88a4b0873309a9be900e88e6c74f4690c83d3b001084ec8a9",
+          "unitCount": "8439",
+          "firstPts": {
+            "numerator": "-8",
+            "denominator": "375"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "aac-lc-packet-and-frozen-pcm-v1",
+            "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+            "nativeStartFrames": 46
+          },
+          "audioTrim": {
+            "version": 1,
+            "samplesPerPacket": 1024,
+            "codedSamples": "8641536",
+            "leadingSamples": "1024",
+            "trailingSamples": "512"
+          },
+          "pcm": {
+            "bytes": 69120000,
+            "samples": "8640000",
+            "sha256": "00d0cad60a928c9fd7ce6622d5e9b0710e106490ab9e7e13b688d2bee5964a6d"
+          }
+        },
+        "output": {
+          "complete": true,
+          "exitCode": 0,
+          "stderrComplete": true,
+          "errors": [],
+          "representation": "packet-identity-v1",
+          "contentSha256": "a7b3b4a47934b482fbe8cd400c5e27b3bc3af9f67154994d4c9e4d20e6b42752",
+          "metadataSha256": "11842701929752a707c7f4fd162d21028a07e06d34fa77cd309944da3a7d4407",
+          "decoderParametersSha256": "de3cd01572e05fd88a4b0873309a9be900e88e6c74f4690c83d3b001084ec8a9",
+          "unitCount": "8439",
+          "firstPts": {
+            "numerator": "-21",
+            "denominator": "1000"
+          },
+          "endPts": {
+            "numerator": "180",
+            "denominator": "1"
+          },
+          "admission": {
+            "version": 1,
+            "complete": true,
+            "kind": "aac-lc-packet-and-frozen-pcm-v1",
+            "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+            "nativeStartFrames": 46
+          },
+          "audioTrim": {
+            "version": 1,
+            "samplesPerPacket": 1024,
+            "codedSamples": "8641536",
+            "leadingSamples": "1024",
+            "trailingSamples": "512"
+          },
+          "pcm": {
+            "bytes": 69120000,
+            "samples": "8640000",
+            "sha256": "00d0cad60a928c9fd7ce6622d5e9b0710e106490ab9e7e13b688d2bee5964a6d"
+          }
+        },
+        "timestamps": {
+          "complete": true,
+          "comparedUnits": "8439",
+          "maxPtsError": {
+            "numerator": "1",
+            "denominator": "3000"
+          },
+          "maxDurationError": {
+            "numerator": "1",
+            "denominator": "3000"
+          }
+        }
+      }
+    ],
+    "comparisons": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 2,
+        "maxDtsError": {
+          "numerator": "1",
+          "denominator": "1500"
+        },
+        "packetPayloadBytes": "674261647",
+        "peakReorderRows": 17,
+        "sourceBFrames": 2,
+        "outputBFrames": 2
+      },
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-video"
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "1",
+          "denominator": "3000"
+        },
+        "packetPayloadBytes": "4381106",
+        "peakReorderRows": 0,
+        "sourceBFrames": 0,
+        "outputBFrames": 0
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-audio",
+        "pcmWindows": {
+          "windowBytes": 1048576,
+          "comparedWindows": 66,
+          "firstMismatchByte": null
+        }
+      }
+    ],
+    "nativeInventory": {
+      "version": 1,
+      "complete": true,
+      "inventorySha256": "a601ab303a72b466864eb8b4d3485fe95dab4750651e41b3ff852029699bf275",
+      "source": {
+        "version": 1,
+        "family": "isobmff",
+        "fields": [
+          {
+            "id": "isobmff:mvhd.rate",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact unity rate/volume/identity matrix"
+          },
+          {
+            "id": "isobmff:mvhd.volume",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact unity rate/volume/identity matrix"
+          },
+          {
+            "id": "isobmff:mvhd.matrix",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact unity rate/volume/identity matrix"
+          },
+          {
+            "id": "isobmff:mvhd.timescale",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact movie/track presentation reconciliation"
+          },
+          {
+            "id": "isobmff:mvhd.duration",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact movie/track presentation reconciliation"
+          },
+          {
+            "id": "isobmff:tkhd.flags",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.layer",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.volume",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.matrix",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.width",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.height",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: target controls and exact display geometry"
+          },
+          {
+            "id": "isobmff:tkhd.duration",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: exact source/output duration semantics"
+          },
+          {
+            "id": "isobmff:edts",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: unity rates, exact media_time/span/delay; unsupported repeated preroll refuses"
+          },
+          {
+            "id": "isobmff:elst",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: unity rates, exact media_time/span/delay; unsupported repeated preroll refuses"
+          },
+          {
+            "id": "isobmff:mdhd.timescale",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: exact media decode duration"
+          },
+          {
+            "id": "isobmff:mdhd.duration",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "observeRemuxEditLists: exact media decode duration"
+          },
+          {
+            "id": "isobmff:mdhd.language",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:smhd.balance",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "observeRemuxEditLists: exact zero balance"
+          },
+          {
+            "id": "isobmff:tapt",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "observeRemuxEditLists: every mode equals native display geometry"
+          },
+          {
+            "id": "isobmff:clef",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "observeRemuxEditLists: every mode equals native display geometry"
+          },
+          {
+            "id": "isobmff:prof",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "observeRemuxEditLists: every mode equals native display geometry"
+          },
+          {
+            "id": "isobmff:enof",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "observeRemuxEditLists: every mode equals native display geometry"
+          },
+          {
+            "id": "isobmff:stts",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:ctts",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:stsz",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:stz2",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:stsc",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:stco",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:co64",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:stss",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:avcC",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:hvcC",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:av1C",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:vpcC",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:esds",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:glbl",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dfLa",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dOps",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dac3",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dec3",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:alac",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:pasp",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:colr",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "exact codec/probe geometry, field order and colour; ICC/presentation extensions separately guarded"
+          },
+          {
+            "id": "isobmff:fiel",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:trex",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tfhd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tfdt",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:trun",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mfhd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mehd",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:chan",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mvhd.preview_time",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mvhd.preview_duration",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mvhd.poster_time",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mvhd.selection_time",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mvhd.selection_duration",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mvhd.current_time",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": "00000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:vmhd.graphics_mode",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": "0000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:vmhd.opcolor",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "ignored-copy-operands"
+          },
+          {
+            "id": "isobmff:tkhd.alternate_group",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": 0
+              },
+              {
+                "index": 1,
+                "value": 1
+              }
+            ]
+          },
+          {
+            "id": "isobmff:hdlr.handler",
+            "treatment": "compare",
+            "instances": 3,
+            "values": [
+              {
+                "index": 0,
+                "value": "vide"
+              },
+              {
+                "index": 1,
+                "value": "soun"
+              },
+              {
+                "index": null,
+                "value": "mdir"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:hdlr.component_flags",
+            "treatment": "require-default",
+            "instances": 3,
+            "values": [
+              {
+                "index": 0,
+                "value": "0000000000000000"
+              },
+              {
+                "index": 1,
+                "value": "0000000000000000"
+              },
+              {
+                "index": null,
+                "value": "0000000000000000"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:elng",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:clap",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:colr.profile",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:sgpd",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:sbgp",
+            "treatment": "require-default",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:txas",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:load",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:imap",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:clip",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:crgn",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:matt",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:kmat",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tref",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:trgr",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tsel",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:kind",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:stps",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:sdtp",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:cslg",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:gama",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:st3d",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:sv3d",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:sinf",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:schi",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:schm",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tenc",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:senc",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:saiz",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:saio",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:pssh",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:subs",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:padb",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:stdp",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:csgp",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dsgd",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dstg",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dref.external",
+            "treatment": "require-default",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": "self-contained"
+              },
+              {
+                "index": 1,
+                "value": "self-contained"
+              }
+            ]
+          },
+          {
+            "id": "isobmff:rmra",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rmda",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rdrf",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rmvc",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rmcd",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rmdr",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:rmqu",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:play",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:LOOP",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:SelO",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:AllF",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:WLOC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ptv ",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hint",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hnti",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hinf",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:gmhd",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tmcd",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tcmi",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iods",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iprp",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ipco",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ipma",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iref",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:pitm",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iloc",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iinf",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:idat",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:cmov",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:pnot",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:uuid",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tref.hint",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.cdsc",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.chap",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.sync",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.tmcd",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.scpt",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.ssrc",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.font",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.dpnd",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.ipir",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.mpod",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.vdep",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.vplx",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.subt",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.auxl",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.thmb",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.prem",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.forc",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:tref.folw",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native canonical track-reference membership"
+          },
+          {
+            "id": "isobmff:meta.com.apple.quicktime.video-orientation",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.com.apple.quicktime.video-orientation-quaternion",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.com.apple.quicktime.camera.framereadout",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.com.apple.quicktime.projection.kind",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.com.apple.quicktime.stereo-mode",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.replaygain_track_gain",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.replaygain_album_gain",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:meta.iTunSMPB",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ftyp",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:mdat",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "Complete packet timing/order/payload and coded-header inspection: REMUX_PACKET_PAYLOAD"
+          },
+          {
+            "id": "isobmff:moov",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:trak",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:mdia",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:minf",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:nmhd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:stbl",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:stsd",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:dinf",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:dref",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:meta",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:ilst",
+            "treatment": "compare",
+            "instances": 1,
+            "values": []
+          },
+          {
+            "id": "isobmff:keys",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:data",
+            "treatment": "compare",
+            "instances": 1,
+            "values": []
+          },
+          {
+            "id": "isobmff:udta",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:chpl",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mvex",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:moof",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:traf",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:mfra",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:tfra",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mfro",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:sidx",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ssix",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:prft",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:url ",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:urn ",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:avc1",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:avc3",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hvc1",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hev1",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:av01",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:vp09",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mp4v",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mp4a",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "isobmff:tx3g",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:wave",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "isobmff:frma",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:\u0000\u0000\u0000\u0000",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:free",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:skip",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:wide",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:btrt",
+            "treatment": "descriptive",
+            "instances": 2,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9too",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9swr",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9nam",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9ART",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9alb",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9day",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9cmt",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9gen",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9cpy",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9wrt",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9enc",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9xyz",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9des",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9inf",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9mak",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9mod",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9snm",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:\u00a9hst",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:name",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:cprt",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:loci",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:titl",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:auth",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:dscp",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:perf",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:gnre",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:yrrc",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "isobmff:stvi",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:----",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:AALP",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ACLR",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:APRG",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ARES",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:Cin\u008e",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:CoLL",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:DpxE",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:SA3D",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:SAND",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:SMI ",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:SmDm",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:adrm",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:amve",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:apvC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:avss",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:chnl",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:clli",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ddts",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dmlp",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dvc1",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dvcC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dvvC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:dvwC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:enda",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:evcC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hfov",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:hvcE",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:iacb",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:imir",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:irot",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ispe",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:jp2h",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:lhvC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:lvcC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mdcv",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:pcmC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:sbas",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:srat",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:strf",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:vexu",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:vvcC",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:wfex",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:ilst.numeric-key-item",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:svhd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:proj",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:prhd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:cbmp",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:equi",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "isobmff:mshp",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          }
+        ],
+        "groups": [
+          {
+            "index": 0,
+            "members": []
+          },
+          {
+            "index": 1,
+            "members": []
+          }
+        ],
+        "metadataBridgeComplete": true,
+        "randomAccess": {
+          "streams": [
+            {
+              "index": 0,
+              "indexed": [
+                1,
+                61,
+                121,
+                181,
+                241,
+                301,
+                361,
+                421,
+                481,
+                541,
+                601,
+                661,
+                721,
+                781,
+                841,
+                901,
+                961,
+                1021,
+                1081,
+                1141,
+                1201,
+                1261,
+                1321,
+                1381,
+                1441,
+                1501,
+                1561,
+                1621,
+                1681,
+                1741,
+                1801,
+                1861,
+                1921,
+                1981,
+                2041,
+                2101,
+                2161,
+                2221,
+                2281,
+                2341,
+                2401,
+                2461,
+                2521,
+                2581,
+                2641,
+                2701,
+                2761,
+                2821,
+                2881,
+                2941,
+                3001,
+                3061,
+                3121,
+                3181,
+                3241,
+                3301,
+                3361,
+                3421,
+                3481,
+                3541,
+                3601,
+                3661,
+                3721,
+                3781,
+                3841,
+                3901,
+                3961,
+                4021,
+                4081,
+                4141,
+                4201,
+                4261,
+                4321,
+                4381,
+                4441,
+                4501,
+                4561,
+                4621,
+                4681,
+                4741,
+                4801,
+                4861,
+                4921,
+                4981,
+                5041,
+                5101,
+                5161,
+                5221,
+                5281,
+                5341
+              ]
+            }
+          ]
+        },
+        "encountered": [
+          "ftyp",
+          "moov",
+          "mvhd",
+          "trak",
+          "tkhd",
+          "edts",
+          "elst",
+          "mdia",
+          "mdhd",
+          "hdlr",
+          "minf",
+          "vmhd",
+          "dinf",
+          "dref",
+          "url ",
+          "stbl",
+          "stsd",
+          "avc1",
+          "avcC",
+          "colr",
+          "pasp",
+          "btrt",
+          "stts",
+          "stss",
+          "ctts",
+          "stsc",
+          "stsz",
+          "stco",
+          "smhd",
+          "mp4a",
+          "esds",
+          "sgpd",
+          "sbgp",
+          "udta",
+          "meta",
+          "ilst",
+          "\u00a9too",
+          "data",
+          "free",
+          "mdat"
+        ],
+        "metadataBytesRead": 268011
+      },
+      "output": {
+        "version": 1,
+        "family": "matroska",
+        "fields": [
+          {
+            "id": "matroska:EBMLMaxIDLength",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:EBMLMaxSizeLength",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Segment",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:SeekHead",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Seek",
+            "treatment": "compare",
+            "instances": 4,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:SeekID",
+            "treatment": "compare",
+            "instances": 4,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:SeekPosition",
+            "treatment": "compare",
+            "instances": 4,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Info",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:SegmentUUID",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:SegmentFilename",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:PrevUUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PrevFilename",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:NextUUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:NextFilename",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:SegmentFamily",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTranslate",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTranslateID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapterTranslate"
+          },
+          {
+            "id": "matroska:ChapterTranslateCodec",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapterTranslate"
+          },
+          {
+            "id": "matroska:ChapterTranslateEditionUID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapterTranslate"
+          },
+          {
+            "id": "matroska:TimestampScale",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Duration",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:DateUTC",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:Title",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:MuxingApp",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:WritingApp",
+            "treatment": "descriptive",
+            "instances": 1,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:Cluster",
+            "treatment": "covered",
+            "instances": 180,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:Timestamp",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "Complete packet timing/order/payload and coded-header inspection: REMUX_NATIVE_CUETIME"
+          },
+          {
+            "id": "matroska:SilentTracks",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:SilentTrackNumber",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:SilentTracks"
+          },
+          {
+            "id": "matroska:Position",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PrevSize",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:SimpleBlock",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "Complete packet timing/order/payload and coded-header inspection: REMUX_PACKET_PAYLOAD"
+          },
+          {
+            "id": "matroska:BlockGroup",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:Block",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "Complete packet timing/order/payload and coded-header inspection: REMUX_PACKET_PAYLOAD"
+          },
+          {
+            "id": "matroska:BlockVirtual",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:BlockAdditions",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:BlockMore",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditions"
+          },
+          {
+            "id": "matroska:BlockAdditional",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditions"
+          },
+          {
+            "id": "matroska:BlockAddID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditions"
+          },
+          {
+            "id": "matroska:BlockDuration",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "Complete packet timing/order/payload and coded-header inspection: REMUX_PACKET_TIMING"
+          },
+          {
+            "id": "matroska:ReferencePriority",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ReferenceBlock",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ReferenceVirtual",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecState",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:DiscardPadding",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": "512"
+              }
+            ]
+          },
+          {
+            "id": "matroska:Slices",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TimeSlice",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:LaceNumber",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:FrameNumber",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:BlockAdditionID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:Delay",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:SliceDuration",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Slices"
+          },
+          {
+            "id": "matroska:ReferenceFrame",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ReferenceOffset",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ReferenceFrame"
+          },
+          {
+            "id": "matroska:ReferenceTimestamp",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ReferenceFrame"
+          },
+          {
+            "id": "matroska:EncryptedBlock",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Tracks",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:TrackEntry",
+            "treatment": "covered",
+            "instances": 2,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:TrackNumber",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TrackUID",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TrackType",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:FlagEnabled",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagDefault",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagForced",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagHearingImpaired",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagVisualImpaired",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagTextDescriptions",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagOriginal",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FlagCommentary",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:MinCache",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:MaxCache",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:DefaultDuration",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:DefaultDecodedFieldDuration",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackTimestampScale",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackOffset",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:MaxBlockAdditionID",
+            "treatment": "require-default",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": 0
+              },
+              {
+                "index": 1,
+                "value": 0
+              }
+            ]
+          },
+          {
+            "id": "matroska:BlockAdditionMapping",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:BlockAddIDValue",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditionMapping"
+          },
+          {
+            "id": "matroska:BlockAddIDName",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditionMapping"
+          },
+          {
+            "id": "matroska:BlockAddIDType",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditionMapping"
+          },
+          {
+            "id": "matroska:BlockAddIDExtraData",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:BlockAdditionMapping"
+          },
+          {
+            "id": "matroska:Name",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Language",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:LanguageBCP47",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecID",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CodecPrivate",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              },
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CodecName",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:AttachmentLink",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecSettings",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:CodecInfoURL",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecDownloadURL",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecDecodeAll",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackOverlay",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CodecDelay",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": "1024"
+              }
+            ]
+          },
+          {
+            "id": "matroska:SeekPreRoll",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackTranslate",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackTranslateTrackID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackTranslate"
+          },
+          {
+            "id": "matroska:TrackTranslateCodec",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackTranslate"
+          },
+          {
+            "id": "matroska:TrackTranslateEditionUID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackTranslate"
+          },
+          {
+            "id": "matroska:Video",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:FlagInterlaced",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:FieldOrder",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:StereoMode",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:AlphaMode",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:OldStereoMode",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PixelWidth",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:PixelHeight",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:PixelCropBottom",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PixelCropTop",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PixelCropLeft",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PixelCropRight",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:DisplayWidth",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:DisplayHeight",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:DisplayUnit",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:AspectRatioType",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:UncompressedFourCC",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:GammaValue",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FrameRate",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:Colour",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:MatrixCoefficients",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:BitsPerChannel",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChromaSubsamplingHorz",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChromaSubsamplingVert",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CbSubsamplingHorz",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CbSubsamplingVert",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChromaSitingHorz",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:ChromaSitingVert",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Range",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TransferCharacteristics",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Primaries",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 0,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:MaxCLL",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:MaxFALL",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:MasteringMetadata",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:PrimaryRChromaticityX",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:PrimaryRChromaticityY",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:PrimaryGChromaticityX",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:PrimaryGChromaticityY",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:PrimaryBChromaticityX",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:PrimaryBChromaticityY",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:WhitePointChromaticityX",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:WhitePointChromaticityY",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:LuminanceMax",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:LuminanceMin",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:MasteringMetadata"
+          },
+          {
+            "id": "matroska:Projection",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ProjectionType",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Projection"
+          },
+          {
+            "id": "matroska:ProjectionPrivate",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Projection"
+          },
+          {
+            "id": "matroska:ProjectionPoseYaw",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Projection"
+          },
+          {
+            "id": "matroska:ProjectionPosePitch",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Projection"
+          },
+          {
+            "id": "matroska:ProjectionPoseRoll",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:Projection"
+          },
+          {
+            "id": "matroska:Audio",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:SamplingFrequency",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:OutputSamplingFrequency",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Channels",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:ChannelPositions",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:BitDepth",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": 1,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Emphasis",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackOperation",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrackCombinePlanes",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrackPlane",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrackPlaneUID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrackPlaneType",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrackJoinBlocks",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrackJoinUID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:TrackOperation"
+          },
+          {
+            "id": "matroska:TrickTrackUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrickTrackSegmentUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrickTrackFlag",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrickMasterTrackUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TrickMasterTrackSegmentUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ContentEncodings",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ContentEncoding",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncodingOrder",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncodingScope",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncodingType",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentCompression",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentCompAlgo",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentCompSettings",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncryption",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncAlgo",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncKeyID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentEncAESSettings",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:AESSettingsCipherMode",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentSignature",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentSigKeyID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentSigAlgo",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:ContentSigHashAlgo",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ContentEncodings"
+          },
+          {
+            "id": "matroska:Cues",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CuePoint",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueTime",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueTrackPositions",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueTrack",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueClusterPosition",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueRelativePosition",
+            "treatment": "compare",
+            "instances": 90,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CueDuration",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueBlockNumber",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueCodecState",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueReference",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueRefTime",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueRefCluster",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueRefNumber",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:CueRefCodecState",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Attachments",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:AttachedFile",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:FileDescription",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:FileName",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileMediaType",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileData",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileReferral",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileUsedStartTime",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:FileUsedEndTime",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Chapters",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:EditionEntry",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionFlagHidden",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionFlagDefault",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionFlagOrdered",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionDisplay",
+            "treatment": "descriptive",
+            "instances": 0,
+            "check": "advisory-only"
+          },
+          {
+            "id": "matroska:EditionString",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EditionLanguageIETF",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterAtom",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterStringUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTimeStart",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTimeEnd",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterFlagHidden",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterFlagEnabled",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterSegmentUUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterSkipType",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterSegmentEditionUID",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterPhysicalEquiv",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTrack",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapterTrackUID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapterTrack"
+          },
+          {
+            "id": "matroska:ChapterDisplay",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapString",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapLanguage",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapLanguageBCP47",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapCountry",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapProcess",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:ChapProcessCodecID",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapProcess"
+          },
+          {
+            "id": "matroska:ChapProcessPrivate",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapProcess"
+          },
+          {
+            "id": "matroska:ChapProcessCommand",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapProcess"
+          },
+          {
+            "id": "matroska:ChapProcessTime",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapProcess"
+          },
+          {
+            "id": "matroska:ChapProcessData",
+            "treatment": "covered",
+            "instances": 0,
+            "check": "parent-presence:matroska:ChapProcess"
+          },
+          {
+            "id": "matroska:Tags",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:Tag",
+            "treatment": "covered",
+            "instances": 3,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:Targets",
+            "treatment": "covered",
+            "instances": 3,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:TargetTypeValue",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TargetType",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagTrackUID",
+            "treatment": "compare",
+            "instances": 2,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TagEditionUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagChapterUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagAttachmentUID",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagBlockAddIDValue",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:SimpleTag",
+            "treatment": "covered",
+            "instances": 11,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:TagName",
+            "treatment": "compare",
+            "instances": 11,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TagLanguage",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagLanguageBCP47",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagDefault",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagDefaultBogus",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:TagString",
+            "treatment": "compare",
+            "instances": 11,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:TagBinary",
+            "treatment": "require-default",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:EBML",
+            "treatment": "covered",
+            "instances": 1,
+            "check": "native classified child walk"
+          },
+          {
+            "id": "matroska:EBMLVersion",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:EBMLReadVersion",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:DocType",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:DocTypeVersion",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:DocTypeReadVersion",
+            "treatment": "compare",
+            "instances": 1,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:CRC-32",
+            "treatment": "require-default",
+            "instances": 5,
+            "values": [
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              },
+              {
+                "index": null,
+                "value": null
+              }
+            ]
+          },
+          {
+            "id": "matroska:Void",
+            "treatment": "descriptive",
+            "instances": 2,
+            "check": "inert-padding"
+          },
+          {
+            "id": "matroska:FlagLacing",
+            "treatment": "descriptive",
+            "instances": 2,
+            "check": "descriptive"
+          },
+          {
+            "id": "matroska:SimpleBlock.flags",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          },
+          {
+            "id": "matroska:Block.flags",
+            "treatment": "compare",
+            "instances": 0,
+            "values": []
+          }
+        ],
+        "randomAccess": {
+          "streams": [
+            {
+              "index": 0,
+              "indexed": [
+                1,
+                61,
+                121,
+                181,
+                241,
+                301,
+                361,
+                421,
+                481,
+                541,
+                601,
+                661,
+                721,
+                781,
+                841,
+                901,
+                961,
+                1021,
+                1081,
+                1141,
+                1201,
+                1261,
+                1321,
+                1381,
+                1441,
+                1501,
+                1561,
+                1621,
+                1681,
+                1741,
+                1801,
+                1861,
+                1921,
+                1981,
+                2041,
+                2101,
+                2161,
+                2221,
+                2281,
+                2341,
+                2401,
+                2461,
+                2521,
+                2581,
+                2641,
+                2701,
+                2761,
+                2821,
+                2881,
+                2941,
+                3001,
+                3061,
+                3121,
+                3181,
+                3241,
+                3301,
+                3361,
+                3421,
+                3481,
+                3541,
+                3601,
+                3661,
+                3721,
+                3781,
+                3841,
+                3901,
+                3961,
+                4021,
+                4081,
+                4141,
+                4201,
+                4261,
+                4321,
+                4381,
+                4441,
+                4501,
+                4561,
+                4621,
+                4681,
+                4741,
+                4801,
+                4861,
+                4921,
+                4981,
+                5041,
+                5101,
+                5161,
+                5221,
+                5281,
+                5341
+              ]
+            }
+          ]
+        },
+        "encountered": [
+          "0x1a45dfa3",
+          "0x4286",
+          "0x42f7",
+          "0x42f2",
+          "0x42f3",
+          "0x4282",
+          "0x4287",
+          "0x4285",
+          "0x18538067",
+          "0x114d9b74",
+          "0xbf",
+          "0x4dbb",
+          "0x53ab",
+          "0x53ac",
+          "0xec",
+          "0x1549a966",
+          "0x2ad7b1",
+          "0x4d80",
+          "0x5741",
+          "0x73a4",
+          "0x4489",
+          "0x1654ae6b",
+          "0xae",
+          "0xd7",
+          "0x73c5",
+          "0x9c",
+          "0x22b59c",
+          "0x86",
+          "0x83",
+          "0x23e383",
+          "0xe0",
+          "0xb0",
+          "0xba",
+          "0x9a",
+          "0x55b0",
+          "0x55ba",
+          "0x55b1",
+          "0x55bb",
+          "0x55b9",
+          "0x55b7",
+          "0x55b8",
+          "0x55ee",
+          "0x63a2",
+          "0x56aa",
+          "0xe1",
+          "0x9f",
+          "0xb5",
+          "0x6264",
+          "0x1254c367",
+          "0x7373",
+          "0x63c0",
+          "0x67c8",
+          "0x45a3",
+          "0x4487",
+          "0x63c5",
+          "0x1f43b675",
+          "0xe7",
+          "0xa3",
+          "0xa0",
+          "0xa1",
+          "0x9b",
+          "0x75a2",
+          "0x1c53bb6b",
+          "0xbb",
+          "0xb3",
+          "0xb7",
+          "0xf7",
+          "0xf1",
+          "0xf0"
+        ],
+        "metadataBytesRead": 189832,
+        "headerWalk": {
+          "elements": 15037,
+          "headerBytes": 50532,
+          "clusterChildren": 14202,
+          "unknownClusters": 0,
+          "knownClustersSkipped": 0,
+          "blockBytesSkipped": 678642753,
+          "blockHeaderBytesRead": 55356,
+          "peakDepth": 5,
+          "limits": {
+            "elements": 586992,
+            "headerBytes": 1223136,
+            "depth": 12
+          },
+          "paddings": [
+            {
+              "trackId": "2",
+              "nanoseconds": "10666667"
+            }
+          ],
+          "references": 0,
+          "blockTrackIds": [
+            "1",
+            "2"
+          ]
+        }
+      }
+    },
+    "sourcePlayback": {
+      "version": 1,
+      "complete": true,
+      "identity": {
+        "dev": "27",
+        "ino": "2373549",
+        "size": "678829334",
+        "nlink": "1",
+        "mtimeNs": "1795095596886773889",
+        "ctimeNs": "1795095596886773889",
+        "birthtimeNs": "1795095596258757031"
+      },
+      "metadataBytesRead": 30292,
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 0,
+            "volume": 0,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 125829120,
+            "height": 70778880
+          },
+          "movieScale": "48000",
+          "mediaScale": "30000",
+          "trackDuration": "8640000",
+          "mediaDuration": "5400000",
+          "entries": [
+            {
+              "duration": "8640000",
+              "mediaTime": "2000",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 1,
+            "volume": 256,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 0,
+            "height": 0
+          },
+          "movieScale": "48000",
+          "mediaScale": "48000",
+          "trackDuration": "8640000",
+          "mediaDuration": "8641024",
+          "entries": [
+            {
+              "duration": "8640000",
+              "mediaTime": "1024",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        }
+      ]
+    },
+    "readAccounting": {
+      "scope": "Logical verification operations including TS preparation; excludes copying and initial inspection. ISO preparation metadata reads are separately noted and unmeasured here. Tool-internal seeks/re-reads are unmeasured.",
+      "completeOperations": [
+        {
+          "side": "output",
+          "operation": "output-all-packets"
+        },
+        {
+          "side": "source",
+          "operation": "source-all-packets"
+        },
+        {
+          "side": "output",
+          "operation": "output-0-complete-parameters"
+        },
+        {
+          "side": "source",
+          "operation": "source-0-complete-parameters"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-seal",
+          "bytesRead": 678751355
+        }
+      ],
+      "partialOperations": [
+        {
+          "side": "source",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 268011,
+          "preparationRead": "Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here."
+        },
+        {
+          "side": "output",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 189832
+        },
+        {
+          "side": "source",
+          "operation": "native-source-playback-metadata",
+          "bytesRead": 30292,
+          "preparationRead": "Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here."
+        },
+        {
+          "side": "source",
+          "operation": "source-0-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        }
+      ],
+      "capturedClipDecodeOperations": 2,
+      "physicalIOBytes": null
+    },
+    "invocationCount": 12,
+    "allCollectorInvocationsClosedExit0": true,
+    "peakCollectorChildren": 2,
+    "invocationWarnings": []
+  },
+  "provenance": {
+    "published": true,
+    "outputIdMatched": true,
+    "publishedIdentityMatches": true,
+    "renameCtimeNote": "Collector pre-publication ctime differs after rename; dev/inode/size/mtime and full SHA256 bind same bytes; published identity verified."
+  },
+  "storageLedgerJobsEmpty": true,
+  "visualObservations": {
+    "source": "Lead development_recovery actual GUI observations; auditor did not replay desktop",
+    "realPickers": true,
+    "target": "Matroska Full",
+    "onePrepareOneStart": true,
+    "progressObservation": "Waiting00:00 then completed; no positive running metric observed",
+    "startApproxUtc": "13:47:11; operator reported more than900s remaining",
+    "sourceSummary": "03:00/1920x1080/8bit/oneaudio",
+    "terminal": "1success/allothers0;00:15 fixed at separated screenshots",
+    "reveal": "Thunar exact owned output folder and fixture_Remux-MKV.mkv selected,678751355bytes",
+    "noPlayerRetry": "No Open/player,second Start or retry",
+    "normalClose": "Thunar/app closed normally, terminal prompt returned"
+  },
+  "inventorySha256": "c2b32a124d0f1e6818b6fa292a2f94c97bd7dcb1ef4d887b93685423d2766efc",
+  "savedFiles": 106,
+  "limits": [
+    "Matroska millisecond timestamp quantization: video cadence representation alternates33/34ms, unlike source1/30s; max PTS/duration error1/3000s and video DTS1/1500s accepted by existing validator. Not exact timestamp identity.",
+    "No new media/probe/decode/rawPCM replay by auditor. Complete packet/header traversals and full streaming audio PCM equality are retained collector facts, not independent replay.",
+    "Video interior was not decoded; representative decoded key windows0/5340 do not prove finalframe5399 or arbitrary content quality.",
+    "One180s synthetic H264/AAC1080p30 MP4 at exact host/runtime/package; not arbitrary durations/codecs/metadata, long MOV targets, portability or release qualification.",
+    "12 collector invocations all completed with peak2;17 outer sampled process identities include Electron/startup and are not exhaustive media-child count. No unsupported exact total-child claim.",
+    "No cancellation/collision/rescan tested in this GUI journey; historical lifecycle remains distinct.",
+    "1200s stricter observer did not expire; success within it is not exercise of full product4764000ms ceiling."
+  ]
+}

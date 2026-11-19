@@ -200,8 +200,8 @@ test('real target Prepare renews ownership and refuses stale MP4 Start after MOV
 });
 
 async function preparedLongMp4(t,target='mp4'){
- const {service,root,h}=await setup(t,{matroska:true});const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);
- const probe=sourceProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.format.duration='180';probe.streams.forEach((s,i)=>{s.id=String(i+1);s.duration='180';});
+ const {service,root,h}=await setup(t,{matroska:true,mov:true});const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);
+ const probe=sourceProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.format.duration='180';probe.streams.forEach((s,i)=>{s.id=String(i+1);s.duration='180';if(target==='mov')s.tags={language:'und',handler_name:i?'SoundHandler':'VideoHandler'};});
  const file=path.join(input,'source.mp4');await fsp.writeFile(file,require('./helpers/mov-fixture.cjs').playbackFixture(probe));probe.format.size=String((await fsp.stat(file)).size);
  service.inspect=async()=>({probe:structuredClone(probe),duration:180,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};
  const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');const ready=await service.prepareRemuxBatch({inputFolderId:i.id,outputFolderId:o.id,target});assert.equal(ready.items[0].status,'ready',ready.items[0].reason);return {service,h,request:{planId:ready.planId,fileIds:[ready.items[0].id]}};
@@ -235,4 +235,29 @@ test('real long MKV Prepare binds genuine selected costs only after valid Start 
 test('MKV begin and running-listener failures settle authority and require fresh Prepare',async t=>{
  for(const mode of ['begin','listener']){const {service,request}=await preparedLongMp4(t,'matroska');const generation=service.generation;if(mode==='begin')generation.begin=()=>{throw Error('begin-refusal');};else{const emit=service.emitState.bind(service);service.emitState=()=>{if(service.state.phase==='running')throw Error('running-listener');return emit();};}
  await assert.rejects(service.startBatch(request),/Prepare a fresh batch/);assert.equal(service.plan,null);assert.equal(service.executionBinding,null);assert.equal(service.state.phase,'failed');assert(generation.closed);assert.equal(generation.runCalls,0);await assert.rejects(service.startBatch(request));}
+});
+test('real long MOV Prepare binds genuine selected costs only after valid Start and holds through awaited execution',async t=>{
+ const {service,request}=await preparedLongMp4(t,'mov');const oldPlan=service.plan,oldTask=service.taskPromise,oldItems=structuredClone(service.state.items),oldDraft=service.plan.draft.snapshot();
+ await assert.rejects(service.startBatch({...request,planId:'stale'}));assert.equal(service.plan,oldPlan);assert.equal(service.taskPromise,oldTask);assert.equal(service.executionBinding,null);assert.deepEqual(service.state.items,oldItems);assert.deepEqual(service.plan.draft.snapshot(),oldDraft);
+ const entry=service.plan.entries.get(request.fileIds[0]),stamp=entry.qualificationBindings;entry.qualificationBindings={...stamp,sourceProbeFingerprint:'wrong'};
+ // Current binding is rederived from live immutable inputs, not trusted saved probe text.
+ const identity=entry.fingerprint;entry.fingerprint={...identity,size:String(Number(identity.size)+1)};
+ await assert.rejects(service.startBatch(request),/must remain current/);assert.equal(service.executionBinding,null);assert.equal(service.plan,oldPlan);assert.deepEqual(service.state.items,oldItems);entry.fingerprint=identity;entry.qualificationBindings=stamp;
+ const {EncoderService}=require('../src/encoder-service.cjs');const original=EncoderService.prototype.execute;let release,entered;const began=new Promise(r=>entered=r);
+ EncoderService.prototype.execute=async function(){assert.equal(this.executionBinding.selected.qualification.target,'mov');assert(this.executionBinding?.kind==='remux-isobmff');assert(this.executionBinding.selected.executionBudgetMs>600000);assert(this.executionBinding.selected.budget.timeoutMs>120000);entered();await new Promise(r=>release=r);assert(this.executionBinding.requireCurrent()===this.executionBinding.selected);this.state.phase='completed';};
+ try{await service.startBatch(request);await began;assert(service.generation.lastControl);assert.equal(service.operationDeadlineMs,600000);assert.equal(service.operationEvidenceBudget,require('../src/operation-controls.cjs').EVIDENCE_BUDGET);release();await service.taskPromise;assert.equal(service.executionBinding,null);assert.equal(service.generation.snapshot().phase,null);}finally{EncoderService.prototype.execute=original;release?.();}
+});
+test('MOV begin and running-listener failures settle authority and require fresh Prepare',async t=>{
+ for(const mode of ['begin','listener']){const {service,request}=await preparedLongMp4(t,'mov');const generation=service.generation;if(mode==='begin')generation.begin=()=>{throw Error('begin-refusal');};else{const emit=service.emitState.bind(service);service.emitState=()=>{if(service.state.phase==='running')throw Error('running-listener');return emit();};}
+ await assert.rejects(service.startBatch(request),/Prepare a fresh batch/);assert.equal(service.plan,null);assert.equal(service.executionBinding,null);assert.equal(service.state.phase,'failed');assert(generation.closed);assert.equal(generation.runCalls,0);await assert.rejects(service.startBatch(request));}
+});
+
+test('candidate notice names qualified targets without broad release claims',async t=>{
+ const {service}=await setup(t);const notice=service.snapshot().developerProduct.notice;
+ assert.match(notice,/qualified MP4, MOV and Matroska Full stream-copy routes/);
+ assert.match(notice,/Unsupported requests do not fall back/);
+ assert.match(notice,/Fresh explicit Prepare is required after settled Cancel/);
+ assert.match(notice,/Native evidence is artifact\/route-specific/);
+ assert.match(notice,/exact-host internal candidate is not a portable release/);
+ assert.doesNotMatch(notice,/narrow MP4 full stream copy/);
 });

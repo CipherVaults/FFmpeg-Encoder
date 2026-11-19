@@ -148,8 +148,8 @@ test('MOV policy requires fixed evidence and existing constant-cadence envelope'
  const q={...old,mov:{evidenceId:'mov',sourceEnvelope:'h264-aac-lc-48k-stereo-v1'}};assert.deepEqual(remuxSupport(q).targets,['mp4','matroska','mov']);assert.deepEqual(remuxPolicies(q).slice(0,2),remuxPolicies(old));assert.equal(remuxPolicies(q)[2].sourceEnvelope,'h264-aac-lc-48k-stereo-v1');
 });
 
-test('proportional admission is explicit MP4/MKV-only; standalone and other targets retain caps',()=>{
- for(const target of ['mp4','matroska','mov']){const a=assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);},target);assert.throws(()=>admit(a,'/owned/source.mp4'));if(['mp4','matroska'].includes(target))admit(a,'/owned/source.mp4',{proportionalIsobmff:true});else assert.throws(()=>admit(a,'/owned/source.mp4',{proportionalIsobmff:true}));}
+test('proportional admission is explicit MP4/MKV/MOV-only; standalone retains caps',()=>{
+ for(const target of ['mp4','matroska','mov']){const a=assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);},target);assert.throws(()=>admit(a,'/owned/source.mp4'));if(['mp4','matroska','mov'].includes(target))admit(a,'/owned/source.mp4',{proportionalIsobmff:true});else assert.throws(()=>admit(a,'/owned/source.mp4',{proportionalIsobmff:true}));}
  for(const value of ['Infinity','NaN','0','-1'])assert.throws(()=>admit(assessment(p=>p.format.duration=value),'/owned/source.mp4',{proportionalIsobmff:true}));
  for(const value of ['0','1.5','9007199254740992'])assert.throws(()=>admit(assessment(p=>p.format.size=value),'/owned/source.mp4',{proportionalIsobmff:true}));
 });
@@ -159,3 +159,12 @@ test('long MKV proportional admission preserves cadence audio and stream envelop
   assert.throws(()=>admit(assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);mutate(p);},'matroska'),'/owned/source.mp4',{proportionalIsobmff:true}));
  }
 });
+
+for(const [label,change] of [
+ ['non-und',p=>p.streams[1].tags={language:'eng'}],['custom-handler',p=>p.streams[0].tags={handler_name:'Custom'}],
+ ['track-title',p=>p.streams[0].tags={title:'Label'}],['unknown-track',p=>p.streams[0].tags={unassessed:'x'}],
+ ['gain',p=>p.streams[1].tags={replaygain_track_gain:'1'}],['unknown-container',p=>p.format.tags={unassessed:'x'}],
+ ['fake-provenance',p=>p.format.tags={FFMPEG_ENCODER_PROVENANCE_EVIL:'1'}],['forced',p=>p.streams[1].disposition.forced=1],
+ ['no-default',p=>delete p.streams[1].disposition.default],['unknown-disposition',p=>p.streams[1].disposition.custom=1],
+ ['fps60',p=>p.streams[0].avg_frame_rate='60/1'],['case-duplicate',p=>p.streams[1].tags={language:'und',LANGUAGE:'und'}]
+])test('Long MOV target-local refusal '+label,()=>assert.throws(()=>admit(assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);change(p);},'mov'),'/owned/source.mp4',{proportionalIsobmff:true})));

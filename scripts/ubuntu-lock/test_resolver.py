@@ -420,5 +420,44 @@ class InstalledReview(unittest.TestCase):
   for text in [self.text().replace('Inst gcc','Inst gcc:all'),self.text(arch='i386'),self.text(prior='/private/path'),self.text(prior='1'*129)]:
    r=m.observe_installed_changes(text,self.base());self.assertFalse(r['complete']);self.assertNotIn('changes',r)
 
+
+class UpdateMarkerSuccessor(unittest.TestCase):
+ argv=['/usr/bin/apt-get','update','--error-on=any']
+ additions={
+  'CONNECTION_FAILURE_MARKER':b'Could not connect to ',
+  'CONNECTION_TIMEOUT_MARKER':b'connection timed out',
+  'TLS_SYSTEM_CERTIFICATE_MARKER':b'Could not load system TLS certificates:',
+  'RELEASE_UNSIGNED_MARKER':b' is not signed.',
+  'RELEASE_MISSING_MARKER':b' does not have a Release file.',
+  'RELEASE_EXPIRED_MARKER':b' is expired (invalid since ',
+  'RELEASE_NOT_YET_VALID_MARKER':b' is not valid yet (invalid for another ',
+  'LOCK_FAILURE_MARKER':b'Could not get lock '}
+ def test_each_new_fixed_marker_and_safe_projection(self):
+  import json
+  for name,marker in self.additions.items():
+   for stream in [0,1]:
+    with self.subTest(name=name,stream=stream):
+     text=b'https://private.example:9876/private/secret '+marker+b' user-token-SECRET 999999'
+     out,err=(text,b'')if stream==0 else(b'',text)
+     failure=m.child_failure(self.argv,100,out,err);result={'diagnosticStage':'METADATA_UPDATE'};m.record_failure(result,failure)
+     observation=result['metadataUpdateObservation'];self.assertEqual(observation['observedMarkerClasses'],[name]);self.assertTrue(observation['completeBoundedStreams'])
+     serialized=json.dumps(result)
+     for private in ['private.example','/private/secret','SECRET','999999','9876']:self.assertNotIn(private,serialized)
+     self.assertEqual(result['failureReason'],'CHILD_FAILED');self.assertEqual(result['status'],'blocked')
+ def test_multiple_sorted_unique_observations_only(self):
+  text=b' '.join(self.additions.values())*2
+  o=m.child_failure(self.argv,100,text,b'').metadataUpdateObservation
+  self.assertEqual(o['observedMarkerClasses'],sorted(self.additions));self.assertNotIn('rootCause',o)
+ def test_numeric_http_path_hostname_never_guessed(self):
+  o=m.child_failure(self.argv,100,b'403 404 429 500 503 https://host.invalid /private/lock errno 28',b'unknown').metadataUpdateObservation
+  self.assertEqual(o['observedMarkerClasses'],['UNCLASSIFIED'])
+ def test_exact_nonzero_update_failure_gate(self):
+  for argv in [self.argv[:2],self.argv+['--quiet'],['/usr/bin/apt-cache','update']]:
+   self.assertFalse(hasattr(m.child_failure(argv,100,b'Could not get lock ',b''),'metadataUpdateObservation'))
+  with self.assertRaises(AssertionError):m.child_failure(self.argv,0,b'Could not get lock ',b'')
+ def test_no_truncated_prefix_classification(self):
+  for out,err in [(b'Could not get lock '+b'x'*m.CAP,b''),(b'',b'Could not connect to '+b'x'*m.CAP)]:
+   with self.assertRaisesRegex(m.BoundFailure,'LOG_BOUND'):m.child_failure(self.argv,100,out,err)
+
 if __name__=='__main__':unittest.main()
 

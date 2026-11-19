@@ -1,3 +1,60 @@
+# 📘 Session: Verify native long Matroska and constrain the next MOV scope
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated exact recovery records, actual packaged use, independent saved-only auditing, hosted verification and separate source reviews. Preserve scoped observations and the complete 098 Session; no replay or backdating.
+
+## 🕒 Time
+November 19, 2026 UTC. Base local 098 0747b9fbc6bea7ef4505263878917a7e9d82197c, tree 9079424062dc8eef11f70e0316a1d799f452679b; verified GitHub d59135274dccf9ca13edeadfb4e748c9e148cd73. Evidence cutoff: 2026-11-19T13:57:08Z.
+
+## 🎯 Session Goal
+Prove the exact representative long native Matroska copy while retaining its container clock and PCM distinctions, preserve hosted Windows/Ubuntu outcomes, and prepare the remaining narrow long MOV source path and modest Ubuntu observability without expanding release claims.
+
+## 🛠️ Actions Taken
+### Verify exact 098 source and hosted observations
+Fresh Notion recovery verified 1,082 exact tracked files and 98 commits plus complete normalized readable history and owning records, separately from archive bytes. Checkpoint 41dbd7ad-e63b-810d-96d1-cc2d054bb47b, final verification 13:48:29 UTC, SHA256 2658082f8da8f484445ede6e01abb9c39f9cd1710f8ab5afb5f64626281ed204. Non-force GitHub verification matched all 1,464 tree identities including 382 remote-only, exact parent 705e67b…, 31 scoped changes (16 new/15 modified/no deletion) and fresh ref.
+Hosted shared run 44536761164 passed 227 syntax and 338 shared per OS plus 118 Linux. Windows run 44536761147 passed one Start/two 73,562-byte H264 CPU outputs/two probes and collision skips, frozen 0.916 s for 2,225 ms and reset, normal close. Eight sampled observations and 12 descendants do not constitute exhaustive process counting. Substituted folder picker; no native Windows desktop, physical GPU/owner, MOV/MKV or executable distribution. Original Windows/Ubuntu reports and aggregate retained.
+Ubuntu run 44536761143 matched exact baseline (1,212 installed rows), authenticated signed metadata, and ran a bounded exit-0 simulation. Complete review-only grammar projection records 13 simulated Inst/13 simulated Conf, three intermediate suffixes and final no-break configuration. It proposed six installed same-architecture changes in the glibc/locales family (libc6-dev, libc-dev-bin, libc6-i386, libc6, libc-bin, locales), each 2.39-0ubuntu8.9 → 2.39-0ubuntu8.12. The resolver still blocked with INSTALLED_CHANGE_REQUIRES_REVIEW and ready:false. Every per-package candidate-to-signed Packages index association remains unresolved: three signed releases do not prove each exact candidate row's chain. No package installation, live host mutation, accepted lock or manufacture. Do not use this result to retroactively explain the independent 097 UNCLASSIFIED metadata failure. The successor adds eight finite literal marker classes to the existing four for nonzero apt-get update --error-on=any after full bounded read/owned closure: connection/timeout, system TLS certificate, unsigned/missing/expired/not-yet-valid release and lock. Primary APT 2.6.1 references are [connect](https://raw.githubusercontent.com/Debian/apt/2.6.1/methods/connect.cc), [acquire](https://raw.githubusercontent.com/Debian/apt/2.6.1/apt-pkg/acquire-item.cc) and [file locks](https://raw.githubusercontent.com/Debian/apt/2.6.1/apt-pkg/contrib/fileutl.cc), not verified hosted binary source. Outputs are only finite marker enums, counts and digests, not dynamic raw lines, domains, package paths or APT cause attribution; retain UNCLASSIFIED. No new retry or changes to authentication, installed-change refusal, proper grammar or acquisition/installation authority. No raw log retention destination represented; 097 remains unexplained even if 098 completed a later stage.
+
+### Verify actual exact 098 native 180-second MP4→Matroska copy
+Reuse the already verified local 180-second H264/AAC source from frozen096 recipe, not another generated fixture or evidence rewrite. One real native input/output picker, Prepare and Start; no positive numerical running metric observed, then one success, others zero, fixed 00:15 in repeated screenshots. Journal wall-clock 15.832 s, not FFmpeg-only. Actual Thunar selected the one 678,751,355-byte MKV, SHA256 614d2d850c987f23abce3f2bebaece3fabe1a3188cf1701549de6510f8c0e9d1. No Open player dispatch, playback, retry, native cancellation/second Start. Normal file manager/app close and terminal return.
+Independent saved-only audit verified all 1,082 exact source and 270 package files, six allowed execute modes, 106 saved file identities and 21 collector artifacts. Complete ordered compressed packet/header identity for 5,400 video and 8,439 AAC packets; full saved streaming PCM count/hash equality for 8,640,000 audio samples/69,120,000 bytes each, no shift or replay. Matroska represented video cadence as 33/34 ms, rather than source exact 1/30 second. Maximum PTS/duration error 1/3,000 second and video DTS error 1/1,500 second were accepted by existing validator, not zero timestamp difference. Video key windows 0 and 5,340 are not the last frame (5,399) or complete interior decode. Twelve collector invocations closed with peak two; 17 outer sampled identities are a separate non-exhaustive observation. Normal closure 437.516 s, exit 0, no force. No changes to evidence or new media, broad inputs, portable release, playback or hardware assertions; historical private lifecycle and earlier native MP4/MOV remain distinct. Original exact audit retained; no duplicate generation protocol.
+
+### Freeze the next reviewed source cohort only
+The unified main-owned proportional selection adds one explicitly enumerated MOV target at the existing three control sites, on top of already scoped MP4/MKV, without copying or weakening the shared planner/collector. Genuine selection and exact immutable target/generation revalidate before Start and after awaited lifecycle/currentness; no raw renderer budget. The narrow metadata/default-language/default-handler/default-disposition, CFR30/codec/geometry/audio/stream envelope and standalone caps remain. Genuine MOV edit-list/representation retains bounded atom metadata and additional file reseal streamed in 64 KiB chunks with signal, progress, ownership and identity. This adds logical I/O, not another tool child or full-file buffer or claim about physical I/O. Existing shared monotonic and evidence limits remain. Inert/deferred service cases demonstrate ownership and guard settlement, not live 180s MOV preservation. Independent focused 90 and unchanged MOV-mechanism 8 passed. Initial fixture failures exposed existing language/tag refusal correctly; a test-block copy temporarily changed standalone expectations, corrected before submission with original failure logs retained.
+The internal banner now accurately names the three qualified Full stream-copy targets (MP4, MOV, Matroska), while keeping exact-host/nonportable and artifact-specific native language. It does not enable any route by announcement or say long MOV has passed. Integration helper initially matched test_resolver.py by suffix and stopped before full application; corrected exact path matching before authoritative source freeze, not a product/runtime failure.
+
+Final 13 source paths include exact ordinary successor workflow/script bindings to verified 098 remote d591352…, selected reviewed policy/tests, banner correction and derived pins. Exact 267 package inputs, 149 current pins, 166 application members, 179 source and 88 unchanged non-source rows, 391,693,147 B. Only three source pins and four plan rows changed; no membership or runtime changes. Linux-local author 227 syntax, 338 shared, 133 Linux, 154 affected overlap, 80 Ubuntu; zero failures/skips. Independent final review verified exact 13 paths, all 267 inputs/149 pins, ordinary successor bindings and banner limits, and passed 31 package/composed-service tests. The author aggregate was not duplicated. Separate signed-index candidate association study/module not included. No 099 package build, long media, app/native, hosted or APT result.
+
+## 🧠 Key Insights
+Different container clocks can represent a 30-fps cadence without changing ordered packets or full decoded audio. Use measured deltas and exact scope rather than calling all timing identical; actual long Matroska cannot grant MOV's separate representation or native authority. Ubuntu's complete review projection narrows a genuine guarded plan but supplies neither authorized changes nor exact signed package associations.
+
+## 📌 Decisions Made
+Keep main-owned proportional controls, no silent fallback, arbitrary metadata widening, timing waiver or relaxed installed-change policy. Preserve exact Git → verified Notion → GitHub and keep raw logs/gates/binaries outside this record set. Last v0.7 gate stays owner's Windows RTX 5060 after independent freeze; v0.8 separate, HDR v0.9.
+
+## ⚠️ Difficulties / Friction
+Native copy completed without a positive running metric in the sampled visual interval; do not infer error or exact progress. The exec transport briefly disconnected and normal access recovered while the exact gated GUI run continued; no workspace wipeout or bypass was inferred. Input/media remains local-only. The previous Ubuntu failure lacks raw text; even a different fully projected refusal does not explain it. Source claim and exact validated package differ until a fresh build.
+
+## 🔧 Adjustments Made
+Distinguish edited container clock from AAC/packet preservation, and one target-specific native output from full family. Keep Ubuntu failure diagnostics only and improve banner wording only where reviewed code exists; no product-default or safety changes from description edits.
+
+## ❌ Mistakes / Risks Noted
+Do not label signed releases as authenticated per-candidate mapping or allow automatic host package changes. Do not equate a source mirror, report retention or payload digest with recoverable executable bytes. Do not relabel 098 native proof as 099.
+
+## 📍 Current Position
+Exact 098 native long MKV and hosted Windows CPU verified. Ubuntu's installed changes are visible in a complete review-only projection, still refused. Reviewed 099 narrow unified MOV source and finite Ubuntu update diagnostics await exact preservation. Actual 099 long MOV has not run.
+
+## 🔜 Next Steps
+Preserve 099, verify its exact hosted outcome and independently qualify actual long MOV on the preserved artifact with normal picker/publication/reveal/close. Pursue exact authenticated signed package association and separately reviewed named manufacture, clean-host release checks, matching source/notices and approved durable release asset retention. Freeze before last owner hardware acceptance.
+
+## ❓ Open Questions
+Can exact per-package signed-index linkage be acquired without mutating the baseline? Does the representative 180s MOV case preserve packet/edit-list/timeline and full PCM plus native controls on exact package? Which remaining dimensions/metadata/portability/runtime need separate legitimate evidence?
+
+## 🧾 Session Outcome
+Practically retained exact long MKV evidence and 098 hosted originals. Reviewed source-only long MOV, truthful candidate banner and exact bounded apt-update observation changes; separate package/native and portable release gates unaffected.
+
+## 🔍 Confidence Level
+High for exact 098 preservation, one audited scoped native Matroska artifact, hosted CPU success and the exact fail-closed Ubuntu review. Limited outside reviewed sources, exact tested package/fixture/runtimes and independently visible release/hardware claims.
+
 # 📘 Session: Verify long MP4 native and prepare proportional MKV admission
 
 ## 🤖 Models, Effort, Roles and Provenance

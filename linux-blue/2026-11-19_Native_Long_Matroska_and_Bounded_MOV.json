@@ -1,0 +1,121 @@
+{
+  "checkpoint": "099",
+  "cutoffUtc": "2026-11-19T13:57:08Z",
+  "baseLocal": "0747b9fbc6bea7ef4505263878917a7e9d82197c",
+  "baseTree": "9079424062dc8eef11f70e0316a1d799f452679b",
+  "baseGitHub": "d59135274dccf9ca13edeadfb4e748c9e148cd73",
+  "status": "isolated 099 writer release; source only; no 099 native/hosted/package",
+  "exactSourceManifestSha256": "69a428426d67a21620bba04caa28559e45e09d4038faf6376ec91528315a63b4",
+  "sourceReviewDigests": [
+    "194afdc3534e2be3051780978bcf060243da1e2b342399bea416b3cad06dcbd3",
+    "5b988e39e4dcb75a4563e62b06254facc2f399a104cc582287f5f007d669ed6d",
+    "ef23a163534cfac3bf7565668f077e2e4dde6fd635b8f67820e14c9e269f5c65"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "7c57945d522d1cab0e41a297ba834b6086cfb52f1b499597e6b60807c3e5436f"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "5eb68cd9595fce90aaacb8b93d2883fbd0a6c23900f93f238852621a186cb0bf"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 40523,
+      "sha256": "cecdfc50e6ee7a853ecec85e1cb3165134ba81e918ab43cde1b40b2c056146c0"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-service.cjs",
+      "bytes": 15172,
+      "sha256": "f11300463d91577eaff0dca15f89f8da6b66899c6c226e9bffa05fd2dc2b9db8"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-runtime.cjs",
+      "bytes": 6681,
+      "sha256": "9e0ae1f278c8be7f62a2d1ba3333f02eb1f21163d85dc1c6d15abea3371222ad"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 20787,
+      "sha256": "b4e15bac3498afbe0ab024b8e018d044d4373660e48d82195e97700e865a5d3a"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 77225,
+      "sha256": "885a2b6a3b00c2062bc5bd4ce8c5c360c67461859c637416bdede3915a4f370a"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 27115,
+      "sha256": "a79995012d581780639da8b419a81a029a86651790b31ef7c914d4893c548ae6"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 37523,
+      "sha256": "512f6c6f4b02745c63c2a82747255669b21cbe7a7b4cf835c1ee7a0c697fdad4"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "5fca5cebfc40c489886672f1ce10a651e0c4b880e42a2d389fa84b474c559b9c"
+    },
+    {
+      "path": "tests/linux-product-remux-service.test.cjs",
+      "bytes": 20120,
+      "sha256": "81c6fda39936ebc9292a80a7c678763144baec0f4f3227a1c0d74fd2f140fcad"
+    },
+    {
+      "path": "tests/linux-unified-runtime.test.cjs",
+      "bytes": 12391,
+      "sha256": "1140bc4861917cf717e2e78d4e7a13aec2eb3987405195e439f6efe4271fcc5e"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 44523,
+      "sha256": "63dcef1275d34a67ea315b5786be407aac72305f86a92a1bdf8bcc628301161d"
+    }
+  ],
+  "verification": {
+    "authorSyntax": 227,
+    "authorShared": 338,
+    "authorLinuxSelected": 133,
+    "authorAffectedOverlap": 154,
+    "authorUbuntuInert": 80,
+    "functionalIndependentFocused": 90,
+    "functionalIndependentUnchangedMov": 8,
+    "actualPackageInputs": 267,
+    "appMembers": 166,
+    "sourcePackageRows": 179,
+    "unchangedNonSourceRows": 88,
+    "packagePins": 149,
+    "packageInputBytes": 391693147,
+    "testsOverlap": true
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted098-verified-outcome.json": {
+      "bytes": 11000,
+      "sha256": "6c8752ea5a03207164ffc4ed70756e096163b47775b8c7d52134469e5234248d"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu098-original-sanitized-report.json": {
+      "bytes": 5560,
+      "sha256": "236d7a1bd662acffe75209ca07d96c4e022efe8d6cc7764d6231d8490f980afb"
+    },
+    "linux-blue/evidence-2026-11-19/windows098-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "af439c1e6622d338df4b468baf15bbb2cd1644c38218d487c50aae9f77ff5fcd"
+    },
+    "linux-blue/evidence-2026-11-19/native098-long-mkv-audit.json": {
+      "bytes": 185238,
+      "sha256": "7834dac17afd3a6560fd6f14aaade702a804d7d86786ca986c8da9ad9087d0da"
+    }
+  },
+  "limits": [
+    "Actual long MKV only exact source098 fixture/host/artifact, not playback, full video decode or another target",
+    "099 source only; no live long MOV or new Windows/MKV/portability evidence",
+    "Ubuntu projection is simulated refusal and exact per-candidate signed-index authority still unresolved",
+    "No new package installations, remote artifact delivery, raw provenance/logs, media or binary payloads"
+  ]
+}

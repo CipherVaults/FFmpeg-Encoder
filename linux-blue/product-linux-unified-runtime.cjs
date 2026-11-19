@@ -42,7 +42,7 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild) {
       bindRemux(operations,selection,bindings){
         assert(!closed&&!retired&&!phase&&operations instanceof RemuxOperations&&typeof bindings==='function');
         const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(operations,selection,bindings());
-        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&['mp4','matroska'].includes(selected.qualification.target));
+        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&['mp4','matroska','mov'].includes(selected.qualification.target));
         const token=Object.freeze({});remuxControls.set(token,Object.freeze({kind:'remux-isobmff',selected,requireCurrent}));return token;
       },
       begin(route,kind,controller,token=null) {
@@ -54,7 +54,7 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild) {
         if(control){
           assert(route==='remux'&&kind==='running'&&Object.isFrozen(control)&&control.kind==='remux-isobmff');
           const q=control.requireCurrent();assert.strictEqual(q,control.selected);assert(Object.isFrozen(q)&&Object.isFrozen(q.budget)&&Object.isFrozen(q.resources));
-          assert(q.remux&&q.qualification.inputFamily==='isobmff'&&['mp4','matroska'].includes(q.qualification.target));
+          assert(q.remux&&q.qualification.inputFamily==='isobmff'&&['mp4','matroska','mov'].includes(q.qualification.target));
           for(const n of [q.executionBudgetMs,q.budget.timeoutMs,q.resources.maxChildren])assert(Number.isSafeInteger(n)&&n>0);
           ms=q.executionBudgetMs;childMs=q.budget.timeoutMs;maxChildren=q.resources.maxChildren;
         }

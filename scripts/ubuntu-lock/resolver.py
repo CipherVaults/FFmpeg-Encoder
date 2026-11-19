@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='705e67b0a09519d18b630360d30bb7c8465881cd'
+PARENT='d59135274dccf9ca13edeadfb4e748c9e148cd73'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -197,7 +197,16 @@ UPDATE_MARKERS={
  'NAME_RESOLUTION_MARKER':(b"Temporary failure resolving '",b"Could not resolve '"),
  'TLS_CERTIFICATE_MARKER':(b'Certificate verification failed:',),
  'HASH_MISMATCH_MARKER':(b'Hash Sum mismatch',),
- 'SIGNATURE_ERROR_MARKER':(b'Signature error',)
+ 'SIGNATURE_ERROR_MARKER':(b'Signature error',),
+ # Fixed upstream APT message fragments; presence is not cause attribution.
+ 'CONNECTION_FAILURE_MARKER':(b'Could not connect to ',),
+ 'CONNECTION_TIMEOUT_MARKER':(b'connection timed out',),
+ 'TLS_SYSTEM_CERTIFICATE_MARKER':(b'Could not load system TLS certificates:',),
+ 'RELEASE_UNSIGNED_MARKER':(b' is not signed.',),
+ 'RELEASE_MISSING_MARKER':(b' does not have a Release file.',),
+ 'RELEASE_EXPIRED_MARKER':(b' is expired (invalid since ',),
+ 'RELEASE_NOT_YET_VALID_MARKER':(b' is not valid yet (invalid for another ',),
+ 'LOCK_FAILURE_MARKER':(b'Could not get lock ',)
 }
 
 def child_failure(argv,code,out,err):

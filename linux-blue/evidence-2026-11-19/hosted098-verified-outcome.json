@@ -1,0 +1,310 @@
+{
+  "checkpoint": 98,
+  "head": "d59135274dccf9ca13edeadfb4e748c9e148cd73",
+  "localCommit": "0747b9fbc6bea7ef4505263878917a7e9d82197c",
+  "verifiedAtUtc": "2026-11-19T13:50:30.255116+00:00",
+  "runs": [
+    {
+      "id": 44536761143,
+      "name": "One-shot Ubuntu signed metadata lock proposal",
+      "attempt": 1,
+      "conclusion": "failure"
+    },
+    {
+      "id": 44536761137,
+      "name": "One-shot Ubuntu 24.04 toolchain inventory",
+      "attempt": 1,
+      "conclusion": "skipped"
+    },
+    {
+      "id": 44536761147,
+      "name": "Windows packaged CPU integration (report only)",
+      "attempt": 1,
+      "conclusion": "success"
+    },
+    {
+      "id": 44536761164,
+      "name": "Shared core contracts (Linux and Windows)",
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  ],
+  "shared": {
+    "syntaxFilesEachOS": 227,
+    "sharedTestsEachOS": 338,
+    "additionalLinuxTests": 118,
+    "failures": 0,
+    "skippedTests": 0
+  },
+  "windows": {
+    "schema": "windows-packaged-two-file-cpu-integration/v2",
+    "head": "d59135274dccf9ca13edeadfb4e748c9e148cd73",
+    "runId": "44536761147",
+    "attempt": 1,
+    "state": "INTEGRATION_PASSED",
+    "picker": "substituted-dialog-return",
+    "gpu": "not-qualified",
+    "nativeDesktop": "not-qualified",
+    "distribution": "report-only",
+    "failure": null,
+    "fixtureGenerationCalls": 1,
+    "fixtureCopyCalls": 1,
+    "startClicks": 1,
+    "requestedEncodes": 2,
+    "extraDecodeCalls": 0,
+    "probeReadbackCalls": 2,
+    "collisionSkips": 2,
+    "close": "normal",
+    "sourceUnchanged": true,
+    "packageUnchanged": true,
+    "collisionRefused": true,
+    "collisionSnapshotVerified": true,
+    "outputs": [
+      {
+        "sha256": "50878d97e19b9b278e005eb3940c4f38a32bedd5740cdf23ef894830fdada723",
+        "sizeBytes": 73562
+      },
+      {
+        "sha256": "7c84d15ecad2fa3ccf553bae8771280600e12cf9540830b86e0566fa4fd9feb3",
+        "sizeBytes": 73562
+      }
+    ],
+    "fixtureCopies": "two-distinct-paths-identical-bytes",
+    "terminalTimer": {
+      "frozen": true,
+      "domMatchesSnapshot": true,
+      "reset": true,
+      "observedWaitMs": 2225,
+      "elapsedSeconds": 0.916
+    },
+    "processObservation": {
+      "kind": "sampled-not-exhaustive",
+      "samples": 8,
+      "observedDescendants": 12,
+      "observedStartupMedia": 1,
+      "observedLiveAfterClose": 0
+    },
+    "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+    "launchOwnership": "verified-shell-launcher-and-pinned-main",
+    "security": {
+      "packaged": true,
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false
+    },
+    "build": {
+      "asar": {
+        "sha256": "ba30626c2fae3bf6e074c323c81e2e41aadb9d346c23972fc94cd24968a2aa5d",
+        "sizeBytes": 2454599
+      },
+      "executable": {
+        "sha256": "02943102b0003681827f5060b0798cf292f4674ccc4544709b565017ed582ccf",
+        "sizeBytes": 246302208
+      },
+      "zip": {
+        "sha256": "30acf7bfdcd2046eead72c1484a739d415d11c4a5a0d414267a1909e3d361661",
+        "sizeBytes": 326104068
+      }
+    }
+  },
+  "ubuntu": {
+    "schema": "ubuntu-lock-candidate/v1",
+    "ready": false,
+    "head": "d59135274dccf9ca13edeadfb4e748c9e148cd73",
+    "scope": "metadata-and-simulation-only",
+    "unresolved": [],
+    "diagnosticStage": "TRANSACTION_PARSE",
+    "completedDiagnosticStages": [
+      "BASELINE_COPY",
+      "CONFIGURE_ISOLATION",
+      "BASELINE_PARSE",
+      "BASELINE_VALIDATE",
+      "BASELINE_QUERY",
+      "BASELINE_COMPARE",
+      "TOOL_IDENTITIES",
+      "METADATA_UPDATE",
+      "RELEASE_AUTHENTICATION",
+      "TRANSACTION_SIMULATION"
+    ],
+    "baselineStatusSha256": "90fa0b31c190aa6d31c146657b325a9c6884e1bda587d850e30857fd26b34bfc",
+    "baselineInstalledCount": 1212,
+    "toolIdentities": {
+      "/usr/bin/apt-get": "87279ca48820a0423c2ee8b25dba48af0ad7d9f46c16f1e3cfdc07934dcf5ae1",
+      "/usr/bin/apt-cache": "3ae7267f71d70bec3c263314fceb1b2c2e6845f03ade9c57cbb5a2f71f06904a",
+      "/usr/bin/gpgv": "f14d026b9eae172c432e015bce227483293b4966f2f3fdcfa582f71d3dbb2ae8",
+      "/usr/share/keyrings/ubuntu-archive-keyring.gpg": "80a36b0a6de2f69f49d2df75ef473ccde121e9e190b9ea01d20a4f63778d5c31"
+    },
+    "signedReleases": [
+      {
+        "sha256": "205acf4d04aa3957bc4476e86a61e43d4acc3163276248e1547e834d7a562031",
+        "dateFields": [
+          "Suite: noble-updates",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026 11:58:56 UTC"
+        ]
+      },
+      {
+        "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+        "dateFields": [
+          "Suite: noble",
+          "Codename: noble",
+          "Date: Thu, 25 Apr 2024 15:10:33 UTC"
+        ]
+      },
+      {
+        "sha256": "9251541a5a6d09e128695c7c7dc717c380741badc599e68a8e856cafdbbf45a3",
+        "dateFields": [
+          "Suite: noble-security",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026  5:57:09 UTC"
+        ]
+      }
+    ],
+    "installedChangeReview": {
+      "schema": 1,
+      "reviewOnly": true,
+      "ready": false,
+      "complete": true,
+      "simulationSha256": "d96e7906eba736c7d57d0873b0be8ec11278a2c44e88f847ca04cf3ef64c676c",
+      "simulationExitCode": 0,
+      "authenticatedCandidateAssociation": "unresolved",
+      "transactionCompletion": {
+        "installed": 13,
+        "configured": 13,
+        "intermediateSuffixes": 3,
+        "finalConfigurationWithoutBreaks": true
+      },
+      "installedChangeCount": 6,
+      "changes": [
+        {
+          "package": "libc6-dev",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "amd64",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "amd64",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        },
+        {
+          "package": "libc-dev-bin",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "amd64",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "amd64",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        },
+        {
+          "package": "libc6-i386",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "amd64",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "amd64",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        },
+        {
+          "package": "libc6",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "amd64",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "amd64",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        },
+        {
+          "package": "libc-bin",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "amd64",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "amd64",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        },
+        {
+          "package": "locales",
+          "baselineVersion": "2.39-0ubuntu8.9",
+          "baselineArchitecture": "all",
+          "simulatedPriorVersion": "2.39-0ubuntu8.9",
+          "proposedVersion": "2.39-0ubuntu8.12",
+          "proposedArchitecture": "all",
+          "baselinePresent": true,
+          "priorMatchesBaseline": true,
+          "architectureMatchesBaseline": true,
+          "authenticatedCandidateAssociation": "unresolved",
+          "associationReason": "EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED"
+        }
+      ]
+    },
+    "status": "blocked",
+    "failureType": "AssertionError",
+    "failureReason": "INSTALLED_CHANGE_REQUIRES_REVIEW"
+  },
+  "artifacts": {
+    "ubuntu": {
+      "artifactId": 14535209353,
+      "bytes": 5706,
+      "expiresAt": "2026-11-22T13:46:30Z",
+      "zipSha256": "072f66d593e70d9ae3c9d9346f92dead5f92de1ca0ae21af6192c91af040ef02",
+      "reportSha256": "236d7a1bd662acffe75209ca07d96c4e022efe8d6cc7764d6231d8490f980afb",
+      "apiLogAndIndependentDownloadMatched": true
+    },
+    "windows": {
+      "artifactId": 14535747993,
+      "bytes": 2143,
+      "expiresAt": "2026-11-22T13:48:57Z",
+      "zipSha256": "e0582d7eeac20a76fbae162c09798fde2937cdab2660dbb2d860d2131269784e",
+      "reportSha256": "af439c1e6622d338df4b468baf15bbb2cd1644c38218d487c50aae9f77ff5fcd",
+      "apiLogAndIndependentDownloadMatched": true
+    }
+  },
+  "logIdentities": [
+    {
+      "name": "JOB-135604120903.log",
+      "bytes": 20846,
+      "sha256": "b48bfb25d5db41f00c08cc184062bf9a6324bcffb5cefcbfe8b2762830eb5a46"
+    },
+    {
+      "name": "JOB-135604121220.log",
+      "bytes": 76728,
+      "sha256": "42787c40c0158dbd4d967dd067c90ae96900e9eae49e131567dfac21589886ae"
+    },
+    {
+      "name": "JOB-135604121451.log",
+      "bytes": 24613,
+      "sha256": "3284edc409d9313c395b4d43436b863a59c4d67c98b8e3984f241c91af7c92fd"
+    },
+    {
+      "name": "JOB-135604121840.log",
+      "bytes": 63435,
+      "sha256": "6b58f2329481062c06ae86dad7da0a17cb8b7032b9767d7333e4fc126656e038"
+    }
+  ],
+  "limits": [
+    "Ordinary push attempt one only; no dispatch, rerun or retry.",
+    "Windows report-only packaged CPU journey, substituted picker, sampled process census; not native desktop, GPU, owner-PC, Linux route or binary distribution proof.",
+    "Ubuntu 13 matching Inst/Conf records and six named installed changes are review evidence only; exact signed Packages-to-InRelease association remains unresolved and final baseline check not reached.",
+    "No installation or approved host upgrade. Update success here does not explain prior097 update failure."
+  ],
+  "durableOriginals": "ffmpeg-hosted098-durable-nextcheckpoint"
+}

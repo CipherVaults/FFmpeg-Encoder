@@ -86,7 +86,7 @@ function admit(assessment,input,{proportionalIsobmff=false}={}) {
   assert(v[0].width<=1920 && v[0].height<=1080 && v[0].width>0 && v[0].height>0);
   assert(a[0].codec_name==='aac' && a[0].profile==='LC' && a[0].sample_fmt==='fltp' && a[0].sample_rate==='48000' && a[0].channels===2 && a[0].channel_layout==='stereo');
   assert(Number.isFinite(Number(p.format.duration)) && Number(p.format.duration)>0 && /^[1-9]\d*$/.test(String(p.format.size)) && Number.isSafeInteger(Number(p.format.size)));
-  if(!proportionalIsobmff || !['mp4','matroska'].includes(assessment.target))assert(Number(p.format.duration)<=60 && Number(p.format.size)<=128*1024*1024);
+  if(!proportionalIsobmff || !['mp4','matroska','mov'].includes(assessment.target))assert(Number(p.format.duration)<=60 && Number(p.format.size)<=128*1024*1024);
   if(assessment.target==='mov')admitMovMetadata(p);
   // Shared sourcePolicy still owns exact clocks, SDR, native metadata, codec
   // parsing and stream relationships; these additional limits do not replace it.

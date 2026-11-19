@@ -118,7 +118,7 @@ class UnifiedService extends EncoderService{
       assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);
       const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);
       assert(item&&['ready','conflict'].includes(item.status)&&entry?.remux);
-      if(['mp4','matroska'].includes(entry.operationPlan.contract.target)){
+      if(['mp4','matroska','mov'].includes(entry.operationPlan.contract.target)){
         const plan=this.plan,generation=this.generation;
         const bindings=()=>{
           assert(this.plan===plan&&this.generation===generation&&plan.entries.get(fileId)===entry&&!this.cancellation&&!this.shuttingDown,'Remux execution binding retired');
@@ -149,7 +149,7 @@ class UnifiedService extends EncoderService{
       throw new AggregateError(failures,this.state.error,{cause:error});
     }
   }
-  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264/AV1 and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), five measured H265 slow25 families, including short CFR30 H264/AAC stereo48k precision ranges, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
+  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264/AV1 and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), five measured H265 slow25 families, including short CFR30 H264/AAC stereo48k precision ranges, and qualified MP4, MOV and Matroska Full stream-copy routes. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
   getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:value.profileId==='h265-cpu'?recipe.testedDefault:{...recipe},mediaNote:(value.profileId==='h265-cpu'?'Existing H265 settings/defaults; transformed measured operations still require slow/25. ':'Fixed internal candidate settings; ')+ 'Not a new production default. '+recipe.mediaNote};}
   async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1.SETTINGS.profileId?AV1.SETTINGS:request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}

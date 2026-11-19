@@ -7,7 +7,18 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { pathToFileURL } = require('node:url');
 const PLAN = require('../resources/linux-inert-package-plan.json');
-const { DESCRIPTOR } = require('../src/linux-runtime-descriptor.cjs');
+// Explicit internal product successor anchor. Historical descriptor/default
+// runtime remains unchanged; caller manifests cannot supply this authority.
+const CURRENT_PRODUCT_PAIR = Object.freeze([
+  Object.freeze({path:'runtime/ffmpeg',bytes:46175848,sha256:'852df894561f1cabd6481c08cf59870570baace274c27c624e4b38d886ebcd9f'}),
+  Object.freeze({path:'runtime/ffprobe',bytes:45962728,sha256:'152a8243f5b41b7c02dde01a28619f47151a73e0816aa30197c5b50f4d207ebf'}),
+]);
+function validateCurrentProductPair(plan) {
+  for (const pin of CURRENT_PRODUCT_PAIR) {
+    const rows=plan.files.filter(row=>row.target==='electron/resources/'+pin.path);
+    assert(rows.length===1 && rows[0].bytes===pin.bytes && rows[0].sha256===pin.sha256,'Exact approved current Linux product pair required.');
+  }
+}
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const FLOOR = 27n * 1024n ** 3n;
 function relative(name) {
@@ -100,10 +111,7 @@ async function buildLinuxInertPackage(options) {
   for(const key of Reflect.ownKeys(roots)) assert(Object.hasOwn(Object.getOwnPropertyDescriptor(roots,key),'value'));
   assert.equal(process.platform,'linux'); assert.equal(process.arch,'x64');
   const total = validatePlan(PLAN), owners = {};
-  for(const pin of DESCRIPTOR.files) {
-    const row=PLAN.files.find(row=>row.target==='electron/resources/'+pin.path);
-    assert(row && row.bytes===pin.bytes && row.sha256===pin.sha256,'Exact approved Linux pair required.');
-  }
+  validateCurrentProductPair(PLAN);
   for (const [key,root] of Object.entries(roots)) { owners[key]=await directory(root); assert(outputParent!==root && !outputParent.startsWith(root+path.sep)); }
   const parentOwner=await directory(outputParent);
   const space=await fs.statfs(outputParent,{bigint:true});
@@ -142,4 +150,4 @@ async function buildLinuxInertPackage(options) {
   await fs.writeFile(path.join(destination,'NOT_FOR_DISTRIBUTION.txt'),PLAN.releaseBlockers.join('\n')+'\n',{flag:'wx',mode:0o600});
   return {destination,...receipt};
 }
-module.exports={buildLinuxInertPackage,validatePlan,verifyGeneratedAsar};
+module.exports={buildLinuxInertPackage,validatePlan,validateCurrentProductPair,verifyGeneratedAsar};

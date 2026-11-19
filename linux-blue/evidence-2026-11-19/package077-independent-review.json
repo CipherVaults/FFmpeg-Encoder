@@ -1,0 +1,41 @@
+{
+  "approved": true,
+  "scope": "source-only current internal Linux pair anchor correction; not build or native release",
+  "baseCommit": "a3502e2a8455196bc11ade5d6f2527a3e3626303",
+  "handoffSha256": "0e55c30b35776dc7b8eed987cd3474296bd145069333896a7ba4028e56962eb4",
+  "files": [
+    {
+      "path": "scripts/build-linux-inert-package.cjs",
+      "bytes": 10766,
+      "sha256": "1539adf13931dd973ac5652ee890f24f71e3359dca6757fca63db0c70f699c3c"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10334,
+      "sha256": "dc4689257e10e747fcc471cfb587c53afb7c4aed3786488d9fa72a80b17701d2"
+    }
+  ],
+  "verified": [
+    "Exact two-file diff; fixed immutable internal successor pair matches approved actual runtime sizes and hashes.",
+    "No caller-provided authority; duplicate, missing, historical or mutated runtime rows refused. validatePlan and all existing filesystem/archive guards remain unchanged.",
+    "Historical descriptor, production defaults, current source closure and package plan unchanged; builder absent from closure/package input rows.",
+    "Actual unmodified builder with actual plan passes pair validation and rejects absent input ownership before creating output. Synthetic ASAR fixture bypass is isolated test source only, not exported production seam."
+  ],
+  "tests": {
+    "independent": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "logSha256": "78203cc76ee565ade11551234450e2986edaebc6f16f4bcb870e626806f0d856"
+    },
+    "authorShared": "Recorded 215 syntax / 243 shared / 40 Linux; not independently rerun for this narrow fix."
+  },
+  "limits": [
+    "No full package build, binary execution, mode restoration or native UI performed. Failed 076 evidence untouched. Fresh preserved successor build still required."
+  ],
+  "sanitization": {
+    "originalBytes": 1934,
+    "originalSha256": "e3bf93f015ddb97dbc6cdb94c276935f21a2d9acbb51460e065e81ddecaa58a2",
+    "change": "Absolute file paths converted to repository-relative paths only."
+  }
+}

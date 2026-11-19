@@ -15,10 +15,10 @@ test('plan rejects path escape, collisions, bad sizes and alleged release author
 });
 test('inert fixture builder writes and verifies actual ASAR, refuses tampered inputs',async()=>{
  const parent=await fs.mkdtemp(path.join(os.tmpdir(),'linux-package-fixture-'));
- const moduleRoot=path.join(parent,'module'); await fs.mkdir(path.join(moduleRoot,'scripts'),{recursive:true});await fs.mkdir(path.join(moduleRoot,'resources'));await fs.mkdir(path.join(moduleRoot,'src'));await fs.writeFile(path.join(moduleRoot,'src/linux-runtime-descriptor.cjs'),'module.exports={DESCRIPTOR:{files:[]}};');
+ const moduleRoot=path.join(parent,'module'); await fs.mkdir(path.join(moduleRoot,'scripts'),{recursive:true});await fs.mkdir(path.join(moduleRoot,'resources'));await fs.mkdir(path.join(moduleRoot,'src'));
  const builder=await fs.readFile(path.join(__dirname,'../scripts/build-linux-inert-package.cjs'),'utf8');
  // Test-only statfs seam because /tmp capacity is unrelated to product admission.
- await fs.writeFile(path.join(moduleRoot,'scripts/build.cjs'),builder.replace("const space=await fs.statfs(outputParent,{bigint:true});","const space={bavail:64n*1024n**3n,bsize:1n};"));
+ await fs.writeFile(path.join(moduleRoot,'scripts/build.cjs'),builder.replace("  validateCurrentProductPair(PLAN);", "  // Synthetic ASAR fixture only; actual pair authority tested separately.").replace("const space=await fs.statfs(outputParent,{bigint:true});","const space={bavail:64n*1024n**3n,bsize:1n};"));
  const roots={}; for(const k of ['source','electron','inputs','guidance','hostDocs']){roots[k]=path.join(parent,k);await fs.mkdir(roots[k]);}
  const outputParent=path.join(parent,'output');await fs.mkdir(outputParent);
  const bytes=Buffer.from('{"name":"inert-fixture","version":"1.0.0"}\n');await fs.writeFile(path.join(roots.source,'package.json'),bytes);
@@ -82,4 +82,28 @@ test('Linux candidate basename selects packaged convention with unchanged siblin
  const main=require('node:fs').readFileSync(path.join(__dirname,'../main.js'),'utf8');
  assert(main.includes("app.isPackaged ? process.resourcesPath : root"));
  assert(!main.includes('ELECTRON_FORCE_IS_PACKAGED'));
+});
+
+
+test('actual current package plan satisfies actual internal builder anchor; historical/mutated pairs refuse',()=>{
+ const {validateCurrentProductPair}=require('../scripts/build-linux-inert-package.cjs');
+ assert.doesNotThrow(()=>validateCurrentProductPair(PLAN));
+ const historical=require('../src/linux-runtime-descriptor.cjs').DESCRIPTOR;
+ for(const mutate of [
+  p=>{const pin=historical.files[0];p.files.find(x=>x.target==='electron/resources/'+pin.path).sha256=pin.sha256;},
+  p=>p.files.find(x=>x.target==='electron/resources/runtime/ffprobe').bytes++,
+  p=>p.files=p.files.filter(x=>x.target!=='electron/resources/runtime/ffmpeg'),
+  p=>p.files.push({...p.files.find(x=>x.target==='electron/resources/runtime/ffmpeg')}),
+ ]){const p=clone();mutate(p);assert.throws(()=>validateCurrentProductPair(p),/Exact approved current Linux product pair/);}
+ const pins=PLAN.files.filter(x=>['electron/resources/runtime/ffmpeg','electron/resources/runtime/ffprobe'].includes(x.target));
+ const identity=createHash('sha256').update(JSON.stringify(['ffmpeg','ffprobe'].map(tool=>{const p=pins.find(x=>x.target.endsWith('/'+tool));return {sizeBytes:p.bytes,sha256:p.sha256};}))).digest('hex');
+ assert.equal(identity,'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13');
+});
+
+test('actual builder accepts real current plan before refusing absent input owners, without creating output',async()=>{
+ const {buildLinuxInertPackage}=require('../scripts/build-linux-inert-package.cjs');
+ const absent=path.join(os.tmpdir(),'absent-current-pair-'+require('node:crypto').randomUUID());
+ const roots=Object.fromEntries(['source','electron','inputs','guidance','hostDocs'].map(k=>[k,path.join(absent,k)]));
+ await assert.rejects(buildLinuxInertPackage({roots,outputParent:path.join(absent,'output')}),{code:'ENOENT'});
+ await assert.rejects(fs.lstat(absent),{code:'ENOENT'});
 });

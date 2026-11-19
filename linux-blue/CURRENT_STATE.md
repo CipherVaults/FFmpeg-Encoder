@@ -1,7 +1,7 @@
-# Current State — 076 approved elapsed display
+# Current State — 077 approved packaging correction
 
-Five-path source proposal independently approved: terminal results use frozen authoritative elapsedSeconds, no service timer/runtime changes. Completed batches report wall-clock from Start through selected files, validation/publication and cleanup, not encode-only time. Failed/cancelled operations disclose preparation-stop semantics. Missing/invalid values remain unavailable.
+Evidence cutoff 2026-11-19T01:33:20Z. Real 076 inert package attempt failed before payload copying because the builder checked the historical runtime pair against the new approved plan. Failed logs retained; no 076 package/native success implied.
 
-Tests:72 focused UI;215 syntax/243 shared/40 Linux, scopes overlapping. No 076 native/package/media run. Final evidence cutoff 2026-11-19T01:17:14Z; source review accepted; commit/mirror pending. Base 075 source/history restore gate passed in Notion; full native mirror/GitHub pending as last reported.
+Two-file builder/test correction independently approved. Fixed current internal pair authority; no caller override, defaults/historical descriptor/app plan/source closure changes. Eight package tests and aggregate 215 syntax / 243 shared / 40 Linux passed; scopes overlap. No 077 package/native run yet.
 
-Next: final records/preservation, then actual package/UI acceptance. UHD3840×2160→1440/1080/720 remains separate next work using existing controls. Owner PC/RTX last; separate v0.8 after useful v0.7 freeze, HDR v0.9.
+075 GitHub and remote 076 a4fdc34ecbd6394729842899ec48dc1b2e203e38 verified by lead; final 076 Notion mapping pending. Next preserve 077, build fresh owned output, audit/relocate, then separately qualify native results. Runtime artifacts remain distinct from source backup. UHD matrix is separate work. Owner PC/RTX is final v0.7 gate; v0.8 separately after useful independent v0.7 freeze; HDR v0.9.

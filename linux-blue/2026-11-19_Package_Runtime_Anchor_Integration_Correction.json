@@ -1,0 +1,73 @@
+{
+  "status": "approved-source-writer-released",
+  "cutoff": "2026-11-19T01:33:20Z",
+  "base": "a3502e2a8455196bc11ade5d6f2527a3e3626303",
+  "predecessor": {
+    "bytes": 2551848,
+    "sha256": "0d3352ab9c7e19d5dc0efafc7ac309364ae9991b51af9ce9c547b4736ed94ba5"
+  },
+  "references": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/package077-independent-review.json",
+      "bytes": 2027,
+      "sha256": "330292dfc1623f10789fec6ac461402e199e1197b87b6dc57d2d88946d24a187"
+    },
+    {
+      "path": "ffmpeg-package077-review/HANDOFF.json",
+      "bytes": 2052,
+      "sha256": "0e55c30b35776dc7b8eed987cd3474296bd145069333896a7ba4028e56962eb4"
+    },
+    {
+      "path": "ffmpeg-package077-review/FINAL_TESTS.log",
+      "bytes": 932,
+      "sha256": "2ca474a94ef4139dc15732fd5829e62e7d0f0b1e3340279157b333365fa12b90"
+    },
+    {
+      "path": "ffmpeg-package077-review/SHARED_TESTS.log",
+      "bytes": 28731,
+      "sha256": "df929fd9b14b73e281a5a9580fbaca8ffb86e8568c0817e44a6d348b915a8683"
+    },
+    {
+      "path": "ffmpeg-package076-preflight/BUILD.exit",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "ffmpeg-package076-preflight/BUILD.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "ffmpeg-package076-preflight/BUILD.stderr",
+      "bytes": 356,
+      "sha256": "b09684424537cabeac82ecad407e58ea40f4e44b46e2ff085bd044e8664cc5f0"
+    },
+    {
+      "path": "ffmpeg-package076-preflight/LEAD_BUILD_RELEASE.json",
+      "bytes": 366,
+      "sha256": "fd2257315336bc85fa4d157d210aead3eca5269dc5a118d4db58822c48c0337b"
+    }
+  ],
+  "files": [
+    {
+      "path": "scripts/build-linux-inert-package.cjs",
+      "bytes": 10766,
+      "sha256": "1539adf13931dd973ac5652ee890f24f71e3359dca6757fca63db0c70f699c3c"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10334,
+      "sha256": "dc4689257e10e747fcc471cfb587c53afb7c4aed3786488d9fa72a80b17701d2"
+    }
+  ],
+  "failure076": "Actual builder historical pair assertion before payload copying",
+  "tests": {
+    "package": 8,
+    "syntax": 215,
+    "shared": 243,
+    "Linux": 40,
+    "overlapNotSummed": true
+  },
+  "package077Built": false,
+  "native077Executed": false
+}

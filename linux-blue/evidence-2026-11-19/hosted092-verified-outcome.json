@@ -1,0 +1,159 @@
+{
+  "checkpoint": "092",
+  "head": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+  "attempt": 1,
+  "scope": "ordinary authorized push only; no reruns",
+  "shared": {
+    "run": 44512382230,
+    "jobs": [
+      135519621587,
+      135519622069
+    ],
+    "status": "success",
+    "syntaxPerOS": 227,
+    "sharedPerOS": 332,
+    "linuxAdditional": 68,
+    "failures": 0,
+    "skipped": 0
+  },
+  "windows": {
+    "run": 44512382246,
+    "job": 135519621785,
+    "status": "success",
+    "artifactId": 14523758159,
+    "expiresAt": "2026-11-22T11:13:01Z",
+    "artifactZipSha256": "476fabde68e1225e8cffd91c64b9e96139c95dded7065e47f72579ca33c96ce5",
+    "reportSha256": "5c36d2c606c8c80b60c05280b09d713dacde77c1774134d61408017999d3fa07",
+    "apiLogDownloadedZipIdentityMatched": true,
+    "reportDigestMatchedJobLog": true,
+    "originalSanitizedReport": {
+      "schema": "windows-packaged-two-file-cpu-integration/v2",
+      "head": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+      "runId": "44512382246",
+      "attempt": 1,
+      "state": "INTEGRATION_PASSED",
+      "picker": "substituted-dialog-return",
+      "gpu": "not-qualified",
+      "nativeDesktop": "not-qualified",
+      "distribution": "report-only",
+      "failure": null,
+      "fixtureGenerationCalls": 1,
+      "fixtureCopyCalls": 1,
+      "startClicks": 1,
+      "requestedEncodes": 2,
+      "extraDecodeCalls": 0,
+      "probeReadbackCalls": 2,
+      "collisionSkips": 2,
+      "close": "normal",
+      "sourceUnchanged": true,
+      "packageUnchanged": true,
+      "collisionRefused": true,
+      "collisionSnapshotVerified": true,
+      "outputs": [
+        {
+          "sha256": "c8d675c511fcabbc75f89e564bf411fa49887a2b3986dbbb4161798f04d5dab8",
+          "sizeBytes": 73562
+        },
+        {
+          "sha256": "1f109f3adfebb2a086b3c432cc6abbb3313812ead235148f9672ca4b04b21863",
+          "sizeBytes": 73562
+        }
+      ],
+      "fixtureCopies": "two-distinct-paths-identical-bytes",
+      "terminalTimer": {
+        "frozen": true,
+        "domMatchesSnapshot": true,
+        "reset": true,
+        "observedWaitMs": 2212,
+        "elapsedSeconds": 0.83
+      },
+      "processObservation": {
+        "kind": "sampled-not-exhaustive",
+        "samples": 9,
+        "observedDescendants": 12,
+        "observedStartupMedia": 0,
+        "observedLiveAfterClose": 0
+      },
+      "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+      "launchOwnership": "verified-shell-launcher-and-pinned-main",
+      "security": {
+        "packaged": true,
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false
+      },
+      "build": {
+        "asar": {
+          "sha256": "ba30626c2fae3bf6e074c323c81e2e41aadb9d346c23972fc94cd24968a2aa5d",
+          "sizeBytes": 2454599
+        },
+        "executable": {
+          "sha256": "02943102b0003681827f5060b0798cf292f4674ccc4544709b565017ed582ccf",
+          "sizeBytes": 246302208
+        },
+        "zip": {
+          "sha256": "79a96f5c366f0277b0c83a2344d83ccc4f9832b54e06f9d639861a4404567cf2",
+          "sizeBytes": 326104068
+        }
+      }
+    }
+  },
+  "ubuntu": {
+    "run": 44512382280,
+    "job": 135519621441,
+    "status": "failure-before-APT",
+    "artifactId": 14522698614,
+    "expiresAt": "2026-11-22T11:10:34Z",
+    "artifactZipSha256": "accfe25a55f7cc1b01c67644a49a09cd7d82c113b2330e2de3ce15fb066a30f6",
+    "reportSha256": "57763d9aa585dd334ad9e87bcaced001cff5c547e8b5a64ed2c28bc1d5f0dc56",
+    "apiLogDownloadedZipIdentityMatched": true,
+    "originalSanitizedReport": {
+      "schema": "ubuntu-lock-candidate/v1",
+      "ready": false,
+      "head": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+      "scope": "metadata-and-simulation-only",
+      "unresolved": [],
+      "diagnosticStage": "BASELINE_COMPARE",
+      "completedDiagnosticStages": [
+        "BASELINE_COPY",
+        "CONFIGURE_ISOLATION",
+        "BASELINE_PARSE",
+        "BASELINE_VALIDATE",
+        "BASELINE_QUERY"
+      ],
+      "baselineDifferences": {
+        "missingFromQuery": 0,
+        "extraInQuery": 0,
+        "versionMismatch": 2,
+        "architectureMismatch": 0
+      },
+      "baselineVersionMismatchSample": {
+        "limit": 8,
+        "rows": [
+          {
+            "omitted": "UNSAFE_OR_OVERLONG_TOKEN"
+          },
+          {
+            "omitted": "UNSAFE_OR_OVERLONG_TOKEN"
+          }
+        ],
+        "truncated": false,
+        "semantics": "diagnostic-only-exact-equality-still-required"
+      },
+      "status": "blocked",
+      "failureType": "AssertionError",
+      "failureReason": "BASELINE_SET_MISMATCH"
+    },
+    "interpretation": "Two actual version mismatches; both sample rows omitted under bounded token policy. No package/version cause or zero-epoch normalization established."
+  },
+  "ubuntuInventory": {
+    "run": 44512382481,
+    "status": "skipped"
+  },
+  "limits": [
+    "Windows actual packaged CPU evidence only; substituted dialogs, no owner desktop/GPU or Linux route claim.",
+    "Package binary not retained or distributed; exact sanitized original reports retained.",
+    "Process census sampled, not exhaustive.",
+    "Ubuntu stopped before APT; no installation or retry."
+  ]
+}

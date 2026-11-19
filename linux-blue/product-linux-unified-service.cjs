@@ -9,7 +9,7 @@ const {openEvidenceStorage}=require('../src/operation-storage.cjs');
 const {createProductSelector}=require('./product-linux-service.cjs');
 const {loadQualification}=require('./product-linux-qualification.cjs');
 const {loadRemuxQualification}=require('./product-linux-remux-qualification.cjs');
-const {admit:admitRemux}=require('./product-linux-remux-service.cjs');
+const {admit:admitRemux,remuxPolicies,remuxSupport}=require('./product-linux-remux-service.cjs');
 const {requireOrdinaryEntry}=require('./ordinary-cpu-service.cjs');
 const {SETTINGS:ORDINARY,admit,admitBatch}=require('./ordinary-cpu-policy.cjs');
 const AV1=require('./av1-cpu-policy.cjs');
@@ -54,7 +54,7 @@ class UnifiedService extends EncoderService{
     this.operationRuntime=fresh.observer;
     this.operationQualifications=createProductSelector(this.configuration.measured);
     const q=this.configuration.remux;
-    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:[{id:'internal-isobmff-mp4-081',inputFamily:'isobmff',target:'mp4',runtimeIdentity:RUNTIME,evidenceIds:[q.evidenceId],allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'}]});
+    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)});
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
     this.operationDeadlineMs=route==='remux'?EXECUTION_BUDGET_MS:120000;
     this.ordinaryJobGuard=ordinaryRoute(route)?facts=>this.ordinaryGuard(facts,fresh):null;
@@ -88,7 +88,7 @@ class UnifiedService extends EncoderService{
     const caps=this.capabilityResult;return {...caps,profiles:caps.profiles.filter(p=>[ORDINARY.profileId,MEASURED.profileId,AV1.SETTINGS.profileId].includes(p.id)).map(p=>{const s=p.id===AV1.SETTINGS.profileId?AV1.SETTINGS:p.id===ORDINARY.profileId?ORDINARY:MEASURED;if(p.id===MEASURED.profileId)return {...p,candidateFixedSettings:false,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8)};return {...p,candidateFixedSettings:true,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8),presets:[s.preset],defaultPreset:s.preset,quality:{...p.quality,min:s.quality,max:s.quality,default:s.quality}};}),recipes:[],vendorProfiles:[]};
   }
   async prepareSourceBatch(request,operation,native=null){
-    assert(native===null&&['encode','remux'].includes(operation));const route=operation==='remux'?'remux':fixedSettings(request.settings);if(route==='remux')assert.equal(request.target,'mp4');
+    assert(native===null&&['encode','remux'].includes(operation));const route=operation==='remux'?'remux':fixedSettings(request.settings);if(route==='remux')assert(remuxSupport(this.configuration.remux).targets.includes(request.target),'Target lacks reviewed current remux evidence');
     super.requireIdle();await this.renew(route);this.currentEpoch(this.mutationOwner?.epoch??this.epoch);
     return super.prepareSourceBatch(request,operation,native);
   }
@@ -169,7 +169,7 @@ async function createUnifiedService(options){
   const measured=loadQualification(),remux=loadRemuxQualification();let service;
   service=new UnifiedService({ffmpeg:path.join(runtimeRoot,'ffmpeg'),ffprobe:path.join(runtimeRoot,'ffprobe'),stateDir,outputAccess,inspectionWorkers:1,runtimeIdentity:RUNTIME,operationTelemetry:true,
     run:(...args)=>{assert(service.generation);return service.generation.run(...args);},operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')})},{runtimeRoot,onChild,measured,remux});
-  service.state.remuxSupport={targets:['mp4'],notice:'Internal MP4 full stream copy only. A saved unsupported target must be changed explicitly; no automatic conversion.'};
+  service.state.remuxSupport=remuxSupport(remux);
   try{await service.renew('ordinary');return new Proxy(service,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=='function')return value;return MUTATIONS.has(key)?(...args)=>target.mutate(key,args):value.bind(target);}});}catch(error){try{await service.closeOperationResources();}catch(cleanup){throw new AggregateError([error,cleanup],'Unified construction and closure failed');}throw error;}
 }
 module.exports={createUnifiedService,fixedSettings};

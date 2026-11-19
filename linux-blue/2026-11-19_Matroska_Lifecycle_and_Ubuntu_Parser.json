@@ -1,0 +1,207 @@
+{
+  "checkpoint": "093",
+  "cutoffUtc": "2026-11-19T11:26:33Z",
+  "baseLocal": "4b48fb6e8680e4d2bc7b5a014a2374c6f0f327ed",
+  "baseTree": "4665e48cad883cdc67210efbf1d1c7ff7d6eb05c",
+  "baseGitHub": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+  "status": "isolated 093 writer ready; source reviewed; no 093 package, native or hosted result",
+  "exactSourceManifestSha256": "96ea5569afe9dff04f7855f3d5147797c18405120c0310a9f6d23654e14fe215",
+  "sourceReviewDigests": [
+    "2e1fe3a380f3d2a794cda709fe59961b714324156c70ecc9547f96c71ef5bc1c"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "2f3d5786094ebcd17d0907b8f7456864b4f3ddfd80f70b70211453df6fe5acb8"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "d6811c63e18376f599d06f804b0b9088adbdc396d6e8206a9a76bc5e063fe158"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/remux-matroska092-cell31-audit.json",
+      "bytes": 12395,
+      "sha256": "588571024153da3ef42da682b66f0cbfce98915912efe5bdaa5e676c5cd5e7d0"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/remux-matroska092-cell8-audit.json",
+      "bytes": 14656,
+      "sha256": "8bc7103c3719ec05330c3b4382c6c0eff256439a9d2ba52ababc9ce22feb5817"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/remux-matroska093-lifecycle-audit.json",
+      "bytes": 5310,
+      "sha256": "d90a718c94e89e5294ac5f99e21795835fe12a1c01b45e26b477b3f5c8fd2fe0"
+    },
+    {
+      "path": "linux-blue/product-linux-matroska-qualification.json",
+      "bytes": 1462,
+      "sha256": "60642352bf753dec88de9d94d45a4f79536bc7236d212b65a564c2e132ddc449"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 39820,
+      "sha256": "8a219c844e265e7b38f6322ecc9901879344e9c724bc461dd08293e867240965"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-qualification.cjs",
+      "bytes": 3218,
+      "sha256": "191832bda028da7c1bfa93eb9f7c4b2c39fc0d2ae6b00e51d14aea2a7638a0fa"
+    },
+    {
+      "path": "linux-blue/product-linux-remux-service.cjs",
+      "bytes": 13326,
+      "sha256": "28317fd89d5cfa379542d6c99bc51dcf736a521837356533796a392ad780ab0a"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 18885,
+      "sha256": "e2ce71e2a9525c59b7f2741539a54ee92c3a41ce27533dc68b2a56e219f98180"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 75790,
+      "sha256": "242d27329d799763b23b5d4fa4771ba3f45fa61d18c124257d4c5dcd5637e727"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 18816,
+      "sha256": "51f3562e44f65620b950002b8517ee6064fcdabdbd927d5de84a4b0e52b54dbb"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 23662,
+      "sha256": "3b96465af21ee2b6a5e345416054586241ea3ca3efff635ad2d5384725a3f075"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "7e758385e47b87104afd6650e2066871b14e81eee4218f02eabb257575771bb0"
+    },
+    {
+      "path": "tests/linux-candidate-launcher.test.cjs",
+      "bytes": 5797,
+      "sha256": "d982e6e8bbe727f7b8fb731620c7211095d0983e816d3cc9e10a75a801ac08a7"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10333,
+      "sha256": "a8c90f486a8a8f94c964ecd3cf68988017fc8f268fb0f038316ceedce9ddd6eb"
+    },
+    {
+      "path": "tests/linux-matroska-qualification.test.cjs",
+      "bytes": 3028,
+      "sha256": "d6b4b1e5003b3d51a671716a49d673bdfa23c931abcc5e74b1dbb29c7a4c17a0"
+    },
+    {
+      "path": "tests/linux-product-remux-service.test.cjs",
+      "bytes": 15852,
+      "sha256": "bfabeb4377e242b9bce227c6fa3887e067c295de2b905835bc8e2942cc383a78"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 30437,
+      "sha256": "8671c550df60382b187bbd9981df7867f1c8584e457b21e46e2c6e6982887dc8"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 121609,
+      "sha256": "96149ae8c1a468e20c889c712e574e74852f766e3dbb6aa4dae0bd629f3e26b0"
+    }
+  ],
+  "verification": {
+    "localSyntax": 227,
+    "localShared": 333,
+    "localLinux": 70,
+    "overlappingAffected": 145,
+    "ubuntuInert": 49,
+    "windowsInert": 31,
+    "independentFunctionalOverlapping": 127,
+    "packagePins": 145,
+    "actualPackageInputs": 263,
+    "appMembers": 162,
+    "sourcePackageRows": 175,
+    "unchangedNonSourceRows": 88,
+    "packageInputBytes": 391632226,
+    "archivedProtocolDriver": 12,
+    "archivedProtocolAdapter": 21
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted092-verified-outcome.json": {
+      "bytes": 5211,
+      "sha256": "a582a4c3cb907ce902e104d93d048102d44119863930005f7f23f805b7e19d9a"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu092-original-sanitized-report.json": {
+      "bytes": 906,
+      "sha256": "57763d9aa585dd334ad9e87bcaced001cff5c547e8b5a64ed2c28bc1d5f0dc56"
+    },
+    "linux-blue/evidence-2026-11-19/windows092-original-sanitized-report.json": {
+      "bytes": 2006,
+      "sha256": "5c36d2c606c8c80b60c05280b09d713dacde77c1774134d61408017999d3fa07"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/BINDING.json": {
+      "bytes": 495,
+      "sha256": "034b40092783e9be8a078dc618cdf452947a837426a414038f262b5e63e94f78"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/acquisition.cjs": {
+      "bytes": 10598,
+      "sha256": "7c1c9da58358ab500978bf23f3b44193449b38cfd449464fb65cbe13d9c4d0c5"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/ownership.cjs": {
+      "bytes": 1420,
+      "sha256": "aa58dcc12fb573ca0fdea49a3612a71dd103d5b88530a96b9a96c1b0ff4ac98b"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/runner.cjs": {
+      "bytes": 11072,
+      "sha256": "decad86170206e75e5f70836d3d6be6b79f03d3f73a9d288fad39302bbb1dbe3"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/driver.test.cjs": {
+      "bytes": 4739,
+      "sha256": "64fa74cf429f7e7f157d750a4e7fba7edffaae07456b7ece9cc698c321148f05"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/supervise.py": {
+      "bytes": 5763,
+      "sha256": "38e8e1065810664badb020527ded0931a06d2d97c2323b3920051d9472d2f11f"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/PRE_RETENTION_FIX.runner.cjs.txt": {
+      "bytes": 10328,
+      "sha256": "94b7a139b44c03d512f5e0a94e25d035850e47d295c847c6e48d6d4d8c5bb3df"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/adapter-review/linux-blue/remux-lifecycle-acquisition.cjs.txt": {
+      "bytes": 10269,
+      "sha256": "b40ccce063a49df64c7aaf4d65076677f09aff85e891e2c1b29ef9579344e348"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/adapter-review/tests/linux-remux-acquisition.test.cjs.txt": {
+      "bytes": 11930,
+      "sha256": "c6ffb33fed6aee266d2717b74278e0ab11dab9d0317f981f4bd521e459d22ed7"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/PLAN.md": {
+      "bytes": 5989,
+      "sha256": "82892b56aec4defa859f19cd5c3f5afec54fbca2570fef643eb692d37d6d316b"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/FINAL_SCOPE.md": {
+      "bytes": 1985,
+      "sha256": "1f199fb0bdc06072c671155dd5ec857d5fbceb986ecdcc58822fa3f40c9492b7"
+    },
+    "linux-blue/calibration/remux-matroska-lifecycle-093/README.md": {
+      "bytes": 2396,
+      "sha256": "b1de6294437ae5fdcaf57553603f12e39f7b235e2ea86d1a483eb7ab21b3a1ed"
+    }
+  },
+  "exactSourceOwnedEvidence": {
+    "linux-blue/evidence-2026-11-19/remux-matroska093-lifecycle-audit.json": {
+      "bytes": 5310,
+      "sha256": "d90a718c94e89e5294ac5f99e21795835fe12a1c01b45e26b477b3f5c8fd2fe0",
+      "ownership": "fixed source qualification input; no second writer copy"
+    }
+  },
+  "limits": [
+    "Private Remux cancellation near copy completion/child close, not mid-copy termination",
+    "Fresh provenance owner and injected reveal, not native GUI",
+    "Fixed internal Matroska envelope with per-output checks; no other route, portability or release qualification",
+    "Ubuntu hosted mismatch cause unproven; exact equality unchanged",
+    "No raw logs, binaries, media, private live bindings or launch releases retained"
+  ]
+}

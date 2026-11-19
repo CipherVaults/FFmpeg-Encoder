@@ -1,9 +1,9 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),fsp=require('node:fs/promises'),path=require('node:path'),os=require('node:os'),Module=require('node:module');
-function harness({holdOpen=false,failClose=false,genuineSelector=false}={}){
+function harness({holdOpen=false,failClose=false,genuineSelector=false,matroska=false}={}){
  const filename=require.resolve('../linux-blue/product-linux-unified-service.cjs');const m=new Module(filename,module);m.filename=filename;m.paths=Module._nodeModulePaths(path.dirname(filename));const original=m.require.bind(m);const generations=[];let releaseOpen,entered;const opened=new Promise(r=>entered=r);
  const open=async()=>{if(holdOpen&&generations.length){entered();await new Promise(r=>releaseOpen=r);}let phase=null;const gen={closed:false,run:async()=>{throw Error('No media execution in fixture');},observer:{observe:async()=>Object.freeze({}),close:async()=>{},snapshot:()=>({runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13'})},current:async()=>assert(!gen.closed),begin(route,kind,controller){assert(!phase);phase={route,kind,controller};},settle(){phase=null;},abort(){phase?.controller.abort();},assertCurrent(){assert(phase&&!phase.controller.signal.aborted);},get signal(){return phase.controller.signal;},snapshot(){return {closed:gen.closed,phase:phase?.kind||null,live:0};},close:async()=>{gen.closed=true;if(failClose)throw Error('close-failure');}};generations.push(gen);return gen;};
- const replacements={'./product-linux-qualification.cjs':{loadQualification:()=>genuineSelector?original('./product-linux-qualification.json'):({})},'./product-linux-remux-qualification.cjs':{loadRemuxQualification:()=>({policyIdentity:'fixture-internal',evidenceId:'fixture-audit'})},'./product-linux-service.cjs':{createProductSelector:()=>({invalidate(){},orientationQualification(){return {};},select(){throw Error('No measured authority from fixture');}})},'./product-linux-unified-runtime.cjs':{openUnifiedGeneration:open}};
+ const replacements={'./product-linux-qualification.cjs':{loadQualification:()=>genuineSelector?original('./product-linux-qualification.json'):({})},'./product-linux-remux-qualification.cjs':{loadRemuxQualification:()=>({policyIdentity:'fixture-internal',evidenceId:'fixture-audit',matroska:matroska?{evidenceId:'fixture-mkv'}:null})},'./product-linux-service.cjs':{createProductSelector:()=>({invalidate(){},orientationQualification(){return {};},select(){throw Error('No measured authority from fixture');}})},'./product-linux-unified-runtime.cjs':{openUnifiedGeneration:open}};
  if(genuineSelector)delete replacements['./product-linux-service.cjs'];
  m.require=id=>replacements[id]||original(id);m._compile(fs.readFileSync(filename,'utf8'),filename);return {...m.exports,generations,opened,release:()=>releaseOpen()};
 }
@@ -173,3 +173,15 @@ test('actual AAC Prepare and Start bind frozen per-entry controls without wideni
  await service.startBatch({planId:ready.planId,fileIds:[ready.items[0].id]});await began;assert.equal(service.executionBinding.entry,entry);release();await service.taskPromise;service.execute=originalExecute;
  await service.cancelCurrent();assert.equal(service.plan,null);
 });
+
+test('real target Prepare renews ownership and refuses stale MP4 Start after MKV selection',async t=>{
+ const {service,root,h}=await setup(t,{matroska:true});const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);
+ const probe=sourceProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach((s,i)=>s.id=String(i+1));const file=path.join(input,'source.mp4');await fsp.writeFile(file,require('./helpers/mov-fixture.cjs').playbackFixture(probe));probe.format.size=String((await fsp.stat(file)).size);
+ service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output'),folders={inputFolderId:i.id,outputFolderId:o.id};
+ assert.deepEqual(service.snapshot().remuxSupport.targets,['mp4','matroska']);
+ const first=await service.prepareRemuxBatch({...folders,target:'mp4'});assert.equal(first.items[0].status,'ready',first.items[0].reason);const priorGeneration=service.generation,priorPlan=service.plan;
+ const second=await service.prepareRemuxBatch({...folders,target:'matroska'});assert.equal(second.items[0].status,'ready',second.items[0].reason);assert(priorGeneration.closed);assert.notEqual(first.planId,second.planId);assert.notEqual(service.plan,priorPlan);
+ const current=service.snapshot();await assert.rejects(service.startBatch({planId:first.planId,fileIds:[first.items[0].id]}));assert.equal(service.snapshot().phase,current.phase);assert.equal(service.plan.id,second.planId);
+ await service.cancelCurrent();assert.equal(service.plan,null);const third=await service.prepareRemuxBatch({...folders,target:'matroska'});assert.equal(third.items[0].status,'ready',third.items[0].reason);assert.notEqual(third.planId,second.planId);assert(h.generations.length>=4);
+});
+test('unsupported target refuses before renewing ownership or changing pending plan',async t=>{const {service,h}=await setup(t);const count=h.generations.length;await assert.rejects(service.prepareRemuxBatch({inputFolderId:'x',outputFolderId:'y',target:'matroska'}),/reviewed current/);assert.equal(h.generations.length,count);});

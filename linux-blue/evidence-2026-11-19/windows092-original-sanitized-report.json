@@ -1,0 +1,71 @@
+{
+  "schema": "windows-packaged-two-file-cpu-integration/v2",
+  "head": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+  "runId": "44512382246",
+  "attempt": 1,
+  "state": "INTEGRATION_PASSED",
+  "picker": "substituted-dialog-return",
+  "gpu": "not-qualified",
+  "nativeDesktop": "not-qualified",
+  "distribution": "report-only",
+  "failure": null,
+  "fixtureGenerationCalls": 1,
+  "fixtureCopyCalls": 1,
+  "startClicks": 1,
+  "requestedEncodes": 2,
+  "extraDecodeCalls": 0,
+  "probeReadbackCalls": 2,
+  "collisionSkips": 2,
+  "close": "normal",
+  "sourceUnchanged": true,
+  "packageUnchanged": true,
+  "collisionRefused": true,
+  "collisionSnapshotVerified": true,
+  "outputs": [
+    {
+      "sha256": "c8d675c511fcabbc75f89e564bf411fa49887a2b3986dbbb4161798f04d5dab8",
+      "sizeBytes": 73562
+    },
+    {
+      "sha256": "1f109f3adfebb2a086b3c432cc6abbb3313812ead235148f9672ca4b04b21863",
+      "sizeBytes": 73562
+    }
+  ],
+  "fixtureCopies": "two-distinct-paths-identical-bytes",
+  "terminalTimer": {
+    "frozen": true,
+    "domMatchesSnapshot": true,
+    "reset": true,
+    "observedWaitMs": 2212,
+    "elapsedSeconds": 0.83
+  },
+  "processObservation": {
+    "kind": "sampled-not-exhaustive",
+    "samples": 9,
+    "observedDescendants": 12,
+    "observedStartupMedia": 0,
+    "observedLiveAfterClose": 0
+  },
+  "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+  "launchOwnership": "verified-shell-launcher-and-pinned-main",
+  "security": {
+    "packaged": true,
+    "sandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "build": {
+    "asar": {
+      "sha256": "ba30626c2fae3bf6e074c323c81e2e41aadb9d346c23972fc94cd24968a2aa5d",
+      "sizeBytes": 2454599
+    },
+    "executable": {
+      "sha256": "02943102b0003681827f5060b0798cf292f4674ccc4544709b565017ed582ccf",
+      "sizeBytes": 246302208
+    },
+    "zip": {
+      "sha256": "79a96f5c366f0277b0c83a2344d83ccc4f9832b54e06f9d639861a4404567cf2",
+      "sizeBytes": 326104068
+    }
+  }
+}

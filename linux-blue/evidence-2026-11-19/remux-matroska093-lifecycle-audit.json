@@ -1,0 +1,142 @@
+{
+  "status": "accepted-saved-private-lifecycle-evidence-not-product-activation",
+  "sourceCommit": "4b48fb6e8680e4d2bc7b5a014a2374c6f0f327ed",
+  "sourceFilesRehashed": 992,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeToolsAndDependenciesRehashed": 9,
+  "resultSha256": "abcf99565fbf39ef2c7e442197fd30212599408caaa2fd903700f73bdc552007",
+  "closureSha256": "300c3d410e8a5502890b59316119285c670106ded34c9c34ec34321364e81e5b",
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "publication": {
+    "count": 1,
+    "output": {
+      "bytes": 5574267,
+      "sha256": "1ce196bd288d4f86718090fd8be7dbc355974ea1082bb041a535e3b7ddd368b0"
+    },
+    "packetAndMetadataIdentityVerified": true,
+    "collectorInvocations": 12,
+    "collectorArtifactsRehashed": 19,
+    "comparisons": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 2,
+        "maxDtsError": {
+          "numerator": "1",
+          "denominator": "1500"
+        },
+        "packetPayloadBytes": "5375761",
+        "peakReorderRows": 17,
+        "sourceBFrames": 2,
+        "outputBFrames": 2
+      },
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-video"
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "1",
+          "denominator": "3000"
+        },
+        "packetPayloadBytes": "192889",
+        "peakReorderRows": 0,
+        "sourceBFrames": 0,
+        "outputBFrames": 0
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-audio",
+        "pcmWindows": {
+          "windowBytes": 1048576,
+          "comparedWindows": 3,
+          "firstMismatchByte": null
+        }
+      }
+    ],
+    "verificationClaim": {
+      "version": 1,
+      "method": "packet-identity-v1",
+      "statement": "Output packets identical to source; every header validated; start and end decoded.",
+      "interiorVideoDecoded": false,
+      "completeAudioDecoded": true
+    },
+    "provenanceChecksumVerified": true,
+    "containerOutputIdMatchesPublishedRecord": true,
+    "currentPublishedIdentityMatchesDevInodeSizeMtime": true,
+    "currentCtimeMatchesPublication": false,
+    "noClobber": "Existing output refused at preparation; saved assertion and current full hash equal original success bytes. No collision Start."
+  },
+  "freshOwnerRescan": {
+    "recognizedGenerated": true,
+    "localProvenanceNotCopied": true,
+    "newOutputCount": 0
+  },
+  "outputAccess": {
+    "grantIssued": true,
+    "revealDispatches": 1,
+    "backend": "injected callback, no native file-manager observation"
+  },
+  "cancellation": {
+    "requested": true,
+    "outcome": "cancelled",
+    "requestAtMs": 4168.008637,
+    "liveAtRequest": 1,
+    "activeObservedChildSequence": 21,
+    "activeChildSpawnAtMs": 4120.291322,
+    "activeChildCloseAtMs": 4182.981073,
+    "attribution": "Copy-process close overlap, not verification: actual remuxing progress callback is inside awaited FFmpeg copy call; REMUX_STARTED precedes request, no REMUX_CLOSED/collector follows, final owner uses inspection + pre-copy observation + copy (3 children). The final child closed naturally with code 0; progress already reported ended and 240 frames. This does NOT prove interruption mid-copy or killed-process behavior.",
+    "progressEndedAtSnapshot": true,
+    "publication": false,
+    "outputAccessIssued": false,
+    "temporaryRetained": true,
+    "temporaryBytes": 5574267,
+    "temporarySha256": "0d5767c4c7eb7102bb3374094b6d6fd90878c8bd70bbc7a919a25cc7d6666a8c",
+    "reason": "Incomplete output was never identity-bound; retained without publication authority."
+  },
+  "closure": {
+    "exitCode": 0,
+    "seconds": 5.021230061000097,
+    "forcedTermination": false,
+    "errors": [],
+    "children": {
+      "started": 21,
+      "closed": 21,
+      "live": 0,
+      "maxLive": 2
+    },
+    "supervisorSampledOnly": true,
+    "scope": "Observed runtime children and owned process group only, not global exhaustive descendants."
+  },
+  "limits": {
+    "overallOuterSeconds": 600,
+    "cancelAtSeconds": 540,
+    "childMs": 120000,
+    "maxRequestedChildren": 36,
+    "ownerRequestedChildren": 32,
+    "ownedBytes": 536870912,
+    "minimumFreeBytes": 28991029248
+  },
+  "limitations": [
+    "Private acquisition adapter explicitly uses ACQUISITION-NOT-ACCEPTED-QUALIFICATION, not an accepted shipped catalogue.",
+    "No product route, package, GUI, native reveal or general Matroska/MOV coverage established.",
+    "No new media process, probe, numerical comparison or decode was executed in this audit.",
+    "Video evidence validates complete compressed identity/headers and boundary decoding, not all interior pixels.",
+    "Complete audio comparison is saved collector evidence; no PCM rerun or timing waiver.",
+    "Cancellation happened at copy completion/close overlap; no mid-work termination claim."
+  ]
+}

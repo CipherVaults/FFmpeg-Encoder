@@ -55,11 +55,17 @@ function invocation(pins, executable, args, options, evidenceRoot) {
   return kind;
 }
 
+function remuxPolicies(q){
+  const base={inputFamily:'isobmff',runtimeIdentity:RUNTIME,allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'};
+  return [{...base,id:'internal-isobmff-mp4-081',target:'mp4',evidenceIds:[q.evidenceId]},...(q.matroska?[{...base,id:'internal-isobmff-matroska-093',target:'matroska',evidenceIds:[q.matroska.evidenceId]}]:[])];
+}
+function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV additionally requires CFR30 and reviewed current target evidence. No automatic conversion; native evidence is artifact-specific.'};}
 function admit(assessment,input) {
   const p=getRemuxAssessmentSource(assessment), v=p.streams.filter(s=>s.codec_type==='video'), a=p.streams.filter(s=>s.codec_type==='audio');
-  assert(assessment.inputFamily==='isobmff' && assessment.target==='mp4' && path.extname(input).toLowerCase()==='.mp4');
+  assert(assessment.inputFamily==='isobmff' && ['mp4','matroska'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');
+  if(assessment.target==='matroska')assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','Matroska copy requires CFR30 source metadata');
   assert(v[0].width<=1920 && v[0].height<=1080 && v[0].width>0 && v[0].height>0);
   assert(a[0].codec_name==='aac' && a[0].profile==='LC' && a[0].sample_fmt==='fltp' && a[0].sample_rate==='48000' && a[0].channels===2 && a[0].channel_layout==='stereo');
   assert(Number(p.format.duration)>0 && Number(p.format.duration)<=60 && Number(p.format.size)>0 && Number(p.format.size)<=128*1024*1024);
@@ -91,7 +97,7 @@ class ProductRemuxService extends EncoderService {
       notices: ['Internal MP4 stream-copy candidate only. Encoder/GPU discovery is not run. Native packaged acceptance remains separate.'] } };
   }
   async prepareSourceBatch(request, operation, native = null) {
-    assert(operation === 'remux' && request.target === 'mp4' && native === null);
+    assert(operation === 'remux' && this.state.remuxSupport?.targets.includes(request.target) && native === null);
     this.requireIdle(); assert(!this.remuxPreparing); this.remuxPreparing = true;
     try { return await super.prepareSourceBatch(request, operation, native); }
     finally { try { this.settleRemuxPhase(); } finally { this.remuxPreparing = false; } }
@@ -139,9 +145,9 @@ async function createLinuxRemuxService({verifiedRuntime,stateDir,outputAccess,on
   observer=new OperationRuntimeObserver({runtime:Object.fromEntries(Object.entries(candidate.pins).map(([k,p])=>[k,p.path])),pins:Object.fromEntries(Object.entries(candidate.pins).map(([k,p])=>[k,{sizeBytes:p.size,sha256:p.sha256}])),run});
   service=new ProductRemuxService({ffmpeg:candidate.pins.ffmpeg.path,ffprobe:candidate.pins.ffprobe.path,stateDir,outputAccess,run,inspectionWorkers:1,runtimeIdentity:RUNTIME,operationRuntime:observer,
     operationEvidenceBudget:EVIDENCE_BUDGET,operationDeadlineMs:EXECUTION_BUDGET_MS,operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')}),
-    remuxOperations:new ProductRemuxOperations({runtimeIdentity:RUNTIME,policyIdentity:qualification.policyIdentity,policies:[{id:'internal-isobmff-mp4-081',inputFamily:'isobmff',target:'mp4',runtimeIdentity:RUNTIME,evidenceIds:[qualification.evidenceId],allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'}]})});
+    remuxOperations:new ProductRemuxOperations({runtimeIdentity:RUNTIME,policyIdentity:qualification.policyIdentity,policies:remuxPolicies(qualification)})});
   service.remuxRequireCurrent = () => candidate.requireCurrent();
-  service.state.remuxSupport = { targets: ['mp4'], notice: 'Internal MP4-to-MP4 full stream copy only: H264 SDR and stereo 48 kHz AAC-LC; one file. Other sources are refused.' };
+  service.state.remuxSupport = remuxSupport(qualification);
   const closeResources = service.closeOperationResources.bind(service);
   let closePromise;
   service.closeOperationResources = () => closePromise ||= (async () => {
@@ -164,4 +170,4 @@ async function createLinuxRemuxService({verifiedRuntime,stateDir,outputAccess,on
     throw primary;
   }
 }
-module.exports={createLinuxRemuxService,admit,invocation};
+module.exports={createLinuxRemuxService,admit,invocation,remuxPolicies,remuxSupport};

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "scope": "internal-mp4-matroska-not-release",
+  "status": "accepted-private-lifecycle",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "target": "matroska",
+  "evidenceId": "saved-matroska093-media-and-lifecycle",
+  "mediaAudits": [
+    {
+      "file": "evidence-2026-11-19/remux-matroska092-cell8-audit.json",
+      "bytes": 14656,
+      "sha256": "8bc7103c3719ec05330c3b4382c6c0eff256439a9d2ba52ababc9ce22feb5817"
+    },
+    {
+      "file": "evidence-2026-11-19/remux-matroska092-cell31-audit.json",
+      "bytes": 12395,
+      "sha256": "588571024153da3ef42da682b66f0cbfce98915912efe5bdaa5e676c5cd5e7d0"
+    }
+  ],
+  "lifecycleAudit": {
+    "file": "evidence-2026-11-19/remux-matroska093-lifecycle-audit.json",
+    "bytes": 5310,
+    "sha256": "d90a718c94e89e5294ac5f99e21795835fe12a1c01b45e26b477b3f5c8fd2fe0"
+  },
+  "limits": [
+    "MP4 H264 SDR progressive yuv420p CFR30 plus stereo48k AAC-LC; Full copy; one input; <=1080p, <=60s and <=128MiB.",
+    "Two acquired media cells8s and31s; broader finite envelope relies on shared mechanism and per-output strict validation, not exhaustive combinations.",
+    "No fixture identity admission, no21ms waiver, no other targets or native/release acceptance.",
+    "Cancellation request overlapped awaited copy child closure after progress reached240frames; child exited0. Completion/close-overlap cancellation only, not mid-copy interruption."
+  ]
+}

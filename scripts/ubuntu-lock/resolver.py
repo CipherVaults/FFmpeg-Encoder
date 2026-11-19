@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='13cacc98b1aa3d40c8381a485aef10983009f4a2'
+PARENT='9b334a8c2f7984b9205eb67b962b740b5d87ed27'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -18,10 +18,19 @@ def authority(env,event):
 def paragraphs(text):
  rows=[]
  for block in text.split('\n\n'):
-  row={};key=None
+  row={};key=None;seen=set()
   for line in block.splitlines():
-   if line.startswith((' ','\t')) and key:row[key]+='\n'+line
-   elif ': ' in line:key,value=line.split(': ',1);assert key not in row;row[key]=value
+   if not line:
+    if row:rows.append(row)
+    row={};key=None;seen=set();continue
+   if line.startswith((' ','\t')):
+    assert key is not None,'ORPHAN_CONTINUATION'
+    row[key]+='\n'+line
+   else:
+    key,separator,value=line.partition(':')
+    assert separator and re.fullmatch(r'[!-9;-~]+',key) and not key.startswith(('#','-')),'CONTROL_HEADER'
+    assert key.lower() not in seen,'DUPLICATE_FIELD'
+    seen.add(key.lower());row[key]=value.lstrip(' \t')
   if row:rows.append(row)
  return rows
 

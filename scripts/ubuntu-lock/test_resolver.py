@@ -278,5 +278,32 @@ class VersionMismatchDiagnostics(unittest.TestCase):
   with self.assertRaisesRegex(AssertionError,'BASELINE_SET_MISMATCH'):m.compare_baseline(query,installed,result)
   sample=result['baselineVersionMismatchSample'];self.assertEqual(len(sample['rows']),8);self.assertTrue(sample['truncated']);self.assertEqual(sample['rows'][0]['package'],'pkg00');self.assertEqual(result['baselineDifferences']['versionMismatch'],12)
 
+class ControlHeaders(unittest.TestCase):
+ def test_empty_multiline_header_does_not_contaminate_version(self):
+  row=m.paragraphs('Package: fixture\nVersion: 1.0\nConffiles:\n /etc/fixture.conf abc123\nStatus: install ok installed')[0]
+  self.assertEqual(row['Version'],'1.0');self.assertEqual(row['Conffiles'],'\n /etc/fixture.conf abc123')
+ def test_no_space_and_tab_header_values(self):
+  self.assertEqual(m.paragraphs('Package:fixture\nVersion:\t1.0')[0],{'Package':'fixture','Version':'1.0'})
+ def test_continuation_stays_with_current_header(self):
+  self.assertEqual(m.paragraphs('Description: text\n first\n\tsecond')[0]['Description'],'text\n first\n\tsecond')
+ def test_duplicate_empty_header_refused(self):
+  for value in ['Conffiles:\nConffiles: x','Version:1\nversion:2']:
+   with self.assertRaises(AssertionError):m.paragraphs(value)
+ def test_orphan_and_malformed_refused(self):
+  for value in [' orphan','Version: 1\nbad header\n continuation','Bad Field: x',': x','#Comment: x']:
+   with self.assertRaises(AssertionError):m.paragraphs(value)
+ def test_paragraph_boundary_resets_continuation_owner(self):
+  self.assertEqual(len(m.paragraphs('Package:a\n\nPackage:b')),2)
+  with self.assertRaises(AssertionError):m.paragraphs('Package:a\n\n orphan')
+
+class EmptySeparators(unittest.TestCase):
+ def test_repeated_leading_trailing_empty_lines(self):
+  expected=[{'Package':'a','Version':'1'},{'Package':'b','Version':'2'}]
+  for gap in [2,3,4,5,6]:
+   text='\n'*gap+'Package:a\nVersion:1'+'\n'*gap+'Package:b\nVersion:2'+'\n'*gap
+   self.assertEqual(m.paragraphs(text),expected)
+ def test_blank_does_not_preserve_continuation_owner(self):
+  with self.assertRaises(AssertionError):m.paragraphs('Package:a\n\n\n orphan')
+
 if __name__=='__main__':unittest.main()
 

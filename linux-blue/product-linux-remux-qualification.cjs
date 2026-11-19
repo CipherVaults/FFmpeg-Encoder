@@ -20,12 +20,20 @@ function boundedRead(relative, bytes, sha256) {
     return JSON.parse(data.subarray(0, read).toString());
   } finally { fs.closeSync(fd); }
 }
+function deepFreeze(value){if(value&&typeof value==='object'){for(const v of Object.values(value))deepFreeze(v);Object.freeze(value);}return value;}
 function loadRemuxQualification() {
   verifyProductSources();
   const value = boundedRead('product-linux-remux-qualification.json', 1013, '5a5080a0daf74d3c071c0739a32ada9901fb21ba94d8b9e10c1aceea4624b99c');
   const audit = boundedRead(value.audit.file, value.audit.bytes, value.audit.sha256);
   assert.equal(audit.status, 'accepted-saved-private-remux-lifecycle-only');
   assert.equal(audit.runtimeIdentity, value.runtimeIdentity);
-  return Object.freeze(value);
+  const mkv=boundedRead('product-linux-matroska-qualification.json', 1462, '60642352bf753dec88de9d94d45a4f79536bc7236d212b65a564c2e132ddc449');
+  assert.equal(mkv.runtimeIdentity,value.runtimeIdentity);assert.equal(mkv.target,'matroska');assert.equal(mkv.scope,'internal-mp4-matroska-not-release');
+  assert.equal(mkv.mediaAudits.length,2);for(const [i,ref] of mkv.mediaAudits.entries()){const cell=boundedRead(ref.file,ref.bytes,ref.sha256);assert.equal(cell.runtimeIdentity,value.runtimeIdentity);assert.equal(cell.status,i===0?'accepted-saved-private-MP4-to-Matroska-media-proof-only':'accepted-saved-private-MP4-to-Matroska-second-media-proof-only');}
+  if(mkv.status==='pending-lifecycle-audit'){assert.equal(mkv.lifecycleAudit,null);return deepFreeze({...value,matroska:null});}
+  assert.equal(mkv.status,'accepted-private-lifecycle');assert(mkv.lifecycleAudit);
+  const lifecycle=boundedRead(mkv.lifecycleAudit.file,mkv.lifecycleAudit.bytes,mkv.lifecycleAudit.sha256);
+  assert.equal(lifecycle.runtimeIdentity,value.runtimeIdentity);assert.equal(lifecycle.status,'accepted-saved-private-lifecycle-evidence-not-product-activation');
+  return deepFreeze({...value,matroska:mkv});
 }
 module.exports = { loadRemuxQualification };

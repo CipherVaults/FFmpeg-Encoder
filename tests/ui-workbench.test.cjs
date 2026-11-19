@@ -1596,3 +1596,8 @@ test('source summary stays explicit for resize or warnings and empty metadata st
  await row.querySelector('[data-testid="inspect-file"]').click();assert.equal(h.byId('focused-file-summary').textContent,'Output saved. AAC padding warning.');
  h.update({...completedSnapshot([completedItem({summary:{},reason:''})]),revision:99});summary=h.byId('focused-file-details-slot').querySelector('[data-testid="source-media-summary"]');assert.equal(summary.textContent,'');assert.equal(summary.hidden,true);
 });
+
+test('reviewed Matroska capability enables existing MKV control without changing saved selection',async()=>{
+ const h=await remuxHarness();await h.byId('tab-remux').click();h.update(h.snapshot({remuxSupport:{targets:['mp4'],notice:'MP4 only.'}}));assert.equal(h.byId('remux-target').value,'matroska');assert.equal(h.byId('prepare-remux').disabled,true);
+ h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska'],notice:'Internal MP4 source Full copy; MKV requires CFR30.'}}));assert.equal(h.byId('remux-target').value,'matroska');assert.equal(h.byId('prepare-remux').disabled,false);assert.match(h.byId('remux-support-notice').textContent,/CFR30/);assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,true);
+});

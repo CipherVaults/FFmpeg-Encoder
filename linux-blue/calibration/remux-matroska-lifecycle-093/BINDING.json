@@ -1,0 +1,19 @@
+{
+  "scope": "current092-private-matroska-lifecycle093",
+  "status": "UNBOUND_NOT_RELEASED",
+  "sourceRoot": null,
+  "sourceCommit": "4b48fb6e8680e4d2bc7b5a014a2374c6f0f327ed",
+  "sourceFiles": {},
+  "helpers": {},
+  "fixture": null,
+  "runtimeManifest": null,
+  "limits": {
+    "overallOuterSeconds": 600,
+    "cancelAtSeconds": 540,
+    "childMs": 120000,
+    "maxRequestedChildren": 36,
+    "ownerRequestedChildren": 32,
+    "ownedBytes": 536870912,
+    "minimumFreeBytes": 28991029248
+  }
+}

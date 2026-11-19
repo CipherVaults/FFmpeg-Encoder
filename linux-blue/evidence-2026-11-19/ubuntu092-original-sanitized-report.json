@@ -1,0 +1,37 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "9b334a8c2f7984b9205eb67b962b740b5d87ed27",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "diagnosticStage": "BASELINE_COMPARE",
+  "completedDiagnosticStages": [
+    "BASELINE_COPY",
+    "CONFIGURE_ISOLATION",
+    "BASELINE_PARSE",
+    "BASELINE_VALIDATE",
+    "BASELINE_QUERY"
+  ],
+  "baselineDifferences": {
+    "missingFromQuery": 0,
+    "extraInQuery": 0,
+    "versionMismatch": 2,
+    "architectureMismatch": 0
+  },
+  "baselineVersionMismatchSample": {
+    "limit": 8,
+    "rows": [
+      {
+        "omitted": "UNSAFE_OR_OVERLONG_TOKEN"
+      },
+      {
+        "omitted": "UNSAFE_OR_OVERLONG_TOKEN"
+      }
+    ],
+    "truncated": false,
+    "semantics": "diagnostic-only-exact-equality-still-required"
+  },
+  "status": "blocked",
+  "failureType": "AssertionError",
+  "failureReason": "BASELINE_SET_MISMATCH"
+}

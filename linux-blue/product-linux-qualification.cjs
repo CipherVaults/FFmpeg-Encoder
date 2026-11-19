@@ -525,16 +525,16 @@ const SOURCE_PINS = {
     "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
   },
   "linux-blue/product-linux-remux-service.cjs": {
-    "bytes": 12713,
-    "sha256": "b1796ff9d6cc429532079a6b1a4186c6080ca1a9c7bb17f65dad35792e9a1408"
+    "bytes": 13326,
+    "sha256": "28317fd89d5cfa379542d6c99bc51dcf736a521837356533796a392ad780ab0a"
   },
   "linux-blue/product-linux-remux-shell.cjs": {
     "bytes": 4810,
     "sha256": "f30066db5bb6f223797e0a6b3afcd659a0157bca3ff68f54655a73ee4bab18f3"
   },
   "linux-blue/product-linux-remux-qualification.cjs": {
-    "bytes": 1915,
-    "sha256": "25b7638dcad0f1d4bdf984359a809bc402da1dbc7ad4f43c4ca59281c03e3460"
+    "bytes": 3218,
+    "sha256": "191832bda028da7c1bfa93eb9f7c4b2c39fc0d2ae6b00e51d14aea2a7638a0fa"
   },
   "linux-blue/product-linux-remux-qualification.json": {
     "bytes": 1013,
@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "aac599d13d18be757cb83874122c5fb3847060337aeb94116946667d1d25b961"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 19075,
-    "sha256": "a94faeed461da4333936ef9d80104d2f06a2fa6b3a2ccd6a3851ff78df124416"
+    "bytes": 18885,
+    "sha256": "e2ce71e2a9525c59b7f2741539a54ee92c3a41ce27533dc68b2a56e219f98180"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
@@ -571,6 +571,22 @@ const SOURCE_PINS = {
   "linux-blue/aac-range-qualification.json": {
     "bytes": 24514,
     "sha256": "aa127a854c3faff7d928905da4ad605630154a5f8e96a845873f79ade7f27517"
+  },
+  "linux-blue/evidence-2026-11-19/remux-matroska092-cell31-audit.json": {
+    "bytes": 12395,
+    "sha256": "588571024153da3ef42da682b66f0cbfce98915912efe5bdaa5e676c5cd5e7d0"
+  },
+  "linux-blue/evidence-2026-11-19/remux-matroska092-cell8-audit.json": {
+    "bytes": 14656,
+    "sha256": "8bc7103c3719ec05330c3b4382c6c0eff256439a9d2ba52ababc9ce22feb5817"
+  },
+  "linux-blue/evidence-2026-11-19/remux-matroska093-lifecycle-audit.json": {
+    "bytes": 5310,
+    "sha256": "d90a718c94e89e5294ac5f99e21795835fe12a1c01b45e26b477b3f5c8fd2fe0"
+  },
+  "linux-blue/product-linux-matroska-qualification.json": {
+    "bytes": 1462,
+    "sha256": "60642352bf753dec88de9d94d45a4f79536bc7236d212b65a564c2e132ddc449"
   }
 };
 const CLOSED_RECORD = {

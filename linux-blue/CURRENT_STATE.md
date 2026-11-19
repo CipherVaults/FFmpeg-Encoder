@@ -1,10 +1,11 @@
-# Current State — 082 internal remux product composition
+# Current State — 083 unified internal application
 
-Evidence cutoff 2026-11-19T03:31:33.883118+00:00. Reviewed source/PBS integrated; commit/preservation and new candidate build/native test pending.
+Evidence cutoff 2026-11-19T04:04:15.997412+00:00. Reviewed source and documentation are ready; commit, full preservation and new package/native journey remain pending.
 
-- 081 fully preserved:862files/81commits/full readable history; remote f27b239b. Shared bothOS217syntax/316shared including73renderer plus40Linux passed. No new packaged Windows run listed, not a verified skip.
-- Accepted private081 remux lifecycle: strict MP4 publication, packet/audio identity, collision/rescan refusal and cancellation before publication. Injected reveal, one short1080H264/AAC fixture, sampled21closed/peak2; no native desktop/general-container claim.
-- 082 adds explicit opt-in internal Linux remux service/shell/qualification and package closure. One bounded MP4 source, shared preservation validators retained; production Windows/ordinary defaults and renderer implementation unchanged. Unified operation router remains pending.
-- Async phase TOCTOU corrected and independently reviewed: post-await phase/deadline re-admission and phase-linked cancellation; six regression cases. Final103focused/220syntax/317shared including74renderer/40Linux pass.134sourcepins/249inputs/161sourcepackage rows/151app inputs verified, no actual new package build.
-- Six Ubuntu references are inert docs only, not installed tools/workflows/package inputs. Exact acquired source hashes retained; Ubuntu toolchain/build/runtime and distribution closure remain separate.
-- Next: reviewed commit and full Git→Notion→GitHub, exact inert package build and separately authorized real internal remux native journey, then unified routing and remaining release gates. Owner Windows desktop/RTX qualification remains separate. v0.8themes/languages/guide/onboarding, HDRv0.9, no scope diversion now.
+- 082 preservation complete: 881 files, 82 commits and all complete native history entries verified; remote 14c958333c26af69ac59d0856a89ab0ca685120e. Shared CI passed 220 syntax/317 shared tests both OS plus 40 Linux tests. No packaged Windows run listed.
+- Exact native 082 MP4 remux accepted: one source, one Start/publication, strict packet/PCM proof, actual Thunar reveal, visible 00:02 frozen afterward. Batch 2.019 seconds differs from session 173.708 seconds. Normal close, sampled ownership only; no new cancellation/collision/general-media claim.
+- Original ctime mismatch retained with separate source-backed owned hard-link cleanup explanation. OutputAccess uses strict post-cleanup identity; no syscall-trace or blanket mutation-proof claim.
+- 083 integrates one persistent internal service/output owner with fresh runtime generations and explicit ordinary/measured/remux routes. Corrected mutation/cancellation ordering and renderer controls reviewed; production defaults and Windows behavior not promoted.
+- Final tests: 29 focused, 223 syntax, 320 shared including 77 renderer, 40 Linux and 16 Ubuntu inventory inert tests. Closure: 137 source pins, 252 package inputs, 154 application rows, 164 source rows. No new package/native execution yet.
+- Optional one-shot Ubuntu inventory is not a build or portability acceptance. Native 083 recovery references are inert/unbound. Next actual acceptance is ordinary → measured → remux in one app; native cancellation remains separate.
+- Next: explicit commit and Git → Notion → GitHub, exact inert package audit, independently bound native journey, then remaining release/portability/notices and owner Windows desktop/RTX gates. v0.8 themes/languages/guide/onboarding remain future; HDR v0.9.

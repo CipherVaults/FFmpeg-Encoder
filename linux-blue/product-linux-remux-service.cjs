@@ -164,4 +164,4 @@ async function createLinuxRemuxService({verifiedRuntime,stateDir,outputAccess,on
     throw primary;
   }
 }
-module.exports={createLinuxRemuxService,admit};
+module.exports={createLinuxRemuxService,admit,invocation};

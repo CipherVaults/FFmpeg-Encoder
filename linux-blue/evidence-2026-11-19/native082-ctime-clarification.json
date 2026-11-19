@@ -1,0 +1,44 @@
+{
+  "scope": "native082-publication-ctime-clarification",
+  "originalAudit": {
+    "bytes": 5209,
+    "sha256": "5508635859aa6733eac99b5c39b0d91a7f7e6d3228305aa97955e131abf0b476"
+  },
+  "mismatchPreserved": true,
+  "observed": {
+    "collectorStageInode": "1978412",
+    "publishedInode": "1978412",
+    "currentInode": "1978412",
+    "collectorStageCtimeNs": "1795059725176940426",
+    "provenancePreCleanupCtimeNs": "1795059726824984756",
+    "currentCtimeNs": "1795059726839249943",
+    "stagingPathNoLongerExists": true,
+    "currentFullFileSha256": "ca998026663eb14cbd12a838af2e3a6a16a95286a658c5915d6c7cb894ee9332"
+  },
+  "sourceBackedLifecycle": [
+    "publishOutput creates exclusive hard link then records publication identity. Collector stage, publication and current output share device/inode, supporting the hard-link route rather than copy fallback.",
+    "EncoderService records provenance from readPublishedOutputIdentity before cleanupStage. cleanupStage removes the owned staging link and records ownedPublicationLinkRemoved.",
+    "readPublishedOutputIdentity(afterCleanup:true) permits exactly one ctime transition only for confirmed owned hard-link removal; all other sameIdentity fields including sparse digest remain required. It caches the resulting post-cleanup identity.",
+    "EncoderService issues OutputAccess from that post-cleanup identity, not from earlier provenance. OutputAccess subsequently enforces strict sameStamp/sameIdentity including ctime and birthtime. It does NOT generally ignore ctime."
+  ],
+  "interpretation": "The retained pre-cleanup provenance ctime and current post-cleanup ctime differ consistently with the explicitly implemented owned hard-link cleanup transition. Successful output-action dispatch supports post-cleanup identity acceptance at reveal time. No chmod is needed to explain this. The exact syscall transition was not separately traced; mismatch is not silently waived or treated as proof against every possible external mutation. Current full-file hash matches collector seal.",
+  "sourceReferences": {
+    "src/encoder-service.cjs": {
+      "bytes": 160678,
+      "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+    },
+    "src/outputs.cjs": {
+      "bytes": 22987,
+      "sha256": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96"
+    },
+    "src/output-access.cjs": {
+      "bytes": 12629,
+      "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
+    },
+    "src/source-identity.cjs": {
+      "bytes": 9080,
+      "sha256": "fe6f73342936aa70ed6bbda98348da6fb892d05ddb566ee6d1664ba3f38e42bd"
+    }
+  },
+  "noMutationOrMediaExecution": true
+}

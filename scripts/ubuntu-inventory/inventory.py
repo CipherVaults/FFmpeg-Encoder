@@ -1,0 +1,115 @@
+"""Inventory-only Ubuntu proposal. No installation, build or downloaded code execution."""
+import hashlib,json,os,pathlib,platform,re,subprocess,sys,time,urllib.request,lzma,tempfile
+ROOT=pathlib.Path(__file__).resolve().parent
+PARENT='14c958333c26af69ac59d0856a89ab0ca685120e'
+PACKAGES=['gcc','g++','binutils','libc6-dev','linux-libc-dev','make','pkgconf','cmake','meson','ninja-build','nasm']
+TOOLS=['gcc','g++','ld','ar','make','pkg-config','cmake','meson','ninja','nasm']
+START=time.monotonic()
+def run(args):
+ assert time.monotonic()-START<240
+ p=subprocess.run(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=20,check=False,env={'PATH':'/usr/bin:/bin','LC_ALL':'C'})
+ assert len(p.stdout)<=2*1024*1024 and len(p.stderr)<=128*1024
+ return p
+
+def authority():
+ assert re.fullmatch('[a-f0-9]{40}',PARENT),'UNBOUND'
+ assert os.environ.get('GITHUB_REPOSITORY')=='CipherVaults/FFmpeg-Encoder-Blue-Linux'
+ assert os.environ.get('GITHUB_REF')=='refs/heads/blue/linux-development' and os.environ.get('GITHUB_RUN_ATTEMPT')=='1'
+ assert os.environ.get('GITHUB_EVENT_NAME')=='push'
+ p=pathlib.Path(os.environ['GITHUB_EVENT_PATH']);assert p.stat().st_size<1024*1024;e=json.loads(p.read_text())
+ assert e['before']==PARENT and e['after']==os.environ['GITHUB_SHA'] and not any(e.get(k)for k in ['forced','created','deleted'])
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+ def redirect_request(self,req,fp,code,msg,headers,newurl):
+  # Refuse before urllib constructs or opens any redirected request.
+  # Even another official destination requires separate review.
+  raise AssertionError('Redirect requires separate review')
+
+def fetch(url,cap):
+ assert url.startswith(('https://archive.ubuntu.com/ubuntu/','https://security.ubuntu.com/ubuntu/'))
+ with urllib.request.build_opener(NoRedirect()).open(url,timeout=20)as response:
+  assert response.url==url,'Redirect requires separate review'
+  b=response.read(cap+1);assert len(b)<=cap
+ return b
+
+def paragraphs(text):
+ for block in text.split('\n\n'):
+  row={}
+  for line in block.splitlines():
+   if line and not line.startswith(' ')and ': 'in line:
+    k,v=line.split(': ',1);row[k]=v
+  yield row
+
+def authenticate(rows):
+ keyring=pathlib.Path('/usr/share/keyrings/ubuntu-archive-keyring.gpg');assert keyring.is_file()
+ pending={(r['name'],r['version'],r['architecture']):r for r in rows if r['state']=='installed-unverified'}
+ receipts=[];total=0
+ with tempfile.TemporaryDirectory(prefix='ubuntu-inventory-')as tmp:
+  home=pathlib.Path(tmp);home.chmod(0o700)
+  for suite,host in [('noble','archive.ubuntu.com'),('noble-updates','archive.ubuntu.com'),('noble-security','security.ubuntu.com')]:
+   release=fetch(f'https://{host}/ubuntu/dists/{suite}/InRelease',1024*1024)
+   pin=home/'InRelease';pin.write_bytes(release)
+   verification=run(['/usr/bin/gpgv','--keyring',str(keyring),str(pin)])
+   assert verification.returncode==0,'Official signature verification failed'
+   text=release.decode();assert f'Codename: noble' in text
+   # Preserve signature receipt without publishing key-user IDs or arbitrary logs.
+   receipts.append({'suite':suite,'inReleaseSha256':hashlib.sha256(release).hexdigest(),'signatureVerified':True})
+   checks={};active=False
+   for line in text.splitlines():
+    if line=='SHA256:':active=True;continue
+    if active and not line.startswith(' '):break
+    if active:
+     digest,size,name=line.split();checks[name]=(digest,int(size))
+   for component in ['main','universe']:
+    name=f'{component}/binary-amd64/Packages.xz';assert name in checks
+    sha,size=checks[name];assert size<=64*1024*1024
+    data=fetch(f'https://{host}/ubuntu/dists/{suite}/{name}',size);total+=len(data);assert total<=192*1024*1024
+    assert len(data)==size and hashlib.sha256(data).hexdigest()==sha
+    decoder=lzma.LZMADecompressor();decoded=decoder.decompress(data,max_length=256*1024*1024);assert decoder.eof,'Index expansion exceeds bound'
+    for row in paragraphs(decoded.decode()):
+     key=(row.get('Package'),row.get('Version'),row.get('Architecture'))
+     if key not in pending:continue
+     target=pending[key];digest=row.get('SHA256','');filename=row.get('Filename','');assert re.fullmatch('[a-f0-9]{64}',digest)and filename.startswith('pool/')and '..'not in filename.split('/')
+     target.update(state='exact-version-in-signed-official-index',archiveSha256=digest,archiveBytes=int(row['Size']),archiveFilename=filename,suite=suite,indexSha256=sha)
+   if all(r['state']!='installed-unverified'for r in rows):break
+ return receipts
+
+def installed_row(name,p):
+ fields=p.stdout.decode().strip().split('\t')
+ if p.returncode or len(fields)!=4 or fields[3]!='install ok installed':return {'name':name,'state':'missing-or-not-installed'}
+ package,version,arch,_status=fields
+ assert re.fullmatch('[a-z0-9+.-]+',package) and re.fullmatch('[A-Za-z0-9.+:~_-]+',version) and arch in ['amd64','all']
+ return {'name':package,'version':version,'architecture':arch,'state':'installed-unverified'}
+
+def main():
+ assert sys.argv[1:]==['--inventory-reviewed-once'];authority()
+ assert platform.machine()=='x86_64'
+ osrelease=dict(line.split('=',1)for line in pathlib.Path('/etc/os-release').read_text().splitlines()if '='in line)
+ assert osrelease['ID'].strip('"')=='ubuntu' and osrelease['VERSION_ID'].strip('"')=='24.04'
+ result={'scope':'ubuntu24.04-inventory-only','status':'inventory-incomplete','packages':[],'tools':[],'authentication':'not-established','execution':'no install/build/media'}
+ for name in PACKAGES:
+  p=run(['dpkg-query','-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n',name])
+  result['packages'].append(installed_row(name,p))
+ for name in TOOLS:
+  p=pathlib.Path('/usr/bin')/name
+  if not p.exists():result['tools'].append({'name':name,'state':'missing'});continue
+  target=p.resolve();assert str(target).startswith('/usr/')and target.is_file()and target.stat().st_size<=64*1024*1024
+  row={'name':name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'bytes':target.stat().st_size}
+  # Actual executable file identity, not trusting version banner alone.
+  if target.read_bytes()[:4]==b'\x7fELF':
+   elf=run(['/usr/bin/readelf','-h',str(target)]);assert elf.returncode==0;row['elfHeaderSha256']=hashlib.sha256(elf.stdout).hexdigest();row['elf']=True
+  else:row['elf']=False
+  result['tools'].append(row)
+ for key in ['ImageOS','ImageVersion']:
+  value=os.environ.get(key,'');assert len(value)<128 and re.fullmatch('[A-Za-z0-9._-]*',value);result[key]=value
+ try:
+  result['signedMetadata']=authenticate(result['packages'])
+  result['authentication']='exact-version-correspondence-only-not-installed-file-integrity'
+  result['status']='inventory-mapped'if all(r['state']=='exact-version-in-signed-official-index'for r in result['packages'])else 'unresolved-installed-version-or-missing-package'
+ except Exception as error:
+  result['blocker']='SIGNED_METADATA_UNRESOLVED';result['failureType']=type(error).__name__
+ result['dependencyClosureComplete']=False
+ result['limits']=['Initial named build tools only; transitive installed dependency closure requires follow-on before build approval.','Current official indexes may omit old hosted versions; report unresolved, never substitute candidate version.','No deb download or installed binary reproduction verified.']
+ with (ROOT/'inventory-report.json').open('x')as f:json.dump(result,f,indent=2);f.write('\n')
+ raise SystemExit(0 if result['status']=='inventory-mapped' else 2)
+if __name__=='__main__':main()

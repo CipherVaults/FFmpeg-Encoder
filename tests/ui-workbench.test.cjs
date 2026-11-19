@@ -1067,7 +1067,7 @@ async function remuxHarness({ unavailableEncoder = false, generated = false, nar
   let revision = 1, draftRevision = 0, planId = 'remux-plan-1', draftId = 'remux-draft-1', target = 'matroska';
   let phase = 'ready', decisions = ['decision-other'], sourceAuthorized = false;
   const snapshot = (changes = {}) => ({ revision: ++revision, phase, operation: 'remux', batchId: 'remux-batch', planId,
-    counts: {}, settings: null, remuxSupport: { notice: 'Exact family qualification only; other inputs remain refused.', targets: ['matroska'] },
+    counts: {}, settings: null, remuxSupport: { notice: 'Exact family qualification only; other inputs remain refused.', targets: ['matroska', 'mp4', 'mov'] },
     operationDraft: { id: draftId, revision: draftRevision, operation: 'remux', frozen: phase === 'running',
       batchDefaults: { values: { remuxTarget: target } }, files: ['remux-a', 'remux-b'].map(fileId => ({ fileId,
         request: { operation: 'remux', target, range: null, resolution: 'source', audioPolicy: 'copy' } })) },
@@ -1438,4 +1438,63 @@ test('internal remux-only projection initializes real renderer without encoder a
   assert.equal(h.byId('prepare-remux').disabled,false);await h.byId('prepare-remux').click();
   assert.deepEqual(h.calls.find(call=>call.name==='prepareRemuxBatch').args,[{inputFolderId:'input-token',outputFolderId:'output-token',target:'mp4'}]);
   assert.equal(h.calls.some(call=>call.name==='prepareBatch'),false);
+});
+
+test('main target projection preserves saved unavailable choice and explicit selection without writes', async () => {
+  const h = await remuxHarness();
+  await h.byId('tab-settings').click();
+  await h.byId('tab-remux').click();
+  const update = targets => h.update(h.snapshot({ remuxSupport: { targets, notice: 'MP4 only.' } }));
+  update(['mp4']);
+  assert.equal(h.byId('remux-target').value, 'matroska');
+  assert.equal(h.byId('prepare-remux').disabled, true);
+  assert.match(h.byId('remux-target-notice').textContent, /unavailable.*Choose mp4 explicitly/);
+  assert.equal(h.byId('remux-target').options[0].disabled, true);
+  await h.byId('prepare-remux').emit('click');
+  assert.equal(h.calls.some(call => call.name === 'prepareRemuxBatch'), false);
+  h.byId('remux-target').value = 'mp4'; await h.byId('remux-target').emit('change');
+  update(['mp4']); update(['mp4']);
+  assert.equal(h.byId('remux-target').value, 'mp4');
+  assert.equal(h.byId('prepare-remux').disabled, false);
+  assert.match(h.byId('remux-target-notice').textContent, /Target changed from prepared matroska/);
+  assert.match(h.byId('remux-target-summary').textContent, /Saved preference: matroska/);
+  assert.equal(h.calls.some(call => ['saveAppSettings', 'saveSettings'].includes(call.name)), false);
+  await h.byId('prepare-remux').click();
+  assert.equal(h.calls.filter(call => call.name === 'prepareRemuxBatch').length, 1);
+  update(['matroska', 'mp4', 'mov']);
+  assert.equal(h.byId('remux-target').options.every(option => !option.disabled && !option.textContent.includes('unavailable')), true);
+});
+
+test('missing, empty or malformed target projection refuses synthetic prepare without rewriting choice', async () => {
+  for (const targets of [undefined, [], 'mp4', ['mp4', 'unknown'], [null]]) {
+    const h = await remuxHarness();
+    h.update(h.snapshot({ remuxSupport: { targets } }));
+    assert.equal(h.byId('prepare-remux').disabled, true);
+    await h.byId('prepare-remux').emit('click');
+    assert.equal(h.calls.some(call => call.name === 'prepareRemuxBatch'), false);
+    assert.equal(h.byId('remux-target').value, 'matroska');
+    assert.match(h.byId('remux-target-notice').textContent, /unavailable/);
+  }
+});
+
+test('prepare rechecks current main target availability and selection after pending settings save', async () => {
+  for (const change of ['capability', 'selection']) {
+    let release;
+    const pending = new Promise(resolve => { release = resolve; });
+    const h = await harness({
+      getSnapshot: async () => ({ revision: 1, phase: 'idle', items: [], counts: {}, remuxSupport: { targets: ['matroska', 'mp4', 'mov'] } }),
+      getPreferences: async () => ({ settingsByProfile: {}, profileId: 'h265-cpu', inputFolder: {id:'in'}, outputFolder:{id:'out'}, notices:[] }),
+      saveSettings: async () => { await pending; return {notices:[]}; },
+      prepareRemuxBatch: async () => { throw new Error('Must not dispatch stale target'); },
+    });
+    h.byId('quality').value = '24'; await h.byId('quality').emit('input');
+    const clicked = h.byId('prepare-remux').emit('click');
+    await settle();
+    assert.equal(h.calls.some(call => call.name === 'saveSettings'), true);
+    if (change === 'capability') h.update({revision:2,phase:'idle',items:[],counts:{},remuxSupport:{targets:['mp4']}});
+    else { h.byId('remux-target').value = 'mov'; await h.byId('remux-target').emit('change'); }
+    release(); await clicked; await settle();
+    assert.equal(h.calls.some(call => call.name === 'prepareRemuxBatch'), false);
+    assert.match(h.byId('error-banner').textContent, /availability or selection changed/);
+  }
 });

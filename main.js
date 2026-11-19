@@ -22,6 +22,7 @@ protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: t
 const linuxProductCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-product-candidate');
 const linuxOrdinaryCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-ordinary-cpu-candidate');
 const linuxRemuxCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-remux-candidate');
+const linuxUnifiedCandidate = process.platform === 'linux' && app.commandLine.hasSwitch('linux-unified-candidate');
 let window;
 let service;
 let ipcRegistration;
@@ -149,10 +150,11 @@ function startupFailed(error) {
 }
 
 try {
-  if ([linuxProductCandidate, linuxOrdinaryCandidate, linuxRemuxCandidate].filter(Boolean).length > 1) throw new Error('Choose exactly one Linux candidate route.');
+  if ([linuxProductCandidate, linuxOrdinaryCandidate, linuxRemuxCandidate, linuxUnifiedCandidate].filter(Boolean).length > 1) throw new Error('Choose exactly one Linux candidate route.');
   root = app.getAppPath();
   stateDir = app.commandLine.hasSwitch('user-data-dir')
     ? app.commandLine.getSwitchValue('user-data-dir')
+    : linuxUnifiedCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Unified-Candidate')
     : linuxRemuxCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Remux-Candidate')
     : linuxOrdinaryCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Ordinary-Candidate')
     : linuxProductCandidate ? path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Candidate')
@@ -176,7 +178,13 @@ try {
 
 async function createWindow() {
   let nativeFilesFailure = null;
-  if (linuxRemuxCandidate) {
+  if (linuxUnifiedCandidate) {
+    const { createLinuxUnifiedShell } = require('./linux-blue/product-linux-unified-shell.cjs');
+    service = await createLinuxUnifiedShell({
+      runtimeRoot: path.join(app.isPackaged ? process.resourcesPath : root, 'runtime'), stateDir,
+      outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
+    });
+  } else if (linuxRemuxCandidate) {
     const { createLinuxRemuxShell } = require('./linux-blue/product-linux-remux-shell.cjs');
     service = await createLinuxRemuxShell({
       runtimeRoot: path.join(app.isPackaged ? process.resourcesPath : root, 'runtime'), stateDir,

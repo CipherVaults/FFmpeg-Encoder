@@ -111,6 +111,25 @@ class OwnedCandidateService extends CandidateTrimService {
     if (failures.length) throw new AggregateError(failures, 'Service and candidate resource closure failed.');
   }
 }
+function createProductSelector(report) {
+    const { qualification, timingQualification } = report.family;
+    return new ProductFamilySelector({ policyIdentity: 'product-range1440-range1080-full1080-copy-and-uhd-full-candidate', families: [{
+      id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification, timingQualification, evidenceIds: report.family.evidenceIds,
+    }, {
+      id: FULL_COPY_FAMILY_ID, resourcePolicy: FULL_COPY_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification: report.fullCopy.family.qualification, timingQualification: report.fullCopy.family.timingQualification,
+      evidenceIds: report.fullCopy.family.evidenceIds,
+    }, {
+      id: RESIZE_FAMILY_ID, resourcePolicy: RESIZE_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification: report.range1080.family.qualification, timingQualification: report.range1080.family.timingQualification,
+      evidenceIds: report.range1080.family.evidenceIds,
+    }, {
+      id: UHD_FULL_FAMILY_ID, resourcePolicy: UHD_FULL_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
+      qualification: report.uhdFull.family.qualification, timingQualification: report.uhdFull.family.timingQualification,
+      evidenceIds: report.uhdFull.family.evidenceIds,
+    }] });
+}
 async function createLinuxProductService(options) {
   need(options && Object.getPrototypeOf(options) === Object.prototype, 'Inert main-owned options required.');
   const keys = Reflect.ownKeys(options);
@@ -137,23 +156,7 @@ async function createLinuxProductService(options) {
       runtime: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, v.path])),
       pins: Object.fromEntries(Object.entries(candidate.pins).map(([k, v]) => [k, { sizeBytes: v.size, sha256: v.sha256 }])), run,
     });
-    const { qualification, timingQualification } = report.family;
-    const selector = new ProductFamilySelector({ policyIdentity: 'product-range1440-range1080-full1080-copy-and-uhd-full-candidate', families: [{
-      id: FAMILY_ID, resourcePolicy: RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
-      qualification, timingQualification, evidenceIds: report.family.evidenceIds,
-    }, {
-      id: FULL_COPY_FAMILY_ID, resourcePolicy: FULL_COPY_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
-      qualification: report.fullCopy.family.qualification, timingQualification: report.fullCopy.family.timingQualification,
-      evidenceIds: report.fullCopy.family.evidenceIds,
-    }, {
-      id: RESIZE_FAMILY_ID, resourcePolicy: RESIZE_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
-      qualification: report.range1080.family.qualification, timingQualification: report.range1080.family.timingQualification,
-      evidenceIds: report.range1080.family.evidenceIds,
-    }, {
-      id: UHD_FULL_FAMILY_ID, resourcePolicy: UHD_FULL_RESOURCE_POLICY, runtimeIdentity: RUNTIME_ID, environment: null, settings: SETTINGS,
-      qualification: report.uhdFull.family.qualification, timingQualification: report.uhdFull.family.timingQualification,
-      evidenceIds: report.uhdFull.family.evidenceIds,
-    }] });
+    const selector = createProductSelector(report);
     return new OwnedCandidateService({ ffmpeg: candidate.pins.ffmpeg.path, ffprobe: candidate.pins.ffprobe.path,
       runtimeIdentity: RUNTIME_ID, stateDir, outputAccess, run, inspectionWorkers: 1, operationRuntime: observer, operationQualifications: selector,
       vendorCapabilities: async () => ({ profiles: failedVendorCapabilities('VENDOR_DISCOVERY_INCOMPLETE'), bindings: new Map() }),
@@ -167,4 +170,4 @@ async function createLinuxProductService(options) {
     throw error;
   }
 }
-module.exports = { createLinuxProductService };
+module.exports = { createLinuxProductService, createProductSelector };

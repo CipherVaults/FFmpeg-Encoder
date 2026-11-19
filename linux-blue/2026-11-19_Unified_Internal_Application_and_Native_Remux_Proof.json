@@ -1,0 +1,212 @@
+{
+  "checkpoint": "083",
+  "cutoff": "2026-11-19T04:04:15.997412+00:00",
+  "status": "Reviewed unified source integrated; no new unified package/native execution",
+  "baseCommit": "0d7696742cb95e3c8c09339167099cb614b71c7c",
+  "sourceHandoff": {
+    "schema": "unified083-final-source-handoff/v1",
+    "base": "0d7696742cb95e3c8c09339167099cb614b71c7c",
+    "files": [
+      {
+        "path": ".github/workflows/ubuntu-inventory.yml",
+        "bytes": 2384,
+        "sha256": "f0bfbbca3b9c521a0f6b2a1d5118915a0baa9b6b34142a9a3561cff757c64720"
+      },
+      {
+        "path": "linux-blue/product-linux-qualification.cjs",
+        "bytes": 37487,
+        "sha256": "0db1a6fd415854a0783ac2ff6b4e1701c08e7873aed365974173fedc17394289"
+      },
+      {
+        "path": "linux-blue/product-linux-remux-service.cjs",
+        "bytes": 12713,
+        "sha256": "b1796ff9d6cc429532079a6b1a4186c6080ca1a9c7bb17f65dad35792e9a1408"
+      },
+      {
+        "path": "linux-blue/product-linux-service.cjs",
+        "bytes": 11770,
+        "sha256": "957f2c6778ad41064adbb7df8c5ebe4e358d753c81a6e12036ed7d0699ce4384"
+      },
+      {
+        "path": "linux-blue/product-linux-shell.cjs",
+        "bytes": 5805,
+        "sha256": "cfb867b83f7b0cef1aca61fe29fc3c76bcda004752ee0d591b45ad8d0890031e"
+      },
+      {
+        "path": "linux-blue/product-linux-unified-runtime.cjs",
+        "bytes": 4567,
+        "sha256": "0cf04074ef69a98a94b30de77b368817c89803a34827e97d1daf2c56c57702e8"
+      },
+      {
+        "path": "linux-blue/product-linux-unified-service.cjs",
+        "bytes": 14040,
+        "sha256": "a7c7289edda08093d7f705abf19cfef03c9cd5288c06eac64f964f0a6939e1ad"
+      },
+      {
+        "path": "linux-blue/product-linux-unified-shell.cjs",
+        "bytes": 1132,
+        "sha256": "05d4aa6de8573b6725b5f87c131649cff5d039ab091953fbd3d2facfb2e6fe7d"
+      },
+      {
+        "path": "main.js",
+        "bytes": 17908,
+        "sha256": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa"
+      },
+      {
+        "path": "resources/linux-inert-package-plan.json",
+        "bytes": 72197,
+        "sha256": "0c014469838a6f46d097a9b0298bc84fa1fc8cb41e16f7d8b8a2755c283f21d1"
+      },
+      {
+        "path": "scripts/ubuntu-inventory/inventory.py",
+        "bytes": 7476,
+        "sha256": "928b09e6258bf0a4aeea9fb95de8feda48416f3eb16d30503b5cb542cd4b8a0b"
+      },
+      {
+        "path": "scripts/ubuntu-inventory/test_inventory.py",
+        "bytes": 5214,
+        "sha256": "8ef51b28a2bc2f36cda69a7536ef188a543c74ecb93cd5dd9eb142d950894297"
+      },
+      {
+        "path": "tests/linux-inert-package.test.cjs",
+        "bytes": 10333,
+        "sha256": "99f56e10e7693f24c451c8f641350ffd52c88adcd725008e110e044f6cc8b36e"
+      },
+      {
+        "path": "tests/linux-ordinary-shell.test.cjs",
+        "bytes": 3869,
+        "sha256": "41ff299ce2b7a9d6e521303c569f131f15febb607a74d7520b0388226c159e28"
+      },
+      {
+        "path": "tests/linux-product-remux-shell.test.cjs",
+        "bytes": 3062,
+        "sha256": "86a7593b007a48350ec31a0c1e492bd742870b29dc457e66a772da39e1f3d39a"
+      },
+      {
+        "path": "tests/linux-unified-runtime.test.cjs",
+        "bytes": 3519,
+        "sha256": "14d654936ca6b8e8a21b04e4cd75a6077c634a7b728a2889c87e8b7dad387375"
+      },
+      {
+        "path": "tests/linux-unified-service.test.cjs",
+        "bytes": 14305,
+        "sha256": "20d3c8ef5543d2f9215de8d873ca46bdd32655b88edc290ec4feac735e6a756f"
+      },
+      {
+        "path": "tests/linux-unified-shell.test.cjs",
+        "bytes": 2080,
+        "sha256": "5654a473d95e371e98d7e7adf401a39820ffadeece6267d53c2100005351512e"
+      },
+      {
+        "path": "tests/ui-workbench.test.cjs",
+        "bytes": 112802,
+        "sha256": "618184d86cb643b6e6c323a6737a477f4107c91451bf55ab2d9b67311454db61"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 155694,
+        "sha256": "0305193e4894e46fd05136cda5e5c01b87e9bd0d3b0840c46a864933e49901bf"
+      }
+    ],
+    "functionalReviewSha256": "bd34a2b249fad9682575b1466abb0f7a455ad71e2fc38ba853ba42e6f5fc5804",
+    "closure": {
+      "scope": "current source/package closure only; historical evidence unchanged; no new runtime acceptance",
+      "pins": 137,
+      "packageInputs": 252,
+      "applicationRows": 154,
+      "sourceRows": 164,
+      "changedExistingPins": [
+        "linux-blue/product-linux-service.cjs",
+        "linux-blue/product-linux-shell.cjs",
+        "main.js",
+        "ui/renderer.js",
+        "linux-blue/product-linux-remux-service.cjs"
+      ],
+      "addedPins": [
+        "linux-blue/product-linux-unified-runtime.cjs",
+        "linux-blue/product-linux-unified-service.cjs",
+        "linux-blue/product-linux-unified-shell.cjs"
+      ],
+      "nonSourceRowsUnchanged": true
+    },
+    "tests": {
+      "focused": 29,
+      "syntaxFiles": 223,
+      "sharedIncludingRenderer77": 320,
+      "linux": 40,
+      "ubuntuInventoryInert": 16
+    },
+    "retainedFailures": [
+      "Initial focused package relocation assertion expected old134 pins; updated exact current137 count,29passed.",
+      "Initial unittest module invocation incompatible with test script unconditional unittest.main; direct script invocation16passed."
+    ],
+    "scope": [
+      "One main-owned shared EncoderService with explicit unified candidate flag; original flags/defaults retained.",
+      "Three Ubuntu inventory files separately reviewed; no inventory network execution performed.",
+      "Historical compact qualification and raw evidence unchanged; runtime libraries/non-source package rows unchanged.",
+      "Current source closure adds3 unified modules and refreshes5existing source identities; package additionally binds current loader."
+    ],
+    "limits": [
+      "No packaged unified runtime/media/native acceptance yet.",
+      "Cancellation controls simulated; actual same-session ordinary/measured/remux path remains next gate.",
+      "No production default promotion, distribution clearance or Ubuntu runtime portability claim.",
+      "No commit, build, chmod, media or publication in this stage."
+    ]
+  },
+  "sourceHandoffSha256": "5193030e72f5d753e48a9cf094b876e61c20ea802bf670790a0b87a303b28ecc",
+  "finalReviewSha256": "47e1b60aea3018fd590491f29c8f2e4b8d035389a8262ce38c1c7ad25efba2ea",
+  "predecessorSession": {
+    "bytes": 2613443,
+    "sha256": "95b0af228d3736d442227a0d39284df53f6a27f50b731adb7408589feaa57074"
+  },
+  "predecessorMirrorReceipt": {
+    "bytes": 4230,
+    "sha256": "10d060ee9e2ff37e0fb38e6d0d990d40c034b57056a08ec9e6c41a333042a349"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native082-saved-audit.json": {
+      "bytes": 5209,
+      "sha256": "5508635859aa6733eac99b5c39b0d91a7f7e6d3228305aa97955e131abf0b476"
+    },
+    "linux-blue/evidence-2026-11-19/native082-ctime-clarification.json": {
+      "bytes": 2684,
+      "sha256": "03655568a0972de2c1f6f088a4db4bd82de2ea5009b1eb8db0245e3cd2fb6693"
+    },
+    "linux-blue/evidence-2026-11-19/hosted082-verified-outcome.json": {
+      "bytes": 905,
+      "sha256": "e2431fc3a2791d22e25c78a4c02a41cbbef0fa85fc42b574b47609e9851daba1"
+    }
+  },
+  "inertReferences": {
+    "status": "inert references only",
+    "files": [
+      {
+        "path": "linux-blue/recovery-references/native083-unbound/supervise-native.py.txt",
+        "bytes": 8160,
+        "sha256": "ea5a79ca64f28ee29d606720c4ddf534fd863bf86c4fff4eb99f7eea8d667ac9"
+      },
+      {
+        "path": "linux-blue/recovery-references/native083-unbound/test-supervisor.py.txt",
+        "bytes": 3631,
+        "sha256": "baa70beaf208a4da08dd368fa276bb75092ad4690b5adf283713cbe6181c7b7c"
+      },
+      {
+        "path": "linux-blue/recovery-references/native083-unbound/PLAN.md.txt",
+        "bytes": 5160,
+        "sha256": "18f12727f51b7801af67755595e291aa701c5de94a59941b724b0254c0935cee"
+      },
+      {
+        "path": "linux-blue/recovery-references/native083-unbound/README.md",
+        "bytes": 889,
+        "sha256": "f8623d3174df0a80a64093d207eb8f8830627d1cf8220383921fb0a9af097b97"
+      }
+    ]
+  },
+  "limits": [
+    "Exact native082 journey only, not new unified package acceptance",
+    "Ctime mismatch retained with source-backed explanation, not syscall trace",
+    "Cancellation ownership controls simulated; native cancellation separate",
+    "Ubuntu inventory is not build/runtime/portability qualification",
+    "No tested runtime binary upload or production default promotion"
+  ]
+}

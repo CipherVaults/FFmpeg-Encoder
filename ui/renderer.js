@@ -1030,12 +1030,35 @@
     renderRemuxSummary();
   }
 
+  function availableRemuxTargets() {
+    const targets = snapshot.remuxSupport?.targets;
+    const known = ['matroska', 'mp4', 'mov'];
+    // Main's current projection is availability, not renderer qualification.
+    return Array.isArray(targets) && targets.every(target => known.includes(target))
+      ? targets : [];
+  }
+
+  function remuxTargetAvailable(target = byId('remux-target').value) {
+    return availableRemuxTargets().includes(target);
+  }
+
   function renderRemuxSummary() {
+    const targets = availableRemuxTargets();
+    for (const option of byId('remux-target').options) {
+      if (!option.dataset.availableLabel) option.dataset.availableLabel = option.textContent;
+      option.disabled = !targets.includes(option.value);
+      option.textContent = option.dataset.availableLabel + (option.disabled ? ' — unavailable here' : '');
+    }
     put('remux-target-summary', `Selected: ${byId('remux-target').value} · Saved preference: ${appDefaults?.defaults?.remuxTarget || 'not yet read'} · Full stream copy`);
     put('remux-support-notice', snapshot.remuxSupport?.notice || 'Each file requires exact current qualification. Unsupported streams, relationships and targets remain blocked; an omission decision may not resolve every refusal.');
     const changed = remuxTargetChanged();
-    visible('remux-target-notice', changed);
-    put('remux-target-notice', changed ? `Target changed from prepared ${preparedRemuxTarget()}. Prepare a new Remux batch before Start, or restore the prepared target.` : '');
+    const notices = [];
+    if (!remuxTargetAvailable()) notices.push(targets.length
+      ? `Selected target is unavailable in this app session. Choose ${targets.join(', ')} explicitly; your saved preference has not changed.`
+      : 'Remux targets are unavailable in this app session. Your selected target and saved preference have not changed.');
+    if (changed) notices.push(`Target changed from prepared ${preparedRemuxTarget()}. Prepare a new Remux batch before Start, or restore the prepared target.`);
+    visible('remux-target-notice', notices.length > 0);
+    put('remux-target-notice', notices.join(' '));
   }
 
   function hasOperationEdits() {
@@ -1888,7 +1911,7 @@
     renderNativeStatus();
     for (const id of ['choose-input', 'choose-output']) byId(id).disabled = locked;
     byId('remux-target').disabled = locked;
-    byId('prepare-remux').disabled = Boolean(developerPreview) || locked || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
+    byId('prepare-remux').disabled = Boolean(developerPreview) || locked || !remuxTargetAvailable() || !inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false;
     byId('profile').disabled = locked || !capabilities;
     for (const id of ['preset', 'quality', 'quality-slider', 'tested-default']) byId(id).disabled = locked || !selectedProfile();
     const candidate = profileRecipe();
@@ -2150,8 +2173,9 @@
     if (!inputFolder?.id || !outputFolder?.id || inputFolder.available === false || outputFolder.available === false) throw new Error('Choose both folders before preparing Remux.');
     if (hasOperationEdits()) throw new Error('Apply or discard processing edits before preparing a new Remux batch.');
     const target = byId('remux-target').value;
-    if (!['matroska', 'mp4', 'mov'].includes(target)) throw new Error('Choose a supported Remux target.');
+    if (!remuxTargetAvailable(target)) throw new Error('Choose a currently available Remux target.');
     drainPendingSave(); await saveChain;
+    if (!remuxTargetAvailable(target) || byId('remux-target').value !== target) throw new Error('Remux target availability or selection changed. Review it before preparing.');
     const next = await api.prepareRemuxBatch({ inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, target });
     preparedFolderPair = next?.phase === 'ready' && next.operationDraft?.id
       ? { inputFolderId: inputFolder.id, outputFolderId: outputFolder.id, draftId: next.operationDraft.id } : null;

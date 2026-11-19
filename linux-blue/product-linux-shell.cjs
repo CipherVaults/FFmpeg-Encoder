@@ -94,4 +94,4 @@ async function createLinuxProductShell(options) {
     return service;
   } catch (error) { try { await runtime?.close(); } catch (closeError) { error.runtimeCloseFailure = { code: closeError.code, message: closeError.message }; } throw error; }
 }
-module.exports = { createLinuxProductShell };
+module.exports = { createLinuxProductShell, manifest, loaderGuard };

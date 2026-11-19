@@ -1,0 +1,72 @@
+import unittest,importlib.util,pathlib,unittest.mock as mock
+p=pathlib.Path(__file__).with_name('inventory.py');spec=importlib.util.spec_from_file_location('proposal',p);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
+class Tests(unittest.TestCase):
+ def test_import_inert(self):self.assertFalse(p.with_name('inventory-report.json').exists())
+ def test_unbound_refuses(self):
+  with mock.patch.object(m,'PARENT','UNBOUND_SUCCESSOR'):
+   with self.assertRaises(AssertionError):m.authority()
+ def test_exact_bound_event_authority(self):
+  import tempfile,json
+  with tempfile.TemporaryDirectory()as directory:
+   event=pathlib.Path(directory)/'event.json';event.write_text(json.dumps({'before':m.PARENT,'after':'a'*40,'forced':False,'created':False,'deleted':False}))
+   environment={'GITHUB_REPOSITORY':'CipherVaults/FFmpeg-Encoder-Blue-Linux','GITHUB_REF':'refs/heads/blue/linux-development','GITHUB_RUN_ATTEMPT':'1','GITHUB_EVENT_NAME':'push','GITHUB_EVENT_PATH':str(event),'GITHUB_SHA':'a'*40}
+   with mock.patch.dict(m.os.environ,environment,clear=True):m.authority()
+ def test_external_host_refused(self):
+  with self.assertRaises(AssertionError):m.fetch('https://example.com/x',20)
+ def test_plain_http_refused(self):
+  with self.assertRaises(AssertionError):m.fetch('http://archive.ubuntu.com/ubuntu/x',20)
+ def test_parse_exact_versions(self):
+  rows=list(m.paragraphs('Package: gcc\nVersion: 4:13.2.0-7ubuntu1\nArchitecture: amd64\n\nPackage: gcc\nVersion: other'))
+  self.assertEqual(rows[0]['Version'],'4:13.2.0-7ubuntu1');self.assertNotEqual(rows[0]['Version'],rows[1]['Version'])
+ def test_report_does_not_dump_environment(self):self.assertNotIn('dict(os.environ)',p.read_text());self.assertNotIn('print(os.environ)',p.read_text())
+
+
+class AuthenticationTests(unittest.TestCase):
+ def outcome(self,version='1',bad_signature=False,bad_hash=False,bad_size=False):
+  import lzma,hashlib,types
+  index=lzma.compress(('Package: gcc\nVersion: '+version+'\nArchitecture: amd64\nSHA256: '+'a'*64+'\nSize: 12\nFilename: pool/main/g/gcc/gcc.deb\n').encode())
+  sha='0'*64 if bad_hash else hashlib.sha256(index).hexdigest();size=len(index)+(1 if bad_size else 0)
+  release=('Codename: noble\nSHA256:\n '+sha+' '+str(size)+' main/binary-amd64/Packages.xz\n '+sha+' '+str(size)+' universe/binary-amd64/Packages.xz\n').encode()
+  rows=[{'name':'gcc','version':'1','architecture':'amd64','state':'installed-unverified'}]
+  with mock.patch.object(m,'fetch',side_effect=lambda url,cap:release if url.endswith('InRelease')else index),mock.patch.object(m,'run',return_value=types.SimpleNamespace(returncode=1 if bad_signature else 0)),mock.patch.object(m.pathlib.Path,'is_file',return_value=True):
+   receipts=m.authenticate(rows)
+  return rows,receipts
+ def test_exact_signed_index_match(self):
+  rows,receipts=self.outcome();self.assertEqual(rows[0]['state'],'exact-version-in-signed-official-index');self.assertTrue(receipts[0]['signatureVerified'])
+ def test_old_version_unresolved(self):
+  rows,_=self.outcome(version='2');self.assertEqual(rows[0]['state'],'installed-unverified')
+ def test_signature_failure(self):
+  with self.assertRaises(AssertionError):self.outcome(bad_signature=True)
+ def test_index_hash_failure(self):
+  with self.assertRaises(AssertionError):self.outcome(bad_hash=True)
+ def test_index_size_failure(self):
+  with self.assertRaises(AssertionError):self.outcome(bad_size=True)
+ def test_dpkg_config_only_not_installed(self):
+  import types
+  p=types.SimpleNamespace(stdout=b'gcc\t1\tamd64\tdeinstall ok config-files\n',returncode=0)
+  self.assertEqual(m.installed_row('gcc',p)['state'],'missing-or-not-installed')
+ def test_dpkg_installed(self):
+  import types
+  p=types.SimpleNamespace(stdout=b'gcc\t1\tamd64\tinstall ok installed\n',returncode=0)
+  self.assertEqual(m.installed_row('gcc',p)['state'],'installed-unverified')
+class RedirectTests(unittest.TestCase):
+ def test_redirects_refused_before_second_contact(self):
+  import io,email.message
+  for destination in ['https://example.com/x','http://archive.ubuntu.com/ubuntu/x','https://archive.ubuntu.com/ubuntu/other','https://security.ubuntu.com/ubuntu/other','/ubuntu/other']:
+   for code in [301,302,303,307,308]:
+    with self.subTest(destination=destination,code=code):
+     handler=m.NoRedirect();handler.parent=mock.Mock()
+     headers=email.message.Message();headers['Location']=destination
+     req=m.urllib.request.Request('https://archive.ubuntu.com/ubuntu/dists/noble/InRelease')
+     with self.assertRaises(AssertionError):
+      getattr(handler,'http_error_'+str(code))(req,io.BytesIO(b''),code,'Redirect',headers)
+     handler.parent.open.assert_not_called()
+ def test_fetch_installs_no_redirect_handler(self):
+  response=mock.MagicMock();response.__enter__.return_value=response
+  response.url='https://archive.ubuntu.com/ubuntu/test';response.read.return_value=b'ok'
+  opener=mock.Mock();opener.open.return_value=response
+  with mock.patch.object(m.urllib.request,'build_opener',return_value=opener)as build:
+   self.assertEqual(m.fetch(response.url,2),b'ok')
+  self.assertIsInstance(build.call_args.args[0],m.NoRedirect)
+  opener.open.assert_called_once_with(response.url,timeout=20)
+unittest.main()

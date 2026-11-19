@@ -1,0 +1,159 @@
+{
+  "schema": 1,
+  "status": "accepted-exact-native082-single-mp4-remux-journey",
+  "sourceCommit": "0d7696742cb95e3c8c09339167099cb614b71c7c",
+  "sourceFilesVerifiedAgainstGit": 881,
+  "packageFilesVerified": 252,
+  "normalExecutableFiles": 5,
+  "allOtherModes": "0600",
+  "runtimeDependencyFilesVerified": 7,
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "sourceAndOwnedCopyUnchanged": true,
+  "receipts": {
+    "closure": {
+      "bytes": 1229,
+      "sha256": "ffb7c94cca983342cf46adee963434ba697d5a078b4b3426df9485bd2d6237f1"
+    },
+    "fileAudit": {
+      "bytes": 62573,
+      "sha256": "5b288efbc589805292bb70c4c877a3f840ae867e40c906e97187003caf3074f5"
+    },
+    "collector": {
+      "bytes": 143533,
+      "sha256": "0781fb71ac4967813071410a720bcf0ad001d05dbb8e2d42f5a57390c25afb65"
+    },
+    "essence": {
+      "bytes": 7712,
+      "sha256": "e674178010535e425813a2c923e667d59d7b41bf4ebbe0ba3c0acd93372c6f63"
+    }
+  },
+  "savedLifecycle": {
+    "diagnosticDigestsVerified": 18,
+    "provenanceChecksumsVerified": 2,
+    "pickerRegistrations": 2,
+    "startCount": 1,
+    "copyChildExitCode": 0,
+    "strictValidationValid": true,
+    "validationWarnings": [],
+    "publicationCount": 1,
+    "output": {
+      "bytes": 5579020,
+      "sha256": "ca998026663eb14cbd12a838af2e3a6a16a95286a658c5915d6c7cb894ee9332"
+    },
+    "outputId": "4b057da2-4869-4e06-8ad8-52a5eb87129c",
+    "revealDispatchCount": 1,
+    "batchElapsedSecondsAtDiagnostic": 2.019,
+    "terminalPhase": "completed",
+    "currentOutputIdentityDevInodeSizeMtimeMatches": true,
+    "currentOutputCtimeMatchesPublication": false
+  },
+  "media": {
+    "method": "packet-identity-v1",
+    "videoPackets": 240,
+    "audioPackets": 376,
+    "sourceOutputPacketParametersMetadataEqual": true,
+    "maxPtsDtsDurationError": {
+      "numerator": "0",
+      "denominator": "1"
+    },
+    "pcm": {
+      "bytes": 3072000,
+      "samples": "384000",
+      "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+    },
+    "pcmEqual": true,
+    "audioFirstPacketPts": {
+      "numerator": "-8",
+      "denominator": "375"
+    },
+    "videoBoundaryWindows": {
+      "start": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      },
+      "end": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      }
+    },
+    "interiorVideoDecoded": false,
+    "collectorArtifactHashesVerified": 19,
+    "collectorInvocations": 12,
+    "collectorRuntimeGroup": {
+      "version": 1,
+      "limit": 2,
+      "started": 12,
+      "completed": 12,
+      "live": 0,
+      "peak": 2,
+      "closed": true,
+      "failureCode": null,
+      "childrenStarted": 12,
+      "childrenClosed": 12,
+      "liveChildren": 0,
+      "peakChildren": 2
+    },
+    "nativeSourcePlaybackComplete": true,
+    "nativeOutputEditListsComplete": true
+  },
+  "leadObservedNativeUi": {
+    "source": "Parent direct desktop observations, not reconstructed from logs",
+    "explicitMp4Selection": true,
+    "oneReadyOneSucceeded": true,
+    "terminalElapsedShown": "00:02",
+    "terminalElapsedStillFixedAfterReveal": true,
+    "realThunarSelectedPublishedFile": true,
+    "normalFileManagerThenAppClose": true,
+    "matroskaStillOffered": "Unchanged default selector; internal notice says MP4 only. No Matroska run or claim."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 173.70766770799855,
+    "forcedTermination": false,
+    "closureObserved": true,
+    "errors": [],
+    "sampledOnly": true,
+    "knownIdentityCount": 8,
+    "ownedBytesAtClosure": 12355817,
+    "scope": "Supervisor observed owned process group/known identities, not global descendant census"
+  },
+  "limitations": [
+    "Exact082 internal candidate only, not unified production release or broad runtime qualification.",
+    "One retained eight-second H264/AAC MP4 source; no MOV/Matroska/general-media test.",
+    "No new cancellation/collision/rescan test in this native run; prior081 private evidence remains separately scoped.",
+    "Boundary windows share keypacket0; no independent end-picture/interior-video decode coverage claimed.",
+    "Batch diagnostic2.019 seconds and visible floor00:02 are distinct from173.707-second supervisor/session lifetime.",
+    "No extra media probes, decodes, app launches or source edits during saved audit.",
+    "New batch/hidden DOM reset not exercised."
+  ],
+  "diagnosticReasons": [
+    "SESSION_STARTED",
+    "FOLDER_PICKER_REQUESTED",
+    "FOLDER_PICKER_REGISTERED",
+    "FOLDER_PICKER_REQUESTED",
+    "FOLDER_PICKER_REGISTERED",
+    "PREPARATION_STARTED",
+    "FILE_INSPECTED",
+    "PREPARATION_FINISHED",
+    "REMUX_STARTED",
+    "REMUX_CLOSED",
+    "OPERATION_EVIDENCE_COLLECTED",
+    "OUTPUT_CHECKED",
+    "SOURCE_ASSESSED",
+    "OUTPUT_PUBLISHED",
+    "JOB_DISPOSITION",
+    "BATCH_FINISHED",
+    "OUTPUT_ACTION_DISPATCHED",
+    "SESSION_ENDED"
+  ],
+  "truncatedContexts": [
+    "FILE_INSPECTED",
+    "OPERATION_EVIDENCE_COLLECTED",
+    "JOB_DISPOSITION"
+  ]
+}

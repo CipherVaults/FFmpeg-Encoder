@@ -23,5 +23,5 @@ test('untrusted options and source drift refuse; composition failure closes runt
  f=fixture({failure:true});await assert.rejects(f.createLinuxRemuxShell({runtimeRoot:'/inert-runtime',stateDir:'/inert-state'}),/factory failed/);assert.equal(f.events.at(-1),'close');
 });
 test('explicit remux switch is separate namespace and three-way exclusive',()=>{
- const text=fs.readFileSync(path.join(root,'main.js'),'utf8');assert(text.includes("process.platform === 'linux' && app.commandLine.hasSwitch('linux-remux-candidate')"));assert(text.includes('[linuxProductCandidate, linuxOrdinaryCandidate, linuxRemuxCandidate].filter(Boolean).length > 1'));assert(text.includes('FFmpegEncoder-Linux-Remux-Candidate'));
+ const text=fs.readFileSync(path.join(root,'main.js'),'utf8');assert(text.includes("process.platform === 'linux' && app.commandLine.hasSwitch('linux-remux-candidate')"));assert(text.includes('[linuxProductCandidate, linuxOrdinaryCandidate, linuxRemuxCandidate, linuxUnifiedCandidate].filter(Boolean).length > 1'));assert(text.includes('FFmpegEncoder-Linux-Remux-Candidate'));
 });

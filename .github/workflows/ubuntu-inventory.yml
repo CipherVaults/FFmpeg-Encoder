@@ -1,0 +1,40 @@
+name: One-shot Ubuntu 24.04 toolchain inventory
+on:
+  push:
+    branches: [blue/linux-development]
+permissions:
+  contents: read
+jobs:
+  inventory:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '14c958333c26af69ac59d0856a89ab0ca685120e' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify exact successor and reviewed sources
+        shell: bash
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD 14c958333c26af69ac59d0856a89ab0ca685120e"
+          printf '%s  %s\n' '928b09e6258bf0a4aeea9fb95de8feda48416f3eb16d30503b5cb542cd4b8a0b' 'scripts/ubuntu-inventory/inventory.py' '8ef51b28a2bc2f36cda69a7536ef188a543c74ecb93cd5dd9eb142d950894297' 'scripts/ubuntu-inventory/test_inventory.py' | sha256sum --check --strict
+          git show 14c958333c26af69ac59d0856a89ab0ca685120e:linux-blue/ubuntu-portability-draft-2026-11-19/inventory.py.txt | sha256sum | grep -Fx '508c6b9e20288cabb83fb9285083f885b6de26f9a0b2e84f9a9cdb9fe974e651  -'
+      - name: Original inert regression suite
+        run: python3 scripts/ubuntu-inventory/test_inventory.py
+      - name: Inventory only, no installation or build
+        run: timeout --signal=TERM --kill-after=5s 270s python3 scripts/ubuntu-inventory/inventory.py --inventory-reviewed-once
+      - name: Retain sanitized report only
+        if: ${{ always() && hashFiles('scripts/ubuntu-inventory/inventory-report.json') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ubuntu-inventory-${{ github.run_id }}-${{ github.run_attempt }}
+          path: scripts/ubuntu-inventory/inventory-report.json
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

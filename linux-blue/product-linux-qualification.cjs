@@ -13,12 +13,12 @@ const SOURCE_PINS = {
     "sha256": "a62ceab690931736a7d7a81e7c6c7495987f7015f953013366ab6f5a0fd8217a"
   },
   "linux-blue/product-linux-service.cjs": {
-    "bytes": 11662,
-    "sha256": "cd13c3ba3d5a7f0944467afcc58841774a2e6c44846149f38055523ae84beaf4"
+    "bytes": 11770,
+    "sha256": "957f2c6778ad41064adbb7df8c5ebe4e358d753c81a6e12036ed7d0699ce4384"
   },
   "linux-blue/product-linux-shell.cjs": {
-    "bytes": 5782,
-    "sha256": "6123fd28678f62a7a2f434b7d0788525464bb3e94ee4746eb83ebafe4d355a74"
+    "bytes": 5805,
+    "sha256": "cfb867b83f7b0cef1aca61fe29fc3c76bcda004752ee0d591b45ad8d0890031e"
   },
   "linux-blue/runtime-av1-operation.cjs": {
     "bytes": 5507,
@@ -69,8 +69,8 @@ const SOURCE_PINS = {
     "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
   },
   "main.js": {
-    "bytes": 17239,
-    "sha256": "2a0ad619f83164c11b9610862e0a14535ede238d98a0fe3da0f5c880738a821e"
+    "bytes": 17908,
+    "sha256": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa"
   },
   "package.json": {
     "bytes": 991,
@@ -465,8 +465,8 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 154278,
-    "sha256": "1fd7aecc6859e046232280cf81c722dfb41182f39910fbc0d970024302267288"
+    "bytes": 155694,
+    "sha256": "0305193e4894e46fd05136cda5e5c01b87e9bd0d3b0840c46a864933e49901bf"
   },
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,
@@ -525,8 +525,8 @@ const SOURCE_PINS = {
     "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
   },
   "linux-blue/product-linux-remux-service.cjs": {
-    "bytes": 12702,
-    "sha256": "faf91fd15fd6ce91c847577c312121cc07bb9313355088906b31aaf3791f2fd9"
+    "bytes": 12713,
+    "sha256": "b1796ff9d6cc429532079a6b1a4186c6080ca1a9c7bb17f65dad35792e9a1408"
   },
   "linux-blue/product-linux-remux-shell.cjs": {
     "bytes": 4810,
@@ -543,6 +543,18 @@ const SOURCE_PINS = {
   "linux-blue/evidence-2026-11-19/remux081-lifecycle-audit.json": {
     "bytes": 6839,
     "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
+  },
+  "linux-blue/product-linux-unified-runtime.cjs": {
+    "bytes": 4567,
+    "sha256": "0cf04074ef69a98a94b30de77b368817c89803a34827e97d1daf2c56c57702e8"
+  },
+  "linux-blue/product-linux-unified-service.cjs": {
+    "bytes": 14040,
+    "sha256": "a7c7289edda08093d7f705abf19cfef03c9cd5288c06eac64f964f0a6939e1ad"
+  },
+  "linux-blue/product-linux-unified-shell.cjs": {
+    "bytes": 1132,
+    "sha256": "05d4aa6de8573b6725b5f87c131649cff5d039ab091953fbd3d2facfb2e6fe7d"
   }
 };
 const CLOSED_RECORD = {

@@ -1,0 +1,30 @@
+{
+  "head": "14c958333c26af69ac59d0856a89ab0ca685120e",
+  "run": 44453150941,
+  "attempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "job": 135321729042,
+      "name": "Source contracts / windows-2022",
+      "syntax": 220,
+      "shared": 317,
+      "linuxAdditional": 0,
+      "logSha256": "8ef1c7dc24d6143320bf542d9bc72cce9aa13c69c737777a40aff6ca669bcef8"
+    },
+    {
+      "job": 135321729380,
+      "name": "Source contracts / ubuntu-24.04",
+      "syntax": 220,
+      "shared": 317,
+      "linuxAdditional": 40,
+      "logSha256": "9b644979d0d3802ce1a04f203aa7d89c7f58a69b13a2dac4dacab00bcef78caf"
+    }
+  ],
+  "windowsPackagedRunListed": false,
+  "limits": [
+    "Shared source/renderer harness only; no new packaged Windows journey",
+    "Existing Windows workflow/guard unchanged; no dispatch/rerun or rebind",
+    "No actual native remux/runtime qualification from shared CI"
+  ]
+}

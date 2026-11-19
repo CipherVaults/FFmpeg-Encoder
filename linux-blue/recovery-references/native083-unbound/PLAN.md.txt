@@ -1,0 +1,25 @@
+# Prospective 083 same-session route acceptance
+
+Planning only; source currently under review, package/flag/runtime binding unset. Unbound supervisor and inert tests are prepared; no fixture copying, launch gate or execution performed. Reuse native079/082 identity-safe supervisor only after final reviewed source and actual audited package, full preservation and lead release. Parent owns desktop. One normal app process, 600-second outer lifetime, 27 GiB floor, 2 GiB sampled owned tree, 8 MiB logs; no automatic repeat or widened timeout. Do not carry authority across routes by bypassing preparation.
+
+## Three sequential successful journeys, one service owner
+
+Use separate small owned input directories and separate output directories to avoid discovery ambiguity/collisions. A single ordinary file is sufficient; two-file behavior already has native079 evidence and is not this test's question.
+
+1. Ordinary: retained 075 eight-second 1080p H264/AAC MP4. Explicit H264 CPU / veryfast / CRF 23, Full/Keep source/Copy audio. Genuine folder pickers, Prepare→one Start→terminal success. Observe authoritative elapsed/reveal; do not demand byte-identical newly tagged output to historical package.
+2. Measured: switch in SAME app to retained 075 three-second 1080p PCM MOV, source hash 48ebd66bf2597ee1e5efca0b471a480d04e8cd83639259fda3539a99201552ae. Explicit H265 CPU / slow / CRF 25, range 0.613–2.721 seconds, 1080p source → 720p output / Precision FLAC. New genuine picker registration and preparation; Apply explicit operation edits, Ready→one Start. Saved existing-family expected 63 frames / 101,184 samples, source clock 90 frames / 144,000 samples. This is a short regression through current shared owner, not a new calibration campaign. Audit collector-produced comparisons only, no extra independent media process.
+3. Remux: switch Remux tab in SAME app, return to original MP4 input and third output folder. Explicit MP4 target, not automatic replacement of persisted Matroska. Prepare→one Start→success, actual Show in folder selects published MP4, terminal elapsed remains fixed after return. Do not treat selected target alone as source acceptance.
+
+Each route must actually prepare a new plan and own runtime generation; previous success/selection must not authorize next Start. Stop on unsupported/refusal/error, closed admission or deadline and preserve evidence. No app relaunch to conceal failed same-session switching. Normal file-manager close, then normal app X after final success. Parent may skip redundant intermediate reveal if time is tight, but every publication still needs saved output authority verification; final remux actual reveal mandatory.
+
+## Cancellation and explicit reprepare
+
+Do NOT insert opportunistic Cancel clicks into the three short success cases: they can finish before the click and would produce ambiguous evidence. Existing private 081 cancellation acceptance and current source mutation/epoch tests remain separately scoped. Native cancellation→reprepare is valuable but should be a separately authored bounded attempt after the unified implementation settles: one chosen existing longer accepted fixture, predefined cancel observation criterion, await terminal cancellation/owned child closure, explicitly prepare a fresh plan in the same app and then one recovery Start. It requires separate final route/fixture/resource review and release, not permission to lengthen this 600-second session or repeat on race. Current draft UnifiedService cancels/invalidate/retire owner and fences mutations until completion; the final approved implementation/tests must confirm this before authoring that follow-up.
+
+## Saved audit and proof boundary
+
+After normal closure, audit exact package/source/runtime/input hashes, single GUI session continuity, three distinct prepare/start/job/publication identities, no old-plan authority, valid output/access/provenance for each, measured counts/PCM only where the existing measured route collected them, terminal elapsed distinction from session lifetime, and sampled owned-group closure. Normal security settings only. No output playback or supplemental probe/decode. This proves tested route switching in the final exact unified candidate, not all settings, arbitrary media, Windows/GPU, portability or final release.
+
+## Unbound wrapper preparation
+
+The wrapper uses one profile, three separately checked input directories and three initially empty output directories. The ordinary and Remux directories will contain separate copies of the same retained MP4 bytes; measured input uses the retained PCM MOV. No data directories have been populated yet. Package path, independent audit path/hash and file count remain explicit unbound placeholders. The launch switch is --linux-unified-candidate. All identity-safe WNOWAIT, closure, loader, storage and 600-second lifetime controls are retained. Thirteen inert tests cover the original safeguards plus all three input/output slots and aggregate accounting. These tests do not launch Electron or prove GUI behavior. Source-readable .py.txt files are exact copies for documentation; no gate is supplied.

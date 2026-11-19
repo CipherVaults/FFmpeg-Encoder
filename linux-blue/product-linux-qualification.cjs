@@ -545,12 +545,12 @@ const SOURCE_PINS = {
     "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
   },
   "linux-blue/product-linux-unified-runtime.cjs": {
-    "bytes": 4607,
-    "sha256": "af5933de07b1e6a35629023c0f88d769008f758c8a60255f8c80b1335d333288"
+    "bytes": 4623,
+    "sha256": "aac599d13d18be757cb83874122c5fb3847060337aeb94116946667d1d25b961"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 14658,
-    "sha256": "7bbdd28504204b254c1807e7806330870ed8fcdf0973b993975b7314e644d772"
+    "bytes": 18604,
+    "sha256": "63d7666ff6106a0d358a92e257fc67a922b8920d296c08b3f5bb893e64240d01"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
@@ -559,6 +559,10 @@ const SOURCE_PINS = {
   "linux-blue/av1-cpu-policy.cjs": {
     "bytes": 1310,
     "sha256": "e00494b6fede6d842de200a92bf580c76fc64cb79617c451d8f6363c4b3c62ef"
+  },
+  "linux-blue/h265-ordinary-policy.cjs": {
+    "bytes": 1270,
+    "sha256": "5e7a3b571f9b6d2f15491e9ecbd565948c354720117ce30a358e7462013dbdb2"
   }
 };
 const CLOSED_RECORD = {

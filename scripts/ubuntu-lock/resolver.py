@@ -1,7 +1,8 @@
 """One-shot official Ubuntu metadata and simulation only. No package installation."""
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal
+from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='6eccc9e573db1e9caf4f103058758577142bc40b'
+PARENT='e4f688b46963fa03c5c908e571f10f330614f4b2'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 
@@ -145,33 +146,71 @@ def retain_mapping(installed,changes,root,end,result):
   except (ChildFailure,AssertionError,KeyError,ValueError):result['unresolved'].append({'package':name,'version':version,'reason':'EXACT_SIGNED_METADATA_UNRESOLVED'})
  result['mappingCompleted']=True
 
+# Diagnostics are closed enums, never exception text, environment or host data.
+DIAGNOSTIC_STAGES=('BASELINE_COPY','CONFIGURE_ISOLATION','BASELINE_PARSE','BASELINE_VALIDATE','BASELINE_QUERY','BASELINE_COMPARE','TOOL_IDENTITIES','METADATA_UPDATE','RELEASE_AUTHENTICATION','TRANSACTION_SIMULATION','TRANSACTION_PARSE','CANDIDATE_MAPPING','FINAL_BASELINE_CHECK')
+DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
+FAILURE_TYPES=frozenset(('AssertionError','BoundFailure','ChildFailure','KeyError','ValueError','UnicodeDecodeError','FileNotFoundError','PermissionError','OSError','TimeoutExpired'))
+
+@contextmanager
+def diagnostic_stage(result,name):
+ assert name in DIAGNOSTIC_STAGES
+ result['diagnosticStage']=name
+ try:
+  yield
+ except BaseException:
+  raise
+ else:
+  result.setdefault('completedDiagnosticStages',[]).append(name)
+
+def record_failure(result,error):
+ # Accept only exact known class names/reason constants. No repr/str fallback.
+ kind=type(error).__name__
+ reason=error.args[0] if len(error.args)==1 and type(error.args[0]) is str else None
+ result.update(status='blocked',failureType=kind if kind in FAILURE_TYPES else 'OTHER_FAILURE',failureReason=reason if reason in DIAGNOSTIC_REASONS else 'UNCLASSIFIED_FAILURE')
+ cleanup=getattr(error,'cleanupFailureType',None)
+ if cleanup is not None:result['cleanupFailureType']=cleanup if type(cleanup) is str and cleanup in FAILURE_TYPES else 'OTHER_FAILURE'
+
 def main():
  assert sys.argv[1:]==['--resolve-once'];eventPath=pathlib.Path(os.environ['GITHUB_EVENT_PATH']);assert eventPath.stat().st_size<1024**2;authority(os.environ,json.loads(eventPath.read_text()))
  assert 'ID=ubuntu' in pathlib.Path('/etc/os-release').read_text() and 'VERSION_ID="24.04"' in pathlib.Path('/etc/os-release').read_text()
  root=pathlib.Path(tempfile.mkdtemp(prefix='ubuntu-lock-',dir=os.environ['RUNNER_TEMP']));end=time.monotonic()+1200
  result={'schema':'ubuntu-lock-candidate/v1','ready':False,'head':os.environ['GITHUB_SHA'],'scope':'metadata-and-simulation-only','unresolved':[]}
  try:
-  status=pathlib.Path('/var/lib/dpkg/status').read_bytes();assert len(status)<=32*1024**2;(root/'status').write_bytes(status);config(root)
-  installedRecords=[r for r in paragraphs(status.decode())if r.get('Status')=='install ok installed']
-  installed=baseline(installedRecords);assert len(installed)<10000
-  query,_=run(['/usr/bin/dpkg-query','-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n'],root,end)
-  queried={line.split('\t')[0]:line.split('\t')[1:] for line in query.decode().splitlines()if line.endswith('\tinstall ok installed')}
-  assert queried=={n:[r['Version'],r['Architecture'],r['Status']]for n,r in installed.items()},'BASELINE_SET_MISMATCH'
-  result['baselineStatusSha256']=sha(status);result['baselineInstalledCount']=len(installed)
-  result['toolIdentities']={p:sha(pathlib.Path(p).resolve().read_bytes())for p in ['/usr/bin/apt-get','/usr/bin/apt-cache','/usr/bin/gpgv','/usr/share/keyrings/ubuntu-archive-keyring.gpg']}
-  run(['/usr/bin/apt-get','update','--error-on=any'],root,end)
-  releases=[]
-  for p in sorted((root/'lists').glob('*InRelease')):
-   run(['/usr/bin/gpgv','--keyring','/usr/share/keyrings/ubuntu-archive-keyring.gpg',str(p)],root,end);text=p.read_text();assert 'Codename: noble' in text
-   releases.append({'sha256':sha(p.read_bytes()),'dateFields':[l for l in text.splitlines()if l.startswith(('Date:','Valid-Until:','Suite:','Codename:'))]})
-  assert len(releases)==3;result['signedReleases']=releases
-  simulated,_=run(['/usr/bin/apt-get','-s','--no-install-recommends','install',*ROOTS],root,end);changes=transaction(simulated.decode(),installed)
-  retain_mapping(installed,changes,root,end,result)
+  with diagnostic_stage(result,'BASELINE_COPY'):
+   status=pathlib.Path('/var/lib/dpkg/status').read_bytes();assert len(status)<=32*1024**2;(root/'status').write_bytes(status)
+  with diagnostic_stage(result,'CONFIGURE_ISOLATION'):
+   config(root)
+  with diagnostic_stage(result,'BASELINE_PARSE'):
+   installedRecords=[r for r in paragraphs(status.decode())if r.get('Status')=='install ok installed']
+  with diagnostic_stage(result,'BASELINE_VALIDATE'):
+   installed=baseline(installedRecords);assert len(installed)<10000
+  with diagnostic_stage(result,'BASELINE_QUERY'):
+   query,_=run(['/usr/bin/dpkg-query','-W','-f=${Package}\t${Version}\t${Architecture}\t${Status}\n'],root,end)
+  with diagnostic_stage(result,'BASELINE_COMPARE'):
+   queried={line.split('\t')[0]:line.split('\t')[1:] for line in query.decode().splitlines()if line.endswith('\tinstall ok installed')}
+   assert queried=={n:[r['Version'],r['Architecture'],r['Status']]for n,r in installed.items()},'BASELINE_SET_MISMATCH'
+   result['baselineStatusSha256']=sha(status);result['baselineInstalledCount']=len(installed)
+  with diagnostic_stage(result,'TOOL_IDENTITIES'):
+   result['toolIdentities']={p:sha(pathlib.Path(p).resolve().read_bytes())for p in ['/usr/bin/apt-get','/usr/bin/apt-cache','/usr/bin/gpgv','/usr/share/keyrings/ubuntu-archive-keyring.gpg']}
+  with diagnostic_stage(result,'METADATA_UPDATE'):
+   run(['/usr/bin/apt-get','update','--error-on=any'],root,end)
+  with diagnostic_stage(result,'RELEASE_AUTHENTICATION'):
+   releases=[]
+   for p in sorted((root/'lists').glob('*InRelease')):
+    run(['/usr/bin/gpgv','--keyring','/usr/share/keyrings/ubuntu-archive-keyring.gpg',str(p)],root,end);text=p.read_text();assert 'Codename: noble' in text
+    releases.append({'sha256':sha(p.read_bytes()),'dateFields':[l for l in text.splitlines()if l.startswith(('Date:','Valid-Until:','Suite:','Codename:'))]})
+   assert len(releases)==3;result['signedReleases']=releases
+  with diagnostic_stage(result,'TRANSACTION_SIMULATION'):
+   simulated,_=run(['/usr/bin/apt-get','-s','--no-install-recommends','install',*ROOTS],root,end)
+  with diagnostic_stage(result,'TRANSACTION_PARSE'):
+   changes=transaction(simulated.decode(),installed)
+  with diagnostic_stage(result,'CANDIDATE_MAPPING'):
+   retain_mapping(installed,changes,root,end,result)
+  with diagnostic_stage(result,'FINAL_BASELINE_CHECK'):
+   assert pathlib.Path('/var/lib/dpkg/status').read_bytes()==status
   result['status']='candidate-for-review'
-  assert pathlib.Path('/var/lib/dpkg/status').read_bytes()==status
  except Exception as e:
-  result.update(status='blocked',failureType=type(e).__name__)
-  if hasattr(e,'cleanupFailureType'):result['cleanupFailureType']=e.cleanupFailureType
+  record_failure(result,e)
  result['ready']=False
  (ROOT/'lock-report.json').write_text(json.dumps(result,indent=2)+'\n')
  return 0 if result.get('status')=='candidate-for-review' else 2

@@ -1,0 +1,195 @@
+{
+  "checkpoint": "089",
+  "cutoff": "2026-11-19T09:27:42.957059+00:00",
+  "baseCommit": "896ce89f0949eb4f6510a265d65057e28df83509",
+  "status": "Source and aggregate tested; independent derived review accepted; writer proposal released for lead merging",
+  "sourceFiles": {
+    "linux-blue/h265-ordinary-policy.cjs": {
+      "bytes": 1270,
+      "sha256": "5e7a3b571f9b6d2f15491e9ecbd565948c354720117ce30a358e7462013dbdb2"
+    },
+    "linux-blue/product-linux-unified-runtime.cjs": {
+      "bytes": 4623,
+      "sha256": "aac599d13d18be757cb83874122c5fb3847060337aeb94116946667d1d25b961"
+    },
+    "linux-blue/product-linux-unified-service.cjs": {
+      "bytes": 18604,
+      "sha256": "63d7666ff6106a0d358a92e257fc67a922b8920d296c08b3f5bb893e64240d01"
+    },
+    "tests/h265-ordinary-policy.test.cjs": {
+      "bytes": 1916,
+      "sha256": "748c2ca57513c455f7e5740bd0c6e2ed6dc5d55f93cdf2f8e3277709b4ddfa59"
+    },
+    "tests/linux-unified-runtime.test.cjs": {
+      "bytes": 4881,
+      "sha256": "05557931257809d31b1ca3ce71e60e03dc9fa1db82bb77ba65bd785c8a9a4f01"
+    },
+    "tests/linux-unified-service.test.cjs": {
+      "bytes": 23981,
+      "sha256": "1f31d7b6f5d32a206cc6d8e79b39372c2c1cf2d1470accac905a42cd1e45b751"
+    },
+    "linux-blue/product-linux-qualification.cjs": {
+      "bytes": 37777,
+      "sha256": "1d4d92d23e42f33751d33951273b448925543786bd6ec6d206b902e70f893476"
+    },
+    "resources/linux-inert-package-plan.json": {
+      "bytes": 73725,
+      "sha256": "437622a79f56fb35ce366b690fad1f7e823f24b014390449ddd55d3c52b10e55"
+    },
+    "tests/linux-candidate-launcher.test.cjs": {
+      "bytes": 5797,
+      "sha256": "63153f23b7e9f2dd0b7374687543f95b1e16183359b4cefefc75227e70c0870a"
+    },
+    "tests/linux-inert-package.test.cjs": {
+      "bytes": 10333,
+      "sha256": "6e3d45bc2e06e9592b4d4306c8d9dda4a4a83199e9fbbea2d11ebd914c2fadff"
+    },
+    "scripts/ubuntu-lock/resolver.py": {
+      "bytes": 13867,
+      "sha256": "cac99c1a495f51d54d2a26bd40f82fbbaa580e8f6707c41e210b474e625a8dd1"
+    },
+    "scripts/ubuntu-lock/test_resolver.py": {
+      "bytes": 10498,
+      "sha256": "b548ec787a0034239d74362c1a2931f7113208f1df464a26e4147632e753bec0"
+    },
+    ".github/workflows/ubuntu-lock.yml": {
+      "bytes": 2075,
+      "sha256": "8166a9e6c13df1cfcebc45af15154544095d4e422ec79455c27919c009ac1e7c"
+    }
+  },
+  "derivedHandoff": {
+    "scope": "089 current product source closure/package binding and count-contract tests only",
+    "functionalHandoffSha256": "24221b36e8069e5ed7473a0ad5a47829e4363ecbfe2b7c6118de06905b49d5d8",
+    "functionalReviewSha256": "91b020d9497fc81de2d5e66a2165a49d5f7139268608d0f4e66d0aebae0d5462",
+    "files": [
+      {
+        "path": "linux-blue/product-linux-qualification.cjs",
+        "bytes": 37777,
+        "sha256": "1d4d92d23e42f33751d33951273b448925543786bd6ec6d206b902e70f893476"
+      },
+      {
+        "path": "resources/linux-inert-package-plan.json",
+        "bytes": 73725,
+        "sha256": "437622a79f56fb35ce366b690fad1f7e823f24b014390449ddd55d3c52b10e55"
+      },
+      {
+        "path": "tests/linux-candidate-launcher.test.cjs",
+        "bytes": 5797,
+        "sha256": "63153f23b7e9f2dd0b7374687543f95b1e16183359b4cefefc75227e70c0870a"
+      },
+      {
+        "path": "tests/linux-inert-package.test.cjs",
+        "bytes": 10333,
+        "sha256": "6e3d45bc2e06e9592b4d4306c8d9dda4a4a83199e9fbbea2d11ebd914c2fadff"
+      }
+    ],
+    "derivation": {
+      "base": "896ce89f0949eb4f6510a265d65057e28df83509",
+      "pins": 139,
+      "inputs": 257,
+      "application": 156,
+      "sourceRows": 169,
+      "inputBytes": 391561213,
+      "changedExistingPins": [
+        "linux-blue/product-linux-unified-runtime.cjs",
+        "linux-blue/product-linux-unified-service.cjs"
+      ],
+      "newPin": "linux-blue/h265-ordinary-policy.cjs",
+      "changedExistingPackageRows": [
+        "linux-blue/product-linux-qualification.cjs",
+        "linux-blue/product-linux-unified-runtime.cjs",
+        "linux-blue/product-linux-unified-service.cjs"
+      ],
+      "nonSourceRowsUnchanged": true,
+      "loaderOutsideSourcePinsUnchanged": true,
+      "historicalEvidenceAndRuntimeUnchanged": true
+    },
+    "all257ActualInputsRehashed": true,
+    "commands": {
+      "focused": "node --test tests/h265-ordinary-policy.test.cjs tests/av1-cpu-policy.test.cjs tests/linux-unified-service.test.cjs tests/linux-unified-runtime.test.cjs tests/linux-ordinary-policy.test.cjs tests/linux-ordinary-service.test.cjs tests/linux-ordinary-stage-guard.test.cjs",
+      "affected": "node --test tests/ui-workbench.test.cjs tests/linux-inert-package.test.cjs tests/linux-candidate-launcher.test.cjs",
+      "aggregate": "node scripts/ci-source-contracts.cjs"
+    },
+    "tests": {
+      "focused": 62,
+      "affected": 100,
+      "syntax": 225,
+      "shared": 325,
+      "linux": 40,
+      "failed": 0,
+      "skipped": 0,
+      "countsOverlap": true
+    },
+    "evidence": [
+      {
+        "path": "FOCUSED.log",
+        "bytes": 5493,
+        "sha256": "d61f3ae888975aef098be26ec4ae4aeeda394d8da6e629c8ffaff4f264e6b008"
+      },
+      {
+        "path": "AFFECTED.log",
+        "bytes": 10814,
+        "sha256": "0dccfa68473f5a6db123a76b109fb520b5a18621a4258019e4c437793d2c10f5"
+      },
+      {
+        "path": "AGGREGATE.log",
+        "bytes": 37702,
+        "sha256": "89f8a100a2db19557f5e1581125e6dfccc1fd378444fbe47823d7c173f6174b4"
+      },
+      {
+        "path": "DERIVED.patch",
+        "bytes": 9213,
+        "sha256": "157ea4537c4f36fe9e1a0e1bdd606c441828fa7e937ae756a230de2748493b62"
+      },
+      {
+        "path": "DERIVATION.json",
+        "bytes": 664,
+        "sha256": "78322e1791f09e88610bd06df5caef62d030c31e70d6b3f56f7b03b631e7fcb9"
+      },
+      {
+        "path": "COMMANDS.json",
+        "bytes": 475,
+        "sha256": "979c82c28513b5af60a3e27d52f2bc706b1cca8692d8a09084afecd1291d18ad"
+      }
+    ],
+    "limits": [
+      "No historical producer maps or qualification numerical values changed. Loader outside SOURCE_PINS unchanged.",
+      "No runtime/library/launcher/non-source identities or package metadata changed.",
+      "No build, native/media execution, commit or publication.",
+      "Ubuntu diagnostic paths are separately reviewed/owned, not modified in this derived step."
+    ]
+  },
+  "derivedHandoffSha256": "03fcc6b69670ae91fb65618981d82e74696ec7ccb47732fbee182abf2fec988e",
+  "functionalReviewSha256": "91b020d9497fc81de2d5e66a2165a49d5f7139268608d0f4e66d0aebae0d5462",
+  "ubuntuBindingHandoffSha256": "210db1e3e3da5eeb8b4311288d4db766edd9563c957ea17ccf8b4cff693525c2",
+  "independentDerivedReview": {
+    "sha256": "f164daa9d97509798d5e03cefe88cfb044f83a68aaae2c917efca4ec4d1593a8",
+    "independentAffectedTests": 100,
+    "actualInputsVerified": 257
+  },
+  "predecessorSession": {
+    "bytes": 2695247,
+    "sha256": "a72d59281e517477ac82a7ce0ed934da0a3bcfe7bea547d7250ca75ea183e118"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native088-av1-saved-audit.json": {
+      "bytes": 3686,
+      "sha256": "e3c865855983e588aa85a2cca46faef4ae7c10beeaf88863923669d181d0e540"
+    },
+    "linux-blue/evidence-2026-11-19/hosted088-verified-outcome.json": {
+      "bytes": 1190,
+      "sha256": "228ad9e2825411dd28e12a7f064e4ec42a95ddc65fc941ff9ae1b61965dc5290"
+    },
+    "linux-blue/evidence-2026-11-19/release-scope088-reconciliation.md": {
+      "bytes": 10334,
+      "sha256": "e190e641cf3f7b3b7e8bb22e0980c69308956a4f2f191dcf23c0729f60a4dd69"
+    }
+  },
+  "limits": [
+    "No089 build/native/media/hosted outcome",
+    "Ubuntu diagnostic instrumentation is not a diagnosis/fix; no run yet",
+    "Current package/source closure is not binary distribution retention",
+    "Windows last packaged proof085; shared088 is source-only",
+    "Owner Windows/RTX last after independent candidate freeze"
+  ]
+}

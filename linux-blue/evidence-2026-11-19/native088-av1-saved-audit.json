@@ -1,0 +1,98 @@
+{
+  "status": "accepted-bounded-one-file-AV1-native-ordinary-route",
+  "sourceCommit": "896ce89f0949eb4f6510a265d65057e28df83509",
+  "sourceFilesVerified": 939,
+  "packagePhysicalFilesVerified": 259,
+  "ordinaryExecutableModesVerified": 6,
+  "packageBytesAndInodesUnchanged": true,
+  "fileAuditSha256": "6e5db72030fbfaa53483da210147038232a54afa218f40dda5f37bfa92d503d0",
+  "closureSha256": "2ecf1cd99169baa2d1a16337215894695aa18c4ef181e03e4b72cc89ce7033e6",
+  "savedInventory": {
+    "files": 75,
+    "sha256": "912d001c3ea55454adf8f1f069aa7cbc829a080187194353b7c4f2f18ac8116a"
+  },
+  "diagnosticDigestsVerified": 21,
+  "provenanceChecksumsVerified": 2,
+  "events": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 2,
+    "FOLDER_PICKER_REGISTERED": 2,
+    "PREPARATION_STARTED": 1,
+    "FILE_INSPECTED": 1,
+    "PREPARATION_FINISHED": 1,
+    "ENCODE_STARTED": 1,
+    "ENCODE_CLOSED": 1,
+    "OUTPUT_CHECKED": 1,
+    "SOURCE_ASSESSED": 1,
+    "OUTPUT_PUBLISHED": 1,
+    "JOB_DISPOSITION": 1,
+    "BATCH_FINISHED": 1,
+    "OUTPUT_ACTION_DISPATCHED": 1,
+    "SESSION_ENDED": 1
+  },
+  "settings": {
+    "profileId": "av1-cpu",
+    "preset": "6",
+    "quality": 32
+  },
+  "operation": {
+    "range": "Full",
+    "resolution": "Keep source 1920x1080",
+    "target": "Matroska",
+    "audio": "AAC copy",
+    "pixelFormat": "yuv420p",
+    "validation": "ordinary accepted-full compatibility validator; valid true and no saved errors"
+  },
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97"
+  },
+  "output": {
+    "name": "fixture_AV1-CPU.mkv",
+    "bytes": 5374066,
+    "sha256": "7e05a90db8227ff1f7d4dd29e83a8ff86bfa66f4fb33b757be7c705ba060084b",
+    "publicationDeviceInodeSizeMtimeMatch": true,
+    "ctimeChangedAfterPublication": true,
+    "identityLimit": "Full SHA256 independently measured now; sparse publication digest not recomputed. ctime difference alone is consistent with stage-link cleanup, not independently proven cause."
+  },
+  "batch": {
+    "counts": {
+      "success": 1,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "unprocessed": 0
+    },
+    "elapsedSeconds": 14.559,
+    "timingLimit": "Saved batch journal elapsed, not a retained final DOM snapshot or encode-only duration."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 222.77915103600026,
+    "terminationRequested": false,
+    "errors": [],
+    "sampledIdentities": 11,
+    "sampledNotExhaustive": true,
+    "unreapedLeaderZombieOnlyBeforeReap": true
+  },
+  "leadVisualObservation": "Genuine pickers; one Prepare/Start; visible 44.6% progress; Completed one success, terminal00:14 frozen after reveal and return. Thunar opened exact output directory and selected fixture_AV1-CPU.mkv. Normal window close returned terminal prompt. These visual claims are attributed to lead, not independently replayed.",
+  "diagnostics": {
+    "stdoutBytes": 0,
+    "stderrBytes": 620,
+    "retainedWarnings": [
+      "Three missing system D-Bus socket errors",
+      "One TLS handshake net_error -202"
+    ],
+    "contextTruncatedDisposition": true
+  },
+  "limits": [
+    "No further media/probe/decode/desktop/launch or permission change during audit.",
+    "Ordinary validator success is not fresh streaming PCM equality, packet identity or perceptual-quality measurement.",
+    "No10-bit, GPU, resize, trim, FLAC, AV1-input, Windows or portable-release acceptance.",
+    "One retained synthetic eight-second H264/AAC input; historical evidence remains tied to its own artifacts."
+  ]
+}

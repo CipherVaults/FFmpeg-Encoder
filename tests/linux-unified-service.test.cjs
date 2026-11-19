@@ -25,7 +25,7 @@ test('failed generation retirement blocks new authority rather than swallowing u
  const {h,service}=await setup(t,{failClose:true});await assert.rejects(service.mutate('renew',['remux']),e=>e instanceof AggregateError&&e.errors.some(x=>x.message==='close-failure'));assert.equal(h.generations.length,1);assert.equal(service.route,'ordinary');
 });
 test('fixed tuples reject fallback and preserve existing strict shared ordinary guard implementation',()=>{
- const h=harness();assert.equal(h.fixedSettings({profileId:'h264-cpu',preset:'veryfast',quality:23}),'ordinary');assert.equal(h.fixedSettings({profileId:'h265-cpu',preset:'slow',quality:25}),'measured');assert.throws(()=>h.fixedSettings({profileId:'h265-cpu',preset:'fast',quality:23}));
+ const h=harness();assert.equal(h.fixedSettings({profileId:'h264-cpu',preset:'veryfast',quality:23}),'ordinary');assert.equal(h.fixedSettings({profileId:'h265-cpu',preset:'slow',quality:25}),'h265');assert.equal(h.fixedSettings({profileId:'h265-cpu',preset:'fast',quality:23}),'h265');
 });
 
 function sourceProbe() {
@@ -80,7 +80,12 @@ test('genuine measured selector admits exact1440 range then route returns to ord
  const first=await service.prepareBatch({...folders,settings:{profileId:'h265-cpu',preset:'slow',quality:25}});
  const result=await service.updateFileOperations({planId:first.planId,draftId:first.operationDraft.id,revision:first.operationDraft.revision,fileIds:[first.items[0].id],overrides:{resolution:'720',range:{startUs:1000000,endUs:1500000},audioPolicy:'precision-flac'}});
  assert.equal(result.items[0].status,'ready',result.items[0].reason);const entry=service.plan.entries.get(result.items[0].id);assert(entry.qualificationSelection);assert(entry.operationRuntimeToken);assert.equal(entry.operationPlan.compatibilityPath,false);assert.equal(service.ordinaryJobGuard,null);
+ const originalBegin=service.generation.begin;let measuredKind;service.generation.begin=(route)=>{measuredKind=route;assert.equal(service.ordinaryJobGuard,null);assert.equal(service.executionBinding.entry,entry);throw Error('measured inert stop');};
+ await assert.rejects(service.startBatch({planId:result.planId,fileIds:[result.items[0].id]}),/Prepare a fresh batch/);assert.equal(measuredKind,'measured');assert.equal(service.executionBinding,null);assert.equal(service.plan,null);assert.equal(service.state.phase,'failed');
  await service.cancelCurrent();assert.equal(service.plan,null);
+ const nondefault=await service.prepareBatch({...folders,settings:{profileId:'h265-cpu',preset:'fast',quality:28}});
+ const refused=await service.updateFileOperations({planId:nondefault.planId,draftId:nondefault.operationDraft.id,revision:nondefault.operationDraft.revision,fileIds:[nondefault.items[0].id],overrides:{resolution:'720',range:{startUs:1000000,endUs:1500000},audioPolicy:'precision-flac'}});
+ assert.equal(refused.items[0].status,'unsupported');assert.equal(service.plan.entries.size,0);await service.cancelCurrent();
  probe=sourceProbe();probe.format.size=String((await fsp.stat(file)).size);
  const ordinary=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(ordinary.items[0].status,'ready',ordinary.items[0].reason);assert.equal(typeof service.ordinaryJobGuard,'function');
 });
@@ -112,4 +117,36 @@ test('actual AV1 Prepare keeps compatibility guard, fixed capability and fresh-r
  await assert.rejects(service.reprepareEncodingSettings({settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}}),/fresh explicit Prepare/);
  await service.cancelCurrent();assert.equal(service.plan,null);await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]}));
  const next=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(next.items[0].status,'ready',next.items[0].reason);assert.equal(service.route,'ordinary');
+});
+test('H265 Start refusal retires mutated plans and permits only fresh explicit preparation',async t=>{
+ const {service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);await fsp.writeFile(path.join(input,'source.mp4'),'inert source');const probe=sourceProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach(s=>s.time_base='1/48000');
+ service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output'),folders={inputFolderId:i.id,outputFolderId:o.id};
+ for(const settings of [{profileId:'h265-cpu',preset:'slow',quality:25},{profileId:'h265-cpu',preset:'fast',quality:28}]){
+ const prepared=await service.prepareBatch({...folders,settings});assert.equal(prepared.items[0].status,'ready',prepared.items[0].reason);const entry=service.plan.entries.get(prepared.items[0].id);assert.equal(entry.operationPlan.compatibilityPath,true);assert.equal(service.route,'h265');assert.equal(service.ordinaryJobGuard,null);
+ assert.deepEqual(service.getRecipe(settings).testedDefault.settings,{profileId:'h265-cpu',preset:'slow',quality:25});
+ const caps=(await service.getCapabilities()).profiles.find(p=>p.id==='h265-cpu');assert(caps.presets.includes('veryslow'));assert.equal(caps.quality.max,51);assert.equal(caps.defaultPreset,'slow');assert.equal(caps.candidateFixedSettings,false);
+ assert.deepEqual(service.getRecipe(settings).args,['-c:v:0','libx265','-preset:v:0',settings.preset,'-crf:v:0',String(settings.quality),'-x265-params','aq-mode=3:psy-rd=2']);
+ await assert.rejects(service.startBatch({planId:'stale',fileIds:[prepared.items[0].id]}));assert.equal(service.executionBinding,null);
+ await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id],extra:true}));assert.equal(service.executionBinding,null);assert.equal(service.ordinaryJobGuard,null);assert.equal(service.state.phase,'ready');
+ await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id,prepared.items[0].id]}));assert.equal(service.executionBinding,null);
+ const original=service.generation.begin;let observed;
+ const terminal=[];const record=snapshot=>{if(snapshot.phase==='failed')terminal.push({snapshot,generation:service.generation,binding:service.executionBinding,guard:service.ordinaryJobGuard});};service.on('update',record);
+ const failAfterAdmission=settings.preset==='fast';const listener=()=>{if(service.state.phase==='running')throw Error('inert begin refusal');};if(failAfterAdmission)service.on('update',listener);const brokenTerminal=()=>{if(service.state.phase==='failed')throw Error('terminal listener failure');};if(!failAfterAdmission)service.on('update',brokenTerminal);
+ service.generation.begin=(route,kind,controller)=>{observed={route,kind,binding:service.executionBinding,guard:service.ordinaryJobGuard};if(failAfterAdmission)return original(route,kind,controller);throw Error('inert begin refusal');};
+ await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]}),error=>{assert.match(error.message,/Prepare a fresh batch/);assert.match(error.cause.message,/inert begin refusal/);return true;});
+ assert.equal(terminal.length,1);assert.equal(terminal[0].generation,null);assert.equal(terminal[0].binding,null);assert.equal(terminal[0].guard,null);assert.equal(terminal[0].snapshot.planId,null);service.off('update',record);
+ service.off('update',listener);service.off('update',brokenTerminal);assert.equal(observed.route,'h265-ordinary');assert.equal(observed.kind,'running');assert.equal(observed.binding.entry,entry);assert(Object.isFrozen(observed.binding));assert.equal(typeof observed.guard,'function');assert.equal(service.executionBinding,null);assert.equal(service.ordinaryJobGuard,null);assert.equal(service.state.phase,'failed');assert.equal(service.plan,null);assert.equal(service.generation,null);await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]}));
+ }
+ await service.cancelCurrent();assert.equal(service.plan,null);
+});
+
+test('H265 ordinary binding and mandatory guard survive deferred execution then clear on settlement',async t=>{
+ const {service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);await fsp.writeFile(path.join(input,'source.mp4'),'inert source');const probe=sourceProbe();probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';
+ service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');const prepared=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:{profileId:'h265-cpu',preset:'slow',quality:25}});
+ const originalExecute=service.execute;let release;const barrier=new Promise(r=>release=r);service.execute=async(...args)=>{await barrier;return originalExecute(...args);};
+ try{await service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]});const binding=service.executionBinding,guard=service.ordinaryJobGuard;assert(binding&&typeof guard==='function');await new Promise(r=>setImmediate(r));assert.equal(service.executionBinding,binding);assert.equal(typeof service.ordinaryJobGuard,'function');}finally{release();}
+ await service.taskPromise;assert.equal(service.executionBinding,null);assert.equal(service.ordinaryJobGuard,null);assert.equal(service.generation.snapshot().phase,null);
+ // Fake runtime deliberately refuses any media execution; this tests ownership, not an encode.
 });

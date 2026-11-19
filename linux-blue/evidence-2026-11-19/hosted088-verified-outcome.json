@@ -1,0 +1,47 @@
+{
+  "checkpoint": 88,
+  "remoteHead": "e4f688b46963fa03c5c908e571f10f330614f4b2",
+  "runId": 44492480446,
+  "attempt": 1,
+  "event": "push",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 135451334938,
+      "os": "windows-2022",
+      "syntaxFiles": 224,
+      "sharedTests": 325,
+      "failures": 0,
+      "skipped": 0
+    },
+    {
+      "id": 135451335257,
+      "os": "ubuntu-24.04",
+      "syntaxFiles": 224,
+      "sharedTests": 325,
+      "linuxAdditionalTests": 40,
+      "failures": 0,
+      "skipped": 0
+    }
+  ],
+  "ubuntuInventory": {
+    "runId": 44492480374,
+    "conclusion": "skipped"
+  },
+  "ubuntuResolverRerun": false,
+  "windowsNativeWorkflowRebound": false,
+  "scope": "Selected source contracts only. No native AV1, media, GPU, packaging or release qualification.",
+  "logs": [
+    {
+      "path": "SHARED_135451334938.log",
+      "bytes": 61299,
+      "sha256": "20b17363a3cdbc0c3486022827847f2c5f16416d25c6e7eb08d7c285b0a7666b"
+    },
+    {
+      "path": "SHARED_135451335257.log",
+      "bytes": 66212,
+      "sha256": "df8a1512a231a96269f24748f9b90a3ca2b655832bc85f8b71f93b66452862ec"
+    }
+  ],
+  "observedAtUtc": "2026-11-19T09:01:55.637521+00:00"
+}

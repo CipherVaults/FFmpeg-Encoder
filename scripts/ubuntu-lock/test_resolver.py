@@ -79,5 +79,53 @@ class PartialEvidence(unittest.TestCase):
    m.retain_mapping({},changes,pathlib.Path('/inert'),0,result)
   self.assertEqual(result['transaction'],changes);self.assertEqual(len(result['unresolved']),1)
   self.assertTrue(result['mappingCompleted']);self.assertFalse(result['ready'])
+class Diagnostics(unittest.TestCase):
+ def test_closed_reason_and_type_no_payload(self):
+  for error in [AssertionError('/private/secret'),ValueError('TOKEN=secret'),type('PrivateClassName', (Exception,), {})('secret')]:
+   r={};error.cleanupFailureType='/private/cleanup';m.record_failure(r,error)
+   self.assertEqual(r['failureReason'],'UNCLASSIFIED_FAILURE');self.assertIn(r['failureType'],m.FAILURE_TYPES|{'OTHER_FAILURE'});self.assertEqual(r['cleanupFailureType'],'OTHER_FAILURE');self.assertNotIn('secret',m.json.dumps(r));self.assertNotIn('PrivateClassName',m.json.dumps(r))
+ def test_known_reason_primary_and_cleanup(self):
+  e=m.BoundFailure('DEADLINE');e.cleanupFailureType='PermissionError';r={};m.record_failure(r,e)
+  self.assertEqual(r,{'status':'blocked','failureType':'BoundFailure','failureReason':'DEADLINE','cleanupFailureType':'PermissionError'})
+ def test_unknown_stage_refused_before_body(self):
+  r={};called=False
+  with self.assertRaises(AssertionError):
+   with m.diagnostic_stage(r,'/private/secret'):called=True
+  self.assertFalse(called);self.assertEqual(r,{})
+ def test_stage_completion_and_partial_rows_survive_failure(self):
+  r={'transaction':[{'package':'x','version':'1'}],'authenticatedCandidateRecords':[{'Package':'a'}]}
+  with m.diagnostic_stage(r,'TRANSACTION_PARSE'):pass
+  with self.assertRaises(m.BoundFailure)as caught:
+   with m.diagnostic_stage(r,'CANDIDATE_MAPPING'):raise m.BoundFailure('DEADLINE')
+  m.record_failure(r,caught.exception)
+  self.assertEqual(r['completedDiagnosticStages'],['TRANSACTION_PARSE']);self.assertEqual(r['diagnosticStage'],'CANDIDATE_MAPPING');self.assertEqual(len(r['transaction']),1);self.assertEqual(len(r['authenticatedCandidateRecords']),1)
+ def test_all_main_stage_failures_inert_and_bounded(self):
+  original_bytes=pathlib.Path.read_bytes;original_text=pathlib.Path.read_text;real_stage=m.diagnostic_stage
+  status=b'Package: x\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n'
+  for target in m.DIAGNOSTIC_STAGES:
+   with self.subTest(target=target),tempfile.TemporaryDirectory()as d:
+    root=pathlib.Path(d);event=root/'event.json';event.write_text('{}')
+    def readbytes(path,*a,**kw):
+     if str(path)=='/var/lib/dpkg/status':return status
+     if str(path).startswith('/usr/'):return b'inert tool identity'
+     return original_bytes(path,*a,**kw)
+    def readtext(path,*a,**kw):
+     if str(path)=='/etc/os-release':return 'ID=ubuntu\nVERSION_ID="24.04"\n'
+     return original_text(path,*a,**kw)
+    def fake_run(argv,owned,end):
+     if argv[0]=='/usr/bin/dpkg-query':return b'x\t1\tamd64\tinstall ok installed\n',b''
+     if argv[:2]==['/usr/bin/apt-get','update']:
+      for i in range(3):(owned/'lists'/f'{i}InRelease').write_text('Codename: noble\n')
+     return b'',b''
+    @m.contextmanager
+    def injected(result,name):
+     with real_stage(result,name):
+      if name==target:raise AssertionError('private detail must not escape')
+      yield
+    with mock.patch.object(m,'ROOT',root),mock.patch.dict(m.os.environ,{'GITHUB_EVENT_PATH':str(event),'RUNNER_TEMP':d,'GITHUB_SHA':'a'*40}),mock.patch.object(m.sys,'argv',['resolver','--resolve-once']),mock.patch.object(m,'authority'),mock.patch.object(pathlib.Path,'read_bytes',readbytes),mock.patch.object(pathlib.Path,'read_text',readtext),mock.patch.object(m,'run',side_effect=fake_run)as run,mock.patch.object(m,'diagnostic_stage',injected),mock.patch.object(m.subprocess,'Popen')as spawn:
+     self.assertEqual(m.main(),2);spawn.assert_not_called()
+    report=m.json.loads((root/'lock-report.json').read_text());self.assertEqual(report['diagnosticStage'],target);self.assertEqual(report.get('completedDiagnosticStages',[]),list(m.DIAGNOSTIC_STAGES[:m.DIAGNOSTIC_STAGES.index(target)]));self.assertEqual(report['failureReason'],'UNCLASSIFIED_FAILURE');self.assertFalse(report['ready']);self.assertNotIn('private detail',m.json.dumps(report));self.assertNotIn(d,m.json.dumps(report))
+    if m.DIAGNOSTIC_STAGES.index(target)<m.DIAGNOSTIC_STAGES.index('METADATA_UPDATE'):self.assertFalse(any(c.args[0][:2]==['/usr/bin/apt-get','update'] for c in run.call_args_list))
+
 if __name__=='__main__':unittest.main()
 

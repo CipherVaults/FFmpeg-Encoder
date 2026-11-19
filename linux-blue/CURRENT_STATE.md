@@ -1,16 +1,17 @@
-# Current State — Checkpoint 088
+# Current State — Checkpoint 089 writer proposal
 
-Evidence cutoff: 2026-11-19T08:49:13+00:00. Local 088 commit and independent Notion/GitHub preservation follow this writer release.
+Evidence cutoff: 2026-11-19T09:27:42.957059+00:00. Final independent derived review accepted; writer proposal released for lead merging. No 089 commit or off-device preservation claim yet; 088 remains the latest verified durable checkpoint.
 
-## Completed and evidenced
-- 087 is fully preserved and verified on GitHub (c4b37bd917545fa5e58c6e103bf19ded24d9c5a4). Its explicit internal launcher opened the actual candidate in a fresh app-data namespace and closed normally. The saved audit verified 258 package files and six executable modes; no user media batch ran.
-- 086's measured cancellation and fresh recovery, exact output verification and isolated reveal evidence remain in 087. The earlier wrong-parent reveal remains historical; no proven cause or retrospective pass.
-- 088 implements fixed CPU AV1 ('6'/CRF 32) as a separate ordinary Full/source route in the explicit internal Linux candidate. It accepts bounded 8-bit SDR H264 inputs up to 1080p; existing H264, measured H265 and stream-copy evidence is unchanged.
-- Independent source reviews and canonical inert checks cover the actual shared service, settings, admission and 120-second preparation branch. Final checks: 57 focused, 120 affected, 224 syntax / 325 shared / 40 selected Linux; counts overlap. Exact closure: 138 pins, 256 inputs, 155 app members. No actual 088 capability, packaged app or encoding result yet.
+## Verified
+- Native 088 one-file AV1 Full/source Matroska AAC-copy publication, actual reveal and normal close accepted. Exact audit retained with compatibility-only validation, ctime, timing, sampling and warning limits.
+- 088 shared CI passed 224 syntax / 325 shared per OS plus 40 Linux. Last actual Windows packaged proof remains 085; report retention is not executable retention.
+- Thirteen current 089 source paths integrated: six independently reviewed ordinary H265 functional paths, three reviewed metadata diagnostic paths, four derived qualification/package/count paths. Final 62 focused / 100 affected / 225 syntax / 325 shared / 40 Linux checks passed, overlapping counts not summed.
+- 139 product pins and all 257 package inputs verified: 156 app rows, 169 source rows, 391,561,213 bytes. Historical measured producers, runtime/library/launcher identities and default Windows composition unchanged.
 
-## Still pending
-- Commit and preserve exact 088 source, history and complete readable records; build/audit exact 088 candidate and test a genuine bounded AV1 output in the packaged app.
-- Complete named Linux baseline and dependency/source-notice/manufacturing closure and durable artifact retention. Keep Ubuntu signed metadata evidence distinct from installation, build manufacture and an exact version lock.
-- Confirm supported scope and freeze independently qualified v0.7 candidate before the last owner Windows desktop / RTX hardware gate. Keep v0.8 themes, localization and learning work isolated after freeze; HDR stays v0.9.
+## Pending
+- Lead merge of exact writer paths, scoped commit and full Git → Notion → GitHub preservation.
+- Build and qualify the actual new ordinary H265 capability. Source supports shared preset/CRF controls with slow/25 default, one input, retained Matroska 1/1000 preparation-clock constraint and immutable prepared-entry execution dispatch; no 089 native acceptance yet.
+- Actual Ubuntu diagnostic attempt after full preservation/publication. Original 087 AssertionError cause remains unknown; no validation guard relaxed.
+- Broader accepted N–S compatibility/precision/remux/settings scope, named-platform support and corresponding-source/manufacturing/version/binary-retention obligations. A future current-source Windows two-file regression does not qualify running cancellation or Linux-specific admission.
 
-Full rationale, evidence identities and complete history are in SESSION_SUMMARY.md and 2026-11-19_Bounded_CPU_AV1_Internal_Route.md/.json. No production default or release readiness is claimed.
+Freeze the independently qualified candidate before the LAST owner Windows desktop / RTX gate. No full v0.7 release claim. New themes/languages/guide remain v0.8; HDR v0.9. Complete rationale and exact evidence are retained in the owning execution record and full Session history.

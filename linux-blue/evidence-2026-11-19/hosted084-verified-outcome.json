@@ -1,0 +1,37 @@
+{
+  "head": "2455aa2e331070b61aa8ad9fb11290274986fdaf",
+  "run": 44459767060,
+  "attempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "job": 135343413061,
+      "name": "Source contracts / ubuntu-24.04",
+      "syntax": 223,
+      "shared": 323,
+      "linuxAdditional": 40,
+      "logSha256": "33caa5e971f0ecc2905b6ec8e19f4c339ccd778d41458c50ca3e1d51a380c968"
+    },
+    {
+      "job": 135343413345,
+      "name": "Source contracts / windows-2022",
+      "syntax": 223,
+      "shared": 323,
+      "linuxAdditional": 0,
+      "logSha256": "2dbd93941b90a6126b8cca2b1e3381a20be7cc959eda36d38a5c4ca8f9320506"
+    }
+  ],
+  "failures": 0,
+  "skipsWithinTestSuites": 0,
+  "ubuntuInventory": {
+    "run": 44459767116,
+    "attempt": 1,
+    "conclusion": "skipped",
+    "guardUnchanged": true
+  },
+  "limits": [
+    "Shared source and renderer harness only; not a packaged Windows runtime test.",
+    "No Ubuntu rebind, install, rerun or dispatch.",
+    "No native qualification claim from this CI."
+  ]
+}

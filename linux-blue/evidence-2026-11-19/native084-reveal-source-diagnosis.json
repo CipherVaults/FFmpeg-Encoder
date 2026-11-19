@@ -1,0 +1,23 @@
+{
+  "scope": "native084-reveal-discrepancy-source-review",
+  "finding": "No application path transformation defect established. Visible wrong-folder observation remains unresolved.",
+  "evidence": [
+    "main.js unified and dedicated remux branches supply identical file=>shell.showItemInFolder(file) callbacks.",
+    "Unified shell forwards the genuine OutputAccess instance unchanged; shared EncoderService and OutputAccess bytes unchanged since082.",
+    "EncoderService issues access only from current.canonicalPath after published identity/cleanup checks.",
+    "OutputAccess observes an ordinary regular file and retained identity, then passes record.file unchanged to shell.showItemInFolder.",
+    "Renderer submits only main-issued outputId and fixed reveal action, not displayed path.",
+    "Saved084 journal records OUTPUT_ACTION_DISPATCHED with reveal action; target path and actual file-manager selection are not recorded."
+  ],
+  "limits": [
+    "Owner observed Thunar at preparation parent rather than output directory; no manual navigation or new desktop interaction performed by reviewer.",
+    "Electron void-return dispatch is not proof of selected file; existing UI wording correctly says request sent.",
+    "Saved thumbnailer warnings do not establish reveal navigation root cause."
+  ],
+  "recommendation": [
+    "Do not introduce dirname/openPath workaround without evidence: that could hide rather than fix selection behavior.",
+    "Small next diagnostic if needed: instrument only trusted main callback to retain bounded target identity/path privately and exercise same single reveal in a later approved native scope; compare supplied target to actual file-manager location.",
+    "Keep current acceptance qualified: publication and dispatch verified; final target reveal not verified."
+  ],
+  "executed": "Read-only source and saved journal inspection; no runtime, probe, desktop or edits to product."
+}

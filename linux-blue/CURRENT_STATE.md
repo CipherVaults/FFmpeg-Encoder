@@ -1,10 +1,11 @@
-# Current State — 084 explicit unified remux UI permission
+# Current State — 085 three publications verified; reveal incomplete
 
-Evidence cutoff 2026-11-19T04:27:09.385843+00:00. Reviewed source/PBS ready; commit, full preservation and native084 remain pending. Native084 has not run.
+Evidence cutoff 2026-11-19T04:51:28.325102+00:00. Three reviewed Windows workflow/helper/test paths and canonical records are ready. Commit, full preservation and a new hosted packaged result remain pending. No 085 app or package acceptance claim.
 
-- 083 fully preserved: 899 files/83 commits; remote 49db33949dd0c0eaf4046314114366683dad5b33. Shared CI passed 223 syntax/320 shared both OS plus 40 Linux tests.
-- Native083 partially accepted: same-app ordinary and measured encodes published, visible 00:02/00:07. Measured 63 frames and 101,184 PCM samples verified. Remux Prepare stayed disabled; no Remux preparation/Start, reveal or cancellation. Normal closure 420.600 seconds, sampled ownership only.
-- 084 fixes only explicit main-owned unified remux preview permission and rechecks after settings-save await. Backend admission/defaults unchanged. Six source paths independently reviewed; 103 focused/223 syntax/323 shared including 80 renderer/40 Linux checks passed.
-- Source/package counts unchanged: 137 pins, 252 inputs, 154 app rows, 164 source rows. No new package/native proof from source checks.
-- Ubuntu inventory produced valid exit 2 incomplete report: seven installed tuples authenticated, four requested dpkg/fixed-path tools absent. Not signature failure or a runtime build. Exact reports retained.
-- Next: explicit commit, full Git → Notion → GitHub, exact package audit and fresh bounded same-app ordinary → measured → remux journey. Native cancellation and owner Windows/RTX remain separate. No broad portability or release promotion.
+- 084 is fully preserved: 908 files and 84 commits, remote 2455aa2e331070b61aa8ad9fb11290274986fdaf. Hosted Windows/Ubuntu checks passed 223 syntax and 323 shared tests, plus 40 Linux; Ubuntu inventory intentionally skipped without rebinding.
+- Actual same-app 084 ordinary H.264, measured 0.613–2.721-second 720p FLAC and MP4 remux all published successfully. Visible elapsed values 00:01 / 00:06 / 00:02. Saved audit confirms 908 source files, 255 package files, three fixture copies, seven dependencies, 54 diagnostic digests and six provenance checksums.
+- Measured output: 63 frames and 101,184 PCM samples, decoded PCM identity verified. Remux: 240 video and 376 AAC packets plus 384,000 decoded PCM samples matched. These are bounded fixture proofs, not arbitrary media qualification.
+- Actual Show in folder dispatched, but Thunar opened the preparation parent rather than selecting the output. No manual navigation concealed it. Root cause unresolved; full native journey acceptance withheld. Publication ctime mismatches remain recorded.
+- Normal closure: exit zero after 376.382 seconds, no forced termination/errors and no live matching known identities among the sampled 21. No global census or cancellation/collision/rescan claim.
+- 085 binds only the reviewed Windows successor guard to actual 084 remote; 31 inert tests passed independently. No speculative Linux reveal fix, renderer change, runtime rebinding or manual dispatch.
+- Next: exact-scope commit and Git → Notion → GitHub, observe the ordinary Windows successor workflow, then investigate reveal proportionately. Owner Windows desktop/RTX testing, cancellation, portability and distribution remain separate gates.

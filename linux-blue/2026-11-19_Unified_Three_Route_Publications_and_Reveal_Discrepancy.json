@@ -1,0 +1,66 @@
+{
+  "checkpoint": "085",
+  "cutoff": "2026-11-19T04:51:28.325102+00:00",
+  "status": "Three native084 publications audited; external reveal incomplete; Windows successor source-only",
+  "baseCommit": "5d03763529178f24c02a3c7fd9cc90d8cd7deed6",
+  "sourceFiles": [
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "ac9e6ec327df635d195c9a85d07284fa98432e782522012c88b6f240adac4861"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "797b9c7899249366f9698e9f5a6b2c8d5457c8dcda966ab1210ad885cdc3b735"
+    },
+    {
+      "path": "tests/windows-packaged-integration.test.cjs",
+      "bytes": 9942,
+      "sha256": "45230ba206a35b000038257c79f0c4d4d1a62962b242f59cc8843c0b9a32afc2"
+    }
+  ],
+  "sourceHandoffSha256": "68571e288e44bdb091d9112b378184c6ecba8e3dc21f9d6807d240b38767f713",
+  "boundReviewSha256": "dca997b7c5248ee1857803b9f1e52ae6ab63f8340ba616692a384bcc4249eae3",
+  "boundRemotePredecessor": "2455aa2e331070b61aa8ad9fb11290274986fdaf",
+  "focusedTests": 31,
+  "predecessorSession": {
+    "bytes": 2636023,
+    "sha256": "2e4bb334a51a09fcf0e0f1fb1d3feb3d123b3e2afc6ab69521fc6a985aecb716"
+  },
+  "predecessorMirrorReceipt": {
+    "bytes": 4415,
+    "sha256": "0a8a4cb57ec8779088ed4b1b6836101da82aeeab5964066f09c8401c8ceeb652"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native084-saved-audit.json": {
+      "bytes": 7731,
+      "sha256": "81797a2dfa478d9aac2baa9972e30ee732a1e730b48055d513055ead72184649"
+    },
+    "linux-blue/evidence-2026-11-19/native084-reveal-clarification.json": {
+      "bytes": 1579,
+      "sha256": "add1254b4c9d04d7d123dfa46d37c26b8ab6c273a4fd8736624c84aeb029f1a4"
+    },
+    "linux-blue/evidence-2026-11-19/native084-reveal-source-diagnosis.json": {
+      "bytes": 1931,
+      "sha256": "a76309668b0b2ffb0b8d8047987da1e685bb39cc79d828e23314c5c3b7b24cab"
+    },
+    "linux-blue/evidence-2026-11-19/hosted084-verified-outcome.json": {
+      "bytes": 1009,
+      "sha256": "6a5fc737f62133ebd6bf05145bb38748ebd5f9a0ffd475634758a02284e49ad8"
+    }
+  },
+  "limits": [
+    "Actual reveal destination incorrect; no root cause established",
+    "No speculative reveal workaround or diagnostic source added",
+    "No new085 package, native or hosted Windows acceptance",
+    "No cancellation/collision/rescan in native084; sampled process ownership only",
+    "Historical cutoff and source/package/runtime pins unchanged"
+  ],
+  "inertRevealStudy": {
+    "path": "linux-blue/recovery-references/native084-reveal-os-study/PLAN.md",
+    "bytes": 3900,
+    "sha256": "addb7ae4b291f180cb672c8ec1ab9bf9a5283d30bcc24114f07cfdf92ee07d11",
+    "status": "Conditional upstream explanation only; no actual backend trace or diagnostic execution"
+  }
+}

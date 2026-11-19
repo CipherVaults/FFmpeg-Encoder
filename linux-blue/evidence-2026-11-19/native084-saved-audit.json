@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "status": "native084-three-route-publications-pass-reveal-native-location-unresolved",
+  "sourceCommit": "5d03763529178f24c02a3c7fd9cc90d8cd7deed6",
+  "sourceFilesVerifiedAgainstGit": 908,
+  "packageFilesVerified": 255,
+  "normalExecutableFiles": 5,
+  "allOtherModes": "0600",
+  "sourceAndThreeOwnedFixtureCopiesUnchanged": true,
+  "runtimeDependencyFilesVerified": 7,
+  "receipts": {
+    "closure": {
+      "bytes": 2275,
+      "sha256": "a5c1ff49e033319a4e2b63ca1073c7ebda53bdea2a19b83b2221d7dcbd7d0674"
+    },
+    "packageAudit": {
+      "bytes": 63376,
+      "sha256": "f98296924d818c5583108216baef224224153910571a0769f2f7264dca88fc41"
+    },
+    "measuredCollector": {
+      "bytes": 15976,
+      "sha256": "0ad45cfaaa7af6979e40aceecd9914bfe4a702f3a273f0ed41c062a4a6a10744"
+    },
+    "remuxCollector": {
+      "bytes": 143685,
+      "sha256": "b28248d899bcdaad10f9a23fb80137520e75135b7355c418e9b7ab72d2973621"
+    }
+  },
+  "savedLifecycle": {
+    "diagnosticDigestsVerified": 54,
+    "provenanceChecksumsVerified": 6,
+    "folderRegistrations": 6,
+    "encodeStarts": 2,
+    "encodeCloses": 2,
+    "remuxStarts": 1,
+    "remuxCloses": 1,
+    "publications": [
+      {
+        "route": "measured",
+        "outputId": "6d805a75-53fb-4d7a-9d6b-83e7f561ca2c",
+        "bytes": 590045,
+        "sha256": "55e62a2e9c3e8cd13cf15cf639408411459f25c89638d9a018b77e5a6bcfcea6",
+        "publicationDevInodeSizeMtimeMatches": true,
+        "publicationCtimeMatches": false
+      },
+      {
+        "route": "ordinary",
+        "outputId": "550849a9-053f-44e3-acee-5535702c7e0a",
+        "bytes": 4805537,
+        "sha256": "e3bbf34754855beab90f64b673fd3375ec8bf451899faed643b45adb7b456984",
+        "publicationDevInodeSizeMtimeMatches": true,
+        "publicationCtimeMatches": false
+      },
+      {
+        "route": "remux",
+        "outputId": "530c5a3c-f5cc-424a-8c94-3d89f0c17a50",
+        "bytes": 5579020,
+        "sha256": "e357251aa9e8082b6a6c847e80cd87049f81462d92310052455ef71da7172fbc",
+        "publicationDevInodeSizeMtimeMatches": true,
+        "publicationCtimeMatches": false
+      }
+    ],
+    "batches": [
+      {
+        "phase": "completed",
+        "counts": {
+          "success": 1,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSecondsAtDiagnostic": 1.868
+      },
+      {
+        "phase": "completed",
+        "counts": {
+          "success": 1,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSecondsAtDiagnostic": 6.845
+      },
+      {
+        "phase": "completed",
+        "counts": {
+          "success": 1,
+          "failed": 0,
+          "skipped": 0,
+          "cancelled": 0,
+          "unprocessed": 0
+        },
+        "elapsedSecondsAtDiagnostic": 2.192
+      }
+    ],
+    "revealDispatches": 1
+  },
+  "measured": {
+    "sourceGeometry": "1080p",
+    "outputGeometry": "720p",
+    "requestedRangeUs": [
+      613000,
+      2721000
+    ],
+    "sourceCounts": {
+      "frames": 90,
+      "samples": 144000
+    },
+    "decodedEvidence": {
+      "video": {
+        "sourceFrameCount": 63,
+        "outputFrameCount": 63,
+        "comparedFrames": 63,
+        "firstSourcePtsUs": 633333,
+        "lastSourcePtsUs": 2700000,
+        "lastSourceDurationUs": 33333,
+        "firstOutputPtsUs": 20000,
+        "lastOutputPtsUs": 2087000,
+        "lastOutputDurationUs": 33000,
+        "maxRebasedTimestampErrorUs": 334
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "sourceSampleCount": 101184,
+          "outputSampleCount": 101184,
+          "firstSourcePtsUs": 613000,
+          "lastSourceEndUs": 2721000,
+          "firstOutputPtsUs": 0,
+          "lastOutputEndUs": 2107667,
+          "encoderDelaySamples": 0,
+          "discardPaddingSamples": 0,
+          "pcmIdentity": {
+            "algorithm": "sha256",
+            "format": "s16le-interleaved",
+            "sourceHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "outputHash": "482e7dad5a804903aa4821cc25a4511da65cde251b9618ac11e66b843a33d917",
+            "sourceBytes": 404736,
+            "outputBytes": 404736
+          }
+        }
+      ]
+    },
+    "timelineComparisons": {
+      "video": {
+        "comparedFrames": 63,
+        "maximumDurationErrorUs": 334,
+        "toleranceUs": 1067
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-flac",
+          "selectedSourceGaps": 0,
+          "unmatchedSourceTailSamples": 0,
+          "unmatchedOutputTailSamples": 0,
+          "comparedSamples": 101184,
+          "intersectedSpans": 465,
+          "maximumElapsedClockErrorUs": 334,
+          "toleranceUs": 1042,
+          "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+          "contentIdentity": false
+        }
+      ]
+    },
+    "collectorInvocations": 7,
+    "sealedSpoolsRehashed": 3
+  },
+  "remux": {
+    "videoPackets": 240,
+    "aacPackets": 376,
+    "packetParametersAndMetadataEqual": true,
+    "pcm": {
+      "bytes": 3072000,
+      "samples": "384000",
+      "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+    },
+    "pcmEqual": true,
+    "collectorInvocations": 12,
+    "collectorArtifactHashesVerified": 19,
+    "sourcePlaybackComplete": true,
+    "nativeEditListsComplete": true,
+    "videoBoundaryWindows": {
+      "start": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      },
+      "end": {
+        "keyPacketIndex": 0,
+        "frameCount": 1,
+        "sha256": "0e4f549e524c55a5fdb8b96687a1d2a1a2b1478437110cc62a0d45149bed0ffc"
+      }
+    },
+    "interiorVideoDecoded": false
+  },
+  "leadObservedUi": {
+    "source": "Parent direct desktop observation",
+    "ordinarySucceededElapsed": "00:01",
+    "measuredSucceededElapsed": "00:06",
+    "remuxSucceededElapsed": "00:02",
+    "sameSessionAllThreeRoutes": true,
+    "explicitMp4PrepareEnabled": true,
+    "normalAppClose": true,
+    "finalElapsedStillFixedAfterFileManager": true,
+    "revealDiscrepancy": "App reported reveal dispatched; actual Thunar opened the native084 preparation parent, not the requested output directory and did not select the published file. No manual navigation was used to conceal this. Root cause unresolved."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 376.38237489200037,
+    "forcedTermination": false,
+    "errors": [],
+    "closureObserved": true,
+    "sampledOnly": true,
+    "knownIdentities": 21,
+    "currentlyLiveMatchingKnownIdentities": [],
+    "scope": "Observed owned process group and known identities only, not global descendant census"
+  },
+  "limitations": [
+    "All three publications succeeded, but actual output reveal destination was incorrect; complete native journey acceptance remains withheld.",
+    "Dispatch is not evidence the external file manager reached or selected the intended file. Saved diagnostic contains action=reveal, not the shell target.",
+    "Ordinary AAC copy is not a precision PCM claim. Measured PCM/count claims apply only to the measured route.",
+    "No new cancellation, collision or rescan test in this native attempt.",
+    "No extra media probes, decodes, app launches or source edits during this saved audit.",
+    "Publication-time ctime mismatches are retained explicitly; action dispatch proves the later OutputAccess check passed only for the remux action, not external navigation.",
+    "No Windows, GPU, portability, arbitrary media or release qualification."
+  ]
+}

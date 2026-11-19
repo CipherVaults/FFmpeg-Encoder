@@ -1,0 +1,28 @@
+{
+  "scope": "saved-only reveal discrepancy source clarification",
+  "sourceFiles": [
+    {
+      "path": "main.js",
+      "bytes": 17908,
+      "sha256": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa"
+    },
+    {
+      "path": "src/output-access.cjs",
+      "bytes": 12629,
+      "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
+    },
+    {
+      "path": "src/encoder-service.cjs",
+      "bytes": 160678,
+      "sha256": "7e11a4409a961de7d1cfa36c80e909f3443b5484573c6b48713964f963ff0c30"
+    }
+  ],
+  "facts": [
+    "Unified main.js supplies showItemInFolder: file => shell.showItemInFolder(file) without a dirname transformation.",
+    "OutputAccess.action revalidates exact granted record.file identity and ancestors, including ctime, before passing record.file to the shell callback.",
+    "Undefined return is accepted as dispatch only; source explicitly says this does not establish external Explorer/file-manager observation.",
+    "EncoderService diagnostic records action=reveal, not the actual callback argument. Saved dispatch cannot independently reconstruct the exact shell target or external navigation.",
+    "Lead observed Thunar at preparation parent rather than output directory/file. No manual navigation was used."
+  ],
+  "conclusion": "Unresolved native reveal discrepancy. Source inspection identifies no deliberate parent-directory rewrite in this call chain, but does not establish an Electron/Thunar root cause or prove the unseen callback argument. No additional launch, probe or mutation performed."
+}

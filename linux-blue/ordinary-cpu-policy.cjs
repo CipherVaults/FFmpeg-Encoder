@@ -8,6 +8,9 @@ function need(ok,code){if(!ok)throw Object.assign(new Error('Input or operation 
 function boundedRate(value){if(typeof value!=='string'||!/^\d{1,9}\/\d{1,9}$/.test(value))return false;const [n,d]=value.split('/').map(BigInt);return n>0n&&d>0n&&n<=60n*d;}
 function admit({probe,settings,request,bytes}){
   need(settings&&Object.keys(settings).length===3&&Object.entries(SETTINGS).every(([k,v])=>settings[k]===v),'ORDINARY_SETTINGS');
+  return admitInput({probe,request,bytes});
+}
+function admitInput({probe,request,bytes}){
   // Requests are normalized by shared operation-contract before reaching this boundary.
   need(request?.target==='matroska'&&request.range===null&&request.resolution==='source'&&request.audioPolicy==='copy'&&request.hdrPolicy==='preserve','ORDINARY_REQUEST');
   need(Number.isSafeInteger(bytes)&&bytes>0&&bytes<=POLICY.maxInputBytes,'ORDINARY_SOURCE_BYTES');
@@ -44,4 +47,4 @@ function createPhaseRunner(invoke,{now=()=>performance.now()}={}){
     state(){return {phase,closed,live};}
   });
 }
-module.exports={POLICY,SETTINGS,admit,admitBatch,boundedRate,createPhaseRunner};
+module.exports={POLICY,SETTINGS,admit,admitInput,admitBatch,boundedRate,createPhaseRunner};

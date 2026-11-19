@@ -38,9 +38,9 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild) {
     observer = new OperationRuntimeObserver({runtime:Object.fromEntries(Object.entries(candidate.pins).map(([k,v])=>[k,v.path])),pins:Object.fromEntries(Object.entries(candidate.pins).map(([k,v])=>[k,{sizeBytes:v.size,sha256:v.sha256}])),run});
     return Object.freeze({candidate,observer,run,current,
       begin(route,kind,controller) {
-        assert(!closed&&!retired&&!phase&&['ordinary','measured','remux','discovery'].includes(route));
+        assert(!closed&&!retired&&!phase&&['ordinary','av1-ordinary','measured','remux','discovery'].includes(route));
         assert(controller instanceof AbortController);
-        const ms=kind==='checking'?POLICY.discoveryMs:kind==='preparing'&&route==='ordinary'?POLICY.preparationMs:POLICY.executionMs;
+        const ms=kind==='checking'?POLICY.discoveryMs:kind==='preparing'&&['ordinary','av1-ordinary'].includes(route)?POLICY.preparationMs:POLICY.executionMs;
         const owner={route,kind,controller,signal:controller.signal,expires:performance.now()+ms,calls:0,live:0,timer:setTimeout(()=>controller.abort(),ms)};
         owner.timer.unref?.();phase=owner;
       },

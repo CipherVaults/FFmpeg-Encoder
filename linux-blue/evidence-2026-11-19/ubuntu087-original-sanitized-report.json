@@ -1,0 +1,9 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "c4b37bd917545fa5e58c6e103bf19ded24d9c5a4",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "status": "blocked",
+  "failureType": "AssertionError"
+}

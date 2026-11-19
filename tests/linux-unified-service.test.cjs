@@ -101,3 +101,15 @@ test('running cancellation keeps explicit Prepare fenced until owned task and ob
  await assert.rejects(service.prepareRemuxBatch({inputFolderId:'x',outputFolderId:'y',target:'mp4'}),/fenced/);assert.equal(h.generations.length,1);
  release();await cancellation;assert.equal(closed,true);assert.equal(service.state.phase,'cancelled');await service.mutate('renew',['remux']);assert.equal(h.generations.length,2);
 });
+test('actual AV1 Prepare keeps compatibility guard, fixed capability and fresh-route ownership',async t=>{
+ const {service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);const probe=sourceProbe();await fsp.writeFile(path.join(input,'source.mkv'),'inert fixture');
+ service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output'),folders={inputFolderId:i.id,outputFolderId:o.id},settings={profileId:'av1-cpu',preset:'6',quality:32};
+ const prepared=await service.prepareBatch({...folders,settings});assert.equal(prepared.items[0].status,'ready',prepared.items[0].reason);assert.equal(service.route,'av1-ordinary');assert.equal(typeof service.ordinaryJobGuard,'function');
+ const caps=await service.getCapabilities(),av1=caps.profiles.find(p=>p.id==='av1-cpu');assert.deepEqual(av1.presets,['6']);assert.deepEqual(av1.supportedBitDepths,[8]);assert.equal(av1.quality.min,32);
+ assert.deepEqual(service.getRecipe(settings).args,['-c:v:0','libsvtav1','-preset:v:0','6','-crf:v:0','32']);
+ await assert.rejects(service.reprepareEncodingSettings({settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}}),/fresh explicit Prepare/);
+ await service.cancelCurrent();assert.equal(service.plan,null);await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]}));
+ const next=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(next.items[0].status,'ready',next.items[0].reason);assert.equal(service.route,'ordinary');
+});

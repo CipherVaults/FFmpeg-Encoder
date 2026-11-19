@@ -481,8 +481,8 @@ const SOURCE_PINS = {
     "sha256": "9c857553374733f2bd9bd45a96384ebca6b29d8f1b21155d1ec31e0c7f504031"
   },
   "linux-blue/ordinary-cpu-policy.cjs": {
-    "bytes": 5475,
-    "sha256": "782710de4105d9c911e4a640dd45e59b5af47e1d099cef34b36a6f0dfdf63661"
+    "bytes": 5576,
+    "sha256": "6931b850ea5341da6cee93b3dee443d5d871ead52197dbe62b6eff4fea3b0982"
   },
   "linux-blue/ordinary-cpu-stage-guard.cjs": {
     "bytes": 2901,
@@ -545,16 +545,20 @@ const SOURCE_PINS = {
     "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
   },
   "linux-blue/product-linux-unified-runtime.cjs": {
-    "bytes": 4567,
-    "sha256": "0cf04074ef69a98a94b30de77b368817c89803a34827e97d1daf2c56c57702e8"
+    "bytes": 4607,
+    "sha256": "af5933de07b1e6a35629023c0f88d769008f758c8a60255f8c80b1335d333288"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 14082,
-    "sha256": "44f95cfd305ef49c7eaaaf28b0ef217ac54eadc5305f15a201b028f3a5b66242"
+    "bytes": 14658,
+    "sha256": "7bbdd28504204b254c1807e7806330870ed8fcdf0973b993975b7314e644d772"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
     "sha256": "05d4aa6de8573b6725b5f87c131649cff5d039ab091953fbd3d2facfb2e6fe7d"
+  },
+  "linux-blue/av1-cpu-policy.cjs": {
+    "bytes": 1310,
+    "sha256": "e00494b6fede6d842de200a92bf580c76fc64cb79617c451d8f6363c4b3c62ef"
   }
 };
 const CLOSED_RECORD = {

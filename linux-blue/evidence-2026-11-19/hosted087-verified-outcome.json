@@ -1,0 +1,43 @@
+{
+  "checkpoint": "087",
+  "head": "c4b37bd917545fa5e58c6e103bf19ded24d9c5a4",
+  "attempt": 1,
+  "event": "push",
+  "shared": {
+    "runId": 44490554026,
+    "conclusion": "success",
+    "syntaxFilesPerOS": 223,
+    "sharedTestsPerOS": 325,
+    "additionalLinuxTests": 40,
+    "failures": 0,
+    "skips": 0,
+    "limits": "Selected source/inert contracts, not native acceptance; new launcher tests not added to this shared list."
+  },
+  "ubuntuResolver": {
+    "runId": 44490554158,
+    "jobId": 135444771200,
+    "conclusion": "failure",
+    "inertTests": 20,
+    "executionExit": 2,
+    "report": {
+      "schema": "ubuntu-lock-candidate/v1",
+      "ready": false,
+      "head": "c4b37bd917545fa5e58c6e103bf19ded24d9c5a4",
+      "scope": "metadata-and-simulation-only",
+      "unresolved": [],
+      "status": "blocked",
+      "failureType": "AssertionError"
+    },
+    "artifactId": 14512347442,
+    "expiresAt": "2026-11-22T08:47:13Z",
+    "zipSha256": "296c3527754acb520a9fdd0c45cebd47ce19cd6022873e579a7900307fc84255",
+    "reportSha256": "122f908052a44dc084f69fa88530080195621da3ac3180aed2a33750a89dd0f6",
+    "artifactDigestIndependentlyVerified": true,
+    "limits": "Finite AssertionError without stage; no baseline or transaction retained. No claim that metadata acquisition reached apt/network, no lock readiness."
+  },
+  "otherWorkflows": {
+    "ubuntuInventory": "skipped",
+    "windowsPackaged": "not triggered"
+  },
+  "noRerun": true
+}

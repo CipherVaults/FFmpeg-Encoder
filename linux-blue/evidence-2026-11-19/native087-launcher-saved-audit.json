@@ -1,0 +1,72 @@
+{
+  "status": "accepted-bounded-launcher-startup-and-normal-close",
+  "sourceCommit": "2d68ae5f24c4d01d36f67b96f188d7e9f1f6d822",
+  "sourceFilesVerified": 932,
+  "packagePhysicalFilesVerified": 258,
+  "ordinaryExecutableModesVerified": 6,
+  "packageBytesAndInodesUnchanged": true,
+  "bindingReviewSha256": "0e216a9624e1a4b23857a1749d09ca7e4b42c865598b049965f58e16975d87a4",
+  "closureSha256": "05c937ee151061428ee419fefecc9173d3e6f383b98cb44c51be91a7bcaad061",
+  "fileAuditSha256": "3a32ce6d775e8890f023bfd7788d037d1dd805ac85089fe07a12ee21d3568fa4",
+  "savedInventory": {
+    "files": 52,
+    "sha256": "1b6b8b4fd52dc9e08d11437257ee0a4027454b528ba5532999817d7b5f28d696"
+  },
+  "journal": {
+    "events": 6,
+    "oneSession": true,
+    "reasons": [
+      "SESSION_STARTED",
+      "CAPABILITY_STARTED",
+      "RUNTIME_IDENTIFIED",
+      "CAPABILITY_FINISHED",
+      "PROVENANCE_RECOVERY_FINISHED",
+      "SESSION_ENDED"
+    ],
+    "prepareEvents": 0,
+    "startEvents": 0
+  },
+  "startupCapabilities": {
+    "cpuProfilesReportedAvailable": [
+      "h264-cpu",
+      "h265-cpu",
+      "av1-cpu"
+    ],
+    "reportedDepthChecks": [
+      8,
+      10
+    ],
+    "reportedFramesPerCheck": 2,
+    "nvidiaRefusedByCpuOnlyCandidate": true,
+    "limits": "Startup capability checks are genuine runtime work, not a user media batch or AV1 app-route acceptance."
+  },
+  "namespace": {
+    "ownedXdgConfigHome": true,
+    "expectedName": "FFmpegEncoder-Linux-Unified-Candidate",
+    "journalAndClosureCorroborate": true
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 11.855084992002958,
+    "forcedTermination": false,
+    "errors": [],
+    "sampledIdentities": 10,
+    "sampledNotExhaustive": true,
+    "retainedLeaderZombieObservedBeforeReap": true
+  },
+  "diagnostics": {
+    "stdoutBytes": 0,
+    "stderrBytes": 620,
+    "retainedWarnings": [
+      "Three unavailable system D-Bus socket messages",
+      "One TLS handshake net_error -202 message"
+    ],
+    "warningsNotSuppressed": true
+  },
+  "leadVisualObservation": "Lead observed visible Ready internal unified candidate, H265 CPU slow/25 and empty folders; no Prepare/Start or settings changes; normal window close and returned terminal prompt. Visual claims attributed to lead, not independently replayed.",
+  "limits": [
+    "No native media batch, output publication, GPU, general portability or release readiness qualified.",
+    "Existing historical media evidence remains artifact-specific; new AV1 route is not present in 087.",
+    "Saved-only audit: no launch, probe, decode, permission change or network request."
+  ]
+}

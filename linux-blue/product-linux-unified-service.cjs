@@ -12,11 +12,14 @@ const {loadRemuxQualification}=require('./product-linux-remux-qualification.cjs'
 const {admit:admitRemux}=require('./product-linux-remux-service.cjs');
 const {requireOrdinaryEntry}=require('./ordinary-cpu-service.cjs');
 const {SETTINGS:ORDINARY,admit,admitBatch}=require('./ordinary-cpu-policy.cjs');
+const AV1=require('./av1-cpu-policy.cjs');
+const ordinaryRoute=route=>route==='ordinary'||route==='av1-ordinary';
+const routePolicy=route=>route==='av1-ordinary'?AV1:{SETTINGS:ORDINARY,admit,admitBatch,requireEntry:requireOrdinaryEntry};
 const {openOrdinaryStageGuard}=require('./ordinary-cpu-stage-guard.cjs');
 const {openUnifiedGeneration}=require('./product-linux-unified-runtime.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
-function fixedSettings(value){if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}assert.deepEqual(value,MEASURED);return 'measured';}
+function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}assert.deepEqual(value,MEASURED);return 'measured';}
 class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input);return super.prepare(options);}}
 class UnifiedService extends EncoderService{
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;}
@@ -47,7 +50,7 @@ class UnifiedService extends EncoderService{
     this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:[{id:'internal-isobmff-mp4-081',inputFamily:'isobmff',target:'mp4',runtimeIdentity:RUNTIME,evidenceIds:[q.evidenceId],allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'}]});
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
     this.operationDeadlineMs=route==='remux'?EXECUTION_BUDGET_MS:120000;
-    this.ordinaryJobGuard=route==='ordinary'?facts=>this.ordinaryGuard(facts,fresh):null;
+    this.ordinaryJobGuard=ordinaryRoute(route)?facts=>this.ordinaryGuard(facts,fresh):null;
   }
   begin(phase){
     assert(this.generation);const controller=new AbortController();
@@ -62,7 +65,7 @@ class UnifiedService extends EncoderService{
   async execute(selected,signal){try{return await super.execute(selected,signal);}finally{this.generation?.settle();}}
   async ordinaryGuard(facts,generation){
     try {
-      assert(this.route==='ordinary'&&this.generation===generation);admit({probe:facts.inspection.probe,settings:facts.settings,request:facts.request,bytes:Number(facts.sourceIdentity.size)});
+      assert(ordinaryRoute(this.route)&&this.generation===generation);routePolicy(this.route).admit({probe:facts.inspection.probe,settings:facts.settings,request:facts.request,bytes:Number(facts.sourceIdentity.size)});
       await generation.current(facts.signal);generation.assertCurrent();const source=await fs.lstat(facts.sourceIdentity.canonicalPath);assert(source.isFile()&&!source.isSymbolicLink()&&source.nlink===1);
       const guard=await openOrdinaryStageGuard({...facts,signal:AbortSignal.any([facts.signal,generation.signal])});
       return Object.freeze({...guard,signal:AbortSignal.any([guard.signal,generation.signal]),
@@ -73,7 +76,7 @@ class UnifiedService extends EncoderService{
   }
   async getCapabilities(){
     if(!this.capabilityResult){assert(this.generation);try{await super.getCapabilities();}finally{this.generation.settle();}}
-    const caps=this.capabilityResult;return {...caps,profiles:caps.profiles.filter(p=>[ORDINARY.profileId,MEASURED.profileId].includes(p.id)).map(p=>{const s=p.id===ORDINARY.profileId?ORDINARY:MEASURED;return {...p,candidateFixedSettings:true,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8),presets:[s.preset],defaultPreset:s.preset,quality:{...p.quality,min:s.quality,max:s.quality,default:s.quality}};}),recipes:[],vendorProfiles:[]};
+    const caps=this.capabilityResult;return {...caps,profiles:caps.profiles.filter(p=>[ORDINARY.profileId,MEASURED.profileId,AV1.SETTINGS.profileId].includes(p.id)).map(p=>{const s=p.id===AV1.SETTINGS.profileId?AV1.SETTINGS:p.id===ORDINARY.profileId?ORDINARY:MEASURED;return {...p,candidateFixedSettings:true,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8),presets:[s.preset],defaultPreset:s.preset,quality:{...p.quality,min:s.quality,max:s.quality,default:s.quality}};}),recipes:[],vendorProfiles:[]};
   }
   async prepareSourceBatch(request,operation,native=null){
     assert(native===null&&['encode','remux'].includes(operation));const route=operation==='remux'?'remux':fixedSettings(request.settings);if(route==='remux')assert.equal(request.target,'mp4');
@@ -82,21 +85,21 @@ class UnifiedService extends EncoderService{
   }
   async reprepareEncodingSettings(request){assert.equal(fixedSettings(request.settings),this.route,'Use a fresh explicit Prepare to change CPU route');return super.reprepareEncodingSettings(request);}
   async reprepareDraft(options){assert(this.plan);assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');if(this.route!=='remux')assert.equal(fixedSettings(this.plan.settings),this.route);return super.reprepareDraft(options);}
-  async prepareWithWorkers(context){assert(this.state.items.length>=1&&this.state.items.length<=(this.route==='ordinary'?2:1));return super.prepareWithWorkers(context);}
-  async prepareItem(item,context){await super.prepareItem(item,context);if(this.route==='ordinary'&&this.plan?.entries.has(item.id)){try{requireOrdinaryEntry(this,item);}catch(error){this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';item.reason='Outside the fixed ordinary CPU route.';}}}
+  async prepareWithWorkers(context){assert(this.state.items.length>=1&&this.state.items.length<=(ordinaryRoute(this.route)?2:1));return super.prepareWithWorkers(context);}
+  async prepareItem(item,context){await super.prepareItem(item,context);if(ordinaryRoute(this.route)&&this.plan?.entries.has(item.id)){try{routePolicy(this.route).requireEntry(this,item);}catch(error){this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';item.reason='Outside the fixed ordinary CPU route.';}}}
   startBatch(request){
     super.requireIdle();assert(this.generation&&this.plan);
     assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');
-    assert(Array.isArray(request.fileIds)&&request.fileIds.length>=1&&request.fileIds.length<=(this.route==='ordinary'?2:1));
-    if(this.route==='ordinary'){assert.deepEqual(this.plan.settings,ORDINARY);admitBatch(request.fileIds.map(id=>{const item=this.state.items.find(x=>x.id===id);assert(item);requireOrdinaryEntry(this,item);const e=this.plan.entries.get(id);return {probe:e.inspection.probe,settings:this.plan.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)};}));}
+    assert(Array.isArray(request.fileIds)&&request.fileIds.length>=1&&request.fileIds.length<=(ordinaryRoute(this.route)?2:1));
+    if(ordinaryRoute(this.route)){const policy=routePolicy(this.route);assert.deepEqual(this.plan.settings,policy.SETTINGS);policy.admitBatch(request.fileIds.map(id=>{const item=this.state.items.find(x=>x.id===id);assert(item);policy.requireEntry(this,item);const e=this.plan.entries.get(id);return {probe:e.inspection.probe,settings:this.plan.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)};}));}
     else if(this.route==='measured'){assert.deepEqual(this.plan.settings,MEASURED);assert(!this.plan.sameFolder);for(const id of request.fileIds){const e=this.plan.entries.get(id);assert(e?.qualificationSelection&&e.operationRuntimeToken&&e.operationPlan?.instrumentation&&!e.operationPlan.compatibilityPath&&!['native','vendor','hdr','remux','encodePreservation'].some(k=>e[k]));}}
     else for(const id of request.fileIds)assert(this.plan.entries.get(id)?.remux);
     return super.startBatch(request);
   }
-  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264 ordinary Full/source, four measured H265 families, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Exact host/runtime only; unified native acceptance and portability remain unqualified.'}};}
+  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264 and AV1 ordinary Full/source, four measured H265 families, and narrow MP4 full stream copy. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Exact host/runtime only; unified native acceptance and portability remain unqualified.'}};}
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
   getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:{...recipe},mediaNote:'Fixed internal candidate settings; not a new production default. '+recipe.mediaNote};}
-  async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}
+  async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1.SETTINGS.profileId?AV1.SETTINGS:request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}
   cancelCurrent(){
     if(this.cancellation)return this.cancellation;
     this.epoch++;const pending=this.mutationOwner?.done;this.controller?.abort();

@@ -1,0 +1,123 @@
+{
+  "checkpoint": "088",
+  "cutoffUtc": "2026-11-19T08:49:13+00:00",
+  "baseLocal": "2d68ae5f24c4d01d36f67b96f188d7e9f1f6d822",
+  "status": "reviewed source and inert checks; commit, mirror and 088 native pending",
+  "sourceHandoffSha256": "7cc7ba010449f37e9fde42cd00ed81d4a83e2b207e957c8b454c07bb000d876f",
+  "independentReview": {
+    "path": "ffmpeg-integration088-guidance/INDEPENDENT_DERIVED_REVIEW.json",
+    "sha256": "59f6c2b74595e39e0a1218d3d72b87f38cc666f6a3732331d6cf2c2daf6ab7e8"
+  },
+  "sourceFiles": [
+    {
+      "path": "linux-blue/av1-cpu-policy.cjs",
+      "bytes": 1310,
+      "sha256": "e00494b6fede6d842de200a92bf580c76fc64cb79617c451d8f6363c4b3c62ef"
+    },
+    {
+      "path": "linux-blue/ordinary-cpu-policy.cjs",
+      "bytes": 5576,
+      "sha256": "6931b850ea5341da6cee93b3dee443d5d871ead52197dbe62b6eff4fea3b0982"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 37629,
+      "sha256": "9d266c4eb665a80771eb3e0aea865cdbfa0358c8e120039c6291b83dabf25d69"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-runtime.cjs",
+      "bytes": 4607,
+      "sha256": "af5933de07b1e6a35629023c0f88d769008f758c8a60255f8c80b1335d333288"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 14658,
+      "sha256": "7bbdd28504204b254c1807e7806330870ed8fcdf0973b993975b7314e644d772"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 73421,
+      "sha256": "ba95ad66bc8d64fbbc29ebdd3f49ef3f5def68c416579b80a8f7d0c36bcba609"
+    },
+    {
+      "path": "tests/av1-cpu-policy.test.cjs",
+      "bytes": 2765,
+      "sha256": "b68c48135acde6d55a338b27404129161cb25092969cf388c0b0cda895ee9607"
+    },
+    {
+      "path": "tests/linux-candidate-launcher.test.cjs",
+      "bytes": 5786,
+      "sha256": "ec3b1c661a172573b36b762a6426be04028ac0742a19112565870eebdd620c6e"
+    },
+    {
+      "path": "tests/linux-inert-package.test.cjs",
+      "bytes": 10333,
+      "sha256": "6d7adf67a27f0c1e6e8bbd63729fc3374a3bc220a95842a7bd15d5b2928ceff5"
+    },
+    {
+      "path": "tests/linux-unified-runtime.test.cjs",
+      "bytes": 4027,
+      "sha256": "8aa81e238c89d5bbe4c6cd9cf0e9c123640496b17c99cbb0579a2e8d66e36131"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 16480,
+      "sha256": "e825fba0e7d0d254ca01b0cc59ecbd0f06db1a525b949e172b0d0dcaef87e5e0"
+    }
+  ],
+  "tests": {
+    "functional": 57,
+    "affectedRendererRuntimePackageLauncher": 120,
+    "syntax": 224,
+    "shared": 325,
+    "linuxSelected": 40,
+    "countsOverlap": true,
+    "finalFailures": 0,
+    "finalSkipped": 0
+  },
+  "initialFailure": "Two affected tests retained obsolete membership constants. Corrected only explicit 137→138 source pins,154→155 application and255→256 input count expectations, plus test title; original failing log retained. Aggregate was not reached in initial chained command.",
+  "currentPackageClosure": {
+    "pins": 138,
+    "inputs": 256,
+    "application": 155,
+    "inputBytes": 391555833,
+    "changedExistingPins": [
+      "linux-blue/ordinary-cpu-policy.cjs",
+      "linux-blue/product-linux-unified-runtime.cjs",
+      "linux-blue/product-linux-unified-service.cjs"
+    ],
+    "newPin": "linux-blue/av1-cpu-policy.cjs",
+    "allActualInputsVerified": true,
+    "launcherRowsUnchanged": true,
+    "ubuntuBindingUnchanged": true
+  },
+  "limits": [
+    "No commit, package build, real media, native or hosted execution.",
+    "Exact H264 input-check body/error order/return identity retained by prior functional review; source tests support unchanged controls, not new runtime acceptance.",
+    "New explicit AV1 string preset6/CRF32 route still needs actual current-package capability, encode, validation/publication and desktop acceptance.",
+    "Historical qualification records, measured producer maps, runtime binaries, 087 launcher artifact rows and Ubuntu one-shot parent binding unchanged.",
+    "No production default, GPU,10-bit,HDR, arbitrary AV1 input or general media support claim."
+  ],
+  "predecessor087": {
+    "localCommit": "2d68ae5f24c4d01d36f67b96f188d7e9f1f6d822",
+    "remoteCommit": "c4b37bd917545fa5e58c6e103bf19ded24d9c5a4",
+    "notionGateSha256": "d36d6ecfc93c6cdea316a73b844205c5743a4f9ef141d2c434e6b743a4f1d9cd",
+    "remoteVerificationSha256": "f211c12ac377252f93f3493e0778b886dfe03f11811fdc8427a2f829c823acfb",
+    "nativeAuditSha256": "0765d1d12c7db27b90d078f11bcd0e99a7a7c96c341011d3a7e4eb9d7b97a34b",
+    "hostedOutcome": "Shared Windows and Linux passed; separate one-shot Ubuntu blocked early without a baseline or transaction; original exact report preserved."
+  },
+  "sanitizedEvidence": [
+    {
+      "path": "linux-blue/evidence-2026-11-19/native087-launcher-saved-audit.json",
+      "sha256": "0765d1d12c7db27b90d078f11bcd0e99a7a7c96c341011d3a7e4eb9d7b97a34b"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/hosted087-verified-outcome.json",
+      "sha256": "602e02b583dddba3358661c91af804887c7ecce4d8b0cb6f0c1f7da5090894e8"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/ubuntu087-original-sanitized-report.json",
+      "sha256": "122f908052a44dc084f69fa88530080195621da3ac3180aed2a33750a89dd0f6"
+    }
+  ]
+}

@@ -1529,3 +1529,53 @@ test('unified remux permission is rechecked after pending settings persistence',
  h.update(state(2,'legacy-encode-only'));release();await clicked;await settle();
  assert.equal(h.calls.some(c=>c.name==='prepareRemuxBatch'),false);assert.equal(h.byId('prepare-remux').disabled,true);
 });
+
+for (const outcome of ['resolved', 'rejected']) test(`pending Cancel locks terminal setup until its ${outcome} promise settles`, async () => {
+  let resolveCancel, rejectCancel;
+  const cancellation = new Promise((resolve, reject) => { resolveCancel = resolve; rejectCancel = reject; });
+  const h = await harness({ cancelBatch: () => cancellation });
+  const running = { revision: 2, phase: 'running', batchId: 'cancel-race', planId: 'cancel-plan', items: [], counts: {},
+    progress: { percent: 37.6, speed: 1.2, etaSeconds: 44, seconds: 3 } };
+  h.update(running);
+  await h.byId('tab-jobs').click();
+  const pending = h.byId('cancel-batch').click();
+  await settle();
+  assert.equal(h.byId('phase-badge').textContent, 'Cancelling');
+  assert.equal(h.byId('eta').textContent, '—');
+  assert.equal(h.byId('speed').textContent, '—');
+  assert.equal(h.byId('active-job-progress')._value, undefined);
+  const terminal = { ...running, revision: 3, phase: 'cancelled', elapsedSeconds: 13.755, counts: { cancelled: 1 } };
+  h.update(terminal); // Main terminal event arrives before the cancel IPC reply.
+  for (const id of ['new-batch', 'prepare-batch', 'prepare-remux', 'choose-input', 'choose-output', 'profile', 'remux-target'])
+    assert.equal(h.byId(id).disabled, true, id);
+  assert.equal(h.byId('cancel-bar').hidden, false);
+  assert.equal(h.byId('cancel-batch').disabled, true);
+  assert.equal(h.byId('cancel-batch').textContent, 'Cancelling…');
+  assert.match(h.byId('activity-message').textContent, /cancellation and cleanup to settle/);
+  assert.match(h.byId('result-elapsed-note').textContent, /still being awaited/);
+  assert.equal(h.byId('eta').textContent, '—');
+  await h.byId('new-batch').emit('click'); // Guard also rejects queued/programmatic events.
+  assert.equal(h.byId('workspace-jobs').hidden, false);
+  assert.equal(h.calls.filter(x => x.name === 'cancelBatch').length, 1);
+  if (outcome === 'resolved') resolveCancel(terminal);
+  else rejectCancel(new Error('Cancellation reply failed; inspect the retained status.'));
+  await pending;
+  assert.equal(h.byId('new-batch').disabled, false);
+  assert.equal(h.byId('cancel-bar').hidden, true);
+  assert.equal(h.byId('phase-badge').textContent, 'Cancelled');
+  if (outcome === 'rejected') {
+    assert.match(h.byId('error-banner').textContent, /Cancellation reply failed/);
+    assert.match(h.byId('result-elapsed-note').textContent, /Cleanup completion is unverified/);
+    assert.doesNotMatch(h.byId('result-elapsed-note').textContent, /cleanup finished/);
+  }
+  await h.byId('new-batch').click();
+  assert.equal(h.byId('workspace-encode').hidden, false);
+  if (outcome === 'rejected') {
+    assert.match(h.byId('result-elapsed-note').textContent, /Cleanup completion is unverified/);
+    h.update({ ...terminal, revision: 4 });
+    assert.match(h.byId('result-elapsed-note').textContent, /Cleanup completion is unverified/);
+    h.update({ ...terminal, revision: 5, phase: 'ready', planId: 'new-accepted-plan' });
+    h.update({ ...terminal, revision: 6, planId: 'new-accepted-plan', phase: 'completed' });
+    assert.doesNotMatch(h.byId('result-elapsed-note').textContent, /unverified/);
+  }
+});

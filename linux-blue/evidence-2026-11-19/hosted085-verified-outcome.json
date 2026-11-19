@@ -1,0 +1,62 @@
+{
+  "checkpoint": "085",
+  "head": "c65a0aca98d6f280f51c7a999f2c3e083b5c9e12",
+  "event": "push",
+  "attempt": 1,
+  "shared": {
+    "run": 44462495000,
+    "conclusion": "success",
+    "syntaxFilesPerOs": 223,
+    "sharedTestsPerOs": 323,
+    "additionalLinuxTests": 40,
+    "failures": 0
+  },
+  "ubuntuInventory": "skipped; no rerun",
+  "windows": {
+    "run": 44462495177,
+    "job": 135352379668,
+    "conclusion": "success",
+    "state": "INTEGRATION_PASSED",
+    "artifact": 14499814497,
+    "expiresAt": "2026-11-22T05:06:08Z",
+    "zipSha256": "0d6fbcb5559baedd14b127283d91c1d3223b0497ea532a7c1ee1868c7caba21a",
+    "reportSha256": "980920b03f6717115386d25874d1b90c31e12975bbae6aba27b5c35f0170723c",
+    "independentDownloadAndLogHashesMatched": true,
+    "requestedEncodes": 2,
+    "startClicks": 1,
+    "extraDecodeCalls": 0,
+    "probeReadbackCalls": 2,
+    "collisionSkips": 2,
+    "normalClose": true,
+    "sourceUnchanged": true,
+    "packageUnchanged": true,
+    "terminalTimer": {
+      "frozen": true,
+      "domMatchesSnapshot": true,
+      "reset": true,
+      "observedWaitMs": 2210,
+      "elapsedSeconds": 0.815
+    },
+    "security": {
+      "packaged": true,
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false
+    },
+    "processObservation": {
+      "kind": "sampled-not-exhaustive",
+      "samples": 9,
+      "observedDescendants": 12,
+      "observedStartupMedia": 2,
+      "observedLiveAfterClose": 0
+    }
+  },
+  "limits": [
+    "Report only; no executable package retained or distributed.",
+    "Windows native picker and desktop not qualified; dialog return substituted.",
+    "No GPU or owner PC qualification; unchanged startup capability attempts do not establish GPU operation.",
+    "Sampled process observations are not exhaustive census.",
+    "Original sanitized report copied off-source for next checkpoint, not yet in Git/Notion until that checkpoint is preserved.",
+    "Upload action Node 20 deprecation warning retained in log."
+  ]
+}

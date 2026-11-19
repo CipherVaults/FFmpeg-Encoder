@@ -27,7 +27,7 @@
   const currentOperation = () => snapshot.operation || snapshot.operationDraft?.operation || 'encode';
   const isRemux = () => currentOperation() === 'remux';
   const operationName = () => isRemux() ? 'Remux' : 'Encode';
-  const currentJobLabel = () => snapshot.phase === 'running'
+  const currentJobLabel = () => cancelPending ? 'Cancelling' : snapshot.phase === 'running'
     ? snapshot.progress?.stage === 'encoding' && isRemux() ? 'Remuxing'
       : jobStageLabels[snapshot.progress?.stage] || (isRemux() ? 'Remuxing' : phaseLabels.running)
     : phaseLabels[snapshot.phase] || 'Current operation';
@@ -133,6 +133,7 @@
   let editing = true;
   let pendingCommands = 0;
   let cancelPending = false;
+  let cancelSettlementFailure = null;
   let uiError = '';
   const itemRows = new Map();
   let batchFilter = 'all';
@@ -537,6 +538,9 @@
     }
     const previousPhase = snapshot.phase;
     const previousBatch = snapshot.batchId;
+    // A new accepted preparation supersedes the failed cancellation; navigation
+    // or a repeated terminal event alone is not evidence of cleanup settlement.
+    if (cancelSettlementFailure && next.phase === 'ready' && next.planId && next.planId !== cancelSettlementFailure.planId) cancelSettlementFailure = null;
     snapshot = next;
     snapshotReceivedAt = performance.now();
     if (isBusy()) editing = false;
@@ -1795,7 +1799,7 @@
   function renderTelemetry() {
     const preparing = snapshot.phase === 'preparing' || (snapshot.phase === 'cancelling' && snapshot.preparation);
     const preparation = snapshot.preparation || {};
-    const progress = preparing ? { fileId: preparation.fileId, percent: preparation.total > 0 ? preparation.resolved / preparation.total * 100 : null } : snapshot.progress || {};
+    const progress = cancelPending || snapshot.phase === 'cancelling' ? {} : preparing ? { fileId: preparation.fileId, percent: preparation.total > 0 ? preparation.resolved / preparation.total * 100 : null } : snapshot.progress || {};
     const items = snapshot.items || [];
     const item = items.find(entry => entry.id === progress.fileId)
       || items.find(entry => ['running', 'validating'].includes(entry.status))
@@ -1804,7 +1808,7 @@
     put('monitor-count', item ? `File ${items.indexOf(item) + 1} of ${items.length}` : '');
     // Post-encode work is indeterminate. Never keep a stale encoding percent,
     // speed or ETA visible as though probing/publication were still an encode.
-    const processing = !preparing && processingStages.has(progress.stage);
+    const processing = cancelPending || snapshot.phase === 'cancelling' || (!preparing && processingStages.has(progress.stage));
     const hasPercent = !processing && finite(progress.percent);
     if (hasPercent) byId('encode-progress').value = Math.min(100, Math.max(0, progress.percent));
     else byId('encode-progress').removeAttribute('value');
@@ -1824,7 +1828,7 @@
     put('monitor-heading', preparing ? '03 / Inspecting recordings' : isRemux() ? '03 / Remux monitor' : '03 / Encoding monitor');
     visible('inspection-details', preparing);
     visible('encoding-telemetry', !preparing && !processing);
-    put('progress-note', preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.'
+    put('progress-note', cancelPending || snapshot.phase === 'cancelling' ? 'Cancellation is awaiting process and cleanup settlement. No reliable progress or ETA is available.' : preparing ? 'Progress counts resolved files. Individual inspection times vary with the recording.'
       : processing ? `${jobStageLabels[progress.stage]}. The job remains active until protected checks, publication and cleanup settle. There is no reliable percentage or ETA for this stage.`
         : `A file is complete after the ${isRemux() ? 'remuxed' : 'encoded'} output has been verified and saved.`);
     const stages = { identity: 'Checking file identity', metadata: 'Reading duration, video properties and streams', frames: 'Checking sampled SDR/HDR metadata', reused: 'Reusing validated inspection' };
@@ -1858,7 +1862,8 @@
     visible('error-banner', Boolean(error)); put('error-banner', error);
     put('phase-badge', currentJobLabel());
     let activity = '';
-    if (phase === 'native-checking') activity = 'Checking the selected native backend. Cancellation remains available in Current Jobs.';
+    if (cancelPending) activity = 'Waiting for cancellation and cleanup to settle. Setup remains locked until the cancellation request finishes.';
+    else if (phase === 'native-checking') activity = 'Checking the selected native backend. Cancellation remains available in Current Jobs.';
     else if (phase === 'checking') activity = 'Checking the bundled encoders on this computer. This can take a moment.';
     else if (phase === 'preparing') {
       const p = snapshot.preparation;
@@ -1903,11 +1908,11 @@
       : ready ? `This ${operationName()} batch is prepared but has not started. Review its files and start the selected items in ${operationName()}.` : 'No batch is running. Choose folders and prepare an Encode or Remux batch.');
     put('jobs-open-encode', `Go to ${operationName()}`);
     visible('preview-actions', ready);
-    visible('cancel-bar', busy);
+    visible('cancel-bar', busy || cancelPending);
     put('cancel-explanation', checking ? 'Cancel this capability check.' : 'Cancellation stops this operation and the remaining queue.');
     byId('cancel-batch').disabled = !snapshot.batchId || cancelPending || phase === 'cancelling';
     put('cancel-batch', phase === 'cancelling' || cancelPending ? 'Cancelling…' : phase === 'preparing' ? 'Cancel inspection' : checking ? 'Cancel check' : 'Cancel batch');
-    const locked = busy || pendingCommands > 0 || developerSessionClosed;
+    const locked = busy || cancelPending || pendingCommands > 0 || developerSessionClosed;
     if (developerSessionChoices) for (const {button, kind} of developerSessionChoices.buttons) button.disabled = busy || pendingCommands > 0 || cancelPending || developerSessionChoices.pending || (developerSessionChoices.selected === kind && !(developerSessionChoices.replaceClosed && developerSessionClosed));
     if (ordinaryRecovery) ordinaryRecovery.disabled = !developerSessionClosed || busy || pendingCommands > 0 || cancelPending || ordinaryRecovery.restarting === true;
     byId('native-settings-fields').disabled = Boolean(developerPreview) || locked || !nativeState || Boolean(nativeState.ownerBlock);
@@ -1977,7 +1982,7 @@
     // extrapolate terminal results or substitute the last file's media time/ETA.
     put('result-elapsed', showResults && finite(snapshot.elapsedSeconds) && snapshot.elapsedSeconds >= 0 ? duration(snapshot.elapsedSeconds) : '—');
     put('result-elapsed-label', phase === 'completed' ? 'Batch elapsed' : 'Operation elapsed');
-    put('result-elapsed-note', showResults ? (phase === 'completed'
+    put('result-elapsed-note', cancelPending ? 'The terminal snapshot is retained while cancellation and cleanup settlement are still being awaited.' : cancelSettlementFailure ? 'The cancellation request failed to confirm settlement. Cleanup completion is unverified; the retained terminal time is not proof of cleanup success.' : showResults ? (phase === 'completed'
       ? 'Wall-clock time from Start through all selected files, validation and cleanup. Excludes batch preparation; not encode-only time.'
       : 'Wall-clock time until this operation stopped and cleanup finished. May include preparation if stopped before Start; not encode-only time.') : '');
     if (showResults) {
@@ -2202,12 +2207,12 @@
   byId('cancel-batch').addEventListener('click', async () => {
     if (!snapshot.batchId || cancelPending) return;
     cancelPending = true; uiError = ''; render();
-    try { applySnapshot(await api.cancelBatch({ batchId: snapshot.batchId })); }
-    catch (error) { setError(error); }
+    try { const next = await api.cancelBatch({ batchId: snapshot.batchId }); cancelSettlementFailure = null; applySnapshot(next); }
+    catch (error) { cancelSettlementFailure = { batchId: snapshot.batchId, planId: snapshot.planId }; setError(error); }
     finally { cancelPending = false; render(); }
   });
   byId('new-batch').addEventListener('click', () => {
-    if (isBusy()) return;
+    if (isBusy() || cancelPending) return;
     preparedFolderPair = null;
     editing = true; dirty = true; selectedIds.clear(); reencodeChoices.clear(); uiError = ''; render();
     activateWorkspace(currentOperation());

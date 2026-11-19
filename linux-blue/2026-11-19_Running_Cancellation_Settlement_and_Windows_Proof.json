@@ -1,0 +1,74 @@
+{
+  "checkpoint": "086",
+  "cutoff": "2026-11-19T05:10:48.019890+00:00",
+  "status": "Actual084 cancellation audited; recovery untested;086 renderer source reviewed only",
+  "baseCommit": "997d79f3c7f7a40bf7f89e6bed224697a3e3bc1a",
+  "sourceIntegration": {
+    "baseCommit": "997d79f3c7f7a40bf7f89e6bed224697a3e3bc1a",
+    "sourceHandoffSha256": "17aa856eea4834ddbf17cce3cd6df5c38159a2cf6b08f8d86abe9a3655678ce9",
+    "independentReviewSha256": "1cdc96a9ec200514c1f6f078dfd4d9902944272d37fa9bb0494e74927740f25f",
+    "files": [
+      {
+        "path": "linux-blue/product-linux-qualification.cjs",
+        "bytes": 37487,
+        "sha256": "920db04330bc8e633b99c643d1bfe41f2ab02d55383d16763040b1957b6a4bac"
+      },
+      {
+        "path": "resources/linux-inert-package-plan.json",
+        "bytes": 72197,
+        "sha256": "b2e204e187498871042c505189c84099daf7eb8824236a1647c864d1069a0964"
+      },
+      {
+        "path": "tests/ui-workbench.test.cjs",
+        "bytes": 119111,
+        "sha256": "0cd410e919dcf154c90f3ce0f70c773d7ccc1fea387f77e8ad0fc7cebf4e6d13"
+      },
+      {
+        "path": "ui/renderer.js",
+        "bytes": 157477,
+        "sha256": "2ec958a45d9937844f83e910b9975dc354b1cdfb0c77ac13c9f696bd5e1f8daf"
+      }
+    ],
+    "committed": false
+  },
+  "sourceIntegrationSha256": "4205d7e7997722f5cde740952504116ada53074acacb2bb26507519298ed9def",
+  "tests": {
+    "renderer": 82,
+    "syntax": 223,
+    "shared": 325,
+    "linuxSpecific": 40,
+    "failures": 0,
+    "skips": 0
+  },
+  "aggregateSha256": "8d5abe33fe14eb3f8cd64f9757ac51e3f207007e6d0def42b4956acd6159891d",
+  "windowsRetestScopeSha256": "75888aa2193561c6a39969eb50fb6b728ef849260120f532f1562b8ec000cf27",
+  "predecessorSession": {
+    "bytes": 2650267,
+    "sha256": "a2cc4bdcf4046ab427d4a7587673ee0a97a83cdaf5b683c4713448b0af0c572b"
+  },
+  "predecessorMirrorReceipt": {
+    "bytes": 3430,
+    "sha256": "59715cb38f6a454896d818dabce3a64855183f72996a8433879df045817ce739"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native084-cancellation-saved-audit.json": {
+      "bytes": 6275,
+      "sha256": "11f148ea877cc4597c38e574a5b54fe08525301379271db78cbb337487044800"
+    },
+    "linux-blue/evidence-2026-11-19/hosted085-verified-outcome.json": {
+      "bytes": 2013,
+      "sha256": "45676a52d4b820d3f4e2e1253d05f624be290ba26aaf6691f88e04b58701beb4"
+    },
+    "linux-blue/evidence-2026-11-19/windows085-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "980920b03f6717115386d25874d1b90c31e12975bbae6aba27b5c35f0170723c"
+    }
+  },
+  "limits": [
+    "Recovery not attempted in actual084 cancellation",
+    "No086 package/native or Windows cancellation acceptance",
+    "Windows085 original report retained, executable package not retained",
+    "Reveal remains unresolved; no speculative fix included",
+    "Owner hardware is LAST gate after independent candidate freeze"
+  ]
+}

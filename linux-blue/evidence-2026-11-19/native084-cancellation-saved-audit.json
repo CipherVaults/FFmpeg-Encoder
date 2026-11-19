@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "status": "running-cancellation-observed-recovery-not-attempted",
+  "sourceCommit": "5d03763529178f24c02a3c7fd9cc90d8cd7deed6",
+  "sourceFilesVerified": 908,
+  "packageFilesVerified": 255,
+  "normalExecutableFiles": 5,
+  "fixture": {
+    "bytes": 21284230,
+    "sha256": "e1227fc45c4a753a261f4b008d3756452b08497e100b798092f22fbbe947c021",
+    "unchanged": true
+  },
+  "receipts": {
+    "closure": {
+      "bytes": 1558,
+      "sha256": "4926efa45b0ca90566626f82c1b36e2672eb33b16322a64e1730452284ac24e9"
+    },
+    "packageAudit": {
+      "bytes": 63376,
+      "sha256": "f98296924d818c5583108216baef224224153910571a0769f2f7264dca88fc41"
+    },
+    "storageFinal": {
+      "bytes": 878,
+      "sha256": "667a567503854711315eb5935d1d32911c3c0c6506c770846fee4e4c11f74a84"
+    },
+    "storageLedger": {
+      "bytes": 1569,
+      "sha256": "99a08ba66ecaeb301cfdc07501646f2283cc4e95c1a30ab9ef8a75b42214c595"
+    }
+  },
+  "savedLifecycle": {
+    "diagnosticDigestsVerified": 21,
+    "events": {
+      "ENCODE_STARTED": {
+        "id": "b11e02cb-5dc2-415d-bf44-25d010bbcc33",
+        "sessionId": "e792b57f-84d9-4fd2-9fd4-785ee979b4b4",
+        "sequence": 15,
+        "at": 1795064051460,
+        "type": "event",
+        "stage": "invocation",
+        "reason": "ENCODE_STARTED",
+        "severity": "info",
+        "batchId": "e616d622-9f1c-407c-a244-30081cf0bd76",
+        "planId": "e0f781b5-3995-451d-bf2c-5a8e4adb0d9c",
+        "fileId": "06f40433-2d83-41ea-9574-ab89e3fd7fd2",
+        "invocationId": "428e206f-dae5-4810-b475-7592fd18f15d",
+        "context": {},
+        "contextTruncated": false
+      },
+      "CANCELLATION_REQUESTED": {
+        "id": "c2a77320-3535-4ac5-b4b4-0454ac3b215d",
+        "sessionId": "e792b57f-84d9-4fd2-9fd4-785ee979b4b4",
+        "sequence": 16,
+        "at": 1795064062801,
+        "type": "event",
+        "stage": "cancellation",
+        "reason": "CANCELLATION_REQUESTED",
+        "severity": "info",
+        "batchId": "e616d622-9f1c-407c-a244-30081cf0bd76",
+        "planId": "e0f781b5-3995-451d-bf2c-5a8e4adb0d9c",
+        "context": {}
+      },
+      "JOB_CANCELLED": {
+        "id": "554e0721-23dd-43e3-8e9e-7b5ce561f214",
+        "sessionId": "e792b57f-84d9-4fd2-9fd4-785ee979b4b4",
+        "sequence": 17,
+        "at": 1795064064906,
+        "type": "event",
+        "stage": "cancellation",
+        "reason": "JOB_CANCELLED",
+        "severity": "info",
+        "batchId": "e616d622-9f1c-407c-a244-30081cf0bd76",
+        "planId": "e0f781b5-3995-451d-bf2c-5a8e4adb0d9c",
+        "fileId": "06f40433-2d83-41ea-9574-ab89e3fd7fd2",
+        "invocationId": "428e206f-dae5-4810-b475-7592fd18f15d",
+        "message": "Operation cancelled.",
+        "messageTruncated": false,
+        "context": {
+          "code": "CANCELLED",
+          "exitCode": null,
+          "signal": "SIGKILL"
+        },
+        "contextTruncated": true,
+        "stderr": {
+          "bytes": 264,
+          "sha256": "208163b8dbbb62a3d232ef9445a23326d1be8cb77662b210aed0c4d8668d61c8",
+          "truncated": false,
+          "totalBytes": 264
+        }
+      },
+      "JOB_DISPOSITION": {
+        "id": "a3287e69-9903-4172-a819-dcaedc913234",
+        "sessionId": "e792b57f-84d9-4fd2-9fd4-785ee979b4b4",
+        "sequence": 18,
+        "at": 1795064064934,
+        "type": "event",
+        "stage": "publication",
+        "reason": "JOB_DISPOSITION",
+        "severity": "info",
+        "batchId": "e616d622-9f1c-407c-a244-30081cf0bd76",
+        "planId": "e0f781b5-3995-451d-bf2c-5a8e4adb0d9c",
+        "fileId": "06f40433-2d83-41ea-9574-ab89e3fd7fd2",
+        "context": {
+          "status": "cancelled"
+        },
+        "contextTruncated": true
+      },
+      "BATCH_FINISHED": {
+        "id": "10870934-a7a8-49ef-a70a-796f84c3894a",
+        "sessionId": "e792b57f-84d9-4fd2-9fd4-785ee979b4b4",
+        "sequence": 19,
+        "at": 1795064064938,
+        "type": "event",
+        "stage": "session",
+        "reason": "BATCH_FINISHED",
+        "severity": "info",
+        "batchId": "e616d622-9f1c-407c-a244-30081cf0bd76",
+        "planId": "e0f781b5-3995-451d-bf2c-5a8e4adb0d9c",
+        "context": {
+          "phase": "cancelled",
+          "counts": {
+            "success": 0,
+            "failed": 0,
+            "skipped": 0,
+            "cancelled": 1,
+            "unprocessed": 0
+          },
+          "elapsedSeconds": 13.755
+        },
+        "contextTruncated": false
+      }
+    },
+    "publications": 0,
+    "recoveryOutputEmpty": true,
+    "storageReservationBytesAfterFinal": 0,
+    "storageJobsAfterFinal": 0,
+    "retainedUnboundTemporaryDirectory": true
+  },
+  "closure": {
+    "exitCode": 0,
+    "terminationRequested": false,
+    "errors": [],
+    "elapsedSeconds": 221.75642365599924,
+    "sampledIdentities": 12,
+    "sampledOnly": true,
+    "remainingGroupStates": [
+      "Z"
+    ]
+  },
+  "leadObservedUi": {
+    "attribution": "Parent direct desktop observation, not replayed by this audit",
+    "positiveProgressBeforeOneCancel": "22.9%, 00:06",
+    "subsequentCancelling": "37.6%, 00:11",
+    "terminal": "Cancelled, 00:13; retained temporary-output warning",
+    "newBatchEnabled": true,
+    "normalAppClose": true
+  },
+  "interpretation": [
+    "ENCODE_STARTED preceded the cancel request and JOB_CANCELLED; matching cancelled invocation reports SIGKILL, not successful publication.",
+    "The process-runner rejection occurs after child close and sink drain. This is source-backed interpretation of saved cancellation, not a new process probe.",
+    "Terminal snapshot plus reconciled diagnostic storage ledger supports task/storage settlement; it does not independently prove the entire cancel IPC promise and generation retirement had already settled.",
+    "Renderer locked controls omitted cancelPending, so enabled New batch was not proof of completed cancellation. The reviewed uncertainty stop was honored: no fresh Prepare or recovery Start.",
+    "Retained unbound temporary output was not published or deleted. Recovery remains untested.",
+    "Normal application closure is distinct from the encoder SIGKILL used during cancellation. Process observations are sampled, not an exhaustive census."
+  ],
+  "rawProfilesLogsUploaded": false,
+  "newMediaOrRuntimeExecutionByAudit": false
+}

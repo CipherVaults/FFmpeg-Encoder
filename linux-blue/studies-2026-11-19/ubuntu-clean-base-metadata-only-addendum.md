@@ -1,0 +1,7 @@
+# Metadata seed does not require rootfs extraction
+
+The lead's narrower approach is preferable for the immediate metadata-only step. After separately approved acquisition and verification of the official archive, stream its archive headers and read only an explicit allowlist of ordinary dpkg status/control inventory members. Do not extract the rootfs, follow links, materialize special files or execute anything. Bound compressed bytes, total decompressed traversal, header/member count and selected member sizes; require unique canonical selected names, ordinary-file type, exact termination and complete reads. Refuse duplicates, link substitutions or missing/incomplete selected members rather than selecting a prefix.
+
+The initial candidate is the regular var/lib/dpkg/status member if actually present; any extra control-member names must be justified after bounded metadata inspection, not an unrestricted info-directory export. The exact selected inventory must preserve Package/Version/Architecture, installed status and Essential/base roots. This is sufficient to seed a separately reviewed APT metadata solver, not to prove the rootfs is runnable or every payload authentic. Retain the signed archive identity and selected-member hashes with the seed.
+
+No general rootfs extractor should be designed for this stage. Full rootfs provisioning, normal symlink handling, execution isolation and payload/tool verification remain separate later gates. No download or archive inspection was performed for this addendum; exact member presence remains unverified.

@@ -1,15 +1,13 @@
-# Current State — Checkpoint 100 writer release
+# Current State: checkpoint 101 writer release
 
-Evidence cutoff: 2026-11-19T14:32:32Z. Exact 100 source and records await scoped commit and verified Git → Notion → GitHub.
+Evidence cutoff 2026-11-19T14:58:25+00:00. 101 awaits scoped commit and full Git → independently verified Notion → GitHub.
 
 ## Verified
-- 099 exact source/history/readable Notion and GitHub projection verified. Shared and hosted Windows CPU two-file check passed (.715s frozen/reset; substituted picker, no native Windows/GPU or executable retention).
-- Actual 099 native 180s MP4 → MOV Full, 678,829,790-byte sole output, 5,400 video/8,439 AAC packet identities and 8,640,000 equal saved PCM samples. Measured zero PTS/duration discrepancy in this case, genuine MOV edit list/representation, journal15.031s/visual00:15, real Thunar reveal without Open, normal close. Not a 100 or broad release result.
-- Ubuntu 099 reached candidate-for-review after seven simulated new packages; 1,175 legacy mapper records, 44 unresolved, no per-record signed-index or provider closure. Ready:false, no installs. 100 is source-only; no acquisition yet. Signed index data would stay ephemeral under existing report-only upload.
-- Five exact reviewed Ubuntu-only paths, 98 inert tests and unchanged app/package projection. 099 native/Windows remain exact prior artifact evidence, no new runtime claims.
+- 100 exact preservation: 1,098 tracked files and 100 commits recovered in Notion; GitHub c2aaafc1b0dad1c7ee68b15a815033df165327e6 readback verified.
+- 099-runtime cadence inputs: CFR60 1,920 frames and VFR 320 frames; accepted saved acquisition audit only, including retained VFR duration/delta distinctions. GitHub 100 verification followed launch; no rerun. Fixture payloads are local-only in current records.
+- 101: unbound two-path Ubuntu offline inventory reader; 130 inert canonical-layout tests (32 independently repeated), unchanged app/runtime/resolver/workflow. Not signature authentication or a real archive result.
+- The shared matrix passed before cutoff: 227 syntax files and 338 shared tests on each of Windows and Ubuntu, plus 133 Linux tests (overlapping groups). This is separate from the targeted Ubuntu metadata job. At the 14:56 UTC observation, the targeted Ubuntu 100 job was still in the metadata stage, about 13 minutes into its existing 20-minute stage ceiling. No terminal sanitized report was available at this cutoff. A running stage proves neither a failure nor an accepted lock; it does not qualify an installer or release.
 
-## Pending
-- Exact 100 preservation and its Ubuntu-only successor. No 100 rebuilt app or Windows runtime campaign for unchanged package projection.
-- Complete named portable manufacture/trust-chain and matching source/executable/clean-host retention, then exact freeze before owner Windows RTX 5060 final gate. v0.8 separate; HDR v0.9.
-
-Full rationale, evidence and untouched complete 099 history are in SESSION_SUMMARY.md and 2026-11-19_Native_Long_MOV_and_Signed_Index_Review.md/.json.
+## Next
+- Retain actual 100 hosted terminal report when available; no 101 workflow rebind or unnecessary rebuild. Review future cadence output proof and real signed Ubuntu seed/isolated solver only as separate bounded work.
+- Qualify portable manufacture and freeze exact v0.7 before owner Windows RTX 5060 final acceptance. v0.8 remains separate and HDR planned for v0.9.

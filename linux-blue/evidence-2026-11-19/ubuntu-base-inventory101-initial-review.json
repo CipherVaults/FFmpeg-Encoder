@@ -1,0 +1,64 @@
+{
+  "status": "changes-required",
+  "scope": "Independent exact initial unbound source-only review, with synthetic inert observations only",
+  "reviewedAtUtc": "2026-11-19T14:52:21.319878+00:00",
+  "reviewedHandoffSha256": "b7e2bee672464a385640529339bd9e15ed9f55668a6352cb9613576a33468a96",
+  "files": [
+    {
+      "path": "base_inventory.py",
+      "bytes": 7752,
+      "sha256": "49703261cea4d568a27387ba86ce4b992b183e098a4a0827fe259514c9ba8da0"
+    },
+    {
+      "path": "test_base_inventory.py",
+      "bytes": 6318,
+      "sha256": "a93de74a95088d53f9c610080d1d18e99b44911541f7d522321ac3146aa95a77"
+    }
+  ],
+  "initialIndependentInertTestsPassed": 24,
+  "findings": [
+    {
+      "id": "R1",
+      "type": "required",
+      "detail": "Optimization removes assertion-based bounds and format/currentness checks. Independent -O inert control accepted one tiny synthetic entry despite member cap zero (still ready:false). Add non-assert module guard before imports or explicit checks; no caller escape."
+    },
+    {
+      "id": "R2",
+      "type": "required",
+      "detail": "O_RDONLY opens before confirming regular type. Named FIFO or replacement FIFO can block before deadline. Require regular current-owned single-link pre-lstat with same post-open inode/identity, O_NOFOLLOW|O_NONBLOCK, and start monotonic before opening. No blocking FIFO attempted."
+    },
+    {
+      "id": "R3",
+      "type": "required",
+      "detail": "Version regex excludes literal backslash (confirmed), but permits malformed epoch or empty Debian revision; synthetic 1::garbage and 1.2- projected. Use bounded conservative Debian Policy 5.6.12 version components without a new subprocess, and verify package/version exact negative/positive behavior."
+    },
+    {
+      "id": "R4",
+      "type": "required-before-runtime",
+      "detail": "An archive regular status member underneath a symlink/non-directory ancestor is not a faithful rootfs status projection. Verify any explicit targeted parent entries are unique ordinary directories regardless of archive order; reject non-file header sizes and avoid accepting Linux path aliases. Remains non-extracting."
+    },
+    {
+      "id": "P1",
+      "type": "practical",
+      "detail": "Full lstat timestamp/size/link parent stamps detect even unrelated sibling writes; safe refusal, but noisy in workspace. Canonical type/dev/ino/uid parent identity plus full artifact stamps can refuse replacement without treating harmless same-directory activity as file replacement."
+    },
+    {
+      "id": "P2",
+      "type": "adapter-condition",
+      "detail": "inspect_unverified accepts a caller parser injection as an inert test seam and verifies no signer. Future binding must use exact hash-pinned load_paragraphs and genuine independently verified signature chains; no authority follows from caller-pinned receipt, and CLI remains deliberately unbound."
+    }
+  ],
+  "controlsKept": [
+    "Single gzip member, complete end markers and nonzero trailer refusal",
+    "Distinct compressed, expanded, selected status, membership and tuple limits",
+    "No archive extraction, network, APT, installation or real signature execution",
+    "Bound CLI returns no usable inventory even after a caller-created prerequisite"
+  ],
+  "references": [
+    "https://www.debian.org/doc/debian-policy/ch-controlfields.html#version"
+  ],
+  "safeObservations": {
+    "INITIAL_OPTIMIZED_BOUND_OBSERVATION.log": "53554e54bed86eb8cf47aaa5505358d425fef785176cf59ebca4aa0eacb4ef05",
+    "INITIAL_VERSION_OBSERVATION.log": "b75d5c0baf55fb01d0e10f20d9a9d6eb3b69a5b65d030fe7c64d2c39fd82b523"
+  }
+}

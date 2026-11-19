@@ -1,0 +1,325 @@
+{
+  "accepted": true,
+  "scope": "fresh fixture acquisition and saved complete video timing only",
+  "sourceCommit": "da97ee7584c771eae8e74d345e287999c6546507",
+  "sourceFilesVerified": 1088,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeDependenciesVerified": 7,
+  "result": {
+    "bytes": 373371,
+    "sha256": "b6e20f55979f0a519279075e718f7af7d3ac77bb79ab47627bb0f949dca27127"
+  },
+  "closure": {
+    "bytes": 909,
+    "sha256": "5bb2fc7e9eb316900726c676f71b83e2730f06fd3270559d3160ce3bb3b42d7a"
+  },
+  "elapsedSeconds": 13.542276082996977,
+  "children": {
+    "closed": 6,
+    "live": 0,
+    "outerSampledIdentities": 5,
+    "outerCensusIsSampled": true
+  },
+  "cells": [
+    {
+      "id": "C",
+      "file": {
+        "bytes": 15662092,
+        "sha256": "5d8fc52b0599155d9dc439e7df237a4f96ec0664a07314b473e11c57db809b3c"
+      },
+      "metadata": {
+        "video": {
+          "index": 0,
+          "codec": "h264",
+          "profile": "High",
+          "width": 1280,
+          "height": 720,
+          "pixelFormat": "yuv420p",
+          "fieldOrder": "progressive",
+          "sar": "1:1",
+          "nominalRate": "60/1",
+          "averageRate": "60/1",
+          "timeBase": "1/15360",
+          "durationTicks": 491520,
+          "color": {
+            "primaries": "bt709",
+            "transfer": "bt709",
+            "matrix": "bt709",
+            "range": "tv"
+          },
+          "orientation": {
+            "rotationSource": "not-reported",
+            "rotationDegrees": {
+              "state": "unknown",
+              "reason": "not-reported"
+            },
+            "displayMatrix": {
+              "state": "unknown",
+              "reason": "not-reported"
+            },
+            "legacyRotationDegrees": {
+              "state": "unknown",
+              "reason": "not-reported"
+            }
+          },
+          "orientationInterpretation": "Absence recorded only; no identity-orientation qualification issued."
+        },
+        "audio": {
+          "index": 1,
+          "codec": "aac",
+          "profile": "LC",
+          "sampleFormat": "fltp",
+          "sampleRate": "48000",
+          "channels": 2,
+          "layout": "stereo",
+          "timeBase": "1/48000",
+          "durationTicks": 1536000
+        },
+        "container": {
+          "format": "mov,mp4,m4a,3gp,3g2,mj2",
+          "majorBrand": "isom",
+          "duration": "32.000000"
+        }
+      },
+      "videoTiming": {
+        "scope": "complete-generated-source-video-timing-and-picture-types",
+        "frames": 1920,
+        "pictureTypes": {
+          "I": 16,
+          "P": 480,
+          "B": 1424
+        },
+        "keyframeOrdinals": [
+          0,
+          120,
+          240,
+          360,
+          480,
+          600,
+          720,
+          840,
+          960,
+          1080,
+          1200,
+          1320,
+          1440,
+          1560,
+          1680,
+          1800
+        ],
+        "constantFrameRateVerified": true,
+        "exactFramePeriod": "1/60",
+        "lastFrameDurationVerified": true,
+        "doesNotEstablish": [
+          "application-operation-support",
+          "AAC-decoder-alignment",
+          "output-quality",
+          "display-acceptance"
+        ]
+      },
+      "independentTiming": {
+        "rows": 1920,
+        "firstPts": 0,
+        "lastPts": 491264,
+        "endTicks": 491520,
+        "durationCounts": {
+          "256": 1920
+        },
+        "durationVersusNextPtsMismatchCount": 0
+      },
+      "savedMetadata": {
+        "bytes": 5025,
+        "sha256": "6c6be9602b9a0f8c7f4e314d40e251a24fdf97681d12dcbce5e85d41c44bb3f5"
+      },
+      "timingSha256": "7c4890c05ce4cabf6fa2bab492fa42b106433bf78e63325de07b2d99c735d2ea",
+      "warnings": [
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "id": "VMP4",
+      "file": {
+        "bytes": 3615957,
+        "sha256": "3c10746e684124de77a0e5930aff42ad7e4547ffb779b7c166fdd4067186e551"
+      },
+      "metadata": {
+        "video": {
+          "index": 0,
+          "codec": "h264",
+          "profile": "High",
+          "width": 1280,
+          "height": 720,
+          "pixelFormat": "yuv420p",
+          "fieldOrder": "progressive",
+          "sar": "1:1",
+          "nominalRate": "60/1",
+          "averageRate": "40/1",
+          "timeBase": "1/60000",
+          "durationTicks": 480000,
+          "color": {
+            "primaries": "bt709",
+            "transfer": "bt709",
+            "matrix": "bt709",
+            "range": "tv"
+          },
+          "orientation": {
+            "rotationSource": "not-reported",
+            "rotationDegrees": {
+              "state": "unknown",
+              "reason": "not-reported"
+            },
+            "displayMatrix": {
+              "state": "unknown",
+              "reason": "not-reported"
+            },
+            "legacyRotationDegrees": {
+              "state": "unknown",
+              "reason": "not-reported"
+            }
+          },
+          "orientationInterpretation": "Absence recorded only; no identity-orientation qualification issued."
+        },
+        "audio": {
+          "index": 1,
+          "codec": "aac",
+          "profile": "LC",
+          "sampleFormat": "fltp",
+          "sampleRate": "48000",
+          "channels": 2,
+          "layout": "stereo",
+          "timeBase": "1/48000",
+          "durationTicks": 384000
+        },
+        "container": {
+          "format": "mov,mp4,m4a,3gp,3g2,mj2",
+          "majorBrand": "isom",
+          "duration": "8.000000"
+        }
+      },
+      "videoTiming": {
+        "scope": "complete-generated-source-video-timing-and-picture-types",
+        "frames": 320,
+        "pictureTypes": {
+          "I": 3,
+          "P": 80,
+          "B": 237
+        },
+        "classification": "variable",
+        "intervalCount": "319",
+        "timeBase": "1/60000",
+        "exactSteps": [
+          "1/30",
+          "1/60"
+        ],
+        "decodedDurationTicks": {
+          "1000": 160,
+          "2000": 160
+        },
+        "firstPts": "0/1",
+        "endPts": "8/1",
+        "lastFrameDurationVerified": true,
+        "doesNotEstablish": [
+          "application-operation-support",
+          "output-quality",
+          "display-acceptance"
+        ]
+      },
+      "independentTiming": {
+        "rows": 320,
+        "firstPts": 0,
+        "lastPts": 479000,
+        "endTicks": 480000,
+        "durationCounts": {
+          "2000": 160,
+          "1000": 160
+        },
+        "durationVersusNextPtsMismatchCount": 160
+      },
+      "savedMetadata": {
+        "bytes": 5025,
+        "sha256": "b36cbb54fa03921a586cf243d2e7a83a7979bc2744cce1e6ef1c8ead08f22845"
+      },
+      "timingSha256": "b67a0d08f483faabb9665fe1f6403c4d91ef1c97c63196a27657f5349a9ea64f",
+      "warnings": [
+        "",
+        "",
+        ""
+      ]
+    }
+  ],
+  "sequenceDeviation": {
+    "attributedToLead": true,
+    "description": "Root launched after initial release-ready request and before late sequencing hold. Full100 Notion was verified but GitHub100 publication was not yet verified at launch, contrary to PLAN order. Lead acknowledges missed sequencing condition. Actual immutable099 source/runtime and full099 preservation remain exact."
+  },
+  "limits": [
+    "No output preservation comparison or service lifecycle performed",
+    "No AAC decoded sample alignment/full PCM proof",
+    "New generated hashes are not historical payload identity",
+    "No shipped loader/catalog change or application qualification",
+    "No media subprocess, probe, decode or replay in independent saved audit"
+  ],
+  "inventory": {
+    "bytes": 4279,
+    "sha256": "472a5e949a74a6696cb88c92c6a54b37295f33e183a96ca370ef1f2dcd0e149c"
+  },
+  "practicalReservationDerivation": {
+    "method": "Pure exact099 deriveRemuxBudget on saved inspectMetadata probe and measured byte size, retained indexes [0,1], no subprocess. Policy estimates only, not opaque service authority or elapsed prediction.",
+    "cells": {
+      "C": {
+        "sha256": "61b45aa07e8b082bd616b979bb489f9d8ddaee98931e6f5dcc97f8af3529aa7a",
+        "derived": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 254000,
+            "maxFrameBytes": 8388608,
+            "maxPcmBytes": 134217728,
+            "maxRecords": 20000,
+            "maxSpoolBytes": 575905792,
+            "maxTextBytes": 40960000,
+            "maxDurationSeconds": 34,
+            "maxSourceBytes": 15662092,
+            "maxOutputBytes": 38914831
+          },
+          "executionBudgetMs": 896000,
+          "resources": {
+            "pipeBytes": 1193307192,
+            "evidenceBytes": 1193307192,
+            "maxChildren": 64,
+            "stallMs": 120000,
+            "outputReserveBytes": 106023695,
+            "evidenceReserveBytes": 575905792
+          }
+        }
+      },
+      "VMP4": {
+        "sha256": "e84385e4432165074ce198c1066fc955d19183960a68a70d22b3e747c878591b",
+        "derived": {
+          "budget": {
+            "sourceDecode": "complete",
+            "timeoutMs": 120000,
+            "maxFrameBytes": 8388608,
+            "maxPcmBytes": 134217728,
+            "maxRecords": 20000,
+            "maxSpoolBytes": 575905792,
+            "maxTextBytes": 40960000,
+            "maxDurationSeconds": 10,
+            "maxSourceBytes": 3615957,
+            "maxOutputBytes": 23857163
+          },
+          "executionBudgetMs": 600000,
+          "resources": {
+            "pipeBytes": 1066783768,
+            "evidenceBytes": 1066783768,
+            "maxChildren": 64,
+            "stallMs": 120000,
+            "outputReserveBytes": 90966027,
+            "evidenceReserveBytes": 575905792
+          }
+        }
+      }
+    }
+  },
+  "auditCorrection": "Initial independent assertion incorrectly required every decoded VFR duration to equal the next presentation interval. Saved VFR evidence does not guarantee that with reordered pictures. Original audit script retained; actual complete PTS cadence, duration histogram and terminal endpoint verified independently. Mismatch count retained explicitly; not repaired, shifted or claimed as preservation."
+}

@@ -1,0 +1,31 @@
+{
+  "disposition": "APPROVED_UNBOUND_SOURCE_AND_SYNTHETIC_TESTS_ONLY",
+  "handoffSha256": "ffe19659a4f6b66327d007e616e5090df6d9cfb91314166026c125fd67b994f5",
+  "base": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "approvedCanonicalPaths": [
+    {
+      "path": "base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/base_inventory.py",
+      "bytes": 8913,
+      "sha256": "bb247f700a0a69ff794c37096de489af21ef7e5fe82b259051b7326a53661b86"
+    },
+    {
+      "path": "test_base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/test_base_inventory.py",
+      "bytes": 8477,
+      "sha256": "1129ee1ef7428f75db580fdc1a3a81529f9d8fa3c85b87ccad751b9d5724e8c5"
+    }
+  ],
+  "unchangedResolverSha256": "35aa1cf927fae5573e43f8c2fcb419819c9cc03c4f6176f9e61e72d3a74ee798",
+  "independentSyntheticTestsPassed": 32,
+  "testLogSha256": "dc237f907a73088821dc5e6fbe89c2679653d4c72bc9aa32364db06b7b171d09",
+  "review": [
+    "Relative sibling resolver placement confirmed with exact baseline Git-object bytes.",
+    "Prior trailing-slash regular status and slash-only directory aliases now refused; absolute raw name/prefix is rejected before TarInfo normalization. Earlier FIFO/optimized-mode, ancestor and version corrections remain.",
+    "Binding null; identity receipt helper is not signature verification and cannot produce ready=true."
+  ],
+  "limitations": [
+    "Actual official archive compatibility remains unverified; unsupported extensions and concurrent changes may legitimately fail closed.",
+    "No archive acquisition, real archive inspection, APT, installation, signing, workflow, package, media, or canonical changes by reviewer."
+  ]
+}

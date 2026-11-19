@@ -1,0 +1,4 @@
+# Superseding fixture schedule correction
+The earlier FIXTURE_INVENTORY_AND_ACQUISITION.md ten-child proposal is preserved as superseded, not execution authority. Actual099 inspectMetadata (src/inspection.cjs164 onward) invokes exactly one metadata probe. The start/middle/end windows belong finishInspection/inspectInput, not the historical generator calls inspected here.
+
+Correct fixture acquisition is six serial children: C generation + metadata + complete video timing; VMP4 generation + metadata + complete video timing. No redundant sampling children. This correction does not determine a future actual service Prepare schedule: derive that independently from its genuine call path rather than carrying either six or ten into lifecycle permission. No old evidence or current source was rewritten.

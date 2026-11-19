@@ -1,0 +1,34 @@
+{
+  "scope": "UNBOUND source-only metadata reader; no genuine signature authentication or acquisition",
+  "base100": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "files": [
+    {
+      "path": "base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/base_inventory.py",
+      "bytes": 8913,
+      "sha256": "bb247f700a0a69ff794c37096de489af21ef7e5fe82b259051b7326a53661b86"
+    },
+    {
+      "path": "test_base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/test_base_inventory.py",
+      "bytes": 8477,
+      "sha256": "1129ee1ef7428f75db580fdc1a3a81529f9d8fa3c85b87ccad751b9d5724e8c5"
+    }
+  ],
+  "tests": {
+    "passed": 32,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s ffmpeg-base-inventory101-proposal -p 'test*.py'",
+    "logSha256": "09c34da88ea26cdbae39230ba70ca5a33bae667ee77f96b4dbb668ceb82e2773"
+  },
+  "planSha256": "8b6aaa8204d1072feb851fe38c7e988b0c246e511f1b9064f0d2f22ac1f213c9",
+  "canonicalEdits": false,
+  "binding": null,
+  "realArchiveInspected": false,
+  "packageRuntimeChanges": false,
+  "supersedesHandoffSha256": "5016e0151269ab86907f1e2c570231060757c946b22c0696d1f3198b68fb182b",
+  "unchangedSupportCopy": {
+    "path": "resolver.py",
+    "sha256": "35aa1cf927fae5573e43f8c2fcb419819c9cc03c4f6176f9e61e72d3a74ee798",
+    "newCanonicalPath": false
+  }
+}

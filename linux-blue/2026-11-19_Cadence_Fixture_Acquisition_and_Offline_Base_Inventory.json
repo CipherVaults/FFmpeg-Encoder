@@ -1,0 +1,81 @@
+{
+  "checkpoint": "101",
+  "cutoffUtc": "2026-11-19T14:58:25+00:00",
+  "sourceBaseLocal": "f2c8aff1effb4cf29237a1b960d5fbd78658c907",
+  "sourceBaseGithub": "c2aaafc1b0dad1c7ee68b15a815033df165327e6",
+  "sourceHandoffSha256": "2b057290a98e6ed9f8bf788ba56d881f6a8bb64e2501ee5fa5d0be53d1dee507",
+  "sourceFiles": [
+    {
+      "path": "base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/base_inventory.py",
+      "bytes": 8913,
+      "sha256": "bb247f700a0a69ff794c37096de489af21ef7e5fe82b259051b7326a53661b86"
+    },
+    {
+      "path": "test_base_inventory.py",
+      "canonicalPath": "scripts/ubuntu-lock/test_base_inventory.py",
+      "bytes": 8477,
+      "sha256": "1129ee1ef7428f75db580fdc1a3a81529f9d8fa3c85b87ccad751b9d5724e8c5"
+    }
+  ],
+  "tests": {
+    "passed": 130,
+    "reader": 32,
+    "existingUbuntu": 98,
+    "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s scripts/ubuntu-lock -p 'test*.py'",
+    "logSha256": "766f96c8c219b50dd455120131d95202d9273e551dbb227b615e88a3687a7e81"
+  },
+  "hosted100": "The shared matrix passed before cutoff: 227 syntax files and 338 shared tests on each of Windows and Ubuntu, plus 133 Linux tests (overlapping groups). This is separate from the targeted Ubuntu metadata job. At the 14:56 UTC observation, the targeted Ubuntu 100 job was still in the metadata stage, about 13 minutes into its existing 20-minute stage ceiling. No terminal sanitized report was available at this cutoff. A running stage proves neither a failure nor an accepted lock; it does not qualify an installer or release.",
+  "cadenceScope": "acquisition only, no private/product lifecycle, no output preservation; GitHub100 readback after launch",
+  "readerScope": "unbound offline source and inert controls only; no signing or real archive",
+  "evidence": {
+    "linux-blue/studies-2026-11-19/mov-cadence-plan.md": {
+      "bytes": 5357,
+      "sha256": "d6ba94c001a013321c5bb18f144f460463edae1796766a4edf3bad50617def4b"
+    },
+    "linux-blue/studies-2026-11-19/mov-cadence-fixture-inventory-historical.md": {
+      "bytes": 4422,
+      "sha256": "9f82f7a7cc8e84d907f49d608233c0de4f0290e0bed83058c3bd2795ffd0cd8f"
+    },
+    "linux-blue/studies-2026-11-19/mov-cadence-six-child-schedule.md": {
+      "bytes": 805,
+      "sha256": "d89840ff0197fa454b01668d0bd6798dcb375e16e5b5217e2d39d0f6f34f50ac"
+    },
+    "linux-blue/studies-2026-11-19/mov-cadence-bootstrap-boundary.md": {
+      "bytes": 4650,
+      "sha256": "8ab59f04eb44f33d33189a07ab3ae2eb3456812c70cc70507c551bbfcdfd149c"
+    },
+    "linux-blue/studies-2026-11-19/ubuntu-minimal-closure-after099.md": {
+      "bytes": 7506,
+      "sha256": "d9bcb7b66b6c70c2341e09a286368ab740b62ce610de3d23daa975d705329fd7"
+    },
+    "linux-blue/studies-2026-11-19/ubuntu-clean-base-seed-after100.md": {
+      "bytes": 4218,
+      "sha256": "d94bbd4a58c63ef7de2322200dfce6be7e38944d1990bf2f0834fd7014ee6b16"
+    },
+    "linux-blue/evidence-2026-11-19/cadence-acquisition-current099-audit.json": {
+      "bytes": 10168,
+      "sha256": "89c0731fda1e697f76997a05da11d1ca68be3c3c71a509c17d79200e425fe985"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu-base-inventory101-initial-review.json": {
+      "bytes": 3606,
+      "sha256": "66a8b98a713317ead97abe723da56e32256c2a69f90775deffae98cb9d54c3ff"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu-base-inventory101-final-review.json": {
+      "bytes": 1663,
+      "sha256": "98f19757f9e3f75ef869991c2a1f5e08394cdd827d18054a21ef971ee112c2e4"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu-base-inventory101-settled-handoff.json": {
+      "bytes": 1331,
+      "sha256": "ffe19659a4f6b66327d007e616e5090df6d9cfb91314166026c125fd67b994f5"
+    },
+    "linux-blue/studies-2026-11-19/ubuntu-clean-base-metadata-only-addendum.md": {
+      "bytes": 1567,
+      "sha256": "94cf4aaea0bb000d475b9271bdb44104ccc37cb2cb6db938bdf14aa2a9d2156b"
+    },
+    "linux-blue/studies-2026-11-19/ubuntu-clean-base-implementation-scope.md": {
+      "bytes": 5168,
+      "sha256": "152d4a9aa3483364dd37fbcaf32759f6dbc0b0e9c707363cb3412691a599d050"
+    }
+  }
+}

@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='d64c3c1e36b9a22a2b6328c4fda572748ff40aa9'
+PARENT='dc22a53897f6b45fc4e510384c35e68cf053feeb'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -35,24 +35,50 @@ def paragraphs(text):
  return rows
 
 def transaction(text,installed,result=None):
- rows=[]
+ # APT pkgSimulate emits intermediate ShortBreaks, not a terminal lock verdict.
+ # Accept only its exact finite package-list form; independently require complete
+ # successful configuration, including a final configuration with no suffix.
+ assert len(text.encode())<=CAP,'LOG_BOUND'
+ rows=[];installed_rows={};configured=set();suffix_count=0;last_suffix=None
+ name=r'[a-z0-9][a-z0-9+.-]*'
+ token=name+r'(?::(?:amd64|all))?'
+ version=r'[0-9][A-Za-z0-9.+:~\-]*'
+ pattern=re.compile(r'(Inst|Conf) ('+name+r')(?::(?:amd64|all))?(?: \[([^]\r\n]+)\])? \(('+version+r') ([A-Za-z0-9][A-Za-z0-9.+:~/,= _\-]* \[(?:amd64|all)\])\)( \[(?:'+token+r' )*\])?')
  for line in text.splitlines():
   assert not line.startswith(('Remv ','Purg ')),'REMOVAL_REFUSED'
-  if not line.startswith('Inst '):continue
-  m=re.fullmatch(r'Inst ([a-z0-9+.-]+)(?::amd64)?(?: \[([^]]+)\])? \((\S+) .+\)',line)
+  if not line.startswith(('Inst','Conf')):continue
+  m=pattern.fullmatch(line) if len(line)<=4096 and line.isascii() and not any(ord(c)<32 or ord(c)==127 for c in line) else None
   if m is None:
    if result is not None:
-    # Structural observation only: no raw inventory or version tokens, and no
-    # suffix normalization or expanded transaction acceptance.
     result['transactionParseObservation']={'schema':1,'lineBytes':len(line.encode()),
      'lineSha256':sha(line.encode()),'asciiOnly':line.isascii(),
      'endsWithCandidateClose':line.endswith(')'),
      'candidateCloseThenBracket':bool(re.search(r'\) \[[^\r\n]*\]$',line)),
      'containsControl':any(ord(c)<32 or ord(c)==127 for c in line)}
    raise AssertionError('TRANSACTION_PARSE')
-  name,prior,version=m.groups();assert name not in installed and prior is None,'INSTALLED_CHANGE_REQUIRES_REVIEW'
-  rows.append({'package':name,'version':version})
- assert len(rows)<=1000 and len({r['package']for r in rows})==len(rows)
+  kind,pkg,prior,ver,origin,suffix=m.groups()
+  assert len(pkg)<=96 and len(ver)<=128,'TRANSACTION_TOKEN_BOUND'
+  if suffix is not None:
+   suffix_tokens=suffix[2:-1].split()
+   assert len(suffix_tokens)<=100 and all(len(t)<=102 for t in suffix_tokens),'TRANSACTION_SUFFIX_BOUND'
+   assert len(set(suffix_tokens))==len(suffix_tokens),'TRANSACTION_SUFFIX_DUPLICATE'
+   assert 'on' not in suffix_tokens,'TRANSACTION_SUFFIX_RELATION'
+   suffix_count+=1
+  if kind=='Inst':
+   assert pkg not in installed and prior is None,'INSTALLED_CHANGE_REQUIRES_REVIEW'
+   assert pkg not in installed_rows,'TRANSACTION_DUPLICATE'
+   installed_rows[pkg]=ver;rows.append({'package':pkg,'version':ver})
+   assert len(rows)<=1000,'TRANSACTION_COUNT'
+  else:
+   assert prior is None and pkg in installed_rows,'CONFIGURATION_UNKNOWN'
+   assert pkg not in configured,'CONFIGURATION_DUPLICATE'
+   assert ver==installed_rows[pkg],'CONFIGURATION_VERSION'
+   configured.add(pkg);last_suffix=suffix
+ assert rows and configured==set(installed_rows),'CONFIGURATION_INCOMPLETE'
+ assert last_suffix is None,'CONFIGURATION_FINAL_BREAKS'
+ if result is not None:
+  result['transactionCompletion']={'installed':len(rows),'configured':len(configured),
+   'intermediateSuffixes':suffix_count,'finalConfigurationWithoutBreaks':True}
  return rows
 
 def config(root):
@@ -257,7 +283,7 @@ def retain_mapping(installed,changes,root,end,result):
 
 # Diagnostics are closed enums, never exception text, environment or host data.
 DIAGNOSTIC_STAGES=('BASELINE_COPY','CONFIGURE_ISOLATION','BASELINE_PARSE','BASELINE_VALIDATE','BASELINE_QUERY','BASELINE_COMPARE','TOOL_IDENTITIES','METADATA_UPDATE','RELEASE_AUTHENTICATION','TRANSACTION_SIMULATION','TRANSACTION_PARSE','CANDIDATE_MAPPING','FINAL_BASELINE_CHECK')
-DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_STATUS_UNSAFE','BASELINE_STATUS_BOUND','BASELINE_STATUS_CHANGED','BASELINE_COPY_CHANGED','BASELINE_UPDATES_UNSAFE','BASELINE_UPDATES_PENDING','BASELINE_UPDATES_CHANGED','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
+DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_STATUS_UNSAFE','BASELINE_STATUS_BOUND','BASELINE_STATUS_CHANGED','BASELINE_COPY_CHANGED','BASELINE_UPDATES_UNSAFE','BASELINE_UPDATES_PENDING','BASELINE_UPDATES_CHANGED','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','TRANSACTION_TOKEN_BOUND','TRANSACTION_SUFFIX_BOUND','TRANSACTION_SUFFIX_DUPLICATE','TRANSACTION_SUFFIX_RELATION','TRANSACTION_DUPLICATE','TRANSACTION_COUNT','CONFIGURATION_UNKNOWN','CONFIGURATION_DUPLICATE','CONFIGURATION_VERSION','CONFIGURATION_INCOMPLETE','CONFIGURATION_FINAL_BREAKS','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
 FAILURE_TYPES=frozenset(('AssertionError','BoundFailure','ChildFailure','KeyError','ValueError','UnicodeDecodeError','FileNotFoundError','PermissionError','OSError','TimeoutExpired'))
 
 @contextmanager

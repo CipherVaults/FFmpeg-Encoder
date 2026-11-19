@@ -1,0 +1,24 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
+const {deadline,ownedGuard}=require('./ownership.cjs');const {readPinned,LEDGER}=require('./runner.cjs');const crypto=require('node:crypto');
+test('authoritative deadline refuses exact boundary and late final validation',()=>{let n=0n;const check=deadline(10,()=>n);check();n=9999999n;check();n=10000000n;assert.throws(check);});
+test('canonical owner guard refuses linked parents and replaced owned directory',async t=>{const p=await fs.mkdtemp(path.join(os.tmpdir(),'mkv092-'));t.after(()=>fs.rm(p,{recursive:true,force:true}));const real=path.join(p,'real'),link=path.join(p,'link');await fs.mkdir(real);await fs.symlink(real,link);await assert.rejects(ownedGuard(link));const g=await ownedGuard(p);await g.bind(real);await fs.rename(real,path.join(p,'old'));await fs.mkdir(real);await assert.rejects(g.check());});
+test('owner guard rejects wrong current uid',async()=>{await assert.rejects(ownedGuard(__dirname,process.getuid()+1));});
+test('pinned input rejects symlinks and altered bytes without media',async t=>{const p=await fs.mkdtemp(path.join(os.tmpdir(),'pin092-'));t.after(()=>fs.rm(p,{recursive:true,force:true}));const f=path.join(p,'a'),l=path.join(p,'link'),b=Buffer.from('owned');await fs.writeFile(f,b);const pin={bytes:b.length,sha256:crypto.createHash('sha256').update(b).digest('hex')};assert.deepEqual(await readPinned(f,pin),b);await fs.symlink(f,l);await assert.rejects(readPinned(l,pin));await fs.writeFile(f,'other');await assert.rejects(readPinned(f,pin));});
+test('collector process ledger is source derived and serial maximum nineteen, not inspection-window guess',()=>{assert.deepEqual(LEDGER,{'source-assessment':1,'packet-copy':1,'output-probe':1,'independent-pcm':2,'collect-current-evidence':14});assert.equal(Object.values(LEDGER).reduce((a,b)=>a+b),19);});
+test('unbound binding cannot provide execution authority',async()=>{const b=JSON.parse(await fs.readFile(path.join(__dirname,'BINDING.json')));assert.equal(b.status,'UNBOUND_NOT_RELEASED');assert.equal(b.ownerRoot,null);assert.equal(b.gatePath,null);await assert.rejects(fs.stat(path.join(__dirname,'LEAD_RELEASE.json')),{code:'ENOENT'});});
+test('proposal uses MOV copy and full unaligned decoded presentation, never reencode or trim',async()=>{const s=await fs.readFile(path.join(__dirname,'runner.cjs'),'utf8');assert(s.includes("target:'mov'"));assert(s.includes("'copy.mov'"));assert(s.includes("alignment:'none; full decoded presentation from sample zero'"));assert(!s.includes("'-af'"));assert(!s.includes("'-ss'"));assert(s.includes('report.mediaValidation.valid&&report.completePresentationEqual'));});
+test('real MOV assessment/argv and bounded collector use native MOV representation without new child class',async()=>{
+ const {SOURCE_ROOT,collectorOptions}=require('./collector-options.cjs');
+ const {assessRemux,buildRemuxQualificationArgs}=require(path.join(SOURCE_ROOT,'src/remux-contract.cjs'));
+ const {getCollectedMovRepresentation}=require(path.join(SOURCE_ROOT,'src/remux-evidence.cjs'));
+ const probe=JSON.parse(await fs.readFile(path.join(__dirname,'historical-source-probe.json')));
+ const assessment=assessRemux({request:{fileId:'inert',identityRevision:0,draftRevision:0,operation:'remux',target:'mov',range:null,omissionRequestIds:[]},probe,sourceFingerprint:'a'.repeat(64)});
+ assert.notEqual(assessment.status,'blocked');assert.equal(assessment.target,'mov');
+ const args=buildRemuxQualificationArgs({assessment,input:'/inert/source.mp4',output:'/inert/output.mov',outputId:'11111111-1111-4111-8111-111111111111'});
+ assert.equal(args[args.indexOf('-f')+1],'mov');assert(args.includes('copy'));assert(args.includes('use_metadata_tags'));assert.equal(args[args.indexOf('-write_tmcd')+1],'0');
+ const options=collectorOptions({assessment,sourceBytes:5578679});assert.equal(options.budget.maxSpoolBytes,16*1024*1024);assert.equal(options.maxConcurrentChildren,1);
+ assert.throws(()=>collectorOptions({assessment,sourceBytes:5578679,budget:{}}));
+ assert.throws(()=>getCollectedMovRepresentation({},{}));
+ const runner=await fs.readFile(path.join(__dirname,'runner.cjs'),'utf8');assert(runner.includes('getCollectedMovRepresentation(receipt,bindings)'));assert(runner.includes('essenceEvidence:essence,movRepresentationReceipt,'));assert(runner.includes('onProgress:()=>assertDeadline()'));
+});

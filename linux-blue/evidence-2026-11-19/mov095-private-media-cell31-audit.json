@@ -1,0 +1,534 @@
+{
+  "approved": true,
+  "scope": "Second private31s MP4-to-MOV media-only saved-evidence audit",
+  "sourceCommit": "dfdc9d82ec841dbaf5263d2c41e1236400065b5b",
+  "sourceFilesVerified": 1024,
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeToolsVerified": 2,
+  "runtimeDependenciesVerified": 7,
+  "report": {
+    "bytes": 249603,
+    "sha256": "878c769bee0145280c01e0c3f4d39d178839b98ba955613f71966537f5b224dc"
+  },
+  "finalAcceptance": {
+    "bytes": 194,
+    "sha256": "8dd1df68c447cd9d97480ce14c57908df36eb13a3f74ce9e7dfe408e377643e0"
+  },
+  "outerExit": 0,
+  "input": {
+    "bytes": 22082739,
+    "sha256": "0037a3a3440d86a12456ed139fcd77c2e63d3b44d7709a0dba092fd43fb2dde6"
+  },
+  "output": {
+    "bytes": 22083195,
+    "sha256": "5b68da319820ed78c341047ab5d2d92d5a3b02fa21521636ea57393291b1c6fe"
+  },
+  "children": {
+    "actual": 17,
+    "closed": 17,
+    "live": 0,
+    "maximum": 19,
+    "collectorActual": 12,
+    "collectorMaximum": 14,
+    "durationMs": 2905
+  },
+  "phaseCounts": {
+    "source-assessment": 1,
+    "packet-copy": 1,
+    "output-probe": 1,
+    "independent-pcm": 2,
+    "collect-current-evidence": 12
+  },
+  "collectorArtifactsVerified": 22,
+  "spoolBytes": 3461610,
+  "completePresentation": [
+    {
+      "bytes": 11904000,
+      "samples": 1488000,
+      "sha256": "d90aebc71d14819bd7ce4a9523f61b6f977bd9ba64c1125fb103069b4e158737",
+      "alignment": "none; full decoded presentation from sample zero"
+    },
+    {
+      "bytes": 11904000,
+      "samples": 1488000,
+      "sha256": "d90aebc71d14819bd7ce4a9523f61b6f977bd9ba64c1125fb103069b4e158737",
+      "alignment": "none; full decoded presentation from sample zero"
+    }
+  ],
+  "streams": [
+    {
+      "inputIndex": 0,
+      "outputIndex": 0,
+      "codecType": "video",
+      "source": {
+        "complete": true,
+        "exitCode": 0,
+        "stderrComplete": true,
+        "errors": [],
+        "representation": "packet-identity-v1",
+        "contentSha256": "274e471da64a95c8d0f2cd761b262c7427d3be044a8c399843a5352b32c784e2",
+        "metadataSha256": "761c9b042efb1bfcaccfcbfa6ddebe23a60fd7d0c636a27a2cb704b27590b5f8",
+        "decoderParametersSha256": "6e2aed833b7922044c654c94b469e2bfe8da0142d2486a44150524982c37d2a0",
+        "unitCount": "930",
+        "firstPts": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "endPts": {
+          "numerator": "31",
+          "denominator": "1"
+        },
+        "cadence": {
+          "version": 1,
+          "classification": "constant",
+          "intervalCount": "929",
+          "firstStep": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "differingStep": null
+        },
+        "admission": {
+          "version": 1,
+          "complete": true,
+          "kind": "h264-parameter-sei-v1",
+          "configurationSha256": "3e49356c9e262526a604b6c04f900817113db49c61d720274c4a22e4d30b4378",
+          "parameterSets": 0,
+          "seiUnits": 1,
+          "scannedBytes": 688,
+          "headerSyntax": {
+            "version": 1,
+            "complete": true,
+            "method": "ffmpeg-cbs-h264-v1",
+            "nalUnits": 931,
+            "sliceHeaders": 930,
+            "fillerBytes": 0,
+            "interiorDecoded": false
+          }
+        },
+        "decodedWindows": {
+          "start": {
+            "keyPacketIndex": 0,
+            "frameCount": 1,
+            "sha256": "c7197f648d59f0a3ee8330e60951fbecbbf400dadee36451fdfda583096c1706"
+          },
+          "end": {
+            "keyPacketIndex": 900,
+            "frameCount": 1,
+            "sha256": "8a14cd740dc9b5762495f5ecac521e636375133e8b4fdd1bc4d024cef42f9747"
+          }
+        }
+      },
+      "output": {
+        "complete": true,
+        "exitCode": 0,
+        "stderrComplete": true,
+        "errors": [],
+        "representation": "packet-identity-v1",
+        "contentSha256": "274e471da64a95c8d0f2cd761b262c7427d3be044a8c399843a5352b32c784e2",
+        "metadataSha256": "761c9b042efb1bfcaccfcbfa6ddebe23a60fd7d0c636a27a2cb704b27590b5f8",
+        "decoderParametersSha256": "6e2aed833b7922044c654c94b469e2bfe8da0142d2486a44150524982c37d2a0",
+        "unitCount": "930",
+        "firstPts": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "endPts": {
+          "numerator": "31",
+          "denominator": "1"
+        },
+        "cadence": {
+          "version": 1,
+          "classification": "constant",
+          "intervalCount": "929",
+          "firstStep": {
+            "numerator": "1",
+            "denominator": "30"
+          },
+          "differingStep": null
+        },
+        "admission": {
+          "version": 1,
+          "complete": true,
+          "kind": "h264-parameter-sei-v1",
+          "configurationSha256": "3e49356c9e262526a604b6c04f900817113db49c61d720274c4a22e4d30b4378",
+          "parameterSets": 0,
+          "seiUnits": 1,
+          "scannedBytes": 688,
+          "headerSyntax": {
+            "version": 1,
+            "complete": true,
+            "method": "ffmpeg-cbs-h264-v1",
+            "nalUnits": 931,
+            "sliceHeaders": 930,
+            "fillerBytes": 0,
+            "interiorDecoded": false
+          }
+        },
+        "decodedWindows": {
+          "start": {
+            "keyPacketIndex": 0,
+            "frameCount": 1,
+            "sha256": "c7197f648d59f0a3ee8330e60951fbecbbf400dadee36451fdfda583096c1706"
+          },
+          "end": {
+            "keyPacketIndex": 900,
+            "frameCount": 1,
+            "sha256": "8a14cd740dc9b5762495f5ecac521e636375133e8b4fdd1bc4d024cef42f9747"
+          }
+        }
+      },
+      "timestamps": {
+        "complete": true,
+        "comparedUnits": "930",
+        "maxPtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "maxDurationError": {
+          "numerator": "0",
+          "denominator": "1"
+        }
+      }
+    },
+    {
+      "inputIndex": 1,
+      "outputIndex": 1,
+      "codecType": "audio",
+      "source": {
+        "complete": true,
+        "exitCode": 0,
+        "stderrComplete": true,
+        "errors": [],
+        "representation": "packet-identity-v1",
+        "contentSha256": "807933def6bcb85f1961cdb9ff15e702d3ce430115650ba882e5242599b835b9",
+        "metadataSha256": "0046573999f29b56abc98617e27cc4f51562ba54a1763d2da05589e7690cea88",
+        "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+        "unitCount": "1455",
+        "firstPts": {
+          "numerator": "-8",
+          "denominator": "375"
+        },
+        "endPts": {
+          "numerator": "31",
+          "denominator": "1"
+        },
+        "admission": {
+          "version": 1,
+          "complete": true,
+          "kind": "aac-lc-packet-and-frozen-pcm-v1",
+          "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "nativeStartFrames": 46
+        },
+        "pcm": {
+          "bytes": 11904000,
+          "samples": "1488000",
+          "sha256": "d90aebc71d14819bd7ce4a9523f61b6f977bd9ba64c1125fb103069b4e158737"
+        }
+      },
+      "output": {
+        "complete": true,
+        "exitCode": 0,
+        "stderrComplete": true,
+        "errors": [],
+        "representation": "packet-identity-v1",
+        "contentSha256": "807933def6bcb85f1961cdb9ff15e702d3ce430115650ba882e5242599b835b9",
+        "metadataSha256": "0046573999f29b56abc98617e27cc4f51562ba54a1763d2da05589e7690cea88",
+        "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+        "unitCount": "1455",
+        "firstPts": {
+          "numerator": "-8",
+          "denominator": "375"
+        },
+        "endPts": {
+          "numerator": "31",
+          "denominator": "1"
+        },
+        "admission": {
+          "version": 1,
+          "complete": true,
+          "kind": "aac-lc-packet-and-frozen-pcm-v1",
+          "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "nativeStartFrames": 46
+        },
+        "pcm": {
+          "bytes": 11904000,
+          "samples": "1488000",
+          "sha256": "d90aebc71d14819bd7ce4a9523f61b6f977bd9ba64c1125fb103069b4e158737"
+        }
+      },
+      "timestamps": {
+        "complete": true,
+        "comparedUnits": "1455",
+        "maxPtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "maxDurationError": {
+          "numerator": "0",
+          "denominator": "1"
+        }
+      }
+    }
+  ],
+  "movRepresentation": {
+    "kind": "owned-mov-mdhd-language",
+    "tracks": [
+      {
+        "outputIndex": 0,
+        "trackId": 1,
+        "languageCode": 32767
+      },
+      {
+        "outputIndex": 1,
+        "trackId": 2,
+        "languageCode": 32767
+      }
+    ]
+  },
+  "nativeEditLists": {
+    "version": 1,
+    "complete": true,
+    "outputSha256": "5b68da319820ed78c341047ab5d2d92d5a3b02fa21521636ea57393291b1c6fe",
+    "metadataBytesRead": 8108,
+    "tracks": [
+      {
+        "outputIndex": 0,
+        "trackId": 1,
+        "controls": {
+          "flags": 3,
+          "layer": 0,
+          "alternateGroup": 0,
+          "volume": 0,
+          "matrix": [
+            65536,
+            0,
+            0,
+            0,
+            65536,
+            0,
+            0,
+            0,
+            1073741824
+          ]
+        },
+        "dimensions": {
+          "width": 125829120,
+          "height": 70778880
+        },
+        "movieScale": "384000",
+        "mediaScale": "15360",
+        "trackDuration": "11904000",
+        "mediaDuration": "476160",
+        "entries": [
+          {
+            "duration": "11904000",
+            "mediaTime": "1024",
+            "rateInteger": 1,
+            "rateFraction": 0
+          }
+        ]
+      },
+      {
+        "outputIndex": 1,
+        "trackId": 2,
+        "controls": {
+          "flags": 3,
+          "layer": 0,
+          "alternateGroup": 1,
+          "volume": 256,
+          "matrix": [
+            65536,
+            0,
+            0,
+            0,
+            65536,
+            0,
+            0,
+            0,
+            1073741824
+          ]
+        },
+        "dimensions": {
+          "width": 0,
+          "height": 0
+        },
+        "movieScale": "384000",
+        "mediaScale": "48000",
+        "trackDuration": "11904000",
+        "mediaDuration": "1489024",
+        "entries": [
+          {
+            "duration": "11904000",
+            "mediaTime": "1024",
+            "rateInteger": 1,
+            "rateFraction": 0
+          }
+        ]
+      }
+    ]
+  },
+  "readAccounting": {
+    "scope": "Logical verification operations including TS preparation; excludes copying and initial inspection. ISO preparation metadata reads are separately noted and unmeasured here. Tool-internal seeks/re-reads are unmeasured.",
+    "completeOperations": [
+      {
+        "side": "source",
+        "operation": "source-all-packets"
+      },
+      {
+        "side": "output",
+        "operation": "output-all-packets"
+      },
+      {
+        "side": "source",
+        "operation": "source-0-complete-parameters"
+      },
+      {
+        "side": "output",
+        "operation": "output-0-complete-parameters"
+      },
+      {
+        "side": "source",
+        "operation": "source-1-native-audio"
+      },
+      {
+        "side": "output",
+        "operation": "output-1-native-audio"
+      },
+      {
+        "side": "output",
+        "operation": "output-seal",
+        "bytesRead": 22083195
+      },
+      {
+        "side": "output",
+        "operation": "mov-representation-reseal",
+        "bytesRead": 22083195
+      }
+    ],
+    "partialOperations": [
+      {
+        "side": "source",
+        "operation": "native-inventory-metadata",
+        "bytesRead": 39917,
+        "preparationRead": "Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here."
+      },
+      {
+        "side": "output",
+        "operation": "native-inventory-metadata",
+        "bytesRead": 40518
+      },
+      {
+        "side": "source",
+        "operation": "native-source-playback-metadata",
+        "bytesRead": 8092,
+        "preparationRead": "Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here."
+      },
+      {
+        "side": "source",
+        "operation": "source-0-codec-extradata",
+        "toolInternalReads": "unmeasured"
+      },
+      {
+        "side": "source",
+        "operation": "source-1-codec-extradata",
+        "toolInternalReads": "unmeasured"
+      },
+      {
+        "side": "source",
+        "operation": "source-1-audio-admission",
+        "toolInternalReads": "unmeasured"
+      },
+      {
+        "side": "output",
+        "operation": "output-1-audio-admission",
+        "toolInternalReads": "unmeasured"
+      },
+      {
+        "side": "output",
+        "operation": "native-edit-list-metadata",
+        "bytesRead": 8108
+      }
+    ],
+    "capturedClipDecodeOperations": 2,
+    "physicalIOBytes": null
+  },
+  "mediaValidation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "version": 1,
+    "operation": "remux",
+    "target": "mov",
+    "verificationMethod": "packet-identity-v1",
+    "verificationClaim": {
+      "version": 1,
+      "method": "packet-identity-v1",
+      "statement": "Output packets identical to source; every header validated; start and end decoded.",
+      "interiorVideoDecoded": false,
+      "completeAudioDecoded": true
+    },
+    "qualificationEvidenceId": "media-only:current-linux-mp4-mov-media-only",
+    "contentClaim": "Complete ordered compressed packet and decoder-parameter identity, bounded native video decoding and complete PCM preservation.",
+    "status": "media-validation-passed",
+    "scope": "main-owned-native-qualification-only",
+    "executionReady": false,
+    "cellId": "current-linux-mp4-mov-media-only",
+    "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+    "mediaChecks": [
+      {
+        "id": "codec:mov:video:h264",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "dispositions:mov:default",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "track-tags:0",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "codec:mov:audio:aac",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "track-tags:1",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "media-content-and-timeline",
+        "status": "passed-for-this-fixture"
+      },
+      {
+        "id": "chapters-and-container-tags",
+        "status": "passed-for-this-fixture"
+      }
+    ],
+    "missingQualificationIds": [
+      "provenance:mov",
+      "publication-and-lifecycle",
+      "mov-family-metadata-mode"
+    ],
+    "limitations": [
+      "No support registry is changed or inferred.",
+      "Normal provenance marker round-trip is checked; subsequent application rescan and source admission are not.",
+      "No-overwrite publication, cancellation, retained outputs, cleanup and application/package acceptance remain separate gates.",
+      "An empty chapter/subtitle/attachment set does not qualify nonempty cases."
+    ]
+  },
+  "warnings": {
+    "media": [],
+    "collectorStderrTruncated": false,
+    "copyStderrTruncated": false
+  },
+  "limitations": [
+    "No extra probe/decode/runtime/media invocation performed; PCM equality is retained streamed hash/count evidence, not raw PCM replay.",
+    "MOV branded receipt authority verified in frozen executed source and bound helpers; serialized description is not newly minted authority.",
+    "Decoded video windows use distinct keypacket0 and900, oneframe each; packet900 is not proof of finalframe929 or decoded interior.",
+    "AAC1455 coded1024-sample packets imply1489920 coded samples, with1024 leading priming and896 tail samples excluded from1488000 presentation. Native edit list starts audio at1024 and ends at31s; final packet duration128/48000. No PCM shift/tail waiver.",
+    "No product/lifecycle/cancellation/rescan/native/player/portability/distribution qualification. Source094 remains distinct from private experiment095.",
+    "Physical I/O unmeasured; two logical complete output seals retained."
+  ],
+  "inventorySha256": "66f416f07d710afe5267861dfc1e5b41a09758ad18d4b8a1666b653af1c785ca"
+}

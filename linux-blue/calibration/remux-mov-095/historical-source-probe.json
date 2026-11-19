@@ -1,0 +1,570 @@
+{
+  "streams": [
+    {
+      "index": 0,
+      "id": "0x1",
+      "codec_type": "video",
+      "codec_name": "h264",
+      "profile": "High",
+      "codec_tag_string": "avc1",
+      "codec_tag": "0x31637661",
+      "level": 40,
+      "width": 1920,
+      "height": 1080,
+      "coded_width": 1920,
+      "coded_height": 1080,
+      "sample_aspect_ratio": "1:1",
+      "display_aspect_ratio": "16:9",
+      "field_order": "progressive",
+      "pix_fmt": "yuv420p",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709",
+      "color_space": "bt709",
+      "color_range": "tv",
+      "chroma_location": "left",
+      "avg_frame_rate": "30/1",
+      "r_frame_rate": "30/1",
+      "time_base": "1/15360",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 122880,
+      "duration": "8.000000",
+      "nb_frames": "240",
+      "bit_rate": "5375761",
+      "bits_per_raw_sample": "8",
+      "extradata_size": 49,
+      "extradata_hash": "SHA256:3e49356c9e262526a604b6c04f900817113db49c61d720274c4a22e4d30b4378",
+      "tags": {
+        "language": "und",
+        "handler_name": "VideoHandler",
+        "encoder": "Lavc63.1.102 libx264"
+      },
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      }
+    },
+    {
+      "index": 1,
+      "id": "0x2",
+      "codec_type": "audio",
+      "codec_name": "aac",
+      "profile": "LC",
+      "codec_tag_string": "mp4a",
+      "codec_tag": "0x6134706d",
+      "avg_frame_rate": "0/0",
+      "r_frame_rate": "0/0",
+      "time_base": "1/48000",
+      "start_pts": 0,
+      "start_time": "0.000000",
+      "duration_ts": 384000,
+      "duration": "8.000000",
+      "nb_frames": "376",
+      "bit_rate": "192375",
+      "sample_fmt": "fltp",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "bits_per_sample": 0,
+      "initial_padding": 1024,
+      "extradata_size": 5,
+      "extradata_hash": "SHA256:b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+      "tags": {
+        "language": "und",
+        "handler_name": "SoundHandler"
+      },
+      "disposition": {
+        "default": 1,
+        "dub": 0,
+        "original": 0,
+        "comment": 0,
+        "lyrics": 0,
+        "karaoke": 0,
+        "forced": 0,
+        "hearing_impaired": 0,
+        "visual_impaired": 0,
+        "clean_effects": 0,
+        "attached_pic": 0,
+        "timed_thumbnails": 0,
+        "non_diegetic": 0,
+        "captions": 0,
+        "descriptions": 0,
+        "metadata": 0,
+        "dependent": 0,
+        "still_image": 0,
+        "multilayer": 0
+      }
+    }
+  ],
+  "format": {
+    "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+    "duration": "8.000000",
+    "start_time": "0.000000",
+    "bit_rate": "5578679",
+    "size": "5578679",
+    "nb_streams": 2,
+    "nb_programs": 0,
+    "nb_stream_groups": 0,
+    "probe_score": 100,
+    "tags": {
+      "major_brand": "isom",
+      "minor_version": "512",
+      "compatible_brands": "isomiso2avc1mp41",
+      "encoder": "Lavf63.1.102"
+    }
+  },
+  "chapters": [],
+  "programs": [],
+  "stream_groups": [],
+  "mediaEvidence": {
+    "version": 2,
+    "streams": [
+      {
+        "index": 0,
+        "identity": {
+          "containerStreamId": {
+            "state": "known",
+            "value": "1"
+          }
+        },
+        "codec": {
+          "name": {
+            "state": "known",
+            "value": "h264"
+          },
+          "type": {
+            "state": "known",
+            "value": "video"
+          },
+          "profile": {
+            "state": "known",
+            "value": "High"
+          },
+          "tag": {
+            "state": "known",
+            "value": "avc1"
+          },
+          "tagValue": {
+            "state": "known",
+            "value": "0x31637661"
+          },
+          "level": {
+            "state": "known",
+            "value": "40"
+          },
+          "bitrate": {
+            "state": "known",
+            "value": "5375761"
+          }
+        },
+        "geometry": {
+          "width": {
+            "state": "known",
+            "value": "1920"
+          },
+          "height": {
+            "state": "known",
+            "value": "1080"
+          },
+          "sampleAspectRatio": {
+            "state": "known",
+            "value": {
+              "numerator": "1",
+              "denominator": "1"
+            }
+          },
+          "displayAspectRatio": {
+            "state": "known",
+            "value": {
+              "numerator": "16",
+              "denominator": "9"
+            }
+          },
+          "rotationDegrees": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "rotationSource": "not-reported",
+          "displayMatrix": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "legacyRotationDegrees": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "fieldOrder": {
+            "state": "known",
+            "value": "progressive"
+          }
+        },
+        "timeline": {
+          "timeBase": {
+            "state": "known",
+            "value": {
+              "numerator": "1",
+              "denominator": "15360"
+            }
+          },
+          "startPts": {
+            "state": "known",
+            "value": "0"
+          },
+          "durationTicks": {
+            "state": "known",
+            "value": "122880"
+          },
+          "startSeconds": {
+            "state": "known",
+            "value": {
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "durationSeconds": {
+            "state": "known",
+            "value": {
+              "numerator": "8",
+              "denominator": "1"
+            }
+          },
+          "averageFrameRate": {
+            "state": "known",
+            "value": {
+              "numerator": "30",
+              "denominator": "1"
+            }
+          },
+          "nominalFrameRate": {
+            "state": "known",
+            "value": {
+              "numerator": "30",
+              "denominator": "1"
+            }
+          },
+          "frameCount": {
+            "state": "known",
+            "value": "240"
+          }
+        },
+        "audio": {
+          "sampleFormat": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "sampleRate": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "channels": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "channelLayout": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "bitsPerSample": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "bitsPerRawSample": {
+            "state": "known",
+            "value": "8"
+          },
+          "initialPadding": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "trailingPadding": {
+            "state": "unknown",
+            "reason": "not-reported"
+          }
+        },
+        "color": {
+          "pixelFormat": {
+            "state": "known",
+            "value": "yuv420p"
+          },
+          "transfer": {
+            "state": "known",
+            "value": "bt709"
+          },
+          "primaries": {
+            "state": "known",
+            "value": "bt709"
+          },
+          "matrix": {
+            "state": "known",
+            "value": "bt709"
+          },
+          "range": {
+            "state": "known",
+            "value": "tv"
+          },
+          "chromaLocation": {
+            "state": "known",
+            "value": "left"
+          }
+        },
+        "hdr": {
+          "coverage": "stream-metadata-only",
+          "entries": []
+        }
+      },
+      {
+        "index": 1,
+        "identity": {
+          "containerStreamId": {
+            "state": "known",
+            "value": "2"
+          }
+        },
+        "codec": {
+          "name": {
+            "state": "known",
+            "value": "aac"
+          },
+          "type": {
+            "state": "known",
+            "value": "audio"
+          },
+          "profile": {
+            "state": "known",
+            "value": "LC"
+          },
+          "tag": {
+            "state": "known",
+            "value": "mp4a"
+          },
+          "tagValue": {
+            "state": "known",
+            "value": "0x6134706d"
+          },
+          "level": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "bitrate": {
+            "state": "known",
+            "value": "192375"
+          }
+        },
+        "geometry": {
+          "width": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "height": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "sampleAspectRatio": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "displayAspectRatio": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "rotationDegrees": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "rotationSource": "not-reported",
+          "displayMatrix": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "legacyRotationDegrees": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "fieldOrder": {
+            "state": "unknown",
+            "reason": "not-reported"
+          }
+        },
+        "timeline": {
+          "timeBase": {
+            "state": "known",
+            "value": {
+              "numerator": "1",
+              "denominator": "48000"
+            }
+          },
+          "startPts": {
+            "state": "known",
+            "value": "0"
+          },
+          "durationTicks": {
+            "state": "known",
+            "value": "384000"
+          },
+          "startSeconds": {
+            "state": "known",
+            "value": {
+              "numerator": "0",
+              "denominator": "1"
+            }
+          },
+          "durationSeconds": {
+            "state": "known",
+            "value": {
+              "numerator": "8",
+              "denominator": "1"
+            }
+          },
+          "averageFrameRate": {
+            "state": "unknown",
+            "reason": "zero-over-zero"
+          },
+          "nominalFrameRate": {
+            "state": "unknown",
+            "reason": "zero-over-zero"
+          },
+          "frameCount": {
+            "state": "known",
+            "value": "376"
+          }
+        },
+        "audio": {
+          "sampleFormat": {
+            "state": "known",
+            "value": "fltp"
+          },
+          "sampleRate": {
+            "state": "known",
+            "value": "48000"
+          },
+          "channels": {
+            "state": "known",
+            "value": "2"
+          },
+          "channelLayout": {
+            "state": "known",
+            "value": "stereo"
+          },
+          "bitsPerSample": {
+            "state": "known",
+            "value": "0"
+          },
+          "bitsPerRawSample": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "initialPadding": {
+            "state": "known",
+            "value": "1024"
+          },
+          "trailingPadding": {
+            "state": "unknown",
+            "reason": "not-reported"
+          }
+        },
+        "color": {
+          "pixelFormat": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "transfer": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "primaries": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "matrix": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "range": {
+            "state": "unknown",
+            "reason": "not-reported"
+          },
+          "chromaLocation": {
+            "state": "unknown",
+            "reason": "not-reported"
+          }
+        },
+        "hdr": {
+          "coverage": "stream-metadata-only",
+          "entries": []
+        }
+      }
+    ],
+    "container": {
+      "name": {
+        "state": "known",
+        "value": "mov,mp4,m4a,3gp,3g2,mj2"
+      },
+      "startSeconds": {
+        "state": "known",
+        "value": {
+          "numerator": "0",
+          "denominator": "1"
+        }
+      },
+      "durationSeconds": {
+        "state": "known",
+        "value": {
+          "numerator": "8",
+          "denominator": "1"
+        }
+      },
+      "bitrate": {
+        "state": "known",
+        "value": "5578679"
+      },
+      "size": {
+        "state": "known",
+        "value": "5578679"
+      },
+      "programs": {
+        "state": "known",
+        "reportedCount": {
+          "state": "known",
+          "value": "0"
+        },
+        "issues": [],
+        "value": []
+      },
+      "streamGroups": {
+        "state": "known",
+        "reportedCount": {
+          "state": "known",
+          "value": "0"
+        },
+        "issues": [],
+        "value": []
+      },
+      "relationships": {
+        "state": "known",
+        "reportedStreamCount": {
+          "state": "known",
+          "value": "2"
+        },
+        "observedStreamCount": 2,
+        "issues": []
+      }
+    }
+  }
+}

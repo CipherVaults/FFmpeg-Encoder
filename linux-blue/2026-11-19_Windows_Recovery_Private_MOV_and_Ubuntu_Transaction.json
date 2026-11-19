@@ -1,0 +1,129 @@
+{
+  "checkpoint": "095",
+  "cutoffUtc": "2026-11-19T12:13:09Z",
+  "baseLocal": "dfdc9d82ec841dbaf5263d2c41e1236400065b5b",
+  "baseTree": "c168fe6da3d9113260613704d3f0d2cb84d5301f",
+  "baseGitHub": "dc22a53897f6b45fc4e510384c35e68cf053feeb",
+  "status": "isolated 095 writer ready; CI-only review; no 095 hosted/native/package/MOV product result",
+  "exactSourceManifestSha256": "67be374d388194f4b2b1e4ad762dcdeef7a2ed2b5c344b5895dd19f886076ffe",
+  "sourceReviewDigests": [
+    "703cb2a751437cd3ca6f07de2f4d5020c8080683b68bc22b8676264c44d37c8f"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "73351e5fddd21defaca2eb0e3a3d35ec32daa2ebdeba32e01f056bbaef4bb402"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "2ad37d2368ec84cc45a8eed864c2109b0d9cd32cad9c49155e638bd4e29b848d"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 21269,
+      "sha256": "4e49b9170677a324092a687095e17794b842862d52110fe3e83788df7b5ca46f"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 27416,
+      "sha256": "c45fb05d1b4af01419c4f8d4fc68d50a87485765580701b7e0ff1178899f4dcb"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "34d8ac1b600e81c98f6dc38bdf6988201d719c0709bf287178f4791deb240ed1"
+    }
+  ],
+  "verification": {
+    "authorSyntax": 227,
+    "authorShared": 337,
+    "authorLinux": 70,
+    "authorUbuntuInert": 58,
+    "authorWindowsFocusedInert": 39,
+    "testsOverlap": true,
+    "actualPackageInputsUnchanged": 263,
+    "appMembers": 162,
+    "sourcePackageRows": 175,
+    "packagePins": 145,
+    "firstArchivedMovInert": 8
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted094-verified-outcome.json": {
+      "bytes": 7026,
+      "sha256": "665b73e5ed6396ab49ecb76e00cad935b15e3f87b95aa58e04cdc5867f3a9fd0"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu094-original-sanitized-report.json": {
+      "bytes": 2161,
+      "sha256": "9ec60b6c9d130e66cf3c1686b1ecd9ba0198fb7e8eb1d908f4a20456056fb283"
+    },
+    "linux-blue/evidence-2026-11-19/windows094-original-sanitized-report.json": {
+      "bytes": 2006,
+      "sha256": "71cec8925eec1c145db8f1f28256226fb1f7a92de913ba76500001275149bc83"
+    },
+    "linux-blue/evidence-2026-11-19/mov095-private-media-cell8-audit.json": {
+      "bytes": 16322,
+      "sha256": "d341bfb17977d00837de823c00a3e9659da2b74febb0589a6988c172fb6c3d6a"
+    },
+    "linux-blue/calibration/remux-mov-095/runner.cjs": {
+      "bytes": 12466,
+      "sha256": "b1a21f9b9706031c6e6ff3830719caea78f497df813ba6b7d3963d09a94c0841"
+    },
+    "linux-blue/calibration/remux-mov-095/collector-options.cjs": {
+      "bytes": 1217,
+      "sha256": "9c82ba8ea62a8b8de47e2a871b484ee475cf04d30f449c3ad83917af0e844cc6"
+    },
+    "linux-blue/calibration/remux-mov-095/experiment-runtime.cjs": {
+      "bytes": 9837,
+      "sha256": "a9ec2f79594f2504c0def64dfdf77d49ee69ca6b7363abb6964d7e9b2fa68e4c"
+    },
+    "linux-blue/calibration/remux-mov-095/ownership.cjs": {
+      "bytes": 1420,
+      "sha256": "aa58dcc12fb573ca0fdea49a3612a71dd103d5b88530a96b9a96c1b0ff4ac98b"
+    },
+    "linux-blue/calibration/remux-mov-095/proposal.test.cjs": {
+      "bytes": 4477,
+      "sha256": "6361ad48c9a2a9fede5ff7da3720005031e95dd07d3137861dd891baadf8701d"
+    },
+    "linux-blue/calibration/remux-mov-095/historical-source-probe.json": {
+      "bytes": 13980,
+      "sha256": "0a88ec9794674d6bafeec89cfb332bb140745dabf350d1165be43a1f161afbb2"
+    },
+    "linux-blue/calibration/remux-mov-095/PLAN.md": {
+      "bytes": 5298,
+      "sha256": "d18e96ab2b8d96c427ba0a70575a45dd921f1b987296c68da88ccc73e747f6e2"
+    },
+    "linux-blue/calibration/remux-mov-095/README.md": {
+      "bytes": 2437,
+      "sha256": "6f6f10bf2f3a2466a4076e35bdfe90a043bc20a5fbbb686069cfebc475518927"
+    },
+    "linux-blue/calibration/remux-mov-095/BINDING.json": {
+      "bytes": 101,
+      "sha256": "810d1bb85f143571a5fab6eef49bda82fa16c9b4ee28278af394b1bb6940428c"
+    },
+    "linux-blue/calibration/remux-mov-095/second-cell-runner.cjs.txt": {
+      "bytes": 12443,
+      "sha256": "d7f13057f25aae7461a3ba6ea2c3de563fe51811ee6cadd1ae69326b90c1719b"
+    },
+    "linux-blue/calibration/remux-mov-095/second-cell-PLAN.md": {
+      "bytes": 3875,
+      "sha256": "711c6423f4557c1c99077472474512aa16592b3b7704a5c58d07b6b491483d0e"
+    },
+    "linux-blue/calibration/remux-mov-095/second-cell-historical-source-probe.json": {
+      "bytes": 13992,
+      "sha256": "6eea4bb0390c4391113130c9c56f3c33384d2df94bf1e04434419f3f83bf37cb"
+    },
+    "linux-blue/evidence-2026-11-19/mov095-private-media-cell31-audit.json": {
+      "bytes": 16479,
+      "sha256": "cf6a8229e89e3bff74f0f2e3a14198aa13f81d489e4e79a468ae478ca43f6230"
+    }
+  },
+  "limits": [
+    "Both MOV results exact private media-only; no output publication/lifecycle/player/product qualification",
+    "No 095 hosted/native/package results",
+    "Ubuntu output format distinction supported by primary reference but actual original text/source remains unknown",
+    "No authorization to install, manufacture or distribute from any report",
+    "No live gate, private machine binding, media, binary or raw logs retained"
+  ]
+}

@@ -12,7 +12,7 @@ class Tests(unittest.TestCase):
   finally:m.PARENT=old
  def test_status_fields(self):
   r=m.paragraphs('Package: x\nVersion: 1\nStatus: install ok installed\nDepends: libc6\nProvides: y\n continuation\n')[0];self.assertEqual(r['Depends'],'libc6');self.assertIn('continuation',r['Provides'])
- def test_new(self):self.assertEqual(m.transaction('Inst cmake (1 noble [amd64])\n',{}),[{'package':'cmake','version':'1'}])
+ def test_new(self):self.assertEqual(m.transaction('Inst cmake (1 noble [amd64])\nConf cmake (1 noble [amd64])\n',{}),[{'package':'cmake','version':'1'}])
  def test_upgrade(self):
   with self.assertRaises(AssertionError):m.transaction('Inst gcc [1] (2 noble [amd64])',{'gcc':{}})
  def test_remove(self):
@@ -115,6 +115,7 @@ class Diagnostics(unittest.TestCase):
      return original_text(path,*a,**kw)
     def fake_run(argv,owned,end):
      if argv[0]=='/usr/bin/dpkg-query':return b'x\t1\tamd64\tinstall ok installed\n',b''
+     if argv[:2]==['/usr/bin/apt-get','-s']:return b'Inst fresh-package (1 noble [amd64])\nConf fresh-package (1 noble [amd64])\n',b''
      if argv[:2]==['/usr/bin/apt-get','update']:
       for i in range(3):(owned/'lists'/f'{i}InRelease').write_text('Codename: noble\n')
      return b'',b''
@@ -246,6 +247,7 @@ class LiveBaseline(unittest.TestCase):
       seen.append(argv)
       ver=b'1' if len(seen)==1 else final_ver
       return (b'alpha\t'+ver+b'\tamd64\tinstall ok installed\n',b'')
+     if argv[:2]==['/usr/bin/apt-get','-s']:return b'Inst fresh-package (1 noble [amd64])\nConf fresh-package (1 noble [amd64])\n',b''
      if argv[:2]==['/usr/bin/apt-get','update']:
       for i in range(3):(root/'lists'/f'inert{i}InRelease').write_text('Codename: noble\n')
      return b'',b''
@@ -306,23 +308,41 @@ class EmptySeparators(unittest.TestCase):
   with self.assertRaises(AssertionError):m.paragraphs('Package:a\n\n\n orphan')
 
 class TransactionDiagnostics(unittest.TestCase):
- def test_upstream_shortbreaks_shape_remains_refused_and_observed(self):
-  # Synthetic grammar from APT pkgSimulate::Describe/ShortBreaks, not runner data.
+ def test_intermediate_suffix_requires_configuration(self):
   for suffix in [' []',' [pending-package ]']:
    line='Inst new-package (1.0 noble [amd64])'+suffix;r={}
-   with self.assertRaisesRegex(AssertionError,'^TRANSACTION_PARSE$'):m.transaction(line,{},r)
-   d=r['transactionParseObservation'];self.assertTrue(d['candidateCloseThenBracket']);self.assertFalse(d['endsWithCandidateClose']);self.assertEqual(d['lineSha256'],m.sha(line.encode()));self.assertNotIn('new-package',str(d));self.assertNotIn('pending-package',str(d))
+   with self.assertRaisesRegex(AssertionError,'CONFIGURATION_INCOMPLETE'):m.transaction(line,{},r)
+   self.assertNotIn('transactionCompletion',r)
  def test_unclassified_shape_retained_without_raw_text(self):
   r={};line='Inst PRIVATE_SECRET\tmalformed'
   with self.assertRaisesRegex(AssertionError,'^TRANSACTION_PARSE$'):m.transaction(line,{},r)
   d=r['transactionParseObservation'];self.assertTrue(d['containsControl']);self.assertFalse(d['candidateCloseThenBracket']);self.assertNotIn('PRIVATE_SECRET',str(d))
  def test_existing_acceptance_and_refusals_unchanged(self):
-  r={};self.assertEqual(m.transaction('Inst new-package (1 noble [amd64])',{},r),[{'package':'new-package','version':'1'}]);self.assertEqual(r,{})
+  r={};self.assertEqual(m.transaction('Inst new-package (1 noble [amd64])\nConf new-package (1 noble [amd64])',{},r),[{'package':'new-package','version':'1'}]);self.assertTrue(r['transactionCompletion']['finalConfigurationWithoutBreaks'])
   for line in ['Remv package [1]','Purg package [1]','Inst package [1] (2 noble [amd64])']:
    with self.assertRaises(AssertionError):m.transaction(line,{'package':{}},r)
-  self.assertEqual(r,{})
+  self.assertTrue(r['transactionCompletion']['finalConfigurationWithoutBreaks'])
  def test_actual_main_passes_result_to_transaction(self):
   self.assertIn('changes=transaction(simulated.decode(),installed,result)',p.read_text())
+
+class StrictCompletion(unittest.TestCase):
+ def test_benign_intermediate_breaks_complete(self):
+  r={};text='Inst alpha (1 noble [amd64]) [beta:amd64 ]\nInst beta (2 noble [amd64]) []\nConf alpha (1 noble [amd64]) []\nConf beta (2 noble [amd64])'
+  self.assertEqual(m.transaction(text,{},r),[{'package':'alpha','version':'1'},{'package':'beta','version':'2'}])
+  self.assertEqual(r['transactionCompletion'],{'installed':2,'configured':2,'intermediateSuffixes':3,'finalConfigurationWithoutBreaks':True})
+ def test_final_breaks_and_incomplete_refused(self):
+  inst='Inst alpha (1 noble [amd64])'
+  for tail in ['', '\nConf alpha (1 noble [amd64]) []','\nConf alpha (1 noble [amd64]) [beta ]','\nConf alpha broken','\nConf beta (1 noble [amd64])','\nConf alpha (2 noble [amd64])','\nConf alpha (1 noble [amd64])\nConf alpha (1 noble [amd64])']:
+   with self.subTest(tail=tail),self.assertRaises(AssertionError):m.transaction(inst+tail,{})
+ def test_unknown_suffixes_and_bounds_refused(self):
+  for suffix in [' [alpha on beta]',' [alpha on beta ]',' [alpha:arm64 ]',' [alpha]',' [[]]',' [] []',' [alpha alpha ]',' [a; ]',' ['+'a '*101+']',' ['+'a'*103+' ]','\t[]']:
+   with self.subTest(suffix=suffix),self.assertRaises(AssertionError):m.transaction('Inst beta (1 noble [amd64])'+suffix+'\nConf beta (1 noble [amd64])',{})
+ def test_unknown_arch_and_duplicate_or_installed_refused(self):
+  for text in ['Inst alpha:arm64 (1 noble [amd64])','Inst alpha (1 noble [arm64])','Inst alpha (1 noble [amd64])\nInst alpha (1 noble [amd64])','Inst alpha [0] (1 noble [amd64])','Remv alpha [1]','Purg alpha [1]','InstSomething else']:
+   with self.subTest(text=text),self.assertRaises(AssertionError):m.transaction(text+'\nConf alpha (1 noble [amd64])',{})
+  with self.assertRaises(AssertionError):m.transaction('Inst alpha (1 noble [amd64])\nConf alpha (1 noble [amd64])',{'alpha':{}})
+ def test_empty_transaction_refused(self):
+  with self.assertRaisesRegex(AssertionError,'CONFIGURATION_INCOMPLETE'):m.transaction('Reading lists...',{})
 
 if __name__=='__main__':unittest.main()
 

@@ -1,3 +1,52 @@
+# 📘 Session: Resume v0.7 and enable bounded ordinary AV1 settings
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated resumption and isolated execution. A separately instructed Astra Ultra worker reviewed the two functional AV1 paths; Blue independently derived the qualification and package hash rows and ran the source suites. No Windows-owner machine was used.
+
+## 🕒 Time
+November 20, 2026 Cairo (November 19 UTC). Exact base: 988548e652d41b43618a36e3d7a87c0f33bc8a90 (checkpoint 106), first verified at the work restart. A fresh checkpoint 106 Notion readback recovered and compared all 106 ordered Session entries and four companion documents; the separately restored archive retained 1,251 files and 106 Git commits. Do not interpret archive/record verification as qualification.
+
+## 🎯 Session Goal
+Resume v0.7 from the backed-up checkpoint. Restore the practical ordinary CPU AV1 preset/CRF controls in the unified Linux candidate without changing global selection, fixed engine routes, supported media classes, budgets or Windows behavior.
+
+## 🛠️ Actions Taken
+- Applied the reviewed two-file AV1 source/test proposal without fuzz. It reuses the native catalog and validated settings, rejects named/hardware or unsupported controls, preserves the tested default and initial selection, and binds exact prepared preset, quality and arguments to the active plan generation. A stale/changed selection cannot authorize Start. Full/Keep Source, bounded SDR and fixed legacy AV1 routes are unchanged.
+- Refreshed one current unified-service qualification pin and two package-plan rows, for that service and the changed qualification loader. All 269 planned inputs retained membership, including 88 non-source rows; no new dependency or workflow.
+- With the already recovered @electron/asar 4.3.0 matching the lock, affected suites passed 167/167. Repository-supported source CI ran 227 syntax checks plus 338/338 shared and 145/145 Linux tests, all on Linux Node 24.22.3. Counts overlap. No newly built app, GUI, native AV1 media output, calibration, installer, Windows or GPU qualification.
+- The first added package test run was 165/167 because the isolated copy lacked the pinned ASAR dependency. After providing that validated dependency, both package tests passed. An unscoped all-files run exposed additional failures and is not being claimed as a pass or attributed to this change without a baseline comparison. Use the supported CI evidence and targeted test gates for current claims.
+
+## 🧠 Key Insights
+Expose already supported native controls rather than create a new preset family or loosen media support. The additive proposal is valid on 106 because its exact base-to-106 changes did not touch the two functional paths.
+
+## 📌 Decisions Made
+Use an isolated Git branch so the verified 106 tree stays intact. Keep actual native media qualification separate and retain the owner Windows/RTX suite for the final exact candidate. This Linux change does not prepare or publish a Windows release.
+
+## ⚠️ Difficulties / Friction
+Root workspace initially read-only. Approved operations used an isolated copy. Notion text mirroring was incomplete at restart and required 32 missing entries and four companion records before advancing the Git → Notion → GitHub path.
+
+## 🔧 Adjustments Made
+Retest current package/source contracts with exact known dependencies and keep retained historical evidence distinct from active digests.
+
+## ❌ Mistakes / Risks Noted
+Do not count Linux synthetic input/media doubles as physical Windows or AV1 output evidence, or add suite counts where overlap exists. No Ubuntu, geometry, hardware or release gates were changed.
+
+## 📍 Current Position
+Checkpoint 107 is an isolated local Git engineering candidate, not a remote commit or tested native package. Checkpoint 106 remains the last complete older Notion baseline.
+
+## 🔜 Next Steps
+Verify checkpoint 107 Notion preservation from exact source before the existing private GitHub mirror is updated. Reconcile broad-suite failures against exact 106 as needed. After source preservation and independent audits, run a bounded native nondefault AV1 job with actual output inspection. Keep Windows alpha manufacturing and exact Windows source-review work in separate lanes.
+
+## ❓ Open Questions
+Can the exact candidate run one nondefault ordinary AV1 job within the existing time and input limits? Can a clean Windows installer and portable package be qualified and privately delivered with verified source obligations before the requested Saturday testing?
+
+## 🧾 Session Outcome
+Completed scope-limited configurable ordinary AV1 settings and derived pin closure, with targeted Linux source-test evidence and clearly outstanding native and remote gates.
+
+## 🔍 Confidence Level
+High for tested source contracts and exact pins. Not a claim of native media, packaging or cross-platform readiness.
+
+---
+
 # 📘 Session: Preserve reviewed geometry recovery and qualify ordinary H264 separately
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -106,13 +106,13 @@ test('running cancellation keeps explicit Prepare fenced until owned task and ob
  await assert.rejects(service.prepareRemuxBatch({inputFolderId:'x',outputFolderId:'y',target:'mp4'}),/fenced/);assert.equal(h.generations.length,1);
  release();await cancellation;assert.equal(closed,true);assert.equal(service.state.phase,'cancelled');await service.mutate('renew',['remux']);assert.equal(h.generations.length,2);
 });
-test('actual AV1 Prepare keeps compatibility guard, fixed capability and fresh-route ownership',async t=>{
+test('actual AV1 Prepare keeps compatibility guard, native capability and fresh-route ownership',async t=>{
  const {service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);const probe=sourceProbe();await fsp.writeFile(path.join(input,'source.mkv'),'inert fixture');
  service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
  service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
  const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output'),folders={inputFolderId:i.id,outputFolderId:o.id},settings={profileId:'av1-cpu',preset:'6',quality:32};
  const prepared=await service.prepareBatch({...folders,settings});assert.equal(prepared.items[0].status,'ready',prepared.items[0].reason);assert.equal(service.route,'av1-ordinary');assert.equal(typeof service.ordinaryJobGuard,'function');
- const caps=await service.getCapabilities(),av1=caps.profiles.find(p=>p.id==='av1-cpu');assert.deepEqual(av1.presets,['6']);assert.deepEqual(av1.supportedBitDepths,[8]);assert.equal(av1.quality.min,32);
+ const caps=await service.getCapabilities(),av1=caps.profiles.find(p=>p.id==='av1-cpu');assert.deepEqual(av1.presets,Array.from({length:10},(_,i)=>String(i)));assert.equal(av1.candidateFixedSettings,false);assert.deepEqual(av1.supportedBitDepths,[8]);assert.equal(av1.quality.min,1);
  assert.deepEqual(service.getRecipe(settings).args,['-c:v:0','libsvtav1','-preset:v:0','6','-crf:v:0','32']);
  await assert.rejects(service.reprepareEncodingSettings({settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}}),/fresh explicit Prepare/);
  await service.cancelCurrent();assert.equal(service.plan,null);await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]}));
@@ -280,31 +280,32 @@ test('ordinary H264 uses shared native preset/CRF bounds without expanding recip
  for(const v of [{...a,quality:-1},{...a,quality:52},{...a,quality:24.5},{...a,quality:'24'},{...a,preset:'p7'},{...a,recipeId:'archive'},{...a,anything:true}])assert.throws(()=>fixedSettings(v));
  assert.equal(fixedSettings({profileId:'h265-cpu',preset:'fast',quality:27}),'h265');
  assert.equal(fixedSettings({profileId:'av1-cpu',preset:'6',quality:32}),'av1-ordinary');
- assert.throws(()=>fixedSettings({profileId:'av1-cpu',preset:'7',quality:32}));
+ assert.equal(fixedSettings({profileId:'av1-cpu',preset:'7',quality:32}),'av1-ordinary');
 });
-test('ordinary H264 tested default, persistence, two-file reprepare and Start remain main-owned',async t=>{
+for(const codec of ['h264','av1'])test(`ordinary ${codec} tested default, persistence, two-file reprepare and Start remain main-owned`,async t=>{
  const {h,service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');
  await fsp.mkdir(input);await fsp.mkdir(output);for(const name of ['first.mkv','second.mkv'])await fsp.writeFile(path.join(input,name),'inert fixture');
  const probe=sourceProbe();
  service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
  service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8,10]})),versions:{}});
  service.storageEligibility={check:async()=>({eligible:true})};
- const initial={profileId:'h264-cpu',preset:'slower',quality:24}, changed={profileId:'h264-cpu',preset:'fast',quality:19};
- const prefs=await service.getPreferences();assert.deepEqual(prefs.settingsByProfile['h264-cpu'],{preset:'slower',quality:24});
+ const initial=codec==='h264'?{profileId:'h264-cpu',preset:'slower',quality:24}:{profileId:'av1-cpu',preset:'6',quality:32}, changed=codec==='h264'?{profileId:'h264-cpu',preset:'fast',quality:19}:{profileId:'av1-cpu',preset:'7',quality:33};
+ const storedValues=v=>({preset:v.preset,quality:v.quality});
+ const prefs=await service.getPreferences();assert.deepEqual(prefs.settingsByProfile[initial.profileId],storedValues(initial));
  const caps=await service.getCapabilities(), h264=caps.profiles.find(p=>p.id===initial.profileId),av1=caps.profiles.find(p=>p.id==='av1-cpu'),h265=caps.profiles.find(p=>p.id==='h265-cpu');
- assert.equal(h264.candidateFixedSettings,false);assert.deepEqual(h264.supportedBitDepths,[8]);assert.equal(h264.defaultPreset,'slower');assert(h264.presets.includes('fast'));assert.equal(h264.quality.min,0);assert.equal(h264.quality.max,51);
- assert.deepEqual(av1.presets,['6']);assert.equal(av1.quality.default,32);assert.equal(h265.defaultPreset,'slow');assert.equal(h265.candidateFixedSettings,false);assert.deepEqual(caps.recipes,[]);
+ assert.equal(h264.candidateFixedSettings,false);assert.deepEqual(h264.supportedBitDepths,[8]);assert.equal(h264.defaultPreset,initial.preset);assert(h264.presets.includes(changed.preset));assert.equal(h264.quality.min,codec==='h264'?0:1);assert.equal(h264.quality.max,codec==='h264'?51:63);
+ assert.deepEqual(av1.presets,Array.from({length:10},(_,i)=>String(i)));assert.equal(av1.candidateFixedSettings,false);assert.equal(av1.quality.default,32);assert.equal(h265.defaultPreset,'slow');assert.equal(h265.candidateFixedSettings,false);assert.deepEqual(caps.recipes,[]);
  assert.deepEqual(service.getRecipe(changed).testedDefault.settings,initial);
  const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
  const first=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:initial});assert.equal(first.items.length,2);for(const item of first.items)assert.equal(item.status,'ready',item.reason);
  const req=(snap)=>({planId:snap.planId,fileIds:snap.items.map(i=>i.id)});
- const stored=await service.saveSettings(changed);assert.deepEqual(stored.settingsByProfile['h264-cpu'],{preset:'fast',quality:19});
+ const stored=await service.saveSettings(changed);assert.deepEqual(stored.settingsByProfile[initial.profileId],storedValues(changed));
  const stale=service.snapshot();assert.equal(stale.encodingSettingsStale,true);await assert.rejects(service.startBatch(req(first)));await assert.rejects(service.startBatch(req(stale)));
  const edit={planId:stale.planId,draftId:stale.operationDraft.id,revision:stale.operationDraft.revision,settings:changed};
  await assert.rejects(service.reprepareEncodingSettings({...edit,settings:{profileId:'h265-cpu',preset:'fast',quality:19}}),/fresh explicit Prepare/);
  const ready=await service.reprepareEncodingSettings(edit);assert.notEqual(ready.planId,stale.planId);assert.deepEqual(ready.settings,changed);for(const item of ready.items)assert.equal(item.status,'ready',item.reason);
  const plan=service.plan;
- for(const entry of plan.entries.values()){const a=entry.preparedArgs;assert.equal(a[a.indexOf('-preset:v:0')+1],'fast');assert.equal(a[a.indexOf('-crf:v:0')+1],'19');}
+ for(const entry of plan.entries.values()){const a=entry.preparedArgs;assert.equal(a[a.indexOf('-c:v:0')+1],codec==='av1'?'libsvtav1':'libx264');assert.equal(a[a.indexOf('-preset:v:0')+1],changed.preset);assert.equal(a[a.indexOf('-crf:v:0')+1],String(changed.quality));}
  plan.settings={...changed,quality:20};await assert.rejects(service.startBatch(req(ready)),/settings changed after preparation/);plan.settings={...changed};
  const e=plan.entries.get(ready.items[0].id),argv=e.preparedArgs;e.preparedArgs=Object.freeze([...argv]);await assert.rejects(service.startBatch(req(ready)),/binding is stale/);e.preparedArgs=argv;
  assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
@@ -314,7 +315,29 @@ test('ordinary H264 tested default, persistence, two-file reprepare and Start re
  assert.equal(started.phase,'running');assert.deepEqual(selection,req(ready).fileIds);assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
  const reopened=await h.createUnifiedService({runtimeRoot:path.join(root,'runtime'),stateDir:path.join(root,'state')});
  try{
-  const restored=await reopened.getPreferences();assert.deepEqual(restored.settingsByProfile['h264-cpu'],{preset:'fast',quality:19});
-  const reset=await reopened.resetProfile({profileId:'h264-cpu'});assert.deepEqual(reset.settingsByProfile['h264-cpu'],{preset:'slower',quality:24});
+  const restored=await reopened.getPreferences();assert.deepEqual(restored.settingsByProfile[initial.profileId],storedValues(changed));
+  const reset=await reopened.resetProfile({profileId:initial.profileId});assert.deepEqual(reset.settingsByProfile[initial.profileId],storedValues(initial));
  }finally{await reopened.closeOperationResources();await reopened.closeDiagnostics();}
+});
+test('unified AV1 native bounds do not relax legacy fixed admission or named recipes',()=>{
+ const {fixedSettings}=harness(),base={profileId:'av1-cpu',preset:'6',quality:32};
+ for(const preset of Array.from({length:10},(_,i)=>String(i)))for(const quality of [1,32,63])assert.equal(fixedSettings({...base,preset,quality}),'av1-ordinary');
+ for(const v of [{...base,quality:0},{...base,quality:64},{...base,quality:1.5},{...base,quality:'32'},{...base,preset:'10'},{...base,preset:6},{...base,preset:'p7'},{...base,recipeId:'archive'},{...base,extra:true},{...base,profileId:'av1-nvenc'}])assert.throws(()=>fixedSettings(v));
+ const legacy=require('../linux-blue/av1-cpu-policy.cjs');assert.deepEqual(legacy.SETTINGS,base);assert.throws(()=>legacy.admit({settings:{...base,preset:'7'}}));
+});
+test('AV1 awaited preparation rejects changed settings and fresh Prepare recovers without execution',async t=>{
+ const {h,service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);await fsp.writeFile(path.join(input,'fixture.mkv'),'inert fixture');
+ const probe=sourceProbe(),inspection=()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ let entered,release;const waiting=new Promise(r=>entered=r);service.inspect=async()=>{entered();await new Promise(r=>release=r);return inspection();};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');const request={inputFolderId:i.id,outputFolderId:o.id,settings:{profileId:'av1-cpu',preset:'7',quality:33}};
+ const pending=service.prepareBatch(request);await waiting;service.plan.settings={...request.settings,quality:34};release();const rejected=await pending;assert.equal(rejected.items[0].status,'unsupported');assert.equal(service.plan.entries.size,0);
+ service.inspect=async()=>inspection();const ready=await service.prepareBatch(request);assert.equal(ready.items[0].status,'ready',ready.items[0].reason);
+ const plan=service.plan,item=service.state.items[0],entry=plan.entries.get(item.id),start={planId:ready.planId,fileIds:[item.id]};
+ const before={phase:service.state.phase,task:service.taskPromise,guard:typeof service.ordinaryJobGuard,generation:service.generation,draft:service.state.operationDraft,binding:service.executionBinding};
+ for(const [object,key,replace] of [[entry,'operationPlan',()=>({...entry.operationPlan})],[entry,'preparedArgs',()=>[...entry.preparedArgs]],[item,'operationRequest',()=>({...item.operationRequest})],[service,'generation',()=>Object.create(service.generation)],[plan,'id',()=>plan.id+'-stale']]){
+  const old=object[key];object[key]=replace();await assert.rejects(service.startBatch(start));object[key]=old;
+  assert.equal(service.state.phase,before.phase);assert.equal(service.taskPromise,before.task);assert.equal(typeof service.ordinaryJobGuard,before.guard);assert.equal(service.state.operationDraft,before.draft);assert.equal(service.executionBinding,before.binding);
+ }
+ assert.equal(service.generation,before.generation);assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
 });

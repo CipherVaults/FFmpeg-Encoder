@@ -1,0 +1,33 @@
+{
+  "approved": true,
+  "scope": "Corrected source acquisition composition only; permits bounded driver preparation, not media execution or product activation",
+  "correctedHandoffSha256": "6b9f5ac1ab0d7cb6d9be9e49bc13fae2b048322e8f6fdebb6f2a3ad74ef01b75",
+  "filesVerified": [
+    {
+      "path": "linux-blue/remux-lifecycle-acquisition.cjs",
+      "bytes": 9669,
+      "sha256": "be20c93906fe8e0066ddf6b51ed9110cb70592659b116690e56b53eecfe6e6be"
+    },
+    {
+      "path": "tests/linux-remux-acquisition.test.cjs",
+      "bytes": 6594,
+      "sha256": "6e9e912a194793c628daa61930dc2a28ccea5ca8844112737f6a8a9b1ecc4e74"
+    }
+  ],
+  "independentTests": {
+    "passed": 13,
+    "failed": 0,
+    "logSha256": "8e61614b41c610c8eb85b3d546aa58e6dd846a37856c72e3ef0787de36336f46"
+  },
+  "reviewFindings": [
+    "Original global invocation-guard omission corrected: dense bounded argv/options, CPU hardware/video refusals preserved, with copy or exact one/two-owned-H264-clip rawvideo framehash grammar only.",
+    "Compared grammar against actual remux-evidence boundary construction and evidenceDirectory against shared EncoderService storage root: consistent. Shared qualified runner supplies positive remaining timeout before this seam, including stream-copy timeout0 caller.",
+    "Construction failures independently attempt observer/candidate cleanup and retain primary plus cleanup failures. Actual factory controls exercise injected execution refusal and failure closure.",
+    "Provisional acquisition policy remains off-main; main/package/catalog/current raw evidence unchanged. MP4 shared provenance and generated-source metadata rules are not replaced."
+  ],
+  "limits": [
+    "13 inert tests are not actual lifecycle success; MP4 provenance, publication, rescan and cancellation must still be measured.",
+    "Next driver must bind all source/runtime/fixture identities and independently enforce overall600s,27GiB floor,512MiB owned storage and retained closure including child-free phases.",
+    "64 is a hard conservative cap, not expected census. No widening, retry, shipped authority or execution gate granted here."
+  ]
+}

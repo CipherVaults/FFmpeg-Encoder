@@ -2,7 +2,7 @@
 const test=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs/promises');const path=require('node:path');const os=require('node:os');
 const {PARENT,authority,diagnostic,unobservedLaunch,deadline,assertSecurity,inventory}=require('../scripts/windows-packaged-integration.cjs');
 const {primaryFailure,sanitized}=require('../scripts/windows-hosted-integration-check.cjs');
-test('bound authority names exact verified 078 predecessor',()=>assert.equal(PARENT,'1a7e64c565ce5d8530ee5a9f92ae16a83243adf0'));
+test('bound authority names exact verified 078 predecessor',()=>assert.equal(PARENT,'bb0a222af8dce34d64d33ef9438c775fb48e60bd'));
 const env={GITHUB_ACTIONS:'true',GITHUB_REPOSITORY:'CipherVaults/FFmpeg-Encoder-Blue-Linux',GITHUB_REF:'refs/heads/blue/linux-development',GITHUB_EVENT_NAME:'push',GITHUB_SHA:'a'.repeat(40),GITHUB_RUN_ID:'123',GITHUB_RUN_ATTEMPT:'1'};
 const event={before:PARENT,after:env.GITHUB_SHA,forced:false,created:false,deleted:false};
 test('exact single ordinary successor admitted',()=>assert.equal(authority(env,event).head,env.GITHUB_SHA));

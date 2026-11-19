@@ -1,0 +1,284 @@
+{
+  "approved": true,
+  "scope": "Exact079 native ordinary two-file publication and lead-observed terminal timer acceptance",
+  "sourceCommit": "8501b9374e4ba895e34ae19600fefb841f613df7",
+  "packageFilesRehashed": 247,
+  "fiveNormalExecutableModesVerified": true,
+  "inputFilesRehashed": 2,
+  "inputScope": "Identical retained eight-second H264/AAC media bytes at two distinct owned regular paths. Not media diversity.",
+  "events": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 2,
+    "FOLDER_PICKER_REGISTERED": 2,
+    "PREPARATION_STARTED": 1,
+    "FILE_INSPECTED": 2,
+    "PREPARATION_FINISHED": 1,
+    "ENCODE_STARTED": 2,
+    "ENCODE_CLOSED": 2,
+    "OUTPUT_CHECKED": 2,
+    "SOURCE_ASSESSED": 2,
+    "OUTPUT_PUBLISHED": 2,
+    "JOB_DISPOSITION": 2,
+    "BATCH_FINISHED": 1,
+    "OUTPUT_ACTION_DISPATCHED": 2,
+    "SESSION_ENDED": 1
+  },
+  "batch": {
+    "counts": {
+      "success": 2,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "unprocessed": 0
+    },
+    "totalItems": 2,
+    "journalElapsedSeconds": 4.988,
+    "timingMeaning": "Whole operation measured once across both serial jobs, validation/publication/cleanup. Journal written before final finishedAt bookkeeping; not the exact final snapshot or encode-only sum.",
+    "oneCorrelatedBatch": true,
+    "serialEncodeClosureVerified": true
+  },
+  "outputs": [
+    {
+      "name": "fixture-a_H264-CPU.mkv",
+      "outputId": "0a69cd57-7fb4-43b1-90f8-78e1210bcfc3",
+      "bytes": 4805537,
+      "sha256": "8c258b10faf521ad92cbf2e7d357c802038275bf5fc83a84545800b1e9d5dff9",
+      "publishedIdentityChangedFields": [
+        "ctimeNs"
+      ],
+      "allContentAndObjectIdentityFieldsMatch": true,
+      "ctimeAtPublished": "1795055905626675315",
+      "ctimeNow": "1795055905652792443"
+    },
+    {
+      "name": "fixture-b_H264-CPU.mkv",
+      "outputId": "1cfd2ef6-2f10-49e6-a0e3-c3cd6ef9be58",
+      "bytes": 4805537,
+      "sha256": "3f520d1de5b1fb037a2c99aab31278456dc7b1d3bb4f04bec50c3bf07f41cb6c",
+      "publishedIdentityChangedFields": [
+        "ctimeNs"
+      ],
+      "allContentAndObjectIdentityFieldsMatch": true,
+      "ctimeAtPublished": "1795055907866735372",
+      "ctimeNow": "1795055907893098566"
+    }
+  ],
+  "diagnosticDigestsVerified": 29,
+  "provenanceChecksumsVerified": 4,
+  "identityCaveat": "Published journal stamps precede stage cleanup. Both outputs now differ only in ctimeNs; canonical path/device/inode/size/mtime/birthtime/sparse content identity match. Whole-file hashes above are independently observed current hashes, not hashes stored in the original sparse journal. This is consistent with removing the staging hard link; no exact cause is claimed from timestamps alone.",
+  "closure": {
+    "exitCode": 0,
+    "terminationRequested": false,
+    "closureObserved": true,
+    "elapsedSeconds": 203.65910543899918,
+    "sampledOnly": true,
+    "errors": []
+  },
+  "knownSampledIdentitiesChecked": 14,
+  "closureLimit": "No live matching sampled identity at audit; final supervisor group contained only unreaped zombie leader. Not a global descendant census.",
+  "leadVisualObservations": [
+    "Exactly one Start with both Ready files auto-selected; both succeeded.",
+    "Each distinct actual output individually revealed via Show in folder.",
+    "Terminal Batch elapsed00:05 remained fixed across multiple observations well beyond three seconds.",
+    "New batch returned to Encode setup and the old result was no longer in view; app closed normally. This does not prove terminal snapshot or hidden Current Jobs DOM fields cleared."
+  ],
+  "visualEvidenceLimit": "Freeze/setup-navigation and exact click count are lead-observed live GUI facts, not reconstructed from durable DOM snapshots. Saved journal independently establishes two encode starts in one batch and two reveal dispatches but does not label each reveal file.",
+  "limitations": [
+    "Ordinary accepted Full-source H264 veryfastCRF23/AACcopy route only; no PCM precision or measured packet-identity assertion.",
+    "New batch changes workspace/editing state, not the terminal snapshot. Actual field clearing after a new Prepare was not tested here; any earlier reset-cleared wording is superseded by this narrower observation.",
+    "No additional decode/probe/runtime was invoked by this audit.",
+    "No broad release, hardware/GPU or arbitrary-input compatibility claim.",
+    "JOB_DISPOSITION records mark contextTruncated; complete validation/publication records and independently checked provenance remain separately retained."
+  ],
+  "artifactPins": [
+    {
+      "relativeName": "CLOSURE.json",
+      "bytes": 1696,
+      "sha256": "0836b20d74a3207c69be332f18fb80a0a6c0862ec60e705ef87ff4e7799c43e4"
+    },
+    {
+      "relativeName": "APP.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "relativeName": "APP.stderr",
+      "bytes": 620,
+      "sha256": "30633ce499814fa8109b765658ee4f01828512f2b4aeaf42d44015470eff4586"
+    },
+    {
+      "relativeName": "OUTPUT_IDENTITY_AUDIT.json",
+      "bytes": 955,
+      "sha256": "0dab7ee5812a2231c8dc193308ae07a1d9a7975e9f0b2a6e0777ff1b1a096654"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/141266b2-e1ee-4b41-b20b-7127f142b1b3.json",
+      "bytes": 716,
+      "sha256": "b34cbee8a8ad294b28d1c97bdd7cbbe0dee95d159f295def8689d12f4dd9225a"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/1778d570-6b1c-41d7-b5c4-1985ca280168.json",
+      "bytes": 1655,
+      "sha256": "1ae1203c842419362b1553ea15f981c9a1e6e17b8985ddd1ef32189932bff29f"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/24f02642-f363-41a0-b4f3-58d52b106b46.json",
+      "bytes": 1655,
+      "sha256": "26f197f6653d748bb8535d9bc67497a4996fd50a1e41fe926b8e125de053665e"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/32f6fef1-2a87-4870-b265-8afa7d2c06e3.json",
+      "bytes": 464,
+      "sha256": "cb6c47aa4068546c7e59623fe9a41928129d717f4cf2ebfe6b37b3d798b96de5"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/3744a368-2082-48d0-b32a-c98202dee254.json",
+      "bytes": 435,
+      "sha256": "653dbd279c3b574b06f9d8bdd5a05ef2725c241bd85f5d8fb2e936a5eb8f2539"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/398755d7-ee82-4116-8b64-dec9b6a03ea7.json",
+      "bytes": 1934,
+      "sha256": "99f8f3c4c331cd784b80e4cbb9bcaa0e26b7239a9f711b042db3a5abb1ac785b"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/3ed9a7ad-2210-47dc-b012-4444c240f533.json",
+      "bytes": 388,
+      "sha256": "a25dda377c3f8fbb458af8e19ce2fff55943a121a36437977942acc3d7b78fdb"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/400919da-9f8c-464f-b2a5-2f4d505675df.json",
+      "bytes": 612,
+      "sha256": "e9869963446622cba999f96d9fd3d7402bdbfd01739cb1690b23480e1c7ffc40"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/4cb0b30f-ff96-4d19-b41b-1cf7a14e87b1.json",
+      "bytes": 434,
+      "sha256": "4b3c2ea34ec615b24b1460290be8cf2cceb993a8179cddf6d4d85d08d8479197"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/54f54ec6-6e08-4091-90aa-6d489dfa1597.json",
+      "bytes": 499,
+      "sha256": "bb8555fef6ad9280632b149dba54cdb0e14b14d565710e61129618007e471978"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/6405bcaf-c8c9-4498-b3ac-b1c7a8700bdf.json",
+      "bytes": 480,
+      "sha256": "336f972c6b11fe9af0ebc99d4b385da8a3d200b9b62cb199412bf7aa65c6d703"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/65ef9c86-ff74-43f2-903f-f164e6cfd943.json",
+      "bytes": 361,
+      "sha256": "713e9e824d569b7daf431e6690b1ca295295416521c3ba4e151657f4ebd05311"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/744e938d-1320-453a-82cd-70a1fa556810.json",
+      "bytes": 533,
+      "sha256": "d5009b7baa19ff9e99e548fbe4c8bb97fcccee60c34062253bfd3e25a7a5666a"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/89ab706f-13da-4dc0-9b17-ac7a1c8bd7d9.json",
+      "bytes": 1411,
+      "sha256": "5da16109ca2eeca83eb1f6af9dac9c92b0d5e228553b4f69c8dcf5b0460585de"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/8b103d71-6b33-4973-bfde-f9b4569ca3a5.json",
+      "bytes": 2911,
+      "sha256": "9bf2abea2afd82095c6d00e4eea905245625faa83b17c950272174f30ace9d20"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/8d8db293-547b-40e4-9134-c39c1ba83420.json",
+      "bytes": 779,
+      "sha256": "ac18599cf5964b2f01d1a7b4115462e3b9d8343621a2fd976195e331bcea8ebb"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/91232b39-25c8-4aa7-8be6-7f6733f6aa01.json",
+      "bytes": 1411,
+      "sha256": "bc91a255a328d14043ac989961321936fcd84faa850aa2e20eb4d2ce6ee20179"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/967d5aa5-4f36-4d98-b141-87864ad3dd45.json",
+      "bytes": 436,
+      "sha256": "f7f34bcd0534a71181e58f88c34fc222d91d2f1b469d46b4b486e3e5ee813f08"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/9a1d4bfb-5831-451e-b720-96b9962f2dab.json",
+      "bytes": 2911,
+      "sha256": "37a6e03e14367ae74d200c5321b4bebba30414eabeaf1e853511250af97ef2ac"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/a2e032b4-91ae-4854-89a2-de5f51b29624.json",
+      "bytes": 714,
+      "sha256": "f21e9409514403915743372b0c1048aaca5a4bf5ae53393ba7bb313b9b5a27df"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/aa812bbe-8a1c-441b-bcac-203ae297a43b.json",
+      "bytes": 1934,
+      "sha256": "21feb36d5dfe7559a6d2ef612336413e63e3c001972da91e721aec9cc6d44385"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/ca5c3a68-3f94-453f-b819-f0977bfcac63.json",
+      "bytes": 5937,
+      "sha256": "5ccfd7b92fa613666664af43237a5e86563c81e98c604067692cb882fc7c79ed"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/d06682b3-2497-415b-99cf-0aee777a2660.json",
+      "bytes": 767,
+      "sha256": "bd5d7a4bf3dd29c4dc645c6958032bb844a615c106e8b7445bbf68061cf26cde"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/d2705a7c-b72e-4510-a3bf-fd24a5da1d35.json",
+      "bytes": 499,
+      "sha256": "d10c46972aa48ed664b731c131fec60823179126c748823dc4a8dca144f2359e"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/db802c63-e20c-4826-bcad-710250efac74.json",
+      "bytes": 433,
+      "sha256": "27b5e225ba1e2c43f2aa4bfb9ca9dbb19ab234a648b47b5b5c073123c33126ae"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/e61ef4ac-cd3c-4743-8891-526655bb67fd.json",
+      "bytes": 714,
+      "sha256": "06430989ff6fe0862be722b2bd121ae3d5c697a5ab3cd023a20cdffa9ecc0ae9"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/eb2b4074-5a0e-4fa4-a37c-2319a89fe63a.json",
+      "bytes": 612,
+      "sha256": "277cb10e69fdbfbe092e7b8dc49a3191f89a16921fc7ae2212fdb965bdb7b177"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/f418a867-0e06-4c60-8fd2-d20974f0a49d.json",
+      "bytes": 1545,
+      "sha256": "6a51ebcd6c8c218b88fef70c744587254486d4d245003ba33d3157d664687930"
+    },
+    {
+      "relativeName": "owned-profile/diagnostics-v1/events/ff769d0a-4106-4dc9-845e-05dfd047131a.json",
+      "bytes": 1545,
+      "sha256": "90454064d471d3d50df13def987e8fb6ef04edefcf1a4b7566241c221cecc650"
+    },
+    {
+      "relativeName": "owned-profile/provenance-v1/0a69cd57-7fb4-43b1-90f8-78e1210bcfc3.intent.json",
+      "bytes": 1139,
+      "sha256": "ec2a1dbaaa95b7a6045cfa26d38bb2a3b50d4566c5fd7e5f663edce31f65c3b9"
+    },
+    {
+      "relativeName": "owned-profile/provenance-v1/0a69cd57-7fb4-43b1-90f8-78e1210bcfc3.published.json",
+      "bytes": 606,
+      "sha256": "eeb0e9ecc0d756e26b62175374ac16f21f532df973df245fdc97ebb7798a9598"
+    },
+    {
+      "relativeName": "owned-profile/provenance-v1/1cfd2ef6-2f10-49e6-a0e3-c3cd6ef9be58.intent.json",
+      "bytes": 1139,
+      "sha256": "741cf7df5d1e616c62a18cbe945d3c8495fd9f445f4fc2ec7c2c02eb45fc9a8c"
+    },
+    {
+      "relativeName": "owned-profile/provenance-v1/1cfd2ef6-2f10-49e6-a0e3-c3cd6ef9be58.published.json",
+      "bytes": 606,
+      "sha256": "60547f2ecfcf8358acf8edaa05bbf9a05a06d1401917dc1f7e192bdc7a1555c9"
+    }
+  ]
+}

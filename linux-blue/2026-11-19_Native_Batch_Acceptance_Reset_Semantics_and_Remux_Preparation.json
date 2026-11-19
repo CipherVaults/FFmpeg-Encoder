@@ -1,0 +1,94 @@
+{
+  "checkpoint": "080",
+  "cutoff": "2026-11-19T02:51:27Z",
+  "status": "Reviewed source for preservation; no080runtime/commit/publication",
+  "predecessorSession": {
+    "bytes": 2579652,
+    "sha256": "2931bef81d48d573998add0ad2ce007c106996e042e2123899d622c49729d9b5"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native078-720-saved-audit.json": {
+      "bytes": 3164,
+      "sha256": "002ccd0e836c3e87e98dbb032ec012b2b1a9f15d484728236d3d21d8165dfcb2"
+    },
+    "linux-blue/evidence-2026-11-19/native079-two-file-saved-audit.json": {
+      "bytes": 12562,
+      "sha256": "95e07e05ec9462c904bd26070c6a4fed7bfb47b37d2635126d3df2228304e741"
+    },
+    "linux-blue/evidence-2026-11-19/windows079-sanitized-report.json": {
+      "bytes": 2067,
+      "sha256": "7f88b7dcbf4c5cc8568097def94592aace183b03b38c25c21508d397da88882b"
+    },
+    "linux-blue/evidence-2026-11-19/hosted079-verified-outcome.json": {
+      "bytes": 1812,
+      "sha256": "f80f5223993ba09287a506662ef2f7edf705564674731bcad9f6400c2f7a6b56"
+    },
+    "linux-blue/evidence-2026-11-19/windows080-reset-review.json": {
+      "bytes": 1677,
+      "sha256": "47952e12f50f1435433c4db8dad8bb9716d7fe030d2cb71f873a8a30f557fe9e"
+    },
+    "linux-blue/evidence-2026-11-19/integration080-bound-review.json": {
+      "bytes": 1588,
+      "sha256": "2b87d8cd3103198046b771fc5d6234469241a94418049ef3eca1aa900d085936"
+    },
+    "linux-blue/evidence-2026-11-19/remux080-corrected-adapter-review.json": {
+      "bytes": 2135,
+      "sha256": "93138e978ce0513d66fe6ad52432cde1b10ac64b2484575f00033b9b4e2d5f9d"
+    },
+    "linux-blue/evidence-2026-11-19/remux080-driver-review.json": {
+      "bytes": 1033,
+      "sha256": "793ab5c43c5537d8f87c55135cb13dc76e6b47666326999c7c778c921ab69e94"
+    },
+    "linux-blue/evidence-2026-11-19/unchanged-linux080-inputs.json": {
+      "bytes": 451,
+      "sha256": "99ac086a3ff3622a331607211ba9dce9cb47376432df312f94c867ad8446c7a1"
+    }
+  },
+  "externalSavedReferences": {
+    "ffmpeg-integration080-guidance/FINAL_HANDOFF_WITH_RECOVERY.json": {
+      "bytes": 3761,
+      "sha256": "9d6ee920486bcfa88c8814a022158fc5b6800ef41d8a9e3641efbd49b8df2651"
+    },
+    "ffmpeg-integration080-guidance/FINAL_AGGREGATE.log": {
+      "bytes": 36792,
+      "sha256": "42d75710aaab75d4169cfbd7f8487335e6096a63c4d0ad0352f655a6b9fadb8d"
+    },
+    "ffmpeg-integration080-guidance/FINAL_FOCUSED.tap": {
+      "bytes": 11703,
+      "sha256": "eef570dba61e52fb93811df221c40fff496eb956fab5679d318097f35f433ca5"
+    },
+    "ffmpeg-checkpoint079/mirror/notion-checkpoint-079-verification.json": {
+      "bytes": 3449,
+      "sha256": "46e8ff3917a4f1835cf855ac7758b5babac4e4f283f5857d19eb46d08b97e231"
+    },
+    "ffmpeg-checkpoint079/github/VERIFIED_REMOTE.json": {
+      "bytes": 587,
+      "sha256": "68d5bb9f4f26a00e85183dc847a0508422f3b3bbf1bd2001c3616ca945265950"
+    },
+    "ffmpeg-remux-lifecycle080-guidance/FINAL_SOURCE_INTEGRATION_HANDOFF.json": {
+      "bytes": 1940,
+      "sha256": "7e1861f8876ecba7cdaa3b0da9908e459b9ff6844660a0d51deb35095fc27f5f"
+    }
+  },
+  "tests": {
+    "focused": 134,
+    "syntax": 217,
+    "shared": 316,
+    "linux": 40,
+    "overlappingNotSummed": true
+  },
+  "unchangedShippedLinux": {
+    "sourceRows": 156,
+    "applicationMembers": 146,
+    "productPins": 129,
+    "noRedundantBuildRequired": true
+  },
+  "resetCorrection": "Earlier cleared-results observations meant visual setup navigation, not clearing hidden DOM/terminal snapshot; actual newPrepare transition is separately tested",
+  "remux": "Private acquisition preparation only; product activation disabled, no media/lifecycle result",
+  "limits": [
+    "Only sanitized report bytes retained, not Windows executable package",
+    "Raw profiles/logs and active bindings/gates excluded",
+    "Native079journal4.988s not exactfinalsnapshot; visual00:05 separately attributed",
+    "Historical forced session/failures unchanged"
+  ]
+}

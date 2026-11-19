@@ -1,0 +1,10 @@
+{
+  "scope": "080 unchanged shipped Linux input proof",
+  "baseline": "8501b9374e4ba895e34ae19600fefb841f613df7",
+  "sourceRowsVerified": 156,
+  "applicationMembers": 146,
+  "productPinsVerified": 129,
+  "planAndLoaderByteIdentical": true,
+  "privateRemuxPathsInPackage": false,
+  "limits": "079 package evidence remains artifact-specific. No new runtime, remux activation or whole-release claim; native remux needs future explicit product wiring."
+}

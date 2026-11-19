@@ -1,0 +1,74 @@
+{
+  "schema": "windows-packaged-two-file-cpu-integration/v2",
+  "head": "bb0a222af8dce34d64d33ef9438c775fb48e60bd",
+  "runId": "44445670506",
+  "attempt": 1,
+  "state": "INTEGRATION_FAILED",
+  "picker": "substituted-dialog-return",
+  "gpu": "not-qualified",
+  "nativeDesktop": "not-qualified",
+  "distribution": "report-only",
+  "failure": {
+    "phase": "collision",
+    "code": "ERR_ASSERTION"
+  },
+  "fixtureGenerationCalls": 1,
+  "fixtureCopyCalls": 1,
+  "startClicks": 1,
+  "requestedEncodes": 2,
+  "extraDecodeCalls": 0,
+  "probeReadbackCalls": 2,
+  "collisionSkips": 0,
+  "close": "normal",
+  "sourceUnchanged": false,
+  "packageUnchanged": true,
+  "collisionRefused": false,
+  "collisionSnapshotVerified": false,
+  "outputs": [
+    {
+      "sha256": "9ea0f7df0c9286c6c9b2ce417db362c2d9f372395bc2c9c3bf8e50522f8de274",
+      "sizeBytes": 73618
+    },
+    {
+      "sha256": "7d5e7cc4bc9bef04906e653a8687c4156f3eb20d34726d971d588ed6b7468720",
+      "sizeBytes": 73618
+    }
+  ],
+  "fixtureCopies": "two-distinct-paths-identical-bytes",
+  "terminalTimer": {
+    "frozen": true,
+    "domMatchesSnapshot": true,
+    "reset": false,
+    "observedWaitMs": 2219,
+    "elapsedSeconds": 0.717
+  },
+  "processObservation": {
+    "kind": "sampled-not-exhaustive",
+    "samples": 10,
+    "observedDescendants": 16,
+    "observedStartupMedia": 3,
+    "observedLiveAfterClose": 0
+  },
+  "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+  "launchOwnership": "verified-shell-launcher-and-pinned-main",
+  "security": {
+    "packaged": true,
+    "sandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "build": {
+    "asar": {
+      "sha256": "163f37e9047a470d53b9f90c982eee8f3a7282e2d137eb2535dd4459487923fb",
+      "sizeBytes": 2446214
+    },
+    "executable": {
+      "sha256": "de907f193d2bb8e123c9a05b893662ed9a703c87e8ffb0108f1788bee6a906fa",
+      "sizeBytes": 246302208
+    },
+    "zip": {
+      "sha256": "020e66787670f24df07a8a2fdd7b0ce0c76c94eaabf98b2de4034a5af37f23db",
+      "sizeBytes": 326102445
+    }
+  }
+}

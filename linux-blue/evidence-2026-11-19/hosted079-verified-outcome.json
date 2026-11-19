@@ -1,0 +1,55 @@
+{
+  "head": "bb0a222af8dce34d64d33ef9438c775fb48e60bd",
+  "shared": {
+    "run": 44445670664,
+    "attempt": 1,
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 135297072110,
+        "name": "Source contracts / ubuntu-24.04",
+        "syntax": 216,
+        "shared": 315,
+        "rendererIncluded": 72,
+        "linuxAdditional": 40,
+        "logSha256": "3d2b171cd2f342c5a8cf056081adb533d32e5042b12ce0e49932ec46b71b6216"
+      },
+      {
+        "id": 135297072509,
+        "name": "Source contracts / windows-2022",
+        "syntax": 216,
+        "shared": 315,
+        "rendererIncluded": 72,
+        "linuxAdditional": 0,
+        "logSha256": "0c7d5369367a3db1dc1ecc144d9a19dd763aa8d9bb56f649aebd0717b2a25c21"
+      }
+    ]
+  },
+  "windows": {
+    "run": 44445670506,
+    "job": 135297073015,
+    "attempt": 1,
+    "conclusion": "failure",
+    "artifact": 14493282079,
+    "artifactZipSha256": "a425b3d5565fb9e75117e98659526456189e82c8dc7f914132ea4b28d2fda348",
+    "reportSha256": "7f88b7dcbf4c5cc8568097def94592aace183b03b38c25c21508d397da88882b",
+    "logSha256": "fd8df9f59787493a3d2e3fa64492db3ae97fe9ceaa54363f7b4788cb7b9f1fd5",
+    "failure": {
+      "phase": "collision",
+      "code": "ERR_ASSERTION"
+    },
+    "twoOutputsCompleted": true,
+    "frozenTimerVerified": true,
+    "terminalElapsedSeconds": 0.717,
+    "resetAndCollisionNotAccepted": true,
+    "normalClose": true,
+    "packageUnchanged": true,
+    "sourceVerificationNotReached": true
+  },
+  "limits": [
+    "Exact collision-phase assertion not established from sanitized report; no mutation inferred from sourceUnchanged false",
+    "Report-only artifact, not executable ZIP retention",
+    "Substituted picker, sampled processes, no GPU/native Windows desktop qualification",
+    "No manual rerun or dispatch"
+  ]
+}

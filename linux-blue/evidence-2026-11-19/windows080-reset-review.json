@@ -1,0 +1,36 @@
+{
+  "approved": true,
+  "scope": "080 Windows reset expectation only; no renderer or app change",
+  "handoff": {
+    "bytes": 1616,
+    "sha256": "3f3caa9ce9c4f491bfd969326f7fb1d4d295c8797ebb5690b0a9b4409be8f811"
+  },
+  "files": [
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "d0791ef23f7934afb749ca7f26538ee2594d394a731d92bdf3c3b13c98f9d3b2"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 107868,
+      "sha256": "d513258bbc1fad92931a4e8ad0d6b55ebab6c8ec65751f7b7e00d0e62a08da48"
+    }
+  ],
+  "tests": {
+    "passed": 121,
+    "failed": 0,
+    "skipped": 0,
+    "log": {
+      "bytes": 10940,
+      "sha256": "8ef93bb88474a4b2d3bc4a3bb7207ed3ad203ba2ccd3373357e6f1685dddd881"
+    }
+  },
+  "findings": [
+    "Actual renderer New batch event navigates to setup but retains completed snapshot and terminal DOM. Actual Prepare replaces snapshot and clears terminal display.",
+    "Harness now checks setup navigation then same two collision skips with no second Start; only then requires bounded reset DOM within remaining global deadline.",
+    "Exact predecessor remains consumed079; fresh successor rebind still separately required.",
+    "079 sanitized failure proves collision-phase assertion failure, not exact failing line; sourceUnchanged false indicates check unreached, not proven mutation."
+  ],
+  "nativeObservationClarification": "Prior native078 visual New batch reset observations establish navigation away from results, not erasure of retained DOM or snapshot. Original byte-pinned audits remain immutable; this clarification supersedes any stronger reading of results cleared."
+}

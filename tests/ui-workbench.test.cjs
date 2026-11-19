@@ -1409,3 +1409,18 @@ test('terminal missing or invalid elapsed is unavailable, not fabricated zero',a
  const h=await harness();let revision=1;for(const elapsedSeconds of [undefined,NaN,-1,Infinity]){
  h.update({revision:++revision,batchId:'missing',phase:'completed',items:[],counts:{},elapsedSeconds});assert.equal(h.byId('result-elapsed').textContent,'—');}
 });
+
+test('New batch navigates without erasing completed elapsed; actual Prepare clears terminal result',async()=>{
+ let preparations=0;
+ const h=await harness({getPreferences:async()=>({settingsByProfile:{},inputFolder:{id:'input',displayPath:'/input',available:true},outputFolder:{id:'output',displayPath:'/output',available:true},profileId:'h265-cpu',notices:[]}),
+ saveSettings:async()=>({notices:[]}),
+ prepareBatch:async()=>{preparations++;return {revision:3,phase:'ready',planId:'new-plan',items:[],counts:{},elapsedSeconds:0};}});
+ h.update({revision:2,phase:'completed',batchId:'old-batch',planId:'old-plan',items:[],counts:{},elapsedSeconds:22.205});
+ assert.equal(h.byId('result-elapsed').textContent,'00:22');
+ await h.byId('new-batch').click();
+ assert.equal(preparations,0);assert.equal(h.byId('workspace-encode').hidden,false);
+ assert.equal(h.byId('results-panel').hidden,false);assert.equal(h.byId('result-elapsed').textContent,'00:22');
+ await h.byId('prepare-batch').click();
+ assert.equal(preparations,1);assert.equal(h.byId('results-panel').hidden,true);
+ assert.equal(h.byId('result-elapsed').textContent,'—');assert.equal(h.byId('result-elapsed-note').textContent,'');
+});

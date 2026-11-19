@@ -1,0 +1,47 @@
+{
+  "approved": true,
+  "scope": "Reviewed Windows080 reset fix plus literal verified079 successor binding only",
+  "handoff": {
+    "bytes": 1232,
+    "sha256": "b3e91622d21871ec8da63045c7015c0ee90e447c230456b432e838333f3ea23c"
+  },
+  "files": [
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "a70dc83059314619f1fdc37d3ca591f9d9b7f3b98e47647485c6befb19581626"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "b34dfe8e56baefea34233a8ed2bf912429072e5b3c4da326c45a6d055755dea9"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 107868,
+      "sha256": "d513258bbc1fad92931a4e8ad0d6b55ebab6c8ec65751f7b7e00d0e62a08da48"
+    },
+    {
+      "path": "tests/windows-packaged-integration.test.cjs",
+      "bytes": 8542,
+      "sha256": "8c5a25d1e9e913ae8a517652de22cae69a848effe7eee26285581f8dd57a9334"
+    }
+  ],
+  "remoteVerification": {
+    "bytes": 587,
+    "sha256": "68d5bb9f4f26a00e85183dc847a0508422f3b3bbf1bd2001c3616ca945265950"
+  },
+  "boundTests": {
+    "passed": 29,
+    "failed": 0,
+    "log": {
+      "bytes": 1760,
+      "sha256": "0962ab5fa960ee4342069c7d655e253b86c2e74b1b59f213e1b2fd0d6ef4a463"
+    }
+  },
+  "limits": [
+    "No execution/dispatch; ordinary successor attempt1 only.",
+    "Prior121 injected tests cover reset proposal; independently reran29 bound wrapper controls.",
+    "Test description still says078 predecessor but actual asserted SHA is correct079; nonfunctional label can be corrected without expanded tests."
+  ]
+}

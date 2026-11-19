@@ -6,7 +6,7 @@ const path=require('node:path');
 const {hashFile}=require('./build-portable.cjs');
 const {runBounded}=require('./windows-ffmpeg-startup.cjs');
 const {assertOrdinaryPath,verifyPinnedFile}=require('../src/candidate-runtime.cjs');
-const PARENT='1a7e64c565ce5d8530ee5a9f92ae16a83243adf0';
+const PARENT='bb0a222af8dce34d64d33ef9438c775fb48e60bd';
 const ownership=require('./windows-electron-ownership.cjs');
 const SETTINGS=Object.freeze({profileId:'h264-cpu',preset:'veryfast',quality:23});
 const PHASES=new Set(['authority','build','owned-input','fixture','launch','security','prepare','encode','readback','collision','terminal-timer','close','report']);
@@ -140,9 +140,13 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
     }
     result.fixtureExpectedFrames=48;result.outputValidation='application-validator-and-independent-probe-no-second-decode';
     phaseSet('collision');await page.click('#new-batch');
-    const reset=await page.evaluate(()=>({hidden:document.querySelector('#results-panel').hidden,result:document.querySelector('#result-elapsed').textContent,note:document.querySelector('#result-elapsed-note').textContent}));
-    assert.deepEqual(reset,{hidden:true,result:'—',note:''});result.terminalTimer.reset=true;
+    // New batch navigates to setup; the prior completed result remains intact
+    // until an actual new preparation replaces the main-owned snapshot.
+    assert.equal(await deadline(page.evaluate(()=>document.querySelector('#workspace-encode').hidden),remaining()),false);
     await page.click('#prepare-batch');const collision=await until(s=>s.phase==='ready',90000);assert(collision.items.length===2&&collision.items.every(x=>x.status==='skipped'&&x.reason==='Output already exists.'));
+    await deadline(page.waitForFunction(()=>document.querySelector('#results-panel').hidden&&document.querySelector('#result-elapsed').textContent==='—'&&document.querySelector('#result-elapsed-note').textContent==='',{},{timeout:Math.min(5000,remaining())}),remaining());
+    const reset=await deadline(page.evaluate(()=>({hidden:document.querySelector('#results-panel').hidden,result:document.querySelector('#result-elapsed').textContent,note:document.querySelector('#result-elapsed-note').textContent})),remaining());
+    assert.deepEqual(reset,{hidden:true,result:'—',note:''});result.terminalTimer.reset=true;
     assert.notEqual(collision.planId,ready.planId);assert(Number.isFinite(collision.elapsedSeconds)&&collision.elapsedSeconds>=0);result.collisionSnapshotVerified=true;
     result.collisionSkips=2;result.collisionRefused=true;
     for(const [index,item]of done.items.entries())assert.deepEqual(await hashFile(item.outputDisposition.file),result.outputs[index]);

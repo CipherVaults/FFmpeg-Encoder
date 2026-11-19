@@ -1,0 +1,84 @@
+{
+  "accepted": true,
+  "scope": "Separate native078 single-file UHD to720 Full Precision FLAC saved-evidence audit",
+  "status": "one-published-output-normal-app-close",
+  "outputs": [
+    {
+      "target": "720",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "sampleAspectRatio": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "published": true,
+      "output": {
+        "bytes": 1165667,
+        "sha256": "8520cf38062d8ae4bdbadf21fe5fe467ae30b4c620566787e86f46bc64b2727d"
+      },
+      "matchesOriginalAcquisitionBytes": false,
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "batchElapsedSeconds": 22.205,
+      "collectorReceiptSha256": "89fb9ef0dfd96a29898baddb4cbf7da433f094a3ee909f4bfe43174ab686bb0f",
+      "collectorInvocations": 7,
+      "revealEvents": 1,
+      "diagnosticContextTruncated": true
+    }
+  ],
+  "journalEvents": 25,
+  "journalReasons": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 2,
+    "FOLDER_PICKER_REGISTERED": 2,
+    "PREPARATION_STARTED": 1,
+    "FILE_INSPECTED": 2,
+    "PREPARATION_FINISHED": 1,
+    "DRAFT_REPREPARATION_STARTED": 1,
+    "DRAFT_REPREPARATION_FINISHED": 1,
+    "ENCODE_STARTED": 1,
+    "ENCODE_CLOSED": 1,
+    "OPERATION_EVIDENCE_COLLECTED": 1,
+    "OUTPUT_CHECKED": 1,
+    "SOURCE_ASSESSED": 1,
+    "OUTPUT_PUBLISHED": 1,
+    "JOB_DISPOSITION": 1,
+    "BATCH_FINISHED": 1,
+    "OUTPUT_ACTION_DISPATCHED": 1,
+    "SESSION_ENDED": 1
+  },
+  "packageFilesReverified": 247,
+  "inputReverified": true,
+  "savedEvidenceFilesHashed": 43,
+  "closureSha256": "3a6c60c91f59f319e3863b1e9d538226a493a87a700cef2ef7a132c0762efbe2",
+  "closure": {
+    "elapsedSeconds": 236.66821923499992,
+    "exitCode": 0,
+    "terminationRequested": false,
+    "errors": [],
+    "closureObserved": true,
+    "sampledIdentities": 15,
+    "remainingNonZombieGroupRows": 0,
+    "scope": "sampled owned session/group only, not exhaustive descendants"
+  },
+  "desktopObservationsFromLead": {
+    "terminal": "00:22 frozen over more than3seconds",
+    "newBatchReset": "results cleared",
+    "outputRevealed": "Thunar",
+    "secondStart": false
+  },
+  "limits": [
+    "No new probe, decode, media process or GUI action. Original streaming PCM evidence was rehashed but not independently re-decoded.",
+    "Original collector receipt/spools support counts and PCM identity; diagnostic journal contexts are truncated and not complete raw collector evidence. Collector invocation count is not whole-app child census.",
+    "Desktop freeze/reset and normal visible close supplied by lead; saved whole-batch elapsed22.205 seconds independently corroborates floored display00:22.",
+    "Separate session does not rewrite or turn the earlier078 forced-close session into a clean success.",
+    "No multi-file, Windows, GPU, portability, redistribution or whole-release acceptance. Raw profile/logs/private inventory not suitable for publication."
+  ]
+}

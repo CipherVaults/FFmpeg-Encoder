@@ -1,0 +1,15 @@
+{
+  "approved": true,
+  "scope": "Corrected remux driver source preparation only; staged079plus2 binding not released for runtime",
+  "handoffSha256": "1fef2d55af29b3ee55ae8a90465e4abfa5cbb30a9f50563e0d53bfaed19dae1f",
+  "bindingSha256": "0fffff97f144bbbe68d36cba23d589506564d2187e34d3214226069a95f96d50",
+  "sourcePinsVerified": 840,
+  "independentTestsPassed": 20,
+  "testLogSha256": "87ece8bd7d63018234b417931a987813bb212d57bb9e757110aa5229e987881b",
+  "correctionVerified": "Failure/unsupported/unprocessed now fail overall; snapshot is retained before classification. Cancelled requires actual request/no publication/access. Successful published race alone is inconclusive and retains exact output hash/bytes/access-issued status.",
+  "limits": [
+    "Frozen080 adapter/source preservation and exact new source binding review remain required before execution.",
+    "No media or runtime approval; prior reviewed resource/closure/API limits remain.",
+    "Actual lifecycle/MP4 provenance and cancellation remain unproven."
+  ]
+}

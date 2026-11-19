@@ -1579,3 +1579,20 @@ for (const outcome of ['resolved', 'rejected']) test(`pending Cancel locks termi
     assert.doesNotMatch(h.byId('result-elapsed-note').textContent, /unverified/);
   }
 });
+
+
+test('finished trim inspector labels retained inspection as source metadata, never output duration',async()=>{
+ const h=await harness();const summary={width:1920,height:1080,frameRate:30,bitDepth:8,durationSeconds:31,streamCounts:{audio:1}};
+ const item=completedItem({summary,reason:''});h.update(completedSnapshot([item]));
+ const row=h.byId('batch-items').children[0];await row.querySelector('[data-testid="inspect-file"]').click();
+ const text=row.querySelector('[data-testid="source-media-summary"]')||h.byId('focused-file-details-slot').querySelector('[data-testid="source-media-summary"]');
+ assert.match(text.textContent,/^Source metadata: 1920 × 1080.*00:31.*1 audio/);
+ assert.match(h.byId('focused-file-summary').textContent,/^Source metadata:/);assert.doesNotMatch(text.textContent,/Output metadata|2\.108|00:02/);
+ assert.equal(summary.durationSeconds,31);
+});
+test('source summary stays explicit for resize or warnings and empty metadata stays hidden',async()=>{
+ const h=await harness();h.update(completedSnapshot([completedItem({reason:'Output saved. AAC padding warning.',summary:{width:1920,height:1080,durationSeconds:31}})]));
+ let row=h.byId('batch-items').children[0],summary=row.querySelector('[data-testid="source-media-summary"]');assert.match(summary.textContent,/^Source metadata: 1920 × 1080.*00:31/);
+ await row.querySelector('[data-testid="inspect-file"]').click();assert.equal(h.byId('focused-file-summary').textContent,'Output saved. AAC padding warning.');
+ h.update({...completedSnapshot([completedItem({summary:{},reason:''})]),revision:99});summary=h.byId('focused-file-details-slot').querySelector('[data-testid="source-media-summary"]');assert.equal(summary.textContent,'');assert.equal(summary.hidden,true);
+});

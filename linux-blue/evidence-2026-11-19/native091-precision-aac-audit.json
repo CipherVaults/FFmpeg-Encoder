@@ -1,0 +1,180 @@
+{
+  "status": "accepted-one-native-1080-source-AAC-publication-with-warning",
+  "sourceCommit": "55256a431b5021b84485ab8f8f120b5aa66f665c",
+  "sourceFilesRehashed": 973,
+  "packageFilesRehashed": 262,
+  "ordinaryModesVerified": 6,
+  "packageBytesAndInodesUnchanged": true,
+  "fileAuditSha256": "90b339f556b9620a8585f2e18dba5e3700037ed312e11e5513154fcff3e0727c",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "planFingerprint": "8005408c15ba4367f0474605ec7e610ebc72df9dfc93f7a6b707e8debeed6d0c",
+  "evidenceIds": [
+    "aac090-A:endpoints",
+    "aac090-A:interior",
+    "aac090-B:endpoints",
+    "aac090-B:interior"
+  ],
+  "journalEventsVerified": 25,
+  "provenanceChecksumsVerified": 2,
+  "journalContextTruncatedEvents": [
+    "FILE_INSPECTED",
+    "FILE_INSPECTED",
+    "OPERATION_EVIDENCE_COLLECTED",
+    "JOB_DISPOSITION"
+  ],
+  "settings": {
+    "profile": "H265 CPU",
+    "preset": "slow",
+    "CRF": 25,
+    "resolution": "Keep source 1920x1080 (saved plan and validator)",
+    "rangeUs": [
+      613000,
+      2721000
+    ],
+    "target": "Matroska",
+    "audio": "Precision AAC LC stereo48k 320kb/s layout default, lossy re-encode"
+  },
+  "input": {
+    "bytes": 22082739,
+    "sha256": "0037a3a3440d86a12456ed139fcd77c2e63d3b44d7709a0dba092fd43fb2dde6",
+    "completeSourceVideoFrames": 930
+  },
+  "output": {
+    "bytes": 1732116,
+    "sha256": "c0438d48f5bcd605ae2c1c033f8755930b4c2b4c57f469a4b26b0bf1db3187ff",
+    "publishedDeviceInodeSizeMtimeMatched": true,
+    "ctimeLimit": "Staged and published receipts have distinct ctime; expected publication-boundary caveat, exact cause not re-probed."
+  },
+  "video": {
+    "sourceFrameCount": 63,
+    "outputFrameCount": 63,
+    "comparedFrames": 63,
+    "firstSourcePtsUs": 633333,
+    "lastSourcePtsUs": 2700000,
+    "lastSourceDurationUs": 33333,
+    "firstOutputPtsUs": 20000,
+    "lastOutputPtsUs": 2087000,
+    "lastOutputDurationUs": 33000,
+    "maxRebasedTimestampErrorUs": 334
+  },
+  "audio": {
+    "inputIndex": 1,
+    "sourceSampleCount": 101184,
+    "outputSampleCount": 101376,
+    "firstSourcePtsUs": 613000,
+    "lastSourceEndUs": 2721000,
+    "firstOutputPtsUs": 0,
+    "lastOutputEndUs": 2112333,
+    "encoderDelaySamples": 1024,
+    "discardPaddingSamples": 0
+  },
+  "timeline": {
+    "video": {
+      "comparedFrames": 63,
+      "maximumDurationErrorUs": 334,
+      "toleranceUs": 1067
+    },
+    "audio": [
+      {
+        "inputIndex": 1,
+        "mode": "precision-aac",
+        "selectedSourceGaps": 0,
+        "unmatchedSourceTailSamples": 0,
+        "unmatchedOutputTailSamples": 192,
+        "comparedSamples": 101184,
+        "intersectedSpans": 198,
+        "maximumElapsedClockErrorUs": 334,
+        "toleranceUs": 1042,
+        "alignment": "sample ordinal after decoder-signalled skip; source minus the shared requested origin; no fitted shift",
+        "contentIdentity": false
+      }
+    ]
+  },
+  "containerClock": {
+    "representation": "matroska-packet-end-plus-codec-delay",
+    "streams": [
+      {
+        "outputIndex": 0,
+        "packetCount": 63,
+        "packetEnd": {
+          "n": "2120",
+          "d": "1000"
+        },
+        "codecDelaySamples": 0,
+        "sampleRate": null
+      },
+      {
+        "outputIndex": 1,
+        "packetCount": 100,
+        "packetEnd": {
+          "n": "2108",
+          "d": "1000"
+        },
+        "codecDelaySamples": 1024,
+        "sampleRate": 48000
+      }
+    ]
+  },
+  "collectorChildrenVerified": 6,
+  "sealedSpoolsRehashed": 3,
+  "rawTelemetryStreamsRehashed": 2,
+  "completedWithoutForcedTermination": true,
+  "closureElapsedSeconds": 237.6918878409997,
+  "sampledIdentitiesNotExhaustive": 19,
+  "elapsedJournalSeconds": 17.351,
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [
+      "Audio 1: measured decoded sample-count difference 192; not sample-identical."
+    ],
+    "validation": "decoded-operation-contract",
+    "qualificationEvidenceId": "aac090-B:endpoints",
+    "timing": {
+      "timeline": "request-relative",
+      "requested": {
+        "startUs": 613000,
+        "endUs": 2721000
+      },
+      "resolved": {
+        "startUs": 613000,
+        "endUs": 2721000
+      },
+      "video": {
+        "startUs": 633333,
+        "endUs": 2733333,
+        "frames": 63,
+        "outputStartUs": 20000,
+        "outputEndUs": 2120000
+      },
+      "audio": [
+        {
+          "inputIndex": 1,
+          "mode": "precision-aac",
+          "startUs": 613000,
+          "endUs": 2721000,
+          "outputStartUs": 0,
+          "outputEndUs": 2112333,
+          "encoderDelaySamples": 1024,
+          "discardPaddingSamples": 0,
+          "sampleCountDifference": 192
+        }
+      ]
+    }
+  },
+  "outputPublishedOnce": true,
+  "reservationsRemaining": 0,
+  "visualObservations": {
+    "source": "operator observations, not independently replayed",
+    "receiptSha256": "f084374f8c0998b2ec11d03e7826cb6e2a71a457c612c5687409ab3e29a2eeb7",
+    "actualPickerRevealAndNormalClose": true,
+    "oneStart": true,
+    "frozenElapsed": "00:17 for >=3 seconds",
+    "presentationIssue": "Output metadata panel visually retained 31s source duration. This is an observed labeling issue, not a measured output duration; original validator endpoints are retained."
+  },
+  "limits": [
+    "Saved-only; no new media, probes, decode, GUI or mode changes.",
+    "Saved with warning, 192 terminal decoded excess samples not signaled discard; lossy route is not sample or waveform identity.",
+    "Exact one fixture/source runtime/plan; no broad geometry, player, GPU, owner-PC or portable-release claim."
+  ]
+}

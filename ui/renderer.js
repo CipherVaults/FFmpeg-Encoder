@@ -896,6 +896,13 @@
     return parts.join(' · ');
   }
 
+  function sourceMediaSummary(summary) {
+    // item.summary is the input inspection, not the validated output probe.
+    // A requested trim or resize is not authority to invent output metadata.
+    const text = mediaSummary(summary);
+    return text ? `Source metadata: ${text}` : '';
+  }
+
   function changeSelection(item, checked) {
     if (checked) {
       // Windows destination comparison matches main. Main validates again at
@@ -994,7 +1001,7 @@
       put('focused-file-name', item.name);
       put('focused-file-origin', [originLabel(item), generationSummary(item)].filter(Boolean).join(' · '));
       put('focused-file-state', `${entry.status.textContent}${selectedIds.has(item.id) ? ' · Selected for this batch' : ' · Not selected'}${outsideFileListView(item) ? ' · Outside current file-list view' : ''}`);
-      put('focused-file-summary', item.reason || mediaSummary(item.summary) || 'Inspection details are unavailable.');
+      put('focused-file-summary', item.reason || sourceMediaSummary(item.summary) || 'Inspection details are unavailable.');
       put('focused-file-settings', request ? `This file · ${processingLabel(request)}. Exact requests remain subject to main validation; see origin and effective details below.` : 'Read-only file details. No processing authority is granted by Inspect.');
     }
     byId('focused-file-clear').disabled = !entry;
@@ -1580,6 +1587,7 @@
     outputNotice.setAttribute('aria-live', 'polite');
     const summary = document.createElement('p');
     summary.className = 'file-detail';
+    summary.setAttribute('data-testid', 'source-media-summary');
     const reason = document.createElement('p');
     reason.className = 'item-reason';
     const sampling = document.createElement('p');
@@ -1725,7 +1733,7 @@
         entry.name.title = item.name;
         entry.inspect.setAttribute('aria-label', `Inspect ${item.name} without changing selection`);
         entry.output.textContent = `Output: ${item.outputName || 'No output destination'}`;
-        entry.summary.textContent = mediaSummary(item.summary);
+        entry.summary.textContent = sourceMediaSummary(item.summary);
         entry.summary.hidden = !entry.summary.textContent;
         entry.reason.textContent = item.reason || '';
         entry.reason.hidden = !item.reason;

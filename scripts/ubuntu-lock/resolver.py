@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='6c87d1313660c758ebf2d0ca0c38860dbb38277b'
+PARENT='13cacc98b1aa3d40c8381a485aef10983009f4a2'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -133,7 +133,7 @@ def baseline(records):
 
 def compare_baseline(query,installed,result):
  # Non-installed rows may lack version/architecture. Do not admit them or
- # normalize installed fields. Counts never carry names or inventory values.
+ # normalize installed fields. Diagnostic samples contain only bounded package/version tokens.
  queried={}
  assert len(query)<=CAP,'LOG_BOUND'
  for line in query.decode().removesuffix('\n').split('\n') if query else []:
@@ -157,6 +157,20 @@ def compare_baseline(query,installed,result):
    'versionMismatch':sum(queried[n][0]!=expected[n][0]for n in common),
    'architectureMismatch':sum(queried[n][1]!=expected[n][1]for n in common)
   }
+  # Observation only: exact equality below remains authoritative. Never use
+  # a serialization hypothesis to admit different baseline values.
+  mismatches=sorted(n for n in common if queried[n][0]!=expected[n][0])
+  samples=[]
+  for name in mismatches[:8]:
+   raw,live=expected[name][0],queried[name][0]
+   safe=(len(name)<=96 and re.fullmatch(r'[a-z0-9][a-z0-9+.-]*',name)
+     and all(len(v)<=128 and re.fullmatch(r'[0-9][A-Za-z0-9.+:~\-]*',v) for v in [raw,live]))
+   if safe:
+    samples.append({'package':name,'rawStatusVersion':raw,'queryVersion':live,
+     'explicitZeroEpochOnly':raw=='0:'+live or live=='0:'+raw})
+   else:samples.append({'omitted':'UNSAFE_OR_OVERLONG_TOKEN'})
+  result['baselineVersionMismatchSample']={'limit':8,'rows':samples,
+   'truncated':len(mismatches)>8,'semantics':'diagnostic-only-exact-equality-still-required'}
   raise AssertionError('BASELINE_SET_MISMATCH')
 
 

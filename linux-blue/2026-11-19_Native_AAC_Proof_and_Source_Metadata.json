@@ -1,0 +1,153 @@
+{
+  "checkpoint": "092",
+  "cutoffUtc": "2026-11-19T11:00:09Z",
+  "baseLocal": "55256a431b5021b84485ab8f8f120b5aa66f665c",
+  "baseTree": "0cba76053c5629a19f59d27830d384be79fa69a7",
+  "baseGitHub": "13cacc98b1aa3d40c8381a485aef10983009f4a2",
+  "status": "isolated writer ready; 092 source reviewed; no 092 build, runtime, hosted or product Remux activation",
+  "exactSourceManifestSha256": "109c92abe17fdced486eb32622784599b2c5ed97cf5e7fac7c3095029107f6dc",
+  "sourceReviewDigests": [
+    "51c14a0c767d6021a0b1e928e1b7407a48b3462212fbe1f7ef787cfb85af6c50"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "4ab7dd8aa37f6829d6996025acb7f6bf5535d48a92be7feb673b865ffc6b2f88"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "d60c291becb06ace6daec23736d3219b3be0cf53503701bf0ae0005ca1bba3e8"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 39114,
+      "sha256": "168a1f65b2de69391397829131897d7685992b348fde29358e4a9877f62416ea"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 74348,
+      "sha256": "f2fd5ee16a3d3dedac3b6ddf00cce94e2e0dfb4ae95847e44f53a245ffc54d3d"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 18494,
+      "sha256": "8b6d850c9205431da402afe7a9851e35d58fa2767fa87494e066dc3f2ff02e6a"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 21931,
+      "sha256": "ec57f41d0713270a13a4523189b36728b96ff23af224896818ec4c4f92cc8798"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "b1f0f6681b40d1ff49e255b1d804d331169b7dce852b1aa2fcdeda089f027d79"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 120866,
+      "sha256": "d20a86dc3c3ea0624e2cacad99b4d0f3eb16792c68d98ca5ae62ad895f3dc9c6"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 157846,
+      "sha256": "2adcbe117e55cc8914e5615f6fedc5263e61d00194b581f24f94f3723876894a"
+    }
+  ],
+  "verification": {
+    "localSyntax": 227,
+    "localShared": 332,
+    "localLinux": 68,
+    "localAffectedOverlapping": 69,
+    "ubuntuInert": 41,
+    "independentRendererOverlapping": 84,
+    "aggregateIndependentlyRerun": true,
+    "failureOrSkip": 0,
+    "packagePins": 141,
+    "actualPackageInputs": 259,
+    "sourcePackageRows": 171,
+    "unchangedNonSourceRows": 88,
+    "packageInputBytes": 391595971,
+    "archiveInertFirst": 7,
+    "archiveInertSecond": 6
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted091-verified-outcome.json": {
+      "bytes": 4664,
+      "sha256": "c2c252e1383fd137d310e38fd435e83645c9b2f81ba0df6d822b638e3bf0f961"
+    },
+    "linux-blue/evidence-2026-11-19/native091-precision-aac-audit.json": {
+      "bytes": 5629,
+      "sha256": "0267606c1fe9dcbc95de230ec9d5d00513035b9d0b8bed99a688ba85393938c6"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu091-original-sanitized-report.json": {
+      "bytes": 613,
+      "sha256": "308c55028e60049d678ea32bbb44c4ec5cbda04883fa716f2727295b4fb57c76"
+    },
+    "linux-blue/evidence-2026-11-19/windows091-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "3b5a0af7ecde8af02595c12ec73e45ef2b956f04799aa6825ba40b7832eba311"
+    },
+    "linux-blue/calibration/remux-matroska-092/runner.cjs": {
+      "bytes": 12086,
+      "sha256": "243a40dfa748bace228930fb8b2735fbf82903d27b9239a82e1457a789f0fb10"
+    },
+    "linux-blue/calibration/remux-matroska-092/experiment-runtime.cjs": {
+      "bytes": 9837,
+      "sha256": "a9ec2f79594f2504c0def64dfdf77d49ee69ca6b7363abb6964d7e9b2fa68e4c"
+    },
+    "linux-blue/calibration/remux-matroska-092/collector-options.cjs": {
+      "bytes": 1217,
+      "sha256": "5d5c58a9249f1cbd8901530c791baf5b8af5bd301036d39ddc6024bbfd1d8e8f"
+    },
+    "linux-blue/calibration/remux-matroska-092/ownership.cjs": {
+      "bytes": 1420,
+      "sha256": "aa58dcc12fb573ca0fdea49a3612a71dd103d5b88530a96b9a96c1b0ff4ac98b"
+    },
+    "linux-blue/calibration/remux-matroska-092/proposal.test.cjs": {
+      "bytes": 2780,
+      "sha256": "fda95844abefd76eec3d7983248d2954abae1acf0f97c558f87c719388bf018d"
+    },
+    "linux-blue/calibration/remux-matroska-092/PLAN.md": {
+      "bytes": 5116,
+      "sha256": "4a798647615360f5ec0e995f1dae0c13c10bbdf1594f8017eec6a2cce213f96e"
+    },
+    "linux-blue/calibration/remux-matroska-092/BINDING.json": {
+      "bytes": 101,
+      "sha256": "810d1bb85f143571a5fab6eef49bda82fa16c9b4ee28278af394b1bb6940428c"
+    },
+    "linux-blue/calibration/remux-matroska-092/README.md": {
+      "bytes": 2588,
+      "sha256": "afbdf516d93a4cf3eb8326f9114f0d17343698ba57f1bbd854af63d4681b7034"
+    },
+    "linux-blue/evidence-2026-11-19/remux092-private-mp4-matroska-audit.json": {
+      "bytes": 14656,
+      "sha256": "8bc7103c3719ec05330c3b4382c6c0eff256439a9d2ba52ababc9ce22feb5817"
+    },
+    "linux-blue/calibration/remux-matroska-092/second-cell-PLAN.md": {
+      "bytes": 5323,
+      "sha256": "9f64c525bb7e97be8c84a0041983f2fe51646eaf30ce166f24b696e18ca85ed5"
+    },
+    "linux-blue/calibration/remux-matroska-092/second-cell-runner.cjs.txt": {
+      "bytes": 12105,
+      "sha256": "8586c1c3ffc4ef8a273cd9b000a95f34b9a38fa9866c36cb338c6edd0c9ff7cd"
+    },
+    "linux-blue/calibration/remux-matroska-092/second-cell-proposal.test.cjs.txt": {
+      "bytes": 2438,
+      "sha256": "1444d96bd7fb1267b575d45b403a7442bddf0564c52f416afc942b9736708fee"
+    },
+    "linux-blue/evidence-2026-11-19/remux092-private-mp4-matroska-second-audit.json": {
+      "bytes": 12395,
+      "sha256": "588571024153da3ef42da682b66f0cbfce98915912efe5bdaa5e676c5cd5e7d0"
+    }
+  },
+  "limits": [
+    "091 accepted native AAC with warning rather than clean output; exact fixture/paired runtime only",
+    "092 private Remux media-only accepted; no product activation, lifecycle or packaged GUI",
+    "No 092 build, native, hosted evidence or package distribution",
+    "Ubuntu cause unproven; exact comparison unchanged",
+    "No raw logs, live gates, private binding paths, fixture media or executable archives"
+  ]
+}

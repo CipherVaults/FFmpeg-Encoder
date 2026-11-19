@@ -1,0 +1,138 @@
+{
+  "checkpoint": "091",
+  "head": "13cacc98b1aa3d40c8381a485aef10983009f4a2",
+  "attempt": 1,
+  "scope": "actual ordinary push; no reruns",
+  "shared": {
+    "run": 44508768780,
+    "jobs": [
+      135507183429,
+      135507184049
+    ],
+    "status": "success",
+    "syntaxPerOS": 227,
+    "sharedPerOS": 330,
+    "linuxAdditional": 68,
+    "failures": 0,
+    "skipped": 0
+  },
+  "windows": {
+    "run": 44508768735,
+    "job": 135507183533,
+    "status": "success",
+    "artifact": 14521655459,
+    "expiresAt": "2026-11-22T10:49:11Z",
+    "zipSha256": "baa13e3cbaa554c803107483af5960699cb2251d499226a5f84000624f29b580",
+    "reportSha256": "3b5a0af7ecde8af02595c12ec73e45ef2b956f04799aa6825ba40b7832eba311",
+    "result": {
+      "schema": "windows-packaged-two-file-cpu-integration/v2",
+      "head": "13cacc98b1aa3d40c8381a485aef10983009f4a2",
+      "runId": "44508768735",
+      "attempt": 1,
+      "state": "INTEGRATION_PASSED",
+      "picker": "substituted-dialog-return",
+      "gpu": "not-qualified",
+      "nativeDesktop": "not-qualified",
+      "distribution": "report-only",
+      "failure": null,
+      "fixtureGenerationCalls": 1,
+      "fixtureCopyCalls": 1,
+      "startClicks": 1,
+      "requestedEncodes": 2,
+      "extraDecodeCalls": 0,
+      "probeReadbackCalls": 2,
+      "collisionSkips": 2,
+      "close": "normal",
+      "sourceUnchanged": true,
+      "packageUnchanged": true,
+      "collisionRefused": true,
+      "collisionSnapshotVerified": true,
+      "outputs": [
+        {
+          "sha256": "40291446ba1671499e4d394f4e442c2bbae45047911c8acb835bd0b1f55680be",
+          "sizeBytes": 73618
+        },
+        {
+          "sha256": "57c23e5be62619096f20c7f71ed3550d40b9f95b217ddef66badc23c483f058b",
+          "sizeBytes": 73618
+        }
+      ],
+      "fixtureCopies": "two-distinct-paths-identical-bytes",
+      "terminalTimer": {
+        "frozen": true,
+        "domMatchesSnapshot": true,
+        "reset": true,
+        "observedWaitMs": 2211,
+        "elapsedSeconds": 0.662
+      },
+      "processObservation": {
+        "kind": "sampled-not-exhaustive",
+        "samples": 9,
+        "observedDescendants": 12,
+        "observedStartupMedia": 2,
+        "observedLiveAfterClose": 0
+      },
+      "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+      "launchOwnership": "verified-shell-launcher-and-pinned-main",
+      "security": {
+        "packaged": true,
+        "sandbox": true,
+        "contextIsolation": true,
+        "nodeIntegration": false
+      },
+      "build": {
+        "asar": {
+          "sha256": "458349d655a92127173347d4e47b0de6cd722a7365a86ea960c2b77219987da3",
+          "sizeBytes": 2454222
+        },
+        "executable": {
+          "sha256": "78ad64b35c31ca9bdd0991ce24fbbddd88379670eecae732da7ee93c76582673",
+          "sizeBytes": 246302208
+        },
+        "zip": {
+          "sha256": "1d31d1721facfcc2fd616116aefa0892b473077c403e044202a207e8ff9e6176",
+          "sizeBytes": 326103951
+        }
+      }
+    }
+  },
+  "ubuntu": {
+    "run": 44508768838,
+    "job": 135507183740,
+    "status": "failure",
+    "artifact": 14520877082,
+    "expiresAt": "2026-11-22T10:46:41Z",
+    "zipSha256": "0406486a24047fa9ff5e111313bc6732b491ace889667b8a0a228f81431248d7",
+    "reportSha256": "308c55028e60049d678ea32bbb44c4ec5cbda04883fa716f2727295b4fb57c76",
+    "result": {
+      "schema": "ubuntu-lock-candidate/v1",
+      "ready": false,
+      "head": "13cacc98b1aa3d40c8381a485aef10983009f4a2",
+      "scope": "metadata-and-simulation-only",
+      "unresolved": [],
+      "diagnosticStage": "BASELINE_COMPARE",
+      "completedDiagnosticStages": [
+        "BASELINE_COPY",
+        "CONFIGURE_ISOLATION",
+        "BASELINE_PARSE",
+        "BASELINE_VALIDATE",
+        "BASELINE_QUERY"
+      ],
+      "baselineDifferences": {
+        "missingFromQuery": 0,
+        "extraInQuery": 0,
+        "versionMismatch": 3,
+        "architectureMismatch": 0
+      },
+      "status": "blocked",
+      "failureType": "AssertionError",
+      "failureReason": "BASELINE_SET_MISMATCH"
+    }
+  },
+  "artifactVerification": "Both ZIP digests independently downloaded and matched API and job logs; Windows report digest also matches job log.",
+  "limitations": [
+    "Windows default H264 two-file CPU route, substituted picker, sampled process closure; not native desktop, GPU, Linux AAC or owner-PC qualification.",
+    "Ubuntu stops at baseline equality; three version mismatches remain unexplained, no normalization or retry authorized by result.",
+    "Sanitized reports retained, executable build not uploaded/distributed. Mapping checkpoint cutoff may precede these outcomes."
+  ]
+}

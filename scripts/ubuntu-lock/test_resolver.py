@@ -135,13 +135,14 @@ class BaselineCompare(unittest.TestCase):
   result={}
   m.compare_baseline(b'data\t4\tall\tinstall ok installed\nother\t\t\tunknown ok not-installed\nalpha\t2:1.0-2ubuntu3\tamd64\tinstall ok installed\n',installed,result)
   self.assertEqual(result,{})
- def test_diffs_aggregate_without_payload(self):
+ def test_diffs_aggregate_and_bounded_inventory_sample(self):
   installed={n:{'Version':'1','Architecture':'amd64','Status':'install ok installed'}for n in ('secret-missing','secret-version','secret-arch','secret-hold')}
   q=b'secret-version\t2:secret-version\tamd64\tinstall ok installed\nsecret-extra\t1\tamd64\tinstall ok installed\nsecret-arch\t1\tall\tinstall ok installed\nsecret-hold\t1\tamd64\thold ok installed\n'
   result={}
   with self.assertRaisesRegex(AssertionError,'^BASELINE_SET_MISMATCH$'):m.compare_baseline(q,installed,result)
   self.assertEqual(result['baselineDifferences'],{'missingFromQuery':2,'extraInQuery':1,'versionMismatch':1,'architectureMismatch':1})
-  self.assertNotIn('secret',m.json.dumps(result))
+  self.assertEqual(result['baselineVersionMismatchSample']['rows'],[{'package':'secret-version','rawStatusVersion':'1','queryVersion':'2:secret-version','explicitZeroEpochOnly':False}])
+  self.assertNotIn('secret-missing',m.json.dumps(result))
  def test_parse_failures_not_counts(self):
   row=b'alpha\t1\tamd64\tinstall ok installed\n'
   for q,reason in [
@@ -256,6 +257,26 @@ class LiveBaseline(unittest.TestCase):
      self.assertEqual(j['diagnosticStage'],'FINAL_BASELINE_CHECK')
      self.assertEqual(j['failureReason'],'BASELINE_SET_MISMATCH')
      self.assertEqual(j['baselineDifferences'],{'missingFromQuery':0,'extraInQuery':0,'versionMismatch':1,'architectureMismatch':0})
+
+class VersionMismatchDiagnostics(unittest.TestCase):
+ def observe(self,raw,live,name='pkg'):
+  result={};installed={name:{'Version':raw,'Architecture':'amd64','Status':'install ok installed'}}
+  with self.assertRaisesRegex(AssertionError,'^BASELINE_SET_MISMATCH$'):
+   m.compare_baseline((name+'\t'+live+'\tamd64\tinstall ok installed\n').encode(),installed,result)
+  return result['baselineVersionMismatchSample']
+ def test_zero_epoch_hypothesis_does_not_admit(self):
+  row=self.observe('0:1.2-3ubuntu1','1.2-3ubuntu1')['rows'][0]
+  self.assertEqual(row,{'package':'pkg','rawStatusVersion':'0:1.2-3ubuntu1','queryVersion':'1.2-3ubuntu1','explicitZeroEpochOnly':True})
+ def test_real_version_change_is_not_epoch(self):
+  self.assertFalse(self.observe('1.2-3','1.2-4')['rows'][0]['explicitZeroEpochOnly'])
+ def test_unsafe_and_long_tokens_never_exposed(self):
+  for raw in ['1/secret','1'+('a'*128),'1\x1bsecret']:
+   sample=self.observe(raw,'2');self.assertEqual(sample['rows'],[{'omitted':'UNSAFE_OR_OVERLONG_TOKEN'}]);self.assertNotIn(raw,str(sample))
+ def test_deterministic_sample_cap(self):
+  installed={f'pkg{i:02}':{'Version':'1','Architecture':'amd64','Status':'install ok installed'} for i in range(12)}
+  query=''.join(f'{n}\t2\tamd64\tinstall ok installed\n' for n in reversed(installed)).encode();result={}
+  with self.assertRaisesRegex(AssertionError,'BASELINE_SET_MISMATCH'):m.compare_baseline(query,installed,result)
+  sample=result['baselineVersionMismatchSample'];self.assertEqual(len(sample['rows']),8);self.assertTrue(sample['truncated']);self.assertEqual(sample['rows'][0]['package'],'pkg00');self.assertEqual(result['baselineDifferences']['versionMismatch'],12)
 
 if __name__=='__main__':unittest.main()
 

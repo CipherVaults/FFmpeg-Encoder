@@ -1,0 +1,78 @@
+{
+  "checkpoint": "105",
+  "cutoffUtc": "2026-11-19T17:14:16+00:00",
+  "baseLocal": "6805a78f3065a794cb4afea52dde6598c6daaff0",
+  "baseTree": "a8de11b85e8695cef6ee09e17653fe97cba9d7ce",
+  "baseGitHub": "32b2d1131aabb9e48a85a91f8485733e5ca526cb",
+  "sourceHandoffSha256": "50e54d7b37536c5d2cf47f83b98d752c74fd41289bdc8128fd7b3e145b248d77",
+  "sourceFiles": [
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 40868,
+      "sha256": "7e9e97b80378649cca3043ef08c1ada76dd5eaa64c626edcfee36697e7ec900a"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 24016,
+      "sha256": "db0011f7030637020551b02f930e8d1d457f58aa3279647bc9897d12fb65c24d"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 77931,
+      "sha256": "a293b81a199a8dbfe7a2ef8ac5d308534cad0c739b25168f2ab2499676fe1fe6"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 52135,
+      "sha256": "57745d2cc85d438ca8333ee34cebd85cf207ea58151caa2ad77851dc8d431711"
+    }
+  ],
+  "tests": {
+    "affected": 200,
+    "syntax": 227,
+    "shared": 338,
+    "linuxSelected": 142,
+    "zeroFailuresSkips": true,
+    "overlapNotSummed": true
+  },
+  "native": "exact prior102 packaged VFR; no 105 build/native",
+  "qualification": "H264 source-only; v0.7 release and owner Windows still open",
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/checkpoint104-verified-remote.json": {
+      "bytes": 702,
+      "sha256": "80814100aad8ac7e2d8d3d929de7d643a30198b146bbdc154b05342afec8eb48"
+    },
+    "linux-blue/evidence-2026-11-19/hosted104-verified-outcome.json": {
+      "bytes": 1052,
+      "sha256": "24ffb50720f26b87c6b34590bd50986f53de2409ec034fbb7e0db4ad4bca9d24"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint104-final-notion-verification.json": {
+      "bytes": 3396,
+      "sha256": "e0615c8878c192497f0d681745b753ea4ae87ec31335aeb5ad9f2e6c2315ed69"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint104-final-mirror-release.json": {
+      "bytes": 265,
+      "sha256": "46cc2228e55f0bfbf8644d16a5dba3c854b743cbb735f7e42b072329ed667b6c"
+    },
+    "linux-blue/evidence-2026-11-19/h264-settings105-functional-handoff.json": {
+      "bytes": 2052,
+      "sha256": "b78bafabec10d40d1d497a0a6885913c8c13f1318add685ae9fb0e5dcfc250c2"
+    },
+    "linux-blue/evidence-2026-11-19/h264-settings105-functional-review.json": {
+      "bytes": 2278,
+      "sha256": "b6870ff00be7531f65e685f1940b6e755196bfee88d30a037daaa8a3f0544bc3"
+    },
+    "linux-blue/evidence-2026-11-19/h264-settings105-integrated-source-handoff.json": {
+      "bytes": 2084,
+      "sha256": "50e54d7b37536c5d2cf47f83b98d752c74fd41289bdc8128fd7b3e145b248d77"
+    },
+    "linux-blue/evidence-2026-11-19/h264-settings105-derived-review.json": {
+      "bytes": 911,
+      "sha256": "5d3af9b9e848c0e299d3ab6f492fa8bc1c81f2e331c766d61f00df73100d3b37"
+    },
+    "linux-blue/evidence-2026-11-19/native102-after104-vfr-mov-saved-audit.json": {
+      "bytes": 28136,
+      "sha256": "332248d794afb33c3390bfffbcffb3a1ebaea839129e49b7049c3151dfd9ea48"
+    }
+  }
+}

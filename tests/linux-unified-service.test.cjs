@@ -273,3 +273,48 @@ for(const rates of [['60/1','60/1'],['40/1','60/1']])test('actual unified MOV v2
  try{await service.startBatch({planId:ready.planId,fileIds:[ready.items[0].id]});await service.taskPromise;assert(routed);assert.equal(service.generation.runCalls,0);}finally{EncoderService.prototype.execute=originalExecute;}
  await service.cancelCurrent();assert.equal(service.plan,null);await assert.rejects(service.startBatch({planId:ready.planId,fileIds:[ready.items[0].id]}));assert.equal(service.generation,null);
 });
+
+test('ordinary H264 uses shared native preset/CRF bounds without expanding recipes or other profiles',()=>{
+ const {fixedSettings}=harness(),a={profileId:'h264-cpu',preset:'slower',quality:24};
+ for(const v of [a,{...a,preset:'ultrafast',quality:0},{...a,preset:'veryslow',quality:51}])assert.equal(fixedSettings(v),'ordinary');
+ for(const v of [{...a,quality:-1},{...a,quality:52},{...a,quality:24.5},{...a,quality:'24'},{...a,preset:'p7'},{...a,recipeId:'archive'},{...a,anything:true}])assert.throws(()=>fixedSettings(v));
+ assert.equal(fixedSettings({profileId:'h265-cpu',preset:'fast',quality:27}),'h265');
+ assert.equal(fixedSettings({profileId:'av1-cpu',preset:'6',quality:32}),'av1-ordinary');
+ assert.throws(()=>fixedSettings({profileId:'av1-cpu',preset:'7',quality:32}));
+});
+test('ordinary H264 tested default, persistence, two-file reprepare and Start remain main-owned',async t=>{
+ const {h,service,root}=await setup(t);const input=path.join(root,'input'),output=path.join(root,'output');
+ await fsp.mkdir(input);await fsp.mkdir(output);for(const name of ['first.mkv','second.mkv'])await fsp.writeFile(path.join(input,name),'inert fixture');
+ const probe=sourceProbe();
+ service.inspect=async()=>({probe:structuredClone(probe),color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0},duration:2,summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8,10]})),versions:{}});
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const initial={profileId:'h264-cpu',preset:'slower',quality:24}, changed={profileId:'h264-cpu',preset:'fast',quality:19};
+ const prefs=await service.getPreferences();assert.deepEqual(prefs.settingsByProfile['h264-cpu'],{preset:'slower',quality:24});
+ const caps=await service.getCapabilities(), h264=caps.profiles.find(p=>p.id===initial.profileId),av1=caps.profiles.find(p=>p.id==='av1-cpu'),h265=caps.profiles.find(p=>p.id==='h265-cpu');
+ assert.equal(h264.candidateFixedSettings,false);assert.deepEqual(h264.supportedBitDepths,[8]);assert.equal(h264.defaultPreset,'slower');assert(h264.presets.includes('fast'));assert.equal(h264.quality.min,0);assert.equal(h264.quality.max,51);
+ assert.deepEqual(av1.presets,['6']);assert.equal(av1.quality.default,32);assert.equal(h265.defaultPreset,'slow');assert.equal(h265.candidateFixedSettings,false);assert.deepEqual(caps.recipes,[]);
+ assert.deepEqual(service.getRecipe(changed).testedDefault.settings,initial);
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+ const first=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:initial});assert.equal(first.items.length,2);for(const item of first.items)assert.equal(item.status,'ready',item.reason);
+ const req=(snap)=>({planId:snap.planId,fileIds:snap.items.map(i=>i.id)});
+ const stored=await service.saveSettings(changed);assert.deepEqual(stored.settingsByProfile['h264-cpu'],{preset:'fast',quality:19});
+ const stale=service.snapshot();assert.equal(stale.encodingSettingsStale,true);await assert.rejects(service.startBatch(req(first)));await assert.rejects(service.startBatch(req(stale)));
+ const edit={planId:stale.planId,draftId:stale.operationDraft.id,revision:stale.operationDraft.revision,settings:changed};
+ await assert.rejects(service.reprepareEncodingSettings({...edit,settings:{profileId:'h265-cpu',preset:'fast',quality:19}}),/fresh explicit Prepare/);
+ const ready=await service.reprepareEncodingSettings(edit);assert.notEqual(ready.planId,stale.planId);assert.deepEqual(ready.settings,changed);for(const item of ready.items)assert.equal(item.status,'ready',item.reason);
+ const plan=service.plan;
+ for(const entry of plan.entries.values()){const a=entry.preparedArgs;assert.equal(a[a.indexOf('-preset:v:0')+1],'fast');assert.equal(a[a.indexOf('-crf:v:0')+1],'19');}
+ plan.settings={...changed,quality:20};await assert.rejects(service.startBatch(req(ready)),/settings changed after preparation/);plan.settings={...changed};
+ const e=plan.entries.get(ready.items[0].id),argv=e.preparedArgs;e.preparedArgs=Object.freeze([...argv]);await assert.rejects(service.startBatch(req(ready)),/binding is stale/);e.preparedArgs=argv;
+ assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
+ let selection;const gen=service.generation;
+ service.execute=async ids=>{selection=[...ids];gen.settle();};
+ const started=await service.startBatch(req(ready));await service.taskPromise;
+ assert.equal(started.phase,'running');assert.deepEqual(selection,req(ready).fileIds);assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
+ const reopened=await h.createUnifiedService({runtimeRoot:path.join(root,'runtime'),stateDir:path.join(root,'state')});
+ try{
+  const restored=await reopened.getPreferences();assert.deepEqual(restored.settingsByProfile['h264-cpu'],{preset:'fast',quality:19});
+  const reset=await reopened.resetProfile({profileId:'h264-cpu'});assert.deepEqual(reset.settingsByProfile['h264-cpu'],{preset:'slower',quality:24});
+ }finally{await reopened.closeOperationResources();await reopened.closeDiagnostics();}
+});

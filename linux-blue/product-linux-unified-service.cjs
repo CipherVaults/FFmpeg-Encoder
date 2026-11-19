@@ -11,20 +11,35 @@ const {createProductSelector}=require('./product-linux-service.cjs');
 const {loadQualification}=require('./product-linux-qualification.cjs');
 const {loadRemuxQualification}=require('./product-linux-remux-qualification.cjs');
 const {admit:admitRemux,remuxPolicies,remuxSupport}=require('./product-linux-remux-service.cjs');
-const {requireOrdinaryEntry}=require('./ordinary-cpu-service.cjs');
-const {SETTINGS:ORDINARY,admit,admitBatch}=require('./ordinary-cpu-policy.cjs');
+const {PROFILES,validateSettings}=require('../src/media.cjs');
+const {POLICY,admitInput}=require('./ordinary-cpu-policy.cjs');
 const AV1=require('./av1-cpu-policy.cjs');
 const ordinaryRoute=route=>route==='ordinary'||route==='av1-ordinary';
-const routePolicy=route=>route==='av1-ordinary'?AV1:{SETTINGS:ORDINARY,admit,admitBatch,requireEntry:requireOrdinaryEntry};
+const h264Profile=PROFILES.find(p=>p.id==='h264-cpu');
+const H264_DEFAULT=Object.freeze({profileId:h264Profile.id,preset:h264Profile.defaultPreset,quality:h264Profile.quality.default});
+function h264Settings(value){
+ const settings=validateSettings(value);
+ assert(settings.profileId===H264_DEFAULT.profileId&&!Object.hasOwn(settings,'recipeId'),'Unified H264 requires native preset and CRF, not a named recipe');
+ return settings;
+}
+function h264Admit(facts){h264Settings(facts.settings);return admitInput(facts);}
+function h264AdmitBatch(entries){
+ assert(entries.length>=1&&entries.length<=POLICY.maxBatchInputs);
+ const admitted=entries.map(h264Admit);
+ const bytes=admitted.reduce((n,r)=>n+r.bytes,0),duration=admitted.reduce((n,r)=>n+r.duration,0);
+ assert(Number.isSafeInteger(bytes)&&bytes<=POLICY.maxBatchBytes&&Number.isFinite(duration)&&duration<=POLICY.maxBatchDurationSeconds);
+}
+const routePolicy=route=>route==='av1-ordinary'?AV1:{admit:h264Admit,admitBatch:h264AdmitBatch};
 const {openOrdinaryStageGuard}=require('./ordinary-cpu-stage-guard.cjs');
 const {openUnifiedGeneration}=require('./product-linux-unified-runtime.cjs');
 const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
-function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}H265.settings(value);return 'h265';}
+function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===H264_DEFAULT.profileId){h264Settings(value);return 'ordinary';}H265.settings(value);return 'h265';}
 const remuxEnvelopes=new WeakMap();
 class NarrowRemux extends RemuxOperations{constructor(options,movSourceEnvelope){super(options);remuxEnvelopes.set(this,movSourceEnvelope);}prepare(options){admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:remuxEnvelopes.get(this)});return super.prepare(options);}}
 class UnifiedService extends EncoderService{
+  #h264Prepared=new WeakMap();
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
     if(plan?.contract?.range?.kind==='range'&&plan?.contract?.audio?.policy==='precision-aac'
@@ -89,7 +104,12 @@ class UnifiedService extends EncoderService{
   }
   async getCapabilities(){
     if(!this.capabilityResult){assert(this.generation);try{await super.getCapabilities();}finally{this.generation.settle();}}
-    const caps=this.capabilityResult;return {...caps,profiles:caps.profiles.filter(p=>[ORDINARY.profileId,MEASURED.profileId,AV1.SETTINGS.profileId].includes(p.id)).map(p=>{const s=p.id===AV1.SETTINGS.profileId?AV1.SETTINGS:p.id===ORDINARY.profileId?ORDINARY:MEASURED;if(p.id===MEASURED.profileId)return {...p,candidateFixedSettings:false,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8)};return {...p,candidateFixedSettings:true,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8),presets:[s.preset],defaultPreset:s.preset,quality:{...p.quality,min:s.quality,max:s.quality,default:s.quality}};}),recipes:[],vendorProfiles:[]};
+    const caps=this.capabilityResult;
+    return {...caps,profiles:caps.profiles.filter(p=>[H264_DEFAULT.profileId,MEASURED.profileId,AV1.SETTINGS.profileId].includes(p.id)).map(p=>{
+      const limited={...p,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(x=>x===8)};
+      if(p.id!==AV1.SETTINGS.profileId)return {...limited,candidateFixedSettings:false};
+      const av1=AV1.SETTINGS;return {...limited,candidateFixedSettings:true,presets:[av1.preset],defaultPreset:av1.preset,quality:{...p.quality,min:av1.quality,max:av1.quality,default:av1.quality}};
+    }),recipes:[],vendorProfiles:[]};
   }
   async prepareSourceBatch(request,operation,native=null){
     assert(native===null&&['encode','remux'].includes(operation));const route=operation==='remux'?'remux':fixedSettings(request.settings);if(route==='remux')assert(remuxSupport(this.configuration.remux).targets.includes(request.target),'Target lacks reviewed current remux evidence');
@@ -99,14 +119,57 @@ class UnifiedService extends EncoderService{
   async reprepareEncodingSettings(request){assert.equal(fixedSettings(request.settings),this.route,'Use a fresh explicit Prepare to change CPU route');return super.reprepareEncodingSettings(request);}
   async reprepareDraft(options){assert(this.plan);assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');if(this.route!=='remux')assert.equal(fixedSettings(this.plan.settings),this.route);return super.reprepareDraft(options);}
   async prepareWithWorkers(context){assert(this.state.items.length>=1&&this.state.items.length<=(ordinaryRoute(this.route)?2:1));return super.prepareWithWorkers(context);}
-  async prepareItem(item,context){await super.prepareItem(item,context);if(this.plan?.entries.has(item.id)){try{if(ordinaryRoute(this.route))routePolicy(this.route).requireEntry(this,item);else if(this.route==='h265'){const e=this.plan.entries.get(item.id);if(e.operationPlan?.compatibilityPath)H265.requireEntry(this,item);else this.requireMeasuredEntry(e);}}catch(error){this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';item.reason=this.route==='h265'?'Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.':'Outside the fixed ordinary CPU route.';}}}
+  h264Entry(item){
+    const e=this.plan?.entries.get(item.id);
+    assert(e&&e.operationPlan?.compatibilityPath===true&&!e.qualificationSelection&&!e.operationRuntimeToken&&!['vendor','remux','hdr','encodePreservation','native'].some(k=>e[k])&&this.plan.operation==='encode');
+    return e;
+  }
+  async prepareItem(item,context){
+    const h264=this.route==='ordinary';
+    const owner=h264?{plan:this.plan,planId:this.plan.id,generation:this.generation,settings:Object.freeze(h264Settings(context.settings))}:null;
+    await super.prepareItem(item,context);
+    if(this.plan?.entries.has(item.id)){
+      try{
+        if(h264){
+          const e=this.h264Entry(item);
+          assert(this.plan===owner.plan&&this.plan.id===owner.planId&&this.generation===owner.generation,'H264 preparation owner changed');
+          assert.deepEqual(h264Settings(this.plan.settings),owner.settings,'H264 settings changed during preparation');
+          h264Admit({probe:e.inspection.probe,settings:owner.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)});
+          this.#h264Prepared.set(e,Object.freeze({...owner,operationPlan:e.operationPlan,preparedArgs:e.preparedArgs,request:item.operationRequest}));
+        }else if(this.route==='av1-ordinary')AV1.requireEntry(this,item);
+        else if(this.route==='h265'){
+          const e=this.plan.entries.get(item.id);
+          if(e.operationPlan?.compatibilityPath)H265.requireEntry(this,item);else this.requireMeasuredEntry(e);
+        }
+      }catch(error){
+        this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';
+        item.reason=this.route==='h265'?'Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.':h264?'Outside the supported ordinary H264 Full / Keep source route.':'Outside the fixed ordinary CPU route.';
+      }
+    }
+  }
   requireMeasuredEntry(e){assert.deepEqual(this.plan.settings,MEASURED);assert(!this.plan.sameFolder);assert(e?.qualificationSelection&&e.operationRuntimeToken&&e.operationPlan?.instrumentation&&!e.operationPlan.compatibilityPath&&!['native','vendor','hdr','remux','encodePreservation'].some(k=>e[k]));}
   async startBatch(request){
     if(['h265','remux'].includes(this.route))assert(request&&Object.keys(request).length===2&&Object.hasOwn(request,'planId')&&Object.hasOwn(request,'fileIds'),'Exact Start request required');
     super.requireIdle();assert(this.generation&&this.plan);
     assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');
     assert(Array.isArray(request.fileIds)&&request.fileIds.length>=1&&request.fileIds.length<=(ordinaryRoute(this.route)?2:1));
-    if(ordinaryRoute(this.route)){const policy=routePolicy(this.route);assert.deepEqual(this.plan.settings,policy.SETTINGS);policy.admitBatch(request.fileIds.map(id=>{const item=this.state.items.find(x=>x.id===id);assert(item);policy.requireEntry(this,item);const e=this.plan.entries.get(id);return {probe:e.inspection.probe,settings:this.plan.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)};}));}
+    if(ordinaryRoute(this.route)){
+      const h264=this.route==='ordinary',policy=routePolicy(this.route);
+      if(h264){
+        assert(this.state.phase==='ready'&&this.plan.id===request.planId&&!this.plan.encodingSettingsStale,'Prepare the current H264 settings before Start');
+        h264Settings(this.plan.settings);
+      }else assert.deepEqual(this.plan.settings,AV1.SETTINGS);
+      policy.admitBatch(request.fileIds.map(id=>{
+        const item=this.state.items.find(x=>x.id===id);assert(item);
+        const e=h264?this.h264Entry(item):this.plan.entries.get(id);
+        if(h264){
+          const b=this.#h264Prepared.get(e);
+          assert(b&&b.plan===this.plan&&b.planId===this.plan.id&&b.generation===this.generation&&b.operationPlan===e.operationPlan&&b.preparedArgs===e.preparedArgs&&b.request===item.operationRequest,'H264 preparation binding is stale');
+          assert.deepEqual(h264Settings(this.plan.settings),b.settings,'H264 settings changed after preparation');
+        }else AV1.requireEntry(this,item);
+        return {probe:e.inspection.probe,settings:this.plan.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)};
+      }));
+    }
     else if(this.route==='h265'){
       assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);assert.equal(request.fileIds.length,1);
       const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);assert(item&&['ready','conflict'].includes(item.status)&&entry);
@@ -150,10 +213,10 @@ class UnifiedService extends EncoderService{
       throw new AggregateError(failures,this.state.error,{cause:error});
     }
   }
-  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: fixed H264/AV1 and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), five measured H265 slow25 families, including short CFR30 H264/AAC stereo48k precision ranges, and qualified MP4, MOV and Matroska Full stream-copy routes. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
+  snapshot(){return {...super.snapshot(),developerProduct:{enabled:true,composition:'unified-linux-operations-v1',relaunchRequired:false,notice:'Internal unified Linux candidate: configurable ordinary H264 Full/source, fixed AV1, and configurable H265 ordinary Full/source (one H265 file; Matroska source clocks must be 1/1000), five measured H265 slow25 families, including short CFR30 H264/AAC stereo48k precision ranges, and qualified MP4, MOV and Matroska Full stream-copy routes. Unsupported requests do not fall back. Fresh explicit Prepare is required after settled Cancel. Native evidence is artifact/route-specific; this exact-host internal candidate is not a portable release.'}};}
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
-  getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:value.profileId==='h265-cpu'?recipe.testedDefault:{...recipe},mediaNote:(value.profileId==='h265-cpu'?'Existing H265 settings/defaults; transformed measured operations still require slow/25. ':'Fixed internal candidate settings; ')+ 'Not a new production default. '+recipe.mediaNote};}
-  async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1.SETTINGS.profileId?AV1.SETTINGS:request.profileId===ORDINARY.profileId?ORDINARY:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}
+  getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,testedDefault:value.profileId===AV1.SETTINGS.profileId?{...recipe}:recipe.testedDefault,mediaNote:(value.profileId===MEASURED.profileId?'Existing H265 settings/defaults; transformed measured operations still require slow/25. ':value.profileId===H264_DEFAULT.profileId?'Existing H264 settings/defaults within the supported ordinary Full / Keep source route. ':'Fixed internal candidate settings; ')+ 'Not a new production default. '+recipe.mediaNote};}
+  async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1.SETTINGS.profileId?AV1.SETTINGS:request.profileId===H264_DEFAULT.profileId?H264_DEFAULT:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}
   cancelCurrent(){
     if(this.cancellation)return this.cancellation;
     this.epoch++;const pending=this.mutationOwner?.done;this.controller?.abort();

@@ -1,0 +1,58 @@
+{
+  "status": "ISOLATED_INTEGRATED_SOURCE_PENDING_INDEPENDENT_DERIVED_REVIEW",
+  "base": "6805a78f3065a794cb4afea52dde6598c6daaff0",
+  "tree": "a8de11b85e8695cef6ee09e17653fe97cba9d7ce",
+  "files": [
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 40868,
+      "sha256": "7e9e97b80378649cca3043ef08c1ada76dd5eaa64c626edcfee36697e7ec900a"
+    },
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 24016,
+      "sha256": "db0011f7030637020551b02f930e8d1d457f58aa3279647bc9897d12fb65c24d"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 77931,
+      "sha256": "a293b81a199a8dbfe7a2ef8ac5d308534cad0c739b25168f2ab2499676fe1fe6"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 52135,
+      "sha256": "57745d2cc85d438ca8333ee34cebd85cf207ea58151caa2ad77851dc8d431711"
+    }
+  ],
+  "functionalHandoffSha256": "b78bafabec10d40d1d497a0a6885913c8c13f1318add685ae9fb0e5dcfc250c2",
+  "functionalReviewSha256": "b6870ff00be7531f65e685f1940b6e755196bfee88d30a037daaa8a3f0544bc3",
+  "closure": {
+    "sourcePins": 151,
+    "packageInputs": 269,
+    "appMembers": 168,
+    "sourceRows": 181,
+    "nonSourceUnchanged": 88,
+    "totalBytes": 391745916,
+    "changedPinRows": 1,
+    "changedPackageRows": 2,
+    "historicalLoaderSuffixUnchanged": true
+  },
+  "tests": {
+    "affected": 200,
+    "syntax": 227,
+    "shared": 338,
+    "linuxSelected": 142,
+    "zeroFailuresSkips": true,
+    "overlapNotSummed": true
+  },
+  "receipts": {
+    "INPUT_CLOSURE.json": "7cf406dca7388849b29b17dfc6f393811ec2bfe55e099bf294c716281b75f1d9",
+    "AFFECTED.log": "60355d80d942271f5e72f30a2fce6870f05ef720ecd8bbbfe61f572b10af98ee",
+    "AGGREGATE.log": "ffc5997d3a2da76768775abaa9ce6a5d092dff2801bd6fc3016b463c8eff0fb6",
+    "SOURCE.diff": "42e519dc729b3b8381863e8b8c6156246a9ab556d89734299606c605268f1252"
+  },
+  "limits": [
+    "Source/pin/package-plan only, no package build or runtime.",
+    "No manifest membership or workflow changes; no media, commit or publication."
+  ]
+}

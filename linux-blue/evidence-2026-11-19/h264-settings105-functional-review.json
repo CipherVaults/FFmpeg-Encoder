@@ -1,0 +1,34 @@
+{
+  "verdict": "approved-functional-source-only",
+  "handoffSha256": "b78bafabec10d40d1d497a0a6885913c8c13f1318add685ae9fb0e5dcfc250c2",
+  "files": [
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 24016,
+      "sha256": "db0011f7030637020551b02f930e8d1d457f58aa3279647bc9897d12fb65c24d"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 52135,
+      "sha256": "57745d2cc85d438ca8333ee34cebd85cf207ea58151caa2ad77851dc8d431711"
+    }
+  ],
+  "tests": {
+    "independentFocused": 154,
+    "reviewerFreezeControlsIncludingOverlappingOriginalSuite": 27,
+    "countsAreOverlapping": true
+  },
+  "findings": [],
+  "reasoning": [
+    "Shared validateSettings bounds native H264 presets and integer CRF0-51; recipes and unknown fields refused. Exact default slower24 and persisted custom values are retained; global H265 and fixed AV1 unchanged.",
+    "Private WeakMap binds entry, plan/id, generation, settings copy, prepared argv, operation plan and request references. Entry container is mutable, but each relevant replacement is rejected. Actual prepared argv is frozen and operation plan/request are recursively frozen by unchanged shared builders. Reviewer exercised in-place assignment refusal on actual prepared structures, not only reference replacement.",
+    "Actual shared execution still verifies source identity before and after provenance check and obtains a current metadata probe. Ordinary generation currentness and source/storage guard remain; selected preset/CRF admission now uses same shared H264 validation rather than historical fixed veryfast23. Stage guard is settings-independent.",
+    "Historical standalone policy unchanged. No shared validator/runtime grammar/default or publication changes."
+  ],
+  "limits": [
+    "Focused execution is inert/stubbed, not native encoder speed/quality acceptance for all presets. Exact product loader/package pins remain intentionally stale until derived integration.",
+    "No media, package, desktop, workflow, commit or canonical modifications."
+  ],
+  "reviewerControlScriptSha256": "87ba25ba6a9343c9acb43db9a34ff3da5011591b06a96ad41a5f4c41f54f2466",
+  "reviewerControlLogSha256": "11fe535b11a5be1f3b4183ccc7ca545e55b54ef7d6a972bb2229bdafd2c77d1c"
+}

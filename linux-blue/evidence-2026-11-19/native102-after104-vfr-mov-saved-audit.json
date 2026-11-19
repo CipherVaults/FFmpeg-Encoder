@@ -1,0 +1,873 @@
+{
+  "accepted": true,
+  "scope": "One exact packaged102 VFR8s MP4-to-MOV Full GUI journey after documentary104 custody; saved-only independent audit",
+  "sourceCommit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "sourceFilesVerified": 1152,
+  "packageFilesVerified": 272,
+  "packageFileAuditSha256": "dc35898cbae62a68dca3917422d0e0cdd9fe6ecccc89d3c2df67f74577637c2d",
+  "postModes": "Six approved ordinary0755/rest0600; exact byte/device/inode identity retained",
+  "fixture": {
+    "bytes": 3615957,
+    "sha256": "3c10746e684124de77a0e5930aff42ad7e4547ffb779b7c166fdd4067186e551",
+    "originalRetainedMatches": true,
+    "copyHasDistinctInode": true
+  },
+  "output": {
+    "bytes": 3616441,
+    "sha256": "6e40e48651a91200e3e92d018473373fb77f3168fccaadeb4526dc6c2efa2a09"
+  },
+  "closureSha256": "953e108f25b3c0ac7c69d0a90005de28aaafa720eac732ebb61ff71ac4ed9c2c",
+  "closure": {
+    "scope": "native102-vmp4-mov-after104-custody",
+    "status": "closed-awaiting-evidence-audit",
+    "sampledOnly": true,
+    "terminationRequested": false,
+    "errors": [],
+    "leaderPid": 16121,
+    "leaderIdentity": [
+      16121,
+      6096355
+    ],
+    "leaderExitObservedUnreaped": true,
+    "remainingGroupRows": [
+      {
+        "pid": 16121,
+        "startTicks": 6096355,
+        "state": "Z"
+      }
+    ],
+    "closureObserved": true,
+    "exitCode": 0,
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 8572335,
+    "sampledIdentities": [
+      {
+        "pid": 16121,
+        "startTicks": 6096355,
+        "state": "S"
+      },
+      {
+        "pid": 16124,
+        "startTicks": 6096360,
+        "state": "S"
+      },
+      {
+        "pid": 16125,
+        "startTicks": 6096361,
+        "state": "S"
+      },
+      {
+        "pid": 16127,
+        "startTicks": 6096366,
+        "state": "S"
+      },
+      {
+        "pid": 16151,
+        "startTicks": 6096388,
+        "state": "S"
+      },
+      {
+        "pid": 16153,
+        "startTicks": 6096389,
+        "state": "S"
+      },
+      {
+        "pid": 16199,
+        "startTicks": 6096431,
+        "state": "S"
+      },
+      {
+        "pid": 16824,
+        "startTicks": 6108217,
+        "state": "S"
+      },
+      {
+        "pid": 16829,
+        "startTicks": 6108219,
+        "state": "R"
+      }
+    ],
+    "elapsedSeconds": 160.50693462899653
+  },
+  "rootReceipts": {
+    "ROOT_PREFLIGHT.json": "7e5d84feb5f4cd46b364f571a2b47d855ca838b307d42e83ac636fea45a364b6",
+    "LEAD_RELEASE.json": "4fc0f39650427fd8af33ac0522b734e009d53e3cdb984c00007a49655e5439cf",
+    "ATTEMPT_STARTED.json": "ecb07b57c67bf6c5a37ab5d0e3f3a732eadd0e745dfc66e7c98f62774c80b63a"
+  },
+  "custodySha256": "1a31cf4c467fc21df82956e1fbd5eba6c2d513bfaac139055924dbe262528dea",
+  "journal": {
+    "events": 22,
+    "allDigestsVerified": true,
+    "contiguous": true,
+    "reasons": {
+      "SESSION_STARTED": 1,
+      "CAPABILITY_STARTED": 1,
+      "RUNTIME_IDENTIFIED": 1,
+      "CAPABILITY_FINISHED": 1,
+      "PROVENANCE_RECOVERY_FINISHED": 1,
+      "FOLDER_PICKER_REQUESTED": 2,
+      "FOLDER_PICKER_REGISTERED": 2,
+      "PREPARATION_STARTED": 1,
+      "FILE_INSPECTED": 1,
+      "PREPARATION_FINISHED": 1,
+      "REMUX_STARTED": 1,
+      "REMUX_CLOSED": 1,
+      "OPERATION_EVIDENCE_COLLECTED": 1,
+      "OUTPUT_CHECKED": 1,
+      "SOURCE_ASSESSED": 1,
+      "OUTPUT_PUBLISHED": 1,
+      "JOB_DISPOSITION": 1,
+      "BATCH_FINISHED": 1,
+      "OUTPUT_ACTION_DISPATCHED": 1,
+      "SESSION_ENDED": 1
+    },
+    "batchFinished": {
+      "phase": "completed",
+      "counts": {
+        "success": 1,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "unprocessed": 0
+      },
+      "settings": null,
+      "elapsedSeconds": 1.906,
+      "totalItems": 1,
+      "jobDetails": "Correlate JOB_DISPOSITION records by batchId and fileId. Retention/truncation status applies."
+    },
+    "validation": {
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "version": 1,
+      "operation": "remux",
+      "target": "mov",
+      "verificationMethod": "packet-identity-v1",
+      "verificationClaim": {
+        "version": 1,
+        "method": "packet-identity-v1",
+        "statement": "Output packets identical to source; every header validated; start and end decoded.",
+        "interiorVideoDecoded": false,
+        "completeAudioDecoded": true
+      },
+      "qualificationEvidenceId": "saved-current099-mov-cfr60-vfr-service",
+      "contentClaim": "Complete ordered compressed packet and decoder-parameter identity, bounded native video decoding and complete PCM preservation."
+    },
+    "collectionEvent": {
+      "directory": "[workspace]/native102-vmp4-mov-retry104-preparation/owned-profile/operation-evidence/job-7d9fd236-dbc4-487a-b496-864a4b2ab825/remux-evidence-H7tgc1",
+      "planFingerprint": null,
+      "evidenceIds": [
+        "saved-current099-mov-cfr60-vfr-service"
+      ],
+      "status": "completed",
+      "scope": "complete-compressed-remux-identity-and-timeline",
+      "failure": null,
+      "children": 15,
+      "streamedBytes": 13666048,
+      "pipeBytes": {
+        "stdout": 13518635,
+        "stderr": 157820
+      },
+      "runtimeGroup": {
+        "version": 1,
+        "limit": 2,
+        "started": 12,
+        "completed": 12,
+        "live": 0,
+        "peak": 2,
+        "closed": true,
+        "failureCode": null,
+        "childrenStarted": 12,
+        "childrenClosed": 12,
+        "liveChildren": 0,
+        "peakChildren": 2
+      },
+      "telemetryValidation": null,
+      "sourceIdentityDisposition": null
+    },
+    "truncatedContexts": [
+      "FILE_INSPECTED",
+      "OPERATION_EVIDENCE_COLLECTED",
+      "JOB_DISPOSITION"
+    ]
+  },
+  "collector": {
+    "verificationMethod": "packet-identity-v1",
+    "verificationClaim": {
+      "version": 1,
+      "method": "packet-identity-v1",
+      "statement": "Output packets identical to source; every header validated; start and end decoded.",
+      "interiorVideoDecoded": false,
+      "completeAudioDecoded": true
+    },
+    "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+    "budget": {
+      "sourceDecode": "complete",
+      "timeoutMs": 120000,
+      "maxFrameBytes": 8388608,
+      "maxPcmBytes": 134217728,
+      "maxRecords": 20000,
+      "maxSpoolBytes": 575905792,
+      "maxTextBytes": 40960000,
+      "maxDurationSeconds": 10,
+      "maxSourceBytes": 3615957,
+      "maxOutputBytes": 23857163
+    },
+    "spoolBytes": 1031560,
+    "comparisons": [
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "packetPayloadBytes": "3410119",
+        "peakReorderRows": 17,
+        "sourceBFrames": 2,
+        "outputBFrames": 2
+      },
+      {
+        "inputIndex": 0,
+        "outputIndex": 0,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-video"
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "sourceInferredDts": 0,
+        "outputInferredDts": 0,
+        "maxDtsError": {
+          "numerator": "0",
+          "denominator": "1"
+        },
+        "packetPayloadBytes": "191875",
+        "peakReorderRows": 0,
+        "sourceBFrames": 0,
+        "outputBFrames": 0
+      },
+      {
+        "inputIndex": 1,
+        "outputIndex": 1,
+        "contentIdentical": true,
+        "metadataIdentical": true,
+        "evidenceKind": "packet-identity-audio",
+        "pcmWindows": {
+          "windowBytes": 1048576,
+          "comparedWindows": 3,
+          "firstMismatchByte": null
+        }
+      }
+    ],
+    "profile": {
+      "pathChecks": 49,
+      "pathCheckMs": 38.109980000022915,
+      "syncs": 21,
+      "syncMs": 37.97906199998397,
+      "peakChildren": 2,
+      "deferredSyncs": 20,
+      "syncWallMs": 14.895216999997501
+    },
+    "limitations": [
+      "Collection records actual differences; measured qualification and strict validation remain required.",
+      "Subtitle support proves complete coded event and header identity, not rendered or decoded subtitle equivalence."
+    ],
+    "nativeInventory": {
+      "version": 1,
+      "complete": true,
+      "inventorySha256": "a601ab303a72b466864eb8b4d3485fe95dab4750651e41b3ff852029699bf275",
+      "detailCustody": "Full source/output native inventory retained in original collector receipt, pinned by receiptSha256; no new parsing/media replay."
+    },
+    "sourcePlayback": {
+      "version": 1,
+      "complete": true,
+      "identity": {
+        "dev": "27",
+        "ino": "2627621",
+        "size": "3615957",
+        "nlink": "1",
+        "mtimeNs": "1795106636525031763",
+        "ctimeNs": "1795106636525031763",
+        "birthtimeNs": "1795106636520412379"
+      },
+      "metadataBytesRead": 5876,
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 0,
+            "volume": 0,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 83886080,
+            "height": 47185920
+          },
+          "movieScale": "240000",
+          "mediaScale": "60000",
+          "trackDuration": "1920000",
+          "mediaDuration": "480000",
+          "entries": [
+            {
+              "duration": "1920000",
+              "mediaTime": "3000",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 1,
+            "volume": 256,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 0,
+            "height": 0
+          },
+          "movieScale": "240000",
+          "mediaScale": "48000",
+          "trackDuration": "1920000",
+          "mediaDuration": "385024",
+          "entries": [
+            {
+              "duration": "1920000",
+              "mediaTime": "1024",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        }
+      ]
+    },
+    "nativeEditLists": {
+      "version": 1,
+      "complete": true,
+      "outputSha256": "6e40e48651a91200e3e92d018473373fb77f3168fccaadeb4526dc6c2efa2a09",
+      "identity": {
+        "dev": "27",
+        "ino": "2634611",
+        "size": "3616441",
+        "nlink": "1",
+        "mtimeNs": "1795108193619794591",
+        "ctimeNs": "1795108193619794591",
+        "birthtimeNs": "1795108193606333700"
+      },
+      "metadataBytesRead": 5892,
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 0,
+            "volume": 0,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 83886080,
+            "height": 47185920
+          },
+          "movieScale": "240000",
+          "mediaScale": "60000",
+          "trackDuration": "1920000",
+          "mediaDuration": "480000",
+          "entries": [
+            {
+              "duration": "1920000",
+              "mediaTime": "3000",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "controls": {
+            "flags": 3,
+            "layer": 0,
+            "alternateGroup": 1,
+            "volume": 256,
+            "matrix": [
+              65536,
+              0,
+              0,
+              0,
+              65536,
+              0,
+              0,
+              0,
+              1073741824
+            ]
+          },
+          "dimensions": {
+            "width": 0,
+            "height": 0
+          },
+          "movieScale": "240000",
+          "mediaScale": "48000",
+          "trackDuration": "1920000",
+          "mediaDuration": "385024",
+          "entries": [
+            {
+              "duration": "1920000",
+              "mediaTime": "1024",
+              "rateInteger": 1,
+              "rateFraction": 0
+            }
+          ]
+        }
+      ]
+    },
+    "movRepresentation": {
+      "kind": "owned-mov-mdhd-language",
+      "tracks": [
+        {
+          "outputIndex": 0,
+          "trackId": 1,
+          "languageCode": 32767
+        },
+        {
+          "outputIndex": 1,
+          "trackId": 2,
+          "languageCode": 32767
+        }
+      ]
+    },
+    "elapsedMs": 1392,
+    "ioBytes": {
+      "packetPayload": "7203988",
+      "outputSeal": 3616441,
+      "movSeal": 3616441,
+      "physicalMediaReads": null
+    },
+    "readAccounting": {
+      "scope": "Logical verification operations including TS preparation; excludes copying and initial inspection. ISO preparation metadata reads are separately noted and unmeasured here. Tool-internal seeks/re-reads are unmeasured.",
+      "completeOperations": [
+        {
+          "side": "output",
+          "operation": "output-all-packets"
+        },
+        {
+          "side": "source",
+          "operation": "source-all-packets"
+        },
+        {
+          "side": "source",
+          "operation": "source-0-complete-parameters"
+        },
+        {
+          "side": "output",
+          "operation": "output-0-complete-parameters"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-native-audio"
+        },
+        {
+          "side": "output",
+          "operation": "output-seal",
+          "bytesRead": 3616441
+        },
+        {
+          "side": "output",
+          "operation": "mov-representation-reseal",
+          "bytesRead": 3616441
+        }
+      ],
+      "partialOperations": [
+        {
+          "side": "source",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 15211,
+          "preparationRead": "Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here."
+        },
+        {
+          "side": "output",
+          "operation": "native-inventory-metadata",
+          "bytesRead": 15868
+        },
+        {
+          "side": "source",
+          "operation": "native-source-playback-metadata",
+          "bytesRead": 5876,
+          "preparationRead": "Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here."
+        },
+        {
+          "side": "source",
+          "operation": "source-0-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-codec-extradata",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "source",
+          "operation": "source-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "output-1-audio-admission",
+          "toolInternalReads": "unmeasured"
+        },
+        {
+          "side": "output",
+          "operation": "native-edit-list-metadata",
+          "bytesRead": 5892
+        }
+      ],
+      "capturedClipDecodeOperations": 2,
+      "physicalIOBytes": null
+    },
+    "receiptSha256": "6fcc153b389b315dccfabecdc67b0ff2526c1f218b5fd3149d92a8afe9a30dfc",
+    "essenceEvidence": {
+      "version": 1,
+      "verificationMethod": "packet-identity-v1",
+      "verificationClaim": {
+        "version": 1,
+        "method": "packet-identity-v1",
+        "statement": "Output packets identical to source; every header validated; start and end decoded.",
+        "interiorVideoDecoded": false,
+        "completeAudioDecoded": true
+      },
+      "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+      "sourceFingerprint": "2ba565e74b51086973cfc38976e08707af5f03e4f214fc11b2b86ddd4846baa2",
+      "sourceEvidenceFingerprint": "3c25306bb58dc5b4b199a82bbbbea4ce7d901363dc4cf17f5bc4683695c21cf0",
+      "outputId": "9e26ccfa-34d4-42d3-bddc-3c3d0f3e51f6",
+      "outputEvidenceFingerprint": "8bb55a6468ff1d95e17858183f27a2104b83824ad3cdef9d6caabd4c5acfbe27",
+      "complete": true,
+      "streams": [
+        {
+          "inputIndex": 0,
+          "outputIndex": 0,
+          "codecType": "video",
+          "source": {
+            "complete": true,
+            "exitCode": 0,
+            "stderrComplete": true,
+            "errors": [],
+            "representation": "packet-identity-v1",
+            "contentSha256": "23da075c8606a95ee666176009b4de182608fb10d81077e9546f19c13ca065e7",
+            "metadataSha256": "856b045e256cf259b74aa77b5cf20fe81451de66a627724f5655b26cf7d8622b",
+            "decoderParametersSha256": "e0152cbc223323c0626541a47758934e615565b537b4bedbd86d7b4b2a8fb0a8",
+            "unitCount": "320",
+            "firstPts": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "endPts": {
+              "numerator": "8",
+              "denominator": "1"
+            },
+            "cadence": {
+              "version": 1,
+              "classification": "variable",
+              "intervalCount": "319",
+              "firstStep": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "differingStep": {
+                "numerator": "1",
+                "denominator": "60"
+              }
+            },
+            "admission": {
+              "version": 1,
+              "complete": true,
+              "kind": "h264-parameter-sei-v1",
+              "configurationSha256": "7028f468544aa4d424acaad6cf760babcf2380271a267e67b76191934d9a5871",
+              "parameterSets": 0,
+              "seiUnits": 1,
+              "scannedBytes": 759,
+              "headerSyntax": {
+                "version": 1,
+                "complete": true,
+                "method": "ffmpeg-cbs-h264-v1",
+                "nalUnits": 321,
+                "sliceHeaders": 320,
+                "fillerBytes": 0,
+                "interiorDecoded": false
+              }
+            },
+            "decodedWindows": {
+              "start": {
+                "keyPacketIndex": 0,
+                "frameCount": 1,
+                "sha256": "ebb0d0bfb1e8d456948613b91f652458596d2064944061eebf8cf2bc870ac687"
+              },
+              "end": {
+                "keyPacketIndex": 240,
+                "frameCount": 1,
+                "sha256": "dc452eefab6da3e2ad6cfe9f8145cefb659df7bf317e3e5e6efecc4de9153049"
+              }
+            }
+          },
+          "output": {
+            "complete": true,
+            "exitCode": 0,
+            "stderrComplete": true,
+            "errors": [],
+            "representation": "packet-identity-v1",
+            "contentSha256": "23da075c8606a95ee666176009b4de182608fb10d81077e9546f19c13ca065e7",
+            "metadataSha256": "856b045e256cf259b74aa77b5cf20fe81451de66a627724f5655b26cf7d8622b",
+            "decoderParametersSha256": "e0152cbc223323c0626541a47758934e615565b537b4bedbd86d7b4b2a8fb0a8",
+            "unitCount": "320",
+            "firstPts": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "endPts": {
+              "numerator": "8",
+              "denominator": "1"
+            },
+            "cadence": {
+              "version": 1,
+              "classification": "variable",
+              "intervalCount": "319",
+              "firstStep": {
+                "numerator": "1",
+                "denominator": "30"
+              },
+              "differingStep": {
+                "numerator": "1",
+                "denominator": "60"
+              }
+            },
+            "admission": {
+              "version": 1,
+              "complete": true,
+              "kind": "h264-parameter-sei-v1",
+              "configurationSha256": "7028f468544aa4d424acaad6cf760babcf2380271a267e67b76191934d9a5871",
+              "parameterSets": 0,
+              "seiUnits": 1,
+              "scannedBytes": 759,
+              "headerSyntax": {
+                "version": 1,
+                "complete": true,
+                "method": "ffmpeg-cbs-h264-v1",
+                "nalUnits": 321,
+                "sliceHeaders": 320,
+                "fillerBytes": 0,
+                "interiorDecoded": false
+              }
+            },
+            "decodedWindows": {
+              "start": {
+                "keyPacketIndex": 0,
+                "frameCount": 1,
+                "sha256": "ebb0d0bfb1e8d456948613b91f652458596d2064944061eebf8cf2bc870ac687"
+              },
+              "end": {
+                "keyPacketIndex": 240,
+                "frameCount": 1,
+                "sha256": "dc452eefab6da3e2ad6cfe9f8145cefb659df7bf317e3e5e6efecc4de9153049"
+              }
+            }
+          },
+          "timestamps": {
+            "complete": true,
+            "comparedUnits": "320",
+            "maxPtsError": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "maxDurationError": {
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        },
+        {
+          "inputIndex": 1,
+          "outputIndex": 1,
+          "codecType": "audio",
+          "source": {
+            "complete": true,
+            "exitCode": 0,
+            "stderrComplete": true,
+            "errors": [],
+            "representation": "packet-identity-v1",
+            "contentSha256": "380a5834c2e2a5379145bd62d5f5be975a49892606737ea4df2106433172269f",
+            "metadataSha256": "8a786666dd572a7329aa7353fee1524e9cba10f729cd1b807b7f4d228fe6dab0",
+            "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+            "unitCount": "376",
+            "firstPts": {
+              "numerator": "-8",
+              "denominator": "375"
+            },
+            "endPts": {
+              "numerator": "8",
+              "denominator": "1"
+            },
+            "admission": {
+              "version": 1,
+              "complete": true,
+              "kind": "aac-lc-packet-and-frozen-pcm-v1",
+              "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+              "nativeStartFrames": 46
+            },
+            "pcm": {
+              "bytes": 3072000,
+              "samples": "384000",
+              "sha256": "b8004277dcc52595b4fd6a8c43ef0176f3f20276161fc48398919bdf3b28c8cd"
+            }
+          },
+          "output": {
+            "complete": true,
+            "exitCode": 0,
+            "stderrComplete": true,
+            "errors": [],
+            "representation": "packet-identity-v1",
+            "contentSha256": "380a5834c2e2a5379145bd62d5f5be975a49892606737ea4df2106433172269f",
+            "metadataSha256": "8a786666dd572a7329aa7353fee1524e9cba10f729cd1b807b7f4d228fe6dab0",
+            "decoderParametersSha256": "0d48a0e05ea520d3563bace6b60c3536df0ba14ea7213284916935e437e40a93",
+            "unitCount": "376",
+            "firstPts": {
+              "numerator": "-8",
+              "denominator": "375"
+            },
+            "endPts": {
+              "numerator": "8",
+              "denominator": "1"
+            },
+            "admission": {
+              "version": 1,
+              "complete": true,
+              "kind": "aac-lc-packet-and-frozen-pcm-v1",
+              "configurationSha256": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+              "nativeStartFrames": 46
+            },
+            "pcm": {
+              "bytes": 3072000,
+              "samples": "384000",
+              "sha256": "b8004277dcc52595b4fd6a8c43ef0176f3f20276161fc48398919bdf3b28c8cd"
+            }
+          },
+          "timestamps": {
+            "complete": true,
+            "comparedUnits": "376",
+            "maxPtsError": {
+              "numerator": "0",
+              "denominator": "1"
+            },
+            "maxDurationError": {
+              "numerator": "0",
+              "denominator": "1"
+            }
+          }
+        }
+      ],
+      "outputFileSha256": "6e40e48651a91200e3e92d018473373fb77f3168fccaadeb4526dc6c2efa2a09"
+    },
+    "artifactCount": 21,
+    "invocationCount": 12,
+    "allCollectorInvocationsCompletedExit0": true,
+    "invocationWarnings": [],
+    "savedPacketTimingCrossCheck": {
+      "source": {
+        "presentationStepCounts": {
+          "1/30": 160,
+          "1/60": 159
+        },
+        "packetDurationVersusNextPtsDisagreements": 160,
+        "completeRows": 320
+      },
+      "output": {
+        "presentationStepCounts": {
+          "1/30": 160,
+          "1/60": 159
+        },
+        "packetDurationVersusNextPtsDisagreements": 160,
+        "completeRows": 320
+      }
+    }
+  },
+  "provenance": {
+    "publishedIdentityVerified": true,
+    "outputIdMatches": true,
+    "fullHashMatchesCollector": true,
+    "ctimeNote": "Rename/publication may change ctime; exact dev/inode/size/mtime and output digest plus final published identity verified."
+  },
+  "storageLedgerJobsEmpty": true,
+  "visualObservations": {
+    "attribution": "Lead development_recovery observed; auditor did not replay GUI",
+    "pickers": "Both genuine GTK input/output pickers, exact visible paths and affirmative Open buttons; no Return-as-accept",
+    "operation": "Explicit MOV Full; one Prepare Ready and one Start with about480s remaining",
+    "result": "Completed1 success,all other dispositions0;00:01 before and after real Show in folder",
+    "reveal": "Thunar selected exact owned fixture_Remux-MOV.mov,3616441bytes",
+    "close": "Closed Thunar and app normally; app absent and Terminal visible. No independently readable prompt claimed. Saved closure confirms exit.",
+    "notPerformed": "No Open/player, retry or cancellation"
+  },
+  "stderr": {
+    "bytes": 624,
+    "sha256": "a6edde14fd5a4e5dffa9fc252ee5a0884e13b0d0744eb0aab754f9aa53e902fb",
+    "categories": {
+      "missingSystemDBus": 3,
+      "sslHandshakeNetErrorMinus202": 1
+    },
+    "causalInference": false
+  },
+  "savedInventorySha256": "a762ee72e99120df1afadd9d2fec2e46cf94ffe3a4aeeb90ffcc0e692892cce7",
+  "limits": [
+    "No new media/probe/decode or raw PCM replay by auditor. Complete packet/header traversals and streaming PCM equality are saved genuine collector facts; retained packet records/artifacts independently hashed and timing checked.",
+    "Video interior not decoded. Representative key windows0/240 do not prove final frame319. VFR packet-duration/PTS differences remain actual source/output facts, not normalized to CFR.",
+    "12 collector children completed/live0/peak2; service collection event reports15 requested operation children. Nine outer sampled identities include startup/Electron and are not exhaustive child history. Startup CPU capability media probes did run.",
+    "One exact8s H264/AAC VFR fixture on exact host/runtime/package; no CFR60 native repetition, arbitrary media/geometry/metadata, portability, all-length or release qualification.",
+    "No cancellation/collision/fresh-state rescan in this GUI attempt. Earlier failed102 chooser and successful picker-only diagnostic remain immutable; alternate successful operator path does not establish prior cause.",
+    "600s outer observer did not expire; no claim full product deadline/stress exercised."
+  ],
+  "fullLocalAuditSha256": "6d1ad4e08ed6ca894782fc512e2867bc0a42435f6455b7d61e7dc39404a659c3"
+}

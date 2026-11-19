@@ -1,0 +1,35 @@
+{
+  "status": "ISOLATED FUNCTIONAL SOURCE FOR INDEPENDENT REVIEW; NOT CANONICAL",
+  "baseLocal": "6805a78f3065a794cb4afea52dde6598c6daaff0",
+  "baseTree": "a8de11b85e8695cef6ee09e17653fe97cba9d7ce",
+  "files": [
+    {
+      "path": "linux-blue/product-linux-unified-service.cjs",
+      "bytes": 24016,
+      "sha256": "db0011f7030637020551b02f930e8d1d457f58aa3279647bc9897d12fb65c24d"
+    },
+    {
+      "path": "tests/linux-unified-service.test.cjs",
+      "bytes": 52135,
+      "sha256": "57745d2cc85d438ca8333ee34cebd85cf207ea58151caa2ad77851dc8d431711"
+    }
+  ],
+  "diffSha256": "333a7cb980500932747393b6dd14b432bce8cfd856b5f65de6077e8a0f4c0417",
+  "tests": {
+    "passed": 154,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "309027dd819da73a956f0091976fc19e93f55ba01465f48bbf57a63b64028f01",
+    "command": "node --test tests/linux-unified-service.test.cjs tests/linux-ordinary-policy.test.cjs tests/linux-ordinary-service.test.cjs tests/av1-cpu-policy.test.cjs tests/h265-ordinary-policy.test.cjs tests/ui-workbench.test.cjs"
+  },
+  "scope": [
+    "Unified ordinary H264 only: shared native preset/CRF validation, no recipe, H264 per-profile default/reset slower24; global H265 default unchanged.",
+    "WeakMap binds prepared exact settings and argv, operation/request, main-owned plan/generation. Stale settings/prepared authority refuse before Start.",
+    "Two-file actual shared Prepare/reprepare/Start controls with synthetic probes and stubbed execution; no FFmpeg child. Persistence across reopened service and reset checked.",
+    "Historical standalone fixed policy and shared validation/ownership/runtime, fixed AV1 and H265 measured/ordinary admission unchanged. Existing compatibility constraints and budgets unchanged."
+  ],
+  "limits": [
+    "No pin/manifest derivation, package, native/media, workflow, commit, or canonical edits.",
+    "Next actual release evidence is one bounded native run using H264 slower24 and compatible AAC Full/Keep source; no all-preset speed/quality, additional codecs or platform claim."
+  ]
+}

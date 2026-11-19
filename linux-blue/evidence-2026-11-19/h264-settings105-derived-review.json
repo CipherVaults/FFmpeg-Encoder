@@ -1,0 +1,21 @@
+{
+  "verdict": "approved-final-four-path-source-cohort",
+  "handoffSha256": "50e54d7b37536c5d2cf47f83b98d752c74fd41289bdc8128fd7b3e145b248d77",
+  "functionalReviewSha256": "b6870ff00be7531f65e685f1940b6e755196bfee88d30a037daaa8a3f0544bc3",
+  "checks": {
+    "exactFourPathSet": true,
+    "functionalTwoPathsExact": true,
+    "sourcePinsVerified": 151,
+    "actualPackageInputsRehashed": 269,
+    "nonSourceRowsUnchanged": 88,
+    "changedLoaderPins": 1,
+    "changedPlanRows": 2,
+    "membershipAndHistoricalLoaderLogicUnchanged": true,
+    "authorLogHashesVerified": true
+  },
+  "independentTests": {
+    "packageLauncher": 18,
+    "failures": 0
+  },
+  "limits": "Source-only; no media, package build, runtime, modes, workflow or commit. Focused154 functional controls from prior review remain exact; author aggregate200affected/227syntax338shared142Linux logs verified, not counted as independently rerun."
+}

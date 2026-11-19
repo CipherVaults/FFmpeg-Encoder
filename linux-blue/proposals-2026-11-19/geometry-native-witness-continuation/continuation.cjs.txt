@@ -1,0 +1,18 @@
+'use strict';
+const fs=require('node:fs/promises'),{constants}=require('node:fs'),assert=require('node:assert/strict'),{createHash}=require('node:crypto');
+const BYTES=279633,HASH='5c75dd20f365f3e55dde5170ca6e4cca29b3757778749c35ae074d9c5f35bf66';
+const keys=['dev','ino','size','nlink','mtimeNs','ctimeNs','birthtimeNs'];
+async function copyRetained({source,destination,check,ownerCheck}){
+ check();await ownerCheck();check();assert(typeof source==='string'&&source!==destination);
+ assert.equal(await fs.realpath(source),source);check();
+ const before=await fs.lstat(source,{bigint:true});assert(before.isFile()&&!before.isSymbolicLink()&&before.nlink===1n&&before.uid===BigInt(process.getuid()));assert.equal(before.size,BigInt(BYTES));
+ const input=await fs.open(source,constants.O_RDONLY|constants.O_NOFOLLOW);let out,primary;
+ try{const opened=await input.stat({bigint:true});for(const k of keys)assert.equal(opened[k],before[k]);check();
+ const bytes=Buffer.alloc(BYTES);let at=0;while(at<BYTES){check();const r=await input.read(bytes,at,Math.min(65536,BYTES-at),at);assert(r.bytesRead>0);at+=r.bytesRead;}check();assert.equal(createHash('sha256').update(bytes).digest('hex'),HASH);
+ await ownerCheck();check();out=await fs.open(destination,constants.O_WRONLY|constants.O_CREAT|constants.O_EXCL|constants.O_NOFOLLOW,0o600);
+ for(let n=0;n<BYTES;){check();const r=await out.write(bytes,n,Math.min(65536,BYTES-n),n);assert(r.bytesWritten>0);n+=r.bytesWritten;}
+ await out.sync();check();for(const observed of [await input.stat({bigint:true}),await fs.lstat(source,{bigint:true})])for(const k of keys)assert.equal(observed[k],before[k]);await ownerCheck();check();return {bytes:BYTES,sha256:HASH,regenerated:false};
+ }catch(e){primary=e;throw e;}finally{const errors=[];for(const h of [out,input])if(h)try{await h.close();}catch(e){errors.push(e);}if(errors.length)throw new AggregateError([...(primary?[primary]:[]),...errors],'Retained input/handle closure failed');}
+}
+async function refreshBoundary({check,ownerCheck,runtimeCheck,refresh}){check();await ownerCheck();check();await runtimeCheck();check();const result=await refresh();check();return result;}
+module.exports={copyRetained,refreshBoundary,BYTES,HASH};

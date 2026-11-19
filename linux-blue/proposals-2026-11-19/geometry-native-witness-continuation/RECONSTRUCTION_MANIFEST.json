@@ -1,0 +1,93 @@
+{
+  "status": "INACTIVE_RECOVERY_SOURCE_ONLY",
+  "custodyBase105": "ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1",
+  "privateSourceBase102": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "privateSourceFiles": 1155,
+  "privateSourceTreeSha256": "019fda1bfd743c3bb321d7580a679d05a4973036c9a131509906e2ff5163364a",
+  "sourceDelta": [
+    {
+      "path": "src/native-orientation-witness.cjs",
+      "bytes": 3914,
+      "sha256": "7e17578e08f107c2b506887a848f28c2f392e3fad2a44f4393909f0e5a6db3dd"
+    },
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 58157,
+      "sha256": "24d372ea992ac9c8ea741d24925927a6451e3ef848500a3c09fb739829028dfb"
+    },
+    {
+      "path": "tests/native-orientation-witness.test.cjs",
+      "bytes": 5941,
+      "sha256": "940caa5effa92db3bf564e138de040c11abebd2478f15d367b2924a4dd19b9f5"
+    }
+  ],
+  "continuationFiles": [
+    {
+      "path": "admission.cjs",
+      "bytes": 3940,
+      "sha256": "b057b1b2084d32dab604226391d47f149e3c5a2e3b2ecffe708af9991fc4559f"
+    },
+    {
+      "path": "admission.test.cjs",
+      "bytes": 3624,
+      "sha256": "9008882448bd8e598ddfa54a3dc4680e8d5feddecee1fd526d46cdf3ca706fe7"
+    },
+    {
+      "path": "continuation.cjs",
+      "bytes": 2223,
+      "sha256": "b7cdbbf2238f004970c5dbae62c266357f0cb41dd20adc5458244e3d6b44607a"
+    },
+    {
+      "path": "continuation.test.cjs",
+      "bytes": 3609,
+      "sha256": "6c060ca9c5174705a53e7c76001eced970411c043953d7ae457c66a9f1c700db"
+    },
+    {
+      "path": "driver.cjs",
+      "bytes": 21556,
+      "sha256": "6fa78f55d488a55ad08d9cfbc3e935873f7d3d8205195f91ea4f2c19fcf0db94"
+    },
+    {
+      "path": "entry.cjs",
+      "bytes": 133,
+      "sha256": "1616e1743fe3d444dd2626a9a78adde7ff0efbf9e84ca12c0aa56b626c07ca84"
+    },
+    {
+      "path": "frozen-checks.cjs",
+      "bytes": 8287,
+      "sha256": "135a8fdee1e1aef8a5f449a6a030a929f11436974d7ae06c25cc7731226e9a3f"
+    },
+    {
+      "path": "geometry-controls.cjs",
+      "bytes": 2612,
+      "sha256": "f01b795660bdf9dd44d89d510986cbc504d6a955e2f044e2400bf7be4cf96c4b"
+    },
+    {
+      "path": "marked-frame.cjs",
+      "bytes": 4465,
+      "sha256": "c1230ece53d6745adfd1cf552ce4c3e51d091a5ae69d9e556ff2b449dabe9649"
+    },
+    {
+      "path": "marked-frame.test.cjs",
+      "bytes": 2680,
+      "sha256": "aa1bdfa1036cca1d2af45b51206c08c16d798c31cb55e951e6fbadd7b4c623d0"
+    },
+    {
+      "path": "retention.cjs",
+      "bytes": 3383,
+      "sha256": "e5189e4b3ac8a0923e194d29a3fef1debde1b0bc95a0b88ff9f15434952212d8"
+    },
+    {
+      "path": "retention.test.cjs",
+      "bytes": 4798,
+      "sha256": "dba332306f47da5c2e7d5437b1414b81e990615f2d92beaeb9dc7fd4dbefeed4"
+    },
+    {
+      "path": "supervise.py",
+      "bytes": 6509,
+      "sha256": "04c7ac651cdde236dd60d70f577fc035887f47c4a1c447cf6df8492aef2bd7fa"
+    }
+  ],
+  "noLiveBindingOrGate": true,
+  "reconstructionOnlyNoHelperExecution": true
+}

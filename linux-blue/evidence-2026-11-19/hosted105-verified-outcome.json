@@ -1,0 +1,43 @@
+{
+  "checkpoint": 105,
+  "remoteCommit": "73fe15ca600c6003538dad036a914dff1488e442",
+  "sharedRun": 44577289061,
+  "attempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 135748093533,
+      "platform": "ubuntu-24.04",
+      "syntaxFiles": 227,
+      "sharedPassed": 338,
+      "linuxPassed": 142,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "id": 135748093476,
+      "platform": "windows-2022",
+      "syntaxFiles": 227,
+      "sharedPassed": 338,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "ubuntuInventoryRun": {
+    "id": 44577289005,
+    "conclusion": "skipped"
+  },
+  "noPackagedWindowsOrUbuntuMetadataRun": true,
+  "noRuntimeClaim": true,
+  "originalLogIdentities": {
+    "JOB-135748093476.log": {
+      "bytes": 63455,
+      "sha256": "a56da43941b56f2231c7c8e4099bab2ef4eff56ab1f5282a0425c8822164b027"
+    },
+    "JOB-135748093533.log": {
+      "bytes": 79313,
+      "sha256": "d54426f7f0aeefb27697927cdd1c71343c0661a77438c33199ef7de099c0c47f"
+    }
+  },
+  "verifiedAt": "2026-11-19T17:28:14.565014+00:00"
+}

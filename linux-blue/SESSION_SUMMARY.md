@@ -1,3 +1,69 @@
+# 📘 Session: Preserve reviewed geometry recovery and qualify ordinary H264 separately
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue coordinated checkpoint custody, isolated geometry reconstruction, independent review, package construction and native preparation. Separate workers reviewed the reconstruction and exact inert package; saved-only audit remains distinct from live execution. Specific serving models and effort were not independently attested. This writer cohort remains off-source pending lead review and scoped commit. Complete 105 Session history follows byte-for-byte.
+
+## 🕒 Time
+November 19, 2026 UTC. Final evidence cutoff 2026-11-19T17:40:49.490152+00:00. Base 105 local ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1, tree af58732b3d0d68b888549046d421f587182c87b0; verified GitHub 73fe15ca600c6003538dad036a914dff1488e442. Later facts must be attached to their actual artifact and time rather than rewriting earlier cutoffs.
+
+## 🎯 Session Goal
+Close 105 custody and subsequent hosted evidence; preserve the real geometry acquisition failure and the smallest independently reconstructable inactive continuation. Record the separately audited representative native H264 journey with its actual limits. No application, package, workflow or Ubuntu changes are planned for this documentary cohort.
+
+## 🛠️ Actions Taken
+### Close 105 preservation and hosted source evidence
+Independently restored all 1,224 source files and 105 complete history commits from fresh Notion downloads, including Git fsck. All 105 full native-readable Session entries and owning records passed strict normalized equivalence; exact bytes remain separately recoverable. Full readable gate preceded conditional non-force publication. Independent remote mapping reconciled all 1,606 identities, including 382 preserved remote-only files: 17 scoped changes, 11 created, six modified, no deletion. Final Notion checkpoint/current/hub mapping read back and writer released. Source publication is not native qualification.
+Shared run 44577289061 attempt 1 passed 227 syntax and 338 shared checks on both Windows and Ubuntu, plus 142 selected Linux checks, with no failures or skips. Inventory run 44577289005 skipped. No packaged Windows or Ubuntu metadata run occurred for this head. Preserve the exact sanitized outcome, not raw hosted logs or a claim that shared tests exercised the owner desktop.
+
+### Audit the actual inert 105 package
+One explicitly released inert build was independently checked against 1,224 source files, 269 planned inputs, 272 physical files, 168 application ASAR members and 151 current source pins. Six qualification audit inputs and the original MP4 qualification were retained. At the inert audit cutoff every file was mode 0600 and active ASAR was absent; these are historical inert-state facts, not claims about a later separately authorized native launch. The audit ASAR was 3,053,185 bytes, SHA256 6d5c0f6f362a987aa8a77eb84089f1506a649cba974c0d936d83cab9788ab0fc. Retain exact sanitized summary and ASAR audit. The full local file audit contains an absolute workspace root and therefore stays outside the public documentary cohort; its hash remains in the sanitized summary. No executable payload, media or raw profile is included.
+
+### Preserve the failed geometry acquisition without converting it into evidence of success
+The independent saved-only audit confirms GEOMETRY_ORIENTATION_UNKNOWN before encoding. The original retained portrait fixture is 279,633 bytes, SHA256 5c75dd20f365f3e55dde5170ca6e4cca29b3757778749c35ae074d9c5f35bf66. Saved metadata reports H264 High, 960×1440 square pixels, DAR 2:3, progressive BT.709, 30 fps and eight seconds, plus stereo AAC at 48 kHz with 1,024 initial padding. Container-reported total is 240 frames; only the initial 60 decoded frames in the first two seconds were inspected. Rotation and display matrix were not reported. Missing orientation is not an identity-orientation witness.
+Three serial children (one generation and two inspections) closed with zero child exit codes. The acquisition itself exited 1 after approximately 2.510 seconds because admission refused; no termination request, no encode child, no output, no collector/finish receipt, no geometry or PCM/marker comparison. The outer sampled census and observed storage are bounded observations, not an exhaustive kernel census or hard quota. Preserve the failure, original fixture identity and limited inspection scope unchanged.
+
+### Retain a compact inactive native-witness continuation archive
+Copy the 15 exact payloads from the reviewed recovery handoff, plus that handoff and independent reconstruction review, under proposals-2026-11-19/geometry-native-witness-continuation. Source files remain .txt and deltas remain patches; no live binding, gate, media, raw logs, executables, catalog membership or package inputs are included. Historical hash references are provenance, not current authority.
+Independent reconstruction exported exact 102 from the full 105 Git history, applied prior archived geometry and new witness patches with zero fuzz, and added the pinned source text. It recovered 1,155 private source files with tree digest 019fda1bfd743c3bb321d7580a679d05a4973036c9a131509906e2ff5163364a. Separately it reconstructed all 13 continuation files from prior Stage A, admission and new continuation deltas. Every expected byte matched; no reconstructed helper was executed. The archive deliberately avoids duplicating entire private forks.
+The prospective continuation reuses the original retained fixture rather than regenerating it, keeps numerical/marker criteria, a maximum of 15 serial children, finite storage and time bounds, and genuine native reader witness ownership/currentness/revocation. Its reconstruction README is historical authored text; the separate completed independent review supersedes its earlier pending-review sentence without altering reviewed bytes. A fresh UNBOUND template, exact composed identities, independent review and explicit release remain separate prerequisites. No geometry acceptance or activation follows merely from reconstruction.
+
+### Accept one separately audited native H264 journey
+The saved-only independent audit accepted the exact 105 package, ordinary H264 CPU slower/24, Full / Keep Source Matroska with AAC copy. All 1,224 source files and 272 package files were checked; the retained original fixture matched its hash and the owned input copy had a distinct inode. The actual saved invocation uses libx264 slower/CRF 24, source geometry 1920×1080 without a scaling filter, full range and AAC stream copy. Two processing-default expansion clicks had no visible effect: Full/Keep Source is established by the saved invocation and resolved operation, not claimed visible inspection.
+The contiguous 21-event journal contains one preparation, one encode start/close, one output publication and one reveal dispatch. Encode exited zero; ordinary output validation passed. Batch result was one success, zero failed/skipped/cancelled/unprocessed, elapsed 6.589 seconds. The operator observed terminal 00:06 twice more than three seconds apart and actual Show in folder selected fixture_H264-CPU.mkv, 4,572,907 bytes, in Thunar. Current output SHA256 is 8d4c83109d1795797a03bafbacc38ae373d83e770eb30a5ea2e27abc268ae94a. No Open, media retry or cancel occurred. Thunar and app were closed normally and absent afterward. Outer closure exited zero after 384.317425152 seconds with no termination request or errors.
+Operator recovery delay is retained: launch was 17:31:19.193 UTC; first lead state was approximately 17:34:34, and the single Start around 17:36:50 still had more than 260 seconds remaining. No deadline threshold was violated. The first GTK typing call used a malformed map and was rejected before typing; the corrected documented string input then Open succeeded. This was an API correction, not a cancelled media attempt or retry.
+Limits remain explicit. FILE_INSPECTED and JOB_DISPOSITION contexts were truncated. Source inspection sampled 57 decoded frames in the initial two-second window; reported eight-second duration is not a complete frame census. Fourteen outer sampled process identities are not an exhaustive child count, and startup media capability probes ran. Publication device/inode/size/mtime match the current output, but ctime changed by about 16 ms; a current full hash exists, not a historical complete output digest, so no all-field or historical full-byte equality claim is made. Three missing-system-bus lines and one SSL net-error -202 diagnostic are retained without attributing an encode cause. No fresh precise PCM, packet equality, complete cadence, strict whole-output decode or perceptual-quality proof was performed. This accepts one exact ordinary fixture/preset/host journey, not all presets, arbitrary media, cancellation, collision, portability or release readiness.
+
+## 🧠 Key Insights
+A fail-closed admission exposed missing orientation evidence before spending resources on an encode; accepting an absent metadata field as zero would have replaced proof with an assumption. A genuinely owned native reader witness and a reconstructable, inactive continuation can resolve that interface without weakening the original refusal. Archive recovery, source validation, inert package identity and native product behavior answer different questions.
+
+## 📌 Decisions Made
+Keep 106 documentary only. Preserve the original failed attempt, exact prior records and complete history. Retain reviewed compact deltas rather than duplicated source trees. Exclude live authority, raw paths, logs and binary payloads. Leave coherent Ubuntu source/workflow work to its separately reviewed future parent-bound cohort. Owner RTX 5060 validation remains the last gate after independent exact candidate freeze; v0.8 learning/themes/languages and v0.9 HDR remain distinct future scope.
+
+## ⚠️ Difficulties / Friction
+The original probe did not provide a trustworthy identity orientation. Generation and partial inspection therefore did not establish the proposed geometry family. Local package file audits contain workspace-specific roots even though their compact summary is safe to retain. Neither limitation should be hidden by calling a report complete or uploading broader local state.
+
+## 🔧 Adjustments Made
+Add an independently reviewed compact reconstruction route for the native witness and retained-input continuation, with historical source and continuation hashes. Preserve the failure audit verbatim. Separate the package's inert cutoff from subsequent native use, and replace the prospective native slot only after the accepted saved-only review.
+
+## ❌ Mistakes / Risks Noted
+Do not describe absent rotation as zero, container frame count as fully decoded coverage, or three successful children as a successful acquisition. Do not treat reconstruction or a patch as product activation. Do not claim all H264 presets, all portrait inputs, arbitrary aspect ratios or portable redistribution from one later representative endpoint. Historical handoffs referring to omitted bindings do not authorize their reuse.
+
+## 📍 Current Position
+105 source, full Notion mirror and GitHub mapping are complete; later shared CI passed and the exact inert package was independently audited. The geometry Stage A failure is now independently characterized and its proposed continuation is preserved off-source, inactive and unexecuted in this record. One exact native 105 ordinary H264 slower/24 journey is now accepted within the saved audit limits. This documentary 106 cohort is ready for lead review; no canonical 106 write or commit has occurred.
+
+## 🔜 Next Steps
+Lead reads the finalized native evidence and complete explicit documentary manifest, then releases the cohort before any scoped commit. Then perform ordinary Git → fresh Notion source/history restoration → full readable equivalence → separately authorized GitHub publication. Any geometry continuation needs its own exact binding/review/release; no automatic media execution. Continue meaningful remaining product/portable work, with owner-machine acceptance last.
+
+## ❓ Open Questions
+Can a later separately authorized native-witness continuation complete the predeclared geometry endpoint without changing its thresholds? Which manufacturing, ancillary and final candidate gates remain after current product evidence is reconciled?
+
+## 🧾 Session Outcome
+Exact 105 chain/CI and inert package evidence assembled, one representative native H264 journey accepted within its limits, original geometry failure retained, and reviewed compact inactive reconstruction archive copied and hash-checked. Final lead release and the 106 preservation chain remain pending; no app changes are included.
+
+## 🔍 Confidence Level
+High for the exact copied evidence, source/history custody, inert identity and independent reconstruction review. High for the bounded audited native H264 journey, without extending it to geometry service qualification, portable distribution, all presets or owner hardware.
+
+---
+
 # 📘 Session: Complete packaged VFR verification and restore ordinary H264 settings
 
 ## 🤖 Models, Effort, Roles and Provenance

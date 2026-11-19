@@ -1,0 +1,349 @@
+{
+  "accepted": true,
+  "scope": "One exact native105 ordinary H264 slower/24 Full Keep Source Matroska/AAC-copy GUI journey; saved-only audit",
+  "sourceCommit": "ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1",
+  "sourceFilesVerified": 1224,
+  "packageFilesVerified": 272,
+  "packageFileAuditSha256": "93d5b334ad70a1b581ef73c6763339b797b07a05cdacf348ee38a53e223c6490",
+  "postModes": "Six ordinary0755/rest0600; exact byte/device/inode retained",
+  "fixture": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97",
+    "retainedOriginalMatches": true,
+    "distinctCopyInode": true
+  },
+  "output": {
+    "name": "fixture_H264-CPU.mkv",
+    "bytes": 4572907,
+    "sha256": "8d4c83109d1795797a03bafbacc38ae373d83e770eb30a5ea2e27abc268ae94a"
+  },
+  "receipts": {
+    "CLOSURE.json": {
+      "bytes": 1731,
+      "sha256": "58eeb42d96b2f65ee805d3b628cc1ce4d4ad2fba58149545755677608e2e0814"
+    },
+    "LEAD_RELEASE.json": {
+      "bytes": 874,
+      "sha256": "38d316963d625c6ad9ed51dda44857a44dbd3e119909e577c0931b1a202fde22"
+    },
+    "ROOT_PREFLIGHT.json": {
+      "bytes": 1116,
+      "sha256": "57eacb888b09894d67c566d6bc69b23aee8fbea72c5a8736671b11257f15c087"
+    },
+    "ATTEMPT_STARTED.json": {
+      "bytes": 197,
+      "sha256": "fe53abb2be77b1e936ff5b2f2aadb97ac0971675f8725d184cf1354ed64ddfda"
+    },
+    "BOUND105_PRESERVATION.json": {
+      "bytes": 1752,
+      "sha256": "ad7887d4f20c15e6b0dc021d776776a1e787062d846bbb308ef907fd149796fb"
+    },
+    "APP.stderr": {
+      "bytes": 624,
+      "sha256": "7b4506ed56079b07392c6606bc9c544427d7d7e8844cee945ac0627b0eaba8ab"
+    },
+    "APP.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 384.3174251520031,
+    "terminationRequested": false,
+    "errors": [],
+    "closureObserved": true,
+    "packageVerified": true,
+    "inputsVerified": true,
+    "storageVerified": 10309449,
+    "sampledOnly": true
+  },
+  "sampledProcessIdentities": 14,
+  "journal": {
+    "events": 21,
+    "digestsVerified": true,
+    "contiguous": true,
+    "reasons": {
+      "SESSION_STARTED": 1,
+      "CAPABILITY_STARTED": 1,
+      "RUNTIME_IDENTIFIED": 1,
+      "CAPABILITY_FINISHED": 1,
+      "PROVENANCE_RECOVERY_FINISHED": 1,
+      "FOLDER_PICKER_REQUESTED": 2,
+      "FOLDER_PICKER_REGISTERED": 2,
+      "PREPARATION_STARTED": 1,
+      "FILE_INSPECTED": 1,
+      "PREPARATION_FINISHED": 1,
+      "ENCODE_STARTED": 1,
+      "ENCODE_CLOSED": 1,
+      "OUTPUT_CHECKED": 1,
+      "SOURCE_ASSESSED": 1,
+      "OUTPUT_PUBLISHED": 1,
+      "JOB_DISPOSITION": 1,
+      "BATCH_FINISHED": 1,
+      "OUTPUT_ACTION_DISPATCHED": 1,
+      "SESSION_ENDED": 1
+    },
+    "truncatedContexts": [
+      "FILE_INSPECTED",
+      "JOB_DISPOSITION"
+    ],
+    "batch": {
+      "phase": "completed",
+      "counts": {
+        "success": 1,
+        "failed": 0,
+        "skipped": 0,
+        "cancelled": 0,
+        "unprocessed": 0
+      },
+      "settings": {
+        "profileId": "h264-cpu",
+        "preset": "slower",
+        "quality": 24
+      },
+      "elapsedSeconds": 6.589,
+      "totalItems": 1,
+      "jobDetails": "Correlate JOB_DISPOSITION records by batchId and fileId. Retention/truncation status applies."
+    },
+    "ordinaryValidation": {
+      "valid": true,
+      "errors": []
+    },
+    "encodeExitCode": 0,
+    "encodeStartUnixMs": 1795109813747
+  },
+  "actualInvocation": {
+    "argv": [
+      "-hide_banner",
+      "-nostdin",
+      "-loglevel",
+      "warning",
+      "-nostats",
+      "-progress",
+      "pipe:1",
+      "-n",
+      "-protocol_whitelist",
+      "file,pipe",
+      "-format_whitelist",
+      "mov,matroska,webm,avi",
+      "-i",
+      "$ATTEMPT/owned-input-encode/fixture.mp4",
+      "-map",
+      "0:0",
+      "-map",
+      "0:1",
+      "-map_metadata",
+      "0",
+      "-map_chapters",
+      "0",
+      "-c:v:0",
+      "libx264",
+      "-c:a:0",
+      "copy",
+      "-map_metadata:s:0",
+      "0:s:0",
+      "-disposition:0",
+      "default",
+      "-map_metadata:s:1",
+      "0:s:1",
+      "-disposition:1",
+      "default",
+      "-preset:v:0",
+      "slower",
+      "-crf:v:0",
+      "24",
+      "-pix_fmt:v:0",
+      "+yuv420p",
+      "-fps_mode:v:0",
+      "passthrough",
+      "-color_trc:v:0",
+      "bt709",
+      "-color_primaries:v:0",
+      "bt709",
+      "-colorspace:v:0",
+      "bt709",
+      "-color_range:v:0",
+      "tv",
+      "-metadata",
+      "FFMPEG_ENCODER_PROVENANCE=1",
+      "-metadata",
+      "FFMPEG_ENCODER_OUTPUT_ID=a0448469-5cf2-4746-a0fd-8758abae42bd",
+      "-metadata",
+      "FFMPEG_ENCODER_GENERATION={\"version\":1,\"profileId\":\"h264-cpu\",\"codec\":\"H264\",\"backend\":\"CPU\",\"encoder\":\"libx264\",\"preset\":\"slower\",\"qualityMode\":\"CRF\",\"quality\":24,\"bitDepth\":8,\"encoderArgs\":[\"-c:v:0\",\"libx264\",\"-preset:v:0\",\"slower\",\"-crf:v:0\",\"24\"],\"appVersion\":\"0.7.0-alpha.1\",\"createdAt\":\"2026-11-19T17:36:24.308Z\",\"runtimeVersion\":\"ffmpeg version 9.0.2 Copyright (c) 2000-2026 the FFmpeg developers\"}",
+      "-default_mode",
+      "passthrough",
+      "-f",
+      "matroska",
+      "$ATTEMPT/owned-output-encode/.ffmpeg-encoder-2SENMe/encoded.mkv"
+    ],
+    "settings": {
+      "profileId": "h264-cpu",
+      "preset": "slower",
+      "quality": 24
+    },
+    "operation": {
+      "requested": {
+        "operation": "encode",
+        "target": "matroska",
+        "resolution": "source",
+        "hdrPolicy": "preserve",
+        "range": null,
+        "audioPolicy": "copy",
+        "aacBitrateKbps": null
+      },
+      "resolved": {
+        "operation": "encode",
+        "target": "matroska",
+        "timestampPolicy": "accepted-full-compatibility-path",
+        "geometry": {
+          "requested": "source",
+          "mode": "preserve-source",
+          "filterRequired": false,
+          "output": {
+            "width": 1920,
+            "height": 1080,
+            "sampleAspectRatio": null,
+            "orientation": "preserve-source"
+          }
+        },
+        "range": {
+          "kind": "full",
+          "requested": null,
+          "timestampMapping": "preserve-source"
+        },
+        "audio": {
+          "policy": "copy",
+          "streams": [
+            {
+              "index": 1,
+              "mode": "copy",
+              "codec": "aac"
+            }
+          ]
+        },
+        "color": {
+          "classification": "sdr",
+          "supported": true,
+          "transfer": "bt709",
+          "videoIndex": 0
+        }
+      }
+    }
+  },
+  "sourceInspection": {
+    "selectedVideoIndex": 0,
+    "codec": "h264",
+    "width": 1920,
+    "height": 1080,
+    "pixelFormat": "yuv420p",
+    "bitDepth": 8,
+    "frameRate": 30,
+    "streamCounts": {
+      "video": 1,
+      "audio": 1
+    },
+    "durationSeconds": 8,
+    "sampling": [
+      {
+        "label": "start",
+        "start": 0,
+        "seconds": 2,
+        "interval": "0.000000%2.000000",
+        "succeeded": true,
+        "frames": 57,
+        "framesInWindow": 57,
+        "observedStart": 0,
+        "observedEnd": 1.866667
+      }
+    ],
+    "samplingLimit": "Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.",
+    "metadataNotices": [],
+    "boundedFrameProperties": {
+      "scope": "bounded-decoded-windows-only",
+      "complete": true,
+      "decodedFrames": 57,
+      "scan": "progressive-observed",
+      "geometry": {
+        "width": {
+          "complete": true,
+          "values": [
+            1920
+          ]
+        },
+        "height": {
+          "complete": true,
+          "values": [
+            1080
+          ]
+        },
+        "pix_fmt": {
+          "complete": true,
+          "values": [
+            "yuv420p"
+          ]
+        },
+        "sample_aspect_ratio": {
+          "complete": true,
+          "values": [
+            "1:1"
+          ]
+        }
+      },
+      "color": {
+        "color_transfer": {
+          "complete": true,
+          "values": [
+            "bt709"
+          ]
+        },
+        "color_primaries": {
+          "complete": true,
+          "values": [
+            "bt709"
+          ]
+        },
+        "color_space": {
+          "complete": true,
+          "values": [
+            "bt709"
+          ]
+        },
+        "color_range": {
+          "complete": true,
+          "values": [
+            "tv"
+          ]
+        }
+      },
+      "limitation": "Observed frames do not prove unchanged scan, geometry, color or metadata outside the inspected windows."
+    }
+  },
+  "publication": {
+    "publishedDevInodeSizeMtimeMatchesCurrentFile": true,
+    "publishedCtimeNs": "1795109820037876143",
+    "currentCtimeNs": "1795109820053876572",
+    "ctimeLimitation": "Later ctime differs; bytes are independently hashed now, but no saved full output hash exists for historical byte comparison. No claim exact all-field identity equality.",
+    "intentOutputIdMatches": true,
+    "savedSourceAssessment": "unchanged",
+    "oneRevealDispatch": true
+  },
+  "attributedLeadVisualObservations": [
+    "H264 CPU slower/24 selected; both GTK pickers accepted with visible Open. First input typing call had rejected API shape before typing; corrected string then Open, not media retry.",
+    "One Prepare and Start with more than260 seconds remaining. Processing-details clicks did not expand; actual Full/source/Matroska/AAC-copy established above from saved arguments and operation record.",
+    "Succeeded1, all other0; terminal00:06 unchanged on two screenshots more than3 seconds apart.",
+    "One actual Show in folder selected exact fixture_H264-CPU.mkv4572907 bytes. No Open/retry/cancel. Thunar and app closed via X; both absent."
+  ],
+  "stderr": {
+    "systemBusMissingLines": 3,
+    "sslNetErrorMinus202Lines": 1,
+    "interpretation": "Retained startup diagnostics, no inferred cause or encode error."
+  },
+  "limits": [
+    "Ordinary output validator pass only. No fresh precise PCM, packet equality, complete cadence, strict whole-output decode or perceptual-quality proof.",
+    "Input57 decoded frames from bounded first2s inspection; reported8s duration is not full-frame census.",
+    "One exact8s fixture/preset/CRF/host; no all-preset, portability, cancellation, collision, arbitrary-media or release-readiness claim.",
+    "14 outer sampled process identities are not exhaustive child count; startup capability media probes ran.",
+    "All audit actions were saved filesystem/hash reads only; no media executables, probes, decode, GUI or rerun."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "archive": {
+    "path": "audit/app.asar",
+    "bytes": 3053185,
+    "sha256": "6d5c0f6f362a987aa8a77eb84089f1506a649cba974c0d936d83cab9788ab0fc"
+  },
+  "sourcePins": 151,
+  "applicationMembers": 168,
+  "targetAuditInputs": 6,
+  "originalMp4Retained": true,
+  "aacQualificationRetained": true,
+  "standaloneV1": true,
+  "unifiedV2": true,
+  "cadenceAuditVerified": true
+}

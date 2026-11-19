@@ -1,0 +1,209 @@
+{
+  "schemaVersion": 1,
+  "scope": "Private geometry104 StageA failed acquisition, saved-only independent audit",
+  "verdict": "FAILURE_CONFIRMED_RETAINED; not geometry qualification",
+  "method": "Read and hash retained files only. No media executable, native parser, probe, decode, GUI or rerun.",
+  "identities": {
+    "sourceFilesVerified": 1153,
+    "privateBaseCommit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+    "sourceManifest": {
+      "bytes": 212019,
+      "sha256": "fcb014498b1eff6e8c8c6266163017d3aac20ce039e31d8b0df2dc0a01a4aaba"
+    },
+    "binding": {
+      "bytes": 2523,
+      "sha256": "f6a726df44c144016fdf51f8d3e4f0269214591dada9ef54d0b0014a4cdbc8f2"
+    },
+    "helpersVerified": 11,
+    "nodeVerified": true,
+    "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+    "runtimeToolsVerified": 2,
+    "dependenciesVerified": 7
+  },
+  "receipts": {
+    "CLOSURE.json": {
+      "bytes": 764,
+      "sha256": "009dc1fe1823327f185937cc71efd1c7d598f6b0752fbb0c6a6aacb4f94d57a6"
+    },
+    "ROOT_PREFLIGHT.json": {
+      "bytes": 345,
+      "sha256": "e313f57b1c48e610c3668069bade1648ac0e138106cb1492c607a9dcc86981ef"
+    },
+    "LEAD_RELEASE.json": {
+      "bytes": 1099,
+      "sha256": "4a7e6cdb9731629aee40a4b6624f917af13eaf0bed435e782f54819caf60f993"
+    },
+    "OUTER_STARTED.json": {
+      "bytes": 89,
+      "sha256": "7504a1ae82eccb4d22ff9122d55a80ac782c27a594872ccb62e62f008c16c9d5"
+    },
+    "owned-attempt1/summary.json": {
+      "bytes": 40757,
+      "sha256": "c6b4f7723de5885380df8be3c5a31f8cdfdb6c0503f2b78a49a057da4f164570"
+    },
+    "owned-attempt1/portrait/report.json": {
+      "bytes": 40368,
+      "sha256": "f085d9945f6cf05ce63d624e712126003c91d19046c7572cfa22fa493664c7a2"
+    },
+    "RUN.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "RUN.stderr": {
+      "bytes": 37,
+      "sha256": "e5a7d219fbbd08ba724833bfa4f8aed8f9f3005bc4e8979e60c6b19374a3e92a"
+    }
+  },
+  "failure": {
+    "code": "GEOMETRY_ORIENTATION_UNKNOWN",
+    "message": "Orientation is missing or malformed."
+  },
+  "fixture": {
+    "name": "source.mp4",
+    "bytes": 279633,
+    "sha256": "5c75dd20f365f3e55dde5170ca6e4cca29b3757778749c35ae074d9c5f35bf66",
+    "savedIdentityStillMatches": true,
+    "metadata": {
+      "codec_name": "h264",
+      "profile": "High",
+      "width": 960,
+      "height": 1440,
+      "pix_fmt": "yuv420p",
+      "sample_aspect_ratio": "1:1",
+      "avg_frame_rate": "30/1",
+      "r_frame_rate": "30/1",
+      "time_base": "1/15360",
+      "duration_ts": 122880,
+      "duration": "8.000000",
+      "nb_frames": "240",
+      "field_order": "progressive",
+      "color_transfer": "bt709",
+      "color_primaries": "bt709",
+      "color_space": "bt709"
+    },
+    "audio": {
+      "codec_name": "aac",
+      "sample_rate": "48000",
+      "channels": 2,
+      "channel_layout": "stereo",
+      "duration": "8.000000",
+      "initial_padding": 1024
+    },
+    "orientationEvidence": {
+      "width": {
+        "state": "known",
+        "value": "960"
+      },
+      "height": {
+        "state": "known",
+        "value": "1440"
+      },
+      "sampleAspectRatio": {
+        "state": "known",
+        "value": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "displayAspectRatio": {
+        "state": "known",
+        "value": {
+          "numerator": "2",
+          "denominator": "3"
+        }
+      },
+      "rotationDegrees": {
+        "state": "unknown",
+        "reason": "not-reported"
+      },
+      "rotationSource": "not-reported",
+      "displayMatrix": {
+        "state": "unknown",
+        "reason": "not-reported"
+      },
+      "legacyRotationDegrees": {
+        "state": "unknown",
+        "reason": "not-reported"
+      },
+      "fieldOrder": {
+        "state": "known",
+        "value": "progressive"
+      }
+    },
+    "inspectionCoverage": {
+      "decodedFrames": 60,
+      "windowSeconds": [
+        0,
+        2
+      ],
+      "ptsTicksFirst": 0,
+      "ptsTicksLast": 30208,
+      "stepTicks": 512,
+      "limitation": "240 is container-reported total; only first 60 decoded frames sampled. No independent complete timing or marker/pixel/PCM comparison."
+    }
+  },
+  "children": {
+    "counts": {
+      "generate": 1,
+      "inspect": 2
+    },
+    "census": {
+      "spawned": 3,
+      "closed": 3,
+      "live": 0,
+      "maximum": 1
+    },
+    "allClosedExitZero": true,
+    "stderrEmpty": true,
+    "phases": [
+      "generate",
+      "inspect",
+      "inspect"
+    ]
+  },
+  "closure": {
+    "exitCode": 1,
+    "elapsedSeconds": 2.509841260005487,
+    "terminationRequested": false,
+    "closureObserved": true,
+    "runtimeClosed": true,
+    "errors": [
+      {
+        "phase": "exit",
+        "message": "Acquisition exited nonzero"
+      }
+    ],
+    "sampledIdentitiesCount": 2,
+    "remainingGroupStates": [
+      "Z"
+    ],
+    "sampledOnly": true,
+    "limitation": "Outer sampled identities are not exhaustive child count; retained zombie leader was observed before reap."
+  },
+  "storage": {
+    "preGenerationReservation": {
+      "reservationBytes": "2147483648",
+      "remainingBytes": "2147483648",
+      "observedUsedBytes": "0",
+      "observedFreeBytes": "41185861632",
+      "floorBytes": "28991029248"
+    },
+    "summaryObservedBytes": 320001,
+    "outerObservedBytes": 360758,
+    "note": "Different sampling stages include evolving report bytes; neither is a continuous kernel-enforced quota."
+  },
+  "retainedFiles": [
+    "portrait/report.json",
+    "portrait/source.mp4",
+    "summary.json"
+  ],
+  "boundaries": {
+    "encodeChildren": 0,
+    "outputProduced": false,
+    "publicationAuthorized": false,
+    "catalogActivated": false,
+    "prospectiveTimingContractOnly": true,
+    "noCollectionOrFinishReceipt": true
+  },
+  "interpretation": "Generation and bounded inspection succeeded. Strict orientation admission refused missing/malformed orientation before encoding. Missing reported rotation/display matrix is not proof of identity orientation. No geometry/audio preservation, service lifecycle or product activation accepted. Any fix and fresh attempt require separate review; original evidence remains immutable."
+}

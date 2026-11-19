@@ -1,0 +1,49 @@
+'use strict';
+// Private acquisition-only authority. No renderer/IPC path, receipt-import API,
+// injectable observer or generic absent-orientation permission.
+const assert = require('node:assert/strict');
+const { performance } = require('node:perf_hooks');
+const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
+const { readSourceIdentity } = require('./source-identity.cjs');
+const { fingerprintEncodeSource } = require('./encode-operation.cjs');
+const issued = new WeakMap();
+const IDENTITY = [65536,0,0,0,65536,0,0,0,1073741824];
+async function observeNativeOrientation({ file, inspection, sourceIdentity, runtimeIdentity, signal, timeoutMs = 120000 }) {
+  assert(Number.isSafeInteger(timeoutMs) && timeoutMs > 0 && timeoutMs <= 120000);
+  assert(/^[a-f0-9]{64}$/.test(runtimeIdentity));
+  const end = performance.now()+timeoutMs;
+  const check = () => { assert(!signal?.aborted,'Native orientation cancelled'); assert(performance.now()<end,'Native orientation deadline'); };
+  check(); const probe = structuredClone(inspection.probe), identity=structuredClone(sourceIdentity);
+  const fingerprint=fingerprintEncodeSource(probe);
+  assert.equal(file,identity.canonicalPath);assert(BigInt(identity.size)>0n && BigInt(identity.size)<=512n*1024n*1024n);
+  assert.equal(probe.streams.length,2); const video=probe.streams.find(s=>s.codec_type==='video'); assert(video);
+  assert.deepEqual(await readSourceIdentity(file),identity);check();
+  // Reuse the full native reader, including unrelated playback/edit refusals.
+  // 20,000 records: source-mode read ceiling 13,508,608 bytes, depth6,
+  // <=164,096 atoms; individual read <=65,536 bytes. No process invocation.
+  const receipt=await observeRemuxSourcePlayback({file,probe,identity,target:'mp4',maxRecords:20000,signal,
+    timeoutMs:Math.max(1,Math.floor(end-performance.now())),onProgress:check});
+  check();assert.deepEqual(await readSourceIdentity(file),identity);check();
+  assert.equal(receipt.complete,true);assert.equal(receipt.tracks.length,2);
+  const tracks=receipt.tracks.filter(t=>t.outputIndex===video.index);assert.equal(tracks.length,1);
+  const track=tracks[0];assert.equal(BigInt(track.trackId),BigInt(video.id));assert.deepEqual(track.controls.matrix,IDENTITY);
+  assert.deepEqual(track.dimensions,{width:video.width*65536,height:video.height*65536});
+  for(const k of ['dev','ino','size','mtimeNs','ctimeNs','birthtimeNs'])assert.equal(receipt.identity[k],identity[k]);
+  const token=Object.freeze({});issued.set(token,{identity,fingerprint,runtimeIdentity,videoIndex:video.index,receipt:structuredClone(receipt),active:true});return token;
+}
+function requireNativeOrientation(token,{sourceIdentity,sourceProbeFingerprint,runtimeIdentity}) {
+  const x=issued.get(token);assert(x?.active,'Unissued or revoked native orientation witness');
+  assert.deepEqual(sourceIdentity,x.identity);assert.equal(sourceProbeFingerprint,x.fingerprint);assert.equal(runtimeIdentity,x.runtimeIdentity);
+  return {videoIndex:x.videoIndex,matrix:[...IDENTITY],receipt:structuredClone(x.receipt)};
+}
+async function refreshNativeOrientation(token, bindings, {signal, timeoutMs=120000}={}) {
+  assert(Number.isSafeInteger(timeoutMs)&&timeoutMs>0&&timeoutMs<=120000);
+  const end=performance.now()+timeoutMs;
+  const check=()=>{assert(!signal?.aborted,'Native orientation cancelled');assert(performance.now()<end,'Native orientation deadline');};
+  try {check();requireNativeOrientation(token,bindings);const x=issued.get(token);
+    assert.deepEqual(await readSourceIdentity(x.identity.canonicalPath),x.identity);
+    check();return requireNativeOrientation(token,bindings);
+  } catch(error) {revokeNativeOrientation(token);throw error;}
+}
+function revokeNativeOrientation(token){const x=issued.get(token);if(x)x.active=false;}
+module.exports={observeNativeOrientation,requireNativeOrientation,refreshNativeOrientation,revokeNativeOrientation};

@@ -1,0 +1,23 @@
+{
+  "status": "APPROVED unbound private continuation source only",
+  "handoffSha256": "0dcfff5ffe49b3fb135be3da8488691fdfbe7a37df66be121132d25c0940c791",
+  "independentTests": 37,
+  "supervisorAst": true,
+  "findings": [],
+  "verified": [
+    "Exact retained279633-byte source SHA is checked before exclusive nofollow destination creation. Fixed small buffer, bounded64KiB I/O, current owner/deadline fences, source handle/path identity rechecks and ordered primary/close retention.",
+    "No regeneration or private stdin executor. Original candidate runtime executor; explicit15-child ledger retains inspection2,encode1,outputprobe1,PCM2,collector6,strictdecode1,images2.",
+    "Genuine native witness observation binds exact source/probe/runtime, then refresh after awaited admission, before encode/collection and every child; currentness/deadline/storage/cancellation checked again before invoke. Witness revoked in case finally.",
+    "Original numerical/geometry/marker checks, genuine collection brand, telemetry and complete source validation retained. Prospective qualification remains experimental, not product catalog authority.",
+    "Entry570s deadline covers setup and final guard, outer600s,120s child,29GiB initial/27GiB ongoing/2GiB sampled limits retained. Bounded exclusive failure persistence and runtime closure retained.",
+    "All handoff hashes verified; source/runtime/owner/gate bindings remain null and no attempt exists."
+  ],
+  "pending": [
+    "Exact composed private source manifest including approved witness files, runtime/dependencies and retained fixture identity must be independently bound.",
+    "Full106 preservation/custody and distinct root one-shot release remain required.",
+    "Actual native reader acceptance on this fixture and subsequent encode/collection are unrun."
+  ],
+  "testLimits": [
+    "Mock copy/refresh negatives and inherited pure controls are inert; per-boundary driver call placement also statically inspected. No actual parser/media/filesystem fixture copy performed."
+  ]
+}

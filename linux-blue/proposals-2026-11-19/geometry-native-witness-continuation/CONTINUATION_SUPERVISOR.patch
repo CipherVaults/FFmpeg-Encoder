@@ -1,0 +1,11 @@
+--- a/supervise.py
++++ b/supervise.py
+@@ -1,7 +1,7 @@
+ import os,sys,json,time,stat,hashlib,subprocess,signal
+ from pathlib import Path
+ ROOT=Path(__file__).resolve().parent
+-SCOPE='geometry103-portrait-acquisition-unbound'
++SCOPE='geometry106-retained-portrait-continuation-unbound'
+ ROOT_IDENTITY=None
+ def root_guard():
+  global ROOT_IDENTITY

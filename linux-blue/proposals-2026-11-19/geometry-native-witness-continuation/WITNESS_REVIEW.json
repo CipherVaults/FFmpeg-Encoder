@@ -1,0 +1,40 @@
+{
+  "status": "APPROVED private source-only witness proposal; continuation not approved",
+  "handoffSha256": "524ab8bd4511ca964cbc1af075458573ba4251070e13719dc04ed15ccf44d645",
+  "sourcePaths": [
+    {
+      "path": "src/native-orientation-witness.cjs",
+      "bytes": 3914,
+      "sha256": "7e17578e08f107c2b506887a848f28c2f392e3fad2a44f4393909f0e5a6db3dd"
+    },
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 58157,
+      "sha256": "24d372ea992ac9c8ea741d24925927a6451e3ef848500a3c09fb739829028dfb"
+    },
+    {
+      "path": "tests/native-orientation-witness.test.cjs",
+      "bytes": 5941,
+      "sha256": "940caa5effa92db3bf564e138de040c11abebd2478f15d367b2924a4dd19b9f5"
+    }
+  ],
+  "independentInertTests": 48,
+  "findings": [],
+  "verified": [
+    "Exact three-file delta against inactive geometry103; original40 geometry controls unchanged.",
+    "Production imports genuine existing native reader directly; no imported receipt or injectable observer API can mint WeakMap token. Reader source checks movie/track identity matrices, complete track set, geometry/playback/edit/sample constraints; unrelated refusals propagate.",
+    "Initial/final source identity checks surround bounded native read. Deadline/abort checks follow awaits. Refresh revokes on failed identity/abort/deadline; synchronous require does not itself perform fresh filesystem observation.",
+    "Witness binds original probe fingerprint, runtime identity, source stamp and video track. Same token is required through selector epoch/plan/currentness; copied/revoked/foreign tokens refuse.",
+    "Only wholly absent geometry orientation in private AAC square-geometry family is locally supplemented. Original probe remains unchanged; partial/conflicting/reported rotation is not overwritten.",
+    "Tests use isolated synthetic module imports, not actual native parser or media."
+  ],
+  "requiredContinuationBoundaries": [
+    "Fresh driver must explicitly refresh witness after awaited admission and before encode/collection, retain all existing source/runtime hash/currentness checks and revoke on settlement.",
+    "Driver/source manifest/custody/storage reservation and distinct owner/gate require separate review and release. Proposed max15 children is not execution authorization."
+  ],
+  "limitations": [
+    "Actual generated retained fixture was not parsed by this review; successful native witness acquisition remains untested.",
+    "Prior failed StageA audit and source remain unchanged; no absence-equals-identity relaxation or shipped catalog activation.",
+    "Filesystem observer timeout is checked cooperatively, not a preemptive OS quota."
+  ]
+}

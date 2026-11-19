@@ -1,0 +1,58 @@
+{
+  "checkpoint": "106",
+  "status": "REVIEWED_EVIDENCE_OFF_SOURCE_WRITER_READY_NOT_COMMITTED",
+  "cutoff": "2026-11-19T17:40:49.490152+00:00",
+  "baseCommit": "ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1",
+  "native105": {
+    "acceptedScope": "One exact native105 ordinary H264 slower/24 Full Keep Source Matroska/AAC-copy GUI journey; saved-only audit",
+    "auditSha256": "856ba6664bce2827cb2028ad7de6112aaff9fec1711519b0f0f10afb80c8bbb1",
+    "noPrecisePcmOrCompleteCadenceClaim": true,
+    "ctimeMismatchRetained": true
+  },
+  "geometry": {
+    "failedStageAAuditRetained": true,
+    "inactivePayloads": 15,
+    "additionalHandoffAndReview": 2,
+    "sourceReconstructionFiles": 1155,
+    "continuationFiles": 13,
+    "noExecution": true,
+    "noRuntimeMembership": true
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/checkpoint105-final-mirror-release.json": {
+      "bytes": 265,
+      "sha256": "f67dae9d1b57d222d53c9eec02ed44525f274af8ccd01fc541eca49bf2cbe3c6"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint105-final-notion-verification.json": {
+      "bytes": 3397,
+      "sha256": "cae87680757805f9062b32aef8c6c91d0e8cfeaaa346d494e11ee4a8711cdde5"
+    },
+    "linux-blue/evidence-2026-11-19/checkpoint105-verified-remote.json": {
+      "bytes": 702,
+      "sha256": "deb8b23fa75d2cf7d60501ea40e625660b21de46e14774ca8981b9e796110355"
+    },
+    "linux-blue/evidence-2026-11-19/geometry104-stagea-failed-acquisition-saved-audit.json": {
+      "bytes": 6268,
+      "sha256": "2deae09a74f316fcacc2d0baba4ccbf207a15afcc4b1ee729048802b005a8f7b"
+    },
+    "linux-blue/evidence-2026-11-19/hosted105-verified-outcome.json": {
+      "bytes": 1052,
+      "sha256": "a9f6d527700fc8ef041110157611f921725c9343c488fcb0c43c6085c8cb537f"
+    },
+    "linux-blue/evidence-2026-11-19/native105-h264-saved-audit.json": {
+      "bytes": 10638,
+      "sha256": "856ba6664bce2827cb2028ad7de6112aaff9fec1711519b0f0f10afb80c8bbb1"
+    },
+    "linux-blue/evidence-2026-11-19/package105-independent-asar-source-audit.json": {
+      "bytes": 376,
+      "sha256": "5b0ba6f12dfe3e4b078416d25738e6ddd0c15a176730e7ce1aacd71ef0fcdb7d"
+    },
+    "linux-blue/evidence-2026-11-19/package105-independent-inert-audit.json": {
+      "bytes": 1030,
+      "sha256": "15075437194f81579ddf61a1a0ca5b12d3678bc6f711cc45eed9951c4cfa9dfd"
+    }
+  },
+  "appPackageWorkflowUbuntuChanged": false,
+  "sourceBinaryMediaLogsUploaded": false,
+  "next": "Lead review and scoped commit, full verified Notion preservation, separately released GitHub publication; no automatic runtime authority."
+}

@@ -1,0 +1,82 @@
+{
+  "status": "INACTIVE_RECOVERY_ARCHIVE_PROPOSAL_FOR_106",
+  "files": [
+    {
+      "path": "CONTINUATION_DRIVER.patch",
+      "bytes": 20122,
+      "sha256": "810be5146b453d76c211cb290f9f743748f87f96c9c2ae0608ec90716e4943f8"
+    },
+    {
+      "path": "CONTINUATION_HANDOFF.json",
+      "bytes": 2648,
+      "sha256": "0dcfff5ffe49b3fb135be3da8488691fdfbe7a37df66be121132d25c0940c791"
+    },
+    {
+      "path": "CONTINUATION_PLAN.md",
+      "bytes": 3412,
+      "sha256": "005a4be36f5f2aa2a3538876c5f577032d77bf5cabf41873f4943b5ebcf5bed6"
+    },
+    {
+      "path": "CONTINUATION_REVIEW.json",
+      "bytes": 2038,
+      "sha256": "770001519991e2324876ebb6776001a6c0981f9f23feb940aa0070df86c7e006"
+    },
+    {
+      "path": "CONTINUATION_SUPERVISOR.patch",
+      "bytes": 346,
+      "sha256": "f03fef8774e26bdb3ad0a99c1c5f15e2da90b5ac1c5531892f097f042355905e"
+    },
+    {
+      "path": "NATIVE_WITNESS.patch",
+      "bytes": 9786,
+      "sha256": "b9ee2d63ed9c135d692bd729c2ba932874f7940083dffb6b800dbd4db70d9feb"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3475,
+      "sha256": "532547291694ef44eac97218ed5bc3e53a0deec4981c710fb81923ba0b937b00"
+    },
+    {
+      "path": "RECONSTRUCTION_MANIFEST.json",
+      "bytes": 2904,
+      "sha256": "231b6ad962e39c3df8b64e0b6c82c8f7e228bf86a229d630fe1ba7002d063d3f"
+    },
+    {
+      "path": "WITNESS_DESIGN.md",
+      "bytes": 3594,
+      "sha256": "2c2622da44e9449a80915f96f5c302c1b967874773778657e25fbf59ae9d82fb"
+    },
+    {
+      "path": "WITNESS_HANDOFF.json",
+      "bytes": 967,
+      "sha256": "524ab8bd4511ca964cbc1af075458573ba4251070e13719dc04ed15ccf44d645"
+    },
+    {
+      "path": "WITNESS_REVIEW.json",
+      "bytes": 2660,
+      "sha256": "b057e4fe8f1fc668f819546c87b754cdca94b2046c152e3909e9ed0bb0551031"
+    },
+    {
+      "path": "continuation.cjs.txt",
+      "bytes": 2223,
+      "sha256": "b7cdbbf2238f004970c5dbae62c266357f0cb41dd20adc5458244e3d6b44607a"
+    },
+    {
+      "path": "continuation.test.cjs.txt",
+      "bytes": 3609,
+      "sha256": "6c060ca9c5174705a53e7c76001eced970411c043953d7ae457c66a9f1c700db"
+    },
+    {
+      "path": "native-orientation-witness.cjs.txt",
+      "bytes": 3914,
+      "sha256": "7e17578e08f107c2b506887a848f28c2f392e3fad2a44f4393909f0e5a6db3dd"
+    },
+    {
+      "path": "native-orientation-witness.test.cjs.txt",
+      "bytes": 5941,
+      "sha256": "940caa5effa92db3bf564e138de040c11abebd2478f15d367b2924a4dd19b9f5"
+    }
+  ],
+  "noExecution": true,
+  "authorRoundtrip": "1155 private source files and13 continuation files reconstructed exactly from105 history/retained archives plus these deltas; no helper execution"
+}

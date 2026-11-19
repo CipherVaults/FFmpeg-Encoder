@@ -1,0 +1,17 @@
+# Inactive native-matrix / retained-portrait recovery proposal
+
+Source-only archive candidate for normal106 custody, not activation, binding, execution or product evidence. Retain original104 failure and all old archives unchanged. This archive adds deltas, not duplicate full forks. Files with .txt suffix are inert exact source text. No live BINDING, gate, raw logs, media or executables are included. Historical handoffs retain log/binding hash references solely as provenance; those payloads are intentionally excluded.
+
+## Reconstruct private source
+Use complete Git history preserved with105 commit ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1. Export exact102 commit5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14 into a new isolated directory (never canonical). From105's linux-blue/proposals-2026-11-19 archives, apply geometry-collection/reconstruct-against-100.patch there: the relevant100/102 original modules were independently reconciled unchanged. Apply this archive's NATIVE_WITNESS.patch. Copy native-orientation-witness.cjs.txt to src/native-orientation-witness.cjs and native-orientation-witness.test.cjs.txt to tests/native-orientation-witness.test.cjs. Result1155files. No catalog/packagepins updated: private source is not a build-ready production checkout.
+
+## Reconstruct continuation
+In a second fresh directory copy geometry-stagea/{entry.cjs,frozen-checks.cjs,geometry-controls.cjs,retention.cjs,retention.test.cjs,driver.cjs,supervise.py}.txt, removing only .txt. Copy geometry-pure/marked-frame.cjs.txt and marked-frame.test.cjs.txt similarly. Apply geometry-stagea-admission/ADMISSION_DRIVER.diff explicitly to driver.cjs. Copy geometry-stagea-admission/admission.cjs.txt and admission.test.cjs.txt. Apply this archive's CONTINUATION_DRIVER.patch and CONTINUATION_SUPERVISOR.patch, then copy continuation.cjs.txt and continuation.test.cjs.txt to their source names. All13 resulting files must match RECONSTRUCTION_MANIFEST.json. Removed generation executor/producer/private runner are deliberately not dependencies of this continuation.
+
+Do not copy a consumed binding. A future source-only inert test setup can supply a fresh all-null UNBOUND template separately; actual composed source/runtime/input binding requires fresh identities and separate review. No binding/gate is needed to hash/reconstruct this archive, and reconstruction must not invoke the driver/reader/supervisor.
+
+## Verification
+Manifest source tree digest is SHA256 of JSON encoding sorted rows {path,bytes,sha256}, sorted keys, compact separators; paths lexicographic. Source count1155. All unchanged prior1153 source rows except operation-family match original private102+geometry archive; two new files added. Continuation13 rows are individually pinned. Author reconstructed only from105 Git history and archived bytes/new deltas; no media, helper or native parser run. Independent reconstruction still required before integration.
+
+## Limits
+Continuation remains UNBOUND, maximum15serial children, retained original fixture only/no regeneration; same numerical/marker proof, finite29/27GiB storage and2GiB tree,570/600s deadlines. Native witness genuine reader authority, currentness/refresh/revoke are explained in WITNESS_DESIGN and CONTINUATION_PLAN. A previous fixture generation/inspection is not geometry qualification. Future106 full preservation and explicit fresh review/release required. Existing104 failure audit is staged separately by root; do not duplicate it here.

@@ -1,0 +1,28 @@
+{
+  "status": "PRIVATE_SOURCE_ONLY_REVIEW_PENDING",
+  "base": "ffmpeg-geometry103-reconciled",
+  "base102Commit": "5a28da59d8d63c6197fadedfcd51c6c6e7cb5f14",
+  "sourcePaths": [
+    {
+      "path": "src/native-orientation-witness.cjs",
+      "bytes": 3914,
+      "sha256": "7e17578e08f107c2b506887a848f28c2f392e3fad2a44f4393909f0e5a6db3dd"
+    },
+    {
+      "path": "src/operation-family.cjs",
+      "bytes": 58157,
+      "sha256": "24d372ea992ac9c8ea741d24925927a6451e3ef848500a3c09fb739829028dfb"
+    },
+    {
+      "path": "tests/native-orientation-witness.test.cjs",
+      "bytes": 5941,
+      "sha256": "940caa5effa92db3bf564e138de040c11abebd2478f15d367b2924a4dd19b9f5"
+    }
+  ],
+  "testsPassed": 48,
+  "designSha256": "2c2622da44e9449a80915f96f5c302c1b967874773778657e25fbf59ae9d82fb",
+  "logSha256": "671357edbb11ac1e3c00dd85655b2feb7219ea56683b6c419008ed5a6acb3a57",
+  "actualParserInvocations": 0,
+  "mediaChildren": 0,
+  "continuationDriverBound": false
+}

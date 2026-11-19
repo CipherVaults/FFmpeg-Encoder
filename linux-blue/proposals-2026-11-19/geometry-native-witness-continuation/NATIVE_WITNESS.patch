@@ -1,0 +1,97 @@
+--- a/src/operation-family.cjs
++++ b/src/operation-family.cjs
+@@ -6,6 +6,7 @@
+ // Metadata admits collection only; complete decoded source evidence is required
+ // before publication. This module reads no files and launches no processes.
+ const path = require('node:path');
++const { requireNativeOrientation } = require('./native-orientation-witness.cjs');
+ const { ToolError } = require('./process-runner.cjs');
+ const { validateSettings, selectVideo } = require('./media.cjs');
+ const { normalizeProbe } = require('./inspection.cjs');
+@@ -251,9 +252,10 @@
+   // entries and any legacy representation. Unknown original side-data fields
+   // remain in normalizeProbe and are refused here, rather than silently ignored.
+ }
+-function sourceFacts(probe, actualBytes, proportional = false, familyId = null) {
++function sourceFacts(probe, actualBytes, proportional = false, familyId = null, native = null) {
+   need(probe.streams.length === 2 && probe.chapters.length === 0 && Array.isArray(probe.programs) && !probe.programs.length
+     && Array.isArray(probe.stream_groups) && !probe.stream_groups.length, 'The family requires exactly one video and one audio stream with no chapters, programs or groups.');
++  if (native) probe = structuredClone(probe);
+   const video = probe.streams.find(item => item.codec_type === 'video'), audio = probe.streams.find(item => item.codec_type === 'audio');
+   need(video && audio && video.index !== audio.index && video.codec_name === 'h264' && video.profile === 'High' && video.pix_fmt === 'yuv420p'
+     && video.field_order === 'progressive' && Number(video.disposition?.attached_pic || 0) === 0
+@@ -279,6 +281,14 @@
+   const reportedBytes = exactInteger(known(container.size, 'container byte size'), 'Container byte size', 1n, BigInt(proportional ? Number.MAX_SAFE_INTEGER : MAX_BYTES));
+   if (actualBytes !== undefined) need(actualBytes > 0n && actualBytes <= BigInt(proportional ? Number.MAX_SAFE_INTEGER : MAX_BYTES) && reportedBytes === actualBytes, 'The actual current source size must match the bounded observed container size.');
+   const ve = media.streams.find(item => item.index === video.index), ae = media.streams.find(item => item.index === audio.index);
++  if (native) {
++    need(familyId === AAC_GEOMETRY && native.videoIndex === video.index && orientation(ve.geometry) === 'absent', 'Native witness only supplements wholly unreported square geometry.');
++    // The preserved probe is never changed. This local evidence view carries
++    // the actual native matrix, not an inferred identity or invented tag.
++    ve.geometry = { ...ve.geometry, rotationSource: 'display-matrix',
++      rotationDegrees: {state:'known',value:{numerator:'0',denominator:'1'}},
++      displayMatrix:{state:'known',value:native.matrix.map(String)} };
++  }
+   need(compare(observedRational(ve.geometry.sampleAspectRatio, 'sample aspect ratio'), rat(1n)) === 0n
+     && compare(observedRational(ve.geometry.displayAspectRatio, 'display aspect ratio'), familyId === AAC_GEOMETRY ? rat(BigInt(video.width), BigInt(video.height)) : rat(16n, 9n)) === 0n, 'Only explicit square-pixel 16:9 geometry belongs to this family.');
+   need(['color_transfer', 'color_primaries', 'color_space'].every(key => video[key] === 'bt709') && video.color_range === 'tv' && video.chroma_location === 'left'
+@@ -375,9 +385,9 @@
+     : 'Only 48 kHz stereo AAC LC/fltp source audio belongs to this family.');
+   return id === UHD_FULL ? uhdFullScope(request, facts, contract) : id === FULL || fullCopy ? fullScope(request, facts, contract, fullCopy) : rangeScope(request, facts, contract, flac, proportional, id);
+ }
+-const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs'];
++const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint', 'runtimeIdentity', 'environment', 'budget', 'executionBudgetMs', 'nativeOrientationWitness'];
+ function bindings(value, familyId, scopeOnly = false) {
+-  record(value, BINDINGS, BINDINGS.filter(key => key !== 'environment'), 'Main-owned family admission');
++  record(value, BINDINGS, BINDINGS.filter(key => key !== 'environment' && key !== 'nativeOrientationWitness'), 'Main-owned family admission');
+   const config = settings(value.settings), source = sourceIdentity(value.sourceIdentity), fingerprint = digest(value.sourceProbeFingerprint, 'Source probe fingerprint');
+   const plan = assertEncodeOperationPlan(value.plan, { settings: config, sourceProbeFingerprint: fingerprint, sourcePath: source.canonicalPath });
+   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime');
+@@ -386,7 +396,8 @@
+   // Without a family id this only gathers facts; the scope is that family's own.
+   const proportional = proportionalId(familyId);
+   if (proportional && !scopeOnly) need(value.budget === null, 'Proportional selection derives its budget; caller overrides are forbidden.');
+-  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional, familyId);
++  const native = value.nativeOrientationWitness === undefined ? null : requireNativeOrientation(value.nativeOrientationWitness,{sourceIdentity:source,sourceProbeFingerprint:fingerprint,runtimeIdentity});
++  const facts = sourceFacts(describeEncodeOperationSource(plan), BigInt(source.size), proportional, familyId, native);
+   const base = { plan, facts, sourcePolicy: { id: null, rate: facts.rate, maximumExtentUs: MAX_EXTENT_US }, state: { planFingerprint: digest(plan.planFingerprint, 'Plan fingerprint'), settings: config, sourceIdentity: source,
+     sourceProbeFingerprint: fingerprint, runtimeIdentity, environment: environment(value.environment, config, runtimeIdentity), familyId: null, request: null,
+     budget: proportional || scopeOnly ? null : budget(value.budget), executionBudgetMs: scopeOnly ? 0 : integer(value.executionBudgetMs, 'Execution budget', 1, 1800000) } };
+@@ -474,18 +485,18 @@
+         ...(proportional ? { proportional: true, resourcePolicy: resourcePolicy(selected.id), resources: current.state.resources } : {}) });
+       if (proportional || selected.id === AAC_GEOMETRY) { const epoch = this.#epoch; proportionalResults.set(result, { proportional, plan: current.plan, sourceIdentity: freeze(current.state.sourceIdentity),
+         sourceProbeFingerprint: current.state.sourceProbeFingerprint, verify: evidence => this.#verifyCollectedSource(token, evidence), current: () => this.#epoch === epoch }); }
+-      this.#selections.set(token, { epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
++      this.#selections.set(token, { nativeWitness: options.nativeOrientationWitness, epoch: this.#epoch, plan: current.plan, state: freeze(current.state), facts: current.facts, result }); return token;
+     });
+   }
+   #selected(token) { const value = token && typeof token === 'object' ? this.#selections.get(token) : null;
+     need(value && value.epoch === this.#epoch, 'Only this family selector\'s current private selection is usable.'); return value; }
+   requireCurrent(token, options) {
+     return checked(STALE, () => { const selected = this.#selected(token), current = bindings(options, selected.state.familyId);
+-      need(selected.plan === current.plan && same(selected.state, current.state), 'The exact plan, source, probe, runtime, environment, settings, request or budget changed.'); return selected.result; });
++      need(selected.nativeWitness === options.nativeOrientationWitness && selected.plan === current.plan && same(selected.state, current.state), 'The exact plan, source, probe, runtime, environment, settings, request or budget changed.'); return selected.result; });
+   }
+   invalidate(diagnosticReason) { need(typeof diagnosticReason === 'string' && /^[\x20-\x7e]{1,512}$/.test(diagnosticReason) && diagnosticReason.trim(), 'Invalidation requires a bounded diagnostic reason.'); this.#epoch++; }
+   orientationQualification(options) {
+-    record(options, ['inspection', 'request', 'runtimeIdentity', 'settings']);
++    record(options, ['inspection', 'request', 'runtimeIdentity', 'settings', 'nativeOrientationWitness', 'sourceIdentity'], ['inspection', 'request', 'runtimeIdentity', 'settings']);
+     // This helper can only interpret absence for the one resize route. Avoid
+     // adding family/runtime preconditions, including the bounded inert walk,
+     // to unrelated ordinary Full requests.
+@@ -501,12 +512,13 @@
+     const tuple = this.#families.filter(item => item.runtimeIdentity === runtimeIdentity && same(item.settings, config)); if (!tuple.length) return {};
+     try {
+       const probe = normalizeProbe(options.inspection.probe);
++      const native = options.nativeOrientationWitness === undefined ? null : requireNativeOrientation(options.nativeOrientationWitness,{sourceIdentity:options.sourceIdentity,sourceProbeFingerprint:fingerprintEncodeSource(probe),runtimeIdentity});
+       let facts;
+       const selected = tuple.find(item => { try {
+-        const candidate = sourceFacts(probe, undefined, proportionalId(item.id), item.id);
++        const candidate = sourceFacts(probe, undefined, proportionalId(item.id), item.id, native);
+         requestScope(options.request, candidate, undefined, item.id); facts = candidate; return true;
+       } catch { return false; } });
+-      if (!selected || facts.orientation !== 'absent') return {};
++      if (!selected || (facts.orientation !== 'absent' && !native)) return {};
+       return freeze({ identityOrientationQualification: { evidenceId: selected.qualification.evidenceId, runtimeIdentity,
+         sourceEvidenceFingerprint: fingerprintEncodeSource(probe), videoIndex: facts.videoIndex } });
+     } catch { return {}; }

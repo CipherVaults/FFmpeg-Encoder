@@ -1,0 +1,24 @@
+{
+  "approved": true,
+  "scope": "105 actual inert package audit only",
+  "sourceCommit": "ce22f0cc3bccb7251d3a0068e555174c8a9eb0b1",
+  "sourceFilesVerified": 1224,
+  "planInputsVerified": 269,
+  "physicalFilesVerified": 272,
+  "applicationAsarMembersVerified": 168,
+  "currentSourcePinsVerified": 151,
+  "allFilesMode": "0600",
+  "activeAsarAbsent": true,
+  "metadataVerified": true,
+  "targetQualificationAuditInputsVerified": 6,
+  "originalMp4QualificationRetained": true,
+  "fileAuditSha256": "93d5b334ad70a1b581ef73c6763339b797b07a05cdacf348ee38a53e223c6490",
+  "asarSourceAuditSha256": "5b0ba6f12dfe3e4b078416d25738e6ddd0c15a176730e7ce1aacd71ef0fcdb7d",
+  "attempt": "One explicit released105 inert build; no retry.",
+  "cadenceAuditAndStandaloneUnifiedBoundaryVerified": true,
+  "limits": [
+    "No executable mode changes or runtime/media execution.",
+    "Exact source and artifact only; no native acceptance or distribution readiness.",
+    "Full preservation and separate native binding/release remain required."
+  ]
+}

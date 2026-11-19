@@ -1,0 +1,14 @@
+{
+  "status": "APPROVED inactive reconstruction archive only",
+  "handoffSha256": "7270474652300db29b5ed47c1457a1ac1e712dcd53fa39daac426b9f923a6255",
+  "payloadFilesVerified": 15,
+  "sourceReconstructionFiles": 1155,
+  "sourceTreeSha256": "019fda1bfd743c3bb321d7580a679d05a4973036c9a131509906e2ff5163364a",
+  "continuationFilesVerified": 13,
+  "method": "Exported exact102 from105 Git history in fresh temporary directory; applied archived geometry and new witness patches with zero fuzz, added pinned texts. Separately reconstructed original StageA plus admission and continuation patches/texts. Every expected byte/hash matched. No reconstructed helper executed.",
+  "boundaries": [
+    "No live binding/gate/media/raw logs or runtime membership added.",
+    "Historical handoffs reference omitted logs/binding for provenance only; fresh UNBOUND template/binding remains separate.",
+    "Prior failure audit and custody are separately retained, not new geometry acceptance."
+  ]
+}

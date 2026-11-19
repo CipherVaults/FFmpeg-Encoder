@@ -1,0 +1,108 @@
+{
+  "schema": "isolated-reveal086-saved-audit/v1",
+  "status": "accepted-saved-evidence-with-lead-observation",
+  "scope": "one-no-media-electron-reveal086",
+  "evidence": [
+    {
+      "name": "BINDING.json",
+      "bytes": 12876,
+      "sha256": "c053f2b8901f6c19a1aa42bde14d46e7a9180be7f010b2ca4eb7ad26bcf28646"
+    },
+    {
+      "name": "LEAD_RELEASE.json",
+      "bytes": 693,
+      "sha256": "4321cbb93d1f2116c466e60a04299f271fb8d18963348d99d7a32336e28e9370"
+    },
+    {
+      "name": "INDEPENDENT_FINAL_REVIEW.json",
+      "bytes": 1231,
+      "sha256": "11a48f81f36bd1f4c4d18835adda7f660e3c0200ee73e487f08ba27dc8703d8f"
+    },
+    {
+      "name": "REQUEST_PRIVATE.json",
+      "bytes": 425,
+      "sha256": "f9635f05534e6301c6b8bf586711f16328a72dc3c5761fd033b601f8a4567f9c"
+    },
+    {
+      "name": "DISPATCH.json",
+      "bytes": 131,
+      "sha256": "5c9f5d0f1a2b760ec316b2e2a88edb1addc07038e303658e5e5f8b5d182ac2b8"
+    },
+    {
+      "name": "CLOSURE.json",
+      "bytes": 1033,
+      "sha256": "4e92d47a99dfcff440743398cf93c297d15edd86c6e36742a75fc71973d87714"
+    },
+    {
+      "name": "DEADLINE.json",
+      "bytes": 78,
+      "sha256": "f41b17b62a84b4f90762a4175e212dd64f65eece744d40fdddcbf5e3e0901b2b"
+    },
+    {
+      "name": "ATTEMPT_STARTED.json",
+      "bytes": 80,
+      "sha256": "3775819702673638f144548bd4b5cc1cb6106cedb252897161e459d14be31527"
+    },
+    {
+      "name": "APP.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "APP.stderr",
+      "bytes": 483,
+      "sha256": "e775f396a7988333a959388be56e2e8d1aaa1c61aa7ca8a8254f0626dd3448dd"
+    },
+    {
+      "name": "supervise.py",
+      "bytes": 7099,
+      "sha256": "724762f450818260a05f8014ef1e9a1f8618f1ab3172d135baecf2c3824419f7"
+    },
+    {
+      "name": "reveal-core.cjs",
+      "bytes": 3194,
+      "sha256": "9b792da0fa938a76f507125606f00d684fb7fc7d9dfb74cb01e24470c6c15f6b"
+    },
+    {
+      "name": "main.cjs",
+      "bytes": 125,
+      "sha256": "21518bed489d5c937b0c22018785e5aca968e9b23e5935701fa482625e678854"
+    }
+  ],
+  "runtime": {
+    "stockFilesVerified": 72,
+    "executableSha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564",
+    "scriptsAndMembershipVerified": true
+  },
+  "request": {
+    "relativeTarget": "grandparent/parent/reveal-marker.txt",
+    "markerBytes": 55,
+    "markerSha256": "7e27b2a8ab2236aaeddad19333433cfa05799c3b27314eafd06f06e7b13a1c80",
+    "oneDispatch": true
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 61.73710733599728,
+    "normalQuitTimerSeconds": 60,
+    "forcedTermination": false,
+    "remainingLiveGroupMembers": 0,
+    "sampledIdentities": 6,
+    "samplingNotExhaustive": true
+  },
+  "stderr": {
+    "bytes": 483,
+    "retainedDiagnostic": "Three system D-Bus socket connection errors; not suppressed and not evidence of reveal backend choice."
+  },
+  "visualObservation": {
+    "source": "Lead direct desktop observation, not independently replayed by this saved-only auditor",
+    "reported": "Thunar opened correct grandparent/parent directory with reveal-marker.txt selected; no manual navigation; window closed normally."
+  },
+  "limits": [
+    "Did not reproduce earlier wrong-parent behavior.",
+    "No application fix, fallback execution or backend attribution established.",
+    "Shell return alone is not selection proof; visible selection rests on separately attributed lead observation.",
+    "No FFmpeg/media/app-service execution in this diagnostic.",
+    "Independent saved-only readback; no rerun or new probe.",
+    "Evidence independent of committed086 source; retain at next checkpoint."
+  ]
+}

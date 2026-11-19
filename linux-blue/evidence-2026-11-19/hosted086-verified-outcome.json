@@ -1,0 +1,31 @@
+{
+  "checkpoint": "086",
+  "remoteCommit": "6eccc9e573db1e9caf4f103058758577142bc40b",
+  "runId": 44486490564,
+  "attempt": 1,
+  "event": "push",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "id": 135431136788,
+      "name": "Source contracts / windows-2022",
+      "conclusion": "success"
+    },
+    {
+      "id": 135431137104,
+      "name": "Source contracts / ubuntu-24.04",
+      "conclusion": "success"
+    }
+  ],
+  "syntaxFilesPerOS": 223,
+  "sharedTestsPerOS": 325,
+  "additionalLinuxTests": 40,
+  "failures": 0,
+  "skippedTests": 0,
+  "ubuntuInventory": "skipped by existing one-shot authority",
+  "windowsPackagedIntegration": "not triggered; no workflow rebind",
+  "limits": [
+    "Source/inert contracts only, including 82 actual-renderer tests per OS.",
+    "No Electron, FFmpeg, GPU, package or native cancellation qualification."
+  ]
+}

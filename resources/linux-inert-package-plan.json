@@ -2030,6 +2030,30 @@
       "group": "application",
       "bytes": 1132,
       "sha256": "05d4aa6de8573b6725b5f87c131649cff5d039ab091953fbd3d2facfb2e6fe7d"
+    },
+    {
+      "root": "source",
+      "source": "resources/linux-candidate/Launch-FFmpeg-Encoder-Linux-Candidate.sh",
+      "target": "electron/Launch-FFmpeg-Encoder-Linux-Candidate.sh",
+      "group": "candidate-launcher",
+      "bytes": 1552,
+      "sha256": "260dc8f7724f3dc8182151202a7b9ceabc2df02c86c647f5ba4744d35d32c630"
+    },
+    {
+      "root": "source",
+      "source": "resources/linux-candidate/CANDIDATE_README.txt",
+      "target": "electron/CANDIDATE_README.txt",
+      "group": "candidate-launcher",
+      "bytes": 2370,
+      "sha256": "de60eb47e7f4a136c9e4cfdf59d3d9ba435d15c310fdf1063baf554a4f4c8aae"
+    },
+    {
+      "root": "source",
+      "source": "resources/linux-candidate/CANDIDATE_FINALIZATION.json",
+      "target": "electron/CANDIDATE_FINALIZATION.json",
+      "group": "candidate-launcher",
+      "bytes": 855,
+      "sha256": "f980e58b434389a2f88211c5dc91b450c19f90449b1893740ecb4d99b01d0018"
     }
   ]
 }

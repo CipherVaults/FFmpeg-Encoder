@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "scope": "explicit-internal-linux-candidate-mode-contract",
+  "distributionReady": false,
+  "automaticFinalization": false,
+  "requiresIndependentArtifactAudit": true,
+  "requiresSeparateLeadRelease": true,
+  "inertFileMode": "0600",
+  "ordinaryExecutableMode": "0755",
+  "executablePaths": [
+    "electron/Launch-FFmpeg-Encoder-Linux-Candidate.sh",
+    "electron/ffmpeg-encoder-linux-candidate",
+    "electron/chrome-sandbox",
+    "electron/chrome_crashpad_handler",
+    "electron/resources/runtime/ffmpeg",
+    "electron/resources/runtime/ffprobe"
+  ],
+  "allOtherFileMode": "0600",
+  "preserveOriginalInventory": true,
+  "preserveNotForDistributionMarker": true,
+  "preserveAllFileBytes": true,
+  "postFinalizationReceipt": ["relativePath", "bytes", "sha256", "mode", "device", "inode"],
+  "nativeLaunchRequiresSeparateGate": true
+}

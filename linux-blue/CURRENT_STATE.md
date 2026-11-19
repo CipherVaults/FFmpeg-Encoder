@@ -1,11 +1,17 @@
-# Current State — 086 cancellation settlement UI; recovery pending
+# Current State — Checkpoint 087
 
-Evidence cutoff 2026-11-19T05:10:48.019890+00:00. Four source paths independently approved and seven canonical writer paths ready; no 086 package/native acceptance claim. Commit and full preservation pending.
+Evidence cutoff: 2026-11-19T08:31:37.488505+00:00. Local commit and preservation are pending; 086 remains the latest verified durable checkpoint.
 
-- 085 fully preserved: 915 files/85 commits, remote c65a0aca98d6f280f51c7a999f2c3e083b5c9e12. Subsequent shared checks passed 223 syntax/323 shared per OS plus 40 Linux. Exact Windows packaged two-file report passed; report-only, substituted picker, no GPU/owner desktop qualification.
-- Separate actual 084 running cancellation audited: positive progress then one Cancel, one cancelled job with encoder SIGKILL, zero publications, zero final storage reservations/jobs, retained temporary output. Recovery was NOT attempted after enabled New batch exposed uncertain full cancellation settlement.
-- Normal app close: exit zero after 221.756 seconds, no termination request/errors, sampled 12 identities and remaining Z state. Distinct from encoder termination; not exhaustive census.
-- 086 keeps mutation locks and explicit Cancelling while cancel IPC is pending, and retains rejection uncertainty through navigation/terminal snapshots until successful reply or fresh accepted ready plan. Backend authority unchanged.
-- Final canonical checks: 223 syntax, 325 shared including 82 renderer, 40 Linux; zero failures/skips. 137 current source pins, 252 package inputs, 164 source rows and 154 app rows verified; historical producer/backend/runtime identities unchanged. No actual package build.
-- Shared hosted matrix will exercise changed renderer controls on both OS. No Windows packaged rerun/rebind because its existing two-file path does not test this cancellation race. 085 Windows runtime proof applies to prior renderer only.
-- Next: exact-scope commit, full Git → Notion → GitHub, then separately reviewed revised-package cancellation/recovery. Reveal location remains unresolved. Owner-machine Windows/RTX testing is LAST after independent candidate freeze.
+## Completed and evidenced
+- 086 is fully restored and readable in Notion, with exact GitHub mapping and later shared CI success: 223 syntax / 325 shared per OS, plus 40 Linux tests.
+- Native 086 running cancellation settled before fresh preparation and successful UHD Full 1440 FLAC recovery. The exact saved audit records 240 frames and 384,000 PCM samples, normal app closure and current correct output selection in Thunar. Runtime generation tokens were not serialized; distinct plans and reviewed semantics support renewal, not a direct token comparison.
+- An isolated stock Electron marker reveal separately selected the correct target. The historical 084 wrong-parent observation remains preserved and unexplained; this is not a proven bug fix.
+- Eight reviewed 087 source paths add an explicit internal candidate launcher and one-shot Ubuntu metadata resolver binding. Ten launcher, eight package and twenty Ubuntu inert controls passed; aggregate 223 syntax / 325 shared / 40 Linux passed, with zero failures or skips.
+
+## Still pending
+- Build, audit and separately finalize the exact launcher package, then qualify normal visible launch. The declarative mode list is not execution; NOT_FOR_DISTRIBUTION and existing default/Windows routing remain unchanged.
+- Run the one-shot authenticated Ubuntu metadata acquisition after ordinary publication. It is data-only, not installation or an exact build/dependency lock.
+- Implement and qualify actual CPU AV1 app/service support, the named-host support contract, corresponding-source/manufacture and durable binary retention. Small runtime codec tests do not prove app acceptance.
+- Independently freeze the qualified candidate before the LAST owner Windows desktop / RTX hardware gate. No full v0.7 release claim. Themes, languages and learning remain v0.8; HDR remains v0.9.
+
+Full rationale, exact evidence identities and complete history are in SESSION_SUMMARY.md and 2026-11-19_Cancellation_Recovery_and_Explicit_Candidate_Launch.md/.json. No new 087 package or native claim is made at this cutoff.

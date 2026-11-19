@@ -1,0 +1,38 @@
+name: One-shot Ubuntu signed metadata lock proposal
+on:
+  push:
+    branches: [blue/linux-development]
+    paths: [.github/workflows/ubuntu-lock.yml]
+permissions:
+  contents: read
+jobs:
+  resolve:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '6eccc9e573db1e9caf4f103058758577142bc40b' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Verify exact checked-out authority and source
+        env:
+          EXPECTED_HEAD: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD 6eccc9e573db1e9caf4f103058758577142bc40b"
+          printf '%s  %s\n' '4f7fb938c8c03f2959a25daae1ce63637c98ec33b65ccda125ea1607da0f5f8a' 'scripts/ubuntu-lock/resolver.py' '741ee8b48bd3320c9b3ab16be18cebbdbb4bc3d2f8bedd4965e264297665ecec' 'scripts/ubuntu-lock/test_resolver.py' | sha256sum --check --strict
+      - name: Inert controls
+        run: python3 scripts/ubuntu-lock/test_resolver.py
+      - name: Signed metadata and simulation only
+        run: timeout --signal=TERM --kill-after=5s 1210s python3 scripts/ubuntu-lock/resolver.py --resolve-once
+      - name: Retain candidate report, not a release lock
+        if: ${{ always() && hashFiles('scripts/ubuntu-lock/lock-report.json') != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ubuntu-lock-${{ github.run_id }}-${{ github.run_attempt }}
+          path: scripts/ubuntu-lock/lock-report.json
+          retention-days: 3
+          if-no-files-found: error
+          compression-level: 0

@@ -1,0 +1,62 @@
+{
+  "schema": "native086-cancel-recovery-saved-audit/v1",
+  "status": "accepted-saved-evidence",
+  "sourceCommit": "5396432be1b80bfc57cfdd90b32f028f3f071a71",
+  "sourceFilesVerified": 920,
+  "packageFilesVerified": 255,
+  "normalExecutableModesVerified": 5,
+  "fixtureSha256": "e1227fc45c4a753a261f4b008d3756452b08497e100b798092f22fbbe947c021",
+  "inventory": {
+    "rows": 68,
+    "sha256": "6e1c344b9457dfb08e53c1a693184fd6b8ae13e22025807246d3b76d0e62cb40"
+  },
+  "journal": {
+    "events": 38,
+    "sessions": 1,
+    "encodeStarts": 2,
+    "cancelRequests": 1,
+    "cancelSignal": "SIGKILL",
+    "cancelElapsedSeconds": 11.829,
+    "recoveryElapsedSeconds": 54.977,
+    "orderedCancelFinishedThenFreshPrepareThenStart": true,
+    "distinctPlanIdentities": true,
+    "generationLimit": "Runtime generation token is not serialized; fresh generation is supported by reviewed service semantics plus successful distinct Prepare/Start after settled cancellation, not a direct token comparison.",
+    "cancelAndRecoveryReservationsReleased": true,
+    "retainedIncompleteTemporaryDirectory": true,
+    "cancelledOutputPublished": false
+  },
+  "output": {
+    "name": "fixture_H265-CPU.mkv",
+    "bytes": 7546362,
+    "sha256": "6d5f3b63b33fadb8dbdb26172c434e93d8ab18b6d1a74bb7dcfac6a6859a0827",
+    "width": 2560,
+    "height": 1440,
+    "frames": 240,
+    "pcmSamples": 384000,
+    "pcmHash": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+    "pcmBytes": 1536000,
+    "maxRebasedTimestampErrorUs": 334,
+    "originalCollectorChildren": 7,
+    "originalSpoolsVerified": 3,
+    "validationPassed": true,
+    "publishedInodeAndMtimeMatchCollector": true,
+    "ctimeCaveat": "Publication rename changes ctime; retained staged and published identities are distinct records."
+  },
+  "closure": {
+    "exitCode": 0,
+    "elapsedSeconds": 463.16870275600013,
+    "forcedTermination": false,
+    "sampledIdentities": 19,
+    "sampledNotExhaustive": true
+  },
+  "visualObservation": {
+    "source": "Lead direct desktop observations, not independently replayed by saved-only auditor",
+    "reported": "Positive18.1% then single Cancel; indeterminate Cancelling without stale ETA; Cancelled00:11 retained-temp warning. Fresh genuine recovery folder and Prepare; Completed1 with fixed00:54. One reveal selected exact recovery output in Thunar; normal window/app closure."
+  },
+  "limits": [
+    "No new media/probe/desktop invocation during audit.",
+    "One measured UHD Full1440 FLAC cancellation/recovery case, not general cancellation coverage.",
+    "Historical084 wrong-parent reveal remains unchanged; successful086 observation does not establish fallback/backend cause.",
+    "Existing original diagnostics retained, not a warning-free or performance qualification."
+  ]
+}

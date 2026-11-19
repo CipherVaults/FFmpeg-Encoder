@@ -1,0 +1,127 @@
+{
+  "checkpoint": "087",
+  "cutoff": "2026-11-19T08:31:37.488505+00:00",
+  "baseCommit": "5396432be1b80bfc57cfdd90b32f028f3f071a71",
+  "status": "Native086 bounded cancellation/recovery accepted;087 launcher and metadata resolver source-only tested",
+  "sourceIntegration": {
+    "base": "5396432be1b80bfc57cfdd90b32f028f3f071a71",
+    "files": [
+      {
+        "path": "scripts/ubuntu-lock/resolver.py",
+        "bytes": 11565,
+        "sha256": "4f7fb938c8c03f2959a25daae1ce63637c98ec33b65ccda125ea1607da0f5f8a"
+      },
+      {
+        "path": "scripts/ubuntu-lock/test_resolver.py",
+        "bytes": 6364,
+        "sha256": "741ee8b48bd3320c9b3ab16be18cebbdbb4bc3d2f8bedd4965e264297665ecec"
+      },
+      {
+        "path": ".github/workflows/ubuntu-lock.yml",
+        "bytes": 2075,
+        "sha256": "eb911a53c52097101cdbad386164ab9c2343d1c6ebb43b72625fb9704ff8de32"
+      },
+      {
+        "path": "resources/linux-candidate/Launch-FFmpeg-Encoder-Linux-Candidate.sh",
+        "bytes": 1552,
+        "sha256": "260dc8f7724f3dc8182151202a7b9ceabc2df02c86c647f5ba4744d35d32c630"
+      },
+      {
+        "path": "resources/linux-candidate/CANDIDATE_README.txt",
+        "bytes": 2370,
+        "sha256": "de60eb47e7f4a136c9e4cfdf59d3d9ba435d15c310fdf1063baf554a4f4c8aae"
+      },
+      {
+        "path": "resources/linux-candidate/CANDIDATE_FINALIZATION.json",
+        "bytes": 855,
+        "sha256": "f980e58b434389a2f88211c5dc91b450c19f90449b1893740ecb4d99b01d0018"
+      },
+      {
+        "path": "resources/linux-inert-package-plan.json",
+        "bytes": 73129,
+        "sha256": "5a36b126c04393f3c5e081aaeb524d3f207f7ef3544d91f2e1f7e129aa9b7255"
+      },
+      {
+        "path": "tests/linux-candidate-launcher.test.cjs",
+        "bytes": 5800,
+        "sha256": "784e094222d07756afb7e281f89b05a960a3fe30a7639c4c545902ab3044aab5"
+      }
+    ],
+    "launcherHandoffSha256": "6f58422801a832010d8a7bcedc2807297a137fc83bc205d960852cba48617006",
+    "launcherReviewSha256": "156258e8443196a0e7d9091da02482ebc029e029edb1e9fbf29de3b46f02cd11",
+    "ubuntuReviewSha256": "7a2c36b86a92c5555a975bd6a5c626846c1e3cb8fe4e81a4c9a00d8f587c36f4",
+    "testStatus": "passed",
+    "cutoff": "2026-11-19T08:31:37.488505+00:00",
+    "tests": {
+      "launcher": 10,
+      "existingPackage": 8,
+      "ubuntuInert": 20,
+      "aggregateSyntax": 223,
+      "aggregateShared": 325,
+      "aggregateLinux": 40,
+      "failures": 0,
+      "skips": 0,
+      "overlappingNotSummed": true
+    },
+    "logs": {
+      "LAUNCHER_TESTS.stdout": {
+        "bytes": 1041,
+        "sha256": "78d12a654be6bd473139ef7fc3b61af1a081d668f72584faf6f98c27ebc35d0f"
+      },
+      "PACKAGE_TESTS.stdout": {
+        "bytes": 934,
+        "sha256": "a2f5885968052c7c775551e18c68ce5e153946af42ac26fcd0e95b212533c9e7"
+      },
+      "UBUNTU_TEST.stderr": {
+        "bytes": 119,
+        "sha256": "781a5f40936b0215ef9836ba9f6f41c3e1ee7069efe7618068d56edcb2bf2a04"
+      },
+      "AGGREGATE.stdout": {
+        "bytes": 37692,
+        "sha256": "93b6db28c46123a1a6a2982a1edaf370c2970928adf7d0a0d73d1cd9476d4207"
+      },
+      "AGGREGATE.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "inputVerification": {
+      "inputs": 255,
+      "app": 154,
+      "bytes": 391553664,
+      "expectedPhysical": 258,
+      "buildExecuted": false
+    },
+    "operationalNote": "Initial shell redirection used parent cwd and refused missing relative log directory before either test ran; corrected explicit workdir then all listed commands passed. No product failure or source change."
+  },
+  "sourceIntegrationSha256": "9bedf743ec9c470da4201d38580006ea7885275a6cbc2327dde27ef6a2ad6f79",
+  "predecessorSession": {
+    "bytes": 2664609,
+    "sha256": "f721ef351ab0d01153c36d6b43430f725ab27a374969e6df6137f6ef1f7d9711"
+  },
+  "predecessorMirrorReceiptSha256": "b649ac3d505b1ff900b3674823c89e183177517ec324a3b040e0b8b39c4435a0",
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/native086-cancel-recovery-saved-audit.json": {
+      "bytes": 2788,
+      "sha256": "c44a5a5b79de1db42a998b93dfa22c489d7d1d100e189e5742ea5a323ca686bf"
+    },
+    "linux-blue/evidence-2026-11-19/isolated-reveal086-saved-audit.json": {
+      "bytes": 3688,
+      "sha256": "20aaa9e04aefb0e716bc228ff1865a299e0a13ed0e5a4e59c3ee81059aae8ea5"
+    },
+    "linux-blue/evidence-2026-11-19/hosted086-verified-outcome.json": {
+      "bytes": 856,
+      "sha256": "3f278e6b8041db3116fe99ab65bb3748c3d28ab5f6e85209508f5bb0b407d6fc"
+    }
+  },
+  "limits": [
+    "No087 package build, executable mode finalization or launcher/native acceptance",
+    "Ubuntu metadata acquisition not yet run; ready:false conservative superset, not install or build lock",
+    "Native086 one measured UHD Full1440FLAC case; generation tokens not serialized",
+    "Current reveal success does not erase historical084 discrepancy or prove root cause",
+    "Owner Windows desktop/RTX is LAST gate after independent candidate freeze",
+    "No public distribution or default Linux promotion"
+  ],
+  "commitPending": true,
+  "preservationPending": true
+}

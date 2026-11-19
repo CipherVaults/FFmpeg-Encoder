@@ -1,0 +1,80 @@
+{
+  "checkpoint": "100",
+  "cutoffUtc": "2026-11-19T14:32:32Z",
+  "baseLocal": "da97ee7584c771eae8e74d345e287999c6546507",
+  "baseTree": "d7cbe53ca321f4c552ed694b08c6d230e43f1bb4",
+  "baseGitHub": "2d3d80b01386ec2f53e40bc98b0f74514eb832da",
+  "status": "isolated 100 writer release; Ubuntu metadata review source only; no native/build/network/install/hosted",
+  "exactSourceManifestSha256": "adfd5a2359ebdb96430fba770a92b6fe2900c00baa0524e650b172326cb2954c",
+  "sourceReviewDigests": [
+    "8ff1004758b3ad6139e7980edb4a0623cbfcf59221fa7a29647d1bdc875db7c6"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2361,
+      "sha256": "55fd5bf601fe203f4e1d2f512dbdec20e8e250c31b8f5cd0a4da2e54ba3d5186"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 27999,
+      "sha256": "35aa1cf927fae5573e43f8c2fcb419819c9cc03c4f6176f9e61e72d3a74ee798"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 37508,
+      "sha256": "89f674e94663879c9e4ab8e407aa1bacd484e59f40eba924764b2c2d5758eba8"
+    },
+    {
+      "path": "scripts/ubuntu-lock/signed_index.py",
+      "bytes": 6847,
+      "sha256": "511e06d82cb84f9486a2f40e7e71e7dc579cb08833218b6f6727e8b693cd8ffa"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_signed_index.py",
+      "bytes": 7367,
+      "sha256": "fbbdb615c6e8ae63082b61f6a425ab7d4ba9e4e46726447ccf9d120d9cf962b8"
+    }
+  ],
+  "verification": {
+    "independent100Inert": 98,
+    "initialCorrectedStandaloneInert": 93,
+    "authorPackageInputsUnchanged": 267,
+    "unchangedOtherTrackedBytes": 1085,
+    "sourcePackageRows": 179,
+    "noAppPackageChange": true
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/hosted099-verified-outcome.json": {
+      "bytes": 8422,
+      "sha256": "a9a6af13d2bc84f4ced537a105d5eee4120bc31b064f4dc1c51a5e5555754546"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu099-original-sanitized-report.json": {
+      "bytes": 366869,
+      "sha256": "d8ebea0277b4d1c3377cf23d31fb5c3846c44ab98442da3dd13e669531ae172b"
+    },
+    "linux-blue/evidence-2026-11-19/windows099-original-sanitized-report.json": {
+      "bytes": 2007,
+      "sha256": "1789af396d4babdffcb84a19e515327385a449fdca3da55842f9b93fd676aa29"
+    },
+    "linux-blue/evidence-2026-11-19/native099-long-mov-audit.json": {
+      "bytes": 22776,
+      "sha256": "e5a02853e58142541f638a4a8e5c2d07a3e9ad7ff6062116f3c776b4fd951478"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu100-original-review-changes-required.json": {
+      "bytes": 4145,
+      "sha256": "9c697a2191fb963bb2e59a7acfd4ce4bea8caa547f3438373ce3c303c9719dfc"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu100-corrected-source-review.json": {
+      "bytes": 3162,
+      "sha256": "3d212acbb44c9bf32904bd2261bfe973f9896b3c272a68af3a3128a38b47fd3b"
+    }
+  },
+  "limits": [
+    "Native099 long MOV exact artifact/fixture/host only; no broad player/interior/hardware or 100 native result",
+    "No 100 network/APT/gpgv simulation/build/install/publication observed",
+    "099 legacy mapper not signed index verified; no dependency closure or lock",
+    "100 optional association only after invoked refused installed-change projection; no baseline authority",
+    "Report-only retention excludes raw logs/signing payloads, binaries and private gates"
+  ]
+}

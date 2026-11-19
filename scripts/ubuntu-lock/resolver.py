@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='d59135274dccf9ca13edeadfb4e748c9e148cd73'
+PARENT='2d3d80b01386ec2f53e40bc98b0f74514eb832da'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -347,11 +347,12 @@ def retain_mapping(installed,changes,root,end,result):
  # Publish incremental evidence before acquisition. Fatal bounds propagate and
  # stop work, but must not discard an already parsed transaction or exact rows.
  result['transaction']=changes
- result['authenticatedCandidateRecords']=[]
+ result['candidateMetadataRecords']=[]
+ result['candidateMetadataAuthentication']='apt-cache-fields-only; exact signed index association not established by this legacy mapping'
  result['dependencyClosure']='incomplete conservative-installed-plus-transaction-superset; provider graph and tool payload integrity still require review'
  requested={n:r['Version']for n,r in installed.items()}
  requested.update({r['package']:r['version']for r in changes})
- mapped=result['authenticatedCandidateRecords']
+ mapped=result['candidateMetadataRecords']
  for name,version in sorted(requested.items()):
   try:
    data,_=run(['/usr/bin/apt-cache','show','--no-all-versions',name+'='+version],root,end);records=paragraphs(data.decode());matches=[r for r in records if r.get('Package')==name and r.get('Version')==version and r.get('Architecture')in ['amd64','all'] and re.fullmatch('[a-f0-9]{64}',r.get('SHA256',''))]
@@ -431,7 +432,17 @@ def main():
   with diagnostic_stage(result,'TRANSACTION_SIMULATION'):
    simulated,_=run(['/usr/bin/apt-get','-s','--no-install-recommends','install',*ROOTS],root,end)
   with diagnostic_stage(result,'TRANSACTION_PARSE'):
-   changes=transaction_with_review(simulated.decode(),installed,result)
+   try:changes=transaction_with_review(simulated.decode(),installed,result)
+   except AssertionError as refusal:
+    if refusal.args==('INSTALLED_CHANGE_REQUIRES_REVIEW',) and result.get('installedChangeReview',{}).get('complete'):
+     from signed_index import associate
+     try:
+      def check_time(deadline):
+       if time.monotonic()>=deadline:raise BoundFailure('DEADLINE')
+      result['installedChangeReview']['candidateIndexAssociation']=associate(result['installedChangeReview']['changes'],root,end,run,paragraphs,check_time)
+     except Exception as linkage:
+      result['installedChangeReview']['candidateIndexAssociation']={'ready':False,'complete':False,'reason':'EXACT_SIGNED_INDEX_LINKAGE_FAILED','failureType':type(linkage).__name__ if type(linkage).__name__ in FAILURE_TYPES else 'OTHER_FAILURE'}
+    raise
   with diagnostic_stage(result,'CANDIDATE_MAPPING'):
    retain_mapping(installed,changes,root,end,result)
   with diagnostic_stage(result,'FINAL_BASELINE_CHECK'):

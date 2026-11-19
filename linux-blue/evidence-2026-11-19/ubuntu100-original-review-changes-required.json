@@ -1,0 +1,77 @@
+{
+  "reviewedAt": "2026-11-19T13:58:13.213436+00:00",
+  "status": "changes-required-before-acquisition",
+  "approved": false,
+  "handoffSha256": "f66074b79647009d71d710f8763645419428b5f03608523780cfd1ca3b66e814",
+  "files": [
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 27424,
+      "sha256": "0c054d66f0ccda689d484cf1eccd40a4fb952619ba2d843c149e9f5bcdf0790f"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 34881,
+      "sha256": "5995ebf6424b3c5b89bba81db2df2c9e77d71ee11bf316cf619ebd900ec2e818"
+    },
+    {
+      "path": "scripts/ubuntu-lock/signed_index.py",
+      "bytes": 5194,
+      "sha256": "de7be82eb998690c467b528d3bf02e597137e64fc527e21249fca3fb0dd0bbc1"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_signed_index.py",
+      "bytes": 3995,
+      "sha256": "5b6b077e675497dfe0ca92f22ae017501aa8dbde520a8e01eb3af80afa9305c0"
+    }
+  ],
+  "tests": {
+    "inertSuitePassed": 87,
+    "failures": 0,
+    "logSha256": "f46919dc1d7ec785ed1ec7717a9c897bddd9c012a7765960febd7419ee14b06f",
+    "additionalControls": {
+      "inertOnly": true,
+      "fakeSignaturesAndAdapters": true,
+      "releaseChangedDuringFinalFetch": true,
+      "associationStillComplete": true,
+      "readyRemainsFalse": true,
+      "allSixOriginsRetained": true
+    }
+  },
+  "findings": [
+    {
+      "id": "R1",
+      "severity": "blocking-resource-bound",
+      "location": "signed_index.py fetch",
+      "finding": "response.read(cap+1) is one blocking body read. timeout=20 is inactivity timeout, not an absolute request deadline. A continuously drip-fed body can exceed the resolver deadline before associate checks time again.",
+      "required": "Read bounded chunks with absolute deadline checks and timeouts capped to remaining budget; inert drip/read controls must show timely refusal before another read."
+    },
+    {
+      "id": "R2",
+      "severity": "blocking-resource-bound",
+      "location": "signed_index.py associate LZMADecompressor",
+      "finding": "max_length limits decoded bytes but decoder has no memlimit. XZ dictionary memory can be allocated before output cap is evaluated.",
+      "required": "Set explicit memory limit on decompressor and test rejection of valid XZ requiring more memory than allowed. Keep decoded cap and no concatenated/trailing streams."
+    },
+    {
+      "id": "R3",
+      "severity": "identity-reconciliation",
+      "location": "signed_index.py associate final return",
+      "finding": "Release identity is checked only immediately after gpgv. Inert controlled final-fetch mutation of an earlier InRelease still returns complete association. Existing signed snapshot hash remains valid provenance, but final on-disk identity stability is not verified.",
+      "required": "Retain verified release identities, compare against earlier authenticated release receipts where available, recheck all exact release bytes/regular-file identity before returning complete; add mutation control."
+    }
+  ],
+  "positiveFindings": [
+    "Exact name/version/architecture match; missing tuple remains explicit; all six configured main/universe origins retained and conflicting archive/source tuples refuse.",
+    "Duplicate control fields reject case-insensitively through existing paragraphs parser; not silently collapsed.",
+    "Original INSTALLED_CHANGE_REQUIRES_REVIEW is always re-raised; helper and report remain ready false; no installation path added.",
+    "Output linkage failures use fixed reason and allowlisted type; no raw error/env/private path fallback found.",
+    "Official suite/host/component URL generation and redirect refusal preserved. Gpgv rechecks signed bytes; APT update owns freshness, not gpgv itself."
+  ],
+  "limits": [
+    "No network, APT, gpgv, media, CI or installation executed.",
+    "Workflow helper hash binding and current successor authority are explicitly deferred; this proposal alone has no execution authorization.",
+    "All-origin means six configured main/universe Noble indexes, not every possible Ubuntu repository.",
+    "Source-only review; no public distribution or baseline-upgrade approval."
+  ]
+}

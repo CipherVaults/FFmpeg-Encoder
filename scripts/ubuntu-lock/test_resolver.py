@@ -71,7 +71,7 @@ class PartialEvidence(unittest.TestCase):
    with self.assertRaises(m.BoundFailure):m.retain_mapping({'a':{'Version':'1'}},changes,pathlib.Path('/inert'),0,result)
    self.assertEqual(run.call_count,2)
   self.assertEqual(result['transaction'],changes)
-  self.assertEqual([r['Package']for r in result['authenticatedCandidateRecords']],['a'])
+  self.assertEqual([r['Package']for r in result['candidateMetadataRecords']],['a'])
   self.assertFalse(result['ready']);self.assertNotIn('mappingCompleted',result)
  def test_missing_version_does_not_discard_transaction(self):
   result={'ready':False,'unresolved':[]};changes=[{'package':'a','version':'1'}]
@@ -93,12 +93,12 @@ class Diagnostics(unittest.TestCase):
    with m.diagnostic_stage(r,'/private/secret'):called=True
   self.assertFalse(called);self.assertEqual(r,{})
  def test_stage_completion_and_partial_rows_survive_failure(self):
-  r={'transaction':[{'package':'x','version':'1'}],'authenticatedCandidateRecords':[{'Package':'a'}]}
+  r={'transaction':[{'package':'x','version':'1'}],'candidateMetadataRecords':[{'Package':'a'}]}
   with m.diagnostic_stage(r,'TRANSACTION_PARSE'):pass
   with self.assertRaises(m.BoundFailure)as caught:
    with m.diagnostic_stage(r,'CANDIDATE_MAPPING'):raise m.BoundFailure('DEADLINE')
   m.record_failure(r,caught.exception)
-  self.assertEqual(r['completedDiagnosticStages'],['TRANSACTION_PARSE']);self.assertEqual(r['diagnosticStage'],'CANDIDATE_MAPPING');self.assertEqual(len(r['transaction']),1);self.assertEqual(len(r['authenticatedCandidateRecords']),1)
+  self.assertEqual(r['completedDiagnosticStages'],['TRANSACTION_PARSE']);self.assertEqual(r['diagnosticStage'],'CANDIDATE_MAPPING');self.assertEqual(len(r['transaction']),1);self.assertEqual(len(r['candidateMetadataRecords']),1)
  def test_all_main_stage_failures_inert_and_bounded(self):
   original_bytes=pathlib.Path.read_bytes;original_text=pathlib.Path.read_text;real_stage=m.diagnostic_stage
   status=b'Package: x\nVersion: 1\nArchitecture: amd64\nStatus: install ok installed\n\n'

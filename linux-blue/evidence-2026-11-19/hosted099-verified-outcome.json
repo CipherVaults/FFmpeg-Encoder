@@ -1,0 +1,259 @@
+{
+  "checkpoint": 99,
+  "head": "2d3d80b01386ec2f53e40bc98b0f74514eb832da",
+  "localCommit": "da97ee7584c771eae8e74d345e287999c6546507",
+  "verifiedAtUtc": "2026-11-19T14:29:50.059338+00:00",
+  "runs": [
+    {
+      "id": 44540595088,
+      "name": "Windows packaged CPU integration (report only)",
+      "attempt": 1,
+      "conclusion": "success"
+    },
+    {
+      "id": 44540595107,
+      "name": "One-shot Ubuntu 24.04 toolchain inventory",
+      "attempt": 1,
+      "conclusion": "skipped"
+    },
+    {
+      "id": 44540595114,
+      "name": "Shared core contracts (Linux and Windows)",
+      "attempt": 1,
+      "conclusion": "success"
+    },
+    {
+      "id": 44540595199,
+      "name": "One-shot Ubuntu signed metadata lock proposal",
+      "attempt": 1,
+      "conclusion": "success"
+    }
+  ],
+  "shared": {
+    "syntaxFilesEachOS": 227,
+    "sharedTestsEachOS": 338,
+    "additionalLinuxTests": 133,
+    "failures": 0,
+    "skippedTests": 0
+  },
+  "windows": {
+    "schema": "windows-packaged-two-file-cpu-integration/v2",
+    "head": "2d3d80b01386ec2f53e40bc98b0f74514eb832da",
+    "runId": "44540595088",
+    "attempt": 1,
+    "state": "INTEGRATION_PASSED",
+    "picker": "substituted-dialog-return",
+    "gpu": "not-qualified",
+    "nativeDesktop": "not-qualified",
+    "distribution": "report-only",
+    "failure": null,
+    "fixtureGenerationCalls": 1,
+    "fixtureCopyCalls": 1,
+    "startClicks": 1,
+    "requestedEncodes": 2,
+    "extraDecodeCalls": 0,
+    "probeReadbackCalls": 2,
+    "collisionSkips": 2,
+    "close": "normal",
+    "sourceUnchanged": true,
+    "packageUnchanged": true,
+    "collisionRefused": true,
+    "collisionSnapshotVerified": true,
+    "outputs": [
+      {
+        "sha256": "2881180172d7e3c3c5a17bdd0d3b06238d7162dafabcb82e2aa8d73de5396808",
+        "sizeBytes": 73618
+      },
+      {
+        "sha256": "a76c0ad702be55e91fe0d54091ba8c9e8ec8ea4809f6981a399c05afab91f826",
+        "sizeBytes": 73618
+      }
+    ],
+    "fixtureCopies": "two-distinct-paths-identical-bytes",
+    "terminalTimer": {
+      "frozen": true,
+      "domMatchesSnapshot": true,
+      "reset": true,
+      "observedWaitMs": 2215,
+      "elapsedSeconds": 0.715
+    },
+    "processObservation": {
+      "kind": "sampled-not-exhaustive",
+      "samples": 7,
+      "observedDescendants": 10,
+      "observedStartupMedia": 0,
+      "observedLiveAfterClose": 0
+    },
+    "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+    "launchOwnership": "verified-shell-launcher-and-pinned-main",
+    "security": {
+      "packaged": true,
+      "sandbox": true,
+      "contextIsolation": true,
+      "nodeIntegration": false
+    },
+    "build": {
+      "asar": {
+        "sha256": "ba30626c2fae3bf6e074c323c81e2e41aadb9d346c23972fc94cd24968a2aa5d",
+        "sizeBytes": 2454599
+      },
+      "executable": {
+        "sha256": "02943102b0003681827f5060b0798cf292f4674ccc4544709b565017ed582ccf",
+        "sizeBytes": 246302208
+      },
+      "zip": {
+        "sha256": "d1bc29195a1745bb5f37253a418ec957d76169d4ac465da46272c0ad00457792",
+        "sizeBytes": 326104068
+      }
+    }
+  },
+  "ubuntu": {
+    "schema": "ubuntu-lock-candidate/v1",
+    "ready": false,
+    "head": "2d3d80b01386ec2f53e40bc98b0f74514eb832da",
+    "scope": "metadata-and-simulation-only",
+    "diagnosticStage": "FINAL_BASELINE_CHECK",
+    "completedDiagnosticStages": [
+      "BASELINE_COPY",
+      "CONFIGURE_ISOLATION",
+      "BASELINE_PARSE",
+      "BASELINE_VALIDATE",
+      "BASELINE_QUERY",
+      "BASELINE_COMPARE",
+      "TOOL_IDENTITIES",
+      "METADATA_UPDATE",
+      "RELEASE_AUTHENTICATION",
+      "TRANSACTION_SIMULATION",
+      "TRANSACTION_PARSE",
+      "CANDIDATE_MAPPING",
+      "FINAL_BASELINE_CHECK"
+    ],
+    "baselineStatusSha256": "05257d5fe4568d38f05df10bcdf54c36642ec8cc6672b7f02b0344c8060c11d8",
+    "baselineInstalledCount": 1212,
+    "toolIdentities": {
+      "/usr/bin/apt-get": "87279ca48820a0423c2ee8b25dba48af0ad7d9f46c16f1e3cfdc07934dcf5ae1",
+      "/usr/bin/apt-cache": "3ae7267f71d70bec3c263314fceb1b2c2e6845f03ade9c57cbb5a2f71f06904a",
+      "/usr/bin/gpgv": "f14d026b9eae172c432e015bce227483293b4966f2f3fdcfa582f71d3dbb2ae8",
+      "/usr/share/keyrings/ubuntu-archive-keyring.gpg": "80a36b0a6de2f69f49d2df75ef473ccde121e9e190b9ea01d20a4f63778d5c31"
+    },
+    "signedReleases": [
+      {
+        "sha256": "56bddc7d04cfcbbd2c4434d6deb41f9cc508f0fecffe350b0938370f3230fa20",
+        "dateFields": [
+          "Suite: noble-updates",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026 13:26:52 UTC"
+        ]
+      },
+      {
+        "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+        "dateFields": [
+          "Suite: noble",
+          "Codename: noble",
+          "Date: Thu, 25 Apr 2024 15:10:33 UTC"
+        ]
+      },
+      {
+        "sha256": "9251541a5a6d09e128695c7c7dc717c380741badc599e68a8e856cafdbbf45a3",
+        "dateFields": [
+          "Suite: noble-security",
+          "Codename: noble",
+          "Date: Thu, 19 Nov 2026  5:57:09 UTC"
+        ]
+      }
+    ],
+    "transactionCompletion": {
+      "installed": 7,
+      "configured": 7,
+      "intermediateSuffixes": 0,
+      "finalConfigurationWithoutBreaks": true
+    },
+    "transaction": [
+      {
+        "package": "libjsoncpp25",
+        "version": "1.9.5-6build1"
+      },
+      {
+        "package": "librhash0",
+        "version": "1.4.3-3build1"
+      },
+      {
+        "package": "cmake-data",
+        "version": "3.28.3-1build7"
+      },
+      {
+        "package": "cmake",
+        "version": "3.28.3-1build7"
+      },
+      {
+        "package": "ninja-build",
+        "version": "1.11.1-2"
+      },
+      {
+        "package": "meson",
+        "version": "1.3.2-1ubuntu1"
+      },
+      {
+        "package": "nasm",
+        "version": "2.16.01-1build1"
+      }
+    ],
+    "dependencyClosure": "incomplete conservative-installed-plus-transaction-superset; provider graph and tool payload integrity still require review",
+    "mappingCompleted": true,
+    "status": "candidate-for-review",
+    "candidateRecordCount": 1175,
+    "unresolvedCount": 44,
+    "unresolvedReasons": [
+      "EXACT_SIGNED_METADATA_UNRESOLVED"
+    ],
+    "originalReportRetained": true,
+    "perRecordSignedIndexLinkageVerified": false
+  },
+  "artifacts": {
+    "ubuntu": {
+      "artifactId": 14539144012,
+      "bytes": 367015,
+      "expiresAt": "2026-11-22T14:27:12Z",
+      "zipSha256": "daff298efa8500cf9565ec6eaf189c4ba5a9f73f0b611cf2c6d62c750e8f0796",
+      "reportSha256": "d8ebea0277b4d1c3377cf23d31fb5c3846c44ab98442da3dd13e669531ae172b",
+      "apiLogAndIndependentDownloadMatched": true
+    },
+    "windows": {
+      "artifactId": 14537642886,
+      "bytes": 2143,
+      "expiresAt": "2026-11-22T14:11:08Z",
+      "zipSha256": "d1c0b0bf6168733b64066d6b210f02aeaac4df2b737c73880862bd9d6961c377",
+      "reportSha256": "1789af396d4babdffcb84a19e515327385a449fdca3da55842f9b93fd676aa29",
+      "apiLogAndIndependentDownloadMatched": true
+    }
+  },
+  "logIdentities": [
+    {
+      "name": "JOB-135617546635.log",
+      "bytes": 20781,
+      "sha256": "2912d61933e3499594e1436a2f7f4f7749c846d7b5281315a23830ea134a1647"
+    },
+    {
+      "name": "JOB-135617546975.log",
+      "bytes": 78104,
+      "sha256": "663ddc4b227fc08c4689241be4589f52e1f333c683a80c473ac9bf2eea5456e3"
+    },
+    {
+      "name": "JOB-135617547022.log",
+      "bytes": 24613,
+      "sha256": "9e628d0765060135508a3c679d7b06a3342c82c49e8f3d931d4b2752546b5953"
+    },
+    {
+      "name": "JOB-135617547488.log",
+      "bytes": 63410,
+      "sha256": "9f0b41c4f85879e6259250339d9a52b5719665fe43cea4e77b145756981d6ce3"
+    }
+  ],
+  "limits": [
+    "Ordinary push attempt one only; no dispatch, rerun or retry.",
+    "Windows report-only packaged CPU journey, substituted picker, sampled process census; not native desktop, GPU, owner-PC, Linux route or binary distribution proof.",
+    "Ubuntu candidate-for-review is not readiness: seven new Inst/Conf records, 1175 mapper records and 44 unresolved; final baseline check completed, exact per-record signed Packages-to-InRelease linkage and dependency/provider closure remain unverified.",
+    "No installation or approved host upgrade. Changed hosted baseline versus098 is retained evidence, not agent-authorized host upgrade; update success does not explain prior097 failure."
+  ],
+  "durableOriginals": "ffmpeg-hosted099-durable-nextcheckpoint"
+}

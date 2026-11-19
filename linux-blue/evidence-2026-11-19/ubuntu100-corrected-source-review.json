@@ -1,0 +1,60 @@
+{
+  "reviewedAt": "2026-11-19T14:06:52.878052+00:00",
+  "approved": true,
+  "scope": "source-only corrected metadata association; not execution, baseline-change approval or installation",
+  "handoffSha256": "349f7467155549b1df002ee8abfa6663897730065a8db0725acca291f86f9fab",
+  "reviewedFiles": [
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 27424,
+      "sha256": "0c054d66f0ccda689d484cf1eccd40a4fb952619ba2d843c149e9f5bcdf0790f"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 34881,
+      "sha256": "5995ebf6424b3c5b89bba81db2df2c9e77d71ee11bf316cf619ebd900ec2e818"
+    },
+    {
+      "path": "scripts/ubuntu-lock/signed_index.py",
+      "bytes": 6847,
+      "sha256": "511e06d82cb84f9486a2f40e7e71e7dc579cb08833218b6f6727e8b693cd8ffa"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_signed_index.py",
+      "bytes": 7367,
+      "sha256": "fbbdb615c6e8ae63082b61f6a425ab7d4ba9e4e46726447ccf9d120d9cf962b8"
+    }
+  ],
+  "tests": {
+    "inertPassed": 93,
+    "failures": 0,
+    "logSha256": "a0c7ed0d762acf9c9871837418d14d3749d0938eda190d31a038e91f15c736da"
+  },
+  "originalReviewSha256": "9c697a2191fb963bb2e59a7acfd4ce4bea8caa547f3438373ce3c303c9719dfc",
+  "resolved": [
+    {
+      "id": "R1",
+      "result": "read1 bounded to64KiB; absolute deadline checked before and after every body read; open/socket timeout clipped to remaining budget. Drip/post-read expiry controls pass."
+    },
+    {
+      "id": "R2",
+      "result": "FORMAT_XZ and explicit64MiB decoder memory limit; actual128MiB-dictionary negative control and adapter-use assertions pass."
+    },
+    {
+      "id": "R3",
+      "result": "O_NOFOLLOW owned regular single-link release snapshots; exact bytes/dev/inode/size/mtime/ctime/link rechecked after gpgv, across every fetch and before final return. Earlier-release mutation and same-byte replacement controls now refuse."
+    }
+  ],
+  "preserved": [
+    "Exact tuple architecture/version matching, all six configured origins, duplicate-field and duplicate-tuple rejection, signed compressed byte identity and conflict refusal.",
+    "Original installed-change refusal always re-raised; association ready=false, no installation or transaction approval.",
+    "Finite failure reason/type output; no raw exception/env/hostpath emission found."
+  ],
+  "remainingConditions": [
+    "Workflow must pin helper plus all source dependencies and exact successor authority after canonical merge; no executable workflow supplied by this approval.",
+    "Future acquisition must remain within separately authorized owned metadata-only scope and existing outer supervision. DNS/TLS/OS calls and synchronous parsing are not preemptively bounded by loop checks; do not claim a hard wall-clock or RSS limit.",
+    "256MiB decoded-byte cap does not equal total Python parsing memory cap. Existing process/host resource supervision remains relevant.",
+    "Freshness relies on successful APT update expiry checking in same owned context; gpgv alone does not check freshness.",
+    "No network/APT/gpgv/media/CI/install executed during review; no runtime-success or redistribution claim."
+  ]
+}

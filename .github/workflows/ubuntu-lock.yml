@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   resolve:
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == 'd59135274dccf9ca13edeadfb4e748c9e148cd73' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '2d3d80b01386ec2f53e40bc98b0f74514eb832da' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -21,10 +21,12 @@ jobs:
           EXPECTED_HEAD: ${{ github.sha }}
         run: |
           set -euo pipefail
-          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD d59135274dccf9ca13edeadfb4e748c9e148cd73"
-          printf '%s  %s\n' 'a79995012d581780639da8b419a81a029a86651790b31ef7c914d4893c548ae6' 'scripts/ubuntu-lock/resolver.py' '512f6c6f4b02745c63c2a82747255669b21cbe7a7b4cf835c1ee7a0c697fdad4' 'scripts/ubuntu-lock/test_resolver.py' | sha256sum --check --strict
+          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD 2d3d80b01386ec2f53e40bc98b0f74514eb832da"
+          printf '%s  %s\n' '35aa1cf927fae5573e43f8c2fcb419819c9cc03c4f6176f9e61e72d3a74ee798' 'scripts/ubuntu-lock/resolver.py' '89f674e94663879c9e4ab8e407aa1bacd484e59f40eba924764b2c2d5758eba8' 'scripts/ubuntu-lock/test_resolver.py' '511e06d82cb84f9486a2f40e7e71e7dc579cb08833218b6f6727e8b693cd8ffa' 'scripts/ubuntu-lock/signed_index.py' 'fbbdb615c6e8ae63082b61f6a425ab7d4ba9e4e46726447ccf9d120d9cf962b8' 'scripts/ubuntu-lock/test_signed_index.py' | sha256sum --check --strict
       - name: Inert controls
-        run: python3 scripts/ubuntu-lock/test_resolver.py
+        run: |
+          python3 scripts/ubuntu-lock/test_resolver.py
+          python3 scripts/ubuntu-lock/test_signed_index.py
       - name: Signed metadata and simulation only
         run: timeout --signal=TERM --kill-after=5s 1210s python3 scripts/ubuntu-lock/resolver.py --resolve-once
       - name: Retain candidate report, not a release lock

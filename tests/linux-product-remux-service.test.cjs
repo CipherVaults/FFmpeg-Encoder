@@ -147,3 +147,9 @@ test('MOV policy requires fixed evidence and existing constant-cadence envelope'
  const {remuxPolicies,remuxSupport}=require('../linux-blue/product-linux-remux-service.cjs');const old={evidenceId:'old',matroska:{evidenceId:'mkv'}};assert.deepEqual(remuxSupport(old).targets,['mp4','matroska']);
  const q={...old,mov:{evidenceId:'mov',sourceEnvelope:'h264-aac-lc-48k-stereo-v1'}};assert.deepEqual(remuxSupport(q).targets,['mp4','matroska','mov']);assert.deepEqual(remuxPolicies(q).slice(0,2),remuxPolicies(old));assert.equal(remuxPolicies(q)[2].sourceEnvelope,'h264-aac-lc-48k-stereo-v1');
 });
+
+test('proportional admission is explicit MP4-only; standalone and other targets retain caps',()=>{
+ for(const target of ['mp4','matroska','mov']){const a=assessment(p=>{p.format.duration='180';p.format.size=String(700*1024*1024);},target);assert.throws(()=>admit(a,'/owned/source.mp4'));if(target==='mp4')admit(a,'/owned/source.mp4',{proportionalMp4:true});else assert.throws(()=>admit(a,'/owned/source.mp4',{proportionalMp4:true}));}
+ for(const value of ['Infinity','NaN','0','-1'])assert.throws(()=>admit(assessment(p=>p.format.duration=value),'/owned/source.mp4',{proportionalMp4:true}));
+ for(const value of ['0','1.5','9007199254740992'])assert.throws(()=>admit(assessment(p=>p.format.size=value),'/owned/source.mp4',{proportionalMp4:true}));
+});

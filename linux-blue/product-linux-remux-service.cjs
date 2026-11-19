@@ -77,7 +77,7 @@ function remuxPolicies(q){
   return [{...base,id:'internal-isobmff-mp4-081',target:'mp4',evidenceIds:[q.evidenceId]},...(q.matroska?[{...base,id:'internal-isobmff-matroska-093',target:'matroska',evidenceIds:[q.matroska.evidenceId]}]:[]),...(q.mov?[{...base,id:'internal-isobmff-mov-096',target:'mov',sourceEnvelope:q.mov.sourceEnvelope,evidenceIds:[q.mov.evidenceId]}]:[])];
 }
 function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV/MOV additionally require CFR30 and reviewed current target evidence. MOV requires default tracks and unspecified language/default handlers; other functional metadata remains unavailable. Descriptive tags use shared warning semantics. No automatic conversion; native evidence is artifact-specific.'};}
-function admit(assessment,input) {
+function admit(assessment,input,{proportionalMp4=false}={}) {
   const p=getRemuxAssessmentSource(assessment), v=p.streams.filter(s=>s.codec_type==='video'), a=p.streams.filter(s=>s.codec_type==='audio');
   assert(assessment.inputFamily==='isobmff' && ['mp4','matroska','mov'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
@@ -85,7 +85,8 @@ function admit(assessment,input) {
   if(['matroska','mov'].includes(assessment.target))assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','MKV/MOV copy requires CFR30 source metadata');
   assert(v[0].width<=1920 && v[0].height<=1080 && v[0].width>0 && v[0].height>0);
   assert(a[0].codec_name==='aac' && a[0].profile==='LC' && a[0].sample_fmt==='fltp' && a[0].sample_rate==='48000' && a[0].channels===2 && a[0].channel_layout==='stereo');
-  assert(Number(p.format.duration)>0 && Number(p.format.duration)<=60 && Number(p.format.size)>0 && Number(p.format.size)<=128*1024*1024);
+  assert(Number.isFinite(Number(p.format.duration)) && Number(p.format.duration)>0 && /^[1-9]\d*$/.test(String(p.format.size)) && Number.isSafeInteger(Number(p.format.size)));
+  if(!proportionalMp4 || assessment.target!=='mp4')assert(Number(p.format.duration)<=60 && Number(p.format.size)<=128*1024*1024);
   if(assessment.target==='mov')admitMovMetadata(p);
   // Shared sourcePolicy still owns exact clocks, SDR, native metadata, codec
   // parsing and stream relationships; these additional limits do not replace it.

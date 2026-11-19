@@ -4,6 +4,7 @@ const assert=require('node:assert/strict'),path=require('node:path'),fs=require(
 const {EncoderService}=require('../src/encoder-service.cjs');
 const {OutputAccess}=require('../src/output-access.cjs');
 const {RemuxOperations}=require('../src/remux-operation.cjs');
+const {remuxProbeFingerprint}=require('../src/remux-validation.cjs');
 const {EVIDENCE_BUDGET,EXECUTION_BUDGET_MS}=require('../src/operation-controls.cjs');
 const {openEvidenceStorage}=require('../src/operation-storage.cjs');
 const {createProductSelector}=require('./product-linux-service.cjs');
@@ -21,7 +22,7 @@ const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){assert.deepEqual(value,AV1.SETTINGS);return 'av1-ordinary';}if(value?.profileId===ORDINARY.profileId){assert.deepEqual(value,ORDINARY);return 'ordinary';}H265.settings(value);return 'h265';}
-class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input);return super.prepare(options);}}
+class NarrowRemux extends RemuxOperations{prepare(options){admitRemux(options.assessment,options.input,{proportionalMp4:true});return super.prepare(options);}}
 class UnifiedService extends EncoderService{
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
@@ -64,14 +65,16 @@ class UnifiedService extends EncoderService{
     // Admit the private owner first: refusal must not emit a false busy state.
     let phaseRoute=phase==='checking'?'discovery':this.route;
     if(this.route==='h265'){if(phase==='running'){const b=this.executionBinding;assert(b&&b.planId===this.plan?.id&&b.generation===this.generation&&this.plan.entries.get(b.fileId)===b.entry,'Execution binding is stale');phaseRoute=b.kind;}else if(phase==='preparing')phaseRoute='measured';}
-    this.generation.begin(phaseRoute,phase,controller);
+    let remuxControl=null;
+    if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-mp4');b.requireCurrent();remuxControl=b.control;}
+    this.generation.begin(phaseRoute,phase,controller,remuxControl);
     // Same shared begin state transition, with the already admitted controller.
     this.controller=controller;this.preparationFailure=null;this.startedAt=Date.now();this.finishedAt=0;
     this.state={...this.state,phase,batchId:randomUUID(),progress:null,preparation:null,error:null};
     this.emitState();return controller.signal;
   }
   async finishPreparationReceipt(options){try{return await super.finishPreparationReceipt(options);}finally{this.generation?.settle();}}
-  async execute(selected,signal){try{return await super.execute(selected,signal);}finally{try{this.generation?.settle();}finally{if(this.route==='h265'){this.executionBinding=null;this.ordinaryJobGuard=null;}}}}
+  async execute(selected,signal){try{return await super.execute(selected,signal);}finally{try{this.generation?.settle();}finally{if(['h265','remux'].includes(this.route)){this.executionBinding=null;this.ordinaryJobGuard=null;}}}}
   async ordinaryGuard(facts,generation){
     try {
       assert((ordinaryRoute(this.route)||this.route==='h265'&&this.executionBinding?.kind==='h265-ordinary')&&this.generation===generation);if(this.route==='h265'){const b=this.executionBinding;assert(b.generation===generation&&b.planId===this.plan?.id&&this.plan.entries.get(b.fileId)===b.entry,'Ordinary execution owner changed');}(this.route==='h265'?H265:routePolicy(this.route)).admit({probe:facts.inspection.probe,settings:facts.settings,request:facts.request,bytes:Number(facts.sourceIdentity.size)});
@@ -98,7 +101,7 @@ class UnifiedService extends EncoderService{
   async prepareItem(item,context){await super.prepareItem(item,context);if(this.plan?.entries.has(item.id)){try{if(ordinaryRoute(this.route))routePolicy(this.route).requireEntry(this,item);else if(this.route==='h265'){const e=this.plan.entries.get(item.id);if(e.operationPlan?.compatibilityPath)H265.requireEntry(this,item);else this.requireMeasuredEntry(e);}}catch(error){this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';item.reason=this.route==='h265'?'Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.':'Outside the fixed ordinary CPU route.';}}}
   requireMeasuredEntry(e){assert.deepEqual(this.plan.settings,MEASURED);assert(!this.plan.sameFolder);assert(e?.qualificationSelection&&e.operationRuntimeToken&&e.operationPlan?.instrumentation&&!e.operationPlan.compatibilityPath&&!['native','vendor','hdr','remux','encodePreservation'].some(k=>e[k]));}
   async startBatch(request){
-    if(this.route==='h265')assert(request&&Object.keys(request).length===2&&Object.hasOwn(request,'planId')&&Object.hasOwn(request,'fileIds'),'Exact Start request required');
+    if(['h265','remux'].includes(this.route))assert(request&&Object.keys(request).length===2&&Object.hasOwn(request,'planId')&&Object.hasOwn(request,'fileIds'),'Exact Start request required');
     super.requireIdle();assert(this.generation&&this.plan);
     assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');
     assert(Array.isArray(request.fileIds)&&request.fileIds.length>=1&&request.fileIds.length<=(ordinaryRoute(this.route)?2:1));
@@ -111,10 +114,24 @@ class UnifiedService extends EncoderService{
       assert(!this.executionBinding);this.executionBinding=Object.freeze({planId:this.plan.id,generation:this.generation,fileId,entry,kind});
       const generation=this.generation;this.ordinaryJobGuard=kind==='h265-ordinary'?facts=>this.ordinaryGuard(facts,generation):null;
     }
-    else for(const id of request.fileIds)assert(this.plan.entries.get(id)?.remux);
+    else {
+      assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);
+      const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);
+      assert(item&&['ready','conflict'].includes(item.status)&&entry?.remux);
+      if(entry.operationPlan.contract.target==='mp4'){
+        const plan=this.plan,generation=this.generation;
+        const bindings=()=>{
+          assert(this.plan===plan&&this.generation===generation&&plan.entries.get(fileId)===entry&&!this.cancellation&&!this.shuttingDown,'Remux execution binding retired');
+          return {...entry.qualificationBindings,plan:entry.operationPlan,settings:plan.settings,sourceIdentity:entry.fingerprint,sourceProbeFingerprint:remuxProbeFingerprint(entry.inspection.probe),runtimeIdentity:this.runtimeIdentity,budget:this.operationEvidenceBudget,executionBudgetMs:this.operationDeadlineMs,environment:null};
+        };
+        const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(this.remuxOperations,entry.qualificationSelection,bindings());
+        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target==='mp4');
+        assert(!this.executionBinding);const control=generation.bindRemux(this.remuxOperations,entry.qualificationSelection,bindings);this.executionBinding=Object.freeze({kind:'remux-mp4',planId:plan.id,fileId,entry,generation,selected,requireCurrent,control});
+      }
+    }
     const previousTask=this.taskPromise;
     try{return super.startBatch(request);}catch(error){
-      if(this.route!=='h265')throw error;
+      if(!['h265','remux'].includes(this.route))throw error;
       // Shared Start can mutate the queue/draft before begin or throw after it.
       // Retire this authority honestly; do not pretend the same plan is retryable.
       const failures=[error];this.controller?.abort();this.generation?.abort();

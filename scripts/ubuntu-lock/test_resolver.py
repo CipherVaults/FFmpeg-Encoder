@@ -323,7 +323,7 @@ class TransactionDiagnostics(unittest.TestCase):
    with self.assertRaises(AssertionError):m.transaction(line,{'package':{}},r)
   self.assertTrue(r['transactionCompletion']['finalConfigurationWithoutBreaks'])
  def test_actual_main_passes_result_to_transaction(self):
-  self.assertIn('changes=transaction(simulated.decode(),installed,result)',p.read_text())
+  self.assertIn('changes=transaction_with_review(simulated.decode(),installed,result)',p.read_text())
 
 class StrictCompletion(unittest.TestCase):
  def test_benign_intermediate_breaks_complete(self):
@@ -371,6 +371,54 @@ class UpdateFailureObservation(unittest.TestCase):
   self.assertLess(source.index('if cleanup is not None:raise cleanup'),source.index('raise child_failure('))
   self.assertLess(source.index("raise BoundFailure('LOG_BOUND')"),source.index('raise child_failure('))
   self.assertLess(source.index("raise BoundFailure('DEADLINE')"),source.index('raise child_failure('))
+
+
+class InstalledReview(unittest.TestCase):
+ def base(self,n='gcc',v='1',a='amd64'):return {n:{'Version':v,'Architecture':a}}
+ def text(self,n='gcc',prior='1',v='2',arch='amd64'):
+  return f'Inst {n} [{prior}] ({v} noble [{arch}])\nConf {n} ({v} noble [{arch}])\n'
+ def test_normal_refusal_and_complete_review(self):
+  result={};text=self.text()
+  with self.assertRaisesRegex(AssertionError,'INSTALLED_CHANGE_REQUIRES_REVIEW'):m.transaction_with_review(text,self.base(),result)
+  r=result['installedChangeReview'];self.assertTrue(r['complete']);self.assertFalse(r['ready']);self.assertEqual(r['installedChangeCount'],1)
+  x=r['changes'][0];self.assertEqual((x['package'],x['baselineVersion'],x['simulatedPriorVersion'],x['proposedVersion']),('gcc','1','1','2'))
+  self.assertTrue(x['priorMatchesBaseline']);self.assertEqual(x['authenticatedCandidateAssociation'],'unresolved')
+ def test_exact_prior_and_arch_disagreement_visible(self):
+  r=m.observe_installed_changes(self.text(prior='0:1',arch='all'),self.base())
+  self.assertTrue(r['complete']);self.assertFalse(r['changes'][0]['priorMatchesBaseline']);self.assertFalse(r['changes'][0]['architectureMatchesBaseline'])
+ def test_multiple_and_no_version_order_claim(self):
+  text=self.text()+self.text('make','9','1');r=m.observe_installed_changes(text,{**self.base(),**self.base('make','9')})
+  self.assertEqual(r['installedChangeCount'],2);self.assertEqual(r['transactionCompletion']['configured'],2)
+  self.assertNotIn('upgrade',str(r));self.assertNotIn('downgrade',str(r))
+ def test_prior_without_baseline_and_no_prior(self):
+  r=m.observe_installed_changes(self.text(),{});self.assertFalse(r['changes'][0]['baselinePresent']);self.assertIsNone(r['changes'][0]['priorMatchesBaseline'])
+  r=m.observe_installed_changes('Inst gcc (2 noble [amd64])\nConf gcc (2 noble [amd64])',self.base());self.assertIsNone(r['changes'][0]['simulatedPriorVersion'])
+ def test_incomplete_never_keeps_partial_rows(self):
+  for text in [self.text()+'Inst make [1] (2 noble [amd64])',self.text()+'Conf gcc (2 noble [amd64])',self.text().replace('Conf gcc (2','Conf gcc (3'),self.text().replace('Conf gcc (2 noble [amd64])','Conf gcc (2 noble [all])'),self.text()+'Remv other [1]',self.text()+'Inst malformed']:
+   with self.subTest(text=text):
+    r=m.observe_installed_changes(text,self.base());self.assertFalse(r['complete']);self.assertNotIn('changes',r)
+ def test_final_breaks_refused(self):
+  r=m.observe_installed_changes(self.text().rstrip()+' [gcc ]',self.base());self.assertFalse(r['complete']);self.assertEqual(r['reason'],'CONFIGURATION_FINAL_BREAKS')
+ def test_count_overflow_not_prefix_complete(self):
+  text=''.join(self.text('p'+str(i))for i in range(33));r=m.observe_installed_changes(text,{})
+  self.assertFalse(r['complete']);self.assertEqual(r['reason'],'INSTALLED_REVIEW_BOUND');self.assertNotIn('changes',r)
+ def test_byte_overflow_not_prefix_complete(self):
+  text=''.join(self.text('package'+str(i)+'x'*75,'1'+'a'*120,'2'+'b'*120)for i in range(32));r=m.observe_installed_changes(text,{})
+  self.assertFalse(r['complete']);self.assertEqual(r['reason'],'INSTALLED_REVIEW_BOUND');self.assertNotIn('changes',r)
+ def test_privacy_unknown_association_no_subprocess(self):
+  text='private log /home/person https://secret.example\n'+self.text();result={}
+  with mock.patch.object(m,'run')as run:
+   with self.assertRaisesRegex(AssertionError,'INSTALLED_CHANGE_REQUIRES_REVIEW'):m.transaction_with_review(text,self.base(),result)
+   run.assert_not_called()
+  serialized=str(result);self.assertNotIn('secret',serialized);self.assertNotIn('/home',serialized);self.assertNotIn('noble',serialized)
+ def test_other_failure_and_new_packages_unchanged(self):
+  result={}
+  with self.assertRaisesRegex(AssertionError,'TRANSACTION_PARSE'):m.transaction_with_review('Inst malformed',{},result)
+  self.assertNotIn('installedChangeReview',result)
+  self.assertEqual(m.transaction_with_review('Inst gcc (1 noble [amd64])\nConf gcc (1 noble [amd64])',{},{}),[{'package':'gcc','version':'1'}])
+ def test_architecture_and_prior_fields_bound(self):
+  for text in [self.text().replace('Inst gcc','Inst gcc:all'),self.text(arch='i386'),self.text(prior='/private/path'),self.text(prior='1'*129)]:
+   r=m.observe_installed_changes(text,self.base());self.assertFalse(r['complete']);self.assertNotIn('changes',r)
 
 if __name__=='__main__':unittest.main()
 

@@ -7,7 +7,7 @@ permissions:
   contents: read
 jobs:
   resolve:
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '2a7bb9b52d86067d2f3b4b2d8913aa2ecf430898' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '7ddb7bfd3b3448ec7918085eaf406ab02556f1cd' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
@@ -21,8 +21,8 @@ jobs:
           EXPECTED_HEAD: ${{ github.sha }}
         run: |
           set -euo pipefail
-          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD 2a7bb9b52d86067d2f3b4b2d8913aa2ecf430898"
-          printf '%s  %s\n' '9a23727e691a25dc6befefc5530901c3bb96ca9fde0b9983dc8b5efd956aa233' 'scripts/ubuntu-lock/resolver.py' 'e69acef6252fe4ac1d466c61a2532513f265e69cb63d4aadf6ec7c479e8d6f92' 'scripts/ubuntu-lock/test_resolver.py' | sha256sum --check --strict
+          test "$(git rev-list --parents -n 1 HEAD)" = "$EXPECTED_HEAD 7ddb7bfd3b3448ec7918085eaf406ab02556f1cd"
+          printf '%s  %s\n' 'c475c3a45460845d9d96bf3a3fc6f880e8404985d9bf31ea3b7627a6c7d3b959' 'scripts/ubuntu-lock/resolver.py' '64a84bc08c3e1a9609f8ab646b5e4edde3b217739ce1f638835b649a779f1fd0' 'scripts/ubuntu-lock/test_resolver.py' | sha256sum --check --strict
       - name: Inert controls
         run: python3 scripts/ubuntu-lock/test_resolver.py
       - name: Signed metadata and simulation only

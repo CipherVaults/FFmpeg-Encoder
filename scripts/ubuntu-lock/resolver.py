@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='2a7bb9b52d86067d2f3b4b2d8913aa2ecf430898'
+PARENT='7ddb7bfd3b3448ec7918085eaf406ab02556f1cd'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -34,12 +34,12 @@ def paragraphs(text):
   if row:rows.append(row)
  return rows
 
-def transaction(text,installed,result=None):
+def _transaction(text,installed,result=None,*,review_changes=None):
  # APT pkgSimulate emits intermediate ShortBreaks, not a terminal lock verdict.
  # Accept only its exact finite package-list form; independently require complete
  # successful configuration, including a final configuration with no suffix.
  assert len(text.encode())<=CAP,'LOG_BOUND'
- rows=[];installed_rows={};configured=set();suffix_count=0;last_suffix=None
+ rows=[];installed_rows={};installed_arches={};configured=set();suffix_count=0;last_suffix=None
  name=r'[a-z0-9][a-z0-9+.-]*'
  token=name+r'(?::(?:amd64|all))?'
  version=r'[0-9][A-Za-z0-9.+:~\-]*'
@@ -58,6 +58,10 @@ def transaction(text,installed,result=None):
    raise AssertionError('TRANSACTION_PARSE')
   kind,pkg,prior,ver,origin,suffix=m.groups()
   assert len(pkg)<=96 and len(ver)<=128,'TRANSACTION_TOKEN_BOUND'
+  assert prior is None or (len(prior)<=128 and re.fullmatch(version,prior)),'TRANSACTION_TOKEN_BOUND'
+  arch=re.search(r'\[(amd64|all)\]$',origin).group(1)
+  explicit_arch=re.match(r'(?:Inst|Conf) [^ :]+:(amd64|all)(?: |$)',line)
+  assert explicit_arch is None or explicit_arch.group(1)==arch,'FOREIGN_ARCHITECTURE'
   if suffix is not None:
    suffix_tokens=suffix[2:-1].split()
    assert len(suffix_tokens)<=100 and all(len(t)<=102 for t in suffix_tokens),'TRANSACTION_SUFFIX_BOUND'
@@ -65,14 +69,27 @@ def transaction(text,installed,result=None):
    assert 'on' not in suffix_tokens,'TRANSACTION_SUFFIX_RELATION'
    suffix_count+=1
   if kind=='Inst':
-   assert pkg not in installed and prior is None,'INSTALLED_CHANGE_REQUIRES_REVIEW'
+   if pkg in installed or prior is not None:
+    assert review_changes is not None,'INSTALLED_CHANGE_REQUIRES_REVIEW'
+    base=installed.get(pkg)
+    if base is not None:
+     assert type(base.get('Version'))is str and len(base['Version'])<=128 and re.fullmatch(version,base['Version']),'TRANSACTION_TOKEN_BOUND'
+     assert base.get('Architecture')in ['amd64','all'],'FOREIGN_ARCHITECTURE'
+    review_changes.append({'package':pkg,'baselineVersion':base['Version'] if base is not None else None,
+     'baselineArchitecture':base['Architecture'] if base is not None else None,'simulatedPriorVersion':prior,
+     'proposedVersion':ver,'proposedArchitecture':arch,'baselinePresent':base is not None,
+     'priorMatchesBaseline':None if prior is None or base is None else prior==base['Version'],
+     'architectureMatchesBaseline':None if base is None else arch==base['Architecture'],
+     'authenticatedCandidateAssociation':'unresolved','associationReason':'EXACT_AUTHENTICATED_INDEX_LINKAGE_NOT_ACQUIRED'})
+    assert len(review_changes)<=32,'INSTALLED_REVIEW_BOUND'
    assert pkg not in installed_rows,'TRANSACTION_DUPLICATE'
-   installed_rows[pkg]=ver;rows.append({'package':pkg,'version':ver})
+   installed_rows[pkg]=ver;installed_arches[pkg]=arch;rows.append({'package':pkg,'version':ver})
    assert len(rows)<=1000,'TRANSACTION_COUNT'
   else:
    assert prior is None and pkg in installed_rows,'CONFIGURATION_UNKNOWN'
    assert pkg not in configured,'CONFIGURATION_DUPLICATE'
    assert ver==installed_rows[pkg],'CONFIGURATION_VERSION'
+   assert arch==installed_arches[pkg],'FOREIGN_ARCHITECTURE'
    configured.add(pkg);last_suffix=suffix
  assert rows and configured==set(installed_rows),'CONFIGURATION_INCOMPLETE'
  assert last_suffix is None,'CONFIGURATION_FINAL_BREAKS'
@@ -80,6 +97,39 @@ def transaction(text,installed,result=None):
   result['transactionCompletion']={'installed':len(rows),'configured':len(configured),
    'intermediateSuffixes':suffix_count,'finalConfigurationWithoutBreaks':True}
  return rows
+
+
+def transaction(text,installed,result=None):
+ # Admission remains unchanged: a review projection cannot return accepted rows.
+ return _transaction(text,installed,result)
+
+def observe_installed_changes(text,installed):
+ # Same grammar and terminal configuration obligations, evidence only. Never
+ # expose a partial prefix as a complete transaction or an accepted candidate.
+ observation={'schema':1,'reviewOnly':True,'ready':False,'complete':False,
+  'simulationSha256':sha(text.encode()),'simulationExitCode':0,
+  'authenticatedCandidateAssociation':'unresolved'}
+ changes=[];completion={}
+ try:
+  rows=_transaction(text,installed,completion,review_changes=changes)
+  observation.update(complete=True,transactionCompletion=completion['transactionCompletion'],
+   installedChangeCount=len(changes),changes=changes)
+  assert len(json.dumps(observation,indent=2).encode())<=16*1024,'INSTALLED_REVIEW_BOUND'
+ except AssertionError as error:
+  reason=error.args[0] if len(error.args)==1 else None
+  # No raw error or line. Failure never leaves a partial changes list behind.
+  observation={'schema':1,'reviewOnly':True,'ready':False,'complete':False,
+   'simulationSha256':sha(text.encode()),'simulationExitCode':0,
+   'authenticatedCandidateAssociation':'unresolved',
+   'reason':reason if reason in DIAGNOSTIC_REASONS else 'UNCLASSIFIED_FAILURE'}
+ return observation
+
+def transaction_with_review(text,installed,result):
+ try:return transaction(text,installed,result)
+ except AssertionError as error:
+  if error.args==('INSTALLED_CHANGE_REQUIRES_REVIEW',):
+   result['installedChangeReview']=observe_installed_changes(text,installed)
+  raise
 
 def config(root):
  # APT_CONFIG is read before default config directories; redirect every mutable
@@ -303,7 +353,7 @@ def retain_mapping(installed,changes,root,end,result):
 
 # Diagnostics are closed enums, never exception text, environment or host data.
 DIAGNOSTIC_STAGES=('BASELINE_COPY','CONFIGURE_ISOLATION','BASELINE_PARSE','BASELINE_VALIDATE','BASELINE_QUERY','BASELINE_COMPARE','TOOL_IDENTITIES','METADATA_UPDATE','RELEASE_AUTHENTICATION','TRANSACTION_SIMULATION','TRANSACTION_PARSE','CANDIDATE_MAPPING','FINAL_BASELINE_CHECK')
-DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_STATUS_UNSAFE','BASELINE_STATUS_BOUND','BASELINE_STATUS_CHANGED','BASELINE_COPY_CHANGED','BASELINE_UPDATES_UNSAFE','BASELINE_UPDATES_PENDING','BASELINE_UPDATES_CHANGED','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','TRANSACTION_TOKEN_BOUND','TRANSACTION_SUFFIX_BOUND','TRANSACTION_SUFFIX_DUPLICATE','TRANSACTION_SUFFIX_RELATION','TRANSACTION_DUPLICATE','TRANSACTION_COUNT','CONFIGURATION_UNKNOWN','CONFIGURATION_DUPLICATE','CONFIGURATION_VERSION','CONFIGURATION_INCOMPLETE','CONFIGURATION_FINAL_BREAKS','INSTALLED_CHANGE_REQUIRES_REVIEW','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
+DIAGNOSTIC_REASONS=frozenset(('MULTIARCH_OR_DUPLICATE_PACKAGE','FOREIGN_ARCHITECTURE','BASELINE_SET_MISMATCH','BASELINE_STATUS_UNSAFE','BASELINE_STATUS_BOUND','BASELINE_STATUS_CHANGED','BASELINE_COPY_CHANGED','BASELINE_UPDATES_UNSAFE','BASELINE_UPDATES_PENDING','BASELINE_UPDATES_CHANGED','BASELINE_QUERY_ROW','BASELINE_QUERY_NAME','BASELINE_QUERY_STATUS','BASELINE_QUERY_VERSION','BASELINE_QUERY_ARCHITECTURE','BASELINE_QUERY_DUPLICATE','BASELINE_QUERY_COUNT','REMOVAL_REFUSED','TRANSACTION_PARSE','TRANSACTION_TOKEN_BOUND','TRANSACTION_SUFFIX_BOUND','TRANSACTION_SUFFIX_DUPLICATE','TRANSACTION_SUFFIX_RELATION','TRANSACTION_DUPLICATE','TRANSACTION_COUNT','CONFIGURATION_UNKNOWN','CONFIGURATION_DUPLICATE','CONFIGURATION_VERSION','CONFIGURATION_INCOMPLETE','CONFIGURATION_FINAL_BREAKS','INSTALLED_CHANGE_REQUIRES_REVIEW','INSTALLED_REVIEW_BOUND','OWNERSHIP_UNCONFIRMED','GROUP_CLOSURE_UNCONFIRMED','PROCESS_BOUND','STORAGE_BOUND','DEADLINE','LOG_BOUND','CHILD_FAILED'))
 FAILURE_TYPES=frozenset(('AssertionError','BoundFailure','ChildFailure','KeyError','ValueError','UnicodeDecodeError','FileNotFoundError','PermissionError','OSError','TimeoutExpired'))
 
 @contextmanager
@@ -372,7 +422,7 @@ def main():
   with diagnostic_stage(result,'TRANSACTION_SIMULATION'):
    simulated,_=run(['/usr/bin/apt-get','-s','--no-install-recommends','install',*ROOTS],root,end)
   with diagnostic_stage(result,'TRANSACTION_PARSE'):
-   changes=transaction(simulated.decode(),installed,result)
+   changes=transaction_with_review(simulated.decode(),installed,result)
   with diagnostic_stage(result,'CANDIDATE_MAPPING'):
    retain_mapping(installed,changes,root,end,result)
   with diagnostic_stage(result,'FINAL_BASELINE_CHECK'):

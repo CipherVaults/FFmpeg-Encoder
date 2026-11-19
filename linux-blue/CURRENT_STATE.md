@@ -1,15 +1,15 @@
-# Current State — Checkpoint 096 writer release
+# Current State — Checkpoint 097 writer release
 
-Evidence cutoff: 2026-11-19T12:32:24Z. Exact 096 source and records await scoped commit and full Git → Notion → GitHub verification.
+Evidence cutoff: 2026-11-19T13:04:04Z. Exact 097 source and records await scoped commit and Git → Notion → GitHub verification.
 
 ## Verified
-- 095 exact source/history/readable Notion and GitHub projection verified. Hosted shared checks and Windows two-file CPU integration passed (.946s frozen/reset; substituted picker, no native/GPU or executable distribution).
-- Hosted Ubuntu 095 failed metadata update after exact baseline and tool identities but before auth/simulation/new grammar. Exact original sanitized reports retained; cause unknown. 096 exact-update marker observation reviewed; no hosted result.
-- Private 094-source MOV lifecycle accepted for one eight-second fixture: scoped publication, no-clobber collision Prepare, fresh-state generated rescan and injected reveal. All 21 children closed. Cancel after complete progress but before observed natural copy exit, no publication/handle and unbound temporary retained. Not mid-copy interruption or native GUI.
-- 096 exact 18 source paths reviewed, narrow MOV internal source only; 149 pins/267 rehashed package inputs. Test counts and separate final CI delta in Session. No 096 package, native or hosted verification.
+- 096 exact source/history/readable Notion and GitHub projection verified. Hosted shared and Windows two-file CPU checks passed (.642s frozen/reset, substituted picker, no native/GPU or executable distribution).
+- Actual exact 096 native Linux MOV Full copy one 31s fixture: strict packet/evidence and whole PCM identity, actual Thunar selection, frozen 00:02 (journal 2.571s), no Open/player action, normal close. No general player/hardware, release or portable claims.
+- Ubuntu 096 authenticated exact baseline and metadata, simulated, then refused installed change before acceptance. Exact originals retained: unknown package/change. 097 independently-reviewed hosted diagnostic projection only, acceptance remains blocked.
+- 097 exact reviewed 13 paths, unified proportional MP4 Full only; standalone and MKV/MOV limits unchanged. Selected local inert checks pass; expanded review had two pre-existing baseline failures. No new package/native/hosted qualification.
 
 ## Pending
-- Exact 096 preservation, hosted successor checks, exact inert package and separate native MOV acceptance. Do not reuse private proof as packaged evidence.
-- Independently complete named portable manufacture, source/executable retention and clean-host checks, then exact candidate freeze before owner RTX 5060 gate. Keep v0.8 work separate and HDR v0.9.
+- Verify exact 097 full preservation and its own hosted successor results; then separate capture, media/service and packaged native evidence for longer MP4 Full input. Do not reuse historic limits or reports as new qualification.
+- Complete named portable manufacture, matching source/executable retention and clean-host/RC checks before exact freeze. Owner Windows RTX 5060 remains last; keep v0.8 separate/HDR v0.9.
 
-Full rationale, evidence and untouched complete 095 history are in SESSION_SUMMARY.md and 2026-11-19_Private_MOV_Lifecycle_and_Internal_Candidate.md/.json.
+Full rationale, evidence and untouched complete 096 history are in SESSION_SUMMARY.md and 2026-11-19_Native_MOV_and_Proportional_MP4_Remux.md/.json.

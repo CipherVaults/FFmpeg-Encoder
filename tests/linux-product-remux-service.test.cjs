@@ -9,7 +9,7 @@ function assessment(change=()=>{},target='mp4'){
 test('genuine assessment admits source without execution readiness',()=>{const a=assessment();admit(a,'/owned/source.mp4');assert.equal(a.executionReady,false);});
 test('serialized assessment cannot carry authority',()=>assert.throws(()=>admit(structuredClone(assessment()),'/owned/source.mp4')));
 for(const [label,change] of [['audio-rate',p=>p.streams[1].sample_rate='44100'],['geometry',p=>p.streams[0].width=3840],['duration',p=>p.format.duration='61'],['size',p=>p.format.size=String(129*1024*1024)],['interlace',p=>p.streams[0].field_order='tt']])test('refuses '+label,()=>assert.throws(()=>admit(assessment(change),'/owned/source.mp4')));
-test('MOV cannot borrow MP4 acquisition',()=>assert.throws(()=>admit(assessment(()=>{},'mov'),'/owned/source.mp4')));
+test('MOV source properties are admitted without granting catalog execution authority',()=>admit(assessment(()=>{},'mov'),'/owned/source.mp4'));
 test('fake runtime cannot open service',async()=>await assert.rejects(createLinuxRemuxService({verifiedRuntime:{},stateDir:'/owned/state'})));
 
 // Execute the actual factory with module-local dependency doubles. No public
@@ -130,3 +130,20 @@ test('phase abort reaches an already executing tool despite distinct optional ca
 
 test('Matroska admission adds CFR30 only without changing original MP4 admission',()=>{admit(assessment(()=>{},'matroska'),'/owned/source.mp4');assert.throws(()=>admit(assessment(p=>p.streams[0].avg_frame_rate='60/1','matroska'),'/owned/source.mp4'));admit(assessment(p=>p.streams[0].avg_frame_rate='60/1','mp4'),'/owned/source.mp4');});
 test('fixed target policies preserve original MP4 and require separate MKV evidence',()=>{const {remuxPolicies,remuxSupport}=require('../linux-blue/product-linux-remux-service.cjs');const old={evidenceId:'old',policyIdentity:'old'};assert.deepEqual(remuxSupport(old).targets,['mp4']);const q={...old,matroska:{evidenceId:'new'}};const policies=remuxPolicies(q);assert.equal(policies[0].id,'internal-isobmff-mp4-081');assert.deepEqual(policies[0].evidenceIds,['old']);assert.equal(policies[1].target,'matroska');assert.deepEqual(policies[1].evidenceIds,['new']);assert.deepEqual(remuxSupport(q).targets,['mp4','matroska']);});
+
+for(const [label,change] of [
+ ['non-und',p=>p.streams[1].tags={language:'eng'}],['custom-handler',p=>p.streams[0].tags={handler_name:'Custom'}],
+ ['track-title',p=>p.streams[0].tags={title:'Label'}],['unknown-track',p=>p.streams[0].tags={unassessed:'x'}],
+ ['gain',p=>p.streams[1].tags={replaygain_track_gain:'1'}],['unknown-container',p=>p.format.tags={unassessed:'x'}],
+ ['fake-provenance',p=>p.format.tags={FFMPEG_ENCODER_PROVENANCE_EVIL:'1'}],['forced',p=>p.streams[1].disposition.forced=1],
+ ['no-default',p=>delete p.streams[1].disposition.default],['unknown-disposition',p=>p.streams[1].disposition.custom=1],
+ ['fps60',p=>p.streams[0].avg_frame_rate='60/1'],['case-duplicate',p=>p.streams[1].tags={language:'und',LANGUAGE:'und'}]
+])test('MOV target-local refusal '+label,()=>assert.throws(()=>admit(assessment(change,'mov'),'/owned/source.mp4')));
+test('MOV allows unspecified/native-neutral metadata and existing descriptive policy without weakening other targets',()=>{
+ for(const tags of [{},{language:'und'},{LANGUAGE:'und',encoder:'tool',creation_time:'2020-01-01T00:00:00Z'}])admit(assessment(p=>{p.streams[0].tags={...tags,handler_name:'VideoHandler'};p.streams[1].tags={language:'und',handler_name:'SoundHandler'};p.format.tags={major_brand:'isom',title:'description',encoder:'tool'};},'mov'),'/owned/source.mp4');
+ for(const target of ['mp4','matroska'])admit(assessment(p=>{p.streams[1].tags={language:'eng',title:'Stereo'};},target),'/owned/source.mp4');
+});
+test('MOV policy requires fixed evidence and existing constant-cadence envelope',()=>{
+ const {remuxPolicies,remuxSupport}=require('../linux-blue/product-linux-remux-service.cjs');const old={evidenceId:'old',matroska:{evidenceId:'mkv'}};assert.deepEqual(remuxSupport(old).targets,['mp4','matroska']);
+ const q={...old,mov:{evidenceId:'mov',sourceEnvelope:'h264-aac-lc-48k-stereo-v1'}};assert.deepEqual(remuxSupport(q).targets,['mp4','matroska','mov']);assert.deepEqual(remuxPolicies(q).slice(0,2),remuxPolicies(old));assert.equal(remuxPolicies(q)[2].sourceEnvelope,'h264-aac-lc-48k-stereo-v1');
+});

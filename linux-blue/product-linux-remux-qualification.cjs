@@ -21,6 +21,25 @@ function boundedRead(relative, bytes, sha256) {
   } finally { fs.closeSync(fd); }
 }
 function deepFreeze(value){if(value&&typeof value==='object'){for(const v of Object.values(value))deepFreeze(v);Object.freeze(value);}return value;}
+function loadMov(runtimeIdentity) {
+  const mov=boundedRead('product-linux-mov-qualification.json', 2013, 'e228403f8a3f8137cc34092c1c0db5964be58c7a2326a82b698ecaa5fcd552bd');
+  assert.equal(mov.schema,1);assert.equal(mov.runtimeIdentity,runtimeIdentity);assert.equal(mov.target,'mov');
+  assert.equal(mov.scope,'internal-mp4-mov-not-release');assert.equal(mov.sourceEnvelope,'h264-aac-lc-48k-stereo-v1');
+  assert.equal(mov.metadataSubset,'und-default-handlers-default-dispositions-v1');assert.equal(mov.mediaAudits.length,2);
+  for(const ref of mov.mediaAudits){const cell=boundedRead(ref.file,ref.bytes,ref.sha256);
+    assert.equal(cell.approved,true);assert.equal(cell.runtimeIdentity,runtimeIdentity);assert.equal(cell.outerExit,0);
+    assert.equal(cell.mediaValidation.target,'mov');assert.equal(cell.mediaValidation.valid,true);assert.equal(cell.children.live,0);
+  }
+  if(mov.status==='pending-lifecycle-audit'){assert.equal(mov.lifecycleAudit,null);return null;}
+  assert.equal(mov.status,'accepted-private-lifecycle');assert(mov.lifecycleAudit);
+  const audit=boundedRead(mov.lifecycleAudit.file,mov.lifecycleAudit.bytes,mov.lifecycleAudit.sha256);
+  assert.equal(audit.accepted,true);assert.equal(audit.runtimeIdentity,runtimeIdentity);
+  assert.equal(audit.closure.scope,'current094-private-mov-lifecycle095');assert.equal(audit.closure.exitCode,0);
+  assert.equal(audit.closure.closureObserved,true);assert.equal(audit.closure.terminationRequested,false);assert.deepEqual(audit.closure.errors,[]);
+  assert.equal(audit.children.live,0);assert.equal(audit.children.started,audit.children.closed);
+  for(const k of ['successPublished','collisionSkippedWithoutStart','freshStateGeneratedRescan','cancelledNoPublishedOutputOrHandle'])assert.equal(audit.cases[k],true);
+  return mov;
+}
 function loadRemuxQualification() {
   verifyProductSources();
   const value = boundedRead('product-linux-remux-qualification.json', 1013, '5a5080a0daf74d3c071c0739a32ada9901fb21ba94d8b9e10c1aceea4624b99c');
@@ -34,6 +53,6 @@ function loadRemuxQualification() {
   assert.equal(mkv.status,'accepted-private-lifecycle');assert(mkv.lifecycleAudit);
   const lifecycle=boundedRead(mkv.lifecycleAudit.file,mkv.lifecycleAudit.bytes,mkv.lifecycleAudit.sha256);
   assert.equal(lifecycle.runtimeIdentity,value.runtimeIdentity);assert.equal(lifecycle.status,'accepted-saved-private-lifecycle-evidence-not-product-activation');
-  return deepFreeze({...value,matroska:mkv});
+  return deepFreeze({...value,matroska:mkv,mov:loadMov(value.runtimeIdentity)});
 }
 module.exports = { loadRemuxQualification };

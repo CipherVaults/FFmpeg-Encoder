@@ -21,7 +21,7 @@ const shared = [
   'tests/windows-hosted-archive-check.test.cjs',
   'tests/windows-hosted-diagnostics.test.cjs',
 ];
-const linux = ['tests/aac-range-qualification.test.cjs', 'tests/aac-range-binding.test.cjs', 'tests/linux-unified-service.test.cjs', 'linux-blue/ui-policy.test.cjs', 'tests/linux-runtime-staging.test.cjs', 'tests/linux-product-proposal.test.cjs'];
+const linux = ['tests/linux-mov-qualification.test.cjs', 'tests/linux-product-remux-service.test.cjs', 'tests/aac-range-qualification.test.cjs', 'tests/aac-range-binding.test.cjs', 'tests/linux-unified-service.test.cjs', 'linux-blue/ui-policy.test.cjs', 'tests/linux-runtime-staging.test.cjs', 'tests/linux-product-proposal.test.cjs'];
 
 function run(args) {
   const result = spawnSync(process.execPath, args, {

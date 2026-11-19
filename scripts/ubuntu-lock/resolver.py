@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='dc22a53897f6b45fc4e510384c35e68cf053feeb'
+PARENT='2a7bb9b52d86067d2f3b4b2d8913aa2ecf430898'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -143,6 +143,26 @@ def monitor(p,identity,root,end,out,err):
   time.sleep(.1)
 
 
+UPDATE_MARKERS={
+ 'NAME_RESOLUTION_MARKER':(b"Temporary failure resolving '",b"Could not resolve '"),
+ 'TLS_CERTIFICATE_MARKER':(b'Certificate verification failed:',),
+ 'HASH_MISMATCH_MARKER':(b'Hash Sum mismatch',),
+ 'SIGNATURE_ERROR_MARKER':(b'Signature error',)
+}
+
+def child_failure(argv,code,out,err):
+ error=ChildFailure('CHILD_FAILED')
+ if argv!=['/usr/bin/apt-get','update','--error-on=any']:return error
+ assert type(code)is int and code!=0
+ if len(out)>CAP or len(err)>CAP:raise BoundFailure('LOG_BOUND')
+ # Complete bounded streams only; marker presence is not a root-cause verdict.
+ classes=sorted(k for k,needles in UPDATE_MARKERS.items() if any(n in out or n in err for n in needles))
+ error.metadataUpdateObservation={'schema':1,'exitCode':code,
+  'stdoutBytes':len(out),'stderrBytes':len(err),'stdoutSha256':sha(out),'stderrSha256':sha(err),
+  'observedMarkerClasses':classes or ['UNCLASSIFIED'],'completeBoundedStreams':True}
+ return error
+
+
 def run(argv,root,end):
  if time.monotonic()>=end:raise BoundFailure('DEADLINE')
  assert argv[0] in ['/usr/bin/apt-get','/usr/bin/apt-cache','/usr/bin/dpkg-query','/usr/bin/gpgv']
@@ -167,7 +187,7 @@ def run(argv,root,end):
   out.seek(0);err.seek(0);a=out.read(CAP+1);b=err.read(CAP+1);
   if len(a)>CAP or len(b)>CAP:raise BoundFailure('LOG_BOUND')
   
-  if p.returncode!=0:raise ChildFailure('CHILD_FAILED')
+  if p.returncode!=0:raise child_failure(argv,p.returncode,a,b)
   return a,b
 
 def baseline(records):
@@ -302,6 +322,18 @@ def record_failure(result,error):
  kind=type(error).__name__
  reason=error.args[0] if len(error.args)==1 and type(error.args[0]) is str else None
  result.update(status='blocked',failureType=kind if kind in FAILURE_TYPES else 'OTHER_FAILURE',failureReason=reason if reason in DIAGNOSTIC_REASONS else 'UNCLASSIFIED_FAILURE')
+ observation=getattr(error,'metadataUpdateObservation',None)
+ if result.get('diagnosticStage')=='METADATA_UPDATE' and type(error)is ChildFailure and type(observation)is dict:
+  keys={'schema','exitCode','stdoutBytes','stderrBytes','stdoutSha256','stderrSha256','observedMarkerClasses','completeBoundedStreams'}
+  classes=observation.get('observedMarkerClasses')
+  safe=(set(observation)==keys and observation.get('schema')==1 and observation.get('completeBoundedStreams')is True
+   and type(observation.get('exitCode'))is int and -128<=observation['exitCode']<=255 and observation['exitCode']!=0
+   and all(type(observation.get(k))is int and 0<=observation[k]<=CAP for k in ['stdoutBytes','stderrBytes'])
+   and all(type(observation.get(k))is str and re.fullmatch('[a-f0-9]{64}',observation[k]) for k in ['stdoutSha256','stderrSha256'])
+   and type(classes)is list and 1<=len(classes)<=len(UPDATE_MARKERS) and all(type(c)is str and c in set(UPDATE_MARKERS)|{'UNCLASSIFIED'} for c in classes)
+   and len(set(classes))==len(classes) and ('UNCLASSIFIED'not in classes or classes==['UNCLASSIFIED']))
+  if safe:result['metadataUpdateObservation']={**observation,'observedMarkerClasses':list(classes)}
+
  cleanup=getattr(error,'cleanupFailureType',None)
  if cleanup is not None:result['cleanupFailureType']=cleanup if type(cleanup) is str and cleanup in FAILURE_TYPES else 'OTHER_FAILURE'
 

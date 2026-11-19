@@ -525,16 +525,16 @@ const SOURCE_PINS = {
     "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
   },
   "linux-blue/product-linux-remux-service.cjs": {
-    "bytes": 13326,
-    "sha256": "28317fd89d5cfa379542d6c99bc51dcf736a521837356533796a392ad780ab0a"
+    "bytes": 14942,
+    "sha256": "23341e950c9beefdbda6269cd65ccfb5d9237fb56c564d0ba47e96cf8e16318a"
   },
   "linux-blue/product-linux-remux-shell.cjs": {
     "bytes": 4810,
     "sha256": "f30066db5bb6f223797e0a6b3afcd659a0157bca3ff68f54655a73ee4bab18f3"
   },
   "linux-blue/product-linux-remux-qualification.cjs": {
-    "bytes": 3218,
-    "sha256": "191832bda028da7c1bfa93eb9f7c4b2c39fc0d2ae6b00e51d14aea2a7638a0fa"
+    "bytes": 5048,
+    "sha256": "4275fc9293fe85b73883ccbe28aad5a851be3f33cfa95fc39d63ed74924cd244"
   },
   "linux-blue/product-linux-remux-qualification.json": {
     "bytes": 1013,
@@ -587,6 +587,22 @@ const SOURCE_PINS = {
   "linux-blue/product-linux-matroska-qualification.json": {
     "bytes": 1462,
     "sha256": "60642352bf753dec88de9d94d45a4f79536bc7236d212b65a564c2e132ddc449"
+  },
+  "linux-blue/product-linux-mov-qualification.json": {
+    "bytes": 2013,
+    "sha256": "e228403f8a3f8137cc34092c1c0db5964be58c7a2326a82b698ecaa5fcd552bd"
+  },
+  "linux-blue/evidence-2026-11-19/remux-mov095-lifecycle-audit.json": {
+    "bytes": 17768,
+    "sha256": "133f4eb0f593c6f30d72a822eef6cb334d855c4b34fb8f8c5e046c0f864d4246"
+  },
+  "linux-blue/evidence-2026-11-19/mov095-private-media-cell8-audit.json": {
+    "bytes": 16322,
+    "sha256": "d341bfb17977d00837de823c00a3e9659da2b74febb0589a6988c172fb6c3d6a"
+  },
+  "linux-blue/evidence-2026-11-19/mov095-private-media-cell31-audit.json": {
+    "bytes": 16479,
+    "sha256": "cf6a8229e89e3bff74f0f2e3a14198aa13f81d489e4e79a468ae478ca43f6230"
   }
 };
 const CLOSED_RECORD = {

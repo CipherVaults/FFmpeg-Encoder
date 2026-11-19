@@ -11,7 +11,7 @@ concurrency:
 jobs:
   package:
     # Bound to one ordinary successor push after the selected preserved successor (unbound proposal); no dispatch or rerun.
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == 'dc22a53897f6b45fc4e510384c35e68cf053feeb' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '2a7bb9b52d86067d2f3b4b2d8913aa2ecf430898' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 25
     env:

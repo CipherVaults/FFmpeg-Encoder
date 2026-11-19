@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "scope": "internal-mp4-mov-not-release",
+  "status": "accepted-private-lifecycle",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "target": "mov",
+  "evidenceId": "saved-mov095-media-and-lifecycle",
+  "sourceEnvelope": "h264-aac-lc-48k-stereo-v1",
+  "metadataSubset": "und-default-handlers-default-dispositions-v1",
+  "mediaAudits": [
+    {
+      "file": "evidence-2026-11-19/mov095-private-media-cell8-audit.json",
+      "bytes": 16322,
+      "sha256": "d341bfb17977d00837de823c00a3e9659da2b74febb0589a6988c172fb6c3d6a"
+    },
+    {
+      "file": "evidence-2026-11-19/mov095-private-media-cell31-audit.json",
+      "bytes": 16479,
+      "sha256": "cf6a8229e89e3bff74f0f2e3a14198aa13f81d489e4e79a468ae478ca43f6230"
+    }
+  ],
+  "lifecycleAudit": {
+    "file": "evidence-2026-11-19/remux-mov095-lifecycle-audit.json",
+    "bytes": 17768,
+    "sha256": "133f4eb0f593c6f30d72a822eef6cb334d855c4b34fb8f8c5e046c0f864d4246"
+  },
+  "limits": [
+    "MP4 H264 SDR progressive yuv420p CFR30 plus stereo48k AAC-LC; Full copy; one input; <=1080p, <=60s, <=128MiB.",
+    "Only absent/und language and absent/default type handlers; default-only dispositions. Other functional/unassessed metadata refused. Shared descriptive tags remain attempt-copy with warnings, not strict preservation claims.",
+    "No chapters, extra/omitted streams, rotation90, subtitle/attachment/timecode or arbitrary metadata-family qualification. Genuine MOV native representation and complete constant cadence required per output.",
+    "Actual8s/31s media cells and8s private lifecycle support scoped shared mechanisms, not exhaustive geometry/duration/performance or native package acceptance.",
+    "Cancellation completion/close overlap after240-frame progress, not mid-copy interruption; retained unbound temporary output reported.",
+    "Temporary internal qualification subset does not rewrite the original v0.7 release scope. No fixture identity admission or21ms waiver."
+  ]
+}

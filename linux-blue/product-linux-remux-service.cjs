@@ -55,20 +55,38 @@ function invocation(pins, executable, args, options, evidenceRoot) {
   return kind;
 }
 
+const { classifyRemuxMetadataTag } = require('../src/remux-metadata-policy.cjs');
+function admitMovMetadata(source) {
+  for(const stream of source.streams){
+    assert.equal(Number(stream.disposition?.default || 0),1,'MOV requires the default disposition on each track');
+    assert(Object.entries(stream.disposition || {}).every(([key,value])=>key==='default'||Number(value)===0),'MOV has an unqualified disposition');
+    for(const [key,value] of Object.entries(stream.tags || {})){
+      const c=classifyRemuxMetadataTag(key,{scope:'stream'});
+      if(c.classification==='descriptive'||c.classification==='operation-derived')continue;
+      assert(c.normalizedKey==='language'&&value==='und'||c.normalizedKey==='handler_name'&&value===(stream.codec_type==='video'?'VideoHandler':'SoundHandler'),'MOV track metadata is outside the reviewed subset');
+    }
+  }
+  const brands=new Set(['major_brand','minor_version','compatible_brands']);
+  for(const key of Object.keys(source.format.tags || {})){
+    const c=classifyRemuxMetadataTag(key,{scope:'container'});
+    assert(brands.has(c.normalizedKey)||c.classification==='descriptive'||c.classification==='operation-derived','MOV container metadata is outside the reviewed subset');
+  }
+}
 function remuxPolicies(q){
   const base={inputFamily:'isobmff',runtimeIdentity:RUNTIME,allowAncillary:false,allowRotation90:false,verificationMethod:'packet-identity-v1'};
-  return [{...base,id:'internal-isobmff-mp4-081',target:'mp4',evidenceIds:[q.evidenceId]},...(q.matroska?[{...base,id:'internal-isobmff-matroska-093',target:'matroska',evidenceIds:[q.matroska.evidenceId]}]:[])];
+  return [{...base,id:'internal-isobmff-mp4-081',target:'mp4',evidenceIds:[q.evidenceId]},...(q.matroska?[{...base,id:'internal-isobmff-matroska-093',target:'matroska',evidenceIds:[q.matroska.evidenceId]}]:[]),...(q.mov?[{...base,id:'internal-isobmff-mov-096',target:'mov',sourceEnvelope:q.mov.sourceEnvelope,evidenceIds:[q.mov.evidenceId]}]:[])];
 }
-function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV additionally requires CFR30 and reviewed current target evidence. No automatic conversion; native evidence is artifact-specific.'};}
+function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV/MOV additionally require CFR30 and reviewed current target evidence. MOV requires default tracks and unspecified language/default handlers; other functional metadata remains unavailable. Descriptive tags use shared warning semantics. No automatic conversion; native evidence is artifact-specific.'};}
 function admit(assessment,input) {
   const p=getRemuxAssessmentSource(assessment), v=p.streams.filter(s=>s.codec_type==='video'), a=p.streams.filter(s=>s.codec_type==='audio');
-  assert(assessment.inputFamily==='isobmff' && ['mp4','matroska'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
+  assert(assessment.inputFamily==='isobmff' && ['mp4','matroska','mov'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');
-  if(assessment.target==='matroska')assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','Matroska copy requires CFR30 source metadata');
+  if(['matroska','mov'].includes(assessment.target))assert(v[0].avg_frame_rate==='30/1'&&v[0].r_frame_rate==='30/1','MKV/MOV copy requires CFR30 source metadata');
   assert(v[0].width<=1920 && v[0].height<=1080 && v[0].width>0 && v[0].height>0);
   assert(a[0].codec_name==='aac' && a[0].profile==='LC' && a[0].sample_fmt==='fltp' && a[0].sample_rate==='48000' && a[0].channels===2 && a[0].channel_layout==='stereo');
   assert(Number(p.format.duration)>0 && Number(p.format.duration)<=60 && Number(p.format.size)>0 && Number(p.format.size)<=128*1024*1024);
+  if(assessment.target==='mov')admitMovMetadata(p);
   // Shared sourcePolicy still owns exact clocks, SDR, native metadata, codec
   // parsing and stream relationships; these additional limits do not replace it.
 }

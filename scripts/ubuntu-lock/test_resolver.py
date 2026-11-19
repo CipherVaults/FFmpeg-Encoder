@@ -344,5 +344,33 @@ class StrictCompletion(unittest.TestCase):
  def test_empty_transaction_refused(self):
   with self.assertRaisesRegex(AssertionError,'CONFIGURATION_INCOMPLETE'):m.transaction('Reading lists...',{})
 
+class UpdateFailureObservation(unittest.TestCase):
+ def test_unknown_and_multiple_private_bytes_never_escape(self):
+  for out,err,expected in [(b'private.invalid/token /secret',b'?', ['UNCLASSIFIED']), (b"Temporary failure resolving 'private.invalid'",b'Certificate verification failed: /secret',['NAME_RESOLUTION_MARKER','TLS_CERTIFICATE_MARKER'])]:
+   e=m.child_failure(['/usr/bin/apt-get','update','--error-on=any'],100,out,err);r={'ready':False,'diagnosticStage':'METADATA_UPDATE'};m.record_failure(r,e)
+   d=r['metadataUpdateObservation'];self.assertEqual(d['observedMarkerClasses'],expected);self.assertEqual(d['stdoutSha256'],m.sha(out));self.assertTrue(d['completeBoundedStreams']);self.assertFalse(r['ready']);self.assertEqual(r['failureReason'],'CHILD_FAILED');self.assertNotIn('private.invalid',str(r));self.assertNotIn('/secret',str(r))
+ def test_each_verified_marker_and_other_commands(self):
+  for k,needles in m.UPDATE_MARKERS.items():
+   for n in needles:self.assertEqual(m.child_failure(['/usr/bin/apt-get','update','--error-on=any'],100,n,b'').metadataUpdateObservation['observedMarkerClasses'],[k])
+  for argv in [['/usr/bin/apt-get','update'],['/usr/bin/apt-get','-s','install'],['/usr/bin/apt-cache','show'],['/usr/bin/apt-get','update','extra']]:self.assertFalse(hasattr(m.child_failure(argv,100,b'Hash Sum mismatch',b''),'metadataUpdateObservation'))
+ def test_overlimit_not_truncated_and_wrong_stage_not_copied(self):
+  with mock.patch.object(m,'CAP',2),self.assertRaisesRegex(m.BoundFailure,'LOG_BOUND'):m.child_failure(['/usr/bin/apt-get','update','--error-on=any'],100,b'abc',b'')
+  e=m.child_failure(['/usr/bin/apt-get','update','--error-on=any'],100,b'Hash Sum mismatch',b'');r={'diagnosticStage':'TRANSACTION_SIMULATION'};m.record_failure(r,e);self.assertNotIn('metadataUpdateObservation',r)
+ def test_forged_private_observation_refused(self):
+  e=m.ChildFailure('CHILD_FAILED');e.metadataUpdateObservation={'raw':'private'};r={'diagnosticStage':'METADATA_UPDATE'};m.record_failure(r,e);self.assertNotIn('metadataUpdateObservation',r)
+ def test_actual_main_update_argv_matches_diagnostic(self):
+  import ast,inspect
+  calls=[n for n in ast.walk(ast.parse(inspect.getsource(m.main))) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='run' and n.args and isinstance(n.args[0],ast.List)]
+  argv=[ast.literal_eval(n.args[0]) for n in calls if all(isinstance(x,ast.Constant) for x in n.args[0].elts)]
+  update=[x for x in argv if x[:2]==['/usr/bin/apt-get','update']]
+  self.assertEqual(update,[['/usr/bin/apt-get','update','--error-on=any']])
+  self.assertTrue(hasattr(m.child_failure(update[0],100,b'',b''),'metadataUpdateObservation'))
+ def test_actual_failure_path_remains_after_all_bounds_and_cleanup(self):
+  import inspect
+  source=inspect.getsource(m.run)
+  self.assertLess(source.index('if cleanup is not None:raise cleanup'),source.index('raise child_failure('))
+  self.assertLess(source.index("raise BoundFailure('LOG_BOUND')"),source.index('raise child_failure('))
+  self.assertLess(source.index("raise BoundFailure('DEADLINE')"),source.index('raise child_failure('))
+
 if __name__=='__main__':unittest.main()
 

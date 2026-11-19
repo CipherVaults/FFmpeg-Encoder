@@ -1601,3 +1601,9 @@ test('reviewed Matroska capability enables existing MKV control without changing
  const h=await remuxHarness();await h.byId('tab-remux').click();h.update(h.snapshot({remuxSupport:{targets:['mp4'],notice:'MP4 only.'}}));assert.equal(h.byId('remux-target').value,'matroska');assert.equal(h.byId('prepare-remux').disabled,true);
  h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska'],notice:'Internal MP4 source Full copy; MKV requires CFR30.'}}));assert.equal(h.byId('remux-target').value,'matroska');assert.equal(h.byId('prepare-remux').disabled,false);assert.match(h.byId('remux-support-notice').textContent,/CFR30/);assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,true);
 });
+
+test('MOV availability comes from main without changing selected target or saved preference',async()=>{
+ const h=await remuxHarness();await h.byId('tab-remux').click();
+ h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska'],notice:'MOV pending.'}}));assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,true);
+ const prior=h.byId('remux-target').value;h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska','mov'],notice:'MOV restricted metadata, CFR30.'}}));assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,false);assert.equal(h.byId('remux-target').value,prior);assert.match(h.byId('remux-support-notice').textContent,/restricted metadata/);
+});

@@ -1,5 +1,5 @@
 'use strict';
-// Main-owned separate composition. Not imported by the shipped entry point yet.
+// Main-owned explicit ordinary candidate composition; production defaults unchanged.
 const fs=require('node:fs/promises');const assert=require('node:assert/strict');const path=require('node:path');const {createHash}=require('node:crypto');
 const {EncoderService}=require('../src/encoder-service.cjs');const {OutputAccess}=require('../src/output-access.cjs');
 const {requireCandidateCalibrationRuntime}=require('./candidate-calibration-runtime.cjs');
@@ -11,8 +11,10 @@ function requireOrdinaryEntry(service,item){const entry=service.plan?.entries.ge
 class OrdinaryCpuService extends EncoderService {
   #candidate;#budget;#closePromise;
   constructor(options,candidate,budget){super(options);this.#candidate=candidate;this.#budget=budget;}
-  async getCapabilities(){if(!this.capabilityResult&&this.state.phase!=='checking'){this.requireIdle();this.#budget.begin('discovery');}const caps=await super.getCapabilities();if(this.#budget.state().phase==='discovery')this.#budget.settle('discovery');return {...caps,profiles:caps.profiles.filter(p=>p.id===SETTINGS.profileId).map(p=>({...p,presets:[SETTINGS.preset],defaultPreset:SETTINGS.preset,quality:{...p.quality,min:SETTINGS.quality,max:SETTINGS.quality,default:SETTINGS.quality}})),recipes:[],vendorProfiles:[]};}
+  async getCapabilities(){if(!this.capabilityResult&&this.state.phase!=='checking'){this.requireIdle();this.#budget.begin('discovery');}const caps=await super.getCapabilities();if(this.#budget.state().phase==='discovery')this.#budget.settle('discovery');return {...caps,profiles:caps.profiles.filter(p=>p.id===SETTINGS.profileId).map(p=>({...p,candidateFixedSettings:true,bitDepths:[8],supportedBitDepths:(p.supportedBitDepths||[]).filter(depth=>depth===8),presets:[SETTINGS.preset],defaultPreset:SETTINGS.preset,quality:{...p.quality,min:SETTINGS.quality,max:SETTINGS.quality,default:SETTINGS.quality}})),recipes:[],vendorProfiles:[]};}
   async getPreferences(){return {...await super.getPreferences(),profileId:SETTINGS.profileId,settingsByProfile:{[SETTINGS.profileId]:{preset:SETTINGS.preset,quality:SETTINGS.quality}}};}
+  getRecipe(request){assert.deepEqual(request,SETTINGS);const recipe=super.getRecipe(request);const {testedDefault,...current}=recipe;return {...recipe,testedDefault:{...current},mediaNote:'This explicit candidate admits only 8-bit H264 SDR input, Full / Keep source / compatible AAC copy. '+recipe.mediaNote};}
+  async resetProfile(request){assert.deepEqual(request,{profileId:SETTINGS.profileId});await this.saveSettings({...SETTINGS});return this.getPreferences();}
   async saveSettings(value){assert.deepEqual(value,SETTINGS);return super.saveSettings(value);}
   async prepareSourceBatch(request,operation,native=null){assert(operation==='encode'&&!native);this.requireIdle();await this.getCapabilities();assert.deepEqual(request.settings,SETTINGS);this.#budget.begin('preparation');const result=await super.prepareSourceBatch(request,operation,native);if(this.state.phase==='ready')this.#budget.settle('preparation');else this.#budget.abort();return result;}
   async reprepareDraft(options){this.requireIdle();this.#budget.begin('preparation');const result=await super.reprepareDraft(options);if(this.state.phase==='ready')this.#budget.settle('preparation');else this.#budget.abort();return result;}

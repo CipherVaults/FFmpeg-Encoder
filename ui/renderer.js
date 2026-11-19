@@ -636,7 +636,7 @@
         put('default-recipe-label', `${defaults.label} · ${defaults.encoder} · preset ${defaults.settings.preset} · ${defaults.qualityMode} ${defaults.settings.quality}`);
         put('default-args', formatArguments(defaults.args));
         put('tested-default-values', `Preset ${defaults.settings.preset} · ${defaults.qualityMode} ${defaults.settings.quality}`);
-        byId('tested-default').title = `${selectedVendorProfile() ? 'Applies untested starting values: ' : 'Applies '}preset ${defaults.settings.preset} and ${defaults.qualityMode} ${defaults.settings.quality}. Inspect the adjacent help for all production encoder options.`;
+        byId('tested-default').title = selectedProfile()?.candidateFixedSettings === true ? 'Restores this route’s fixed candidate settings. Inspect the adjacent help for its exact encoder arguments.' : `${selectedVendorProfile() ? 'Applies untested starting values: ' : 'Applies '}preset ${defaults.settings.preset} and ${defaults.qualityMode} ${defaults.settings.quality}. Inspect the adjacent help for all production encoder options.`;
         if (candidateRecipe) {
           put('archive-recipe-label', `${candidateRecipe.recipe?.label || candidate.label} · preset ${candidateRecipe.settings.preset} · ${candidateRecipe.qualityMode} ${candidateRecipe.settings.quality}`);
           put('archive-args', formatArguments(candidateRecipe.args));
@@ -754,13 +754,14 @@
     put('profile-untested-disclosure', vendor ? vendor.hardware === 'AMD'
       ? 'The app cannot confirm which encoder settings AMD actually used.'
       : 'The app cannot prove which Intel adapter encoded the file.' : '');
-    put('tested-default', vendor ? 'Starting values' : 'Tested Default');
-    byId('tested-default').setAttribute('aria-label', vendor
+    const fixedCandidate = profile?.candidateFixedSettings === true;
+    put('tested-default', fixedCandidate ? 'Candidate settings' : vendor ? 'Starting values' : 'Tested Default');
+    byId('tested-default').setAttribute('aria-label', fixedCandidate ? 'Restore fixed candidate settings' : vendor
       ? 'Reset current profile to untested starting values' : 'Reset current profile to Tested Default');
-    byId('default-help').setAttribute('aria-label', vendor
+    byId('default-help').setAttribute('aria-label', fixedCandidate ? 'Inspect fixed candidate settings and arguments' : vendor
       ? 'Inspect untested starting values and arguments' : 'Inspect Tested Default values and arguments');
-    byId('default-args').setAttribute('aria-label', vendor ? 'Untested starting value encoder arguments' : 'Tested Default encoder arguments');
-    put('default-help-text', vendor
+    byId('default-args').setAttribute('aria-label', fixedCandidate ? 'Fixed candidate encoder arguments' : vendor ? 'Untested starting value encoder arguments' : 'Tested Default encoder arguments');
+    put('default-help-text', fixedCandidate ? 'This experimental route uses fixed candidate settings, not the production Tested Default. Other settings require a different qualified route.' : vendor
       ? 'These are untested starting values for this encoder, and remain editable. They are not a claim of optimal quality.'
       : "The current profile's tested operational starting point remains editable. It is not a claim of universally optimal quality.");
     byId('preset').replaceChildren();
@@ -2058,7 +2059,7 @@
   byId('tested-default').addEventListener('click', () => command(async () => {
     await flushSettings();
     const result = await api.resetProfile({ profileId: byId('profile').value });
-    applyPreferences(result, selectedVendorProfile()
+    applyPreferences(result, selectedProfile()?.candidateFixedSettings === true ? 'Fixed candidate settings restored.' : selectedVendorProfile()
       ? 'Untested starting values applied to the current profile. You can edit these values.'
       : 'Tested Default applied to the current profile. You can edit these values.');
     invalidatePreview(true);

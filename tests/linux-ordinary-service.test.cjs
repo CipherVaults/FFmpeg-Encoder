@@ -61,3 +61,14 @@ test('completed discovery and Ready budgets do not consume user review time',asy
  h.service.startBatch({planId:prepared.planId,fileIds:[prepared.items[0].id]});await h.service.taskPromise;
  assert.equal(h.service.snapshot().items[0].status,'success');await h.service.closeOperationResources();
 });
+
+test('candidate recipe/reset stay on fixed tuple without changing production defaults',async t=>{
+ const h=await setup(t);const caps=await h.service.getCapabilities();const profile=caps.profiles[0];
+ assert.equal(profile.candidateFixedSettings,true);assert.deepEqual(profile.bitDepths,[8]);assert.deepEqual(profile.supportedBitDepths,[8]);
+ const recipe=h.service.getRecipe({...SETTINGS});assert.deepEqual(recipe.testedDefault.settings,SETTINGS);assert.deepEqual(recipe.testedDefault.args,recipe.args);assert.match(recipe.mediaNote,/only 8-bit/);
+ assert.throws(()=>h.service.getRecipe({...SETTINGS,quality:24}));
+ const prefs=await h.service.resetProfile({profileId:SETTINGS.profileId});assert.deepEqual(prefs.settingsByProfile[SETTINGS.profileId],{preset:'veryfast',quality:23});
+ const prepared=await h.service.prepareBatch(h.request);assert.equal(prepared.items[0].status,'ready');
+ assert.equal(PROFILES.find(p=>p.id==='h264-cpu').defaultPreset,'slower');assert.equal(PROFILES.find(p=>p.id==='h264-cpu').quality.default,24);
+ await h.service.closeOperationResources();
+});

@@ -1,0 +1,70 @@
+{
+  "schema": "hosted-sanitized-report-retention/v1",
+  "status": "prepared-for-next-checkpoint-not-yet-durable",
+  "scope": "Exact existing sanitized hosted reports only. No raw local journals, logs, host paths, executable package or new test result.",
+  "retentionLesson": "Source restoration does not retain expiring CI artifacts unless the actual report bytes are deliberately included. Derived summaries do not substitute for original reports.",
+  "limits": [
+    "Hosted substituted picker, not native Windows desktop or owner hardware.",
+    "Process observations are sampled, not exhaustive.",
+    "Original report-only and non-distribution scope retained.",
+    "Local preparation is not Git/Notion/GitHub preservation. No independent claim about unrelated manually uploaded Notion attachments."
+  ],
+  "reports": [
+    {
+      "checkpoint": "072",
+      "path": "linux-blue/evidence-2026-11-18/windows072-packaged-cpu-report.json",
+      "bytes": 1544,
+      "sha256": "998150f38c642c0f7cf62e8f729aaae0843d6057c2ebcad82681e713b258bc3b",
+      "head": "17104b1e216dd0a57182e13c5aaea78dec60f7b2",
+      "runId": "44417619810",
+      "attempt": 1,
+      "artifactId": 14480481137,
+      "originalArtifactZipSha256": "a3042021913482137ab6b374ef9b545d2ea75d91f0032e4e652d22c0c2395464",
+      "artifactExpiresAtUtc": "2026-11-21T23:07:18Z",
+      "originalReportLogDigestMatched": true,
+      "originalZipApiAndLogDigestMatched": true,
+      "observationReceiptSha256": "97fd25592cd649494c7b5015daf4841fadb3173f80233fc44edaa02e4cbed941",
+      "apiSnapshotSha256": "f9aba08d10646eaa992eb4c2c9937e212f5c4e9c444442eec3f0eba0134b2ff3",
+      "notionSourceArchiveChecks": [
+        {
+          "checkpoint": "072",
+          "sourceVerified": true,
+          "matchingSourceFiles": []
+        },
+        {
+          "checkpoint": "073",
+          "sourceVerified": true,
+          "matchingSourceFiles": []
+        }
+      ]
+    },
+    {
+      "checkpoint": "073",
+      "path": "linux-blue/evidence-2026-11-18/windows073-packaged-cpu-report.json",
+      "bytes": 1544,
+      "sha256": "c437c7c626de3d720e1ac62fdeb7cff06c0522676d750995556040f534d72ded",
+      "head": "8d7b8b2cb44fe507986010e2d02226b3a3c021a9",
+      "runId": "44421598566",
+      "attempt": 1,
+      "artifactId": 14480729343,
+      "originalArtifactZipSha256": "f49f42301a0e75c8facc9fee4163807efc0fbae094638ed55596e268fb17cd26",
+      "artifactExpiresAtUtc": "2026-11-21T23:35:04Z",
+      "originalReportLogDigestMatched": true,
+      "originalZipApiAndLogDigestMatched": true,
+      "observationReceiptSha256": "ca69eaf6403c90d8e6fe6b0af8acf51bf7e9f7bf83ce3368f42852fe7d47db39",
+      "apiSnapshotSha256": "760ad359e8785a58ce3d147b2dee468d7bb97f215153a8a41c457fd04a4a91e5",
+      "notionSourceArchiveChecks": [
+        {
+          "checkpoint": "072",
+          "sourceVerified": true,
+          "matchingSourceFiles": []
+        },
+        {
+          "checkpoint": "073",
+          "sourceVerified": true,
+          "matchingSourceFiles": []
+        }
+      ]
+    }
+  ]
+}

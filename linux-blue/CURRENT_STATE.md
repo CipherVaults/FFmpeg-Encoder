@@ -1,13 +1,16 @@
-# Current state — checkpoint 073 prepared
+# Current State — checkpoint 074 preparation
 
-Cutoff: November 18, 2026 at 23:23:20 UTC.
+Evidence cutoff: November 18, 2026 at 23:51:28 UTC. Source review/integration and 102 focused tests are accepted, zero failures/skips. Aggregate passed 215 syntax / 243 shared / 39 Linux, empty stderr and exit 0. Counts overlap, not summed. 074 is not yet committed, mirrored, packaged or executed.
 
-- **Preserved 072:** local `c0b2823260467ba358610a6b7a3ea9d9bf7d5c2d`, remote `17104b1e216dd0a57182e13c5aaea78dec60f7b2`; source/history and native records verified.
-- **Actual Windows 072:** packaged CPU integration passed with one requested encode, one fixture generation and one readback probe; collision refused, source/package unchanged, normal close and expected security settings. Output 73,618 bytes. Substituted picker, sampled closure and no GPU/native-desktop qualification; only report retained. Not a result for changed 073 bytes.
-- **Accepted 073 implementation:** 18 source paths add explicit ordinary Linux CPU opt-in using the existing EncoderService, bounded admission/deadlines and genuine stage ownership. Separate measured route retained. Current closure has 120 pins; original raw 97/97/26 maps and numerical evidence unchanged. The changed shared service means 96 of 97 current range entries unchanged, not 97. Full-copy 26 unchanged. Package plan: 230 inputs / 137 app members / 391,390,437 bytes; runtime/notice identities unchanged.
-- **Tests:** lead 240 focused passed, zero failures/skips. Aggregate 215 syntax / 243 shared / 39 Linux passed with empty stderr. Counts overlap. No actual 073 package, native or hosted run.
-- **Preparations:** two unbound native supervisors and copied existing fixtures; ordinary 1,200-second outer plus 30-second grace, measured 600/630. Independent literal review accepted corrected ordinary grace. Impossible package/count/gate placeholders prevent launch. Pure saved-probe ordinary admission passed, not native qualification.
-- **Ancillary scope:** four sanitized reusable-skill drafts retained, not installed or activated. Scenario reasoning is not a live/blinded trial. Current mirror unchanged.
-- **Next:** review four records, commit expected 26-path scope and verify Notion then GitHub; fresh package audit, ordinary native journey and measured short1080 regression; observe bound Windows successor. Continue practical remux and release portability/source-delivery work without adding redundant infrastructure.
+## Verified outcomes on exact 073 artifact
+- Hosted Windows packaged CPU integration passed, with substituted dialogs, unchanged source/package and normal close. GPU/native Windows desktop remain unqualified; sanitized report only.
+- Actual ordinary Linux native pickers, encode, ordinary validation, publication and Thunar reveal passed independent saved audit. Output 4,805,537 bytes; 233 package files/fixture unchanged; normal close. No precision claim.
+- Actual measured 1080 precision regression passed independent saved audit: 63 frames / 101,184 samples / 404,736 matching PCM bytes, output 590,122 bytes, normal close. Observed process identities are sampled, not exhaustive.
 
-Owner gate order remains: useful independent v0.7 work and candidate freeze before Ahmed’s final Windows PC / RTX 5060 test. Do not use/request his machine early or explore quota resets. Once the v0.7 candidate is frozen, separate-branch v0.8 may proceed while quota or final PC test remains unavailable; keep v0.7 fixes isolated. Themes, localization including Arabic, guides/onboarding and polish remain v0.8; HDR remains v0.9. No early v0.8 work now.
+## Integrated successor
+Six reviewed default/reset and closure paths fix ordinary candidate recipe/reset disagreement without changing production defaults or weakening admission. Three sanitized hosted report records preserve exact previously local-only 072/073 report bytes. Product closure 120 entries; package 230 inputs / 137 app files / 391,391,731 bytes. Runtime/notice and raw historical measured maps unchanged. No actual 074 native or hosted run is claimed.
+
+## Next and limitations
+Finish independent owning-record review and Git → Notion → GitHub verification, then proportionate successor qualification. Current-runtime H264/AAC MP4-to-MP4 remux is a bounded plan, not implemented. AV1, broader media, portability/source/build provenance and deliberate release artifacts remain separate work. Sanitized skills remain uninstalled drafts; current mirror unchanged.
+
+Ahmed’s Windows PC / RTX 5060 test remains the final v0.7 gate after useful independent work. Once that work is complete and the candidate frozen, v0.8 may begin separately without waiting for owner quota/final PC testing; keep v0.7 fixes isolated. Themes, Arabic-inclusive localization, guides/onboarding and polish remain v0.8; HDR remains v0.9.

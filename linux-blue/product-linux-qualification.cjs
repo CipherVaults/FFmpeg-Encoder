@@ -465,8 +465,8 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 152803,
-    "sha256": "936559b7532c3847bf1150eece4a67488c083d941d663e452b882915cc40243c"
+    "bytes": 153510,
+    "sha256": "87b434d67dc09b965193f6b48809a47106b77b68ee00039c391307d4acdba42c"
   },
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,
@@ -477,8 +477,8 @@ const SOURCE_PINS = {
     "sha256": "c1b749c553b029a3b7b624a4433e3ddba01a4bb569c6ee1ecf592e69867bcfa5"
   },
   "linux-blue/ordinary-cpu-service.cjs": {
-    "bytes": 7045,
-    "sha256": "34f317c52286369900a1068efce30290469a551443a6c7f75f9259d1b3aecec1"
+    "bytes": 7632,
+    "sha256": "1ccdd6b57da1c0d52091f9bacc53087c18b4e1260b8aac047f7d2f5c15c99d3d"
   },
   "linux-blue/ordinary-cpu-policy.cjs": {
     "bytes": 4851,

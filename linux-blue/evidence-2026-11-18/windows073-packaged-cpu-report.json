@@ -1,0 +1,53 @@
+{
+  "schema": "windows-packaged-cpu-integration/v1",
+  "head": "8d7b8b2cb44fe507986010e2d02226b3a3c021a9",
+  "runId": "44421598566",
+  "attempt": 1,
+  "state": "INTEGRATION_PASSED",
+  "picker": "substituted-dialog-return",
+  "gpu": "not-qualified",
+  "nativeDesktop": "not-qualified",
+  "distribution": "report-only",
+  "failure": null,
+  "fixtureGenerationCalls": 1,
+  "requestedEncodes": 1,
+  "extraDecodeCalls": 0,
+  "probeReadbackCalls": 1,
+  "close": "normal",
+  "sourceUnchanged": true,
+  "packageUnchanged": true,
+  "collisionRefused": true,
+  "output": {
+    "sha256": "47a35346eb8cc4b11ea4e1788a61640e94ec90e7a4f2359fed9999318131b7c2",
+    "sizeBytes": 73562
+  },
+  "processObservation": {
+    "kind": "sampled-not-exhaustive",
+    "samples": 7,
+    "observedDescendants": 12,
+    "observedStartupMedia": 1,
+    "observedLiveAfterClose": 0
+  },
+  "startupDiscovery": "unchanged-production-including-GPU-capability-attempts",
+  "launchOwnership": "verified-shell-launcher-and-pinned-main",
+  "security": {
+    "packaged": true,
+    "sandbox": true,
+    "contextIsolation": true,
+    "nodeIntegration": false
+  },
+  "build": {
+    "asar": {
+      "sha256": "dce122b2be2e168a07979862c96e06945664dcc1b62af1b3570b61f362253e53",
+      "sizeBytes": 2441345
+    },
+    "executable": {
+      "sha256": "286e69e0807d6e095fb85c10e4362ed0e2f6449bde1e829ad4840a3d2dc55038",
+      "sizeBytes": 246302208
+    },
+    "zip": {
+      "sha256": "841671c42b463c6142846dbd2e4dfc7c8854fb7a99be73cce5b678a295d70a67",
+      "sizeBytes": 326101380
+    }
+  }
+}

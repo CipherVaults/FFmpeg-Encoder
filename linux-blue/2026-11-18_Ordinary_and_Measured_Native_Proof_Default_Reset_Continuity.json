@@ -1,0 +1,168 @@
+{
+  "status": "writer-released-for-independent-review",
+  "checkpoint": 74,
+  "base": "68a1fbd6c45dc9c44fe684e89e3e688daf50204d",
+  "remote073": "8d7b8b2cb44fe507986010e2d02226b3a3c021a9",
+  "sourcePaths": 6,
+  "retentionPaths": 3,
+  "owningDocs": 4,
+  "focusedTests": {
+    "passed": 102,
+    "failed": 0,
+    "skipped": 0
+  },
+  "aggregate": {
+    "syntax": 215,
+    "shared": 243,
+    "Linux": 39,
+    "exitCode": 0,
+    "stderrBytes": 0,
+    "scopeOverlapsFocused": true
+  },
+  "cutoff": "2026-11-18T23:51:28Z",
+  "native074Executed": false,
+  "preserved074": false,
+  "native073AuditsAccepted": true,
+  "references": [
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/github073-hosted-observation/VERIFIED_OUTCOME.json",
+      "bytes": 4255,
+      "sha256": "ca69eaf6403c90d8e6fe6b0af8acf51bf7e9f7bf83ce3368f42852fe7d47db39"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native-ordinary073-unbound/SAVED_ORDINARY_PUBLICATION_AUDIT.json",
+      "bytes": 14272,
+      "sha256": "ba7fb5cd3e290bfefae294940a22a44cb81b48424e7b63e4376ac59bfe1e5069"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/native-measured073-unbound/SAVED_RANGE_PUBLICATION_AUDIT.json",
+      "bytes": 18711,
+      "sha256": "7d938a145ebcc6dab15ee1624b4f1981c81c7f08cf418451ba0fbe681f15652c"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/ordinary074-copy-proposal/INDEPENDENT_REVIEW.json",
+      "bytes": 3789,
+      "sha256": "0451879a820c74c243813df75bc3bc05dff3abbcd1e9389142221c6a74773c56"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/ordinary074-copy-proposal/INDEPENDENT_SUCCESSOR_CHECKS.json",
+      "bytes": 2096,
+      "sha256": "0706e0b87a10d548274181b2e2f77f40ed2dce26cd74e4d7887ed4b1125b639e"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/ordinary074-copy-proposal/SUCCESSOR_RECONCILIATION.json",
+      "bytes": 2183,
+      "sha256": "839812648e7a071eba167eca00f9e784ae318b959794c327bb372196b4ce2e6a"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/hosted-report-retention074-preparation/HANDOFF.json",
+      "bytes": 777,
+      "sha256": "37b5f11dab7d727e568a5533fb56d853c5bae55e2e11a4eba05c948faab0f0e8"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/integration074/INTEGRATION.json",
+      "bytes": 2312,
+      "sha256": "8e55f5e97b6349ec2329649bd1aef607eb1f111d568e9b62d8dc5f97d918ce5d"
+    },
+    {
+      "path": "ffmpeg-linux-f6bc64a-20261117/artifacts/v0.7/evidence/20261118T235052Z_recovered074-candidate-defaults/receipt.json",
+      "bytes": 2409,
+      "sha256": "4487f1abcce0e97b22d78edffec812f203375060f853a3b23852e74879a352f5"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/remux-next-current073-plan.md",
+      "bytes": 6559,
+      "sha256": "ccb333c8ce38a0ae2d07242a3b0d338ba3f1f6ec8bd2d9b07e3e2473f64dd33e"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint074-source-contracts.stdout",
+      "bytes": 28632,
+      "sha256": "51d392ba3e07acfab80f67527c844b61c9d4a398e4866caf40f4a6494565f638"
+    },
+    {
+      "path": "ffmpeg-reconstruction-guidance-20261117/checkpoint074-source-contracts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "integratedFiles": [
+    {
+      "path": "linux-blue/ordinary-cpu-service.cjs",
+      "beforeSha256": "34f317c52286369900a1068efce30290469a551443a6c7f75f9259d1b3aecec1",
+      "bytes": 7632,
+      "sha256": "1ccdd6b57da1c0d52091f9bacc53087c18b4e1260b8aac047f7d2f5c15c99d3d"
+    },
+    {
+      "path": "ui/renderer.js",
+      "beforeSha256": "936559b7532c3847bf1150eece4a67488c083d941d663e452b882915cc40243c",
+      "bytes": 153510,
+      "sha256": "87b434d67dc09b965193f6b48809a47106b77b68ee00039c391307d4acdba42c"
+    },
+    {
+      "path": "tests/linux-ordinary-service.test.cjs",
+      "beforeSha256": "cf34eca7c8ac7530a552d09d1109ce1b3b9418bf7837b3569d248354450b9b9f",
+      "bytes": 8286,
+      "sha256": "e8a29e583ce2be74994d1d02920a468c246ba65ec6b82b4b23d59c07621bc969"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "beforeSha256": "a1967dc9797cc8a431c83ab12ac650c6133f7fbc1f44b804c717f175ea4b2ad4",
+      "bytes": 104166,
+      "sha256": "4df9a59166f940adcf43986af622cf8e9a968895fdf9a363930316e1be806228"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "beforeSha256": "0d01e089f19a1167de967046896dbe47fcc06ea289a821b2987cd2722fc436cf",
+      "bytes": 30504,
+      "sha256": "67b70f8b41b093aca4b6b4e38da73724f7b896236dc5ac68a3130ccd88db5b28"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "beforeSha256": "52af9143d7dcdc10d797ab6ac31ab2a43a83b77f59521b93aae43c404e9e6401",
+      "bytes": 64720,
+      "sha256": "ce24c9a39bb392ae4fd0ffe421f34cd2d5a7a0dd91282ea62be8080efc8db90c"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-18/windows072-073-report-retention.json",
+      "beforeSha256": null,
+      "bytes": 3044,
+      "sha256": "35e65d2208b421819aeabd0c2498b296d3ab89a54cebd7287dcec774cd0ef5f9"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-18/windows072-packaged-cpu-report.json",
+      "beforeSha256": null,
+      "bytes": 1544,
+      "sha256": "998150f38c642c0f7cf62e8f729aaae0843d6057c2ebcad82681e713b258bc3b"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-18/windows073-packaged-cpu-report.json",
+      "beforeSha256": null,
+      "bytes": 1544,
+      "sha256": "c437c7c626de3d720e1ac62fdeb7cff06c0522676d750995556040f534d72ded"
+    }
+  ],
+  "predecessor": {
+    "bytes": 2517312,
+    "sha256": "cde31cb895a756aca47fcbc53be7d4d2ab9ed2cad9174e20648091d131edc1c2"
+  },
+  "limits": [
+    "Exact 073 native artifact evidence, not new 074 execution",
+    "Sampled process observations, not exhaustive census",
+    "Windows substituted picker/report-only, GPU and native desktop unqualified",
+    "Remux planning only; no historical timing/default changes",
+    "Sanitized skills draft only; no installation or mirror change"
+  ],
+  "distinctHostedObjects073": {
+    "retainedReportArtifactZipSha256": "f49f42301a0e75c8facc9fee4163807efc0fbae094638ed55596e268fb17cd26",
+    "retainedRawSanitizedReportSha256": "c437c7c626de3d720e1ac62fdeb7cff06c0522676d750995556040f534d72ded",
+    "attestedButNotRetainedExecutablePackageZip": {
+      "sha256": "841671c42b463c6142846dbd2e4dfc7c8854fb7a99be73cce5b678a295d70a67",
+      "sizeBytes": 326101380
+    },
+    "executableDistributed": false
+  },
+  "expectedScope": {
+    "paths": 13,
+    "trackedFiles": 788
+  }
+}

@@ -1375,3 +1375,12 @@ test('a remux generation history line names copied and omitted streams and never
   assert.equal(details.querySelectorAll('img').length, 0);
   assert.equal(row.querySelector('.argument-list').hidden, true);
 });
+
+test('fixed candidate settings display does not claim production defaults or broad depth support',async()=>{
+ const fixed={...profile,id:'h264-cpu',label:'H264 · CPU',candidateFixedSettings:true,presets:['veryfast'],defaultPreset:'veryfast',quality:{mode:'CRF',min:23,max:23,default:23},bitDepths:[8],supportedBitDepths:[8]};
+ const h=await harness({getCapabilities:async()=>({profiles:[fixed],recipes:[],versions:{}}),getPreferences:async()=>({settingsByProfile:{},profileId:'h264-cpu',notices:[]})});
+ assert.equal(h.byId('tested-default').textContent,'Candidate settings');assert.match(h.byId('default-help-text').textContent,/not the production Tested Default/);
+ assert.equal(h.byId('tested-default-values').textContent,'Preset veryfast · CRF 23');
+ assert.match(h.byId('profile-description').textContent,/8-bit supported/);assert.doesNotMatch(h.byId('profile-description').textContent,/10-bit/);
+ const generic=await harness();assert.equal(generic.byId('tested-default').textContent,'Tested Default');
+});

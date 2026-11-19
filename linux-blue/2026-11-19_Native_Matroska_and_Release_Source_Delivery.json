@@ -1,0 +1,105 @@
+{
+  "checkpoint": "094",
+  "cutoffUtc": "2026-11-19T11:45:53Z",
+  "baseLocal": "d9cfbe13e396ac844ae020c43399ec2aa6b37670",
+  "baseTree": "012e850191a0ca4283722a1f157e0b8eadad6b80",
+  "baseGitHub": "d64c3c1e36b9a22a2b6328c4fda572748ff40aa9",
+  "status": "isolated 094 writer ready, no 094 build/native/hosted/release",
+  "exactSourceManifestSha256": "1f1d8608e3db0f074128741fd4ecb16718c23351bc265ecb22d15b437dd99a55",
+  "sourceReviewDigests": [
+    "06db88433f870c31520709f45dd9bff0f9b42512cd9f8e29f49edadc4d76d0e9"
+  ],
+  "sourcePaths": [
+    {
+      "path": ".github/workflows/ubuntu-lock.yml",
+      "bytes": 2075,
+      "sha256": "858b6aaeecdf0d4e7f1b62a1d4bda4faa13203c3b8764c4e7e6d978eaccc4c39"
+    },
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "0319dc3120701442e07b7c77433b556632e31093a590d87e762894857340cef8"
+    },
+    {
+      "path": "scripts/ubuntu-lock/resolver.py",
+      "bytes": 19379,
+      "sha256": "df22c6861981ee29bceb891eabe84b6bb4973b5cddb4295c42d02090491da453"
+    },
+    {
+      "path": "scripts/ubuntu-lock/test_resolver.py",
+      "bytes": 25254,
+      "sha256": "0bfb9f15bd1c4440b9e831b76f34ec26752bd8d77d0d2857236cf39865bf38e9"
+    },
+    {
+      "path": "scripts/windows-hosted-package-check.cjs",
+      "bytes": 12556,
+      "sha256": "f6f505380dc792da489791f301824f74468b95d23daa5c0b62461edadf30ebba"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 20136,
+      "sha256": "78cba561ac9468a0f9f22e2e4e2efe2e4cc27b4d8ee345156ec717c35aa3d103"
+    },
+    {
+      "path": "tests/windows-hosted-diagnostics.test.cjs",
+      "bytes": 4539,
+      "sha256": "914f989d47b8d971d949cc548b31d700183525b59864588e7f28418d9cea3b3a"
+    }
+  ],
+  "verification": {
+    "authorLinuxLocalSyntax": 227,
+    "authorLinuxLocalShared": 337,
+    "authorLinuxLocalAdditional": 70,
+    "authorUbuntuInert": 53,
+    "authorWindowsFocusedInert": 39,
+    "independentUbuntuInert": 53,
+    "independentWindowsDiagnosticInert": 8,
+    "testsOverlap": true,
+    "independentAggregateRerun": false,
+    "actualPackageInputsUnchanged": 263,
+    "appMembers": 162,
+    "sourcePackageRows": 175,
+    "packagePins": 145
+  },
+  "evidenceAndProtocol": {
+    "linux-blue/evidence-2026-11-19/native093-matroska-audit.json": {
+      "bytes": 4705,
+      "sha256": "6b28e0a4eb04f31bd2e65f883a073000fc698537da0ee940d9a3da766877f5fc"
+    },
+    "linux-blue/evidence-2026-11-19/hosted093-verified-outcome.json": {
+      "bytes": 3989,
+      "sha256": "20c51f325bb72c41bc474524ad41ec0f632a42ceff95788d7df47127a7be81c4"
+    },
+    "linux-blue/evidence-2026-11-19/ubuntu093-original-sanitized-report.json": {
+      "bytes": 1868,
+      "sha256": "1f0fd29ed68063dcb62aee1aab7ed973ed3a873768501a70bf91137afa2340ae"
+    },
+    "linux-blue/evidence-2026-11-19/windows093-finite-console-observation.json": {
+      "bytes": 379,
+      "sha256": "4e49789142af8d275b0ef052c6b6d2a7c10dae20215c78b9855e4a038c1baca0"
+    },
+    "linux-blue/release-inputs-2026-11-19/distribution-mapping-093.json": {
+      "bytes": 29648,
+      "sha256": "1b399c28f1a92613365317de4c2e715acb90e6fbb46da0298c66312e16a54ca5"
+    },
+    "linux-blue/release-inputs-2026-11-19/source-delivery-inventory-093.json": {
+      "bytes": 31012,
+      "sha256": "2df2261746acf34cd1da5b8ba4e99308d602c668c033c94172b6282850a41f64"
+    },
+    "linux-blue/release-inputs-2026-11-19/electron-primary-evidence-093.json": {
+      "bytes": 7319,
+      "sha256": "e49aa10301cebe8f4db38d6107d627eefdd97f61f8632936f05a76b06a61912e"
+    },
+    "linux-blue/release-inputs-2026-11-19/source-delivery-studies-093.md": {
+      "bytes": 5401,
+      "sha256": "a8f1cc619566f30dbff23f2f4472cc672035cb43c8cbe1143479cc5d3eaf1877"
+    }
+  },
+  "limits": [
+    "Exact 093 native proof only; unintended OS open dispatch, no playback/desktop census",
+    "093 Ubuntu no lock/manufacture and Windows no capacity/build/media",
+    "094 no new package/native/hosted; bounded diagnostics and DriveInfo unproven on real Windows",
+    "Studies record identities not release payloads; full Electron source unassembled, no legal clearance",
+    "No private paths, raw logs/config or executable/media bytes"
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "status": "accepted-scoped-native-093-matroska-publication-and-reveal-with-operator-deviation",
+  "sourceCommit": "d9cfbe13e396ac844ae020c43399ec2aa6b37670",
+  "sourceTree": "012e850191a0ca4283722a1f157e0b8eadad6b80",
+  "sourceFilesVerified": 1014,
+  "packageFilesRehashed": 266,
+  "ordinaryModesVerified": 6,
+  "fileAuditSha256": "0262f9080ea2847167d7f0c01c35e05225e8141f22244890fcf8345e8023beec",
+  "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+  "runtimeToolsVerified": 2,
+  "runtimeHostDependenciesVerified": 7,
+  "journalEventsVerified": 23,
+  "provenanceChecksumsVerified": 2,
+  "journalContextTruncatedEvents": [
+    "FILE_INSPECTED",
+    "OPERATION_EVIDENCE_COLLECTED",
+    "JOB_DISPOSITION"
+  ],
+  "planFingerprint": "c15b24d41d62cef385951e1180d75e22d799a4b1014a797ebe3a42c11a863c59",
+  "evidenceIds": [
+    "saved-matroska093-media-and-lifecycle"
+  ],
+  "settings": {
+    "target": "Matroska",
+    "operation": "full packet copy MP4 H264/AAC to MKV",
+    "streamCopy": true,
+    "startCount": 1,
+    "prepareCount": 1
+  },
+  "input": {
+    "bytes": 5578679,
+    "sha256": "bc1edc43c90b14690d1a2a89986d4141b2719058a04e5901e4d6b3fdcd536d97",
+    "distinctFreshCopyRehashed": true
+  },
+  "output": {
+    "bytes": 5574267,
+    "sha256": "a3bbd32897c74ca33330d26e47b6a2346a4164e1ec2585ddef0589049f46f31d",
+    "publishedOnce": true,
+    "publishedIdentityDevInodeSizeMtimeMatch": true,
+    "currentCtimeMatchesPublishedReceipt": false,
+    "stagedCtimeMatchesCurrent": false
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "warnings": [],
+    "version": 1,
+    "operation": "remux",
+    "target": "matroska",
+    "verificationMethod": "packet-identity-v1",
+    "verificationClaim": {
+      "version": 1,
+      "method": "packet-identity-v1",
+      "statement": "Output packets identical to source; every header validated; start and end decoded.",
+      "interiorVideoDecoded": false,
+      "completeAudioDecoded": true
+    },
+    "qualificationEvidenceId": "saved-matroska093-media-and-lifecycle",
+    "contentClaim": "Complete ordered compressed packet and decoder-parameter identity, bounded native video decoding and complete PCM preservation."
+  },
+  "codedVideoPacketsPreserved": 240,
+  "codedAacPacketsPreserved": 376,
+  "packetAndDecoderParameterIdentityPreserved": true,
+  "pcm": {
+    "bytes": 3072000,
+    "samples": "384000",
+    "sha256": "200ca1c2a6804c139d5d7637caf507b686b30f7dfdf4b5c11ca629855e82a9a4"
+  },
+  "aacTrim": {
+    "version": 1,
+    "samplesPerPacket": 1024,
+    "codedSamples": "385024",
+    "leadingSamples": "1024",
+    "trailingSamples": "0"
+  },
+  "pcmWindowsCompared": 3,
+  "collectorArtifactsRehashed": 19,
+  "collectorInvocationsVerified": 12,
+  "collectorChildrenClosed": 12,
+  "collectorPeakChildren": 2,
+  "journalEvidenceChildAccounting": 15,
+  "elapsedJournalSeconds": 1.881,
+  "reservationsRemaining": 0,
+  "closure": {
+    "exitCode": 0,
+    "forced": false,
+    "errors": [],
+    "elapsedSeconds": 204.896396492004,
+    "sampledIdentities": 8,
+    "sampledOwnedGroupOnly": true
+  },
+  "nativeObservations": {
+    "operatorReceiptSha256": "0626e2576d94b8d158e8b527e412d27c391a0f3e4d3502f21b07ebab4d12785f",
+    "nativeFolderChooseAndThunarSelectedFile": "operator observed; journal independently corroborates both registrations and successful reveal dispatcher",
+    "elapsedDisplay": "00:01 frozen across successive operator screenshots; journal total 1.881s, not FFmpeg-only",
+    "operatorDeviation": "Unplanned Open output after stale click coordinates; journal independently confirms sequence 20 successful open dispatch before sequence 21 reveal. No player visible on subsequent inventory; playback, renderer/presentation and detached application behavior unverified. No second Start."
+  },
+  "actions": [
+    {
+      "sequence": 20,
+      "action": "open"
+    },
+    {
+      "sequence": 21,
+      "action": "reveal"
+    }
+  ],
+  "limits": [
+    "Only one exact fixture, host/runtime, audited native package path and actual native reveal. No broad catalog, package portability, GPU, hardware, cancellation or collision result from this native attempt.",
+    "Unplanned OS open dispatch is retained without inferring playback or absence of detached processes. Run is not an exact no-open planned journey.",
+    "Saved-only audit; no new app launch, media invocation, probe, decode, full raw PCM replay, mode change or playback. Retained PCM hashes/counts and collector windows corroborate existing evidence; bounded video decode is not full pixel validation.",
+    "Published/staged identities are separate observations; ctime comparison is recorded instead of reverse-inferred cause."
+  ]
+}

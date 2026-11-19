@@ -1,0 +1,632 @@
+{
+  "originalRecord": "MANIFEST.json",
+  "originalIdentity": {
+    "bytes": 29870,
+    "sha256": "ed62a46ded1b01d7d2d58925420e428cad33dd91d25f0b67c7e1cfbe75a5a970"
+  },
+  "retention": "The original record and referenced payloads are not bundled here. Workflow root aliases replace only local worktree names; underlying payload hashes retained.",
+  "redactedRecord": {
+    "schema": 1,
+    "scope": "Identity-only delivery assembly input manifest; no archive extraction, execution or upload",
+    "createdAt": "2026-11-19T11:40:21.379192+00:00",
+    "baselineCommit": "4b48fb6e8680e4d2bc7b5a014a2374c6f0f327ed",
+    "existingPayloads": [
+      {
+        "path": "<LOCAL_CODEC_078>/numactl_2.0.19-1.debian.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 7340,
+        "sha256": "93b4e00d8b7b1e465d931b29e65d220fadd84ac76431437307ecd075277355d3",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [
+          {
+            "path": "debian/copyright",
+            "bytes": 1357,
+            "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+          },
+          {
+            "path": "debian/patches/series",
+            "bytes": 1,
+            "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+          },
+          {
+            "path": "debian/rules",
+            "bytes": 163,
+            "sha256": "1ae015f082c14f48e3f9c04e6a1c46fb51031c7cdd47f5f646f996aa68a86757"
+          }
+        ],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/numactl_2.0.19-1.dsc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1967,
+        "sha256": "b56e7893fc7da5374946f3767518e8d7b3707e0487a4d92fb76d672a988921e2",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/numactl_2.0.19.orig.tar.gz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 218333,
+        "sha256": "8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x264_0.164.3108+git31e19f9-2.debian.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 24600,
+        "sha256": "35afd5e6896432acc7ed675eb077f71f37d92d748c41652f19470c18403fcb58",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [
+          {
+            "path": "debian/copyright",
+            "bytes": 7690,
+            "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+          },
+          {
+            "path": "debian/patches/0001-properly_detect_x32.patch",
+            "bytes": 1221,
+            "sha256": "f83462e35f5aec96df1bfb65c4ad6fa31e54c3fb9f87fa912da30e4509379a77"
+          },
+          {
+            "path": "debian/patches/0002-ppc-Fix-incompatible-pointer-type-errors.patch",
+            "bytes": 6115,
+            "sha256": "cc48e2f24171beccc4427609169583fd10ca5ac3ea6b4e0745c86122bf44e359"
+          },
+          {
+            "path": "debian/patches/series",
+            "bytes": 83,
+            "sha256": "daf2a7f69675dcd8b180f441a14e061423a01086fe461263722748204bd8c7fc"
+          },
+          {
+            "path": "debian/rules",
+            "bytes": 2063,
+            "sha256": "cf81fe815e5208cf3be24cab304de82d85806e60036c2606dcecafdcc4b3ba62"
+          }
+        ],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x264_0.164.3108+git31e19f9-2.dsc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1758,
+        "sha256": "323a100cb9942a7a9030e335d77980b1da77947c54778083dc31d99d0fd7b888",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x264_0.164.3108+git31e19f9.orig.tar.gz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 954789,
+        "sha256": "41606cb8e788a7f8c4514290646d4ba5c7bc68d9e1ccd1a73f446a90546913eb",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x265_4.1-2.debian.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 13920,
+        "sha256": "05daa2bd9395f3e5cc6eed64aa47c044856b38a3dab12cd59008d60ec9f8c3cb",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [
+          {
+            "path": "debian/copyright",
+            "bytes": 4551,
+            "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+          },
+          {
+            "path": "debian/patches/0001-Fix-arm-flags.patch",
+            "bytes": 680,
+            "sha256": "d09706e12b20c23c8e6ba748ef1d34aa9dcfb09ab6d4c5e45828703d47818249"
+          },
+          {
+            "path": "debian/patches/0002-Detect-x32-handle-as-non-x86-and-no-ASM-for-now-but-.patch",
+            "bytes": 1409,
+            "sha256": "49e8498f3cc5e510631f0eee6911eab954a833cda9bef4ed3913408489a0b74a"
+          },
+          {
+            "path": "debian/patches/0003-Drop-dlopen-code-path-that-will-never-be-hit.patch",
+            "bytes": 1585,
+            "sha256": "aea3ced8490c147e223073d114aff94df2471851934c5cd70113a0682b982214"
+          },
+          {
+            "path": "debian/patches/0004-Do-not-build-with-assembly-support-on-arm.patch",
+            "bytes": 923,
+            "sha256": "ecfce85ae3702c624e1c9cf4ec1043260d98883e351224994f016fd0a3543521"
+          },
+          {
+            "path": "debian/patches/series",
+            "bytes": 198,
+            "sha256": "f8dd0941ae114a1dde9756f0e147a2b63b98bda93a286e0439775849f3d86ca2"
+          },
+          {
+            "path": "debian/rules",
+            "bytes": 2611,
+            "sha256": "b162d940f3b4272440224fc059968b0eb354cb9d3029988828fdedda65ec80f9"
+          }
+        ],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x265_4.1-2.dsc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1695,
+        "sha256": "eaa5b43fbc4b6878a0d18751e6e0d8d087b416b2a11c8f1671659b4f8502cb31",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/x265_4.1.orig.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1113508,
+        "sha256": "85abb8a850000bf693947459c42a666a3ecd6de10a2ac6b3c6647554b14d3270",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/dav1d_1.5.1-1.debian.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 8468,
+        "sha256": "41f758fda3a2d9860691cae422365bae656060f42c9a5375f7ac4124005f4e7e",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [
+          {
+            "path": "debian/copyright",
+            "bytes": 9722,
+            "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+          },
+          {
+            "path": "debian/rules",
+            "bytes": 335,
+            "sha256": "6e8900220bddc9af544ccf039ed2a67f0043b460e4f9f38f23770d6fe97bfe7f"
+          }
+        ],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/dav1d_1.5.1-1.dsc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 2290,
+        "sha256": "a418ee8fdc8003feee1ba19391eac250e3ef03106c995c8e25b8a42b56de18cf",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/dav1d_1.5.1.orig.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1020760,
+        "sha256": "401813f1f89fa8fd4295805aa5284d9aed9bc7fc1fdbe554af4292f64cbabe21",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/dav1d_1.5.1.orig.tar.xz.asc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 195,
+        "sha256": "4cad1d03a19a717562c2c80c1df195b629e43898cd1af19296958847f6212554",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/svt-av1_2.3.0+dfsg-1.debian.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 7424,
+        "sha256": "40054958d7135b2da4de632e7c87b691b2cdf2a6b8e6d3a4e60eab345fdb448a",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [
+          {
+            "path": "debian/copyright",
+            "bytes": 14574,
+            "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+          },
+          {
+            "path": "debian/rules",
+            "bytes": 377,
+            "sha256": "6ff3785a8ecdc5aff565b8d3b29f44e3b815053fd15b1076d8c5973d2c876ffc"
+          }
+        ],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/svt-av1_2.3.0+dfsg-1.dsc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 2093,
+        "sha256": "c113f4882ebc41220cd5cfe676834326e1f7ab8a6132026821c5079ffe751301",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_AV1_080>/svt-av1_2.3.0+dfsg.orig.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 9017580,
+        "sha256": "815e88cc539c41b8ebd1a6f362f82ab510147635fc6c3edfa35edcfbed302cd8",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "source/descriptor/signature",
+        "containedPatchAndRuleIdentities": [],
+        "memberVerification": "Retained085 identities only; no archive opened or extracted in this task"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/ffmpeg-9.0.2.tar.xz",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 12040788,
+        "sha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/ffmpeg-9.0.2.tar.xz.asc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 520,
+        "sha256": "d617fd94ea354dadd2a8bb16243d37c44e1e9729b06b6ad58fe30bfb0fa943f2",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/libdav1d-dev_1.5.1-1_amd64.deb",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 26648,
+        "sha256": "c5d3cdd44e9ad4680d24c404f7b686759d29e9030d4f5d0deabb8792ec30a8ed",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "historical authenticated development binary input; not corresponding source"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/libnuma-dev_2.0.19-1_amd64.deb",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 36528,
+        "sha256": "7fea9248b09311b008dc6707c201671e7b14ce5f9278dda4694e726990897436",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "historical authenticated development binary input; not corresponding source"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/libsvtav1enc-dev_2.3.0+dfsg-1_amd64.deb",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 33040,
+        "sha256": "13a94fcea44146a19e7f579b72346cb01afc149cdbd94113b70318f34eb61c6f",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "historical authenticated development binary input; not corresponding source"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/libx264-dev_0.164.3108+git31e19f9-2+b1_amd64.deb",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 617664,
+        "sha256": "120094146e402348d7ee305d0977183f1514441aca128863b6ad2599d92a2f3c",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "historical authenticated development binary input; not corresponding source"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/libx265-dev_4.1-2_amd64.deb",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1227040,
+        "sha256": "174c683f254b7ab7ab1255aa4ee883945b6a80c04ba17ff4e9c906ad6ced5d0f",
+        "status": "available-hashed",
+        "expectedIdentityMatches": true,
+        "role": "historical authenticated development binary input; not corresponding source"
+      }
+    ],
+    "actualDebian002Materials": [
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/config.h",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 24619,
+        "sha256": "2ba04587c6c2237f4344bcf25f8ba76836bfc9bf2fa003adb13e412c75981ca2",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/config_components.h",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 75690,
+        "sha256": "7bcb9414b8567de14f87954d96bdda3f3bfe9f784105fddea369c8dbe37eeafb",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/ffbuild/config.mak",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 88479,
+        "sha256": "e2e1b0a60bcf99231eff0ae51e75899a8dd78d8ace5a1a08c8c0cf48dbffd433",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/ffbuild/config.sh",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1492,
+        "sha256": "f13d82d2e20e03725709b942b154067739fc2b7de5a5fa8f3613cffd2e78523d",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/ffbuild/config.log",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 751593,
+        "sha256": "e9fc5d674d15bfec68a10975360da71eeaa5b0a8c6e751bb513625c30bb00e1f",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/ffbuild/.config",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/Makefile",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 142,
+        "sha256": "165ff8331780da913d278d0856b4b890e9f6f70ecac02cd02e94c990da03c375",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/build/libavutil/avconfig.h",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 180,
+        "sha256": "975611ad5eba15212d9e1d5fca9d4fdf0daec6d2269b2fcab8e29af8667164bc",
+        "status": "available-hashed",
+        "role": "actual002 generated build material; private path review required before sharing"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/logs/configure.stdout",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 35242,
+        "sha256": "4ec22e76b4b37a0fffa873856e629745cdb35027f773975fbdbdd0f92ebc4d92",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/logs/configure.stderr",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/logs/make.stdout",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 53743,
+        "sha256": "4fad26c2f46ac2b8753113f3bd63b1e8f65a21fa4f5e0c28f684b2baad80c5ae",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/logs/make.stderr",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 48666,
+        "sha256": "ac563192290c1f1b1a0ed7bcf31d486cb603d0bb8ea7cee75ef16c6f45260313",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/RESULT.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 3718,
+        "sha256": "f6e055cac7fb295dc254f715e5c857ccceed68f5e75e5690207f158ce5c55040",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-build-002/START.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 2455,
+        "sha256": "f6f46de579ce21ab42e3c9f702cffb908f6a63065412f031728b253badb6cf13",
+        "status": "available-hashed",
+        "role": "actual002 historical record; no raw content copied"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/proposed-pkgconfig/SvtAv1Enc.pc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 318,
+        "sha256": "976c0b328a6c4303fecfb2c20d9fc5086e56e0975cea2739f3a40be918718890",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/proposed-pkgconfig/dav1d.pc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 290,
+        "sha256": "9700052d3f1425108117ada1b939469fa538e151b4f447cfa5b4f0dbfb03bfd2",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/proposed-pkgconfig/numa.pc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 403,
+        "sha256": "a5f4919a981270e16737666ac51341814d273d1d019e8594757443d6aff61c13",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/proposed-pkgconfig/x264.pc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 435,
+        "sha256": "ef15275c27d64e59eee61f02c45ee1f843859cab2fc0249bddbe7d9bbde5f0f5",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/proposed-pkgconfig/x265.pc",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 597,
+        "sha256": "7677a8b162ace6aa6b31271d71906b72ef0c09c3dff08ad952e26da7acdcf1cd",
+        "status": "available-hashed"
+      }
+    ],
+    "trackedDurableReferences": [
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-build-recipe.json",
+        "retention": "tracked092 source record; full092 preservation previously verified, not re-downloaded here",
+        "bytes": 8370,
+        "sha256": "b683f1f923922dae84c9a8862be62a9e49c055b0a5b59a864041724e23efda28",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-input-acquisition.json",
+        "retention": "tracked092 source record; full092 preservation previously verified, not re-downloaded here",
+        "bytes": 4172,
+        "sha256": "ac47e423df35573a3eddfa7ca5c4642ad29c4b231f1db0a46e8986ef88c6ce63",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-build-result.json",
+        "retention": "tracked092 source record; full092 preservation previously verified, not re-downloaded here",
+        "bytes": 6470,
+        "sha256": "4c293feee5d806fb76760e60556dbf4f865e441fdb10781addf5fa8ed6d935a4",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/build002-supervisor.py.txt",
+        "retention": "tracked092 source record; full092 preservation previously verified, not re-downloaded here",
+        "bytes": 8453,
+        "sha256": "22b847fbd5d2554ae997ff85245de9ed61abec2925885dc7f2ae8008b1030d29",
+        "status": "available-hashed"
+      }
+    ],
+    "futureUbuntuProposalOnly": [
+      {
+        "path": "<LOCAL_UBUNTU_085>/RECIPE.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 9825,
+        "sha256": "2d5a0879ab16e7049eb3aacdff64532db4e9e9c5146e47c7cf5794820a2aa9d5",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/RETAINED_SOURCE_INPUTS.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 6082,
+        "sha256": "66841c1db49a0fec958b93b0514f0ba93d4b1c4c54c158879e78fb842e11766e",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/TOOLCHAIN_LOCK.template.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 3282,
+        "sha256": "8727345ecd0bb75e66f988e9eb3c2feb3ad564af6888fd354e020e180ca0b123",
+        "status": "available-hashed"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/REVIEW.md",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 6094,
+        "sha256": "4f1fa003fe0ccb23df68018b1d2ef08101ee9e306ad962fabb40730954405f7e",
+        "status": "available-hashed"
+      }
+    ],
+    "electronExistingNoticeAndBinaryReferences": {
+      "LICENSE": {
+        "bytes": 1096,
+        "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+      },
+      "LICENSES.chromium.html": {
+        "bytes": 20115518,
+        "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
+      },
+      "libffmpeg.so": {
+        "bytes": 2801752,
+        "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
+      },
+      "ffmpegNotice": {
+        "homepage": "https://git.ffmpeg.org/ffmpeg.git",
+        "sectionSha256": "e9ff9ce049e61e3478e28fbe653a0a1ae8c81a26350b3b04ec09a7910f69643a",
+        "sectionBytes": 48669,
+        "interpretation": "Notice names upstream FFmpeg; does not identify exact Chromium fork commit or actual codec configure switches."
+      },
+      "officialLicenseMatches": true,
+      "archive": {
+        "bytes": 122998223,
+        "sha256": "3ae7d5bdad61c664486c6ab61361dd084d064c8c08af8d13a687096e18ce555a",
+        "officialReleaseAssetDigestMatches": true
+      }
+    },
+    "electronSourcePayloads": {
+      "status": "not downloaded/assembled",
+      "electronCommit": "61f55c4ce540416b3e43f75f6c0f125d22e5e908",
+      "chromiumRef": "152.0.7977.130",
+      "nodeRef": "v24.21.0",
+      "chromiumFfmpegCommit": "2b68d2babae73714846961fb0ee47e3b3d2e39a9",
+      "referenceSupplement": {
+        "path": "<LOCAL_ELECTRON_093>/HANDOFF.json",
+        "retention": "local-only payload unless separately classified as tracked source record",
+        "bytes": 1984,
+        "sha256": "df49b3a741273b2cc0642f82915786319822088555699a741fc3bf3a29d73ac3",
+        "status": "available-hashed"
+      }
+    },
+    "limits": [
+      "Existing archive full-file hashes verified; contained patch identities inherited from085, not freshly read.",
+      "Local original runtime binaries and source payloads are not newly archived or uploaded.",
+      "No build recipe execution or reproducibility/legal clearance claim."
+    ],
+    "actualStaticArchiveAvailability": [
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/extracted-v2/libx264-dev/usr/lib/x86_64-linux-gnu/libx264.a",
+        "bytes": 2807646,
+        "sha256": "16544258087b9582e1b551dd06ffdb0923879e393cb63b12990936ac8f4a0800",
+        "scope": "existing extracted archive hashed only; no archive members opened or linked"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/extracted-v2/libx265-dev/usr/lib/x86_64-linux-gnu/libx265.a",
+        "bytes": 22915576,
+        "sha256": "d6750321c83c53026958e9976711f793b4346690981a4c5b34967f3d5b932e70",
+        "scope": "existing extracted archive hashed only; no archive members opened or linked"
+      },
+      {
+        "path": "<LOCAL_RECOVERY_074>/successor-runtime-inputs/extracted-v2/libnuma-dev/usr/lib/x86_64-linux-gnu/libnuma.a",
+        "bytes": 83710,
+        "sha256": "fbd81cb82dac4286acff3ba8398f1e40a9c94140ccaf55eb8e0b9215b02b7bb5",
+        "scope": "existing extracted archive hashed only; no archive members opened or linked"
+      }
+    ],
+    "actualLinkConfigurationObservation": {
+      "record": "actualDebian002Materials ffbuild/config.mak",
+      "observed": "EXTRALIBS-avcodec explicitly names static x264/x265/numa, dynamic dav1d/SVT and system libraries; LDFLAGS retained.",
+      "limit": "Configuration is not a separately captured expanded final compiler/link argv. Raw config includes local paths; no raw config content copied."
+    }
+  }
+}

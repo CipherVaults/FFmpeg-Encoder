@@ -305,5 +305,24 @@ class EmptySeparators(unittest.TestCase):
  def test_blank_does_not_preserve_continuation_owner(self):
   with self.assertRaises(AssertionError):m.paragraphs('Package:a\n\n\n orphan')
 
+class TransactionDiagnostics(unittest.TestCase):
+ def test_upstream_shortbreaks_shape_remains_refused_and_observed(self):
+  # Synthetic grammar from APT pkgSimulate::Describe/ShortBreaks, not runner data.
+  for suffix in [' []',' [pending-package ]']:
+   line='Inst new-package (1.0 noble [amd64])'+suffix;r={}
+   with self.assertRaisesRegex(AssertionError,'^TRANSACTION_PARSE$'):m.transaction(line,{},r)
+   d=r['transactionParseObservation'];self.assertTrue(d['candidateCloseThenBracket']);self.assertFalse(d['endsWithCandidateClose']);self.assertEqual(d['lineSha256'],m.sha(line.encode()));self.assertNotIn('new-package',str(d));self.assertNotIn('pending-package',str(d))
+ def test_unclassified_shape_retained_without_raw_text(self):
+  r={};line='Inst PRIVATE_SECRET\tmalformed'
+  with self.assertRaisesRegex(AssertionError,'^TRANSACTION_PARSE$'):m.transaction(line,{},r)
+  d=r['transactionParseObservation'];self.assertTrue(d['containsControl']);self.assertFalse(d['candidateCloseThenBracket']);self.assertNotIn('PRIVATE_SECRET',str(d))
+ def test_existing_acceptance_and_refusals_unchanged(self):
+  r={};self.assertEqual(m.transaction('Inst new-package (1 noble [amd64])',{},r),[{'package':'new-package','version':'1'}]);self.assertEqual(r,{})
+  for line in ['Remv package [1]','Purg package [1]','Inst package [1] (2 noble [amd64])']:
+   with self.assertRaises(AssertionError):m.transaction(line,{'package':{}},r)
+  self.assertEqual(r,{})
+ def test_actual_main_passes_result_to_transaction(self):
+  self.assertIn('changes=transaction(simulated.decode(),installed,result)',p.read_text())
+
 if __name__=='__main__':unittest.main()
 

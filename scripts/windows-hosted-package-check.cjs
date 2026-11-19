@@ -51,7 +51,7 @@ async function preflight(root,parent,manifest,diagnostic=createPreflightDiagnost
   const type=await step('fixed-drive-process',()=>{
     const drive=path.win32.parse(parent).root.slice(0,2);
     const shell=path.join(process.env.SystemRoot,'System32/WindowsPowerShell/v1.0/powershell.exe');
-    return execFileSync(shell,['-NoProfile','-NonInteractive','-Command',`$d=Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='${drive}'"; if (!$d) {exit 2}; Write-Output $d.DriveType`],{encoding:'utf8',timeout:10000,maxBuffer:1024,windowsHide:true});
+    return execFileSync(shell,['-NoProfile','-NonInteractive','-Command',`$ErrorActionPreference='Stop'; $d=[System.IO.DriveInfo]::new('${drive}\\'); Write-Output ([int]$d.DriveType)`],{encoding:'utf8',timeout:10000,maxBuffer:1024,windowsHide:true});
   });
   await step('fixed-drive-type',()=>assert(type.trim()==='3'));
   const s=await step('capacity-stat',()=>fs.statfs(parent,{bigint:true}));

@@ -1,0 +1,14 @@
+{
+  "head": "d64c3c1e36b9a22a2b6328c4fda572748ff40aa9",
+  "run": 44516300721,
+  "attempt": 1,
+  "observation": {
+    "schema": 1,
+    "state": "PREFLIGHT_OR_REPORT_UNAVAILABLE",
+    "phase": "fixed-drive-process",
+    "code": "ETIMEDOUT",
+    "capacity": null
+  },
+  "originalLogSha256": "580b1b5684e4b4d6a492301e69a35d05a8c94414331ef931457c967f0c1e2b3c",
+  "artifactCount": 0
+}

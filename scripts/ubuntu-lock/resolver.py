@@ -2,7 +2,7 @@
 import pathlib,os,sys,re,json,hashlib,subprocess,tempfile,time,signal,stat
 from contextlib import contextmanager
 ROOT=pathlib.Path(__file__).resolve().parent
-PARENT='9b334a8c2f7984b9205eb67b962b740b5d87ed27'
+PARENT='d64c3c1e36b9a22a2b6328c4fda572748ff40aa9'
 ROOTS=['gcc','g++','make','binutils','libc6-dev','linux-libc-dev','pkgconf','cmake','meson','ninja-build','nasm','python3','patch','tar','xz-utils','gzip','coreutils','dash','findutils','sed','grep','gawk','dpkg-dev']
 CAP=8*1024**2
 STATUS_CAP=32*1024**2
@@ -34,12 +34,22 @@ def paragraphs(text):
   if row:rows.append(row)
  return rows
 
-def transaction(text,installed):
+def transaction(text,installed,result=None):
  rows=[]
  for line in text.splitlines():
   assert not line.startswith(('Remv ','Purg ')),'REMOVAL_REFUSED'
   if not line.startswith('Inst '):continue
-  m=re.fullmatch(r'Inst ([a-z0-9+.-]+)(?::amd64)?(?: \[([^]]+)\])? \((\S+) .+\)',line);assert m,'TRANSACTION_PARSE'
+  m=re.fullmatch(r'Inst ([a-z0-9+.-]+)(?::amd64)?(?: \[([^]]+)\])? \((\S+) .+\)',line)
+  if m is None:
+   if result is not None:
+    # Structural observation only: no raw inventory or version tokens, and no
+    # suffix normalization or expanded transaction acceptance.
+    result['transactionParseObservation']={'schema':1,'lineBytes':len(line.encode()),
+     'lineSha256':sha(line.encode()),'asciiOnly':line.isascii(),
+     'endsWithCandidateClose':line.endswith(')'),
+     'candidateCloseThenBracket':bool(re.search(r'\) \[[^\r\n]*\]$',line)),
+     'containsControl':any(ord(c)<32 or ord(c)==127 for c in line)}
+   raise AssertionError('TRANSACTION_PARSE')
   name,prior,version=m.groups();assert name not in installed and prior is None,'INSTALLED_CHANGE_REQUIRES_REVIEW'
   rows.append({'package':name,'version':version})
  assert len(rows)<=1000 and len({r['package']for r in rows})==len(rows)
@@ -304,7 +314,7 @@ def main():
   with diagnostic_stage(result,'TRANSACTION_SIMULATION'):
    simulated,_=run(['/usr/bin/apt-get','-s','--no-install-recommends','install',*ROOTS],root,end)
   with diagnostic_stage(result,'TRANSACTION_PARSE'):
-   changes=transaction(simulated.decode(),installed)
+   changes=transaction(simulated.decode(),installed,result)
   with diagnostic_stage(result,'CANDIDATE_MAPPING'):
    retain_mapping(installed,changes,root,end,result)
   with diagnostic_stage(result,'FINAL_BASELINE_CHECK'):

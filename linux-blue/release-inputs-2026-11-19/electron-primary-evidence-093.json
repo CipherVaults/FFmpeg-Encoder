@@ -1,0 +1,204 @@
+{
+  "FETCH_RECEIPTS.json": {
+    "identity": {
+      "bytes": 1318,
+      "sha256": "d83c04e155ec7be5330b172f32d9e1d591dd18a1dee5949db8ea3808ddc7e757"
+    },
+    "data": [
+      {
+        "name": "tag",
+        "url": "https://api.github.com/repos/electron/electron/git/ref/tags/v44.7.0",
+        "bytes": 339,
+        "sha256": "79f56821a94d3029c4e1b8706da13bb84fdcda29d90dc85772259dbe692f1a3b"
+      },
+      {
+        "name": "release",
+        "url": "https://api.github.com/repos/electron/electron/releases/tags/v44.7.0",
+        "bytes": 125616,
+        "sha256": "0c361ee89acd6aef6b96b14fa9a303f3a04d5abb1dce038738495b41b3ab46b8"
+      },
+      {
+        "name": "patches",
+        "url": "https://raw.githubusercontent.com/electron/electron/v44.7.0/patches/config.json",
+        "bytes": 1757,
+        "sha256": "df16fa07bdf66704cb9f4598ff6d52307205853e96d14644324df1ce65790a45"
+      },
+      {
+        "name": "build",
+        "url": "https://raw.githubusercontent.com/electron/electron/v44.7.0/BUILD.gn",
+        "bytes": 68835,
+        "sha256": "4a91d9434cb7f79be4376fb23a4a3daa2138fb83b499d22ec3a9e444a43a75d1"
+      },
+      {
+        "name": "license",
+        "url": "https://raw.githubusercontent.com/electron/electron/v44.7.0/LICENSE",
+        "bytes": 1096,
+        "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+      },
+      {
+        "name": "chromium_deps",
+        "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.130/DEPS?format=TEXT",
+        "bytes": 259332,
+        "sha256": "4a769da4a2026e0263eb97564645b9c6427956aa90a1977dc004919bfc9aacbd"
+      }
+    ]
+  },
+  "EXACT_FETCH_RECEIPTS.json": {
+    "identity": {
+      "bytes": 1229,
+      "sha256": "84ac7fdfa4cc4ff06ac16f9aa0be998a288e84c553b58a47410631aac09c3b0d"
+    },
+    "data": [
+      {
+        "name": "commit_deps",
+        "url": "https://raw.githubusercontent.com/electron/electron/61f55c4ce540416b3e43f75f6c0f125d22e5e908/DEPS",
+        "error": "<urlopen error timed out>"
+      },
+      {
+        "name": "ffmpeg_patch_series",
+        "url": "https://raw.githubusercontent.com/electron/electron/61f55c4ce540416b3e43f75f6c0f125d22e5e908/patches/ffmpeg/.patches",
+        "error": "<urlopen error timed out>"
+      },
+      {
+        "name": "ffmpeg_patch",
+        "url": "https://raw.githubusercontent.com/electron/electron/61f55c4ce540416b3e43f75f6c0f125d22e5e908/patches/ffmpeg/link_with_loader_path.patch",
+        "error": "<urlopen error timed out>"
+      },
+      {
+        "name": "all_args",
+        "url": "https://raw.githubusercontent.com/electron/electron/61f55c4ce540416b3e43f75f6c0f125d22e5e908/build/args/all.gn",
+        "error": "<urlopen error timed out>"
+      },
+      {
+        "name": "ffmpeg_readme",
+        "url": "https://chromium.googlesource.com/chromium/third_party/ffmpeg/+/2b68d2babae73714846961fb0ee47e3b3d2e39a9/README.chromium?format=TEXT",
+        "error": "<urlopen error timed out>"
+      },
+      {
+        "name": "chromium_tag",
+        "url": "https://chromium.googlesource.com/chromium/src/+/152.0.7977.130?format=JSON",
+        "error": "<urlopen error timed out>"
+      }
+    ]
+  },
+  "LOCAL_NOTICE_BINDING.json": {
+    "identity": {
+      "bytes": 925,
+      "sha256": "e46c30d5db3f9314bbb5bfc8994eeb12187e9d3c9ec3263f732dadcdd1fa1add"
+    },
+    "data": {
+      "LICENSE": {
+        "bytes": 1096,
+        "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+      },
+      "LICENSES.chromium.html": {
+        "bytes": 20115518,
+        "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
+      },
+      "libffmpeg.so": {
+        "bytes": 2801752,
+        "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
+      },
+      "ffmpegNotice": {
+        "homepage": "https://git.ffmpeg.org/ffmpeg.git",
+        "sectionSha256": "e9ff9ce049e61e3478e28fbe653a0a1ae8c81a26350b3b04ec09a7910f69643a",
+        "sectionBytes": 48669,
+        "interpretation": "Notice names upstream FFmpeg; does not identify exact Chromium fork commit or actual codec configure switches."
+      },
+      "officialLicenseMatches": true,
+      "archive": {
+        "bytes": 122998223,
+        "sha256": "3ae7d5bdad61c664486c6ab61361dd084d064c8c08af8d13a687096e18ce555a",
+        "officialReleaseAssetDigestMatches": true
+      }
+    }
+  },
+  "HANDOFF.json": {
+    "identity": {
+      "bytes": 1984,
+      "sha256": "df49b3a741273b2cc0642f82915786319822088555699a741fc3bf3a29d73ac3"
+    },
+    "data": {
+      "status": "frozen-read-only-source-reference-supplement",
+      "files": [
+        {
+          "path": "CHROMIUM_DEPS.decoded.txt",
+          "bytes": 194497,
+          "sha256": "7c2fd934009eb6f3f936c66853f01307e54175ff1fc19a49cdeee5fa43d498ab"
+        },
+        {
+          "path": "ELECTRON_DEPS.txt",
+          "bytes": 8759,
+          "sha256": "46608960fb52f7120de7d531e9b243f16e03ced0febf85b095a2d49264c6d846"
+        },
+        {
+          "path": "EXACT_FETCH_RECEIPTS.json",
+          "bytes": 1229,
+          "sha256": "84ac7fdfa4cc4ff06ac16f9aa0be998a288e84c553b58a47410631aac09c3b0d"
+        },
+        {
+          "path": "FETCH_RECEIPTS.json",
+          "bytes": 1318,
+          "sha256": "d83c04e155ec7be5330b172f32d9e1d591dd18a1dee5949db8ea3808ddc7e757"
+        },
+        {
+          "path": "LOCAL_NOTICE_BINDING.json",
+          "bytes": 925,
+          "sha256": "e46c30d5db3f9314bbb5bfc8994eeb12187e9d3c9ec3263f732dadcdd1fa1add"
+        },
+        {
+          "path": "SUPPLEMENT.md",
+          "bytes": 6435,
+          "sha256": "1788fe320e874817821024d21924dc14daeb88ea180cb29058f2d5218965e9e7"
+        },
+        {
+          "path": "build.txt",
+          "bytes": 68835,
+          "sha256": "4a91d9434cb7f79be4376fb23a4a3daa2138fb83b499d22ec3a9e444a43a75d1"
+        },
+        {
+          "path": "chromium_deps.txt",
+          "bytes": 259332,
+          "sha256": "4a769da4a2026e0263eb97564645b9c6427956aa90a1977dc004919bfc9aacbd"
+        },
+        {
+          "path": "license.txt",
+          "bytes": 1096,
+          "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+        },
+        {
+          "path": "patches.txt",
+          "bytes": 1757,
+          "sha256": "df16fa07bdf66704cb9f4598ff6d52307205853e96d14644324df1ce65790a45"
+        },
+        {
+          "path": "release.txt",
+          "bytes": 125616,
+          "sha256": "0c361ee89acd6aef6b96b14fa9a303f3a04d5abb1dce038738495b41b3ab46b8"
+        },
+        {
+          "path": "tag.txt",
+          "bytes": 339,
+          "sha256": "79f56821a94d3029c4e1b8706da13bb84fdcda29d90dc85772259dbe692f1a3b"
+        }
+      ],
+      "runtimeExecuted": false,
+      "canonicalEdited": false,
+      "distributionApproved": false
+    }
+  },
+  "ELECTRON_DEPS.txt": {
+    "identity": {
+      "bytes": 8759,
+      "sha256": "46608960fb52f7120de7d531e9b243f16e03ced0febf85b095a2d49264c6d846"
+    },
+    "retention": "Raw successful metadata text only observed and hashed locally, not copied here"
+  },
+  "CHROMIUM_DEPS.decoded.txt": {
+    "identity": {
+      "bytes": 194497,
+      "sha256": "7c2fd934009eb6f3f936c66853f01307e54175ff1fc19a49cdeee5fa43d498ab"
+    },
+    "retention": "Raw successful metadata text only observed and hashed locally, not copied here"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema": "ubuntu-lock-candidate/v1",
+  "ready": false,
+  "head": "d64c3c1e36b9a22a2b6328c4fda572748ff40aa9",
+  "scope": "metadata-and-simulation-only",
+  "unresolved": [],
+  "diagnosticStage": "TRANSACTION_PARSE",
+  "completedDiagnosticStages": [
+    "BASELINE_COPY",
+    "CONFIGURE_ISOLATION",
+    "BASELINE_PARSE",
+    "BASELINE_VALIDATE",
+    "BASELINE_QUERY",
+    "BASELINE_COMPARE",
+    "TOOL_IDENTITIES",
+    "METADATA_UPDATE",
+    "RELEASE_AUTHENTICATION",
+    "TRANSACTION_SIMULATION"
+  ],
+  "baselineStatusSha256": "90fa0b31c190aa6d31c146657b325a9c6884e1bda587d850e30857fd26b34bfc",
+  "baselineInstalledCount": 1212,
+  "toolIdentities": {
+    "/usr/bin/apt-get": "87279ca48820a0423c2ee8b25dba48af0ad7d9f46c16f1e3cfdc07934dcf5ae1",
+    "/usr/bin/apt-cache": "3ae7267f71d70bec3c263314fceb1b2c2e6845f03ade9c57cbb5a2f71f06904a",
+    "/usr/bin/gpgv": "f14d026b9eae172c432e015bce227483293b4966f2f3fdcfa582f71d3dbb2ae8",
+    "/usr/share/keyrings/ubuntu-archive-keyring.gpg": "80a36b0a6de2f69f49d2df75ef473ccde121e9e190b9ea01d20a4f63778d5c31"
+  },
+  "signedReleases": [
+    {
+      "sha256": "9792dfe736aa17a7146612a6d8ecc31021456ad884e09b06de27d95bdcf241bf",
+      "dateFields": [
+        "Suite: noble-updates",
+        "Codename: noble",
+        "Date: Thu, 19 Nov 2026  4:13:48 UTC"
+      ]
+    },
+    {
+      "sha256": "cdb2f31d809f589719a53c6ad15f255b27569c4059542ada282aaa21b8e164b0",
+      "dateFields": [
+        "Suite: noble",
+        "Codename: noble",
+        "Date: Thu, 25 Apr 2024 15:10:33 UTC"
+      ]
+    },
+    {
+      "sha256": "6b61c8bd3bcda71a7314d9df408e7019878a4c8ff1a10b1a987a9c88bf79b01e",
+      "dateFields": [
+        "Suite: noble-security",
+        "Codename: noble",
+        "Date: Thu, 19 Nov 2026  4:12:57 UTC"
+      ]
+    }
+  ],
+  "status": "blocked",
+  "failureType": "AssertionError",
+  "failureReason": "TRANSACTION_PARSE"
+}

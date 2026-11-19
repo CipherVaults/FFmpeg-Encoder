@@ -1,0 +1,712 @@
+{
+  "originalRecord": "MAPPING.json",
+  "originalIdentity": {
+    "bytes": 27937,
+    "sha256": "727a1c52974d0301812f6f2d91c929c30e24eef43c91b482fa1ae0a94d1c508e"
+  },
+  "retention": "The original record and referenced payloads are not bundled here. Workflow root aliases replace only local worktree names; underlying payload hashes retained.",
+  "redactedRecord": {
+    "scope": "Read-only distribution-input reconciliation, not legal clearance or execution authority",
+    "baselineCommit": "4b48fb6e8680e4d2bc7b5a014a2374c6f0f327ed",
+    "evidence": [
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/resources/linux-inert-package-plan.json",
+        "bytes": 74348,
+        "sha256": "f2fd5ee16a3d3dedac3b6ddf00cce94e2e0dfb4ae95847e44f53a245ffc54d3d"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-build-recipe.json",
+        "bytes": 8370,
+        "sha256": "b683f1f923922dae84c9a8862be62a9e49c055b0a5b59a864041724e23efda28"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-input-acquisition.json",
+        "bytes": 4172,
+        "sha256": "ac47e423df35573a3eddfa7ca5c4642ad29c4b231f1db0a46e8986ef88c6ce63"
+      },
+      {
+        "path": "<TRACKED_CHECKPOINT_092>/linux-blue/runtime-recovery-2026-11-19/runtime-build-result.json",
+        "bytes": 6470,
+        "sha256": "4c293feee5d806fb76760e60556dbf4f865e441fdb10781addf5fa8ed6d935a4"
+      },
+      {
+        "path": "<LOCAL_CODEC_078>/SOURCE_CLOSURE_REPORT.json",
+        "bytes": 6010,
+        "sha256": "474003eabc28798baa8e3cb4a376771e647b3429c00b1d095f55485fbc091b2c"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/RETAINED_SOURCE_INPUTS.json",
+        "bytes": 6082,
+        "sha256": "66841c1db49a0fec958b93b0514f0ba93d4b1c4c54c158879e78fb842e11766e"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/RECIPE.json",
+        "bytes": 9825,
+        "sha256": "2d5a0879ab16e7049eb3aacdff64532db4e9e9c5146e47c7cf5794820a2aa9d5"
+      },
+      {
+        "path": "<LOCAL_UBUNTU_085>/REVIEW.md",
+        "bytes": 6094,
+        "sha256": "4f1fa003fe0ccb23df68018b1d2ef08101ee9e306ad962fabb40730954405f7e"
+      },
+      {
+        "path": "<LOCAL_VERSION_090>/PLAN.md",
+        "bytes": 3614,
+        "sha256": "f9c2200c7a380df3b1c9fd88ebc4e86a08f1cbce3537d889c737f52583935101"
+      }
+    ],
+    "runtimeIdentity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13",
+    "runtimeOutputs": [
+      {
+        "path": "ffmpeg",
+        "bytes": 46175848,
+        "sha256": "852df894561f1cabd6481c08cf59870570baace274c27c624e4b38d886ebcd9f",
+        "mode": "0o700"
+      },
+      {
+        "path": "ffprobe",
+        "bytes": 45962728,
+        "sha256": "152a8243f5b41b7c02dde01a28619f47151a73e0816aa30197c5b50f4d207ebf",
+        "mode": "0o700"
+      }
+    ],
+    "ffmpegSource": {
+      "url": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz",
+      "bytes": 12040788,
+      "sha256": "8c3850283eb25fa026482078a04051e0be17347b09ef81a0849bec15a96e002e",
+      "signatureUrl": "https://ffmpeg.org/releases/ffmpeg-9.0.2.tar.xz.asc",
+      "signatureSha256": "d617fd94ea354dadd2a8bb16243d37c44e1e9729b06b6ad58fe30bfb0fa943f2",
+      "keyUrl": "https://ffmpeg.org/ffmpeg-devel.asc",
+      "keySha256": "397b3becedcd5a98769967ff1ff8501ddc89f8368b8f766e4701377d7dbaabe5",
+      "signatureStatus": "VALIDSIG FCF986EA15E6E293A5644F10B4322F04D67658D8; local trust undefined; isolated key home only"
+    },
+    "actualBuildCommands": [
+      [
+        "/bin/sh",
+        "<INPUT>/extracted-v2/ffmpeg-source/ffmpeg-9.0.2/configure",
+        "--prefix=<BUILD>/install-unused",
+        "--cc=/usr/bin/gcc",
+        "--cxx=/usr/bin/g++",
+        "--ar=/usr/bin/ar",
+        "--nm=/usr/bin/nm",
+        "--ranlib=/usr/bin/ranlib",
+        "--pkg-config=/usr/bin/pkg-config",
+        "--disable-network",
+        "--disable-autodetect",
+        "--disable-shared",
+        "--enable-static",
+        "--disable-ffplay",
+        "--disable-doc",
+        "--disable-debug",
+        "--disable-x86asm",
+        "--enable-gpl",
+        "--enable-pthreads",
+        "--enable-libx264",
+        "--enable-libx265",
+        "--enable-libsvtav1",
+        "--enable-libdav1d"
+      ],
+      [
+        "/usr/bin/make",
+        "-j4",
+        "ffmpeg",
+        "ffprobe"
+      ]
+    ],
+    "actualPkgConfig": {
+      "SvtAv1Enc.pc": "Name: SvtAv1Enc\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 2.3.0\nLibs: -L/usr/lib/x86_64-linux-gnu -l:libSvtAv1Enc.so.2\nCflags: -I<INPUT>/extracted-v2/libsvtav1enc-dev/usr/include/svt-av1 -DEB_DLL\n",
+      "x264.pc": "Name: x264\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 0.164.3108\nLibs: -L<INPUT>/extracted-v2/libx264-dev/usr/lib/x86_64-linux-gnu -l:libx264.a -lpthread -lm -ldl\nCflags: -I<INPUT>/extracted-v2/libx264-dev/usr/include -DX264_API_IMPORTS\n",
+      "x265.pc": "Name: x265\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 4.1\nLibs: -L<INPUT>/extracted-v2/libx265-dev/usr/lib/x86_64-linux-gnu -l:libx265.a -L<INPUT>/extracted-v2/libnuma-dev/usr/lib/x86_64-linux-gnu -l:libnuma.a -lstdc++ -lm -lgcc_s -lgcc -lrt -ldl -lpthread -latomic\nCflags: -I<INPUT>/extracted-v2/libx265-dev/usr/include \n",
+      "numa.pc": "Name: numa\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 2.0.19\nLibs: -L<INPUT>/extracted-v2/libnuma-dev/usr/lib/x86_64-linux-gnu -l:libnuma.a -latomic\nCflags: -I<INPUT>/extracted-v2/libnuma-dev/usr/include \n",
+      "dav1d.pc": "Name: dav1d\nDescription: Explicit successor owned metadata, not original byte restoration\nVersion: 1.5.1\nLibs: -L/usr/lib/x86_64-linux-gnu -l:libdav1d.so.7\nCflags: -I<INPUT>/extracted-v2/libdav1d-dev/usr/include \n"
+    },
+    "actualDynamicDependencies": [
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libm.so.6",
+        "sonamePath": "/lib/x86_64-linux-gnu/libm.so.6",
+        "size": 977112,
+        "sha256": "6d567d53e895273ca14a1f9dc164fc6c8d39aed2f60aa46a733c2784228915f3"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libdav1d.so.7.0.0",
+        "sonamePath": "/lib/x86_64-linux-gnu/libdav1d.so.7",
+        "size": 1746880,
+        "sha256": "1d7a4182344230d5f4cf9f58bf4485da2801c411e9c9fd6d8471460c75ae8fbf"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2.3.0",
+        "sonamePath": "/lib/x86_64-linux-gnu/libSvtAv1Enc.so.2",
+        "size": 7984736,
+        "sha256": "48713dd9caf08909462bad0274cc9d9b249ccf836a9be72fd731f8d8096c4d35"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+        "sonamePath": "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+        "size": 182856,
+        "sha256": "30c61ab012a4241bed033725a09b61f5fdd3bb7df95ee852d0b096520524c7af"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+        "sonamePath": "/lib/x86_64-linux-gnu/libstdc++.so.6",
+        "size": 2497768,
+        "sha256": "972bb2a18b71140dab0240f8a1f68ab3fb1d56bcd4c4f824a91b70888faf5a00"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+        "sonamePath": "/lib/x86_64-linux-gnu/libc.so.6",
+        "size": 1995216,
+        "sha256": "9792e3cbb541c8f44c7acf5f14f4022ea62998ecc787d326bed4d8b6547dfd92"
+      },
+      {
+        "path": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "sonamePath": "/lib64/ld-linux-x86-64.so.2",
+        "size": 225672,
+        "sha256": "c8438e4fde1934e61c88311633f00949ff645d5c04cdb8671fa3d78164d2f307"
+      }
+    ],
+    "emittedNoticeRows": [
+      {
+        "root": "electron",
+        "source": "LICENSE",
+        "target": "electron/LICENSE",
+        "group": "electron",
+        "bytes": 1096,
+        "sha256": "5154e165bd6c2cc0cfbcd8916498c7abab0497923bafcd5cb07673fe8480087d"
+      },
+      {
+        "root": "electron",
+        "source": "LICENSES.chromium.html",
+        "target": "electron/LICENSES.chromium.html",
+        "group": "electron",
+        "bytes": 20115518,
+        "sha256": "3375e2a9bd7bc631738fde10be6548a76efe8cf5e4b8826b8140ba8b0c4d6353"
+      },
+      {
+        "root": "inputs",
+        "source": "codec-sysroot/usr/share/doc/libdav1d-dev/copyright",
+        "target": "electron/notices/codec-development/libdav1d-dev-copyright",
+        "group": "notice",
+        "bytes": 9722,
+        "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+      },
+      {
+        "root": "inputs",
+        "source": "codec-sysroot/usr/share/doc/libnuma-dev/copyright",
+        "target": "electron/notices/codec-development/libnuma-dev-copyright",
+        "group": "notice",
+        "bytes": 1357,
+        "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+      },
+      {
+        "root": "inputs",
+        "source": "codec-sysroot/usr/share/doc/libsvtav1enc-dev/copyright",
+        "target": "electron/notices/codec-development/libsvtav1enc-dev-copyright",
+        "group": "notice",
+        "bytes": 14574,
+        "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+      },
+      {
+        "root": "inputs",
+        "source": "codec-sysroot/usr/share/doc/libx264-dev/copyright",
+        "target": "electron/notices/codec-development/libx264-dev-copyright",
+        "group": "notice",
+        "bytes": 7690,
+        "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+      },
+      {
+        "root": "inputs",
+        "source": "codec-sysroot/usr/share/doc/libx265-dev/copyright",
+        "target": "electron/notices/codec-development/libx265-dev-copyright",
+        "group": "notice",
+        "bytes": 4551,
+        "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+      },
+      {
+        "root": "inputs",
+        "source": "source/ffmpeg-9.0.2/COPYING.GPLv2",
+        "target": "electron/notices/ffmpeg/COPYING.GPLv2",
+        "group": "notice",
+        "bytes": 18092,
+        "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+      },
+      {
+        "root": "inputs",
+        "source": "source/ffmpeg-9.0.2/COPYING.GPLv3",
+        "target": "electron/notices/ffmpeg/COPYING.GPLv3",
+        "group": "notice",
+        "bytes": 35147,
+        "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+      },
+      {
+        "root": "inputs",
+        "source": "source/ffmpeg-9.0.2/COPYING.LGPLv2.1",
+        "target": "electron/notices/ffmpeg/COPYING.LGPLv2.1",
+        "group": "notice",
+        "bytes": 26517,
+        "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30"
+      },
+      {
+        "root": "inputs",
+        "source": "source/ffmpeg-9.0.2/COPYING.LGPLv3",
+        "target": "electron/notices/ffmpeg/COPYING.LGPLv3",
+        "group": "notice",
+        "bytes": 7651,
+        "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+      },
+      {
+        "root": "inputs",
+        "source": "source/ffmpeg-9.0.2/LICENSE.md",
+        "target": "electron/notices/ffmpeg/LICENSE.md",
+        "group": "notice",
+        "bytes": 4346,
+        "sha256": "2e1d16c72fd74e12063776371da757322f8b77589386532f4fd8634bde7de1af"
+      },
+      {
+        "root": "hostDocs",
+        "source": "libc6/copyright",
+        "target": "electron/notices/host-dependencies/libc6-copyright",
+        "group": "notice",
+        "bytes": 51200,
+        "sha256": "f5788886720a2605a946e81d571e6c8162b09f58d2e2ceb8d36e5768fccd850d"
+      },
+      {
+        "root": "hostDocs",
+        "source": "libdav1d7/copyright",
+        "target": "electron/notices/host-dependencies/libdav1d7-copyright",
+        "group": "notice",
+        "bytes": 9722,
+        "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+      },
+      {
+        "root": "hostDocs",
+        "source": "gcc-14-base/copyright",
+        "target": "electron/notices/host-dependencies/libgcc-s1-copyright",
+        "group": "notice",
+        "bytes": 69004,
+        "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+      },
+      {
+        "root": "hostDocs",
+        "source": "gcc-14-base/copyright",
+        "target": "electron/notices/host-dependencies/libstdc++6-copyright",
+        "group": "notice",
+        "bytes": 69004,
+        "sha256": "20390f8a6f3b1e4d7cb45dd8652dabb259bbef688cbad839bcdb0b9ba7252f79"
+      },
+      {
+        "root": "hostDocs",
+        "source": "libsvtav1enc2/copyright",
+        "target": "electron/notices/host-dependencies/libsvtav1enc2-copyright",
+        "group": "notice",
+        "bytes": 14574,
+        "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+      },
+      {
+        "root": "source",
+        "source": "assets/app-icon/LICENSE.txt",
+        "target": "electron/resources/app/assets/app-icon/LICENSE.txt",
+        "group": "application",
+        "bytes": 758,
+        "sha256": "db487fa434f73fa49d6619f84131fab7b0286f3fdd1a07ff7a3010c29cada112"
+      }
+    ],
+    "electronBinaryRows": [
+      {
+        "root": "electron",
+        "source": "chrome-sandbox",
+        "target": "electron/chrome-sandbox",
+        "group": "electron",
+        "bytes": 15232,
+        "sha256": "a4f6dfd7325ddd55f94ddc0c487d22726d40ef099ded6475d5dffe236e277896"
+      },
+      {
+        "root": "electron",
+        "source": "chrome_crashpad_handler",
+        "target": "electron/chrome_crashpad_handler",
+        "group": "electron",
+        "bytes": 1918544,
+        "sha256": "3e9742b8edaef6779c48e0966b9f433db39e59ee148854312b5a5c8612100a04"
+      },
+      {
+        "root": "electron",
+        "source": "electron",
+        "target": "electron/ffmpeg-encoder-linux-candidate",
+        "group": "electron",
+        "bytes": 228605256,
+        "sha256": "10a14d05c6ff4f94075cfb3eeb6ed6571be33ebcc08cbd675b5ce9ff84706564"
+      },
+      {
+        "root": "electron",
+        "source": "libffmpeg.so",
+        "target": "electron/libffmpeg.so",
+        "group": "electron",
+        "bytes": 2801752,
+        "sha256": "c4c805e46f957356f6b80be31999459e5f07e8b0c351221544ad43a16c980638"
+      },
+      {
+        "root": "electron",
+        "source": "libvk_swiftshader.so",
+        "target": "electron/libvk_swiftshader.so",
+        "group": "electron",
+        "bytes": 4657864,
+        "sha256": "f473264f0013f07345b5bb258dd12f10b461a291c578f32b7466c9000b662707"
+      },
+      {
+        "root": "electron",
+        "source": "libvulkan.so.1",
+        "target": "electron/libvulkan.so.1",
+        "group": "electron",
+        "bytes": 2483336,
+        "sha256": "951c832a600fd72fc0eff1a42b8e251e81ea200a62499e74c86d4aeb3646aa34"
+      }
+    ],
+    "componentRows": [
+      {
+        "component": "x264",
+        "currentRole": "Static archive linked into FFmpeg pair",
+        "developmentInput": {
+          "package": "libx264-dev",
+          "version": "2:0.164.3108+git31e19f9-2+b1",
+          "source": "x264 (2:0.164.3108+git31e19f9-2)",
+          "architecture": "amd64",
+          "url": "https://deb.debian.org/debian/pool/main/x/x264/libx264-dev_0.164.3108+git31e19f9-2+b1_amd64.deb",
+          "bytes": 617664,
+          "sha256": "120094146e402348d7ee305d0977183f1514441aca128863b6ad2599d92a2f3c"
+        },
+        "noticeRows": [
+          {
+            "root": "inputs",
+            "source": "codec-sysroot/usr/share/doc/libx264-dev/copyright",
+            "target": "electron/notices/codec-development/libx264-dev-copyright",
+            "group": "notice",
+            "bytes": 7690,
+            "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+          }
+        ],
+        "sourcePayloadAndPatchIdentities": [
+          {
+            "name": "x264_0.164.3108+git31e19f9-2.debian.tar.xz",
+            "bytes": 24600,
+            "sha256": "35afd5e6896432acc7ed675eb077f71f37d92d748c41652f19470c18403fcb58",
+            "patches": [
+              {
+                "path": "debian/copyright",
+                "bytes": 7690,
+                "sha256": "b8b4d68a602bf580d47237c3119e52ac7a70121de39fb365ca28a63b3a200655"
+              },
+              {
+                "path": "debian/patches/0001-properly_detect_x32.patch",
+                "bytes": 1221,
+                "sha256": "f83462e35f5aec96df1bfb65c4ad6fa31e54c3fb9f87fa912da30e4509379a77"
+              },
+              {
+                "path": "debian/patches/0002-ppc-Fix-incompatible-pointer-type-errors.patch",
+                "bytes": 6115,
+                "sha256": "cc48e2f24171beccc4427609169583fd10ca5ac3ea6b4e0745c86122bf44e359"
+              },
+              {
+                "path": "debian/patches/series",
+                "bytes": 83,
+                "sha256": "daf2a7f69675dcd8b180f441a14e061423a01086fe461263722748204bd8c7fc"
+              },
+              {
+                "path": "debian/rules",
+                "bytes": 2063,
+                "sha256": "cf81fe815e5208cf3be24cab304de82d85806e60036c2606dcecafdcc4b3ba62"
+              }
+            ]
+          },
+          {
+            "name": "x264_0.164.3108+git31e19f9-2.dsc",
+            "bytes": 1758,
+            "sha256": "323a100cb9942a7a9030e335d77980b1da77947c54778083dc31d99d0fd7b888",
+            "patches": []
+          },
+          {
+            "name": "x264_0.164.3108+git31e19f9.orig.tar.gz",
+            "bytes": 954789,
+            "sha256": "41606cb8e788a7f8c4514290646d4ba5c7bc68d9e1ccd1a73f446a90546913eb",
+            "patches": []
+          }
+        ],
+        "proposedUbuntuRole": "Build owned static all-bit-depth codec with retained Debian patches",
+        "retention": "Raw source/descriptor payloads recorded local-only; exact inventories/recipes do not prove raw archive delivery. Rehash before any future binding."
+      },
+      {
+        "component": "x265",
+        "currentRole": "Static archive linked into FFmpeg pair",
+        "developmentInput": {
+          "package": "libx265-dev",
+          "version": "4.1-2",
+          "source": "x265",
+          "architecture": "amd64",
+          "url": "https://deb.debian.org/debian/pool/main/x/x265/libx265-dev_4.1-2_amd64.deb",
+          "bytes": 1227040,
+          "sha256": "174c683f254b7ab7ab1255aa4ee883945b6a80c04ba17ff4e9c906ad6ced5d0f"
+        },
+        "noticeRows": [
+          {
+            "root": "inputs",
+            "source": "codec-sysroot/usr/share/doc/libx265-dev/copyright",
+            "target": "electron/notices/codec-development/libx265-dev-copyright",
+            "group": "notice",
+            "bytes": 4551,
+            "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+          }
+        ],
+        "sourcePayloadAndPatchIdentities": [
+          {
+            "name": "x265_4.1-2.debian.tar.xz",
+            "bytes": 13920,
+            "sha256": "05daa2bd9395f3e5cc6eed64aa47c044856b38a3dab12cd59008d60ec9f8c3cb",
+            "patches": [
+              {
+                "path": "debian/copyright",
+                "bytes": 4551,
+                "sha256": "ac2859168010138bce5a5a16a1c2442570ed236121352c34c1a710005b727eb5"
+              },
+              {
+                "path": "debian/patches/0001-Fix-arm-flags.patch",
+                "bytes": 680,
+                "sha256": "d09706e12b20c23c8e6ba748ef1d34aa9dcfb09ab6d4c5e45828703d47818249"
+              },
+              {
+                "path": "debian/patches/0002-Detect-x32-handle-as-non-x86-and-no-ASM-for-now-but-.patch",
+                "bytes": 1409,
+                "sha256": "49e8498f3cc5e510631f0eee6911eab954a833cda9bef4ed3913408489a0b74a"
+              },
+              {
+                "path": "debian/patches/0003-Drop-dlopen-code-path-that-will-never-be-hit.patch",
+                "bytes": 1585,
+                "sha256": "aea3ced8490c147e223073d114aff94df2471851934c5cd70113a0682b982214"
+              },
+              {
+                "path": "debian/patches/0004-Do-not-build-with-assembly-support-on-arm.patch",
+                "bytes": 923,
+                "sha256": "ecfce85ae3702c624e1c9cf4ec1043260d98883e351224994f016fd0a3543521"
+              },
+              {
+                "path": "debian/patches/series",
+                "bytes": 198,
+                "sha256": "f8dd0941ae114a1dde9756f0e147a2b63b98bda93a286e0439775849f3d86ca2"
+              },
+              {
+                "path": "debian/rules",
+                "bytes": 2611,
+                "sha256": "b162d940f3b4272440224fc059968b0eb354cb9d3029988828fdedda65ec80f9"
+              }
+            ]
+          },
+          {
+            "name": "x265_4.1-2.dsc",
+            "bytes": 1695,
+            "sha256": "eaa5b43fbc4b6878a0d18751e6e0d8d087b416b2a11c8f1671659b4f8502cb31",
+            "patches": []
+          },
+          {
+            "name": "x265_4.1.orig.tar.xz",
+            "bytes": 1113508,
+            "sha256": "85abb8a850000bf693947459c42a666a3ecd6de10a2ac6b3c6647554b14d3270",
+            "patches": []
+          }
+        ],
+        "proposedUbuntuRole": "Build owned static 8/10/12-bit combined archive with retained Debian patches",
+        "retention": "Raw source/descriptor payloads recorded local-only; exact inventories/recipes do not prove raw archive delivery. Rehash before any future binding."
+      },
+      {
+        "component": "numactl",
+        "currentRole": "Static NUMA archive linked through x265",
+        "developmentInput": {
+          "package": "libnuma-dev",
+          "version": "2.0.19-1",
+          "source": "numactl",
+          "architecture": "amd64",
+          "url": "https://deb.debian.org/debian/pool/main/n/numactl/libnuma-dev_2.0.19-1_amd64.deb",
+          "bytes": 36528,
+          "sha256": "7fea9248b09311b008dc6707c201671e7b14ce5f9278dda4694e726990897436"
+        },
+        "noticeRows": [
+          {
+            "root": "inputs",
+            "source": "codec-sysroot/usr/share/doc/libnuma-dev/copyright",
+            "target": "electron/notices/codec-development/libnuma-dev-copyright",
+            "group": "notice",
+            "bytes": 1357,
+            "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+          }
+        ],
+        "sourcePayloadAndPatchIdentities": [
+          {
+            "name": "numactl_2.0.19-1.debian.tar.xz",
+            "bytes": 7340,
+            "sha256": "93b4e00d8b7b1e465d931b29e65d220fadd84ac76431437307ecd075277355d3",
+            "patches": [
+              {
+                "path": "debian/copyright",
+                "bytes": 1357,
+                "sha256": "179c34f5e56cd0b6b73dd7970a97357ee784e2236e8293826656c7ebb3bface7"
+              },
+              {
+                "path": "debian/patches/series",
+                "bytes": 1,
+                "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+              },
+              {
+                "path": "debian/rules",
+                "bytes": 163,
+                "sha256": "1ae015f082c14f48e3f9c04e6a1c46fb51031c7cdd47f5f646f996aa68a86757"
+              }
+            ]
+          },
+          {
+            "name": "numactl_2.0.19-1.dsc",
+            "bytes": 1967,
+            "sha256": "b56e7893fc7da5374946f3767518e8d7b3707e0487a4d92fb76d672a988921e2",
+            "patches": []
+          },
+          {
+            "name": "numactl_2.0.19.orig.tar.gz",
+            "bytes": 218333,
+            "sha256": "8b84ffdebfa0d730fb2fc71bb7ec96bb2d38bf76fb67246fde416a68e04125e4",
+            "patches": []
+          }
+        ],
+        "proposedUbuntuRole": "Build owned static NUMA; retain empty patch series",
+        "retention": "Raw source/descriptor payloads recorded local-only; exact inventories/recipes do not prove raw archive delivery. Rehash before any future binding."
+      },
+      {
+        "component": "dav1d",
+        "currentRole": "Dynamic host libdav1d.so.7; not bundled by current package",
+        "developmentInput": {
+          "package": "libdav1d-dev",
+          "version": "1.5.1-1",
+          "source": "dav1d",
+          "architecture": "amd64",
+          "url": "https://deb.debian.org/debian/pool/main/d/dav1d/libdav1d-dev_1.5.1-1_amd64.deb",
+          "bytes": 26648,
+          "sha256": "c5d3cdd44e9ad4680d24c404f7b686759d29e9030d4f5d0deabb8792ec30a8ed"
+        },
+        "noticeRows": [
+          {
+            "root": "inputs",
+            "source": "codec-sysroot/usr/share/doc/libdav1d-dev/copyright",
+            "target": "electron/notices/codec-development/libdav1d-dev-copyright",
+            "group": "notice",
+            "bytes": 9722,
+            "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+          }
+        ],
+        "sourcePayloadAndPatchIdentities": [
+          {
+            "name": "dav1d_1.5.1-1.debian.tar.xz",
+            "bytes": 8468,
+            "sha256": "41f758fda3a2d9860691cae422365bae656060f42c9a5375f7ac4124005f4e7e",
+            "patches": [
+              {
+                "path": "debian/copyright",
+                "bytes": 9722,
+                "sha256": "38aaebbbf5ab0c19a5d4029acb5ce6566f8bd95e07eff6f6472753f5bea83d97"
+              },
+              {
+                "path": "debian/rules",
+                "bytes": 335,
+                "sha256": "6e8900220bddc9af544ccf039ed2a67f0043b460e4f9f38f23770d6fe97bfe7f"
+              }
+            ]
+          },
+          {
+            "name": "dav1d_1.5.1-1.dsc",
+            "bytes": 2290,
+            "sha256": "a418ee8fdc8003feee1ba19391eac250e3ef03106c995c8e25b8a42b56de18cf",
+            "patches": []
+          },
+          {
+            "name": "dav1d_1.5.1.orig.tar.xz",
+            "bytes": 1020760,
+            "sha256": "401813f1f89fa8fd4295805aa5284d9aed9bc7fc1fdbe554af4292f64cbabe21",
+            "patches": []
+          },
+          {
+            "name": "dav1d_1.5.1.orig.tar.xz.asc",
+            "bytes": 195,
+            "sha256": "4cad1d03a19a717562c2c80c1df195b629e43898cd1af19296958847f6212554",
+            "patches": []
+          }
+        ],
+        "proposedUbuntuRole": "Build owned static codec; no Debian patch files recorded",
+        "retention": "Raw source/descriptor payloads recorded local-only; exact inventories/recipes do not prove raw archive delivery. Rehash before any future binding."
+      },
+      {
+        "component": "SVT-AV1",
+        "currentRole": "Dynamic host libSvtAv1Enc.so.2; not bundled by current package",
+        "developmentInput": {
+          "package": "libsvtav1enc-dev",
+          "version": "2.3.0+dfsg-1",
+          "source": "svt-av1",
+          "architecture": "amd64",
+          "url": "https://deb.debian.org/debian/pool/main/s/svt-av1/libsvtav1enc-dev_2.3.0+dfsg-1_amd64.deb",
+          "bytes": 33040,
+          "sha256": "13a94fcea44146a19e7f579b72346cb01afc149cdbd94113b70318f34eb61c6f"
+        },
+        "noticeRows": [
+          {
+            "root": "inputs",
+            "source": "codec-sysroot/usr/share/doc/libsvtav1enc-dev/copyright",
+            "target": "electron/notices/codec-development/libsvtav1enc-dev-copyright",
+            "group": "notice",
+            "bytes": 14574,
+            "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+          }
+        ],
+        "sourcePayloadAndPatchIdentities": [
+          {
+            "name": "svt-av1_2.3.0+dfsg-1.debian.tar.xz",
+            "bytes": 7424,
+            "sha256": "40054958d7135b2da4de632e7c87b691b2cdf2a6b8e6d3a4e60eab345fdb448a",
+            "patches": [
+              {
+                "path": "debian/copyright",
+                "bytes": 14574,
+                "sha256": "66433ce51ad1f83c561940a0af5f78e45a1beee67e5cc5087c1f0c5d2736e1e4"
+              },
+              {
+                "path": "debian/rules",
+                "bytes": 377,
+                "sha256": "6ff3785a8ecdc5aff565b8d3b29f44e3b815053fd15b1076d8c5973d2c876ffc"
+              }
+            ]
+          },
+          {
+            "name": "svt-av1_2.3.0+dfsg-1.dsc",
+            "bytes": 2093,
+            "sha256": "c113f4882ebc41220cd5cfe676834326e1f7ab8a6132026821c5079ffe751301",
+            "patches": []
+          },
+          {
+            "name": "svt-av1_2.3.0+dfsg.orig.tar.xz",
+            "bytes": 9017580,
+            "sha256": "815e88cc539c41b8ebd1a6f362f82ab510147635fc6c3edfa35edcfbed302cd8",
+            "patches": []
+          }
+        ],
+        "proposedUbuntuRole": "Build owned static codec; no Debian patch files recorded",
+        "retention": "Raw source/descriptor payloads recorded local-only; exact inventories/recipes do not prove raw archive delivery. Rehash before any future binding."
+      }
+    ],
+    "sourceRelationship": {
+      "binaryVersion": "2:0.164.3108+git31e19f9-2+b1",
+      "declaredSourceVersion": "2:0.164.3108+git31e19f9-2",
+      "evidence": "Authenticated retained .deb control and packaged changelog.Debian.amd64.gz",
+      "binaryOnlyReason": "No source changes; rebuild with binutils >=2.44-2 to build without executable stack",
+      "scope": "Declared source relationship established. Exact .buildinfo/compiler environment and bit-for-bit reproducibility not established."
+    },
+    "ubuntuExecutionApproved": false,
+    "ubuntuToolchainLock": null,
+    "limits": [
+      "Historical record reconciliation; no new binary/source payload verification or downloads in this study.",
+      "Current FFmpeg host dependency list is not an exhaustive Electron dependency census.",
+      "No current Debian binary identities transfer to future Ubuntu outputs.",
+      "Notice presence is not complete corresponding-source or redistribution clearance."
+    ]
+  }
+}

@@ -10,8 +10,8 @@ concurrency:
   cancel-in-progress: false
 jobs:
   package:
-    # Bound to one ordinary successor push after checkpoint 072; no dispatch or rerun.
-    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '17104b1e216dd0a57182e13c5aaea78dec60f7b2' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
+    # Bound to one ordinary successor push after the selected preserved successor (unbound proposal); no dispatch or rerun.
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder-Blue-Linux' && github.ref == 'refs/heads/blue/linux-development' && github.event_name == 'push' && github.event.before == '1a7e64c565ce5d8530ee5a9f92ae16a83243adf0' && github.event.after == github.sha && github.event.forced == false && github.event.created == false && github.event.deleted == false && github.run_attempt == 1 }}
     runs-on: windows-2022
     timeout-minutes: 25
     env:
@@ -36,7 +36,7 @@ jobs:
         run: |
           npm ci --ignore-scripts --no-audit --no-fund *> "$env:RUNNER_TEMP\package-npm-install.log"
           if ($LASTEXITCODE -ne 0) { throw 'Locked packaging metadata installation failed; local log retained, not uploaded.' }
-      - name: Build and qualify one packaged CPU journey
+      - name: Build and qualify one two-file packaged CPU batch
         id: verify
         timeout-minutes: 18
         run: node scripts/windows-hosted-integration-check.cjs

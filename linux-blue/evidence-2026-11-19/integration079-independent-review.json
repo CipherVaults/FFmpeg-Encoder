@@ -1,0 +1,78 @@
+{
+  "approved": true,
+  "scope": "Combined079 ten-file source integration and bound ordinary Windows successor workflow; no execution by reviewer",
+  "handoffSha256": "56b97cfb296b6d0a8878fd6a7d7e5d3696199f98412110b77cce2298fa374a12",
+  "baseCommit": "452cfb81737e30be73ad3e238814e7a21913a074",
+  "remotePredecessor": "1a7e64c565ce5d8530ee5a9f92ae16a83243adf0",
+  "remoteReceiptSha256": "37c7bc92e4b4980adc3961fffb2b13a2506d0582e77a9972e982e708a450162b",
+  "files": [
+    {
+      "path": ".github/workflows/windows-integration.yml",
+      "bytes": 2503,
+      "sha256": "edc3bb041666634104e1efbdc09eb38968373c27feda989dc967999ef8da0862"
+    },
+    {
+      "path": "linux-blue/ordinary-cpu-policy.cjs",
+      "bytes": 5475,
+      "sha256": "782710de4105d9c911e4a640dd45e59b5af47e1d099cef34b36a6f0dfdf63661"
+    },
+    {
+      "path": "linux-blue/ordinary-cpu-service.cjs",
+      "bytes": 8656,
+      "sha256": "9c857553374733f2bd9bd45a96384ebca6b29d8f1b21155d1ec31e0c7f504031"
+    },
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 36212,
+      "sha256": "f08940ae7bc1f68ce96d8951dc8355614c63099b469a14106f9de4f799a46f2d"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 69585,
+      "sha256": "a7dec6f0a50f1eef63c2c87c904060ee6bb00cc27d45b4728aa8cc8e2021baf1"
+    },
+    {
+      "path": "scripts/windows-hosted-integration-check.cjs",
+      "bytes": 7369,
+      "sha256": "616ed70cbcb1696849c4a793fb8c4c4aa6d43008c654d9764b48e5093d9d44fc"
+    },
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 18762,
+      "sha256": "fac8f3c0534927620ca91c23c430af2ddc2189d10b48e328a9609d1e796517b4"
+    },
+    {
+      "path": "tests/linux-ordinary-policy.test.cjs",
+      "bytes": 3912,
+      "sha256": "0be1f6147f57b83f63a7c7d880c73f89e5e9b94ff6f31ade51bf4d45a3fd1b53"
+    },
+    {
+      "path": "tests/linux-ordinary-service.test.cjs",
+      "bytes": 15316,
+      "sha256": "37c4a546517063ddc4a974eb93aacef4275b520e1b486e74b252fed6c2276317"
+    },
+    {
+      "path": "tests/windows-packaged-integration.test.cjs",
+      "bytes": 7699,
+      "sha256": "b489e850637768aaf96ea3639038897b3165918cd179c7c59c4a3f950dda75fb"
+    }
+  ],
+  "checks": [
+    "Six Linux files exact approved proposal bytes; hosted sanitizer unchanged; wrapper/workflow delta only exact verified remote predecessor.",
+    "Tests now exercise actual bound authority instead of synthetic VM substitution;27 independent bound tests pass.",
+    "Ten-path combined scope exact, all current source package rows match;129 source closure retained from reviewed Linux proposal, no cross-proposal overlap drift.",
+    "Ordinary nonforced existing-branch push, exact before/head/repository/branch and run_attempt1 guards remain; no dispatch/rerun."
+  ],
+  "tests": {
+    "independentBound": 27,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "869515a4e0f147de18fc3f3832f618b3cb31983bc914ed10d1234c94f8efdc15",
+    "authorAggregate": "216syntax/315shared/40Linux passed; log identity in handoff.",
+    "authorFocused": "110passed with existing ASAR dependency; initial two missing-module failures preserved, not erased."
+  },
+  "limits": [
+    "No build, Actions, app or media execution performed. Bound source approval does not imply hosted Windows success.",
+    "Actual native Linux two-file acceptance pending; previous native/media evidence remains artifact-specific."
+  ]
+}

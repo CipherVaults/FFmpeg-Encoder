@@ -1,17 +1,18 @@
 'use strict';
-// One synthetic ordinary CPU journey. Never a native picker or GPU acceptance.
+// One two-file synthetic ordinary CPU batch. Never a native picker or GPU acceptance.
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
 const path=require('node:path');
 const {hashFile}=require('./build-portable.cjs');
 const {runBounded}=require('./windows-ffmpeg-startup.cjs');
 const {assertOrdinaryPath,verifyPinnedFile}=require('../src/candidate-runtime.cjs');
-const PARENT='17104b1e216dd0a57182e13c5aaea78dec60f7b2';
+const PARENT='1a7e64c565ce5d8530ee5a9f92ae16a83243adf0';
 const ownership=require('./windows-electron-ownership.cjs');
 const SETTINGS=Object.freeze({profileId:'h264-cpu',preset:'veryfast',quality:23});
-const PHASES=new Set(['authority','build','owned-input','fixture','launch','security','prepare','encode','readback','collision','close','report']);
+const PHASES=new Set(['authority','build','owned-input','fixture','launch','security','prepare','encode','readback','collision','terminal-timer','close','report']);
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function authority(env,event){
+  assert(/^[a-f0-9]{40}$/.test(PARENT),'Successor parent is unbound.');
   assert(env.GITHUB_ACTIONS==='true'&&env.GITHUB_REPOSITORY==='CipherVaults/FFmpeg-Encoder-Blue-Linux'&&env.GITHUB_REF==='refs/heads/blue/linux-development'&&env.GITHUB_EVENT_NAME==='push');
   assert(event.before===PARENT&&event.after===env.GITHUB_SHA&&event.forced===false&&event.created===false&&event.deleted===false&&env.GITHUB_RUN_ATTEMPT==='1');
   assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA)&&/^\d+$/.test(env.GITHUB_RUN_ID));
@@ -19,6 +20,15 @@ function authority(env,event){
 }
 function diagnostic(phase,error){return {phase:PHASES.has(phase)?phase:'report',code:new Set(['ERR_ASSERTION','ENOENT','EACCES','EPERM','ETIMEDOUT','ENOSPC','INTEGRATION_TIMEOUT','CLOSURE_UNCONFIRMED',...ownership.CODES]).has(error?.code)?error.code:'INTEGRATION_FAILED'};}
 function deadline(promise,ms){let timer;return Promise.race([promise,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Object.assign(new Error('Bounded integration timed out.'),{code:'INTEGRATION_TIMEOUT'})),ms);})]).finally(()=>clearTimeout(timer));}
+async function waitForTerminalDisplay(read,done,formatted,remaining){
+  const end=Date.now()+Math.min(5000,remaining());
+  do {
+    const value=await deadline(read(),Math.min(remaining(),Math.max(1,end-Date.now())));
+    if(value.snapshot.phase==='completed'&&value.snapshot.batchId===done.batchId&&value.snapshot.elapsedSeconds===done.elapsedSeconds&&value.hidden===false&&value.label==='Batch elapsed'&&value.elapsed===formatted&&value.result===formatted)return value;
+    await deadline(sleep(100),remaining());
+  }while(Date.now()<end);
+  throw Object.assign(new Error('Terminal display readiness deadline.'),{code:'INTEGRATION_TIMEOUT'});
+}
 function unobservedLaunch(){return {kind:'unobserved-launch',samples:0,observedDescendants:0,observedStartupMedia:0,observedLiveAfterClose:null};}
 function assertSecurity(s){assert(s.packaged===true&&s.sandbox===true&&s.contextIsolation===true&&s.nodeIntegration===false&&s.requireType==='undefined'&&s.processType==='undefined');}
 async function inventory(root){const rows=[];async function walk(dir,rel=''){for(const e of await fs.readdir(dir,{withFileTypes:true})){const name=rel?rel+'/'+e.name:e.name,file=path.join(dir,e.name);const st=await fs.lstat(file);assert(!st.isSymbolicLink());if(st.isDirectory())await walk(file,name);else{assert(st.isFile()&&st.nlink===1);assert(rows.length<2048);rows.push({name,...await hashFile(file)});}}}await walk(root);return rows.sort((a,b)=>a.name.localeCompare(b.name));}
@@ -30,11 +40,11 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
   const before=await inventory(built.packageDir),owned=await fs.mkdtemp(path.join(parent,'packaged-cpu-'));
   const dirs=Object.fromEntries(['input','output','state','cwd'].map(x=>[x,path.join(owned,x)]));
   for(const dir of Object.values(dirs))await fs.mkdir(dir);
-  const input=path.join(dirs.input,'fixture.mp4'),sentinel=path.join(dirs.output,'protected.txt');
+  const input=path.join(dirs.input,'fixture-a.mp4'),secondInput=path.join(dirs.input,'fixture-b.mp4'),sentinel=path.join(dirs.output,'protected.txt');
   await fs.writeFile(sentinel,'Owned sentinel must not change.\n',{flag:'wx'});const sentinelPin=await hashFile(sentinel);
   const ffmpeg=path.join(built.packageDir,'resources','ffmpeg','ffmpeg.exe');
   const ffprobe=path.join(built.packageDir,'resources','ffmpeg','ffprobe.exe');
-  const result={picker:'substituted-dialog-return',gpu:'not-qualified',nativeDesktop:'not-qualified',fixtureGenerationCalls:0,requestedEncodes:0,extraDecodeCalls:0,probeReadbackCalls:0,close:'pending',sourceUnchanged:false,packageUnchanged:false};
+  const result={picker:'substituted-dialog-return',gpu:'not-qualified',nativeDesktop:'not-qualified',fixtureGenerationCalls:0,fixtureCopyCalls:0,startClicks:0,requestedEncodes:0,extraDecodeCalls:0,probeReadbackCalls:0,collisionSkips:0,close:'pending',sourceUnchanged:false,packageUnchanged:false};
   let app,page,phase='owned-input',child,failed,launchAttempted=false;
   const endsAt=Date.now()+6*60*1000;
   const remaining=()=>{const ms=endsAt-Date.now();if(ms<=0)throw Object.assign(new Error('Journey deadline.'),{code:'INTEGRATION_TIMEOUT'});return ms;};
@@ -65,6 +75,7 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
     phaseSet('fixture');result.fixtureGenerationCalls++;
     await run(ffmpeg,['-nostdin','-v','error','-f','lavfi','-i','testsrc2=size=320x180:rate=24:duration=2,setparams=color_primaries=bt709:color_trc=bt709:colorspace=bt709:range=limited','-f','lavfi','-i','sine=sample_rate=48000:duration=2','-c:v','libx264','-preset','ultrafast','-pix_fmt','yuv420p','-c:a','aac','-shortest','-n',input],{limit:65536,timeout:30000,cwd:dirs.cwd});
     const inputPin=await hashFile(input);assert(inputPin.sizeBytes>0&&inputPin.sizeBytes<8*1024*1024);
+    await fs.copyFile(input,secondInput,require('node:fs').constants.COPYFILE_EXCL);result.fixtureCopyCalls++;assert.deepEqual(await hashFile(secondInput),inputPin);result.fixtureCopies='two-distinct-paths-identical-bytes';
     phaseSet('launch');
     if(process.env.ComSpec||process.env.COMSPEC)ownership.need(ownership.canonical(process.env.ComSpec||process.env.COMSPEC)===ownership.canonical(path.join(process.env.SystemRoot,'System32','cmd.exe')),'LAUNCHER_IDENTITY');
     launchAttempted=true;
@@ -100,21 +111,43 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
     await page.click('#choose-input');await page.click('#choose-output');
     await page.selectOption('#profile',SETTINGS.profileId);await page.selectOption('#preset',SETTINGS.preset);await page.fill('#quality',String(SETTINGS.quality));
     phaseSet('prepare');await page.click('#prepare-batch');
-    const ready=await until(s=>s.phase==='ready',90000);assert(ready.items.length===1&&ready.items[0].status==='ready');
+    const ready=await until(s=>s.phase==='ready',90000);assert(ready.items.length===2&&ready.items.every(x=>x.status==='ready'));
     assert.equal(ready.settings.profileId,SETTINGS.profileId);assert.equal(ready.settings.preset,SETTINGS.preset);assert.equal(ready.settings.quality,SETTINGS.quality);
-    const details=await page.evaluate(({planId,fileId})=>window.encoder.getEncodingDetails({planId,fileId}),{planId:ready.planId,fileId:ready.items[0].id});
-    assert(details.operation?.compatibilityPath===true);assert(path.dirname(details.destination).toLowerCase()===dirs.output.toLowerCase());
-    phaseSet('encode');result.requestedEncodes++;await page.click('#start-batch');
-    const done=await until(s=>['completed','failed'].includes(s.phase),120000);assert.equal(done.counts.success,1);assert.equal(done.items[0].outputDisposition?.kind,'published');
-    phaseSet('readback');
-    const output=done.items[0].outputDisposition.file;assert(output===details.destination);await assertOrdinaryPath(output,'file');
-    result.output=await hashFile(output);assert(result.output.sizeBytes>0&&result.output.sizeBytes<16*1024*1024);
-    result.probeReadbackCalls++;
-    const probe=await run(ffprobe,['-v','error','-show_entries','stream=codec_type,codec_name,width,height','-of','json',output],{limit:65536,timeout:30000,cwd:dirs.cwd});
-    const streams=JSON.parse(probe.stdout).streams;assert(streams.length===2);const video=streams.find(s=>s.codec_type==='video');assert(video.codec_name==='h264'&&video.width===320&&video.height===180);assert(streams.find(s=>s.codec_type==='audio').codec_name==='aac');
+    const destinations=new Map();
+    for(const item of ready.items){
+      const details=await page.evaluate(({planId,fileId})=>window.encoder.getEncodingDetails({planId,fileId}),{planId:ready.planId,fileId:item.id});
+      assert(details.operation?.compatibilityPath===true);assert(path.dirname(details.destination).toLowerCase()===dirs.output.toLowerCase());destinations.set(item.id,details.destination);
+    }
+    assert.equal(new Set(destinations.values()).size,2);
+    phaseSet('encode');result.requestedEncodes+=2;result.startClicks++;await page.click('#start-batch');
+    const done=await until(s=>['completed','failed'].includes(s.phase),120000);assert.equal(done.phase,'completed');assert.equal(done.counts.success,2);assert.equal(done.items.length,2);
+    assert(done.items.every(x=>x.outputDisposition?.kind==='published'));
+    phaseSet('terminal-timer');
+    const readTimer=()=>deadline(page.evaluate(async()=>({snapshot:await window.encoder.getSnapshot(),elapsed:document.querySelector('#elapsed').textContent,result:document.querySelector('#result-elapsed').textContent,label:document.querySelector('#result-elapsed-label').textContent,hidden:document.querySelector('#results-panel').hidden})),remaining());
+    assert(Number.isFinite(done.elapsedSeconds)&&done.elapsedSeconds>=0);
+    const seconds=Math.floor(done.elapsedSeconds),formatted=seconds>=3600?`${Math.floor(seconds/3600)}:${String(Math.floor(seconds%3600/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`:`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
+    const first=await waitForTerminalDisplay(readTimer,done,formatted,remaining);assert.equal(first.snapshot.phase,'completed');assert(Number.isFinite(first.snapshot.elapsedSeconds)&&first.snapshot.elapsedSeconds>=0);
+    assert.equal(first.elapsed,formatted);assert.equal(first.result,formatted);assert.equal(first.label,'Batch elapsed');assert.equal(first.hidden,false);
+    const timerStarted=Date.now();await deadline(sleep(2200),remaining());const later=await readTimer();
+    assert.equal(later.snapshot.batchId,first.snapshot.batchId);assert.equal(later.snapshot.elapsedSeconds,first.snapshot.elapsedSeconds);assert.equal(later.result,first.result);assert.equal(later.elapsed,first.elapsed);
+    result.terminalTimer={frozen:true,observedWaitMs:Date.now()-timerStarted,elapsedSeconds:first.snapshot.elapsedSeconds,domMatchesSnapshot:true,reset:false};
+    phaseSet('readback');result.outputs=[];
+    for(const item of done.items){
+      const output=item.outputDisposition.file;assert(output===destinations.get(item.id));await assertOrdinaryPath(output,'file');
+      const pin=await hashFile(output);assert(pin.sizeBytes>0&&pin.sizeBytes<16*1024*1024);result.outputs.push(pin);result.probeReadbackCalls++;
+      const probe=await run(ffprobe,['-v','error','-show_entries','stream=codec_type,codec_name,width,height','-of','json',output],{limit:65536,timeout:30000,cwd:dirs.cwd});
+      const streams=JSON.parse(probe.stdout).streams;assert(streams.length===2);const video=streams.find(s=>s.codec_type==='video');assert(video.codec_name==='h264'&&video.width===320&&video.height===180);assert(streams.find(s=>s.codec_type==='audio').codec_name==='aac');
+    }
     result.fixtureExpectedFrames=48;result.outputValidation='application-validator-and-independent-probe-no-second-decode';
-    phaseSet('collision');await page.click('#new-batch');await page.click('#prepare-batch');const collision=await until(s=>s.phase==='ready',90000);assert(collision.items.length===1&&collision.items[0].status==='skipped');
-    result.collisionRefused=true;assert.deepEqual(await hashFile(output),result.output);assert.deepEqual(await hashFile(input),inputPin);assert.deepEqual(await hashFile(sentinel),sentinelPin);assert.equal(pageErrors.length,0);result.sourceUnchanged=true;
+    phaseSet('collision');await page.click('#new-batch');
+    const reset=await page.evaluate(()=>({hidden:document.querySelector('#results-panel').hidden,result:document.querySelector('#result-elapsed').textContent,note:document.querySelector('#result-elapsed-note').textContent}));
+    assert.deepEqual(reset,{hidden:true,result:'—',note:''});result.terminalTimer.reset=true;
+    await page.click('#prepare-batch');const collision=await until(s=>s.phase==='ready',90000);assert(collision.items.length===2&&collision.items.every(x=>x.status==='skipped'&&x.reason==='Output already exists.'));
+    assert.notEqual(collision.planId,ready.planId);assert(Number.isFinite(collision.elapsedSeconds)&&collision.elapsedSeconds>=0);result.collisionSnapshotVerified=true;
+    result.collisionSkips=2;result.collisionRefused=true;
+    for(const [index,item]of done.items.entries())assert.deepEqual(await hashFile(item.outputDisposition.file),result.outputs[index]);
+    for(const file of [input,secondInput])assert.deepEqual(await hashFile(file),inputPin);
+    assert.deepEqual(await hashFile(sentinel),sentinelPin);assert.equal(pageErrors.length,0);result.sourceUnchanged=true;
   } catch(error){failed=error;result.failure=diagnostic(phase,error);}
   finally {
     phaseSet('close');
@@ -141,4 +174,4 @@ async function journey({built,parent,onPhase=()=>{}},{electron,run=runBounded}={
   }
   if(failed){failed.integrationResult=result;throw failed;}assert.equal(result.close,'normal');return result;
 }
-module.exports={PARENT,SETTINGS,authority,diagnostic,unobservedLaunch,deadline,assertSecurity,inventory,journey};
+module.exports={PARENT,SETTINGS,authority,diagnostic,unobservedLaunch,deadline,assertSecurity,inventory,waitForTerminalDisplay,journey};

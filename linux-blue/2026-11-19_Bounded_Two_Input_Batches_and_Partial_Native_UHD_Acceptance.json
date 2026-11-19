@@ -1,0 +1,74 @@
+{
+  "checkpoint": "079",
+  "status": "Final reviewed source ready for preservation; no commit/mirror/package/native079 at cutoff",
+  "predecessorSession": {
+    "bytes": 2569385,
+    "sha256": "0a8e02ea1b24284de3b73fc5932161e3ec89fc05455e373178faaca5ec27a39c"
+  },
+  "evidence": {
+    "linux-blue/evidence-2026-11-19/integration079-independent-review.json": {
+      "bytes": 3431,
+      "sha256": "1f2709db389a12da250b676d1d1b2d2830a9b992b10aebf1a24ff9c22ca930ad"
+    },
+    "linux-blue/evidence-2026-11-19/native078-partial-saved-audit.json": {
+      "bytes": 4188,
+      "sha256": "cbca4373ead043b36f3d58bd30265b1eae6049fee3d80a6d164520eec2473763"
+    },
+    "linux-blue/evidence-2026-11-19/hosted078-shared-verified.json": {
+      "bytes": 947,
+      "sha256": "a68731cea98509db09c09ceacca6fe48d3b829dd6b1c9ce0a8a451c0361c50f9"
+    },
+    "linux-blue/evidence-2026-11-19/integration079-readiness-review.json": {
+      "bytes": 1981,
+      "sha256": "e38ab13f9eeef86b399289baf16b07edf90ea887c857bb03c131dc5b4e52953c"
+    }
+  },
+  "externalSavedReferences": {
+    "ffmpeg-integration079-guidance/HANDOFF.json": {
+      "bytes": 3540,
+      "sha256": "97b3c51ef9c44bbae071bcd0df98b34d2143331653d19752dcf74ff939ffa401"
+    },
+    "ffmpeg-checkpoint078/github/VERIFIED_REMOTE.json": {
+      "bytes": 617,
+      "sha256": "37c7bc92e4b4980adc3961fffb2b13a2506d0582e77a9972e982e708a450162b"
+    },
+    "ffmpeg-checkpoint078/mirror/notion-checkpoint-078-verification.json": {
+      "bytes": 3159,
+      "sha256": "c93bb72fbfd3749128d9e91a1f91a14b8c3618d3fe2f00e2fae673d8b378bb97"
+    },
+    "ffmpeg-package078-preparation/INDEPENDENT_INERT_AUDIT.json": {
+      "bytes": 1912,
+      "sha256": "fab79f3674eae27f64cfd4e8a8df437ae38f896ea236781ea870d586f524d7df"
+    }
+  },
+  "tests": {
+    "focused": 110,
+    "independentBound": 27,
+    "syntax": 216,
+    "shared": 315,
+    "rendererWithinShared": 72,
+    "linux": 40,
+    "overlappingNotSummed": true,
+    "finalReadinessIndependent": 48,
+    "earlierFocusedAndBound": "Prior exact identities retained; final readiness helper covered separately"
+  },
+  "native078": "Two published targets accepted;720 not encoded, supervisor deadline forced exit -5; separate720 follow-up pending",
+  "no079RuntimeAcceptance": true,
+  "historicalSuffixPreserved": true,
+  "cutoff": "2026-11-19T02:27:49Z",
+  "finalAggregate": {
+    "exitCode": 0,
+    "syntax": 216,
+    "shared": 315,
+    "linux": 40,
+    "rendererIncluded": 72,
+    "stdout": {
+      "bytes": 36690,
+      "sha256": "48470d9a8c56257ec5c5da54ab7c7128639597ab03181c29d05a26cfcb076ef2"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

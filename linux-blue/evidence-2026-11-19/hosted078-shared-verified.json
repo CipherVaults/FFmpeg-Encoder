@@ -1,0 +1,33 @@
+{
+  "head": "1a7e64c565ce5d8530ee5a9f92ae16a83243adf0",
+  "run": 44442210822,
+  "attempt": 1,
+  "conclusion": "success",
+  "jobs": [
+    {
+      "job": 135285557368,
+      "name": "Source contracts / windows-2022",
+      "syntax": 216,
+      "shared": 315,
+      "rendererIncluded": 72,
+      "linuxAdditional": 0,
+      "logBytes": 60545,
+      "logSha256": "e3ee6240cd99f4508d8e2b2684854ef1b23b854f588b129879a5c84866f8601b"
+    },
+    {
+      "job": 135285557693,
+      "name": "Source contracts / ubuntu-24.04",
+      "syntax": 216,
+      "shared": 315,
+      "rendererIncluded": 72,
+      "linuxAdditional": 40,
+      "logBytes": 64843,
+      "logSha256": "873a8107fed629b5146712c14a1bfd950d19c7eec48e5741cb7ff15adcf246e5"
+    }
+  ],
+  "limits": [
+    "Source syntax and DOM/VM renderer harness only",
+    "No actual packaged Windows079 journey, media, native desktop, GPU or release qualification",
+    "No dispatch or rerun requested"
+  ]
+}

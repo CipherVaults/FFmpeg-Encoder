@@ -9,3 +9,11 @@ test('positive compatibility budget preserves argv and progress callback',async(
 test('phase budget exhausted before any new child',async()=>{let clock=0,calls=0;const r=createPhaseRunner(async()=>{calls++;},{now:()=>clock});r.begin('preparation');clock=120001;await assert.rejects(r.run('pinned',[],{timeoutMs:0}),{code:'ORDINARY_DEADLINE'});assert.equal(calls,0);});
 test('cannot close unsettled child or restart cancelled owner',async()=>{let finish;const r=createPhaseRunner(async()=>new Promise(resolve=>finish=resolve));r.begin('execution');const p=r.run('pinned',[],{timeoutMs:0});assert.throws(()=>r.close(),{code:'ORDINARY_CHILD_UNSETTLED'});r.abort();assert.throws(()=>r.begin('preparation'),{code:'ORDINARY_PHASE'});finish();await p;r.close();});
 test('phase deadline remains authoritative after final child and during filesystem work',async()=>{let clock=0;const r=createPhaseRunner(async()=>({}),{now:()=>clock});r.begin('execution');const signal=r.signal;await r.run('pinned',[],{timeoutMs:0});clock=600001;assert.throws(()=>r.assertCurrent(),{code:'ORDINARY_DEADLINE'});assert.equal(signal.aborted,true);r.close();});
+test('batch aggregate boundaries are selected input totals, not per-file doubling',()=>{
+ const {admitBatch,POLICY}=require('../linux-blue/ordinary-cpu-policy.cjs');assert.equal(POLICY.maxBatchInputs,2);
+ const a=input(),b=input();a.bytes=512*1024**2;b.bytes=a.bytes;a.probe.format.duration='900';b.probe.format.duration='900';
+ assert.deepEqual(admitBatch([a,b]),{bytes:1024**3,duration:1800,count:2});
+ b.bytes++;assert.throws(()=>admitBatch([a,b]),{code:'ORDINARY_BATCH_BYTES'});b.bytes--;
+ b.probe.format.duration='900.001';assert.throws(()=>admitBatch([a,b]),{code:'ORDINARY_BATCH_DURATION'});
+ assert.throws(()=>admitBatch([]),{code:'ORDINARY_BATCH_COUNT'});assert.throws(()=>admitBatch([a,a,a]),{code:'ORDINARY_BATCH_COUNT'});
+});

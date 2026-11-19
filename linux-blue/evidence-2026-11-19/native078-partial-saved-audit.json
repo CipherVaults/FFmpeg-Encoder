@@ -1,0 +1,108 @@
+{
+  "accepted": true,
+  "scope": "Partial native078 evidence audit, not clean whole-session acceptance",
+  "closureSha256": "31134e9688d52d66f57abbd9b8c50cd60e5856133fbcecbd90cb09954bc5e766",
+  "status": "two-published-targets-720-not-encoded-supervisor-deadline-retained",
+  "outputs": [
+    {
+      "target": "1440",
+      "geometry": {
+        "width": 2560,
+        "height": 1440,
+        "sampleAspectRatio": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "published": true,
+      "output": {
+        "bytes": 7546362,
+        "sha256": "d8cbe375d209dc3474fb3788432efd4d7a4e5152d8ab4c16d9cc1d168a20e3e3"
+      },
+      "matchesOriginalAcquisitionBytes": false,
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "batchElapsedSeconds": 55.075,
+      "collectorReceiptSha256": "bbf387a6287e5a74a7bfd6b88d9fce9d5263b8c5df69569fc92cfccbb364e58b",
+      "collectorInvocations": 7,
+      "revealEvents": 1,
+      "diagnosticContextTruncated": true
+    },
+    {
+      "target": "1080",
+      "geometry": {
+        "width": 1920,
+        "height": 1080,
+        "sampleAspectRatio": {
+          "numerator": "1",
+          "denominator": "1"
+        }
+      },
+      "published": true,
+      "output": {
+        "bytes": 3342339,
+        "sha256": "b0d6c1909073c10cdc3b23d683dcc5a1e48c0acfc31c50cd9186b1af84d66a72"
+      },
+      "matchesOriginalAcquisitionBytes": false,
+      "frames": 240,
+      "samples": 384000,
+      "pcmSha256": "ddfd704d10221ab064d870b9b91b388b70aebd1cd310a5a537f9419ecf3c83c6",
+      "batchElapsedSeconds": 35.283,
+      "collectorReceiptSha256": "d147d8cad48c4f4157624016e386dcb6165cbcbbdab8152accff2b9d7e1146e7",
+      "collectorInvocations": 7,
+      "revealEvents": 1,
+      "diagnosticContextTruncated": true
+    }
+  ],
+  "journalEvents": 46,
+  "journalReasons": {
+    "SESSION_STARTED": 1,
+    "CAPABILITY_STARTED": 1,
+    "RUNTIME_IDENTIFIED": 1,
+    "CAPABILITY_FINISHED": 1,
+    "PROVENANCE_RECOVERY_FINISHED": 1,
+    "FOLDER_PICKER_REQUESTED": 4,
+    "FOLDER_PICKER_REGISTERED": 4,
+    "PREPARATION_STARTED": 3,
+    "FILE_INSPECTED": 5,
+    "PREPARATION_FINISHED": 3,
+    "DRAFT_REPREPARATION_STARTED": 2,
+    "DRAFT_REPREPARATION_FINISHED": 2,
+    "ENCODE_STARTED": 2,
+    "ENCODE_CLOSED": 2,
+    "OPERATION_EVIDENCE_COLLECTED": 2,
+    "OUTPUT_CHECKED": 2,
+    "SOURCE_ASSESSED": 2,
+    "OUTPUT_PUBLISHED": 2,
+    "JOB_DISPOSITION": 2,
+    "BATCH_FINISHED": 2,
+    "OUTPUT_ACTION_DISPATCHED": 2
+  },
+  "packageFilesReverified": 247,
+  "inputReverified": true,
+  "savedEvidenceFilesHashed": 82,
+  "closure": {
+    "elapsedSeconds": 601.0777792529998,
+    "exitCode": -5,
+    "terminationRequested": true,
+    "closureObserved": true,
+    "sampledIdentities": 21,
+    "remainingNonZombieGroupRows": 0,
+    "scope": "sampled owned session/group only"
+  },
+  "desktopObservationsFromLead": {
+    "1440Terminal": "00:55 observed frozen over more than3seconds",
+    "1080Terminal": "00:35 observed",
+    "newBatchReset": "results cleared",
+    "720": "Prepare clicked, no encode claimed"
+  },
+  "limits": [
+    "Output byte comparison with original acquisition recorded individually; exact equality is not required for separately published app outputs. No new probe or decode performed. Original streaming PCM evidence is not independently re-decoded.",
+    "Original collector receipts/spools support full counts/timing; journal evidence contexts are truncated, not represented as complete raw receipts.",
+    "Session ended at reviewed600-second deadline with forced cleanup/nonzero exit, not normal clean shutdown; noSESSION_ENDED event inferred.",
+    "720 output directory empty, only two encode-start events; third target untested natively. No relaunch/retry.",
+    "Desktop timer freeze/reset observations supplied by lead, not independently reproduced by this file-only audit; whole-batch journal elapsed55.075/35.283 seconds corroborates floored display.",
+    "No multi-file/nativeWindows/GPU/distribution/portability claim. Raw diagnostics/profile remain private, only sanitized receipt is suitable for checkpoint."
+  ]
+}

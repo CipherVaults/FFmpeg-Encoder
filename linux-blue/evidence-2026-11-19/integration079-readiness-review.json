@@ -1,0 +1,45 @@
+{
+  "approved": true,
+  "scope": "079 Windows terminal DOM readiness delta only",
+  "handoff": {
+    "bytes": 3540,
+    "sha256": "97b3c51ef9c44bbae071bcd0df98b34d2143331653d19752dcf74ff939ffa401"
+  },
+  "changedPaths": [
+    "scripts/windows-packaged-integration.cjs",
+    "tests/windows-packaged-integration.test.cjs"
+  ],
+  "files": [
+    {
+      "path": "scripts/windows-packaged-integration.cjs",
+      "bytes": 19564,
+      "sha256": "33c92d793af10bb60eed012efe0808a4093a182a09f974187f6f3c5958c719f7"
+    },
+    {
+      "path": "tests/windows-packaged-integration.test.cjs",
+      "bytes": 8542,
+      "sha256": "160199484a284240d132b37ccbaeda7232fc2be6be87618069ab35013aac2cac"
+    }
+  ],
+  "checks": [
+    "Other eight integrated source identities unchanged from prior reviewed handoff.",
+    "Readiness requires exact completed batch ID and authoritative elapsed, matching visible terminal DOM and label; no relaxed success condition.",
+    "Each DOM read bounded by remaining six-minute journey; readiness polling stops after five-second readiness window, with at most final 100 ms polling sleep before refusal.",
+    "Existing at least 2200 ms frozen reread, reset, collision, media counters, ownership/security and exact successor authority unchanged.",
+    "No runtime, media, browser, Actions or package execution. Prior aggregate results remain tied to prior bytes; current delta independently covered by 48 inert tests."
+  ],
+  "tests": {
+    "passed": 48,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/windows-packaged-integration.test.cjs tests/windows-electron-ownership.test.cjs",
+    "log": {
+      "bytes": 2905,
+      "sha256": "ac20e8a7f4b4384bff8d28b75216e0e55cd5aae08d53167ba0e3a2035da4c5c3"
+    }
+  },
+  "limits": [
+    "Actual Windows packaged two-file journey remains unexecuted.",
+    "Polling timeout does not cancel an already issued Playwright evaluation; existing journey cleanup remains responsible for app closure."
+  ]
+}

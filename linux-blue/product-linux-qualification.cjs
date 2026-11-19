@@ -477,12 +477,12 @@ const SOURCE_PINS = {
     "sha256": "cd16084b93bbeb7d0fc8c56c95fe79c829b04fa4d55f186cf9506c28792cc638"
   },
   "linux-blue/ordinary-cpu-service.cjs": {
-    "bytes": 7632,
-    "sha256": "24241ecb237bbaa34da30d50e62c371132be4ff2ec56561e8c6533a54b1ef2d4"
+    "bytes": 8656,
+    "sha256": "9c857553374733f2bd9bd45a96384ebca6b29d8f1b21155d1ec31e0c7f504031"
   },
   "linux-blue/ordinary-cpu-policy.cjs": {
-    "bytes": 4851,
-    "sha256": "7dd3f0f905aee3b0ed75510a43168b868a52197b2408e7e7b4085abf0407844a"
+    "bytes": 5475,
+    "sha256": "782710de4105d9c911e4a640dd45e59b5af47e1d099cef34b36a6f0dfdf63661"
   },
   "linux-blue/ordinary-cpu-stage-guard.cjs": {
     "bytes": 2901,

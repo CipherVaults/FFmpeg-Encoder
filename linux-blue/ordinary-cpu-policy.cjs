@@ -2,7 +2,7 @@
 // Explicit candidate scope, not production defaults or measured-family authority.
 const assert=require('node:assert/strict');
 const SETTINGS=Object.freeze({profileId:'h264-cpu',preset:'veryfast',quality:23});
-const POLICY=Object.freeze({maxInputBytes:1024**3,maxDurationSeconds:1800,maxWidth:1920,maxHeight:1080,maxRate:60,
+const POLICY=Object.freeze({maxBatchInputs:2,maxBatchBytes:1024**3,maxBatchDurationSeconds:1800,maxInputBytes:1024**3,maxDurationSeconds:1800,maxWidth:1920,maxHeight:1080,maxRate:60,
   discoveryMs:300000,preparationMs:120000,executionMs:600000,floorBytes:27n*1024n**3n,headroomBytes:2n*1024n**3n,monitorMs:500});
 function need(ok,code){if(!ok)throw Object.assign(new Error('Input or operation is outside the explicit ordinary CPU candidate.'),{code});}
 function boundedRate(value){if(typeof value!=='string'||!/^\d{1,9}\/\d{1,9}$/.test(value))return false;const [n,d]=value.split('/').map(BigInt);return n>0n&&d>0n&&n<=60n*d;}
@@ -22,6 +22,14 @@ function admit({probe,settings,request,bytes}){
   for(const a of audio)need(a.codec_name==='aac'&&[1,2].includes(a.channels)&&['44100','48000'].includes(String(a.sample_rate))&&(!a.side_data_list||a.side_data_list.length===0),'ORDINARY_AUDIO');
   return Object.freeze({route:'ordinary-cpu-full-source-v1',validation:'accepted-full-validator',duration,bytes});
 }
+function admitBatch(entries){
+  need(Array.isArray(entries)&&entries.length>=1&&entries.length<=POLICY.maxBatchInputs,'ORDINARY_BATCH_COUNT');
+  const admitted=entries.map(admit);
+  const bytes=admitted.reduce((n,row)=>n+row.bytes,0),duration=admitted.reduce((n,row)=>n+row.duration,0);
+  need(Number.isSafeInteger(bytes)&&bytes<=POLICY.maxBatchBytes,'ORDINARY_BATCH_BYTES');
+  need(Number.isFinite(duration)&&duration<=POLICY.maxBatchDurationSeconds,'ORDINARY_BATCH_DURATION');
+  return Object.freeze({bytes,duration,count:admitted.length});
+}
 function createPhaseRunner(invoke,{now=()=>performance.now()}={}){
   assert.equal(typeof invoke,'function');let phase=null,expires=0,controller=null,closed=false,live=0,phaseTimer=null;
   function assertCurrent(){if(closed||!controller||controller.signal.aborted||now()>=expires){controller?.abort();need(false,'ORDINARY_DEADLINE');}}
@@ -36,4 +44,4 @@ function createPhaseRunner(invoke,{now=()=>performance.now()}={}){
     state(){return {phase,closed,live};}
   });
 }
-module.exports={POLICY,SETTINGS,admit,boundedRate,createPhaseRunner};
+module.exports={POLICY,SETTINGS,admit,admitBatch,boundedRate,createPhaseRunner};

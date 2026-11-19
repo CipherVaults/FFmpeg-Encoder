@@ -1,0 +1,60 @@
+{
+  "approved": true,
+  "status": "approved-five-path-terminal-elapsed-ui-proposal",
+  "baseCommit": "b6e5ac21c947d70f0cf1da1fa85da2e2be8ece9c",
+  "handoffSha256": "7c3402d7a8b7b5fcb67c4988a781e09dbad8a88c4934d358686b6d7ede1cc5fe",
+  "files": [
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 32026,
+      "sha256": "7ae0f6b66c0e235470d7127d475bb6df300b367a3e3b02e5e521b016c09aee61"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 68524,
+      "sha256": "d6837f2e3996c0e1bd70a5b0d907fcef58dbd2076506a9197afac9e3b08adbe2"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 106674,
+      "sha256": "fda55dfe0587d42f050d09e8693fb1f8a759f939e83f3503f372e688970fecb1"
+    },
+    {
+      "path": "ui/index.html",
+      "bytes": 40046,
+      "sha256": "0d26d5e82ce76982080bd18b286fa366fd0742384beb39febb5e353aa2ff52d7"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 154278,
+      "sha256": "1fd7aecc6859e046232280cf81c722dfb41182f39910fbc0d970024302267288"
+    }
+  ],
+  "checks": [
+    "Main begin resets startedAt at preparation/start; finishedAt freezes terminal elapsed after asynchronous finalization",
+    "Completed result displays whole batch authoritative elapsed, not last-file media time or ETA; running monitor unaffected",
+    "Failed/cancelled label does not assert completed encoding; preparation caveat accurate",
+    "Nonfinite/negative/missing values unavailable, no fabricated time; terminal display does not extrapolate",
+    "Text inserted with existing safe text helpers, fixed markup; no new IPC/process/file authority",
+    "Exact five paths:2UI/1UItests/1renderer current source pin/3package rows; historical numerical producer maps unchanged",
+    "Real126source closure passes; every package source-root row exact"
+  ],
+  "tests": {
+    "passed": 72,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/ui-workbench.test.cjs",
+    "logSha256": "d7f50beb192143e2d3d474f2c60d335a0fa6af62f27c4a3861da3da29dda6a3c"
+  },
+  "limits": [
+    "Renderer-double tests only; no actual GUI/runtime/media run",
+    "Does not change or independently qualify service timing accuracy",
+    "075 media/component evidence and prior-native evidence remain tied to their exact artifacts; no 075 native acceptance occurred. 076 packaged UI acceptance remains pending."
+  ],
+  "canonicalEditedByReviewer": false,
+  "sanitization": {
+    "sourceBytes": 2757,
+    "sourceSha256": "fed6102a96a0d2428f1a8132497d25b189703ff8e49e4b6ef7cb47fc74764ac0",
+    "change": "File paths made repository-relative; reviewer metadata-only correction retained; no source/test claim altered."
+  }
+}

@@ -1943,6 +1943,13 @@
       visible('provenance-notice', Boolean(show));
       put('provenance-notice', show ? `Previous output bookkeeping: ${recovery.matching} matching · ${recovery.absent} absent · ${recovery.unrelated} unrelated · ${recovery.uncertain} uncertain. No files were changed.${recovery.warnings?.length ? ' ' + recovery.warnings[0] : ''}` : '');
     }
+    // Main already freezes whole-operation wall time at settlement. Do not
+    // extrapolate terminal results or substitute the last file's media time/ETA.
+    put('result-elapsed', showResults && finite(snapshot.elapsedSeconds) && snapshot.elapsedSeconds >= 0 ? duration(snapshot.elapsedSeconds) : '—');
+    put('result-elapsed-label', phase === 'completed' ? 'Batch elapsed' : 'Operation elapsed');
+    put('result-elapsed-note', showResults ? (phase === 'completed'
+      ? 'Wall-clock time from Start through all selected files, validation and cleanup. Excludes batch preparation; not encode-only time.'
+      : 'Wall-clock time until this operation stopped and cleanup finished. May include preparation if stopped before Start; not encode-only time.') : '');
     if (showResults) {
       for (const key of ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']) put(`count-${key}`, snapshot.counts?.[key] || 0);
       put('result-phase', phaseLabels[phase]);

@@ -184,12 +184,13 @@ async function harness(overrides = {}, { narrow = false } = {}) {
   const api = { onUpdate: callback => { update = callback; return () => {}; } };
   for (const [name, method] of Object.entries(methods)) api[name] = async (...args) => { calls.push({ name, args: plain(args) }); return method(...args); };
   let layoutListener;
+  let clock = 100; const intervals = [];
   const mediaQuery = { matches: narrow, addEventListener: (_name, listener) => { layoutListener = listener; } };
   const window = { encoder: api, addEventListener() {}, matchMedia: () => mediaQuery };
-  vm.runInNewContext(renderer, { window, document: view.document, performance: { now: () => 100 }, setTimeout: () => 1, clearTimeout() {}, setInterval: () => 1, clearInterval() {} }, { filename: 'ui/renderer.js' });
+  vm.runInNewContext(renderer, { window, document: view.document, performance: { now: () => clock }, setTimeout: () => 1, clearTimeout() {}, setInterval: callback => { intervals.push(callback); return intervals.length; }, clearInterval() {} }, { filename: 'ui/renderer.js' });
   await settle();
   assert.equal(view.byId('error-banner').textContent, '');
-  return { ...view, calls, update: value => update(value), setNarrow: value => { mediaQuery.matches = value; layoutListener?.(); } };
+  return { ...view, calls, tick: ms => { clock += ms; for (const callback of intervals) callback(); }, update: value => update(value), setNarrow: value => { mediaQuery.matches = value; layoutListener?.(); } };
 }
 
 test('appearance changes real presentation without adopting or altering unsaved processing settings', async () => {
@@ -1383,4 +1384,28 @@ test('fixed candidate settings display does not claim production defaults or bro
  assert.equal(h.byId('tested-default-values').textContent,'Preset veryfast · CRF 23');
  assert.match(h.byId('profile-description').textContent,/8-bit supported/);assert.doesNotMatch(h.byId('profile-description').textContent,/10-bit/);
  const generic=await harness();assert.equal(generic.byId('tested-default').textContent,'Tested Default');
+});
+
+
+test('terminal batch elapsed retains whole multi-file total without live ETA and stays frozen', async () => {
+ const h = await harness();
+ const items = ['a','b'].map(id=>({id,name:id+'.mkv',status:'running',summary:{}}));
+ const base = {batchId:'elapsed-batch',items,counts:{},settings:{profileId:'h265-cpu',preset:'slow',quality:25}};
+ h.update({...base,revision:2,phase:'running',elapsedSeconds:60,progress:{fileId:'b',seconds:3,etaSeconds:7}});
+ assert.equal(h.byId('monitor-panel').hidden,false);h.tick(2000);assert.equal(h.byId('elapsed').textContent,'01:02');
+ h.update({...base,revision:3,phase:'completed',elapsedSeconds:125.9,items:items.map(x=>({...x,status:'success'})),progress:{fileId:'b',seconds:3,etaSeconds:7}});
+ assert.equal(h.byId('monitor-panel').hidden,true);assert.equal(h.byId('results-panel').hidden,false);
+ assert.equal(h.byId('result-elapsed').textContent,'02:05');assert.equal(h.byId('result-elapsed-label').textContent,'Batch elapsed');
+ assert.match(h.byId('result-elapsed-note').textContent,/all selected files/);h.tick(10000);assert.equal(h.byId('result-elapsed').textContent,'02:05');
+ h.update({...base,revision:4,phase:'preparing',elapsedSeconds:0,preparation:{total:2,resolved:0}});
+ assert.equal(h.byId('results-panel').hidden,true);assert.equal(h.byId('result-elapsed').textContent,'—');assert.equal(h.byId('result-elapsed-note').textContent,'');
+});
+for (const phase of ['failed','cancelled']) test(phase+' retains settled elapsed without claiming completed encoding',async()=>{
+ const h=await harness();h.update({revision:2,batchId:'stopped',phase,items:[],counts:{},elapsedSeconds:42,preparation:{total:2,resolved:1}});
+ assert.equal(h.byId('result-elapsed').textContent,'00:42');assert.equal(h.byId('result-elapsed-label').textContent,'Operation elapsed');
+ assert.match(h.byId('result-elapsed-note').textContent,/preparation if stopped before Start/);h.tick(5000);assert.equal(h.byId('result-elapsed').textContent,'00:42');
+});
+test('terminal missing or invalid elapsed is unavailable, not fabricated zero',async()=>{
+ const h=await harness();let revision=1;for(const elapsedSeconds of [undefined,NaN,-1,Infinity]){
+ h.update({revision:++revision,batchId:'missing',phase:'completed',items:[],counts:{},elapsedSeconds});assert.equal(h.byId('result-elapsed').textContent,'—');}
 });

@@ -1,0 +1,76 @@
+{
+  "status": "writer-released-approved-source-for-preservation",
+  "base": "b6e5ac21c947d70f0cf1da1fa85da2e2be8ece9c",
+  "cutoff": "2026-11-19T01:17:14Z",
+  "predecessor": {
+    "bytes": 2545146,
+    "sha256": "8fb51033b4d3b6fdf3c4135cd4d4e874237f86bc50ebbc75f71f63b1938b9164"
+  },
+  "sections": 14,
+  "references": [
+    {
+      "path": "ffmpeg-elapsed076-review/HANDOFF.json",
+      "bytes": 2418,
+      "sha256": "7c3402d7a8b7b5fcb67c4988a781e09dbad8a88c4934d358686b6d7ede1cc5fe"
+    },
+    {
+      "path": "ffmpeg-elapsed076-review/ui-tests.log",
+      "bytes": 8041,
+      "sha256": "39098186ef8d296788b0515ce87fabc89cc06a53bc119096a7176a5fb9a3b2d4"
+    },
+    {
+      "path": "ffmpeg-elapsed076-review/shared-tests.log",
+      "bytes": 37927,
+      "sha256": "7d278b5eae13f08d65c60affcccbb7395f2b9320aa12ad57e15948b8f2527fb3"
+    },
+    {
+      "path": "ffmpeg-elapsed076-review/shared-final-tests.log",
+      "bytes": 28724,
+      "sha256": "a16a33344084365f73e56ad36393f3bb0ae94751acf4e5df627259539d3b9afe"
+    },
+    {
+      "path": "ffmpeg-elapsed076-review/INDEPENDENT_UI_TESTS.tap",
+      "bytes": 8043,
+      "sha256": "d7f50beb192143e2d3d474f2c60d335a0fa6af62f27c4a3861da3da29dda6a3c"
+    },
+    {
+      "path": "linux-blue/evidence-2026-11-19/elapsed076-independent-review.json",
+      "bytes": 2697,
+      "sha256": "4e59616d882aae4b3e2d479ca1ea7d28ca9d04953a123d7fc8050493fca63a9e"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "linux-blue/product-linux-qualification.cjs",
+      "bytes": 32026,
+      "sha256": "7ae0f6b66c0e235470d7127d475bb6df300b367a3e3b02e5e521b016c09aee61"
+    },
+    {
+      "path": "resources/linux-inert-package-plan.json",
+      "bytes": 68524,
+      "sha256": "d6837f2e3996c0e1bd70a5b0d907fcef58dbd2076506a9197afac9e3b08adbe2"
+    },
+    {
+      "path": "tests/ui-workbench.test.cjs",
+      "bytes": 106674,
+      "sha256": "fda55dfe0587d42f050d09e8693fb1f8a759f939e83f3503f372e688970fecb1"
+    },
+    {
+      "path": "ui/index.html",
+      "bytes": 40046,
+      "sha256": "0d26d5e82ce76982080bd18b286fa366fd0742384beb39febb5e353aa2ff52d7"
+    },
+    {
+      "path": "ui/renderer.js",
+      "bytes": 154278,
+      "sha256": "1fd7aecc6859e046232280cf81c722dfb41182f39910fbc0d970024302267288"
+    }
+  ],
+  "native076Executed": false,
+  "package076Executed": false,
+  "timerChanged": false,
+  "correctedReviewSource": {
+    "bytes": 2757,
+    "sha256": "fed6102a96a0d2428f1a8132497d25b189703ff8e49e4b6ef7cb47fc74764ac0"
+  }
+}

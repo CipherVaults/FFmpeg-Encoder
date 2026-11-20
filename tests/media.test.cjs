@@ -52,6 +52,25 @@ test('phone timestamps use exact stream aliases after reordered metadata mapping
   assert.deepEqual(values(args, '-metadata'), []);
 });
 
+test('every encode keeps the source keys FFmpeg 9.1 would drop on re-encode, as output options before the output', () => {
+  const { KEEP_REENCODE_METADATA } = require('../src/media.cjs');
+  // The exact reenc_delete_keys table of FFmpeg 9.1 fftools/ffmpeg_mux_init.c.
+  const upstream = ['iTunPGAP', 'comment-iTunPGAP-eng', 'iTunSMPB', 'comment-iTunSMPB-eng', 'gapless_playback',
+    'iTunNORM', 'comment-iTunNORM-eng', 'encoded_by', 'encoding_tool', 'vendor_id', 'BPS', 'DURATION',
+    'NUMBER_OF_BYTES', 'NUMBER_OF_FRAMES', '_STATISTICS_TAGS', '_STATISTICS_WRITING_APP',
+    '_STATISTICS_WRITING_DATE_UTC', 'major_brand', 'minor_version', 'compatible_brands'];
+  assert.deepEqual([...KEEP_REENCODE_METADATA], upstream);
+  assert.ok(Object.isFrozen(KEEP_REENCODE_METADATA));
+  for (const profile of PROFILES) {
+    const args = argsFor(probe(), { settings: settings(profile.id) });
+    assert.deepEqual(values(args, '-keep_metadata'), upstream);
+    const first = args.indexOf('-keep_metadata');
+    assert.ok(first > args.indexOf('-i') && first > args.indexOf('-map_metadata'));
+    assert.ok(args.lastIndexOf('-keep_metadata') < args.length - 2);
+    assert.equal(args.at(-1), 'D:\\output\\owned.partial');
+  }
+});
+
 test('creation timestamp aliases refuse case-insensitive collisions and preserve existing alias-only inputs', () => {
   const input = probe(video({ tags: { creation_time: 'exact source text', source_creation_time: 'different user value' } }));
   assert.throws(() => argsFor(input), errorCode('UNSUPPORTED_METADATA'));

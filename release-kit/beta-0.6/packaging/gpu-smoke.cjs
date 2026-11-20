@@ -232,7 +232,8 @@ async function smoke(args) {
       phase = `encode-${i + 1}`;
       await page.click('#start-batch');
       const done = await waitState(page, s => s.phase === 'completed', 300000);
-      assert.equal(done.counts.success, 2); assert.equal(done.items.length, 2);
+      assert.equal(done.counts.success, 2, JSON.stringify(done.items.map(it => [it.name, it.status, it.reason])).slice(0, 3000));
+      assert.equal(done.items.length, 2);
       const calls = (await bounded(app.evaluate(() => globalThis.__betaSmoke))).slice(callsSeen);
       callsSeen += calls.length;
       assert(calls.length && calls.every(c => [rf, rp].includes(normalize(c.exe))));

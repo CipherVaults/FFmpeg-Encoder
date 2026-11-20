@@ -185,7 +185,8 @@ async function smoke(args) {
     phase = 'encode';
     await page.click('#start-batch');
     const done = await waitState(page, s => s.phase === 'completed', 120000);
-    assert.equal(done.counts.success, 2); assert.equal(done.items.length, 2);
+    assert.equal(done.counts.success, 2, JSON.stringify(done.items.map(i => [i.name, i.status, i.reason])).slice(0, 3000));
+    assert.equal(done.items.length, 2);
     const calls = await bounded(app.evaluate(() => globalThis.__betaSmoke));
     const rf = normalize(binary('ffmpeg')), rp = normalize(binary('ffprobe'));
     assert(calls.length && calls.every(c => [rf, rp].includes(normalize(c.exe))));

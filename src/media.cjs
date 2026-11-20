@@ -340,6 +340,19 @@ function outputPixelFormat(profile, video) {
 // track's exact source text under an explicit alias instead of losing it. A
 // pre-existing different alias is user metadata and must never be overwritten.
 const STREAM_CREATION_TIME_ALIAS = 'SOURCE_CREATION_TIME';
+// FFmpeg 9.1 drops these source keys whenever a stream is re-encoded, even with
+// -map_metadata (fftools/ffmpeg_mux_init.c reenc_delete_keys). The app's contract
+// is that mapped metadata is preserved and validated, as with 9.0.2, so keep each
+// one. An unspecified -keep_metadata applies to file and stream metadata, and the
+// suffix families (BPS, DURATION, ...) keep every language-suffixed variant.
+const KEEP_REENCODE_METADATA = Object.freeze([
+  'iTunPGAP', 'comment-iTunPGAP-eng', 'iTunSMPB', 'comment-iTunSMPB-eng', 'gapless_playback',
+  'iTunNORM', 'comment-iTunNORM-eng', 'encoded_by', 'encoding_tool', 'vendor_id',
+  'BPS', 'DURATION', 'NUMBER_OF_BYTES', 'NUMBER_OF_FRAMES',
+  '_STATISTICS_TAGS', '_STATISTICS_WRITING_APP', '_STATISTICS_WRITING_DATE_UTC',
+  'major_brand', 'minor_version', 'compatible_brands',
+]);
+const KEEP_REENCODE_METADATA_ARGS = Object.freeze(KEEP_REENCODE_METADATA.flatMap(key => ['-keep_metadata', key]));
 function streamCreationTimeAlias(stream) {
   if (!['video', 'audio', 'subtitle'].includes(stream.codec_type)) return null;
   const entries = Object.entries(stream.tags || {});
@@ -385,7 +398,7 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
     '-format_whitelist', 'mov,matroska,webm,avi', '-i', input,
   ];
   for (const stream of mapped) args.push('-map', `0:${stream.index}`);
-  args.push('-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', ...contribution.codec);
+  args.push('-map_metadata', '0', '-map_chapters', '0', ...KEEP_REENCODE_METADATA_ARGS, '-c', 'copy', ...contribution.codec);
   mapped.forEach((stream, index) => {
     args.push(`-map_metadata:s:${index}`, `0:s:${stream.index}`);
     const creationTime = streamCreationTimeAlias(stream);
@@ -422,5 +435,5 @@ module.exports = {
   // Inspection uses the same preservation/pixel policies as execution, so a
   // preview cannot approve a combination that the argument builder rejects.
   mappedStreams, outputPixelFormat,
-  streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS,
+  streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS, KEEP_REENCODE_METADATA,
 };

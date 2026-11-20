@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0-beta.1 — public Beta prerelease, November 20, 2026
+
+- Packaging only; the accepted 0.6 encoding logic, defaults and Archive CQ29 helper are unchanged.
+- Replaced the bundled Gyan 9.0.1 engine with FFmpeg 9.1 and FFprobe built from the signed upstream release and unmodified x264, x265 (8-bit + linked 10-bit), SVT-AV1, dav1d, zlib and NVIDIA codec headers (SDK 13, driver 570+). Network protocols are disabled in this engine. Build scripts: `release-kit/beta-0.6/ffmpeg-build`; complete corresponding source is a release download. `scripts/provision-ffmpeg.ps1` still describes the old Gyan download and does not provision this engine.
+- Added the Gauge application icon (`assets/gauge`) through `packaging.config.cjs` and a per-user Windows installer (`release-kit/beta-0.6/packaging`).
+- Tested in a clean, offline Windows Sandbox profile: engine codec checks, unit tests, portable ZIP and Setup install, launch, CPU encode, no-overwrite, reopen and uninstall. NVENC on hardware, real folder dialogs and SmartScreen were not tested.
+
 ## 0.6 field QA — September 23, 2026 (unreleased)
 
 - Preserve exact MP4 stream timestamps as SOURCE_CREATION_TIME on the corresponding Matroska tracks. Preview explains the representation; conflicting aliases and other preservation failures remain errors. Inspection preservation policy2 invalidates older policy cache evidence.

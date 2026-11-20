@@ -1,4 +1,4 @@
-FFmpeg Encoder - local Windows x64 portable package
+FFmpeg Encoder 0.6 Beta (0.6.0-beta.1) - Windows x64 portable package
 
 Extract the entire ZIP into a new, writable folder before opening
 "FFmpeg Encoder.exe". Keep the executable, resources and other extracted files
@@ -62,9 +62,11 @@ Closing during work offers "Keep application open" or "Cancel encoding and
 exit". Completed outputs remain available; encoding does not continue after
 the application exits.
 
-This is an unsigned package for the authorized local milestone. Compatibility
-on a separate clean computer is not established merely by running an extracted
-copy on the development computer. Public distribution is a separate decision.
+This is an unsigned public Beta prerelease. Windows may warn before running it;
+compare the file with the SHA-256 checksum published on the release page instead
+of bypassing a warning you cannot verify. The Beta was tested in a clean, offline
+Windows Sandbox profile with CPU encoding. NVIDIA encoding, real folder dialogs
+and SmartScreen were not tested for this build.
 
 Bundled notices and provenance:
   resources/binary-manifest.json
@@ -73,7 +75,9 @@ Bundled notices and provenance:
   LICENSE (Electron)
   LICENSES.chromium.html (Chromium and other Electron components)
 
-FFmpeg's included full static build is identified as GPL-3.0-or-later in the
-binary manifest. These notices and provenance are not a complete corresponding
-source distribution or a written source offer. External distribution requires
-its separate licensing review.
+The bundled FFmpeg 9.1 and FFprobe were built from source for this release and
+are licensed GPL-3.0-or-later (see FFmpeg-LICENSE.txt). FFmpeg-README.txt lists
+every library linked into them with its version and license. The complete
+corresponding source - the unmodified upstream archives of FFmpeg and each
+linked library plus the exact build scripts - is a separate download on the
+release page: https://github.com/CipherVaults/FFmpeg-Encoder/releases/tag/v0.6.0-beta.1

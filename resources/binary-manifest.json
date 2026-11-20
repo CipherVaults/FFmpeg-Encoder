@@ -1,87 +1,106 @@
 {
-  "schemaVersion": 1,
-  "release": "9.0.1",
-  "platform": "win32-x64",
-  "variant": "Gyan release full static",
-  "version": "9.0.1-full_build-www.gyan.dev",
-  "publisherPage": "https://www.gyan.dev/ffmpeg/builds/",
-  "releasePage": "https://github.com/GyanD/codexffmpeg/releases/tag/9.0.1",
-  "releasePublishedAtUtc": "2026-08-12T11:06:14Z",
-  "provenanceVerifiedAtUtc": "2026-09-06T22:14:55.1133726Z",
-  "archive": {
-    "fileName": "ffmpeg-9.0.1-full_build.7z",
-    "rootDirectory": "ffmpeg-9.0.1-full_build",
-    "url": "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-9.0.1-full_build.7z",
-    "mirrorUrl": "https://github.com/GyanD/codexffmpeg/releases/download/9.0.1/ffmpeg-9.0.1-full_build.7z",
-    "checksumUrl": "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-9.0.1-full_build.7z.sha256",
-    "sha256": "4b9c814cb07a1f90d05b768ef4eb2abbf89af94bbb924df5b7dbd6e64e1e2b96",
-    "sizeBytes": 165742351
-  },
-  "binaries": [
-    {
-      "name": "ffmpeg.exe",
-      "archivePath": "bin/ffmpeg.exe",
-      "runtimePath": "ffmpeg/ffmpeg.exe",
-      "sizeBytes": 222229504,
-      "sha256": "57c56e369d5b4873b4d93fc1a1d833cb7cd8bc9325c14b05c34ce60b22842d8a",
-      "version": "9.0.1-full_build-www.gyan.dev",
-      "knownPreviousSha256": [
-        "7d4b7be4498d2677daf2888cb15a62ed14dd8779fee2410ede9b6885a58d578b"
-      ]
-    },
-    {
-      "name": "ffprobe.exe",
-      "archivePath": "bin/ffprobe.exe",
-      "runtimePath": "ffmpeg/ffprobe.exe",
-      "sizeBytes": 222026240,
-      "sha256": "afe05347caaabe479b3c4eae71992b6ec1e11c57266a1d665deb0f9fe9847208",
-      "version": "9.0.1-full_build-www.gyan.dev",
-      "knownPreviousSha256": []
-    }
-  ],
-  "notices": [
-    {
-      "archivePath": "LICENSE",
-      "repositoryPath": "resources/third-party/FFmpeg-LICENSE.txt",
-      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
-    },
-    {
-      "archivePath": "README.txt",
-      "repositoryPath": "resources/third-party/FFmpeg-README.txt",
-      "sha256": "9d734beeeafa8b187693880ceb2cd5f0cf436151da72cce31fb1afa1d3726b25"
-    }
-  ],
-  "externalEncoderLibraryVersions": {
-    "libx264": "v0.165.3223",
-    "libx265": "4.3-6-g9ddc216",
-    "libsvtav1": "v4.2.0-72-gae2658e53",
-    "ffnvcodec": "n13.1.15.0-1-geddcea9"
-  },
-  "license": {
-    "identifier": "GPL-3.0-or-later",
-    "evidence": "Bundled ffmpeg -L states GNU GPL version 3 or later; configuration enables gpl and version3. The unchanged publisher README labels the build GPL v3.",
-    "upstreamLegalPage": "https://ffmpeg.org/legal.html",
-    "sourceCommit": "bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa",
-    "sourceUrl": "https://github.com/FFmpeg/FFmpeg/commit/bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa",
-    "upstreamSourceArchiveUrl": "https://github.com/FFmpeg/FFmpeg/archive/bf1b838f2ab88b4f8fd83443325c782ea0e0f7fa.tar.gz",
-    "sourceArchiveScope": "Upstream FFmpeg source only; does not contain every external library, build recipe or complete corresponding source of this full static binary.",
-    "publisherDependencyVersionsPath": "resources/third-party/FFmpeg-README.txt",
-    "distributionStatus": "Local development and local portable milestone only. This provenance record is not a complete corresponding-source distribution or a written source offer. External distribution and public release retain their separate review gate."
-  },
-  "validation": {
-    "publisherChecksumMatched": true,
-    "githubAssetDigestMatched": true,
-    "sevenZipIntegrityPassed": true,
-    "ffmpegVersionCommandPassed": true,
-    "ffprobeVersionCommandPassed": true,
-    "compiledEncoders": [
-      "libx264",
-      "libx265",
-      "libsvtav1",
-      "h264_nvenc",
-      "hevc_nvenc",
-      "av1_nvenc"
-    ],
-    "compiledSupportLimit": "Compiled encoder/help availability does not establish local GPU/driver initialization, bit-depth support, working real encodes or accepted quality defaults."
-  }
+    "schemaVersion":  1,
+    "release":  "9.1",
+    "platform":  "win32-x64",
+    "variant":  "Source-built static (FFmpeg Encoder 0.6 Beta)",
+    "version":  "9.1",
+    "sourceBuild":  {
+                        "ffmpegCommit":  "74e4393595cf2b5857f0da925c4e0dd74ea306e5",
+                        "signatureKeyFingerprint":  "FCF986EA15E6E293A5644F10B4322F04D67658D8",
+                        "executor":  "Disposable Windows Sandbox, networking disabled",
+                        "toolchain":  "llvm-mingw 20261104 UCRT x86_64 (clang/LLD 23.1.5)",
+                        "scripts":  "release-kit/beta-0.6/ffmpeg-build",
+                        "patches":  "none",
+                        "inputs":  [
+                                       {
+                                           "file":  "ffmpeg-9.1.tar.xz",
+                                           "sha256":  "1a4d394ae63d190a526cd052eb4415c156b5c5e2df37efab41a7de0b8fde2433",
+                                           "component":  "FFmpeg 9.1 (release n9.1, commit 74e4393595cf2b5857f0da925c4e0dd74ea306e5)",
+                                           "license":  "LGPL-2.1-or-later with optional GPL parts; this build is GPL-3.0-or-later"
+                                       },
+                                       {
+                                           "file":  "x264_0.164.3108+git31e19f9.orig.tar.gz",
+                                           "sha256":  "41606cb8e788a7f8c4514290646d4ba5c7bc68d9e1ccd1a73f446a90546913eb",
+                                           "component":  "x264 0.164.3108 (git 31e19f9), 8- and 10-bit",
+                                           "license":  "GPL-2.0-or-later"
+                                       },
+                                       {
+                                           "file":  "x265_4.1.orig.tar.xz",
+                                           "sha256":  "85abb8a850000bf693947459c42a666a3ecd6de10a2ac6b3c6647554b14d3270",
+                                           "component":  "x265 4.1 (8-bit with linked 10-bit)",
+                                           "license":  "GPL-2.0-or-later"
+                                       },
+                                       {
+                                           "file":  "svt-av1_2.3.0+dfsg.orig.tar.xz",
+                                           "sha256":  "815e88cc539c41b8ebd1a6f362f82ab510147635fc6c3edfa35edcfbed302cd8",
+                                           "component":  "SVT-AV1 2.3.0 encoder library",
+                                           "license":  "BSD-3-Clause-Clear, plus the Alliance for Open Media Patent License 1.0"
+                                       },
+                                       {
+                                           "file":  "dav1d_1.5.1.orig.tar.xz",
+                                           "sha256":  "401813f1f89fa8fd4295805aa5284d9aed9bc7fc1fdbe554af4292f64cbabe21",
+                                           "component":  "dav1d 1.5.1 AV1 decoder",
+                                           "license":  "BSD-2-Clause"
+                                       },
+                                       {
+                                           "file":  "zlib-1.4.tar.gz",
+                                           "sha256":  "02dd159783677a749c04adbdd02b55b8a2bcc7e054f51b76b549199a916ad584",
+                                           "component":  "zlib 1.4",
+                                           "license":  "Zlib"
+                                       },
+                                       {
+                                           "file":  "nv-codec-headers-13.0.19.0.tar.gz",
+                                           "sha256":  "13da39edb3a40ed9713ae390ca89faa2f1202c9dda869ef306a8d4383e242bee",
+                                           "component":  "NVIDIA codec headers 13.0.19.0 (Video Codec SDK 13.0; dynamic loading only, driver 570 or newer)",
+                                           "license":  "MIT"
+                                       }
+                                   ]
+                    },
+    "binaries":  [
+                     {
+                         "name":  "ffmpeg.exe",
+                         "runtimePath":  "ffmpeg/ffmpeg.exe",
+                         "sizeBytes":  52000768,
+                         "sha256":  "c11d60d48f66d9ba92828c0a61d7e174143f117a54cc22e35dac09a95e7f2209",
+                         "version":  "9.1"
+                     },
+                     {
+                         "name":  "ffprobe.exe",
+                         "runtimePath":  "ffmpeg/ffprobe.exe",
+                         "sizeBytes":  51801600,
+                         "sha256":  "2015d0d51c06c7719fa033f32d0633cc362480e74f49c3fb46e50742fef69188",
+                         "version":  "9.1"
+                     }
+                 ],
+    "notices":  [
+                    {
+                        "archivePath":  "COPYING.GPLv3",
+                        "repositoryPath":  "resources/third-party/FFmpeg-LICENSE.txt",
+                        "sha256":  "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+                    },
+                    {
+                        "archivePath":  "generated",
+                        "repositoryPath":  "resources/third-party/FFmpeg-README.txt",
+                        "sha256":  "74b5e9915e2d649289986575e9b5c88a33db40fd2f790947284bbaa5ba20e0ab"
+                    }
+                ],
+    "license":  {
+                    "identifier":  "GPL-3.0-or-later",
+                    "evidence":  "Configured with --enable-gpl --enable-version3; ffmpeg -L states GPL version 3 or later.",
+                    "upstreamLegalPage":  "https://ffmpeg.org/legal.html",
+                    "correspondingSource":  "ffmpeg-9.1-source ZIP on https://github.com/CipherVaults/FFmpeg-Encoder/releases/tag/v0.6.0-beta.1"
+                },
+    "validation":  {
+                       "qualifiedChecks":  15,
+                       "failedChecks":  0,
+                       "compiledEncoders":  [
+                                                "libx264",
+                                                "libx265",
+                                                "libsvtav1",
+                                                "h264_nvenc",
+                                                "hevc_nvenc",
+                                                "av1_nvenc"
+                                            ],
+                       "compiledSupportLimit":  "Compiled encoder availability does not establish local GPU/driver initialization; NVENC was not tested on hardware for this build."
+                   }
 }

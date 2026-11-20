@@ -14,6 +14,8 @@ module.exports = function packageOptions(root, buildRoot, manifest) {
     dir: root, out: path.join(buildRoot, 'package'), platform: 'win32', arch: 'x64',
     electronVersion: manifest.devDependencies.electron,
     name: 'FFmpeg Encoder', executableName: 'FFmpeg Encoder',
+    // Gauge mark for the executable and window/taskbar icon (packaging only).
+    icon: path.join(root, 'assets', 'gauge', 'gauge-app.ico'),
     appVersion: manifest.version, buildVersion: manifest.version.split('-')[0],
     asar: true, prune: false, derefSymlinks: false, overwrite: false,
     tmpdir: path.join(buildRoot, 'packager-temp'),

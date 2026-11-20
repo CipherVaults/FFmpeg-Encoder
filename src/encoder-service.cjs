@@ -938,7 +938,7 @@ class EncoderService extends EventEmitter {
     const inspectionOnly = preparedPlan.inspectionOnly?.has(item.name);
     let destination = inspectionOnly ? null : path.join(output.path, item.outputName);
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
-    let inspectionDiagnostic, nativePrivate = null;
+    let inspectionDiagnostic, nativePrivate = null, pendingEncodeReady = null;
     const onStage = detail => {
       if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
       Object.assign(progress, { fileId: item.id, stage: detail.stage, window: detail.window || null });
@@ -1154,6 +1154,9 @@ class EncoderService extends EventEmitter {
           encodeControlsSettings: preparedControlSettings } : {}),
         ...(encodePreservationSelection ? { encodePreservation: true, encodePreservationSelection, encodePreservationOwner: this.plan,
           preparedPlanId: this.plan.id, encodePreservationRequest: item.operationRequest } : {}) };
+      const ready = { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
+        ? 'Explicit re-encoding authorized for this file and prepared batch only.'
+        : this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' };
       // Main-only host checks may refuse or bind this exact entry before it is
       // stored or shown as Ready. No request flag bypasses the shared checks.
       if (preparedPlan.operation === 'encode' && typeof this.bindPreparedEncodeEntry === 'function') {
@@ -1161,13 +1164,14 @@ class EncoderService extends EventEmitter {
         if (this.bindPreparedEncodeEntry(item, entry) !== undefined) {
           throw fail('INVALID_PLAN', 'Prepared entry binding must settle synchronously.');
         }
+        if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
+        pendingEncodeReady = { entry, ready, planId: preparedPlan.id, request: item.operationRequest };
+      } else {
+        this.plan.entries.set(item.id, entry);
+        if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
+        this.plan.ambiguities.delete(item.id);
+        Object.assign(item, ready);
       }
-      this.plan.entries.set(item.id, entry);
-      if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
-      this.plan.ambiguities.delete(item.id);
-      Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
-        ? 'Explicit re-encoding authorized for this file and prepared batch only.'
-        : this.plan.overrides.has(item.id) ? 'Explicitly treated as original for this plan only.' : '' });
     } catch (error) {
       if (error.code === 'CANCELLED' || signal.aborted || !VENDOR_PROFILES.includes(profile) && sharedFailure(error)) throw error;
       if (['INPUT_CHANGED', 'UNSAFE_SOURCE'].includes(error.code)) {
@@ -1188,15 +1192,36 @@ class EncoderService extends EventEmitter {
         nativePrivate = refusal.nativePrivate;
       }
     } finally {
-      progress.active--;
-      progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
-      if (item.status !== 'pending') progress.resolved++;
+      const settleProgress = () => {
+        progress.active--;
+        progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
+        if (item.status !== 'pending') progress.resolved++;
+      };
+      if (!pendingEncodeReady) settleProgress();
       if (preparedPlan.operation === 'native-encode') nativePrivate = { file, ...nativePrivate };
-      await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: item.status === 'unsupported' ? 'warning' : 'info',
-        fileId: item.id, message: item.reason, ...(inspectionDiagnostic || {}),
-        context: { ...(preparedPlan.operation === 'native-encode' ? {} : { file }), status: item.status, summary: item.summary, code: item.reasonCode,
-          ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
-          ...(nativePrivate ? { nativePrivate } : {}) } });
+      // The inspection record describes its verdict, not whether the batch
+      // eventually made the accepted entry available. Keep that entry private
+      // while the journal yields, and never publish it after cancellation.
+      const observed = pendingEncodeReady?.ready || item;
+      try {
+        await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: observed.status === 'unsupported' ? 'warning' : 'info',
+          fileId: item.id, message: observed.reason, ...(inspectionDiagnostic || {}),
+          context: { ...(preparedPlan.operation === 'native-encode' ? {} : { file }), status: observed.status, summary: observed.summary, code: item.reasonCode,
+            ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
+            ...(nativePrivate ? { nativePrivate } : {}) } });
+        if (pendingEncodeReady) {
+          const current = this.plan === preparedPlan && preparedPlan.id === pendingEncodeReady.planId && owner === this.state.batchId
+            && this.state.items.includes(item) && item.status === 'pending' && item.operationRequest === pendingEncodeReady.request;
+          if (signal.aborted && current) Object.assign(item, { status: 'cancelled', reason: 'Preparation cancelled. Prepare again.' });
+          notCancelled(signal);
+          if (!current || this.state.phase !== 'preparing') throw fail('STALE_PLAN', 'Preparation changed before the inspected file was ready.');
+          preparedPlan.entries.set(item.id, pendingEncodeReady.entry);
+          preparedPlan.ambiguities.delete(item.id);
+          Object.assign(item, pendingEncodeReady.ready);
+        }
+      } finally {
+        if (pendingEncodeReady) settleProgress();
+      }
       if (owner === this.state.batchId) this.emitState();
     }
   }

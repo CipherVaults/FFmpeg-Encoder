@@ -852,7 +852,7 @@ for(const scenario of [
    if(!scenario.policy){
      assert.equal(item.status,'ready',item.reason);assert.equal(current.items[0].status,'ready');
      assert(snapshots.some(({snapshot})=>snapshot.items.some(x=>x.id===item.id&&x.status==='ready')));
-     assert.equal(incidents[0].event.context.status,'ready');assert.equal(incidents[0].entries,1);
+     assert.equal(incidents[0].event.context.status,'ready');assert.equal(incidents[0].entries,0);
      const entry=service.plan.entries.get(item.id);
      assert(entry?.operationPlan?.compatibilityPath);assert.equal(entry.operationPlan.contract.range.kind,'full');
      assert.equal(item.operationRequest.resolution,'source');assert.equal(item.operationRequest.audioPolicy,'copy');
@@ -911,3 +911,120 @@ test('Linux ordinary Prepare cancellation never publishes old readiness and perm
  await service.cancelCurrent();assert.equal(service.executionBinding,null);
  assert(h.generations.every(g=>g.closed&&!g.runCalls));assert.deepEqual(await fsp.readdir(output),[]);
 });
+
+test('Linux late Prepare cancel never projects selectable state after the abort',async t=>{
+ const {service,h,root}=await setup(t);
+ const i=path.join(root,'input'),o=path.join(root,'output'),source=path.join(i,'source.mkv');
+ await fsp.mkdir(i);await fsp.mkdir(o);await fsp.writeFile(source,'Inert ordinary Prepare/cancel fixture, not media.');
+ const probe=sourceProbe();probe.format.size=String((await fsp.stat(source)).size);
+ service.inspect=async()=>({probe:structuredClone(probe),duration:2,
+   color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},
+   summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,durationSeconds:2,bitDepth:8}});
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+ const request={inputFolderId:input.id,outputFolderId:output.id,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}};
+ let resolveReached,release,held=false;
+ const reached=new Promise(r=>resolveReached=r),gate=new Promise(r=>release=r);
+ const updateTrace=[];
+ service.on('update',state=>updateTrace.push({state,aborted:service.controller?.signal.aborted===true}));
+ const journalAppend=service.diagnostics.append.bind(service.diagnostics);
+ service.diagnostics.append=async event=>{
+   if(event.reason==='FILE_INSPECTED'&&!held){
+     held=true;resolveReached(structuredClone(event));await gate;
+   }
+   return journalAppend(event);
+ };
+ const prep=service.prepareBatch(request);
+ const inspected=await Promise.race([reached,prep.then(()=>{throw Error('Prepare did not reach the held audit append');})]);
+ const before=service.snapshot(),id=before.items[0].id;
+ assert.equal(before.phase,'preparing');assert.equal(inspected.fileId,id);
+ assert.equal(inspected.context.status,'ready');
+ const whileSaving={status:before.items[0].status,entries:service.plan.entries.size};
+ const startRequest={planId:before.planId,fileIds:[id]};
+ const start=updateTrace.length;
+ const cancel=service.cancelBatch({batchId:before.batchId});
+ const direct=service.snapshot(),aborted=service.controller.signal.aborted;
+ let returned,cancelled;
+ try {
+   assert.equal(aborted,true);
+   await assert.rejects(service.startBatch(startRequest));
+ } finally {
+   release();
+   [returned,cancelled]=await Promise.all([prep,cancel]);
+ }
+ const cancelledProjection=([where,state])=>[where,state.phase,state.items.find(x=>x.id===id)?.status||null];
+ const post=[['direct snapshot',direct],...updateTrace.slice(start).map(({state,aborted})=>[aborted?'aborted update':'update',state]),
+   ['Prepare response',returned],['Cancel response',cancelled]];
+ t.diagnostic('after public Cancel: '+JSON.stringify(post.map(cancelledProjection)));
+ assert.equal(cancelled.phase,'cancelled');assert.equal(cancelled.planId,null);assert.equal(service.plan,null);
+ assert.equal(service.state.operationDraft,null);
+ await assert.rejects(service.startBatch(startRequest));
+ assert.equal(service.executionBinding,null);assert(h.generations.every(g=>!g.runCalls));
+ assert.deepEqual(await fsp.readdir(o),[]);
+ const fresh=await service.prepareBatch(request);
+ assert.equal(fresh.items[0].status,'ready',fresh.items[0].reason);assert.notEqual(fresh.planId,before.planId);
+ const revised=await service.reprepareEncodingSettings({planId:fresh.planId,draftId:fresh.operationDraft.id,
+   revision:fresh.operationDraft.revision,settings:{...request.settings,quality:24}});
+ assert.equal(revised.items[0].status,'ready',revised.items[0].reason);assert.notEqual(revised.planId,fresh.planId);
+ assert.deepEqual(whileSaving,{status:'pending',entries:0});
+ assert.equal(cancelled.items[0].status,'cancelled');
+ assert.equal(cancelled.items[0].reason,'Preparation cancelled. Prepare again.');
+ for(const [where,state] of post){
+   const row=state.items.find(x=>x.id===id);
+   assert(!row||!['ready','conflict'].includes(row.status),where+' showed the aborted row as selectable');
+ }
+});
+
+for (const mode of ['journal-error','treat-as-original','reencode-output']) {
+ test('Linux late Prepare settlement preserves '+mode,async t=>{
+   const {service,h,root}=await setup(t);
+   const i=path.join(root,'input'),o=path.join(root,'output');
+   await fsp.mkdir(i);await fsp.mkdir(o);
+   const name=mode==='treat-as-original'?'source_H264-CPU.mkv':'source.mkv';
+   const pathToSource=path.join(i,name);
+   await fsp.writeFile(pathToSource,'Inert permission/audit fixture, not media.');
+   const probe=sourceProbe();probe.format.size=String((await fsp.stat(pathToSource)).size);
+   if(mode==='reencode-output')Object.assign(probe.format.tags,{FFMPEG_ENCODER_PROVENANCE:'1',FFMPEG_ENCODER_OUTPUT_ID:'f711706b-d720-4a74-9712-d10567c85655'});
+   service.inspect=async()=>({probe:structuredClone(probe),duration:2,
+     color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},
+     summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
+   service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});
+   service.storageEligibility={check:async()=>({eligible:true})};
+   const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+   const args={inputFolderId:input.id,outputFolderId:output.id,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}};
+   let prior=null;
+   if(mode!=='journal-error'){
+     prior=await service.prepareBatch(args);
+     assert.equal(prior.items[0].status,mode==='treat-as-original'?'ambiguous':'generated');
+     assert.equal(service.plan.entries.size,0);
+   }
+   let enter,release;
+   const entered=new Promise(r=>enter=r),held=new Promise(r=>release=r);
+   const original=service.diagnostics.append.bind(service.diagnostics);
+   service.diagnostics.append=async e=>{
+     if(e.reason==='FILE_INSPECTED'){enter(structuredClone(e));await held;
+       if(mode==='journal-error')throw Error('Test-only journal write failure.');
+     }
+     return original(e);
+   };
+   const emitted=[];
+   service.on('update',snapshot=>emitted.push({snapshot,entries:service.plan?.entries.size||0}));
+   const proceed=prior?(mode==='treat-as-original'?service.treatAsOriginal({planId:prior.planId,fileId:prior.items[0].id})
+     :service.reencodeOutputs({planId:prior.planId,fileIds:[prior.items[0].id]})):service.prepareBatch(args);
+   const event=await Promise.race([entered,proceed.then(()=>{throw Error('The permission or inspection record never reached its journal');})]);
+   const during=service.snapshot(),whileEntries=service.plan.entries.size,before=emitted.slice();
+   release();
+   const after=await proceed;
+   assert.equal(event.context.status,'ready','inspection verdict does not describe execution authority');
+   assert.equal(after.items[0].status,'ready',after.items[0].reason);
+   assert.equal(service.plan.entries.size,1);assert.equal(after.phase,'ready');
+   assert.equal(during.items[0].status,'pending');assert.equal(whileEntries,0);
+   assert(before.every(({snapshot,entries})=>entries===0&&snapshot.items.every(item=>item.status!=='ready')));
+   assert(emitted.some(({snapshot,entries})=>entries===1&&snapshot.items.some(item=>item.status==='ready')));
+   if(mode==='journal-error')assert.match(after.diagnosticWarning,/Diagnostic history is incomplete/);
+   else if(mode==='treat-as-original')assert.match(after.items[0].reason,/Explicitly treated as original/);
+   else assert(after.items[0].reencodeAuthorized&&service.plan.entries.get(after.items[0].id).sourceOutputId);
+   assert(h.generations.every(g=>!g.runCalls));assert.deepEqual(await fsp.readdir(o),[]);
+ });
+}

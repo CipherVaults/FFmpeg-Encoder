@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 167146,
-    "sha256": "742e8f411148557ef924fde0ba38a4a504c3b8046fbfda9091a976400a7eb4ae"
+    "bytes": 168722,
+    "sha256": "d7e0218e7532ebbdcdccc028b24b66bbabd3831c464a47bcc77463000e6c6745"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,

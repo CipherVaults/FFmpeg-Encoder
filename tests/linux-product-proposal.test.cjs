@@ -216,7 +216,9 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  // Checkpoint 118: 165421 bytes, 8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7. A diagnostic-only discovery path is not a new native receipt.
  // At 122 the diagnostic-only MP3 encoder-service source was {bytes:166659,sha256:'28730ffa6adc0f7026380ccab681e6e1abc893bab76fb30726fa40ba4a26817a'}.
  // Moving Linux readiness binding earlier does not requalify either historical native witness.
- const currentEncoderService={bytes:167146,sha256:'742e8f411148557ef924fde0ba38a4a504c3b8046fbfda9091a976400a7eb4ae'};
+ // 123 issued Ready before its inspection journal awaited: {bytes:167146,sha256:'742e8f411148557ef924fde0ba38a4a504c3b8046fbfda9091a976400a7eb4ae'}.
+ // Deferring one host's Ready through that await is a source-only change.
+ const currentEncoderService={bytes:168722,sha256:'d7e0218e7532ebbdcdccc028b24b66bbabd3831c464a47bcc77463000e6c6745'};
  let changed=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));

@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: compare the fast checker against full evidence
+
+- A standalone offline developer tool reconciles frozen fast-validation receipts with independent full decode, after proving the source and output pair is identical across both records. Two scoped actual synthetic Linux accepted pairs agreed.
+- No authentic comparable fast-rejected pair has been established. A mismatched pair and incomplete evidence are correctly excluded from error counts. No performance, error rate, new route, hardware or release claim.
+
 ## Latest reviewed development slice: read-only MP3 Prepare diagnostics
 
 - When Linux Remux-to-MP4 finds no ordinary video input, it can inspect one standalone MP3 and clearly explain that verified copy is not available; it does not convert to AAC, create an output, or issue Start. An ordinary eligible MP4 next to an MP3 remains unchanged.

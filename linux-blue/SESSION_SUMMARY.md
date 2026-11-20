@@ -1,3 +1,12 @@
+# Session: Make the Milestone Q fast-checker comparison reusable
+
+- **November 20, 2026 Cairo.** Add offline developer tools only. Require pair identity, collector/publication binding and retained whole-decode media observations before counting agreement or a discrepancy. Do not import the tools in the product.
+- **Exact evidence:** Two synthetic Linux normal-candidate fast accepts independently agreed on full decoded data. The crossed pair really differs, but cannot be attributed to a fast verdict; incomplete evidence returns a distinct nonzero result. There are zero comparable negative cases. No accuracy or package claims.
+- **Checks:** Cold retained evidence tests 13/13. Integrated standalone tests 10 passed and three archive-dependent skips when archive bytes were not supplied to that run; selected source suite 236 syntax, 492 shared plus 163 Linux passed with three other platform skips.
+- **Continuation:** Find a genuine comparable fast-rejected negative case before asserting validator accuracy. Keep all live gates unchanged.
+
+---
+
 # Session: Explain standalone MP3 without enabling conversion
 
 - **November 20, 2026 Cairo.** Add a narrow Linux Remux-to-MP4 Prepare fallback when no ordinary video was found. Bind the main-selected MP3 to the same inspected file with no following of links, keep only bounded metadata, and return a clear unsupported result with no runnable entry or output.

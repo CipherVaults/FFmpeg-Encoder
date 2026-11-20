@@ -345,6 +345,8 @@ const STREAM_CREATION_TIME_ALIAS = 'SOURCE_CREATION_TIME';
 // is that mapped metadata is preserved and validated, as with 9.0.2, so keep each
 // one. An unspecified -keep_metadata applies to file and stream metadata, and the
 // suffix families (BPS, DURATION, ...) keep every language-suffixed variant.
+// As with 9.0, kept Matroska statistics describe the source track, and the
+// Matroska muxer never writes encoding_tool as a tag (it becomes WritingApp).
 const KEEP_REENCODE_METADATA = Object.freeze([
   'iTunPGAP', 'comment-iTunPGAP-eng', 'iTunSMPB', 'comment-iTunSMPB-eng', 'gapless_playback',
   'iTunNORM', 'comment-iTunNORM-eng', 'encoded_by', 'encoding_tool', 'vendor_id',

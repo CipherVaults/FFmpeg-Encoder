@@ -20,12 +20,15 @@ foreach ($d in 'src', 'app') { [void][IO.Directory]::CreateDirectory((Join-Path 
 # Test driver only: the committed source (no .git) plus Playwright from the locked, digest-checked tarballs.
 & robocopy.exe (Join-Path $work 'beta-pkg-src') (Join-Path $root 'src') /E /XD .git node_modules out artifacts /NFL /NDL /NJH /NJS /NP /R:0 /W:0 | Out-Null
 if ($LASTEXITCODE -ge 8) { throw "robocopy $LASTEXITCODE" }
-$lock = Get-Content -Raw (Join-Path $root 'src\package-lock.json') | ConvertFrom-Json
+# PowerShell 5.1 ConvertFrom-Json rejects the lockfile's empty-name root package; use the .NET reader.
+Add-Type -AssemblyName System.Web.Extensions
+$js = New-Object Web.Script.Serialization.JavaScriptSerializer; $js.MaxJsonLength = 100MB
+$lock = $js.DeserializeObject([IO.File]::ReadAllText((Join-Path $root 'src\package-lock.json')))
 $receipt = Get-Content -Raw (Join-Path $work 'intake-pkg\intake-receipt.json') | ConvertFrom-Json
 foreach ($k in 'node_modules/playwright', 'node_modules/playwright-core') {
   $r = @($receipt | Where-Object { $_.PSObject.Properties['lockPath'] -and $_.lockPath -eq $k }); if ($r.Count -ne 1) { throw "intake $k" }
   $tgz = Join-Path $work "intake-pkg\$($r[0].file)"
-  if ((Sha512B64 $tgz) -cne $r[0].digest -or $r[0].digest -cne $lock.packages.$k.integrity.Substring(7)) { throw "digest $k" }
+  if ((Sha512B64 $tgz) -cne $r[0].digest -or $r[0].digest -cne ([string]$lock['packages'][$k]['integrity']).Substring(7)) { throw "digest $k" }
   $dst = Join-Path $root ("src\" + $k.Replace('/', '\')); [void][IO.Directory]::CreateDirectory($dst)
   & "$env:SystemRoot\System32\tar.exe" -xzf $tgz -C $dst --strip-components 1; if ($LASTEXITCODE) { throw "tar $k" }
 }

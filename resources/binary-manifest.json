@@ -101,6 +101,6 @@
                                                 "hevc_nvenc",
                                                 "av1_nvenc"
                                             ],
-                       "compiledSupportLimit":  "Compiled encoder availability does not establish local GPU/driver initialization; NVENC was not tested on hardware for this build."
+                       "compiledSupportLimit":  "Compiled encoder availability does not establish local GPU/driver initialization. NVENC (H.264, HEVC, AV1) was tested on one NVIDIA GeForce RTX 5060 with driver 621.24; other GPUs and drivers were not tested."
                    }
 }

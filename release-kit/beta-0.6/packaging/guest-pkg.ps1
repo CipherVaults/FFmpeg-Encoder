@@ -55,15 +55,47 @@ try {
   Stage 'nsis-signature'
   Run $tar @('-xf', 'C:\in2\msys2-base-x86_64-20260927.tar.zst', '-C', $t) 'tar-msys2' | Out-Null
   $kr = "$t\msys64\usr\share\pacman\keyrings"
-  $st = Run "$t\msys64\usr\bin\gpgv.exe" @('--keyring', "$kr\msys2.gpg".Replace('\', '/'), '--status-fd', '1', 'C:/in/mingw-w64-ucrt-x86_64-nsis-3.13-2-any.pkg.tar.zst.sig', 'C:/in/mingw-w64-ucrt-x86_64-nsis-3.13-2-any.pkg.tar.zst') 'gpgv-nsis'
+  # msys2.gpg is ASCII-armoured (one block per key) and gpgv reads only binary keyrings, so
+  # decode every block to $t\msys2-keyring.gpg. Paths are relative to $t: MSYS gpgv treats a
+  # drive-letter keyring path as a URL.
+  $ms = New-Object IO.MemoryStream; $arm = 0; $b64 = New-Object Text.StringBuilder; $blocks = 0
+  foreach ($l in [IO.File]::ReadAllLines("$kr\msys2.gpg")) {
+    $l = $l.TrimEnd()
+    if ($arm -eq 0) { if ($l -eq '-----BEGIN PGP PUBLIC KEY BLOCK-----') { $arm = 1 }; continue }
+    if ($arm -eq 1) { if ($l -eq '') { $arm = 2 }; continue }
+    if ($l -eq '-----END PGP PUBLIC KEY BLOCK-----') { $kb = [Convert]::FromBase64String($b64.ToString()); $ms.Write($kb, 0, $kb.Length); [void]$b64.Clear(); $arm = 0; $blocks++; continue }
+    if ($l -match '^=[A-Za-z0-9+/]{4}$') { continue }
+    [void]$b64.Append($l)
+  }
+  if ($arm -ne 0 -or $blocks -lt 1) { throw 'MSYS2 keyring armour not parsed' }
+  [IO.File]::WriteAllBytes("$t\msys2-keyring.gpg", $ms.ToArray())
+  $st = Run "$t\msys64\usr\bin\gpgv.exe" @('--keyring', './msys2-keyring.gpg', '--status-fd', '1', 'C:/in/mingw-w64-ucrt-x86_64-nsis-3.13-2-any.pkg.tar.zst.sig', 'C:/in/mingw-w64-ucrt-x86_64-nsis-3.13-2-any.pkg.tar.zst') 'gpgv-nsis'
   if ($st -notmatch '(?m)^\[GNUPG:\] VALIDSIG [0-9A-F]{40} .* ([0-9A-F]{40})\r?$') { throw 'NSIS signature not valid' }
   $primary = $Matches[1]
   if ($st -match '(?m)^\[GNUPG:\] (BADSIG|ERRSIG|EXPKEYSIG|REVKEYSIG|EXPSIG|NO_PUBKEY) ') { throw 'NSIS signature status not acceptable' }
   if ($st -notmatch '(?m)^\[GNUPG:\] GOODSIG ') { throw 'NSIS signature not GOODSIG' }
-  $trusted = @(Get-Content -LiteralPath "$kr\msys2-trusted" | ForEach-Object { ($_ -split ':')[0].Trim() })
+  # pacman's trust rule: msys2-trusted lists master keys; a packager key is trusted when master
+  # keys certify it. Require 3 valid certifications by distinct trusted master keys, signer not revoked.
+  $trusted = @(Get-Content -LiteralPath "$kr\msys2-trusted" | ForEach-Object { ($_ -split ':')[0].Trim() } | Where-Object { $_ -match '^[0-9A-F]{40}$' })
   $revoked = @(Get-Content -LiteralPath "$kr\msys2-revoked" -ErrorAction SilentlyContinue | ForEach-Object { $_.Trim() })
-  if ($trusted -notcontains $primary -or $revoked -contains $primary) { throw 'NSIS signer not a trusted MSYS2 packager key' }
-  $status.nsisSigner = $primary
+  if ($revoked -contains $primary) { throw 'NSIS signer key is revoked' }
+  [void][IO.Directory]::CreateDirectory("$t\gnupghome")
+  $genv = @{ GNUPGHOME = './gnupghome' }
+  Run "$t\msys64\usr\bin\gpg.exe" @('--batch', '--no-autostart', '--no-auto-check-trustdb', '--import', './msys2-keyring.gpg') 'gpg-import' 120000 $genv | Out-Null
+  $cs = Run "$t\msys64\usr\bin\gpg.exe" @('--batch', '--no-autostart', '--no-auto-check-trustdb', '--with-colons', '--check-sigs', $primary) 'gpg-check-sigs' 120000 $genv
+  $rows = @($cs -split "`r?`n")
+  $pub = @($rows | Where-Object { $_ -like 'pub:*' })
+  if ($pub.Count -ne 1 -or 'r','e' -contains ($pub[0] -split ':')[1]) { throw 'NSIS signer key revoked or expired' }
+  $certs = @(); $inUid = $false
+  foreach ($r in $rows) {
+    $f = $r -split ':'
+    if ($f[0] -eq 'uid') { $inUid = $true; continue }
+    if ($f[0] -eq 'sub') { $inUid = $false; continue }
+    if ($inUid -and $f[0] -eq 'sig' -and $f[1] -eq '!' -and $f.Count -gt 12 -and $f[12] -ne $primary -and $trusted -contains $f[12]) { $certs += $f[12] }
+  }
+  $certs = @($certs | Sort-Object -Unique)
+  if ($certs.Count -lt 3) { throw "NSIS signer has $($certs.Count) valid trusted master-key certifications" }
+  $status.nsisSigner = $primary; $status.nsisSignerCertifiedBy = $certs
 
   Stage 'tools'
   [void][IO.Directory]::CreateDirectory("$t\nsis"); [void][IO.Directory]::CreateDirectory("$t\7z")

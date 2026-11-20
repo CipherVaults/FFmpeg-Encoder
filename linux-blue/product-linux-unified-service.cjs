@@ -43,8 +43,15 @@ const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){av1Settings(value);return 'av1-ordinary';}if(value?.profileId===H264_DEFAULT.profileId){h264Settings(value);return 'ordinary';}H265.settings(value);return 'h265';}
-const remuxEnvelopes=new WeakMap();
-class NarrowRemux extends RemuxOperations{constructor(options,movSourceEnvelope){super(options);remuxEnvelopes.set(this,movSourceEnvelope);}prepare(options){admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:remuxEnvelopes.get(this)});return super.prepare(options);}}
+class NarrowRemux extends RemuxOperations{
+  #movEnvelope; #onRefused;
+  constructor(options,movEnvelope,onRefused){super(options);this.#movEnvelope=movEnvelope;this.#onRefused=onRefused;}
+  prepare(options){
+    try{admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:this.#movEnvelope});}
+    catch(error){if(error.code==='REMUX_MULTI_AUDIO_NOT_QUALIFIED')this.#onRefused(options.request.fileId);throw error;}
+    return super.prepare(options);
+  }
+}
 class UnifiedService extends EncoderService{
   #ordinaryPrepared=new WeakMap();
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
@@ -79,7 +86,15 @@ class UnifiedService extends EncoderService{
     this.operationRuntime=fresh.observer;
     this.operationQualifications=selector;
     const q=this.configuration.remux;
-    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope);
+    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope,fileId=>{
+      // This Linux ticket cannot honor any omission. Retire only its offers,
+      // before shared Prepare can emit a refused state to the renderer.
+      const plan=this.plan,item=this.state.items.find(value=>value.id===fileId);
+      if(this.generation!==fresh||this.route!=='remux'||plan?.operation!=='remux'||item?.remux?.target!=='mp4'
+          ||item.remux.omissionDecisionIds.length!==0)return;
+      for(const [id,choice]of plan.remuxCandidates)if(choice.fileId===fileId&&choice.planId===plan.id)plan.remuxCandidates.delete(id);
+      item.remux.omissionCandidates=[];
+    });
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
     this.operationDeadlineMs=route==='remux'?EXECUTION_BUDGET_MS:120000;
     this.ordinaryJobGuard=ordinaryRoute(route)?facts=>this.ordinaryGuard(facts,fresh):null;

@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: no misleading omission controls
+
+- Linux Prepare keeps every inspected track visible. For the existing two-track refusal, it no longer offers choices the verified copy path cannot honor, even on the first outward refusal view. The one-track Ready route retains its existing choice.
+- Exact retained normal-app observations on three synthetic MP4s; no writer, output or new route. The known one-track qualification is unchanged. The separately staged two-track experiment is not a production grant.
+
 ## Latest reviewed infrastructure slice: portable MOV test path
 
 - GitHub Actions ran both source-mirror checkpoints. On 113 Ubuntu passed and Windows passed 492/494; the two remaining MOV language cases stopped in fixture setup on the hosted temp path, before their language assertions.

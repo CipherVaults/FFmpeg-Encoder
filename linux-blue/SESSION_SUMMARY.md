@@ -1,3 +1,12 @@
+# Session: Keep the first Linux multi-audio refusal view truthful
+
+- **November 20, 2026 Cairo.** Normal Linux Prepare previously offered omission controls it could not honor for verified two-track refusals. The first patch removed them only from the final response; independent review caught an earlier emitted refusal view.
+- **Corrected:** Clear only those unqualified offers and matching tickets before the first outward refusal. All track rows stay visible; the existing one-track Ready row and action remain identical. No shared renderer or eligibility change.
+- **Evidence:** Two outward updates on each of three exact authenticated-FFmpeg source fixtures: singleton retains its action on both; both refused two-track inputs have no offers on either. One inspection child per case, no writer or output. 237/237 worker suite; exact source and hosted checks are separately tracked. All 151 active pins and prior qualification semantics verified; inert manifest updated for exactly the source changes.
+- **Continuation:** Keep normal two-track admission closed pending its separate issuer, ownership and live qualification. No package, hardware, or release claim.
+
+---
+
 # Session: Normalize the hosted MOV test fixture root
 
 - **November 20, 2026 Cairo.** Exact 112 and 113 mirror jobs ran. Ubuntu passed both. Windows 2022 at 113 passed 492/494; the two failures stopped at path custody in MOV language test setup.

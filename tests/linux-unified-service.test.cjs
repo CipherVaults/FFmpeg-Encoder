@@ -63,9 +63,19 @@ test('Linux legacy MP4 ticket explains a two-AAC refusal without publishing, sel
   await fsp.writeFile(src,require('./helpers/mov-fixture.cjs').playbackFixture(probe));probe.format.size=String((await fsp.stat(src)).size);const before=structuredClone(probe);
   service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};
   const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+  const refusedUpdates=[];service.on('update',state=>{for(const item of state.items)if(item.reasonCode==='REMUX_MULTI_AUDIO_NOT_QUALIFIED')
+    refusedUpdates.push({visible:item.remux.omissionCandidates.map(x=>x.streamIndex),
+      registered:[...service.plan.remuxCandidates.values()].filter(x=>x.fileId===item.id).map(x=>x.streamIndex)});});
   await service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target:'mp4'});await service.taskPromise;
+  assert(refusedUpdates.length>0);for(const update of refusedUpdates)assert.deepEqual(update,{visible:[],registered:[]});
   const snap=service.snapshot(),item=snap.items[0];assert.equal(item.status,'unsupported');assert.equal(item.reasonCode,'REMUX_MULTI_AUDIO_NOT_QUALIFIED');
   assert.match(item.reason,/two AAC audio tracks/i);assert.match(item.reason,/no track was omitted/i);assert(!item.reason.includes('assert('));
+  // Both audio rows stay visible; no misleading renderer action or main-side
+  // decision ticket may suggest that deleting a track could qualify this file.
+  assert.deepEqual(item.remux.streams.map(s=>[s.streamIndex,s.action]),[[0,'preserve-copy'],[1,'preserve-copy'],[2,'preserve-copy']]);
+  assert.deepEqual(item.remux.omissionCandidates,[]);assert.deepEqual(item.remux.omissionDecisionIds,[]);
+  assert.equal([...service.plan.remuxCandidates.values()].filter(c=>c.fileId===item.id).length,0);
+  assert.equal(service.plan.remuxGrants.size,0);
   assert.equal(service.plan?.entries?.has(item.id)??false,false);assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(probe,before);assert.deepEqual(await fsp.readdir(o),[]);
 });
 

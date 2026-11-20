@@ -773,7 +773,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
       "bytes": 40868,
-      "sha256": "682d54b9d0f26bc0def5eb17ef69ff341beb36c9f9eec1fb07ebb13d5797f34b"
+      "sha256": "6f2341356bbf8cdc16e1be12175c14c4a35219af32f7846cabd174229055005b"
     },
     {
       "root": "source",
@@ -2020,8 +2020,8 @@
       "source": "linux-blue/product-linux-unified-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-unified-service.cjs",
       "group": "application",
-      "bytes": 26509,
-      "sha256": "74d634999209bbe19608f679c1dc436c64df40d8f55a9b9454dbbd93ff17e790"
+      "bytes": 27253,
+      "sha256": "b95590a3775784de74f3dedd3881850ab9d8764bad79aff5a2d67f40756414cf"
     },
     {
       "root": "source",

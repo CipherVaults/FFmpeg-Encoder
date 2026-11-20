@@ -50,6 +50,17 @@ const BUSY = new Set(['checking', 'native-checking', 'preparing', 'running', 'ca
 const EXTENSIONS = new Set(['.mp4', '.mkv', '.mov', '.avi', '.webm']);
 const REMUX_EXTENSIONS = new Set([...EXTENSIONS, '.ts']);
 const fail = (code, message) => Object.assign(new Error(message), { code });
+// Read-only, synchronous origin observation. The sole registration site is
+// the actual createStage continuation below; there is no externally callable
+// issuer. A different genuine stage in the same folder cannot substitute.
+const emittedRemuxStages = new WeakMap();
+function requireServiceEmittedRemuxStage(service, entry, stage) {
+  const handoff = emittedRemuxStages.get(entry);
+  if (!handoff || handoff.service !== service || handoff.stage !== stage || handoff.plan !== service.plan
+      || handoff.outputId !== entry.outputId || handoff.plan.entries.get(handoff.fileId) !== entry)
+    throw fail('REMUX_STAGE_ORIGIN', 'Only this service job’s just-created stage can be bound.');
+}
+
 const clone = value => structuredClone(value);
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
 // Controls are main-owned inert data. Never retain mutable override references.
@@ -1957,6 +1968,11 @@ class EncoderService extends EventEmitter {
             destination: entry.destination, profileId: entry.remux ? `remux-${entry.remuxRequest.target}` : this.plan.settings.profileId, generationDescription: entry.generationDescription });
           if (entry.remux) await observeRemuxOutput();
           stage = await createStage(this.plan.output);
+          if (entry.remux && typeof this.bindCreatedRemuxStage === 'function') {
+            emittedRemuxStages.set(entry, { service: this, stage, plan: this.plan, fileId: item.id, outputId: entry.outputId });
+            try { this.bindCreatedRemuxStage(entry, qualified, stage); }
+            finally { emittedRemuxStages.delete(entry); }
+          }
           if (ordinaryGuard) await ordinaryGuard.onStage(stage);
           item.status = 'running';
           const owner = this.state.batchId;
@@ -2371,4 +2387,4 @@ class EncoderService extends EventEmitter {
   }
 }
 
-module.exports = { EncoderService, objectKeys, sharedFailure, describeDiagnosticOperation, operationCostLimits, createRemuxProgressClock, requireRemuxOutputSpace };
+module.exports = { EncoderService, requireServiceEmittedRemuxStage, objectKeys, sharedFailure, describeDiagnosticOperation, operationCostLimits, createRemuxProgressClock, requireRemuxOutputSpace };

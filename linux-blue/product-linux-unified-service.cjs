@@ -2,6 +2,7 @@
 const {randomUUID}=require('node:crypto');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs/promises');
 const {EncoderService}=require('../src/encoder-service.cjs');
+const {installProductTwoAac,composed}=require('./product-two-aac-owner.cjs');
 const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
 const {fingerprintEncodeSource}=require('../src/encode-operation.cjs');
 const {OutputAccess}=require('../src/output-access.cjs');
@@ -70,6 +71,7 @@ class UnifiedService extends EncoderService{
   currentEpoch(epoch){assert(!this.shuttingDown&&!this.cancellation&&this.epoch===epoch,'Preparation owner retired');}
   async retireGeneration(){
     const failures=[];
+    if(composed(this.remuxOperations)){try{this.remuxOperations.invalidate();}catch(e){failures.push(e);}}
     try{if(this.operationStoragePromise)await (await this.operationStoragePromise).close();}catch(e){failures.push(e);}
     try{await this.generation?.close();}catch(e){failures.push(e);}
     if(failures.length)throw new AggregateError(failures,'Previous operation ownership is not confirmed settled');
@@ -86,7 +88,7 @@ class UnifiedService extends EncoderService{
     this.operationRuntime=fresh.observer;
     this.operationQualifications=selector;
     const q=this.configuration.remux;
-    this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope,fileId=>{
+    const legacy=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope,fileId=>{
       // This Linux ticket cannot honor any omission. Retire only its offers,
       // before shared Prepare can emit a refused state to the renderer.
       const plan=this.plan,item=this.state.items.find(value=>value.id===fileId);
@@ -95,6 +97,7 @@ class UnifiedService extends EncoderService{
       for(const [id,choice]of plan.remuxCandidates)if(choice.fileId===fileId&&choice.planId===plan.id)plan.remuxCandidates.delete(id);
       item.remux.omissionCandidates=[];
     });
+    this.remuxOperations=route==='remux'?installProductTwoAac(legacy,fresh,this):legacy;
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
     this.operationDeadlineMs=route==='remux'?EXECUTION_BUDGET_MS:120000;
     this.ordinaryJobGuard=ordinaryRoute(route)?facts=>this.ordinaryGuard(facts,fresh):null;
@@ -111,7 +114,17 @@ class UnifiedService extends EncoderService{
     this.state={...this.state,phase,batchId:randomUUID(),progress:null,preparation:null,error:null};
     this.emitState();return controller.signal;
   }
+  bindCreatedRemuxStage(entry,qualified,stage){
+    const b=this.executionBinding;
+    if(b?.two===true){assert(composed(this.remuxOperations)&&b.entry===entry&&b.selected===qualified);
+      this.remuxOperations.stageCreated(entry,qualified,stage);}
+  }
   publicationCurrentness(entry,qualified){
+    if(this.route==='remux'&&this.executionBinding?.two===true){
+      const b=this.executionBinding,owner=this.remuxOperations;assert(composed(owner)&&b.entry===entry&&b.selected===qualified);
+      return ()=>{assert(this.executionBinding===b&&this.generation===b.generation&&this.remuxOperations===owner);
+        b.generation.assertCurrentTwoAac(b.control);owner.beforePublish(entry,qualified);};
+    }
     if(this.route!=='h265'||qualified?.proportional!==true)return undefined;
     assert(isProportionalFamilySelection(qualified,entry.operationPlan),'Measured publication selection is no longer current');
     const binding=this.executionBinding;
@@ -122,7 +135,13 @@ class UnifiedService extends EncoderService{
     };
   }
   async finishPreparationReceipt(options){try{return await super.finishPreparationReceipt(options);}finally{this.generation?.settle();}}
-  async execute(selected,signal){try{return await super.execute(selected,signal);}finally{try{this.generation?.settle();}finally{if(['h265','remux'].includes(this.route)){this.executionBinding=null;this.ordinaryJobGuard=null;}}}}
+  async execute(selected,signal){
+    try{return await super.execute(selected,signal);}
+    finally{try{this.generation?.settle();}finally{
+      try{if(this.executionBinding?.two===true&&composed(this.remuxOperations))this.remuxOperations.invalidate();}
+      finally{if(['h265','remux'].includes(this.route)){this.executionBinding=null;this.ordinaryJobGuard=null;}}
+    }}
+  }
   async ordinaryGuard(facts,generation){
     try {
       assert((ordinaryRoute(this.route)||this.route==='h265'&&this.executionBinding?.kind==='h265-ordinary')&&this.generation===generation);if(this.route==='h265'){const b=this.executionBinding;assert(b.generation===generation&&b.planId===this.plan?.id&&this.plan.entries.get(b.fileId)===b.entry,'Ordinary execution owner changed');}(this.route==='h265'?H265:routePolicy(this.route)).admit({probe:facts.inspection.probe,settings:facts.settings,request:facts.request,bytes:Number(facts.sourceIdentity.size)});
@@ -232,9 +251,29 @@ class UnifiedService extends EncoderService{
           assert(this.plan===plan&&this.generation===generation&&plan.entries.get(fileId)===entry&&!this.cancellation&&!this.shuttingDown,'Remux execution binding retired');
           return {...entry.qualificationBindings,plan:entry.operationPlan,settings:plan.settings,sourceIdentity:entry.fingerprint,sourceProbeFingerprint:remuxProbeFingerprint(entry.inspection.probe),runtimeIdentity:this.runtimeIdentity,budget:this.operationEvidenceBudget,executionBudgetMs:this.operationDeadlineMs,environment:null};
         };
-        const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(this.remuxOperations,entry.qualificationSelection,bindings());
-        const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target===entry.operationPlan.contract.target);
-        assert(!this.executionBinding);const control=generation.bindRemux(this.remuxOperations,entry.qualificationSelection,bindings);this.executionBinding=Object.freeze({kind:'remux-isobmff',planId:plan.id,fileId,entry,generation,selected,requireCurrent,control});
+        const owner=this.remuxOperations;
+        if(composed(owner)){
+          let bound;
+          try{assert(!this.executionBinding);bound=owner.bindForStart(entry.qualificationSelection,bindings);}
+          catch(error){
+            if(!owner.isTwoPlan(entry.operationPlan)||error.code!=='REMUX_OPERATION_STALE')throw error;
+            // A synchronous pre-Start refusal must not leave a misleading Ready
+            // item, a stale action, or an apparently reusable preparation.
+            const failures=[];
+            this.plan=null;this.state.planId=null;this.state.operationDraft=null;this.executionBinding=null;
+            this.state.phase='failed';this.state.error='The prepared two-track copy changed. Prepare again.';
+            item.status='failed';item.reasonCode=error.code;item.reason=this.state.error;this.finishedAt=Date.now();
+            try{await this.retireGeneration();}catch(e){failures.push(e);this.closeAdmission();}
+            try{this.emitState();}catch(e){failures.push(e);}
+            if(failures.length)throw new AggregateError([error,...failures],this.state.error,{cause:error});throw error;
+          }
+          this.executionBinding=Object.freeze({kind:'remux-isobmff',planId:plan.id,fileId,entry,generation,...bound});
+        }else{
+          const requireCurrent=()=>RemuxOperations.prototype.requireCurrent.call(owner,entry.qualificationSelection,bindings());
+          const selected=requireCurrent();assert(selected.remux&&selected.qualification.inputFamily==='isobmff'&&selected.qualification.target===entry.operationPlan.contract.target);
+          assert(!this.executionBinding);const control=generation.bindRemux(owner,entry.qualificationSelection,bindings);
+          this.executionBinding=Object.freeze({kind:'remux-isobmff',planId:plan.id,fileId,entry,generation,selected,requireCurrent,control});
+        }
       }
     }
     const previousTask=this.taskPromise;
@@ -279,7 +318,9 @@ class UnifiedService extends EncoderService{
   closeOperationResources(){
     this.shuttingDown=true;this.epoch++;this.closeAdmission();this.controller?.abort();
     return this.unifiedClose ||= (async()=>{const failures=[];if(this.mutationOwner)await this.mutationOwner.done.catch(()=>{});if(this.cancellation)await this.cancellation.catch(e=>failures.push(e));
-      try{await super.closeOperationResources();}catch(e){failures.push(e);}try{await this.generation?.close();}catch(e){failures.push(e);}this.outputAccess?.clear();
+      try{await super.closeOperationResources();}catch(e){failures.push(e);}
+      if(composed(this.remuxOperations)){try{this.remuxOperations.invalidate();}catch(e){failures.push(e);}}
+      try{await this.generation?.close();}catch(e){failures.push(e);}this.outputAccess?.clear();
       if(failures.length)throw new AggregateError(failures,'Unified owner closure incomplete');})();
   }
 }

@@ -10,6 +10,8 @@ const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { POLICY } = require('./ordinary-cpu-policy.cjs');
 const { runTool, ToolError } = require('../src/process-runner.cjs');
 const { RemuxOperations } = require('../src/remux-operation.cjs');
+const {CELL:TWO_AAC_CELL}=require('./product-two-aac-owner.cjs');
+const twoAac=control=>control?.kind==='remux-isobmff'&&control.selected.qualification.cellId===TWO_AAC_CELL;
 const { OperationFamilySelector, isProportionalFamilySelection } = require('../src/operation-family.cjs');
 const TIMER_MAX_MS=2147483647;
 async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSelector=null) {
@@ -25,7 +27,7 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSel
   function phaseCurrent(owner) {
     if(owner.control){
       try{assert.strictEqual(owner.control.requireCurrent(),owner.control.selected,'Selected operation costs changed');}
-      catch(error){if(owner.control.kind==='measured-h265')retired=true;throw error;}
+      catch(error){if(owner.control.kind==='measured-h265'||twoAac(owner.control))retired=true;throw error;}
     }
     if(owner.control?.kind==='measured-h265'&&performance.now()>=owner.expires)
       throw new ToolError('OPERATION_DEADLINE','The measured operation exceeded its total deadline.');
@@ -53,7 +55,9 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSel
       let result, failure;
       try { result = await runTool(executable,args,{...supplied,onChild(child){onChild?.(child);options.onChild?.(child);}}); } catch(error) { failure=error; }
       try { await current(); } catch(error) { if(failure) throw new AggregateError([failure,error],'Invocation and integrity failure'); throw error; }
-      if(failure)throw failure;return result;
+      if(failure)throw failure;
+      if(twoAac(owner.control)){phaseCurrent(owner);if(signal.aborted)throw new ToolError('CANCELLED','Two-track remux cancelled.');}
+      return result;
     } finally { owner.live--; }
   }
   try {
@@ -88,7 +92,7 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSel
           if(proportionalEncode){
             assert(route==='measured');
             measuredControls.delete(token); // One valid-route Start attempt, never replayable.
-          }else assert(route==='remux'&&control.kind==='remux-isobmff');
+          }else{assert(route==='remux'&&control.kind==='remux-isobmff');if(twoAac(control))remuxControls.delete(token);}
           const q=control.requireCurrent();assert.strictEqual(q,control.selected);assert(Object.isFrozen(q)&&Object.isFrozen(q.budget)&&Object.isFrozen(q.resources));
           for(const n of [q.executionBudgetMs,q.budget.timeoutMs,q.resources.maxChildren])assert(Number.isSafeInteger(n)&&n>0);
           if(proportionalEncode){
@@ -105,6 +109,7 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSel
       },
       settle(){if(!phase)return;assert.equal(phase.live,0,'Owned invocations unsettled');if(phase.signal.aborted||performance.now()>=phase.expires){retired=true;phase.controller.abort();}clearTimeout(phase.timer);phase=null;},
       abort(){phase?.controller.abort();},
+      assertCurrentTwoAac(token){assert(phase&&phase.live===0&&twoAac(phase.control)&&phase.controlToken===token,'Final two-AAC publication requires the current settled generation');phaseCurrent(phase);},
       assertCurrent(token){
         assert(phase&&(token===undefined||phase.control?.kind==='measured-h265'&&phase.controlToken===token),'Only the current measured owner can guard publication');
         phaseCurrent(phase);

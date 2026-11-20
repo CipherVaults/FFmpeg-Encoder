@@ -184,3 +184,13 @@ for(const mode of ['first exclusive link','exclusive copy fallback'])test(`measu
   g.settle();assert.equal(g.snapshot().live,0);assert.throws(()=>g.begin('measured','running',new AbortController()));
  }finally{await g.close();}
 });
+test('two-track final guard rejects an unsettled native invocation, then accepts the same settled owner; no other token can substitute',async()=>{
+ const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state'),old=remuxControl().selected;
+ const selected=Object.freeze({...old,qualification:Object.freeze({...old.qualification,cellId:'internal-isobmff-mp4-q2l-two-aac-v1'})});
+ const c=Object.freeze({requireCurrent:()=>selected}),token=h.bind(g,c);g.begin('remux','running',new AbortController(),token);
+ let release;h.hold(new Promise(r=>release=r));const running=g.run('/runtime/ffprobe',['-version'],{timeoutMs:500});
+ try{assert.equal(g.snapshot().live,1);assert.throws(()=>g.assertCurrentTwoAac(token));}
+ finally{h.hold(null);release();await running;}
+ assert.equal(g.snapshot().live,0);g.assertCurrentTwoAac(token);assert.throws(()=>g.assertCurrentTwoAac({}));
+ g.settle();assert.throws(()=>g.begin('remux','running',new AbortController(),token));await g.close();
+});

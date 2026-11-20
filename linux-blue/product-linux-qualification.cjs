@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 164340,
-    "sha256": "e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33"
+    "bytes": 165421,
+    "sha256": "8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -325,8 +325,8 @@ const SOURCE_PINS = {
     "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
   },
   "src/outputs.cjs": {
-    "bytes": 23755,
-    "sha256": "37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1"
+    "bytes": 24548,
+    "sha256": "d61c0185f0af9104831cee015774bb8bd4656376e4b6f52b981e2aa7c011aff6"
   },
   "src/preferences.cjs": {
     "bytes": 10834,
@@ -545,12 +545,12 @@ const SOURCE_PINS = {
     "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
   },
   "linux-blue/product-linux-unified-runtime.cjs": {
-    "bytes": 8920,
-    "sha256": "12046b5d4a4d59a182cb826923ab9681e23c6f97ba24b724d2a51c757af07b47"
+    "bytes": 9512,
+    "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 27253,
-    "sha256": "b95590a3775784de74f3dedd3881850ab9d8764bad79aff5a2d67f40756414cf"
+    "bytes": 29724,
+    "sha256": "b65bc627fc27f9ea31c048181cd3ec5ee6cb99b9947cab2590f05e2db4a688bf"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
@@ -611,6 +611,22 @@ const SOURCE_PINS = {
   "linux-blue/product-linux-mov-cadence-qualification.json": {
     "bytes": 982,
     "sha256": "08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6"
+  },
+  "linux-blue/product-two-aac-custody.cjs": {
+    "bytes": 5830,
+    "sha256": "8058b4f12898a38077a1c894c6028a58c7748f3b9499bb0fe8a50c84697de5fb"
+  },
+  "linux-blue/product-two-aac-evidence.cjs": {
+    "bytes": 15228,
+    "sha256": "e32e6c33a100def1f3526a0402bb916f0484621668873b9786f9c25e8af9bd24"
+  },
+  "linux-blue/product-two-aac-owner.cjs": {
+    "bytes": 8867,
+    "sha256": "58473c7358381b75a6035a2cf10875835307d5b6a66c25634f7305726b6610b5"
+  },
+  "linux-blue/product-two-aac-record.cjs": {
+    "bytes": 415,
+    "sha256": "2db44067f1ac9ed57d84995a50dc599381260c3a295aef7b639e005fc923671b"
   }
 };
 const CLOSED_RECORD = {

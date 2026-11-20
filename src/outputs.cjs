@@ -54,6 +54,17 @@ async function sameDirectory(stage, record) {
   return await fs.realpath(stage.directory) === record.canonicalDirectory;
 }
 
+// A read-only creation observation for a service that must bind its actual
+// fresh stage to a particular operation. It grants no write or cleanup right.
+function describeFreshServiceStage(stage, folder) {
+  const record = recordOf(stage);
+  if (record.cleaned || record.sealed || record.validated || typeof folder !== 'string'
+      || path.resolve(folder) !== folder || path.dirname(stage.directory) !== folder
+      || stage.directory !== record.canonicalDirectory || stage.file !== path.join(stage.directory, 'encoded.mkv'))
+    throw failure('INVALID_STAGE', 'A fresh service-created stage in the selected output folder is required.');
+  return Object.freeze(Object.fromEntries(['dev','ino','birthtimeNs'].map(key => [key,String(record.directory[key])])));
+}
+
 async function createStage(folder) {
   const directory = await fs.mkdtemp(path.join(path.resolve(folder), '.ffmpeg-encoder-'));
   const directoryStat = await fs.lstat(directory, { bigint: true });
@@ -420,4 +431,4 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   return true;
 }
 
-module.exports = { exists, createStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity };
+module.exports = { exists, createStage, describeFreshServiceStage, sealStage, markStageValidated, retainSealedStage, cleanupStage, publishOutput, readPublishedOutputIdentity };

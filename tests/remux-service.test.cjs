@@ -480,3 +480,23 @@ test('Linux standalone default policy refuses genuine variable finish hidden by 
   else assert.equal(h.result.status,'success',h.result.reason);
  }
 });
+
+test('only the exact shared stage during its own synchronous service handoff carries the emitted-stage observation',async t=>{
+  const {requireServiceEmittedRemuxStage:check}=require('../src/encoder-service.cjs');
+  const {createStage,cleanupStage}=require('../src/outputs.cjs');let calls=0,saved;
+  class Observed extends EncoderService{
+    async captureFolders(){await super.captureFolders();this.peer=await createStage(this.plan.output);}
+    bindCreatedRemuxStage(entry,qualified,stage){
+      calls++;saved={service:this,entry,stage};
+      assert.doesNotThrow(()=>check(this,entry,stage));
+      assert.throws(()=>check(this,entry,this.peer),{code:'REMUX_STAGE_ORIGIN'});
+      assert.throws(()=>check(this,{...entry},stage),{code:'REMUX_STAGE_ORIGIN'});
+      assert.throws(()=>check(Object.create(this),entry,stage),{code:'REMUX_STAGE_ORIGIN'});
+      throw Object.assign(new Error('Deliberate non-native stop after observing the real service-created stage.'),{code:'TEST_STOP_BEFORE_COPY'});
+    }
+  }
+  const h=await cadenceJob(t,{Service:Observed,verificationMethod:'packet-identity-v1'});
+  assert.equal(calls,1);assert.equal(h.result.status,'failed');assert.equal(h.result.reasonCode,'TEST_STOP_BEFORE_COPY');
+  assert.throws(()=>check(saved.service,saved.entry,saved.stage),{code:'REMUX_STAGE_ORIGIN'});
+  assert.equal((await cleanupStage(h.service.peer)).retained,false);assert.deepEqual(await fs.readdir(h.output),[]);
+});

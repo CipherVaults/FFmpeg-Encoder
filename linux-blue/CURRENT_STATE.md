@@ -1,5 +1,11 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: dormant two-track copy integration
+
+- The Linux shell contains the reviewed two-AAC ownership and validation code, but the accepted record is deliberately absent. Regular Prepare still refuses two-track files; no route or runtime default changes.
+- A separate prospective build proved Prepare only on two fresh held-out files; the existing 081 single-track case stayed Ready and three AAC tracks were refused. Exact source r03 enforces the genuine stage handoff, regular-file custody, and no running child during final publication.
+- Do not admit the prospective record until the independently supervised normal lifecycle, output oracle and exact acceptance record are verified. Earlier private derivative evidence does not qualify production.
+
 ## Latest reviewed development slice: no misleading omission controls
 
 - Linux Prepare keeps every inspected track visible. For the existing two-track refusal, it no longer offers choices the verified copy path cannot honor, even on the first outward refusal view. The one-track Ready route retains its existing choice.

@@ -1,3 +1,12 @@
+# Session: Preserve reviewed two-AAC integration with admission off
+
+- **November 20, 2026 Cairo.** Reconcile the 115 first-emission refusal with the regular Linux two-track candidate. Leave the actual accepted record null.
+- **Defensive gates:** Use genuine synchronous stage provenance and file custody; do not wait on unsupported object types or publish while a child is live. Review retained unsuccessful r01/r02 paths and an exact r03 independent review. Preserve existing 081 and all compact admission evidence.
+- **Evidence:** 223/223 exact cold source and adjacent checks. Integrated source runner 233 syntax, 492 shared passes and three Windows-only skips, 153 Linux passes. Separately prospective real Prepare: one existing 081 Ready, two held-outs Ready with both tracks and one unsupported three-AAC file, no writer.
+- **Continuation:** Isolated prospective lifecycle and independent native output verification require separate review. The regular app does not admit two-track jobs yet. No live writer, release, Windows runtime or GPU claim.
+
+---
+
 # Session: Keep the first Linux multi-audio refusal view truthful
 
 - **November 20, 2026 Cairo.** Normal Linux Prepare previously offered omission controls it could not honor for verified two-track refusals. The first patch removed them only from the final response; independent review caught an earlier emitted refusal view.

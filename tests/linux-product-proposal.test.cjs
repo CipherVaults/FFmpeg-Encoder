@@ -212,7 +212,8 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  // (encoder-service SHA-256 prefix c89a3288) and H.265 commit 6d00b6b changed
  // these source bytes without updating or requalifying the historical evidence.
  assert.deepEqual(aac.currentSource,{bytes:164039,sha256:'b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2'});
- const currentEncoderService={bytes:164340,sha256:'e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33'};
+ // Regular 115's H265-era 164340-byte/e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33 product is historical; the later shared stage handoff does not requalify its native receipt.
+ const currentEncoderService={bytes:165421,sha256:'8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7'};
  let changed=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
@@ -222,9 +223,10 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
    assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
    changed++;
   }else if(name==='src/outputs.cjs'){
-   // The same reviewed H.265 deadline check changed the shared publication helper.
+   // The H.265 publication helper at 115 was {bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'}.
+   // This later observational change introduces no publication or cleanup grant.
    assert.equal(hash,'0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'});
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:24548,sha256:'d61c0185f0af9104831cee015774bb8bd4656376e4b6f52b981e2aa7c011aff6'});
    changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);

@@ -1,3 +1,52 @@
+# 📘 Session: Review the next Milestone Q media foundations
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue integrated the exact patches. Two separately assigned GPT-6.2 Astra Ultra workers owned the regular Q work and the independent SubRip slice. Independent reviewers evaluated sealed patches. The Windows Beta/Alpha release is separate.
+
+## 🕒 Time
+November 20, 2026 Cairo. Exact starting commit: `732881be2f482ff5fad12fa9465aeea3f3f74c68`. The earlier checkpoint 107 record follows unchanged.
+
+## 🎯 Session Goal
+Build reusable, independently verifiable MP3 copy, chapter identity and plain subtitle handling without treating laboratory evidence as production authority.
+
+## 🛠️ Actions Taken
+- MP3-to-MP4 lab: three non-silent CBR/VBR, mono/stereo fixtures on pinned Linux 9.0.2. Ordered compressed payload and decoded PCM match. Verified physical channel count, MPEG audio sample entry and timing. The reviewed revision rechecked retained files, not a new native encode.
+- Chapters: preserved distinct exact decimal FFprobe IDs above JavaScript's safe integer range and verified clipping and titles in a scoped helper. This is report identity, not independent physical ChapterUID or target publication proof.
+- SubRip: clipped five synthetic cues to three, retaining multilingual text, timing, order and flags. A review revision rejects non-ASCII XML-name tag forms while preserving ordinary comparisons. It does not parse XML or enable a product route.
+- Lead together ran 86/86 targeted Node tests with no skips. Independent evidence and prior inherited failures belong to their exact runs; counts overlap.
+
+## 🧠 Key Insights
+Packet and PCM equality alone do not prove the container's declared channel count. Exact scoped identities can survive without changing JSON parsing across the app. Plain subtitle classification must agree with its documented formatting boundary.
+
+## 📌 Decisions Made
+Retain the existing production guards. Put Apple playback cautions next to a route only when it is exposed. Keep the current runtime and requirements unchanged; treat the Q plan as a traceability record, not acceptance.
+
+## ⚠️ Difficulties / Friction
+First MP3 and subtitle reviews found finite representational gaps. Both were revised and re-reviewed; earlier native/sample and red evidence remains distinct.
+
+## 🔧 Adjustments Made
+Rechecked already retained MP3 bytes instead of repeating encodes, kept chapter parsing isolated, and resolved the subtitle lexical false acceptance without extending its supported format.
+
+## ❌ Mistakes / Risks Noted
+Unwired helpers do not establish renderer, policy, runtime, or packaging support. A future Windows packaging step may enumerate new source files into its archive without activating them. Do not describe such package bytes as identical to a historical sealed candidate.
+
+## 📍 Current Position
+Three inert components, exact integrated source checks and the updated Linux records. The separately verified Git/Notion/GitHub receipt names the actual published tip. No new feature exposed to users.
+
+## 🔜 Next Steps
+Follow the reviewed Q plan, add one eligible source family only when its current proof is reproducible, and refresh the existing requirements, execution evidence and handoff for material changes. Continue other Q work at a blocked product or owner gate.
+
+## ❓ Open Questions
+Which held-out source families qualify for a live route? Can remux performance reach the existing target without reducing verification? What audio default does the owner select after distinct measurements?
+
+## 🧾 Session Outcome
+Added reviewed inert MP3, chapter and subtitle foundations. Preserved history, active route controls and separate Linux versus Windows qualification.
+
+## 🔍 Confidence Level
+High for the named scoped checks on exact inputs. No arbitrary media, UI, hardware, shipped package or milestone acceptance claim.
+
+---
+
 # 📘 Session: Resume v0.7 and enable bounded ordinary AV1 settings
 
 ## 🤖 Models, Effort, Roles and Provenance

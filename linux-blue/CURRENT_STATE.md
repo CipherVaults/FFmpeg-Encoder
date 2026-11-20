@@ -1,3 +1,17 @@
+# Current State: regular v0.7 Linux, Milestone Q
+
+## Latest reviewed development slice
+
+- Regular Linux work branches from public checkpoint `732881be2f482ff5fad12fa9465aeea3f3f74c68`. Review the exact branch tip separately from this file; a commit cannot name its own SHA in its content.
+- Three inert foundations are reviewed: standalone MP3-to-MP4 audio stream copy, exact raw-probe chapter identifiers, and plain SubRip clipping. No new app Prepare/Start route, tolerance, default, or product pin was enabled. Windows Beta and Alpha retain a separate source and acceptance path.
+- Exact integrated source checks: 86 passed with no failures or skips. Independent component receipts: three bounded MP3 native source/output pairs; distinct chapter report IDs above 53 bits; native subtitle cue clipping, including the formatting refusal. The prior broad subtitle baseline/candidate had the same 25 Linux-path fixture failures; this does not supersede them.
+- Earlier native headless results remain scoped to their exact bytes: 62-second variable-frame-rate MP4-to-MOV, cancel/reprepare during Matroska verification, 4K resize ladder and a 658.353-second H.265 CPU child past the former 600-second cutoff. These are not Windows, GUI, hardware, or packaging proofs.
+- Next: use the existing Q plan and requirement evidence. Qualify live routes only after the specific source, ownership, process lifecycle, compatibility and output gates are met. Preserve explicitly reserved audio-default and milestone acceptance decisions. Q2o speed still misses its goal on the bounded comparison; don't reduce verification to reach it.
+
+---
+
+## Historical state retained below
+
 # Current State: checkpoint 107 ordinary AV1 source candidate
 
 - Checkpoint 106 local Git and complete Notion mirror verified: 1,251 archived files, 106 commits, 106 readable sessions and four companion records. Existing 105 remote evidence remains distinct.

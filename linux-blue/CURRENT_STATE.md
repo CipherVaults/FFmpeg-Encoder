@@ -1,5 +1,11 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed infrastructure slice: paired hosted source checks
+
+- The read-only shared source workflow now selects the dedicated v0.7 source mirror for push events and explicitly includes portable recent audio and shared Windows contract tests. Existing workflow pins, other refs, and release workflows stay unchanged.
+- The historical lineage test preserves the AAC-era hashes while explicitly checking reviewed successor files against the current production closure. No production digest, executable, admission, or route changed.
+- Hosted results require actual per-run evidence. Local Linux source results cannot substitute for hosted Windows, native GPU, package, or release checks.
+
 ## Latest reviewed development slice: Q2l two-track audio copy
 
 - Three short synthetic Linux MP4 pairs retained exact per-track audio configuration, decoded sample payload and duration/edit timings when qualified independently. Measured AAC priming and terminal discard are verified per track; equality uses rational times, not identical raw clock units.

@@ -1,3 +1,12 @@
+# Session: regular v0.7 Windows and Linux source CI
+
+- **Scope:** November 20, 2026 Cairo; base checkpoint 111. Enroll the source mirror in the existing read-only Windows 2022 and Ubuntu 24.04 matrix. Add portable explicit tests for timing, audio mapping, and selected shared Windows contracts; native qualification stays separate.
+- **Trace:** On the unchanged baseline and the trigger-only draft, the Linux lineage assertion failed because it compared a historical AAC-era source digest to current reviewed bytes. Preserve the old entry and verify the subsequent encoder service and output changes against the current exact source closure. All historical pins and runtime pins remain unchanged.
+- **Checks:** Independently reviewed both sealed changes; the original broad local combined run passed 491 shared tests, 3 platform skips and 152 Linux tests. A reviewer corrected a content hash incorrectly identified as a commit. Exact final source run and hosted results are recorded separately.
+- **Continuation:** Verify the real Actions run at the exact mirror SHA and both runner results, then handle any legitimate failures. Windows release packaging and hardware remain separately owned.
+
+---
+
 # Session: Q2l isolated multi-audio copy verification
 
 - **Scope:** November 20, 2026 Cairo. Whole-Q lead and independent reviewer qualified the exact r06 laboratory only; Blue integrated on top of Q2f without changing the app route.

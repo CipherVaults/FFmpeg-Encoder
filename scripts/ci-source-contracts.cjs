@@ -1,6 +1,6 @@
 'use strict';
 
-// Source-contract CI: no npm lifecycle scripts, FFmpeg/Electron, network or media.
+// Source-contract CI: no npm lifecycle scripts, FFmpeg/Electron, network or real media.
 // Process tests include bounded owned Node helpers; no application is launched.
 const fs = require('node:fs');
 const path = require('node:path');
@@ -10,6 +10,13 @@ const shared = [
   'tests/encode-entry-controls.test.cjs',
   'tests/media.test.cjs',
   'tests/container-clock.test.cjs',
+  'tests/remux-contract.test.cjs',
+  'tests/remux-validation.test.cjs',
+  'tests/operation-resource-budget.test.cjs',
+  // Portable checks of recorded evidence; these tests never invoke their native labs.
+  'tests/q2f-precision-aac-clock.test.cjs',
+  'tests/q2l-multiaudio-copy.test.cjs',
+  'tests/q2n-clock-pair.test.cjs',
   'tests/appearance.test.cjs',
   'tests/ui-workbench.test.cjs',
   'tests/app-settings.test.cjs',
@@ -17,6 +24,7 @@ const shared = [
   'tests/process-runner.test.cjs',
   'tests/completed-output-retention.test.cjs',
   'tests/output-access.test.cjs',
+  'tests/windows-adapters.test.cjs',
   'tests/windows-ffmpeg-startup.test.cjs',
   'tests/windows-hosted-archive-check.test.cjs',
   'tests/windows-hosted-diagnostics.test.cjs',
@@ -41,7 +49,7 @@ const files = ['main.js', 'preload.js', 'scripts/ci-source-contracts.cjs',
   ...sourceFiles('src'), ...sourceFiles('ui'), ...sourceFiles('linux-blue')];
 console.log(`Node ${process.version}; platform ${process.platform}; syntax files ${files.length}`);
 for (const file of files) run(['--check', file]);
-console.log('Shared unit contracts: media settings/argv, container clocks, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention/access, and injected Windows archive/startup safeguards.');
+console.log('Shared unit contracts: media settings/argv, container clocks, remux assessment and validation, resource forecasts and portable timing/track evidence, appearance, app settings, main shutdown, process cancellation/closure, completed-output retention/access, and injected Windows adapter/archive/startup safeguards.');
 run(['--test', ...shared]);
 if (process.platform === 'linux') {
   console.log('Additional Linux UI admission-policy, inert staging and internal-product composition unit contracts.');

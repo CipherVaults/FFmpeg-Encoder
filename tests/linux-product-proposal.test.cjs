@@ -204,8 +204,36 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  const original=JSON.parse(source.match(/const PRODUCERS = Object.freeze\((\{[\s\S]*?\n\})\);/)[1]);
  const pins=JSON.parse(fs.readFileSync(qualificationFile,'utf8').match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/)[1]);
  assert.equal(Object.keys(original).length,97);
- const successor=require(qualificationFile).SERVICE_SUCCESSOR;assert.equal(successor.nativeProof,null);let changed=0;
- for(const [name,hash] of Object.entries(original)){const actual=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex');if(name==='src/encoder-service.cjs'){assert.equal(hash,successor.historicalEncoderService.sha256);const aac=require(qualificationFile).AAC_SERVICE_SUCCESSOR;assert.deepEqual(aac.priorCurrentSource,successor.currentEncoderService);assert.equal(aac.nativeProof,null);assert.equal(actual,aac.currentSource.sha256);changed++;}else if(successor.uhdSourceDeltas[name]){assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);changed++;}else assert.equal(actual,hash,name);assert.equal(pins[name].sha256,actual,name);}assert.equal(changed,4);
+ const {SERVICE_SUCCESSOR: successor, AAC_SERVICE_SUCCESSOR: aac}=require(qualificationFile);
+ assert.equal(successor.nativeProof,null);
+ assert.deepEqual(aac.priorCurrentSource,successor.currentEncoderService);
+ assert.equal(aac.nativeProof,null);
+ // Preserve the AAC-era tuple (396ee0a). The reviewed Jobs commit 3fe20d4
+ // (encoder-service SHA-256 prefix c89a3288) and H.265 commit 6d00b6b changed
+ // these source bytes without updating or requalifying the historical evidence.
+ assert.deepEqual(aac.currentSource,{bytes:164039,sha256:'b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2'});
+ const currentEncoderService={bytes:164340,sha256:'e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33'};
+ let changed=0;
+ for(const [name,hash] of Object.entries(original)){
+  const bytes=fs.readFileSync(path.join(root,name));
+  const actual=crypto.createHash('sha256').update(bytes).digest('hex');
+  if(name==='src/encoder-service.cjs'){
+   assert.equal(hash,successor.historicalEncoderService.sha256);
+   assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
+   changed++;
+  }else if(name==='src/outputs.cjs'){
+   // The same reviewed H.265 deadline check changed the shared publication helper.
+   assert.equal(hash,'0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'});
+   changed++;
+  }else if(successor.uhdSourceDeltas[name]){
+   assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);
+   assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);
+   changed++;
+  }else assert.equal(actual,hash,name);
+  assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
+ }
+ assert.equal(changed,5);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

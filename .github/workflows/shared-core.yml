@@ -2,7 +2,7 @@ name: Shared core contracts (Linux and Windows)
 
 on:
   push:
-    branches: [blue/linux-development, codex/v0.7-candidate]
+    branches: [blue/linux-development, codex/v0.7-candidate, blue/v07-source-mirror]
   pull_request:
     branches: [blue/linux-development, codex/v0.7-candidate]
   workflow_dispatch:

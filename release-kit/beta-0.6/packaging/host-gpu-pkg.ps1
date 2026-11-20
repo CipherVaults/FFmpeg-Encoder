@@ -37,8 +37,8 @@ $base = $exe[0].DirectoryName.TrimEnd('\') + '\'
 $inv = Get-ChildItem -LiteralPath $exe[0].DirectoryName -Recurse -File -Force | ForEach-Object { '{0}|{1}|{2}' -f $_.FullName.Substring($base.Length).Replace('\', '/'), $_.Length, (Sha $_.FullName) } | Sort-Object -CaseSensitive
 if (($inv -join "`n") + "`n" -cne [IO.File]::ReadAllText((Join-Path $out 'receipts\inventory-staging.txt'))) { throw 'host-extracted ZIP differs from sandbox staging' }
 $node = Join-Path $work 'tools\electron-44.2.0\electron.exe'
-$env:ELECTRON_RUN_AS_NODE = '1'; $env:NODE_OPTIONS = ''
+$env:ELECTRON_RUN_AS_NODE = '1'; $env:ELECTRON_NO_ASAR = '1'; $env:NODE_OPTIONS = ''
 $o = & $node (Join-Path $PSScriptRoot 'gpu-smoke.cjs') --source (Join-Path $root 'src') --app $exe[0].FullName --work (Join-Path $root 'run') 2>&1 | Out-String
 $code = $LASTEXITCODE
-Remove-Item Env:ELECTRON_RUN_AS_NODE
+Remove-Item Env:ELECTRON_RUN_AS_NODE, Env:ELECTRON_NO_ASAR
 [ordered]@{ exit = $code; zip = $zip[0].Name; zipSha256 = (Sha $zip[0].FullName); files = @($inv).Count; output = $o.Trim() } | ConvertTo-Json -Depth 3

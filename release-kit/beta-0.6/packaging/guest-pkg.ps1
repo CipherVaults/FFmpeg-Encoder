@@ -44,7 +44,9 @@ function Inventory([string]$root, [string[]]$skip = @()) {
     if ($skip -notcontains $rel.Split('/')[0]) { '{0}|{1}|{2}' -f $rel, $_.Length, (Sha $_.FullName) } } | Sort-Object -CaseSensitive
 }
 $node = "$app\node_modules\electron\dist\electron.exe"
-$nodeEnv = @{ ELECTRON_RUN_AS_NODE = '1'; PATH = "C:\git\cmd;$env:SystemRoot\System32;$env:SystemRoot"; NODE_OPTIONS = ''; GIT_CONFIG_NOSYSTEM = '1'; GIT_CONFIG_GLOBAL = "$t\home\empty.gitconfig"; HOME = "$t\home"; GIT_TERMINAL_PROMPT = '0' }
+# ELECTRON_NO_ASAR: Electron-as-Node must treat .asar files as plain files, or the packager cannot
+# remove default_app.asar (EBUSY). The smokes launch the packaged app with their own clean environment.
+$nodeEnv = @{ ELECTRON_RUN_AS_NODE = '1'; ELECTRON_NO_ASAR = '1'; PATH = "C:\git\cmd;$env:SystemRoot\System32;$env:SystemRoot"; NODE_OPTIONS = ''; GIT_CONFIG_NOSYSTEM = '1'; GIT_CONFIG_GLOBAL = "$t\home\empty.gitconfig"; HOME = "$t\home"; GIT_TERMINAL_PROMPT = '0' }
 try {
   foreach ($d in "$out\logs", $t, "$t\home", 'C:\p') { [void][IO.Directory]::CreateDirectory($d) }
   [IO.File]::WriteAllText("$t\home\empty.gitconfig", '')

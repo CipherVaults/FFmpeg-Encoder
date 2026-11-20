@@ -5,8 +5,18 @@
 $ErrorActionPreference = 'Stop'
 $out = 'C:\out'; $t = 'C:\t'; $app = 'C:\p\app'; $tar = Join-Path $env:SystemRoot 'System32\tar.exe'
 $status = [ordered]@{ schema = 1; startedUtc = [DateTime]::UtcNow.ToString('o'); stage = 'start'; result = 'running' }
-function Log([string]$m) { Add-Content -LiteralPath "$out\guest-log.txt" -Value ('{0} {1}' -f [DateTime]::UtcNow.ToString('o'), $m) -Encoding UTF8 }
-function Save { $status | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath "$out\guest-status.json" -Encoding UTF8 }
+# The host may read these two files while the guest writes them, so open them sharing read/write
+# and retry briefly instead of failing on a transient lock.
+function WriteShared([string]$p, [string]$text, [IO.FileMode]$mode) {
+  $bytes = (New-Object Text.UTF8Encoding($false)).GetBytes($text)
+  for ($i = 0; $i -lt 40; $i++) {
+    try { $fs = [IO.File]::Open($p, $mode, [IO.FileAccess]::Write, [IO.FileShare]::ReadWrite); try { $fs.Write($bytes, 0, $bytes.Length) } finally { $fs.Dispose() }; return }
+    catch [IO.IOException] { Start-Sleep -Milliseconds 250 }
+  }
+  throw "cannot write $p"
+}
+function Log([string]$m) { WriteShared "$out\guest-log.txt" (('{0} {1}' -f [DateTime]::UtcNow.ToString('o'), $m) + "`r`n") ([IO.FileMode]::Append) }
+function Save { WriteShared "$out\guest-status.json" (($status | ConvertTo-Json -Depth 6) + "`r`n") ([IO.FileMode]::Create) }
 function Stage([string]$s) { $status.stage = $s; Save; Log "stage $s" }
 function Q([string]$a) { if ($a -ne '' -and $a -notmatch '[\s"]') { return $a }; return '"' + ($a -replace '(\\*)"', '$1$1\"' -replace '(\\+)$', '$1$1') + '"' }
 function Run([string]$exe, [string[]]$argv, [string]$name, [int]$ms = 600000, [hashtable]$envs = $null, [string]$cwd = $t) {

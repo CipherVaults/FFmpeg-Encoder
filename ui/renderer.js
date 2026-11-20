@@ -2223,7 +2223,7 @@
     if (isBusy() || cancelPending) return;
     preparedFolderPair = null;
     editing = true; dirty = true; selectedIds.clear(); reencodeChoices.clear(); uiError = ''; render();
-    activateWorkspace(currentOperation());
+    activateWorkspace(currentOperation(), true);
     if (!capabilities) command(loadCapabilities);
     byId(isRemux() ? 'remux-heading' : 'setup-heading').scrollIntoView({ block: 'start' });
   });

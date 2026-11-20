@@ -1425,6 +1425,31 @@ test('New batch navigates without erasing completed elapsed; actual Prepare clea
  assert.equal(h.byId('result-elapsed').textContent,'—');assert.equal(h.byId('result-elapsed-note').textContent,'');
 });
 
+for (const operation of ['encode', 'remux']) {
+  test(`New batch moves focus from completed Jobs to visible ${operation} setup without submitting work`, async () => {
+    for (const detail of [0, 1]) { // Browser keyboard/assistive activation, then a pointer click.
+      const h = await harness();
+      h.update({ revision: 2, phase: 'completed', operation, batchId: `done-${operation}`, items: [], counts: {}, elapsedSeconds: 22 });
+      await h.byId('tab-jobs').click();
+      const jobs = h.byId('workspace-jobs'), setup = h.byId(`workspace-${operation}`), button = h.byId('new-batch');
+      assert.equal(jobs.hidden, false);
+      button.focus();
+      assert.equal(h.document.activeElement, button);
+      const callsBefore = h.calls.length;
+      await button.emit('click', { detail });
+      assert.equal(jobs.hidden, true);
+      assert.equal(setup.hidden, false);
+      assert.equal(setup.tabIndex, 0, 'native tabpanel is programmatically focusable');
+      assert.equal(h.document.activeElement?.id, setup.id, 'focus must leave the button in the hidden Jobs panel');
+      for (let node = h.document.activeElement; node; node = node.parentElement) assert.equal(Boolean(node.hidden), false, node.id);
+      assert.equal(h.byId(`tab-${operation}`).getAttribute('aria-selected'), 'true');
+      assert.equal(h.byId(operation === 'remux' ? 'remux-heading' : 'setup-heading').scrolled, true);
+      assert.equal(h.byId('result-elapsed').textContent, '00:22');
+      assert.equal(h.calls.slice(callsBefore).some(call => /^(?:prepare|start|cancel|save)/i.test(call.name)), false);
+    }
+  });
+}
+
 test('internal remux-only projection initializes real renderer without encoder availability', async () => {
   const h = await harness({
     getCapabilities: async () => ({ profiles: [], recipes: [], vendorProfiles: [], versions: {}, backendDiscovery: { profiles: [], notices: ['Internal MP4 stream-copy only; encoder discovery not run.'] } }),

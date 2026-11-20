@@ -64,6 +64,103 @@ test('capability failure remains diagnosable with stderr and code', async t => {
   assert.equal(event.stderr.text, 'owned diagnostic tail');
 });
 
+for (const cancelled of [false, true]) {
+  test(`capability ${cancelled ? 'cancellation' : 'failure'} stays busy until its diagnostic settles and freezes elapsed`, async t => {
+    let now = Date.now();
+    t.mock.method(Date, 'now', () => now);
+    let releaseProbe, probeEntered, journalEntered, releaseJournal;
+    const probeReady = new Promise(resolve => { probeEntered = resolve; });
+    const journalReady = new Promise(resolve => { journalEntered = resolve; });
+    const holdJournal = new Promise(resolve => { releaseJournal = resolve; });
+    const h = await fixture(t, { capabilities: async ({ signal }) => {
+      await new Promise(resolve => {
+        releaseProbe = resolve;
+        if (cancelled) signal.addEventListener('abort', resolve, { once: true });
+        probeEntered();
+      });
+      throw Object.assign(new Error(cancelled ? 'Discovery cancelled' : 'Discovery failed'), { code: cancelled ? 'CANCELLED' : 'TOOL_FAILED' });
+    } });
+    const record = h.service.recordIncident.bind(h.service);
+    h.service.recordIncident = async event => {
+      if (event.reason === 'CAPABILITY_FAILED') { journalEntered(); await holdJournal; }
+      return record(event);
+    };
+
+    const work = h.service.getCapabilities();
+    const refused = assert.rejects(work, { code: 'CAPABILITIES_FAILED' });
+    let cancellation;
+    const updates = [];
+    h.service.on('update', state => updates.push(state));
+    let waitingPhase, waitingBusy, settled;
+    try {
+      await probeReady;
+      now += 250;
+      if (cancelled) cancellation = h.service.cancelCurrent();
+      else releaseProbe();
+      await journalReady;
+      waitingPhase = h.service.snapshot().phase;
+      waitingBusy = h.service.busy;
+      now += 1750;
+    } finally {
+      releaseProbe?.(); releaseJournal();
+      await refused; if (cancellation) await cancellation;
+      settled = h.service.snapshot();
+    }
+
+    assert.equal(waitingPhase, cancelled ? 'cancelling' : 'checking');
+    assert.equal(waitingBusy, true);
+    assert.equal(settled.phase, cancelled ? 'cancelled' : 'failed');
+    assert.equal(settled.elapsedSeconds, 2);
+    assert.equal(updates.at(-1).elapsedSeconds, 2);
+    assert.equal(h.service.busy, false);
+    now += 3000;
+    const refreshed = h.service.snapshot();
+    assert.equal(refreshed.batchId, settled.batchId);
+    assert.equal(refreshed.elapsedSeconds, settled.elapsedSeconds);
+    assert.ok((await h.records()).some(event => event.reason === 'CAPABILITY_FAILED'));
+  });
+}
+
+test('a late cancel waits for its own failed capability check, not the next retry', async t => {
+  const deferred = () => { let release; const promise = new Promise(resolve => { release = resolve; }); return { promise, release }; };
+  const failed = deferred(), finishFailure = deferred(), requested = deferred(), finishCancel = deferred();
+  const retried = deferred(), finishRetry = deferred();
+  let invocations = 0;
+  const h = await fixture(t, { capabilities: async ({ signal }) => {
+    if (++invocations === 1) throw Object.assign(new Error('First probe failed'), { code: 'TOOL_FAILED' });
+    retried.release(signal);
+    await finishRetry.promise;
+    return { profiles: [], versions: {} };
+  } });
+  const record = h.service.recordIncident.bind(h.service);
+  h.service.recordIncident = async event => {
+    if (event.reason === 'CAPABILITY_FAILED') { failed.release(); await finishFailure.promise; }
+    const result = await record(event);
+    if (event.reason === 'CANCELLATION_REQUESTED') { requested.release(); await finishCancel.promise; }
+    return result;
+  };
+  const first = assert.rejects(h.service.getCapabilities(), { code: 'CAPABILITIES_FAILED' });
+  let cancel, retry, retrySignal, winner;
+  try {
+    await failed.promise;
+    cancel = h.service.cancelBatch({ batchId: h.service.snapshot().batchId });
+    await requested.promise;
+    finishFailure.release();
+    await first;
+    assert.equal(h.service.snapshot().phase, 'failed');
+    retry = h.service.getCapabilities();
+    retrySignal = await retried.promise;
+    finishCancel.release();
+    winner = await Promise.race([cancel.then(() => 'owned'), new Promise(resolve => setImmediate(() => resolve('blocked by retry')))]);
+    assert.equal(h.service.snapshot().phase, 'checking');
+    assert.equal(retrySignal.aborted, false);
+  } finally {
+    finishFailure.release(); finishCancel.release(); finishRetry.release();
+    await Promise.allSettled([first, cancel, retry]);
+  }
+  assert.equal(winner, 'owned');
+});
+
 test('concurrent capability requests await device discovery and receive detached descriptions only', async t => {
   let entered, release;
   const entering = new Promise(resolve => { entered = resolve; });

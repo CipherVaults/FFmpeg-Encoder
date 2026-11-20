@@ -608,12 +608,16 @@ class EncoderService extends EventEmitter {
         this.#vendorBindings.clear();
         this.nativeCapabilities = null;
         await this.recordRuntimeVersions(error.runtimeVersions);
-        this.state.phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
+        const phase = error.code === 'CANCELLED' ? 'cancelled' : 'failed';
         const failure = native ? nativeRefusal(error) : null;
-        this.state.error = failure ? failure.reason : error.message;
+        const reason = failure ? failure.reason : error.message;
         // As for every native event, stderr keeps its bounded tail; the projection withholds its text.
-        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: this.state.error,
+        await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_FAILED', severity: 'error', message: reason,
           ...diagnosticStderr(error), context: { code: failure ? failure.reasonCode : error.code, ...(failure ? { nativePrivate: failure.nativePrivate } : {}) } });
+        // Stay busy until bookkeeping settles, then publish one terminal time.
+        this.state.error = reason;
+        this.finishedAt = Date.now();
+        this.state.phase = phase;
       } finally { this.emitState(); }
     })();
     await this.taskPromise;
@@ -2352,11 +2356,12 @@ class EncoderService extends EventEmitter {
       finally { this.preparedCancellation = null; }
     }
     if (this.busy) {
+      const settlement = this.taskPromise;
       this.state.phase = 'cancelling';
       this.controller.abort();
       this.emitState();
       await this.recordIncident({ stage: 'cancellation', reason: 'CANCELLATION_REQUESTED' });
-      await this.taskPromise;
+      await settlement;
     }
     // A close or renderer loss can arrive during a bounded preference write.
     // Let the exact owned write finish before application shutdown.

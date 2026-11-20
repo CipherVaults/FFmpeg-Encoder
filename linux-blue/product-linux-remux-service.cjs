@@ -83,6 +83,9 @@ function admit(assessment,input,{proportionalIsobmff=false,movSourceEnvelope=nul
     throw new ToolError('REMUX_QUALIFICATION_REQUIRED', 'MPEG-TS to MP4 is not yet qualified in this Linux build. No copy was started.');
   }
   assert(assessment.inputFamily==='isobmff' && ['mp4','matroska','mov'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
+  if (assessment.target==='mp4' && assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===3 && v.length===1 && a.length===2 && a.every(s=>s.codec_name==='aac')) {
+    throw new ToolError('REMUX_MULTI_AUDIO_NOT_QUALIFIED', 'This MP4 has two AAC audio tracks. Verified MP4 copy in this Linux build currently requires one 48 kHz stereo AAC track. No copy was started and no track was omitted.');
+  }
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');
   if(assessment.target==='mov'&&movSourceEnvelope==='h264-aac-lc-48k-stereo-v2'){

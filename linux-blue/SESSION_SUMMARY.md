@@ -1,3 +1,13 @@
+# Session: Explain the existing two-track Linux copy boundary
+
+- **Scope:** November 20, 2026 Cairo, based on checkpoint 112 after independent review of the sealed refusal-only patch. No route or setting was activated.
+- **Evidence:** The normal Prepare retained baseline single-track Ready; mixed and equal-shaped two-track inputs still refuse with no plan or published output. The new user-facing reason replaces the assertion. One ffprobe per scenario, all retired. No native Start claim.
+- **Source gates:** Updated only the proper active service hash and the two affected inert package manifest entries. All 151 active closure entries and the original 081 qualification semantics were independently checked.
+- **Tests:** Lead exact local source run: 229 syntax checks; 491 shared pass and three Windows-only skips; 153 additional Linux pass. Retain earlier failed attempts and separate worker raw evidence. No Windows or packaging release claim.
+- **Continuation:** Keep the separately reviewed two-track issuer, real generation, stage ownership and lifecycle as qualification prerequisites. This commit does not add them.
+
+---
+
 # Session: regular v0.7 Windows and Linux source CI
 
 - **Scope:** November 20, 2026 Cairo; base checkpoint 111. Enroll the source mirror in the existing read-only Windows 2022 and Ubuntu 24.04 matrix. Add portable explicit tests for timing, audio mapping, and selected shared Windows contracts; native qualification stays separate.

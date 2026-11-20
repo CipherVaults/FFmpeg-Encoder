@@ -55,6 +55,20 @@ test('actual shared ordinary and remux preparation cross routes without retainin
  await service.cancelCurrent();assert.equal(service.plan,null);const repeated=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(repeated.items[0].status,'ready',repeated.items[0].reason);assert.equal(service.operationDeadlineMs,120000);assert.equal(typeof service.ordinaryJobGuard,'function');assert(h.generations.length>=4);
 });
 
+test('Linux legacy MP4 ticket explains a two-AAC refusal without publishing, selecting or dropping either track',async t=>{
+  const {service,h,root}=await setup(t);const i=path.join(root,'input'),o=path.join(root,'output');await fsp.mkdir(i);await fsp.mkdir(o);
+  const src=path.join(i,'two.mp4'),probe=sourceProbe(),extra=structuredClone(probe.streams[1]);
+  extra.index=2;extra.id='0x3';extra.disposition={...extra.disposition,default:0};extra.tags={...extra.tags,language:'ara'};
+  probe.streams.push(extra);probe.format.nb_streams=3;probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach((s,i)=>s.id=String(i+1));
+  await fsp.writeFile(src,require('./helpers/mov-fixture.cjs').playbackFixture(probe));probe.format.size=String((await fsp.stat(src)).size);const before=structuredClone(probe);
+  service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};
+  const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+  await service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target:'mp4'});await service.taskPromise;
+  const snap=service.snapshot(),item=snap.items[0];assert.equal(item.status,'unsupported');assert.equal(item.reasonCode,'REMUX_MULTI_AUDIO_NOT_QUALIFIED');
+  assert.match(item.reason,/two AAC audio tracks/i);assert.match(item.reason,/no track was omitted/i);assert(!item.reason.includes('assert('));
+  assert.equal(service.plan?.entries?.has(item.id)??false,false);assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(probe,before);assert.deepEqual(await fsp.readdir(o),[]);
+});
+
 for (const scenario of ['valid TS','malformed TS','qualified MP4']) {
  test('Linux Remux Prepare: '+scenario,async t=>{
   const {service,h,root}=await setup(t);

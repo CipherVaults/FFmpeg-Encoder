@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: readable two-track refusal
+
+- Regular Linux Prepare now explains that verified copy requires one compatible audio track instead of leaking a source assertion. Single-track remains Ready; both tested kinds of two-track source remain Unsupported and create no prepared entry or output.
+- Exact independent native Prepare review and final local source suite passed in scope. The 081 one-track qualification and the supported-route boundary are unchanged. A real separate two-track qualification is still required; no provisional activation or publishing.
+
 ## Latest reviewed infrastructure slice: paired hosted source checks
 
 - The read-only shared source workflow now selects the dedicated v0.7 source mirror for push events and explicitly includes portable recent audio and shared Windows contract tests. Existing workflow pins, other refs, and release workflows stay unchanged.

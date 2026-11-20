@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),fsp=require('node:fs/promises'),path=require('node:path'),os=require('node:os'),Module=require('node:module');
 function harness({holdOpen=false,failClose=false,genuineSelector=false,matroska=false,mov=false,movV2=false}={}){
  const filename=require.resolve('../linux-blue/product-linux-unified-service.cjs');const m=new Module(filename,module);m.filename=filename;m.paths=Module._nodeModulePaths(path.dirname(filename));const original=m.require.bind(m);const generations=[];let releaseOpen,entered;const opened=new Promise(r=>entered=r);
- const open=async(_root,_state,_onChild,selector)=>{if(holdOpen&&generations.length){entered();await new Promise(r=>releaseOpen=r);}let phase=null;const gen={closed:false,runCalls:0,run:async()=>{gen.runCalls++;throw Error('No media execution in fixture');},observer:{observe:async()=>Object.freeze({}),close:async()=>{},snapshot:()=>({...(genuineSelector?{environment:null}:{}),runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13'})},current:async()=>assert(!gen.closed),bindMeasured(selection,bindings){const q=selector.requireCurrent(selection,bindings());return Object.freeze({q,bindings});},bindRemux(owner,selection,bindings){const q=require('../src/remux-operation.cjs').RemuxOperations.prototype.requireCurrent.call(owner,selection,bindings());return Object.freeze({q,bindings});},begin(route,kind,controller,control){assert(!phase);phase={route,kind,controller,control};gen.lastControl=control;},settle(){phase=null;},abort(){phase?.controller.abort();},assertCurrent(){assert(phase&&!phase.controller.signal.aborted);},get signal(){return phase.controller.signal;},snapshot(){return {closed:gen.closed,phase:phase?.kind||null,live:0};},close:async()=>{gen.closed=true;if(failClose)throw Error('close-failure');}};generations.push(gen);return gen;};
+ const open=async(_root,_state,_onChild,selector)=>{if(holdOpen&&generations.length){entered();await new Promise(r=>releaseOpen=r);}let phase=null;const gen={closed:false,runCalls:0,observeCalls:0,run:async()=>{gen.runCalls++;throw Error('No media execution in fixture');},observer:{observe:async()=>{gen.observeCalls++;return Object.freeze({});},close:async()=>{},snapshot:()=>({...(genuineSelector?{environment:null}:{}),runtimeIdentity:'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13'})},current:async()=>assert(!gen.closed),bindMeasured(selection,bindings){const q=selector.requireCurrent(selection,bindings());return Object.freeze({q,bindings});},bindRemux(owner,selection,bindings){const q=require('../src/remux-operation.cjs').RemuxOperations.prototype.requireCurrent.call(owner,selection,bindings());return Object.freeze({q,bindings});},begin(route,kind,controller,control){assert(!phase);phase={route,kind,controller,control};gen.lastControl=control;},settle(){phase=null;},abort(){phase?.controller.abort();},assertCurrent(){assert(phase&&!phase.controller.signal.aborted);},get signal(){return phase.controller.signal;},snapshot(){return {closed:gen.closed,phase:phase?.kind||null,live:0};},close:async()=>{gen.closed=true;if(failClose)throw Error('close-failure');}};generations.push(gen);return gen;};
  const replacements={'./product-linux-qualification.cjs':{loadQualification:()=>genuineSelector?original('./product-linux-qualification.json'):({})},'./product-linux-remux-qualification.cjs':{loadRemuxQualification:()=>({policyIdentity:'fixture-internal',evidenceId:'fixture-audit',matroska:matroska?{evidenceId:'fixture-mkv'}:null,mov:mov?{evidenceId:'fixture-mov',sourceEnvelope:movV2?'h264-aac-lc-48k-stereo-v2':'h264-aac-lc-48k-stereo-v1'}:null})},'./product-linux-service.cjs':{createProductSelector:()=>({invalidate(){},orientationQualification(){return {};},select(){throw Error('No measured authority from fixture');}})},'./product-linux-unified-runtime.cjs':{openUnifiedGeneration:open}};
  if(genuineSelector)delete replacements['./product-linux-service.cjs'];
  m.require=id=>replacements[id]||original(id);m._compile(fs.readFileSync(filename,'utf8'),filename);return {...m.exports,generations,opened,release:()=>releaseOpen()};
@@ -54,6 +54,75 @@ test('actual shared ordinary and remux preparation cross routes without retainin
  await assert.rejects(service.startBatch({planId:ordinary.planId,fileIds:[ordinary.items[0].id]}));
  await service.cancelCurrent();assert.equal(service.plan,null);const repeated=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(repeated.items[0].status,'ready',repeated.items[0].reason);assert.equal(service.operationDeadlineMs,120000);assert.equal(typeof service.ordinaryJobGuard,'function');assert(h.generations.length>=4);
 });
+
+for (const scenario of ['valid TS','malformed TS','qualified MP4']) {
+ test('Linux Remux Prepare: '+scenario,async t=>{
+  const {service,h,root}=await setup(t);
+  const input=path.join(root,'input'),output=path.join(root,'output');
+  await fsp.mkdir(input);await fsp.mkdir(output);
+  const isTs=scenario!=='qualified MP4',name=isTs?'source.ts':'source.mp4',file=path.join(input,name);
+  const probe=sourceProbe();
+  if (isTs) {
+   Object.assign(probe.format,{format_name:'mpegts',start_time:'1.4',nb_programs:1,tags:{}});
+   probe.streams.forEach((s,i)=>Object.assign(s,{id:'0x10'+i,time_base:'1/90000',start_pts:126000,start_time:'1.4',duration_ts:180000,tags:{}}));
+   probe.streams[1].codec_tag_string='[15][0][0][0]';
+   probe.programs=[{program_id:1,program_num:1,pmt_pid:4096,pcr_pid:256,nb_streams:2,streams:[{index:0},{index:1}]}];
+   if (scenario==='malformed TS') {probe.programs=[];probe.format.nb_programs=0;}
+   // The real discovery and Prepare own this file, but its media probe is inert.
+   await fsp.writeFile(file,'Not transport bytes: inert metadata-gate fixture.');
+  } else {
+   probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach((s,i)=>s.id=String(i+1));
+   await fsp.writeFile(file,require('./helpers/mov-fixture.cjs').playbackFixture(probe));
+  }
+  probe.format.size=String((await fsp.stat(file)).size);
+  const probeBefore=structuredClone(probe);
+  const {assessRemux}=require('../src/remux-contract.cjs');
+  const assessment=assessRemux({probe,sourceFingerprint:'a'.repeat(64),
+    request:{fileId:'fixture',identityRevision:0,draftRevision:0,operation:'remux',target:'mp4',range:null,omissionRequestIds:[]}});
+  if (scenario!=='malformed TS') {
+   assert.equal(assessment.inputFamily,isTs?'mpegts':'isobmff');
+   assert.equal(assessment.status,'qualification-required');assert.deepEqual(assessment.blockers,[]);
+  } else assert.equal(assessment.blockers[0].code,'REMUX_TS_PROGRAM');
+  const inspections=[];
+  service.inspect=async source=>{inspections.push(source);return {probe:structuredClone(probe),duration:2,summary:{}};};
+  service.storageEligibility={check:async()=>({eligible:true})};
+  const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+  await service.prepareRemuxBatch({inputFolderId:i.id,outputFolderId:o.id,target:'mp4'});
+  await service.taskPromise;
+  const prepared=service.snapshot(),item=prepared.items[0];
+  assert.deepEqual(inspections,[file]);assert.deepEqual(probe,probeBefore);
+  assert.deepEqual(prepared.remuxSupport.targets,['mp4']);assert.equal(prepared.items.length,1);assert.equal(item.name,name);
+  assert.equal(service.executionBinding,null);assert(h.generations.every(g=>g.runCalls===0));
+  assert.deepEqual(await fsp.readdir(output),[]);
+  if (!isTs) {
+   assert.equal(prepared.phase,'ready');assert.equal(item.status,'ready',item.reason);assert.equal(item.remux.status,'qualified');
+   const entry=service.plan.entries.get(item.id);
+   assert.equal(service.plan.entries.size,1);assert(entry.operationRuntimeToken);assert.equal(entry.transportPreparation,null);
+   assert.equal(service.generation.observeCalls,1);
+   const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
+   assert.equal(selected.qualification.inputFamily,'isobmff');assert.equal(selected.qualification.cellId,'internal-isobmff-mp4-081');
+   assert(entry.preparedArgs.includes('copy'));return;
+  }
+  assert.equal(item.status,'unsupported',item.reason);assert.equal(item.remux.status,'blocked');
+  assert.equal(service.plan.entries.size,0);assert.equal(service.generation.observeCalls,0);
+  const plan=service.plan,generation=service.generation,task=service.taskPromise;
+  await assert.rejects(service.startBatch({planId:prepared.planId,fileIds:[item.id]}));
+  assert.equal(service.plan,plan);assert.equal(service.taskPromise,task);assert.equal(service.generation,generation);
+  assert.equal(generation.snapshot().phase,null);assert.equal(service.executionBinding,null);assert(h.generations.every(g=>g.runCalls===0));
+  assert.deepEqual(await fsp.readdir(output),[]);
+  if (scenario==='malformed TS') {
+   assert.equal(item.reasonCode,'REMUX_TS_PROGRAM',item.reason);
+   assert.match(item.reason,/exactly one known program/);
+   assert.deepEqual(item.remux.blockers,assessment.blockers);
+  } else {
+   const message='MPEG-TS to MP4 is not yet qualified in this Linux build. No copy was started.';
+   assert.equal(item.reasonCode,'REMUX_QUALIFICATION_REQUIRED',item.reason);
+   assert.equal(item.reason,message);
+   assert.deepEqual(item.remux.blockers,[{code:item.reasonCode,message,streamIndex:null}]);
+  }
+ });
+}
+
 test('generation begin refusal cannot publish false running state or replace controller/task',async t=>{
  const {service}=await setup(t);service.state.phase='ready';const before=service.snapshot(),controller=service.controller,task=service.taskPromise;let emissions=0;service.on('update',()=>emissions++);
  service.generation.begin=()=>{throw Error('retired generation');};assert.throws(()=>service.begin('running'),/retired generation/);

@@ -10,7 +10,7 @@ const { getRemuxAssessmentSource } = require('../src/remux-contract.cjs');
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { EVIDENCE_BUDGET, EXECUTION_BUDGET_MS } = require('../src/operation-controls.cjs');
-const { runTool } = require('../src/process-runner.cjs');
+const { runTool, ToolError } = require('../src/process-runner.cjs');
 const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
 const { loadRemuxQualification } = require('./product-linux-remux-qualification.cjs');
 const RUNTIME = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
@@ -79,6 +79,9 @@ function remuxPolicies(q){
 function remuxSupport(q){return {targets:remuxPolicies(q).map(p=>p.target),notice:'Internal MP4 source Full stream copy: H264 SDR and stereo48kHz AAC-LC, one input. MKV requires CFR30. Unified MOV with reviewed v2 evidence supports CFR30/60 and VFR up to60; complete per-output cadence verification remains mandatory. MOV requires default tracks and unspecified language/default handlers; other functional metadata remains unavailable. Descriptive tags use shared warning semantics. No automatic conversion; native evidence is artifact-specific.'};}
 function admit(assessment,input,{proportionalIsobmff=false,movSourceEnvelope=null}={}) {
   const p=getRemuxAssessmentSource(assessment), v=p.streams.filter(s=>s.codec_type==='video'), a=p.streams.filter(s=>s.codec_type==='audio');
+  if (assessment.inputFamily==='mpegts' && assessment.target==='mp4') {
+    throw new ToolError('REMUX_QUALIFICATION_REQUIRED', 'MPEG-TS to MP4 is not yet qualified in this Linux build. No copy was started.');
+  }
   assert(assessment.inputFamily==='isobmff' && ['mp4','matroska','mov'].includes(assessment.target) && path.extname(input).toLowerCase()==='.mp4');
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');

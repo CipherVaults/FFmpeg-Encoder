@@ -525,8 +525,8 @@ const SOURCE_PINS = {
     "sha256": "ca3f2895d10ff045c96a7575c79e1f0adec05c95f31ed33c86a57d7baf5c7c0e"
   },
   "linux-blue/product-linux-remux-service.cjs": {
-    "bytes": 15634,
-    "sha256": "cd3b091a5a18ac6b04bfe15c8be667ee963fccce00e10ecedbdd3bf8db236bfc"
+    "bytes": 15859,
+    "sha256": "d5abeabae13e369c3d7cf48762d231e8918e74ffb8f422cdd4b78adbf69fc010"
   },
   "linux-blue/product-linux-remux-shell.cjs": {
     "bytes": 4810,

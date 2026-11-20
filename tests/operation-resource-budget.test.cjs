@@ -103,3 +103,9 @@ test('AAC forecasts bounded decoded tail and stereo float32 calibration bytes wi
     {sourceExtentUs:Number.MAX_SAFE_INTEGER},{sourceExtentUs:3000000000,selectedExtentUs:3000000000}])
     assert.throws(()=>deriveCfrAacResources({...o,...patch}),{code:'OPERATION_RESOURCE_CAPACITY'});
 });
+
+test('one more source byte refuses at the signed Node timer boundary without clamping', () => {
+  const options = { sourceExtentUs: 1000000, selectedExtentUs: 1000000, sourceBytes: '18013618301829' };
+  assert.equal(deriveCfrFlacResources(options).executionBudgetMs, 2147483640);
+  assert.throws(() => deriveCfrFlacResources({ ...options, sourceBytes: '18013618301830' }), { code: 'OPERATION_RESOURCE_CAPACITY' });
+});

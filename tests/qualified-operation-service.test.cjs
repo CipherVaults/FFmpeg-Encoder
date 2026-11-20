@@ -488,3 +488,21 @@ test('a committed destination remains publication-uncertain when its failed obse
   const failure = (await h.events()).find(event => event.reason === 'JOB_FAILED');
   assert.equal(failure.context.code, 'PUBLICATION_UNCERTAIN');
 });
+
+test('shared publication validates a main-owned guard only after the last child; expiry retains the staged output',async t=>{
+ const h=await harness(t),plan=await h.prepare();requireReady(plan);
+ const entry=h.service.plan.entries.get(plan.items[0].id);
+ let checked=0;
+ h.service.publicationCurrentness=owned=>{
+  assert.equal(owned,entry);
+  return ()=>{
+   checked++;assert.equal(h.data.active,0);
+   throw new ToolError('OPERATION_DEADLINE','Synthetic owner expired immediately before the exclusive publication.');
+  };
+ };
+ const result=await h.finish(plan),item=result.items[0];
+ assert.equal(checked,1);assert.equal(item.status,'failed');assert.equal(item.reasonCode,'OPERATION_DEADLINE');
+ assert.equal(item.outputDisposition.published,false);assert.equal(item.outputDisposition.validationCurrent,true);
+ assert.equal(await fs.readFile(item.outputDisposition.file,'utf8'),'synthetic encoded output bytes');
+ await absent(h.destination);assert.deepEqual(await fs.readFile(h.source),h.sourceBytes);
+});

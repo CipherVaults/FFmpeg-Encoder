@@ -504,3 +504,17 @@ test('cancellation during copy verification closes the read handle and retains b
   assert.equal(await fs.readFile(destination, 'utf8'), 'validated new media');
   assert.equal(await fs.readFile(stage.file, 'utf8'), 'validated new media');
 });
+
+test('wrong publication guard cannot link; current or absent guards still preserve an existing destination',async t=>{
+  const {stage,destination}=await fixture(t);await markStageValidated(stage);
+  const data='existing no-overwrite winner';await fs.writeFile(destination,data,{flag:'wx'});
+  let links=0;
+  const link=(...args)=>{links++;return fs.link(...args);};
+  for(const assertCurrent of [true,()=>true,async()=>{}])
+    await assert.rejects(publishOutput(stage,destination,{link,assertCurrent}),{code:'INVALID_PUBLICATION_GUARD'});
+  assert.equal(links,0);
+  let checks=0;
+  assert.equal(await publishOutput(stage,destination,{link,assertCurrent:()=>{checks++;}}),false);
+  assert.equal(await publishOutput(stage,destination,{link}),false);
+  assert.equal(checks,1);assert.equal(links,2);assert.equal(await fs.readFile(destination,'utf8'),data);
+});

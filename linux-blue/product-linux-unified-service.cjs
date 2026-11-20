@@ -2,6 +2,8 @@
 const {randomUUID}=require('node:crypto');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs/promises');
 const {EncoderService}=require('../src/encoder-service.cjs');
+const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
+const {fingerprintEncodeSource}=require('../src/encode-operation.cjs');
 const {OutputAccess}=require('../src/output-access.cjs');
 const {RemuxOperations}=require('../src/remux-operation.cjs');
 const {remuxProbeFingerprint}=require('../src/remux-validation.cjs');
@@ -70,11 +72,12 @@ class UnifiedService extends EncoderService{
     const epoch=this.epoch;this.currentEpoch(epoch);super.requireIdle();
     await this.taskPromise;this.currentEpoch(epoch);
     if(this.generation||this.operationStoragePromise){await this.retireGeneration();this.currentEpoch(epoch);}
-    const fresh=await openUnifiedGeneration(this.configuration.runtimeRoot,this.stateDir,this.configuration.onChild);
+    const selector=createProductSelector(this.configuration.measured);
+    const fresh=await openUnifiedGeneration(this.configuration.runtimeRoot,this.stateDir,this.configuration.onChild,selector);
     try{this.currentEpoch(epoch);await fresh.current();this.currentEpoch(epoch);}catch(e){await fresh.close();throw e;}
     this.generation=fresh;this.route=route;this.executionBinding=null;
     this.operationRuntime=fresh.observer;
-    this.operationQualifications=createProductSelector(this.configuration.measured);
+    this.operationQualifications=selector;
     const q=this.configuration.remux;
     this.remuxOperations=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope);
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;
@@ -84,15 +87,24 @@ class UnifiedService extends EncoderService{
   begin(phase){
     assert(this.generation);const controller=new AbortController();
     // Admit the private owner first: refusal must not emit a false busy state.
-    let phaseRoute=phase==='checking'?'discovery':this.route;
-    if(this.route==='h265'){if(phase==='running'){const b=this.executionBinding;assert(b&&b.planId===this.plan?.id&&b.generation===this.generation&&this.plan.entries.get(b.fileId)===b.entry,'Execution binding is stale');phaseRoute=b.kind;}else if(phase==='preparing')phaseRoute='measured';}
-    let remuxControl=null;
-    if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-isobmff');b.requireCurrent();remuxControl=b.control;}
-    this.generation.begin(phaseRoute,phase,controller,remuxControl);
+    let phaseRoute=phase==='checking'?'discovery':this.route,control=null;
+    if(this.route==='h265'){if(phase==='running'){const b=this.executionBinding;assert(b&&b.planId===this.plan?.id&&b.generation===this.generation&&this.plan.entries.get(b.fileId)===b.entry,'Execution binding is stale');phaseRoute=b.kind;control=b.control;}else if(phase==='preparing')phaseRoute='measured';}
+    if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-isobmff');b.requireCurrent();control=b.control;}
+    this.generation.begin(phaseRoute,phase,controller,control);
     // Same shared begin state transition, with the already admitted controller.
     this.controller=controller;this.preparationFailure=null;this.startedAt=Date.now();this.finishedAt=0;
     this.state={...this.state,phase,batchId:randomUUID(),progress:null,preparation:null,error:null};
     this.emitState();return controller.signal;
+  }
+  publicationCurrentness(entry,qualified){
+    if(this.route!=='h265'||qualified?.proportional!==true)return undefined;
+    assert(isProportionalFamilySelection(qualified,entry.operationPlan),'Measured publication selection is no longer current');
+    const binding=this.executionBinding;
+    assert(binding?.kind==='measured'&&binding.entry===entry&&binding.control,'Measured publication owner is missing or changed');
+    return ()=>{
+      assert(this.executionBinding===binding&&this.generation===binding.generation,'Measured publication owner is retired');
+      binding.generation.assertCurrent(binding.control);
+    };
   }
   async finishPreparationReceipt(options){try{return await super.finishPreparationReceipt(options);}finally{this.generation?.settle();}}
   async execute(selected,signal){try{return await super.execute(selected,signal);}finally{try{this.generation?.settle();}finally{if(['h265','remux'].includes(this.route)){this.executionBinding=null;this.ordinaryJobGuard=null;}}}}
@@ -174,8 +186,26 @@ class UnifiedService extends EncoderService{
       const fileId=request.fileIds[0],item=this.state.items.find(x=>x.id===fileId),entry=this.plan.entries.get(fileId);assert(item&&['ready','conflict'].includes(item.status)&&entry);
       let kind;if(entry.operationPlan?.compatibilityPath){H265.requireEntry(this,item);kind='h265-ordinary';}else{this.requireMeasuredEntry(entry);kind='measured';}
       this.requirePreparedEncodeControls(entry);
-      assert(!this.executionBinding);this.executionBinding=Object.freeze({planId:this.plan.id,generation:this.generation,fileId,entry,kind});
-      const generation=this.generation;this.ordinaryJobGuard=kind==='h265-ordinary'?facts=>this.ordinaryGuard(facts,generation):null;
+      const plan=this.plan,generation=this.generation;
+      let control=null;
+      assert(!this.executionBinding);
+      if(kind==='measured'){
+        const selector=this.operationQualifications,operationPlan=entry.operationPlan,selection=entry.qualificationSelection;
+        const observed=entry.operationRuntimeToken;
+        const bindings=()=>{
+          assert(this.plan===plan&&this.generation===generation&&this.operationQualifications===selector&&this.operationRuntime===generation.observer
+            &&plan.entries.get(fileId)===entry&&entry.operationPlan===operationPlan&&entry.qualificationSelection===selection
+            &&entry.operationRuntimeToken===observed&&!this.cancellation&&!this.shuttingDown,'Measured execution binding retired');
+          const observation=generation.observer.snapshot(observed);assert.equal(observation.runtimeIdentity,this.runtimeIdentity);
+          return {...entry.qualificationBindings,plan:operationPlan,settings:plan.settings,sourceIdentity:entry.fingerprint,
+            sourceProbeFingerprint:fingerprintEncodeSource(entry.inspection.probe),runtimeIdentity:this.runtimeIdentity,
+            ...this.requirePreparedEncodeControls(entry),environment:observation.environment};
+        };
+        const selected=selector.requireCurrent(selection,bindings());
+        if(isProportionalFamilySelection(selected,operationPlan))control=generation.bindMeasured(selection,bindings);
+      }
+      this.executionBinding=Object.freeze({planId:plan.id,generation,fileId,entry,kind,control});
+      this.ordinaryJobGuard=kind==='h265-ordinary'?facts=>this.ordinaryGuard(facts,generation):null;
     }
     else {
       assert.equal(this.state.phase,'ready');assert.equal(request.planId,this.plan.id);

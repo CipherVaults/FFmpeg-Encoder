@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 164244,
-    "sha256": "c89a3288991353469dc5af0b464706409cf3699a7b9a6d0e97075af0314057c1"
+    "bytes": 164340,
+    "sha256": "e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -325,8 +325,8 @@ const SOURCE_PINS = {
     "sha256": "52e5ab6793ce5ea493fcc922d49dad3d25202cff50aaaca953a919bb5b1d8d0c"
   },
   "src/outputs.cjs": {
-    "bytes": 22987,
-    "sha256": "0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96"
+    "bytes": 23755,
+    "sha256": "37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1"
   },
   "src/preferences.cjs": {
     "bytes": 10834,
@@ -545,12 +545,12 @@ const SOURCE_PINS = {
     "sha256": "ac2cc8d75a41a5fdc923f2816f92fdc8c29f11cc6aea7b6999d5d12238a2dad2"
   },
   "linux-blue/product-linux-unified-runtime.cjs": {
-    "bytes": 6681,
-    "sha256": "9e0ae1f278c8be7f62a2d1ba3333f02eb1f21163d85dc1c6d15abea3371222ad"
+    "bytes": 8920,
+    "sha256": "12046b5d4a4d59a182cb826923ab9681e23c6f97ba24b724d2a51c757af07b47"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 24334,
-    "sha256": "b5423d62298a427b45dd4b85451fcd0a1fb1e4e695243ddd71e5ee731e104a01"
+    "bytes": 26509,
+    "sha256": "74d634999209bbe19608f679c1dc436c64df40d8f55a9b9454dbbd93ff17e790"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,

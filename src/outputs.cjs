@@ -178,14 +178,16 @@ async function hashBoundFile(file, { expected, signal, onProgress, progressStage
 // Opt-in main-owned remux path. Keep native COPYFILE_EXCL for every existing
 // caller; this bounded copy reports actual writes and polls cancellation. An
 // uncertain newly-created destination is retained, never deleted or approved.
-async function copyWithProgress(file, destination, expected, signal, onProgress) {
+async function copyWithProgress(file, destination, expected, signal, onProgress, assertCurrent) {
   const source = await fs.open(file, 'r'); let output, created = false, primary;
   try {
     const before = await source.stat({ bigint: true });
     if (!regularSingleFile(before) || !sameContent(before, expected)) throw failure('COPY_VERIFICATION_CHANGED', 'The validated copy source changed.');
     const size = Number(before.size);
     if (!Number.isSafeInteger(size)) throw failure('COPY_VERIFICATION_LIMIT', 'The completed file is too large for safe copy offsets.');
-    checkCopyCancellation(signal); output = await fs.open(destination, 'wx+'); created = true;
+    checkCopyCancellation(signal);
+    if (assertCurrent) assertPublishStart(signal, assertCurrent);
+    output = await fs.open(destination, 'wx+'); created = true;
     const bound = await output.stat({ bigint: true });
     if (!regularSingleFile(bound) || bound.size !== 0n) throw failure('COPY_VERIFICATION_CHANGED', 'The exclusive copy destination is not an ordinary empty file.');
     const buffer = Buffer.alloc(COPY_VERIFY_BYTES); let position = 0;
@@ -324,15 +326,27 @@ async function cleanupStage(stage, { protectedIdentities = new Set() } = {}) {
   return { retained: false };
 }
 
-async function publishOutput(stage, destination, { signal, link = fs.link, atomicOnly = false, onProgress } = {}) {
+// A monotonic owner check here can deny a new exclusive operation after all
+// earlier awaits. It cannot undo a native write already submitted.
+function assertPublishStart(signal, assertCurrent) {
+  if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
+  if (assertCurrent === undefined) return;
+  if (assertCurrent() !== undefined)
+    throw failure('INVALID_PUBLICATION_GUARD', 'Publication requires a synchronous main-owned check.');
+  if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
+}
+
+async function publishOutput(stage, destination, { signal, link = fs.link, atomicOnly = false, onProgress, assertCurrent } = {}) {
   if (onProgress !== undefined && typeof onProgress !== 'function') throw failure('INVALID_PUBLICATION_PROGRESS', 'Publication progress requires a main-owned callback.');
+  if (assertCurrent !== undefined && typeof assertCurrent !== 'function')
+    throw failure('INVALID_PUBLICATION_GUARD', 'Publication requires a synchronous main-owned check.');
   const record = recordOf(stage);
   if (record.retentionReason && !record.validated) {
     throw failure('STAGE_NOT_VALIDATED', 'A retained evidence-incomplete output cannot be published before successful validation.');
   }
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
   await requireSealed(stage, record);
-  if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
+  assertPublishStart(signal, assertCurrent);
   let linked = false;
   try {
     // On NTFS this atomically creates a second name for the validated file. An
@@ -371,9 +385,9 @@ async function publishOutput(stage, destination, { signal, link = fs.link, atomi
   // publication; cancellation after success never deletes a completed output.
   if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
   await requireSealed(stage, record);
-  if (signal?.aborted) throw failure('CANCELLED', 'Encoding cancelled before publication.');
+  assertPublishStart(signal, assertCurrent);
   try {
-    if (onProgress) await copyWithProgress(stage.file, destination, record.sealed, signal, onProgress);
+    if (onProgress) await copyWithProgress(stage.file, destination, record.sealed, signal, onProgress, assertCurrent);
     else await fs.copyFile(stage.file, destination, constants.COPYFILE_EXCL);
   } catch (error) {
     if (error.code === 'EEXIST') return false;

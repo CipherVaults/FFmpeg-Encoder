@@ -2152,7 +2152,8 @@ class EncoderService extends EventEmitter {
           if (storageFailure) throw storageFailure;
           if (entry.vendor) await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
           if (ordinaryGuard) { await ordinaryGuard.beforePublish(stage); notCancelled(jobSignal); }
-          const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder,
+          const assertCurrent = this.publicationCurrentness?.(entry, qualified);
+          const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder, assertCurrent,
             ...(entry.remux ? { onProgress: event => advanceRemux(event.stage, event.completed) } : {}) });
           await this.recordIncident({ stage: 'publication', reason: published ? 'OUTPUT_PUBLISHED' : 'OUTPUT_COLLISION', fileId: item.id,
             severity: !published || assessment.kind === 'ctime-only' ? 'warning' : 'info', context: { destination: entry.destination, published, sourceAssessment: assessment } });

@@ -1,3 +1,11 @@
+# Session: Document exact two-track evidence and explain the three-track refusal
+
+- **November 20, 2026 Cairo.** Ordinary unsupported AVC MP4 with three AAC tracks previously surfaced an assertion and options Linux could not honor. Correct the first outward view without adding a route, touching shared Windows admission, or removing the track display.
+- **Evidence:** Independently reviewed active closure, existing 081 and null two-AAC record. Retained path-free developer study distinguishes failed R03 from the two actual synthetic normal candidate finals; independently verified their complete audio/video, timelines and mapping. Study stays out of the package. Exact 319/319 worker checks and integrated source 233 syntax, 492 shared plus 155 Linux passes, three Windows-only skips.
+- **Continuation:** No general admission, release or private owner-corpus claim. Next qualifying step requires the product's intended finite actual-file envelope and owner-controlled evidence, without gathering personal files by default.
+
+---
+
 # Session: Qualify exact staged MP4 brand evidence without enabling two-track
 
 - **November 20, 2026 Cairo.** The isolated normal candidate successfully staged a mixed two-AAC copy, then refused output verification. The legacy one-track job succeeded; three-AAC and replaced sources were refused without a writer. Preserve the failed result and untouched stage; later cases and the separate oracle did not run.

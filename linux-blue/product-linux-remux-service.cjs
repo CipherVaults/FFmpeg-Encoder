@@ -86,6 +86,13 @@ function admit(assessment,input,{proportionalIsobmff=false,movSourceEnvelope=nul
   if (assessment.target==='mp4' && assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===3 && v.length===1 && a.length===2 && a.every(s=>s.codec_name==='aac')) {
     throw new ToolError('REMUX_MULTI_AUDIO_NOT_QUALIFIED', 'This MP4 has two AAC audio tracks. Verified MP4 copy in this Linux build currently requires one 48 kHz stereo AAC track. No copy was started and no track was omitted.');
   }
+  const majorBrand=p.format.tags?.major_brand;
+  if (assessment.target==='mp4' && assessment.request.omissionRequestIds.length===0 && p.chapters.length===0
+      && p.programs.length===0 && p.stream_groups.length===0 && p.streams.length===a.length+1 && v.length===1
+      && v[0].codec_name==='h264' && Number(v[0].disposition?.attached_pic||0)===0
+      && ['isom','iso2','mp41','mp42','avc1'].includes(majorBrand) && a.length>2 && a.every(s=>s.codec_name==='aac')) {
+    throw new ToolError('REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED', `This MP4 has ${a.length} AAC audio tracks. Verified MP4 copy in this Linux build currently requires one 48 kHz stereo AAC track. No copy was started and no track was omitted.`);
+  }
   assert(assessment.request.omissionRequestIds.length===0 && p.chapters.length===0 && p.streams.length===2 && v.length===1 && a.length===1);
   assert(v[0].codec_name==='h264' && v[0].pix_fmt==='yuv420p' && v[0].field_order==='progressive');
   if(assessment.target==='mov'&&movSourceEnvelope==='h264-aac-lc-48k-stereo-v2'){

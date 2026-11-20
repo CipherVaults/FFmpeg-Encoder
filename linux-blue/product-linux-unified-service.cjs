@@ -49,7 +49,7 @@ class NarrowRemux extends RemuxOperations{
   constructor(options,movEnvelope,onRefused){super(options);this.#movEnvelope=movEnvelope;this.#onRefused=onRefused;}
   prepare(options){
     try{admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:this.#movEnvelope});}
-    catch(error){if(error.code==='REMUX_MULTI_AUDIO_NOT_QUALIFIED')this.#onRefused(options.request.fileId);throw error;}
+    catch(error){if(['REMUX_MULTI_AUDIO_NOT_QUALIFIED','REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED'].includes(error.code))this.#onRefused(options.request.fileId);throw error;}
     return super.prepare(options);
   }
 }

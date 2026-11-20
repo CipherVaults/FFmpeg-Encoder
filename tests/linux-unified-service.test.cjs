@@ -55,28 +55,53 @@ test('actual shared ordinary and remux preparation cross routes without retainin
  await service.cancelCurrent();assert.equal(service.plan,null);const repeated=await service.prepareBatch({...folders,settings:{profileId:'h264-cpu',preset:'veryfast',quality:23}});assert.equal(repeated.items[0].status,'ready',repeated.items[0].reason);assert.equal(service.operationDeadlineMs,120000);assert.equal(typeof service.ordinaryJobGuard,'function');assert(h.generations.length>=4);
 });
 
-test('Linux legacy MP4 ticket explains a two-AAC refusal without publishing, selecting or dropping either track',async t=>{
+for(const [count,reasonCode]of [[2,'REMUX_MULTI_AUDIO_NOT_QUALIFIED'],[3,'REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED']]){
+ test('Dormant Linux plain MP4 '+count+'-AAC Prepare refuses before emitting any omission action',async t=>{
   const {service,h,root}=await setup(t);const i=path.join(root,'input'),o=path.join(root,'output');await fsp.mkdir(i);await fsp.mkdir(o);
-  const src=path.join(i,'two.mp4'),probe=sourceProbe(),extra=structuredClone(probe.streams[1]);
-  extra.index=2;extra.id='0x3';extra.disposition={...extra.disposition,default:0};extra.tags={...extra.tags,language:'ara'};
-  probe.streams.push(extra);probe.format.nb_streams=3;probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';probe.streams.forEach((s,i)=>s.id=String(i+1));
+  const src=path.join(i,'multi.mp4'),probe=sourceProbe();
+  for(let index=2;index<=count;index++){
+    const audio=structuredClone(probe.streams[1]);audio.index=index;audio.disposition.default=0;
+    audio.tags={...audio.tags,language:index===2?'ara':'deu'};
+    probe.streams.push(audio);
+  }
+  probe.format.nb_streams=count+1;probe.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';
+  probe.format.tags.major_brand='isom';probe.streams.forEach((s,i)=>s.id=String(i+1));
   await fsp.writeFile(src,require('./helpers/mov-fixture.cjs').playbackFixture(probe));probe.format.size=String((await fsp.stat(src)).size);const before=structuredClone(probe);
   service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};
   const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
-  const refusedUpdates=[];service.on('update',state=>{for(const item of state.items)if(item.reasonCode==='REMUX_MULTI_AUDIO_NOT_QUALIFIED')
-    refusedUpdates.push({visible:item.remux.omissionCandidates.map(x=>x.streamIndex),
+  const outward=[];service.on('update',state=>{for(const item of state.items)if(item.remux)
+    outward.push({status:item.status,code:item.reasonCode,visible:item.remux.omissionCandidates.map(x=>x.streamIndex),
       registered:[...service.plan.remuxCandidates.values()].filter(x=>x.fileId===item.id).map(x=>x.streamIndex)});});
-  await service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target:'mp4'});await service.taskPromise;
-  assert(refusedUpdates.length>0);for(const update of refusedUpdates)assert.deepEqual(update,{visible:[],registered:[]});
-  const snap=service.snapshot(),item=snap.items[0];assert.equal(item.status,'unsupported');assert.equal(item.reasonCode,'REMUX_MULTI_AUDIO_NOT_QUALIFIED');
-  assert.match(item.reason,/two AAC audio tracks/i);assert.match(item.reason,/no track was omitted/i);assert(!item.reason.includes('assert('));
-  // Both audio rows stay visible; no misleading renderer action or main-side
-  // decision ticket may suggest that deleting a track could qualify this file.
-  assert.deepEqual(item.remux.streams.map(s=>[s.streamIndex,s.action]),[[0,'preserve-copy'],[1,'preserve-copy'],[2,'preserve-copy']]);
-  assert.deepEqual(item.remux.omissionCandidates,[]);assert.deepEqual(item.remux.omissionDecisionIds,[]);
+  const returned=await service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target:'mp4'});await service.taskPromise;
+  const snap=service.snapshot(),item=snap.items[0];
+  t.diagnostic('outward state: '+JSON.stringify(outward));
+  assert(outward.length>0);for(const update of outward){assert.deepEqual(update.visible,[]);assert.deepEqual(update.registered,[]);}
+  for(const p of [returned,snap]){assert.equal(p.items.length,1);assert.deepEqual(p.items[0].remux.omissionCandidates,[]);assert.equal(p.items[0].reasonCode,reasonCode);}
+  assert.equal(item.status,'unsupported');assert.match(item.reason,count===2?/two AAC audio tracks/i:/3 AAC audio tracks/i);
+  assert.match(item.reason,/requires one 48 kHz stereo AAC track/i);assert.match(item.reason,/no copy was started and no track was omitted/i);assert(!item.reason.includes('assert('));
+  assert.deepEqual(item.remux.streams.map(s=>[s.streamIndex,s.action]),Array.from({length:count+1},(_,i)=>[i,'preserve-copy']));
+  assert.deepEqual(item.remux.omissionDecisionIds,[]);
   assert.equal([...service.plan.remuxCandidates.values()].filter(c=>c.fileId===item.id).length,0);
-  assert.equal(service.plan.remuxGrants.size,0);
-  assert.equal(service.plan?.entries?.has(item.id)??false,false);assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(probe,before);assert.deepEqual(await fsp.readdir(o),[]);
+  assert.equal(service.plan.remuxGrants.size,0);assert.equal(service.plan?.entries?.has(item.id)??false,false);
+  assert.equal(service.generation.observeCalls,0);assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(probe,before);assert.deepEqual(await fsp.readdir(o),[]);
+ });
+}
+
+test('new dormant count refusal is not authority over MOV, non-AAC or another video codec',()=>{
+  const {assessRemux}=require('../src/remux-contract.cjs'),{admit}=require('../linux-blue/product-linux-remux-service.cjs');
+  for(const [target,change]of [
+    ['mov',()=>{}],['mp4',x=>{x.format.tags.major_brand='qt  ';}],['mp4',x=>{x.format.tags.major_brand=123;}],
+    ...['qt;qt','3gp4','unknown;unknown','isom;isom',undefined].map(brand=>['mp4',x=>{if(brand===undefined)delete x.format.tags.major_brand;else x.format.tags.major_brand=brand;}]),
+    ['mp4',x=>{x.streams[3].codec_name='ac3';}],['mp4',x=>{x.streams[0].codec_name='hevc';}]
+  ]){
+    const probe=sourceProbe();
+    probe.streams.push(...[2,3].map(index=>({...structuredClone(probe.streams[1]),index,disposition:{default:0}})));
+    Object.assign(probe.format,{format_name:'mov,mp4,m4a,3gp,3g2,mj2',nb_streams:4,size:'10000',tags:{major_brand:'isom'}});
+    change(probe);
+    const assessment=assessRemux({probe,sourceFingerprint:'a'.repeat(64),
+      request:{fileId:'distinct-family',identityRevision:0,draftRevision:0,operation:'remux',target,range:null,omissionRequestIds:[]}});
+    assert.throws(()=>admit(assessment,'/owned/example.mp4'),e=>e.code!=='REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED');
+  }
 });
 
 for (const scenario of ['valid TS','malformed TS','qualified MP4']) {
@@ -125,7 +150,7 @@ for (const scenario of ['valid TS','malformed TS','qualified MP4']) {
    assert.equal(service.generation.observeCalls,1);
    const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
    assert.equal(selected.qualification.inputFamily,'isobmff');assert.equal(selected.qualification.cellId,'internal-isobmff-mp4-081');
-   assert(entry.preparedArgs.includes('copy'));return;
+   assert(entry.preparedArgs.includes('copy'));assert.deepEqual(item.remux.omissionCandidates.map(x=>x.streamIndex),[1]);return;
   }
   assert.equal(item.status,'unsupported',item.reason);assert.equal(item.remux.status,'blocked');
   assert.equal(service.plan.entries.size,0);assert.equal(service.generation.observeCalls,0);

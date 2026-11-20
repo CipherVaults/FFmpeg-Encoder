@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: clear three-AAC refusal and study record
+
+- For the already unsupported ordinary AVC MP4 family with three or more AAC tracks, Prepare gives a truthful count refusal and removes only unavailable omission controls before the first outward update. All tracks remain visible and other route rules are unchanged.
+- The unshipped developer study records two exact synthetic native output comparisons and the earlier failed attempt. It does not grant admission or claim coverage of an owner corpus. The two-track accepted record remains absent.
+
 ## Latest reviewed development slice: exact staged MP4 brand evidence
 
 - The isolated normal two-track test preserved a staged file but correctly withheld publication when probe metadata disagreed with the strict expected form. Its physical MP4 header and duplicated matching probe fields were independently checked.

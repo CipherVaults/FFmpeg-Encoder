@@ -1,0 +1,250 @@
+{
+  "schema": 1,
+  "scope": "regular-linux-developer-measurement-not-route-authority",
+  "status": "two-generated-witnesses-verified-owned-file-qualification-pending",
+  "productAdmission": false,
+  "inputFamily": "MP4 / one H.264 BT.709 SDR video, two AAC-LC audio tracks",
+  "operation": "Full MP4 to MP4 verified copy; no omission or encoder",
+  "runtime": {
+    "linuxPair": "FFmpeg/ffprobe 9.0.2",
+    "identity": "dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13"
+  },
+  "prospectiveTarget": {
+    "baseCommit": "fe3d7871c463acbcfcb65732eef972b020eba348",
+    "baseTree": "8e00d4b79ce887eb3ce8048f7539cf28fb9c8cb5",
+    "patchSha256": "0f7ce442d3b1410a6e691ec9c0c10a4fba239050eb0cd72f314581689dc5f6ee",
+    "recordSha256": "688c7882fe896c6981913fb78bc38bff29e70b9c85942544716610e024fa2f87",
+    "evidenceId": "q2l-normal-116-ftyp-remaining-prospective-not-accepted",
+    "notAnActiveProductRecord": true
+  },
+  "receiptSha256": {
+    "priorFailedQa": "939bdb895c8033bb9dcfc8825c310eba2f7d5b55375c787e78dffe842f33dde1",
+    "residualBinding": "4f3eac942f4204aba0ba46a3b8747de9865f26417f72fb15b8535e2386f85e60",
+    "residualQa": "f0b05cfde0b97f0f056ae7ccd5a5500790f475559fdc8d2a8d46a00035c8be3b",
+    "supervisor": "96dc7eb48f11f1dc4f38356fe184cc589fa81c5459c2203d0886dccc61a219a8",
+    "independentFullDecodeOracle": "3a5ae3ccf6e50a2941aa36fd7b2e0ba6f4f038c08502d581e09b16f2a179a396"
+  },
+  "normalService": {
+    "observedChildren": 46,
+    "exitedZero": 45,
+    "actualTerminatedWriters": 1,
+    "writerInvocations": 3,
+    "maximumConcurrent": 2,
+    "scenarios": [
+      "fresh mixed published and reveal callback returned void",
+      "known existing destination skipped unchanged",
+      "fresh state recognized the embedded output marker",
+      "twin writer received SIGTERM; old Start refused; fresh Start published"
+    ],
+    "notExercised": [
+      "late physical collision",
+      "desktop file manager"
+    ]
+  },
+  "previousFailedRun": {
+    "overallPassed": false,
+    "separateObservedFacts": [
+      "legacy 081 singleton published",
+      "three AAC tracks refused without omissions",
+      "same-bytes replacement after Ready refused, failed item and null plan",
+      "mixed copy retained without publication after output metadata refusal"
+    ]
+  },
+  "witnesses": [
+    {
+      "case": "mixed",
+      "input": {
+        "bytes": 1264415,
+        "sha256": "d6060bf4b33f8518d41d7f4d570e395e382bb6fa64eeb16d06dd4e0b45b96978"
+      },
+      "syntheticOutput": {
+        "bytes": 1264756,
+        "sha256": "10274b8a4599a2187c5b434c47c6284729549b1cdbeae92ae5d5901566b77709"
+      },
+      "mdat": {
+        "bytes": 1256175,
+        "sha256": "635c2b99d143ffa6907cc737f4de1fba62c1087edcd42d4759cdfc6dc9ba32f7"
+      },
+      "movieTimescales": [
+        7056000,
+        35280000
+      ],
+      "tracks": [
+        {
+          "track": 1,
+          "group": 0,
+          "default": 1,
+          "language": "und",
+          "kind": "video",
+          "semanticEdit": [
+            "27/5",
+            "1/15"
+          ],
+          "packetCount": 162,
+          "rowSha256": "cfd26ed5cee7f4d0bf1525b4ea2aada375d1215016910e4102e2827c9484578b",
+          "codecConfig": "a9b15d80db2d08e9db1ae884b37ce8e2cf99fcba24bf204440961c14668447c1",
+          "mediaScales": [
+            30000,
+            30000
+          ],
+          "width": 1280,
+          "height": 720,
+          "frames": 162,
+          "normalizedDecodedRowsSha256": "99aed368eaee4f5c41e85ab766706ad7188d5d8def7195a71e9e1d09423b80e7"
+        },
+        {
+          "track": 2,
+          "group": 1,
+          "default": 1,
+          "language": "eng",
+          "kind": "audio",
+          "semanticEdit": [
+            "537/100",
+            "8/375"
+          ],
+          "packetCount": 253,
+          "rowSha256": "79332d8a42c0cde75a4a0d65b2cdefce6be52b205efea8abf38a952817be32d9",
+          "codecConfig": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "mediaScales": [
+            48000,
+            48000
+          ],
+          "rate": 48000,
+          "channels": 2,
+          "sampleFrames": 257760,
+          "pcmS32leSha256": "91495b165d4a62622689cde3de031198092a236a4f42077cfdcc12660acac786",
+          "channelPcmS32leSha256": [
+            "ae95d73c73b662287c14b5eace96a965ee8b6018c85d58a23e2d2be6500c21f1",
+            "57491010f1a54a11bc6a73eac21e0ce23f7ec8061eafd768986942e91876c174"
+          ]
+        },
+        {
+          "track": 3,
+          "group": 1,
+          "default": 0,
+          "language": "ara",
+          "kind": "audio",
+          "semanticEdit": [
+            "537/100",
+            "256/11025"
+          ],
+          "packetCount": 233,
+          "rowSha256": "74c9bd42eef335077d7d23915a5947bd55a0e4b07c8c28b5d952f35616b7a5e0",
+          "codecConfig": "e1d9202ffd952e4a2732fa1093c81702a05a553570e848fb8e670c958c05c101",
+          "mediaScales": [
+            44100,
+            44100
+          ],
+          "rate": 44100,
+          "channels": 1,
+          "sampleFrames": 236817,
+          "pcmS32leSha256": "8f9ef193c1bff3ab561a3f7fd58d964d71832100bdd0a281006fadb4de03ecfa",
+          "channelPcmS32leSha256": [
+            "8f9ef193c1bff3ab561a3f7fd58d964d71832100bdd0a281006fadb4de03ecfa"
+          ]
+        }
+      ]
+    },
+    {
+      "case": "twins",
+      "input": {
+        "bytes": 3052177,
+        "sha256": "faa0029455ee8ada0da580b2a650812db72ff089c523c8bca4b4d8a1e03edc5c"
+      },
+      "syntheticOutput": {
+        "bytes": 3052518,
+        "sha256": "759ec7afd279347aff53e08cf31ebc54d2e6800cc9850865b442a636e5791537"
+      },
+      "mdat": {
+        "bytes": 3042419,
+        "sha256": "c186c0bf2f82fb7e505a250051cde02db6fc3693c19cf6e9104f325dc20084b6"
+      },
+      "movieTimescales": [
+        48000,
+        1200000
+      ],
+      "tracks": [
+        {
+          "track": 1,
+          "group": 0,
+          "default": 1,
+          "language": "und",
+          "kind": "video",
+          "semanticEdit": [
+            "178/25",
+            "2/25"
+          ],
+          "packetCount": 178,
+          "rowSha256": "e7de0e048f0434757c6f40963111006c67b265575b4c048de9319ee4bbc6593b",
+          "codecConfig": "cb5da3df0b68663ee88297783f412de14996cf44fe891291d6a24cc4b3bd14d1",
+          "mediaScales": [
+            25000,
+            25000
+          ],
+          "width": 1920,
+          "height": 1080,
+          "frames": 178,
+          "normalizedDecodedRowsSha256": "c190b4711bd613a2a4a2f23fd7fde672021c527e500b77235a69bd74dc8b2e5c"
+        },
+        {
+          "track": 2,
+          "group": 1,
+          "default": 0,
+          "language": "eng",
+          "kind": "audio",
+          "semanticEdit": [
+            "71/10",
+            "8/375"
+          ],
+          "packetCount": 334,
+          "rowSha256": "dce93b944a67c12b3be6883f0a8640b98ee3a866677f6ee4a3f2e93e0c16d5da",
+          "codecConfig": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "mediaScales": [
+            48000,
+            48000
+          ],
+          "rate": 48000,
+          "channels": 2,
+          "sampleFrames": 340800,
+          "pcmS32leSha256": "f05a74e761f85f8f01a4ec61ad229a3948da44af3f09f83dc487718616893adc",
+          "channelPcmS32leSha256": [
+            "5a90910f00e545480b0c0a8d2c8955cc872c440dd02b708aa78b36390c4bd826",
+            "156fc9927a913d650c55304aadeaa46439a011e0c0a5bdbccd2c01017aa02c2e"
+          ]
+        },
+        {
+          "track": 3,
+          "group": 1,
+          "default": 1,
+          "language": "deu",
+          "kind": "audio",
+          "semanticEdit": [
+            "71/10",
+            "8/375"
+          ],
+          "packetCount": 334,
+          "rowSha256": "126d7fd0e6746e8f0966d941e278d43a4d12adf98641534bcb044c136c376b50",
+          "codecConfig": "b3108813350006ef07740046fab14af9c374938867d16db02fe1a8baa5e72f10",
+          "mediaScales": [
+            48000,
+            48000
+          ],
+          "rate": 48000,
+          "channels": 2,
+          "sampleFrames": 340800,
+          "pcmS32leSha256": "f8b7055495d464f6e3b6ec0b8a64d6cee8ccbee7bad06c4320cc2f4d57ae9b2e",
+          "channelPcmS32leSha256": [
+            "c97c37c94d654b7c9311733859a7221360b3287da9383a4f4f537d6eeb986369",
+            "ad93a43a04626b3fe30f77f8427775381a8eea6888f718e274644a5cbb251f84"
+          ]
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Only two synthetic sources on the audited Linux developer runtime. Raw containers differ; the mdat bytes, ordered packets and independently decoded presentations match.",
+    "Both inputs had a primary AVC video, one default AAC track and two ordered languages. ENG/ARA mixed rates and ENG/DEU equal-rate twins are separate observations. No claim for other files, lengths, layouts, tracks or VFR.",
+    "Record 47 requires one real owned file per shape before enabling this Q2l family. None was used here. No owner media, Windows or GPU validation, packaged acceptance, default or release.",
+    "The ordinary qualification record returns null; a saved study, hash or fixture may never mint a live service selection."
+  ]
+}

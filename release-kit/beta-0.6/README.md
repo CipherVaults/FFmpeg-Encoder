@@ -26,7 +26,8 @@ networking disabled; the host only stages verified inputs and reads results.
   NSIS 3.13 package and the 53 locked npm packages, each checked against its
   published SHA-256 or lockfile SHA-512.
 - `guest-pkg.ps1` (sandbox) re-checks them, verifies the NSIS package signature
-  against the MSYS2 keyring, lays out `node_modules` from the lockfile, runs the
+  against the MSYS2 keyring (the signer must be unrevoked and certified by three
+  trusted MSYS2 master keys, pacman's rule), lays out `node_modules` from the lockfile, runs the
   unit tests and the stock `scripts/build-portable.cjs`, compiles Setup with
   `installer.cjs`, checks the Gauge icon in both (`pe-icon.cjs`), then in the
   fresh sandbox profile: extracts the ZIP and compares every byte with staging,

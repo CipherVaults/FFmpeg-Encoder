@@ -1,5 +1,11 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: Q2f precision AAC clock
+
+- The inert qualification helper distinguishes the first included source sample from the rounded mux clock origin. Four retained PCM-to-AAC cut observations cover 44.1 kHz stereo and 48 kHz mono, two cuts each, with measured priming and decoded tails. This is lossy AAC transcode evidence, not stream-copy, source-AAC, or runtime acceptance.
+- The independent reviewer reproduced the four observation records from retained raw evidence, verified 24 process receipts and passed 27/27 tests on the exact helper. The separate strict Q2n and broad inherited results remain as recorded below.
+- No route, runtime version, product audio default, or release changes.
+
 ## Latest reviewed development slice: Q2n clock calibration
 
 - The standalone Linux qualification helper compares paired 1/30000 and 1/15360 MOV clocks using exact rational timing, packet placement and payload checks. Revalidation now checks both file identities again after async cleanup. It is a point-in-time observation, not an atomic filesystem lock or a live application route.

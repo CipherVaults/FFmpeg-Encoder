@@ -1,3 +1,13 @@
+# Session: Q2f precision AAC clock evidence
+
+- **Time, scope and roles:** November 20, 2026 Cairo. The whole-Q lead delegated the isolated audio evidence; Blue integrated the sealed two-file r03 patch after independent review.
+- **Measured:** Two cuts each from PCM at 44.1 kHz stereo and 48 kHz mono were transcoded to AAC in Matroska. Independent replay derived the same exact observations from 24 retained successful process receipts, with per-channel zero-lag checks and decoded video/audio evidence. CodecDelay was 23,219,955 and 21,333,333 ns, respectively; retained decoded tails were 648/584 and 997/447 samples, respectively.
+- **Correction:** The first included 44.1 kHz sample in the off-grid check is 96,020, not the rounded clock origin 96,019. r03 checks the observation input shape before reading data. No tolerance was broadened.
+- **Checks and limits:** Independent focused 27/27, lead overlapping neighbor set reported 186/186; these are not a fresh native rerun. No lossless, source-AAC, product eligibility, Windows, or package claim.
+- **Continuation:** Keep r03 inert. Continue native stream-copy mapping as a separate qualification; owner audio-default and milestone gates remain unchanged.
+
+---
+
 # Session: Q2n exact clock-pair qualification
 
 - **Time, role and basis:** November 20, 2026 Cairo. The Milestone Q lead prepared the sealed helper on `91e1ddc7418770ed61eec7e6b2777cebb2e95402`; Blue integrated after independent review.

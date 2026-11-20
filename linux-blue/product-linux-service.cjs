@@ -6,7 +6,7 @@ const { isDeepStrictEqual: same } = require('node:util');
 const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
 const { OutputAccess } = require('../src/output-access.cjs');
 const { CandidateTrimService } = require('./workbench-trim-candidate.cjs');
-const { ClockQualifiedFamilySelector, clockGuardedRunner } = require('./workbench-long-range-service.cjs');
+const { ClockQualifiedFamilySelector, CLOCKS, clockGuardedRunner } = require('./workbench-long-range-service.cjs');
 const { OperationRuntimeObserver } = require('../src/operation-runtime.cjs');
 const { openEvidenceStorage } = require('../src/operation-storage.cjs');
 const { failedVendorCapabilities } = require('../src/vendor-capabilities.cjs');
@@ -78,6 +78,26 @@ function requireAacCadence(probe, resolution) {
     'AAC precision ranges currently require explicitly qualified CFR 30 fps.');
 }
 class ProductFamilySelector extends ClockQualifiedFamilySelector {
+  explainResize(options) {
+    const fallback = super.explainResize(options);
+    if (fallback?.code !== 'OPERATION_RESIZE_UNQUALIFIED' || options.request?.resolution !== '720'
+        || !options.request.range || options.request.audioPolicy !== 'precision-flac') return fallback;
+    const probe = options.inspection.probe;
+    const video = probe.streams.find(stream => stream.codec_type === 'video');
+    if (video?.width !== 1920 || video.height !== 1080 || video.time_base !== '1/30000') return fallback;
+    const ticks = video.duration_ts;
+    if (!(Number.isSafeInteger(ticks) || typeof ticks === 'string' && /^[1-9]\d{0,15}$/.test(ticks))) return fallback;
+    const scaled = BigInt(ticks) * BigInt(CLOCKS.video.slice(2));
+    if (scaled <= 0n || scaled % 30000n !== 0n || scaled / 30000n > BigInt(Number.MAX_SAFE_INTEGER)) return fallback;
+    // Compare only the refusal, with the video's exact duration held constant.
+    // This projection is never passed to orientation, plan building or selection.
+    const projected = { ...probe, streams: probe.streams.map(stream => stream === video
+      ? { ...stream, time_base: CLOCKS.video, duration_ts: Number(scaled / 30000n) } : stream) };
+    if (super.explainResize({ ...options, inspection: { ...options.inspection, probe: projected } }) !== null) return fallback;
+    return Object.freeze({ code: fallback.code,
+      message: 'This resize has no measured qualification, so no plan was created. '
+        + 'This measured 1080p-to-720p precision-FLAC resize requires a ' + CLOCKS.video + ' video time base; this file reports 1/30000.' });
+  }
   orientationQualification(options) {
     if (options.request?.range && options.request?.audioPolicy === 'precision-aac') requireAacCadence(options.inspection?.probe, options.request.resolution);
     return super.orientationQualification(options);

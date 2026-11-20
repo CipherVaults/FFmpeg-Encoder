@@ -353,3 +353,46 @@ test('AV1 awaited preparation rejects changed settings and fresh Prepare recover
  }
  assert.equal(service.generation,before.generation);assert.equal(h.generations.reduce((n,g)=>n+g.runCalls,0),0);
 });
+
+for(const scenario of ['clock-only','unsupported-geometry','clock-and-container','clock-qualified']){
+  test('measured Linux 1080p resize diagnostics: '+scenario,async t=>{
+    const {service,h,root}=await setup(t,{genuineSelector:true});
+    const input=path.join(root,'input'),output=path.join(root,'output');await fsp.mkdir(input);await fsp.mkdir(output);
+    const file=path.join(input,'source.mov');await fsp.writeFile(file,'Inert exact-clock inspection shape; not media.');
+    const probe=measuredProbe((await fsp.stat(file)).size);
+    const video=probe.streams[0],audio=probe.streams[1];
+    const width=scenario==='unsupported-geometry'?2048:1920,height=scenario==='unsupported-geometry'?1152:1080;
+    const denominator=scenario==='clock-qualified'?15360:30000;
+    Object.assign(video,{width,height,time_base:'1/'+denominator,duration_ts:125*denominator,duration:'125'});
+    Object.assign(audio,{duration_ts:6000000,duration:'125'});
+    probe.format.duration='125';
+    if(scenario==='clock-and-container')probe.format.tags.major_brand='isom';
+    // The real inspection path supplies normalized typed evidence, not a
+    // user-supplied projection. Keep the original observation unchanged.
+    const upstream=require('../src/inspection.cjs').normalizeProbe(probe);
+    const snapshot=structuredClone(upstream);
+    service.inspect=async()=>({probe:upstream,color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},duration:125,summary:{selectedVideoIndex:0,codec:'h264',width,height,bitDepth:8}});
+    service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});service.storageEligibility={check:async()=>({eligible:true})};
+    const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+    const before=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:{profileId:'h265-cpu',preset:'slow',quality:25}});
+    const result=await service.updateFileOperations({planId:before.planId,draftId:before.operationDraft.id,revision:before.operationDraft.revision,fileIds:[before.items[0].id],
+      overrides:{resolution:'720',range:{startUs:91000000,endUs:123000000},audioPolicy:'precision-flac'}});
+    const item=result.items[0],entry=service.plan.entries.get(item.id);
+    assert.deepEqual(upstream,snapshot);
+    if(scenario==='clock-qualified'){
+      assert.equal(item.status,'ready',item.reason);assert.equal(item.reason,'');assert(entry);
+      assert.equal(entry.operationPlan.compatibilityPath,false);
+      const selected=service.operationQualifications.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
+      assert.equal(selected.sourcePolicy.id,'cfr-sdr-range-resize-flac-v1');
+      assert.equal(selected.proportional,true);
+    }else{
+      assert.equal(item.status,'unsupported');assert.equal(item.reasonCode,'OPERATION_RESIZE_UNQUALIFIED');assert.equal(entry,undefined);
+      await assert.rejects(service.startBatch({planId:result.planId,fileIds:[item.id]}));
+      const prefix='This resize has no measured qualification, so no plan was created. ';
+      assert.equal(item.reason,prefix+(scenario==='clock-only'
+        ? 'This measured 1080p-to-720p precision-FLAC resize requires a 1/15360 video time base; this file reports 1/30000.'
+        : 'Only the fixed progressive 8-bit H264 High geometry belongs to this family.'));
+    }
+    assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(await fsp.readdir(output),[]);
+  });
+}

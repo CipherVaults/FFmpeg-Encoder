@@ -1028,3 +1028,91 @@ for (const mode of ['journal-error','treat-as-original','reencode-output']) {
    assert(h.generations.every(g=>!g.runCalls));assert.deepEqual(await fsp.readdir(o),[]);
  });
 }
+
+async function qMkvInputFixture(t,{target='mp4',name='source.mkv',probe=sourceProbe(),retained=null}={}){
+ const {service,h,root}=await setup(t,{matroska:true,mov:true,movV2:true});
+ const i=path.join(root,'input'),o=path.join(root,'output'),file=path.join(i,name);
+ await fsp.mkdir(i);await fsp.mkdir(o);
+ if(retained)await fsp.copyFile(retained,file);else await fsp.writeFile(file,'Inert MKV source-policy control, not media');
+ if(!retained)probe.format.size=String((await fsp.stat(file)).size);
+ const inspections=[],pinned=structuredClone(probe);
+ service.inspect=async chosen=>{inspections.push(chosen);return {probe:structuredClone(probe),duration:Number(probe.format.duration),summary:{}};};
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+ const outbound=[];
+ service.on('update',state=>outbound.push({state,offers:[...service.plan?.remuxCandidates?.values()||[]],entries:service.plan?.entries.size||0}));
+ return {service,h,o,file,pinned,inspections,outbound,prepare:()=>service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target})};
+}
+
+for(const [target,label] of [['mp4','MP4'],['mov','MOV'],['matroska','MKV']]){
+ test('Linux verified MKV input refusal is explicit and has no omit actions for '+label,async t=>{
+   const {service,h,o,file,inspections,outbound,prepare}=await qMkvInputFixture(t,{target});
+   const final=await prepare(),row=final.items[0];
+   t.diagnostic('file status / outward omit actions '+JSON.stringify([row.status,row.reasonCode,outbound.flatMap(x=>x.state.items
+     .filter(i=>i.remux).map(i=>[i.reasonCode,i.remux.omissionCandidates.map(o=>o.streamIndex),x.offers.length,x.entries]))]));
+   assert.equal(row.status,'unsupported');assert.equal(row.reasonCode,'REMUX_MKV_INPUT_NOT_QUALIFIED',row.reason);
+   assert.match(row.reason,new RegExp('verified copy to '+label,'i'));assert.match(row.reason,/no copy was started.*no track was omitted/i);
+   assert.deepEqual(inspections,[file]);assert.equal(row.remux.status,'blocked');
+   assert(outbound.some(x=>x.state.items.some(i=>i.remux)));
+   for(const x of outbound){
+     assert.deepEqual(x.offers,[]);assert.equal(x.entries,0);
+     for(const item of x.state.items.filter(i=>i.remux)){
+       assert.deepEqual(item.remux.omissionCandidates,[]);assert.deepEqual(item.remux.omissionDecisionIds,[]);
+       assert(item.remux.streams.every(s=>s.action==='blocked'));
+     }
+   }
+   await assert.rejects(service.startBatch({planId:final.planId,fileIds:[row.id]}));
+   assert.equal(service.plan.remuxGrants.size,0);assert.equal(service.executionBinding,null);assert(h.generations.every(g=>!g.runCalls&&!g.observeCalls));
+   assert.deepEqual(await fsp.readdir(o),[]);
+ });
+}
+test('Linux MKV source wording never replaces older relationship/format blockers',async t=>{
+ for(const testCase of [
+   {modify:p=>{p.format.nb_streams=3;},code:'REMUX_RELATIONSHIPS_UNKNOWN'},
+   {modify:p=>{p.format.format_name='unidentified';},code:'REMUX_CONTAINER_UNKNOWN'},
+   {modify:p=>{p.format.format_name='matroska,avi';}},
+   {name:'source.webm',modify:()=>{}},
+ ]){
+   const probe=sourceProbe();testCase.modify(probe);
+   const {service,h,prepare}=await qMkvInputFixture(t,{probe,name:testCase.name});
+   const item=(await prepare()).items[0];
+   assert.equal(item.status,'unsupported');assert.notEqual(item.reasonCode,'REMUX_MKV_INPUT_NOT_QUALIFIED');
+   if(testCase.code)assert.equal(item.reasonCode,testCase.code);
+   assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls&&!g.observeCalls));
+ }
+});
+const qMkvNativeDir=process.env.Q2K_RETAINED_NATIVE_ROOT;
+test('Linux MKV source preserves incomplete prior real 9.0.2 source probe',{skip:!qMkvNativeDir},async t=>{
+ const sha=b=>require('node:crypto').createHash('sha256').update(b).digest('hex');
+ const retained=path.join(qMkvNativeDir,'media/aligned.mkv');
+ const raw=await fsp.readFile(path.join(qMkvNativeDir,'logs/aligned-source-probe.stdout'));
+ assert.equal(sha(await fsp.readFile(retained)),'912ee77258d8539be31386042972d940e634221335f8764c265d175380b1d3cb');
+ assert.equal(sha(raw),'fe941fd6ef76e9e41b1f8856437af79b23afacb95ea15acb9c077c4a15ad7655');
+ const probe=JSON.parse(raw);assert(!Object.hasOwn(probe,'programs')&&!Object.hasOwn(probe,'stream_groups'));
+ const {service,h,file,inspections,outbound,prepare}=await qMkvInputFixture(t,{probe,retained});
+ const result=await prepare(),item=result.items[0];
+ assert.equal(item.reasonCode,'REMUX_RELATIONSHIPS_UNKNOWN');
+ assert.deepEqual(inspections,[file]);assert.equal(sha(await fsp.readFile(file)),'912ee77258d8539be31386042972d940e634221335f8764c265d175380b1d3cb');
+ assert(outbound.every(x=>x.entries===0&&x.offers.length===0));
+ assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls&&!g.observeCalls));
+});
+
+test('Linux MKV input refusal stays source-only on a fresh target choice',async t=>{
+ const {service,h,o,outbound,prepare}=await qMkvInputFixture(t);
+ const first=await prepare(),id=first.items[0].id,mark=outbound.length;
+ assert.equal(first.items[0].remux.target,'mp4');
+ const next=await service.updateBatchOperationDefaults({planId:first.planId,draftId:first.operationDraft.id,
+   revision:first.operationDraft.revision,overrides:{remuxTarget:'matroska'}});
+ assert.notEqual(next.planId,first.planId);
+ const fresh=outbound.slice(mark);
+ assert(fresh.some(x=>x.state.phase==='preparing'&&x.state.items.some(i=>!i.remux)));
+ for(const x of fresh){
+   assert.deepEqual(x.offers,[]);assert.equal(x.entries,0);
+   assert(x.state.items.every(i=>!i.remux||i.remux.target==='matroska'));
+ }
+ assert.equal(next.items[0].reasonCode,'REMUX_MKV_INPUT_NOT_QUALIFIED');
+ assert.match(next.items[0].reason,/verified copy to MKV/i);
+ await assert.rejects(service.startBatch({planId:first.planId,fileIds:[id]}));
+ await assert.rejects(service.startBatch({planId:next.planId,fileIds:[id]}));
+ assert.deepEqual(await fsp.readdir(o),[]);assert(h.generations.every(g=>!g.runCalls&&!g.observeCalls));
+});

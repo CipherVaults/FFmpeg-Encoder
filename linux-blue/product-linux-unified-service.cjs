@@ -9,6 +9,7 @@ const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
 const {fingerprintEncodeSource}=require('../src/encode-operation.cjs');
 const {OutputAccess}=require('../src/output-access.cjs');
 const {RemuxOperations}=require('../src/remux-operation.cjs');
+const {getRemuxAssessmentSource}=require('../src/remux-contract.cjs');
 const {remuxProbeFingerprint}=require('../src/remux-validation.cjs');
 const {EVIDENCE_BUDGET,EXECUTION_BUDGET_MS}=require('../src/operation-controls.cjs');
 const {openEvidenceStorage}=require('../src/operation-storage.cjs');
@@ -46,12 +47,31 @@ const H265=require('./h265-ordinary-policy.cjs');
 const MEASURED=Object.freeze({profileId:'h265-cpu',preset:'slow',quality:25});
 const RUNTIME='dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
 function fixedSettings(value){if(value?.profileId===AV1.SETTINGS.profileId){av1Settings(value);return 'av1-ordinary';}if(value?.profileId===H264_DEFAULT.profileId){h264Settings(value);return 'ordinary';}H265.settings(value);return 'h265';}
+const MKV_INPUT_REFUSED='REMUX_MKV_INPUT_NOT_QUALIFIED';
+const REMUX_TARGET_LABELS=Object.freeze({mp4:'MP4',matroska:'MKV',mov:'MOV'});
 class NarrowRemux extends RemuxOperations{
-  #movEnvelope; #onRefused;
-  constructor(options,movEnvelope,onRefused){super(options);this.#movEnvelope=movEnvelope;this.#onRefused=onRefused;}
+  #movEnvelope; #onRefused; #targets;
+  constructor(options,movEnvelope,onRefused){
+    super(options);this.#movEnvelope=movEnvelope;this.#onRefused=onRefused;this.#targets=new Set(options.policies.map(p=>p.target));
+  }
   prepare(options){
-    try{admitRemux(options.assessment,options.input,{proportionalIsobmff:true,movSourceEnvelope:this.#movEnvelope});}
-    catch(error){if(['REMUX_MULTI_AUDIO_NOT_QUALIFIED','REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED'].includes(error.code))this.#onRefused(options.request.fileId);throw error;}
+    const {assessment,input,request}=options;
+    try{
+      if(assessment.inputFamily==='matroska'&&path.extname(input).toLowerCase()==='.mkv'
+          &&assessment.target===request.target&&this.#targets.has(request.target)&&Object.hasOwn(REMUX_TARGET_LABELS,request.target)
+          &&request.omissionRequestIds.length===0){
+        // Only the original unblocked main assessment can reach this
+        // explanation. A file name does not establish MKV inspection.
+        const source=getRemuxAssessmentSource(assessment);
+        if(source.format.format_name==='matroska,webm')
+          throw new ToolError(MKV_INPUT_REFUSED,`MKV is not qualified as an input for verified copy to ${REMUX_TARGET_LABELS[request.target]} in this Linux build. Use a qualified MP4 as input. No copy was started and no track was omitted.`);
+      }
+      admitRemux(assessment,input,{proportionalIsobmff:true,movSourceEnvelope:this.#movEnvelope});
+    }catch(error){
+      if([MKV_INPUT_REFUSED,'REMUX_MULTI_AUDIO_NOT_QUALIFIED','REMUX_AUDIO_TRACK_COUNT_UNSUPPORTED'].includes(error.code))
+        this.#onRefused(request,assessment,error.code);
+      throw error;
+    }
     return super.prepare(options);
   }
 }
@@ -91,14 +111,19 @@ class UnifiedService extends EncoderService{
     this.operationRuntime=fresh.observer;
     this.operationQualifications=selector;
     const q=this.configuration.remux;
-    const legacy=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope,fileId=>{
-      // This Linux ticket cannot honor any omission. Retire only its offers,
-      // before shared Prepare can emit a refused state to the renderer.
-      const plan=this.plan,item=this.state.items.find(value=>value.id===fileId);
-      if(this.generation!==fresh||this.route!=='remux'||plan?.operation!=='remux'||item?.remux?.target!=='mp4'
-          ||item.remux.omissionDecisionIds.length!==0)return;
+    const legacy=new NarrowRemux({runtimeIdentity:RUNTIME,policyIdentity:q.policyIdentity,policies:remuxPolicies(q)},q.mov?.sourceEnvelope,(request,assessment,code)=>{
+      // These explicit Linux refusals cannot be repaired by omitting a track.
+      // Retire just this inspected file's offers before the first update.
+      const fileId=request.fileId,plan=this.plan,item=this.state.items.find(value=>value.id===fileId);
+      const facts=plan?.remuxFacts.get(fileId),mkvInput=code===MKV_INPUT_REFUSED;
+      if(this.generation!==fresh||this.route!=='remux'||plan?.operation!=='remux'||!item?.remux
+          ||facts?.request!==request||facts.assessment!==assessment||item.remux.target!==request.target
+          ||(!mkvInput&&request.target!=='mp4')||item.remux.omissionDecisionIds.length!==0)return;
       for(const [id,choice]of plan.remuxCandidates)if(choice.fileId===fileId&&choice.planId===plan.id)plan.remuxCandidates.delete(id);
       item.remux.omissionCandidates=[];
+      if(mkvInput)for(const stream of item.remux.streams){
+        stream.action='blocked';stream.reasons=['This input is unavailable for verified copy. No stream will be copied.'];
+      }
     });
     this.remuxOperations=route==='remux'?installProductTwoAac(legacy,fresh,this):legacy;
     this.operationEvidenceBudget=route==='remux'?EVIDENCE_BUDGET:null;

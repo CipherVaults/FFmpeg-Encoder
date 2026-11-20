@@ -3,7 +3,7 @@
 const path = require('node:path');
 const { types } = require('node:util');
 const { createHash } = require('node:crypto');
-const { PROFILES, describeRecipe } = require('./media.cjs');
+const { PROFILES, describeRecipe, KEEP_REENCODE_METADATA_ARGS } = require('./media.cjs');
 const { provenanceArgs, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
 const { VENDOR_MESSAGES, vendorFragments } = require('./vendor-profiles.cjs');
 
@@ -72,7 +72,9 @@ function parseTwin(args, twinSettings, bitDepth) {
   }
   guard('map-set', maps.length > 0 && new Set(maps).size === maps.length);
   const recipe = describeRecipe(twinSettings);
-  take('mapping-codec', ['-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', '-c:v:0', recipe.encoder]);
+  // The FFmpeg 9.1 keep block is part of the twin's grammar: exactly media.cjs's
+  // list in its order, so an extra, missing or reordered key has nowhere to hide.
+  take('mapping-codec', ['-map_metadata', '0', '-map_chapters', '0', ...KEEP_REENCODE_METADATA_ARGS, '-c', 'copy', '-c:v:0', recipe.encoder]);
   const codecValue = cursor - 1;
   for (const [index, sourceIndex] of maps.entries()) {
     take('stream-metadata', [`-map_metadata:s:${index}`, `0:s:${sourceIndex}`]);

@@ -7,7 +7,7 @@ const path = require('node:path');
 const Module = require('node:module');
 const { createHash } = require('node:crypto');
 const { buildEncodeOperation } = require('../src/encode-operation.cjs');
-const { PROFILES, buildEncodeArgs, classifyColor, describeRecipe } = require('../src/media.cjs');
+const { PROFILES, buildEncodeArgs, classifyColor, describeRecipe, KEEP_REENCODE_METADATA_ARGS } = require('../src/media.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { MARKER_KEY, GENERATION_KEY } = require('../src/provenance.cjs');
 const profiles = require('../src/vendor-profiles.cjs');
@@ -61,7 +61,7 @@ test('h265-amd 10-bit example is built end to end from a genuine CPU operation p
     '-n', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi'];
   assert.deepEqual(result, [...prefix,
     '-init_hw_device', 'd3d11va=ffenc_d3d:3', '-filter_hw_device', 'ffenc_d3d', '-i', 'X:\\golden\\input.mkv',
-    '-map', '0:2', '-map', '0:4', '-map', '0:7', '-map', '0:9', '-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', '-c:v:0', 'hevc_amf',
+    '-map', '0:2', '-map', '0:4', '-map', '0:7', '-map', '0:9', '-map_metadata', '0', '-map_chapters', '0', ...KEEP_REENCODE_METADATA_ARGS, '-c', 'copy', '-c:v:0', 'hevc_amf',
     '-map_metadata:s:0', '0:s:2', '-metadata:s:0', 'SOURCE_CREATION_TIME=source-time-text', '-disposition:0', 'default',
     '-map_metadata:s:1', '0:s:4', '-metadata:s:1', 'SOURCE_CREATION_TIME=audio-time-text', '-disposition:1', 'default+original',
     '-map_metadata:s:2', '0:s:7', '-disposition:2', '0', '-map_metadata:s:3', '0:s:9', '-disposition:3', 'forced',
@@ -113,7 +113,15 @@ const negatives = [
   { guard: 'map-set', run: a => expectCode(changed(a, h => {
     h.args.splice(h.args.indexOf('-map'), 2); h.args.splice(h.args.indexOf('-map_metadata:s:0'), 4);
   })) },
-  { guard: 'mapping-codec', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-c')] = '-unknown-copy-option'; })) },
+  { guard: 'mapping-codec', run: a => {
+    expectCode(changed(a, h => { h.args[h.args.indexOf('-c')] = '-unknown-copy-option'; }));
+    // The FFmpeg 9.1 keep block: an extra, a missing and a reordered key each fail closed.
+    expectCode(changed(a, h => { h.args.splice(h.args.indexOf('-keep_metadata'), 0, '-keep_metadata', 'title'); }));
+    expectCode(changed(a, h => { h.args.splice(h.args.lastIndexOf('-keep_metadata'), 2); }));
+    expectCode(changed(a, h => {
+      const first = h.args.indexOf('-keep_metadata') + 1; [h.args[first], h.args[first + 2]] = [h.args[first + 2], h.args[first]];
+    }));
+  } },
   { guard: 'stream-metadata', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-map_metadata:s:0')] = '-map_metadata:s:1'; })) },
   { guard: 'creation-alias', run: a => expectCode(changed(a, h => {
     h.args[h.args.indexOf('-metadata:s:0') + 1] = 'UNREVIEWED_TIME=source';

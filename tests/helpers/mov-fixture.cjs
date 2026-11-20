@@ -60,7 +60,11 @@ function timedFixture(tracks, { movieScale = 240000, brand = 'qt  ' } = {}) {
   return Buffer.concat([atom('ftyp', Buffer.concat([Buffer.from(brand), Buffer.alloc(4)])), atom('moov', Buffer.concat([atom('mvhd', mvhd), ...traks]))]);
 }
 async function writeFixture(t, bytes) {
-  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'ffmpeg-mov-test-')), filename = path.join(directory, 'owned.mov');
+  // Hosted Windows may expose TEMP through an 8.3 alias (RUNNER~1).
+  // Reserve our fixture beneath the canonical parent; production path checks
+  // must still reject aliases/redirected paths supplied to the observer.
+  const temporaryRoot = await fs.realpath(os.tmpdir());
+  const directory = await fs.mkdtemp(path.join(temporaryRoot, 'ffmpeg-mov-test-')), filename = path.join(directory, 'owned.mov');
   await fs.writeFile(filename, bytes, { flag: 'wx' });
   t.after(async () => { await fs.unlink(filename).catch(error => { if (error.code !== 'ENOENT') throw error; }); await fs.rmdir(directory); });
   const stat = await fs.stat(filename, { bigint: true });

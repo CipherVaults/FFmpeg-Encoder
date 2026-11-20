@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed infrastructure slice: portable MOV test path
+
+- GitHub Actions ran both source-mirror checkpoints. On 113 Ubuntu passed and Windows passed 492/494; the two remaining MOV language cases stopped in fixture setup on the hosted temp path, before their language assertions.
+- Canonicalize the owned temp root only in the test helper. The new regression verifies that the normal app guard still rejects the redirected alias. No production guard, runner trigger, runtime or release change. Verify actual hosted jobs on this exact successor.
+
 ## Latest reviewed development slice: readable two-track refusal
 
 - Regular Linux Prepare now explains that verified copy requires one compatible audio track instead of leaking a source assertion. Single-track remains Ready; both tested kinds of two-track source remain Unsupported and create no prepared entry or output.

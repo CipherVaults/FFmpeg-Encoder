@@ -612,3 +612,29 @@ test('probe/evidence accessors are rejected without execution and caller data is
   assert.throws(() => s.validator.prepare({ assessment: s.assessment, runtimeIdentity: runtime, cellId: 'native-cell-1', outputId: OUTPUT_ID }), /runtime identity/);
   assert.equal(reads, 0);
 });
+
+
+test('MOV fixture canonicalizes its temporary parent without weakening redirected-path rejection', async t => {
+  const fs = require('node:fs/promises');
+  const os = require('node:os');
+  const path = require('node:path');
+  const { assertOrdinaryPath } = require('../src/candidate-runtime.cjs');
+  const root = await fs.mkdtemp(path.join(await fs.realpath(os.tmpdir()), 'mov-temp-parent-'));
+  const actual = path.join(root, 'actual'), alias = path.join(root, 'alias');
+  await fs.mkdir(actual);
+  await fs.symlink(actual, alias, process.platform === 'win32' ? 'junction' : 'dir');
+  const cleanups = [];
+  t.after(async () => {
+    for (const cleanup of cleanups) await cleanup();
+    await fs.unlink(alias);
+    await fs.rmdir(actual);
+    await fs.rmdir(root);
+  });
+  t.mock.method(os, 'tmpdir', () => alias);
+  const output = await writeFixture({ after: fn => cleanups.push(fn) }, fixture([{ id: 1 }]));
+  assert.equal(path.dirname(path.dirname(output.path)), actual);
+  assert.equal(await fs.realpath(output.path), output.path);
+  await assertOrdinaryPath(output.path);
+  const redirected = path.join(alias, path.basename(path.dirname(output.path)), 'owned.mov');
+  await assert.rejects(assertOrdinaryPath(redirected), /link|reparse|redirected/);
+});

@@ -1,3 +1,11 @@
+# Session: Normalize the hosted MOV test fixture root
+
+- **November 20, 2026 Cairo.** Exact 112 and 113 mirror jobs ran. Ubuntu passed both. Windows 2022 at 113 passed 492/494; the two failures stopped at path custody in MOV language test setup.
+- **Correction:** Canonicalize the test-owned temporary parent before allocating the fixture. Test an owned directory alias cross-platform and preserve production rejection of redirected paths. No app or workflow code changed.
+- **Evidence and limits:** The old helper fails the new check. Targeted local test and selected local runner pass. Independent broad helper-consumer sweep had 47 fixture/runtime-unavailable failures, not green. Actual hosted verification follows; neither package nor hardware qualification.
+
+---
+
 # Session: Explain the existing two-track Linux copy boundary
 
 - **Scope:** November 20, 2026 Cairo, based on checkpoint 112 after independent review of the sealed refusal-only patch. No route or setting was activated.

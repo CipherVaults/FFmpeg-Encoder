@@ -1,3 +1,12 @@
+# Session: Explain standalone MP3 without enabling conversion
+
+- **November 20, 2026 Cairo.** Add a narrow Linux Remux-to-MP4 Prepare fallback when no ordinary video was found. Bind the main-selected MP3 to the same inspected file with no following of links, keep only bounded metadata, and return a clear unsupported result with no runnable entry or output.
+- **Exact QA:** On identical application bytes, three authentic synthetic MP3 shapes and a fresh Prepare after completed Cancel plus the original eligible MP4 used five real pinned metadata probes. Wrong, truncated and multiple-MP3 sources did not launch a child. No Start, writer, tag exposure or output. The prior known closed-copy behavior remains.
+- **Source checks:** 216/216 cold after supplying the existing pinned offline package dependency; previous missing dependency run 214/216 preserved. R02 only marks the new Linux-specific tests as such. Exact integrated local runner: 236 syntax, 492 shared plus 163 Linux passes, three expected Windows-only skips.
+- **Continuation:** No MP3 copy, AAC conversion, Windows/GPU, packaging or release acceptance. Any future route still needs genuine source and output qualification.
+
+---
+
 # Session: Document exact two-track evidence and explain the three-track refusal
 
 - **November 20, 2026 Cairo.** Ordinary unsupported AVC MP4 with three AAC tracks previously surfaced an assertion and options Linux could not honor. Correct the first outward view without adding a route, touching shared Windows admission, or removing the track display.

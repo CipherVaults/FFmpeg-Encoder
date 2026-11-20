@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 165421,
-    "sha256": "8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7"
+    "bytes": 166659,
+    "sha256": "28730ffa6adc0f7026380ccab681e6e1abc893bab76fb30726fa40ba4a26817a"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 29772,
-    "sha256": "3fc7f5a4eda430f61903ea68b66d8301c4be469fbabe83f1ed5981d31eb6bf93"
+    "bytes": 30937,
+    "sha256": "1c97fb1536e43e20ea819afa95afd622746447174d52acf50a2ff65c749e53fc"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,
@@ -627,6 +627,18 @@ const SOURCE_PINS = {
   "linux-blue/product-two-aac-record.cjs": {
     "bytes": 415,
     "sha256": "2db44067f1ac9ed57d84995a50dc599381260c3a295aef7b639e005fc923671b"
+  },
+  "linux-blue/product-mp3-source.cjs": {
+    "bytes": 7623,
+    "sha256": "e8b552a2e10dda42e2bc2b7431adbb63d761d823fa0cc8c8a3b99cbbf9d58389"
+  },
+  "linux-blue/product-mp3-inspection.cjs": {
+    "bytes": 7978,
+    "sha256": "93894552037b4abce9c92a2d0c97558b3ae0dee91a665af0c8963f127181c435"
+  },
+  "linux-blue/product-mp3-prepare.cjs": {
+    "bytes": 4714,
+    "sha256": "c85a2b894cace7a7c57c67aa8ac041225be9f41fec954122c0a11838abc8a1c2"
   }
 };
 const CLOSED_RECORD = {

@@ -772,8 +772,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 41470,
-      "sha256": "2540e98fb90e72091387fbe5942b319b444b34680d1f6d00810502e1945cefc1"
+      "bytes": 41913,
+      "sha256": "c69d402a573f5e38f5883c5f1142e120b57de45543a2f0407878434a95f709ee"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 165421,
-      "sha256": "8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7"
+      "bytes": 166659,
+      "sha256": "28730ffa6adc0f7026380ccab681e6e1abc893bab76fb30726fa40ba4a26817a"
     },
     {
       "root": "source",
@@ -2020,8 +2020,8 @@
       "source": "linux-blue/product-linux-unified-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-unified-service.cjs",
       "group": "application",
-      "bytes": 29772,
-      "sha256": "3fc7f5a4eda430f61903ea68b66d8301c4be469fbabe83f1ed5981d31eb6bf93"
+      "bytes": 30937,
+      "sha256": "1c97fb1536e43e20ea819afa95afd622746447174d52acf50a2ff65c749e53fc"
     },
     {
       "root": "source",
@@ -2198,6 +2198,30 @@
       "group": "application",
       "bytes": 415,
       "sha256": "2db44067f1ac9ed57d84995a50dc599381260c3a295aef7b639e005fc923671b"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-mp3-source.cjs",
+      "target": "electron/resources/app/linux-blue/product-mp3-source.cjs",
+      "group": "application",
+      "bytes": 7623,
+      "sha256": "e8b552a2e10dda42e2bc2b7431adbb63d761d823fa0cc8c8a3b99cbbf9d58389"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-mp3-inspection.cjs",
+      "target": "electron/resources/app/linux-blue/product-mp3-inspection.cjs",
+      "group": "application",
+      "bytes": 7978,
+      "sha256": "93894552037b4abce9c92a2d0c97558b3ae0dee91a665af0c8963f127181c435"
+    },
+    {
+      "root": "source",
+      "source": "linux-blue/product-mp3-prepare.cjs",
+      "target": "electron/resources/app/linux-blue/product-mp3-prepare.cjs",
+      "group": "application",
+      "bytes": 4714,
+      "sha256": "c85a2b894cace7a7c57c67aa8ac041225be9f41fec954122c0a11838abc8a1c2"
     }
   ]
 }

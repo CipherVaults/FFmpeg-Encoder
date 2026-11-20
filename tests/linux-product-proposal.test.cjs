@@ -213,7 +213,8 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  // these source bytes without updating or requalifying the historical evidence.
  assert.deepEqual(aac.currentSource,{bytes:164039,sha256:'b5327f15fd378d11475239cc8c00a6875f04b4d01efbc94b28ae7827fa3788b2'});
  // Regular 115's H265-era 164340-byte/e11071880c11efd21f20e6f8175817db67bc09a505f201bce31d0709a3b8ea33 product is historical; the later shared stage handoff does not requalify its native receipt.
- const currentEncoderService={bytes:165421,sha256:'8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7'};
+ // Checkpoint 118: 165421 bytes, 8180faf446c800832a2258b39f20e04e8cf816341f08a1bc303eb6dc65e8c7f7. A diagnostic-only discovery path is not a new native receipt.
+ const currentEncoderService={bytes:166659,sha256:'28730ffa6adc0f7026380ccab681e6e1abc893bab76fb30726fa40ba4a26817a'};
  let changed=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));

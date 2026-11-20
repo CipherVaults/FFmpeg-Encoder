@@ -2,6 +2,8 @@
 const {randomUUID}=require('node:crypto');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs/promises');
 const {EncoderService}=require('../src/encoder-service.cjs');
+const {ToolError}=require('../src/process-runner.cjs');
+const {discoverMp3Diagnostic, inspectMp3Diagnostic, MP3_NOTICE}=require('./product-mp3-prepare.cjs');
 const {installProductTwoAac,composed}=require('./product-two-aac-owner.cjs');
 const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
 const {fingerprintEncodeSource}=require('../src/encode-operation.cjs');
@@ -168,6 +170,19 @@ class UnifiedService extends EncoderService{
   }
   async reprepareEncodingSettings(request){assert.equal(fixedSettings(request.settings),this.route,'Use a fresh explicit Prepare to change CPU route');return super.reprepareEncodingSettings(request);}
   async reprepareDraft(options){assert(this.plan);assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');if(this.route!=='remux')assert.equal(fixedSettings(this.plan.settings),this.route);return super.reprepareDraft(options);}
+  discoverInspectionOnly(entries,target){return discoverMp3Diagnostic(entries,target);}
+  async inspectUnlistedSource(item,{baseline,preparedPlan,owner,signal,onStage}){
+    const generation=this.generation, planId=preparedPlan.id, request=item.operationRequest;
+    const current=()=>{
+      if(signal.aborted||this.cancellation||this.shuttingDown||this.plan!==preparedPlan||this.plan.id!==planId
+          ||this.route!=='remux'||this.generation!==generation||this.state.batchId!==owner||this.state.phase!=='preparing'
+          ||!this.state.items.includes(item)||item.operationRequest!==request||!preparedPlan.inspectionOnly?.has(item.name))
+        throw new ToolError('CANCELLED','The MP3 inspection is no longer current.');
+      generation.assertCurrent();
+    };
+    current();
+    return inspectMp3Diagnostic({baseline,selectedPath:path.join(preparedPlan.input,item.name),request,signal,current,onStage,ffprobe:this.ffprobe,run:this.run});
+  }
   async prepareWithWorkers(context){assert(this.state.items.length>=1&&this.state.items.length<=(ordinaryRoute(this.route)?2:1));return super.prepareWithWorkers(context);}
   ordinaryEntry(item){
     const e=this.plan?.entries.get(item.id);
@@ -336,6 +351,7 @@ async function createUnifiedService(options){
   service=new UnifiedService({ffmpeg:path.join(runtimeRoot,'ffmpeg'),ffprobe:path.join(runtimeRoot,'ffprobe'),stateDir,outputAccess,inspectionWorkers:1,runtimeIdentity:RUNTIME,operationTelemetry:true,
     run:(...args)=>{assert(service.generation);return service.generation.run(...args);},operationStorage:()=>openEvidenceStorage({root:path.join(stateDir,'operation-evidence')})},{runtimeRoot,onChild,measured,remux});
   service.state.remuxSupport=remuxSupport(remux);
+  service.state.remuxSupport.notice+=' '+MP3_NOTICE;
   try{await service.renew('ordinary');return new Proxy(service,{get(target,key){const value=Reflect.get(target,key,target);if(typeof value!=='function')return value;return MUTATIONS.has(key)?(...args)=>target.mutate(key,args):value.bind(target);}});}catch(error){try{await service.closeOperationResources();}catch(cleanup){throw new AggregateError([error,cleanup],'Unified construction and closure failed');}throw error;}
 }
 module.exports={createUnifiedService,fixedSettings};

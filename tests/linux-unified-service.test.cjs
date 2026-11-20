@@ -514,3 +514,71 @@ for(const scenario of ['clock-only','unsupported-geometry','clock-and-container'
     assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(await fsp.readdir(output),[]);
   });
 }
+
+async function mp3Folders(t){
+ const {service,root,h}=await setup(t,{matroska:true,mov:true});const input=path.join(root,'input'),output=path.join(root,'output');
+ await fsp.mkdir(input);await fsp.mkdir(output);const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+ const frame=Buffer.alloc(384);Buffer.from([255,251,148,0]).copy(frame);
+ const bytes=Buffer.concat(Array.from({length:8},()=>frame)),name='song.MP3',file=path.join(input,name);
+ await fsp.writeFile(file,bytes);
+ const raw={streams:[{index:0,codec_type:'audio',codec_name:'mp3',sample_rate:'48000',channels:2,channel_layout:'stereo',time_base:'1/14112000',start_pts:0,start_time:'0.000000',disposition:{default:0}}],
+   format:{format_name:'mp3',size:String(bytes.length),nb_streams:1,nb_programs:0,nb_stream_groups:0,start_time:'0.000000'},programs:[],stream_groups:[],chapters:[]};
+ const args={inputFolderId:i.id,outputFolderId:o.id,target:'mp4'},updates=[],calls=[];
+ service.on('update',u=>updates.push(u));service.run=async(...a)=>{calls.push(a);return {stdout:JSON.stringify(raw),stderr:''};};
+ return {service,h,input,output,file,name,bytes,raw,args,updates,calls};
+}
+// Normal Linux acquisition needs Linux descriptor semantics. Pure metadata tests remain portable.
+const linuxMp3 = (name, body) => test(name, {skip: process.platform !== 'linux' && 'Linux MP3 product only'}, body);
+linuxMp3('normal remux discovers one upper-case MP3 only as a read-only diagnostic; all outward selections, output names and decisions stay empty',async t=>{
+ const {service,output,file,bytes,args,updates,calls}=await mp3Folders(t);
+ const s=await service.prepareRemuxBatch(args);assert.equal(s.phase,'ready',s.error);assert.equal(s.items.length,1);const item=s.items[0];
+ assert.equal(item.reasonCode,'REMUX_MP3_QUALIFICATION_REQUIRED',item.reason);assert.match(item.reason,/48,?000 Hz.*stereo/);assert.match(item.reason,/Apple/);assert.match(item.reason,/AAC/);assert.equal(item.status,'unsupported');
+ for(const u of updates)for(const x of u.items){assert.ok(['pending','unsupported'].includes(x.status));assert.equal(x.outputName,'');assert.equal(x.reencodeAuthorized,false);assert.equal(x.outputAccess,undefined);assert.equal(x.remuxDecision,undefined);}
+ assert.equal(service.plan.entries.size,0);assert.equal(service.plan.remuxCandidates.size,0);assert.equal(service.plan.remuxGrants.size,0);assert.equal(service.plan.generated.size,0);
+ assert.equal(calls.length,1);const [exe,a,o]=calls[0];assert.equal(exe,service.ffprobe);assert.equal(a.at(-1),file);assert.ok(!a.includes('-show_packets')&&!a.includes('-show_frames'));assert.equal(a[a.indexOf('-format_whitelist')+1],'mp3');assert.equal(a[a.indexOf('-protocol_whitelist')+1],'file');assert.ok(o.timeoutMs<=8000&&o.stdoutLimit<=131072&&o.stderrLimit<=65536);
+ await assert.rejects(service.startBatch({planId:s.planId,fileIds:[item.id]}));assert.equal(calls.length,1);assert.deepEqual(await fsp.readdir(output),[]);assert.deepEqual(await fsp.readFile(file),bytes);
+});
+linuxMp3('MP3-only fallback does not change Matroska target or multi-song folder into a token/first-file guess',async t=>{
+ const {service,input,args,calls}=await mp3Folders(t);
+ const known=await service.prepareRemuxBatch({...args,target:'matroska'});assert.equal(known.phase,'failed');assert.match(known.error,/No supported top-level video/);
+ await fsp.writeFile(path.join(input,'b.mp3'),'second');const more=await service.prepareRemuxBatch(args);assert.equal(more.phase,'failed');assert.match(more.error,/one MP3/i);assert.equal(more.planId,null);assert.equal(more.items.length,0);assert.equal(calls.length,0);
+});
+linuxMp3('ordinary 081 discovery takes precedence over an adjacent MP3, preserving old ready entry without any music probe',async t=>{
+ const {service,input,args,calls}=await mp3Folders(t);const p=sourceProbe();p.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';p.streams.forEach((s,i)=>s.id=String(i+1));
+ const selected=path.join(input,'source.mp4');await fsp.writeFile(selected,require('./helpers/mov-fixture.cjs').playbackFixture(p));p.format.size=String((await fsp.stat(selected)).size);
+ service.inspect=async()=>({probe:structuredClone(p),duration:2,summary:{}});service.storageEligibility={check:async()=>({eligible:true})};
+ const s=await service.prepareRemuxBatch(args);assert.equal(s.phase,'ready',s.error);assert.deepEqual(s.items.map(x=>x.name),['source.mp4']);assert.equal(s.items[0].status,'ready',s.items[0].reason);assert.equal(service.plan.entries.size,1);assert.equal(calls.length,0);
+});
+linuxMp3('renamed bytes, tagged source and untrusted probe diagnostics never become metadata or outputs',async t=>{
+ const {service,file,bytes,args,calls}=await mp3Folders(t);
+ for(const [data,code] of [[Buffer.from('not MP3 at all'),'MP3_FRAME_UNPROVED'],[Buffer.concat([Buffer.from('ID3secret-title'),bytes]),'MP3_ID3V2_UNSUPPORTED']]){
+  await fsp.writeFile(file,data);const s=await service.prepareRemuxBatch(args);assert.equal(s.items[0]?.reasonCode,code,s.error);assert.doesNotMatch(s.items[0].reason,/secret-title/);assert.equal(s.items[0].outputName,'');}
+ assert.equal(calls.length,0);
+ await fsp.writeFile(file,bytes);service.run=async()=>({stdout:'{}',stderr:'secret-title '+file});const s=await service.prepareRemuxBatch(args);
+ assert.equal(s.items[0]?.reasonCode,'REMUX_MP3_PROBE_UNAVAILABLE',s.error);assert.doesNotMatch(JSON.stringify(s.items),/secret-title|\/input\//);assert.equal(service.plan.entries.size,0);
+});
+linuxMp3('MP3 read-only Prepare detects ordinary same-bytes source replacement while reader runs',async t=>{
+ const {service,file,bytes,raw,args}=await mp3Folders(t);service.run=async()=>{await fsp.rename(file,file+'.old');await fsp.writeFile(file,bytes);return {stdout:JSON.stringify(raw),stderr:''};};
+ const s=await service.prepareRemuxBatch(args);assert.equal(s.items[0]?.reasonCode,'INPUT_CHANGED',s.error);assert.equal(s.items[0].sourceIdentityDiagnostic,undefined);assert.equal(s.items[0].outputName,'');assert.equal(service.plan.entries.size,0);
+});
+linuxMp3('cancel joins the in-flight metadata read and requires a fresh explicit MP3 Prepare, with no writer',async t=>{
+ const {service,raw,args,updates}=await mp3Folders(t);let entered,release;const pending=new Promise(r=>entered=r),resume=new Promise(r=>release=r);
+ service.run=async()=>{entered();await resume;return {stdout:JSON.stringify(raw),stderr:''};};
+ const prep=service.prepareRemuxBatch(args);await Promise.race([pending,prep.then(()=>{throw Error('MP3 observer was not reached');})]);
+ const closing=service.cancelCurrent();release();await prep.catch(()=>{});await closing;assert.equal(service.plan,null);assert.equal(service.generation,null);
+ service.run=async()=>({stdout:JSON.stringify(raw),stderr:''});const next=await service.prepareRemuxBatch(args);assert.equal(next.items[0].reasonCode,'REMUX_MP3_QUALIFICATION_REQUIRED');
+ assert(updates.every(x=>x.items.every(y=>!['ready','success'].includes(y.status))));assert.equal(service.plan.entries.size,0);
+});
+linuxMp3('MP3 draft target edit on reserved audio stays diagnostic-only without a repeat probe or a projected output',async t=>{
+ const {service,args,calls,updates}=await mp3Folders(t);
+ const before=await service.prepareRemuxBatch(args);const d=before.operationDraft;
+ const after=await service.updateFileOperations({planId:before.planId,draftId:d.id,revision:d.revision,fileIds:[before.items[0].id],overrides:{target:'matroska'}});
+ assert.equal(after.phase,'ready',after.error);assert.notEqual(after.planId,before.planId);assert.equal(after.items[0].reasonCode,'REMUX_MP3_TARGET_UNQUALIFIED',after.items[0].reason);
+ assert.equal(calls.length,1);assert.equal(service.plan.entries.size,0);assert(updates.every(s=>s.items.every(i=>i.outputName===''&&!['ready','conflict'].includes(i.status))));
+ await assert.rejects(service.startBatch({planId:before.planId,fileIds:[before.items[0].id]}));
+});
+linuxMp3('an unresolved name on a symlink does not open the target, expose its path or create a media authority',async t=>{
+ const {service,file,args,calls}=await mp3Folders(t);await fsp.rename(file,file+'.original');await fsp.symlink(file+'.original',file);
+ const s=await service.prepareRemuxBatch(args);assert.equal(s.items[0]?.reasonCode,'UNSAFE_SOURCE',s.error);assert.doesNotMatch(s.items[0].reason,/\/|original/);
+ assert.equal(calls.length,0);assert.equal(service.plan.entries.size,0);
+});

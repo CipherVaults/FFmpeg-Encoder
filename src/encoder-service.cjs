@@ -934,8 +934,9 @@ class EncoderService extends EventEmitter {
     progress.workers.push(worker);
     this.emitState();
     const file = path.join(input.path, item.name);
-    let destination = path.join(output.path, item.outputName);
     const preparedPlan = this.plan;
+    const inspectionOnly = preparedPlan.inspectionOnly?.has(item.name);
+    let destination = inspectionOnly ? null : path.join(output.path, item.outputName);
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
     let inspectionDiagnostic, nativePrivate = null;
     const onStage = detail => {
@@ -946,6 +947,15 @@ class EncoderService extends EventEmitter {
     };
     try {
       const baseline = this.plan.baseline.get(item.name);
+      // A host may identify otherwise unlisted files for explanation only. This
+      // branch never reaches source overrides, remux planning or a destination.
+      if (inspectionOnly) {
+        const diagnostic = await this.inspectUnlistedSource(item, { baseline, preparedPlan, owner, signal, onStage });
+        notCancelled(signal);
+        item.status = 'unsupported'; item.reasonCode = diagnostic.reasonCode; item.reason = diagnostic.reason;
+        item.inspectionMethod = 'fresh'; progress.inspected++;
+        return;
+      }
       if (baseline.error) throw fail('UNSAFE_SOURCE', baseline.error);
       const { identity, reusable, reason } = await this.identifyForInspection(file, signal);
       assertIdentityMatches(baseline.identity, identity, { stage: 'after-directory-snapshot', message: 'Source identity changed after the directory snapshot.' });
@@ -1299,9 +1309,15 @@ class EncoderService extends EventEmitter {
         await this.verifyFolders();
         if (native) await requireNativeOutputFolder(this.plan.output);
         await this.initializeInspectionCache(signal);
-        const files = (await fs.readdir(input.path, { withFileTypes: true }))
-          .filter(entry => (entry.isFile() || entry.isSymbolicLink()) && (operation === 'remux' ? REMUX_EXTENSIONS : EXTENSIONS).has(path.extname(entry.name).toLowerCase()))
+        const entries = await fs.readdir(input.path, { withFileTypes: true });
+        let files = entries.filter(entry => (entry.isFile() || entry.isSymbolicLink()) && (operation === 'remux' ? REMUX_EXTENSIONS : EXTENSIONS).has(path.extname(entry.name).toLowerCase()))
           .sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: false }) || a.name.localeCompare(b.name));
+        // Never append a diagnostic file to a normal batch; a host's fallback
+        // cannot change admission, output naming or selection of existing files.
+        if (!files.length && remux && this.discoverInspectionOnly) {
+          files = this.discoverInspectionOnly(entries, request.target);
+          if (files.length) this.plan.inspectionOnly = new Set(files.map(entry => entry.name));
+        }
         if (!files.length) throw fail('NO_INPUTS', 'No supported top-level video files were found.');
         await this.captureBaseline(files, signal);
         if (sameFolder) {
@@ -1310,7 +1326,7 @@ class EncoderService extends EventEmitter {
           if (!storage?.eligible) throw fail('SAME_FOLDER_STORAGE', 'Output beside originals requires verified local fixed NTFS storage. Choose a distinct output folder for this storage.');
         }
         const profile = remux || native ? null : catalogProfile(settings.profileId);
-        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, native ? native.token.request.profileId : profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
+        this.state.items = files.map(entry => ({ id: randomUUID(), name: entry.name, outputName: this.plan.inspectionOnly?.has(entry.name) ? '' : remux ? remuxOutputName(entry.name, request.target) : encodeOutputName(entry.name, native ? native.token.request.profileId : profile.suffix), status: 'pending', reason: '', reencodeAuthorized: false }));
         draft?.addSources(this.state.items.map(item => ({ fileId: item.id, identityRevision: 0 })));
         this.state.operationDraft = draft ? draft.snapshot() : null;
         this.state.preparation = { total: files.length, resolved: 0, reused: 0, inspected: 0, active: 0, workers: [], stage: 'identity', fileId: null,
@@ -1431,7 +1447,7 @@ class EncoderService extends EventEmitter {
     this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
     if (remux) {
       this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); this.plan.remuxFacts.clear();
-      for (const item of this.state.items) item.outputName = remuxOutputName(item.name, this.plan.draft.fileRequest(item.id).target);
+      for (const item of this.state.items) item.outputName = this.plan.inspectionOnly?.has(item.name) ? '' : remuxOutputName(item.name, this.plan.draft.fileRequest(item.id).target);
     } else {
       const profile = catalogProfile(this.plan.settings.profileId);
       for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
@@ -1439,6 +1455,7 @@ class EncoderService extends EventEmitter {
     this.state.operationDraft = this.plan.draft.snapshot();
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
+      if (this.plan.inspectionOnly?.has(item.name)) delete item.inspectionMethod;
       for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'rangeLimitUs', 'timing', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
     }
     const signal = this.begin('preparing');

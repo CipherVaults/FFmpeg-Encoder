@@ -169,7 +169,59 @@ class UnifiedService extends EncoderService{
     return super.prepareSourceBatch(request,operation,native);
   }
   async reprepareEncodingSettings(request){assert.equal(fixedSettings(request.settings),this.route,'Use a fresh explicit Prepare to change CPU route');return super.reprepareEncodingSettings(request);}
-  async reprepareDraft(options){assert(this.plan);assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');if(this.route!=='remux')assert.equal(fixedSettings(this.plan.settings),this.route);return super.reprepareDraft(options);}
+  additionalAncillaryRefusal({assessment,source,request,file}){
+    // Explain only a recognized local MP4 governed by this active Full-copy
+    // service. A probe's MOV aliases do not identify an MP4 on their own.
+    if(this.route!=='remux'||this.plan?.operation!=='remux'||request.range!==null||request.omissionRequestIds.length
+        ||assessment.inputFamily!=='isobmff'||path.extname(file).toLowerCase()!=='.mp4'
+        ||!['isom','iso2','mp41','mp42','avc1'].includes(source.format.tags?.major_brand)
+        ||!this.state.remuxSupport?.targets.includes(request.target)
+        ||source.mediaEvidence.container.relationships.state!=='known'||source.programs.length||source.stream_groups.length)return null;
+    const targets={mp4:'MP4',mov:'MOV',matroska:'MKV'};
+    const video=source.streams.filter(s=>s.codec_type==='video'),audio=source.streams.filter(s=>s.codec_type==='audio');
+    const subs=source.streams.filter(s=>s.codec_type==='subtitle'),data=source.streams.filter(s=>s.codec_type==='data');
+    const chapters=source.chapters.length>0;
+    if(!Object.hasOwn(targets,request.target)||video.length!==1||audio.length!==1||(!chapters&&!subs.length)
+        ||source.streams.length!==2+subs.length+data.length||subs.length>2||data.length>1
+        ||video[0].codec_name!=='h264'||video[0].pix_fmt!=='yuv420p'||video[0].field_order!=='progressive'
+        ||video[0].color_space!=='bt709'||video[0].color_transfer!=='bt709'||video[0].color_primaries!=='bt709'
+        ||video[0].avg_frame_rate!=='30/1'||video[0].r_frame_rate!=='30/1'
+        ||!Number.isSafeInteger(video[0].width)||video[0].width<1||video[0].width>1920
+        ||!Number.isSafeInteger(video[0].height)||video[0].height<1||video[0].height>1080
+        ||video[0].side_data_list?.length||Number(video[0].disposition?.attached_pic||0)!==0
+        ||assessment.expectedOutput.selectedVideoInputIndex!==video[0].index
+        ||audio[0].codec_name!=='aac'||audio[0].profile!=='LC'||audio[0].sample_fmt!=='fltp'||audio[0].sample_rate!=='48000'
+        ||audio[0].channels!==2||audio[0].channel_layout!=='stereo'
+        ||subs.some(s=>s.codec_name!=='mov_text'||s.codec_tag_string!=='tx3g')
+        ||data.some(s=>!chapters||s.codec_name!=='bin_data'||s.codec_tag_string!=='text'))return null;
+    // The native data track is not assumed to be a chapter carrier. Preserve
+    // any existing unsupported-stream reason as primary; don't explain unsafe
+    // relationships, unknown timings or metadata failures as an ancillary case.
+    const ids=new Set();
+    for(const [n,e] of source.mediaEvidence.streams.entries()){
+      const s=source.streams[n],id=e.identity.containerStreamId,t=e.timeline,flags=s.disposition;
+      if(e.index!==s.index||id.state!=='known'||id.value==='0'||ids.has(id.value)
+          ||t.timeBase.state!=='known'||t.startPts.state!=='known'||t.durationTicks.state!=='known'||t.durationTicks.value==='0'
+          ||!flags||!Object.hasOwn(flags,'default')||s.side_data_list?.length
+          ||Object.entries(flags).some(([key,v])=>![0,1,'0','1'].includes(v)||key!=='default'&&Number(v)!==0))return null;
+      ids.add(id.value);
+    }
+    const unavailableMappings=new Set([...data,...(request.target==='matroska'?subs:[])].map(s=>s.index));
+    if(assessment.blockers.some(b=>b.code!=='REMUX_STREAM_UNSUPPORTED'||!unavailableMappings.has(b.streamIndex)))return null;
+    const captions=subs.length===1?'the timed-text subtitle track':'both timed-text subtitle tracks';
+    const what=subs.length&&chapters?`${captions} and chapters`:subs.length?captions:'the chapters';
+    return `Copy to ${targets[request.target]} is unavailable for this MP4: this Linux build cannot yet verify preservation of ${what}. No copy was started and nothing was omitted.`;
+  }
+  async reprepareDraft(options){
+    assert(this.plan);assert.equal(this.plan.operation,this.route==='remux'?'remux':'encode');
+    if(this.route!=='remux')assert.equal(fixedSettings(this.plan.settings),this.route);
+    else for(const item of this.state.items){
+      // The accepted edit retires the old target's decisions. The first busy
+      // update (and a fresh refusal before inspection) must not show them.
+      delete item.remux;delete item.verificationMethod;delete item.verificationClaim;
+    }
+    return super.reprepareDraft(options);
+  }
   discoverInspectionOnly(entries,target){return discoverMp3Diagnostic(entries,target);}
   async inspectUnlistedSource(item,{baseline,preparedPlan,owner,signal,onStage}){
     const generation=this.generation, planId=preparedPlan.id, request=item.operationRequest;

@@ -425,8 +425,8 @@ const SOURCE_PINS = {
     "sha256": "6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810"
   },
   "src/remux-workspace.cjs": {
-    "bytes": 14588,
-    "sha256": "7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260"
+    "bytes": 15333,
+    "sha256": "ed76296926adc5e5c137101647984737dc87b11a6fed48f6f602db2c53535991"
   },
   "src/source-catalog-seals.cjs": {
     "bytes": 2619,
@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 30937,
-    "sha256": "1c97fb1536e43e20ea819afa95afd622746447174d52acf50a2ff65c749e53fc"
+    "bytes": 35013,
+    "sha256": "3a76664b5ba85e0836b4259f7b94e99aaae66d35c3392d11f2e2116b0cb8ff69"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,

@@ -67,12 +67,17 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   // only for the refusal/decision view, never as execution authority.
   const source = normalizeProbe(structuredClone(probe));
   const primary = assessment.expectedOutput.selectedVideoInputIndex;
+  // An individual main-process service can add a refusal, never a grant.
+  // Its text is presented only after the shared assessment's own blockers.
+  const localReason = this.additionalAncillaryRefusal?.({ assessment, source, request, file });
+  const localBlocker = typeof localReason === 'string' && localReason.length
+    ? { code: 'REMUX_ANCILLARY_NOT_QUALIFIED', message: localReason, streamIndex: null } : null;
   const candidates = [];
   // Data/timecode/relationship cases remain refused even after a proposed
   // omission. Do not offer a button that falsely promises to resolve them.
   const unsafeRelationships = assessment.blockers.some(value => /RELATIONSHIP|PROGRAM|GROUP/.test(value.code));
   for (const stream of source.streams) {
-    if (assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
+    if (localBlocker || assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
     const fingerprint = hash(stream);
     const approved = [...this.plan.remuxGrants.values()].find(grant => grant.fileId === item.id && grant.streamIndex === stream.index);
     const candidate = { id: approved?.id || randomUUID(), fileId: item.id, planId: this.plan.id, draftId: this.plan.draft.id,
@@ -88,11 +93,13 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     const omitted = assessment.expectedOutput.omittedStreams.some(value => value.inputIndex === stream.index);
     const blocked = assessment.blockers.filter(value => value.streamIndex === stream.index);
     return { streamIndex: stream.index, codecType: stream.codec_type, codecName: stream.codec_name,
-      action: omitted ? 'explicitly-omitted' : blocked.length ? 'blocked' : 'preserve-copy',
+      action: omitted ? 'explicitly-omitted' : localBlocker || blocked.length ? 'blocked' : 'preserve-copy',
       label: `Stream ${stream.index}: ${stream.codec_type} / ${stream.codec_name || 'unknown'}`,
-      reasons: blocked.map(value => value.message), representations: mapped?.metadata?.representations || [] };
+      reasons: blocked.length ? blocked.map(value => value.message) : localBlocker
+        ? ['This file is blocked as a whole. No stream will be copied.'] : [], representations: mapped?.metadata?.representations || [] };
   });
-  item.remux = { target: request.target, status: 'assessment', streams, blockers: assessment.blockers,
+  const blockers = localBlocker ? [...assessment.blockers, localBlocker] : assessment.blockers;
+  item.remux = { target: request.target, status: 'assessment', streams, blockers,
     omissionCandidates: candidates.map(({ id, streamIndex, label, reasons, target }) => ({ id, streamIndex, label, reasons, target })),
     omissionDecisionIds: request.omissionRequestIds,
     notice: 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.' };
@@ -107,6 +114,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   if (assessment.blockers.length) {
     item.remux.status = 'blocked'; throw fail(assessment.blockers[0].code, assessment.blockers.map(value => value.message).join(' '));
   }
+  if (localBlocker) { item.remux.status = 'blocked'; throw fail(localBlocker.code, localBlocker.message); }
   const outputId = randomUUID();
   let operationPlan;
   try { operationPlan = this.remuxOperations.prepare({ assessment, input: file, output: destination, outputId, sourceIdentity: identity, request }); }

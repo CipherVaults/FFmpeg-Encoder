@@ -582,3 +582,221 @@ linuxMp3('an unresolved name on a symlink does not open the target, expose its p
  const s=await service.prepareRemuxBatch(args);assert.equal(s.items[0]?.reasonCode,'UNSAFE_SOURCE',s.error);assert.doesNotMatch(s.items[0].reason,/\/|original/);
  assert.equal(calls.length,0);assert.equal(service.plan.entries.size,0);
 });
+
+const LINUX_ANCILLARY_REASON='REMUX_ANCILLARY_NOT_QUALIFIED';
+function q2mCaption(index=2,codec_name='mov_text'){
+ return {index,id:String(index+1),codec_type:'subtitle',codec_name,codec_tag_string:'tx3g',
+   time_base:'1/1000',start_pts:0,duration_ts:2000,tags:{language:index===2?'eng':'ara'},disposition:{default:0}};
+}
+function q2mProbe({captions=[],chapters=false,data=false,brand='isom',family='mov,mp4,m4a,3gp,3g2,mj2',unknown=false,origin=false}={}){
+ const probe=sourceProbe();
+ probe.streams.push(...captions.map(([index,codec])=>q2mCaption(index,codec)));
+ if(data)probe.streams.push({index:probe.streams.length,codec_type:'data',codec_name:'bin_data',codec_tag_string:'text',
+   time_base:'1/1000',start_pts:0,duration_ts:2000,disposition:{default:0}});
+ probe.streams.forEach((s,i)=>{s.id=String(i+1);s.duration_ts=2000;});
+ if(chapters)probe.chapters=[{id:0,time_base:'1/1000',start:'0',end:'1000',tags:{title:'First chapter'}},
+   {id:1,time_base:'1/1000',start:'1000',end:'2000',tags:{title:'Second chapter'}}];
+ Object.assign(probe.format,{format_name:family,nb_streams:probe.streams.length,
+   tags:{major_brand:brand,...(origin?{FFMPEG_ENCODER_PROVENANCE:'1',FFMPEG_ENCODER_OUTPUT_ID:'f711706b-d720-4a74-9712-d10567c85655'}:{})}});
+ if(unknown)probe.format.nb_streams++;
+ return probe;
+}
+async function q2mSetup(t,probe,{collision=false,matroska=false,name='source.mp4'}={}){
+ const access=[];
+ const {OutputAccess}=require('../src/output-access.cjs');
+ const outputAccess=new OutputAccess({openPath:async(...args)=>{access.push(args);return '';},
+   showItemInFolder:(...args)=>{access.push(args);}});
+ const issue=outputAccess.issue.bind(outputAccess);
+ outputAccess.issue=(...args)=>{access.push(args);return issue(...args);};
+ const {service,h,root}=await setup(t,{matroska,outputAccess});
+ const i=path.join(root,'in'),o=path.join(root,'out'),file=path.join(i,name);
+ await fsp.mkdir(i);await fsp.mkdir(o);
+ await fsp.writeFile(file,'Inert Q2m inspected-metadata fixture, not media.');
+ probe.format.size=String((await fsp.stat(file)).size);
+ if(collision)await fsp.writeFile(path.join(o,'source_Remux-MP4.mp4'),'preexisting');
+ service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+ const updates=[];
+ service.on('update',value=>updates.push({value,registered:[...service.plan?.remuxCandidates?.values()||[]].map(c=>c.id),
+   grants:service.plan?.remuxGrants?.size||0,entries:service.plan?.entries?.size||0}));
+ const prepare=()=>service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target:'mp4'});
+ return {service,h,updates,prepare,access,output:o,file};
+}
+function q2mShared(probe,target){
+ return require('../src/remux-contract.cjs').assessRemux({probe,sourceFingerprint:'a'.repeat(64),
+   request:{fileId:'fixture',identityRevision:0,draftRevision:0,operation:'remux',target,range:null,omissionRequestIds:[]}});
+}
+function q2mNoActions(state){
+ const [item]=state.items;
+ if(!item)return;
+ assert.equal(item.outputAccess,undefined);
+ assert.equal(item.verificationMethod,undefined);
+ if(!item.remux)return;
+ assert.deepEqual(item.remux.omissionCandidates,[]);
+ assert.deepEqual(item.remux.omissionDecisionIds,[]);
+ assert(item.remux.streams.every(s=>s.action==='blocked'));
+}
+for(const [name,probeInput] of [
+ ['single native text subtitle',{captions:[[2,'mov_text']]}],
+ ['two native text subtitles',{captions:[[2,'mov_text'],[3,'mov_text']]}],
+ ['observed chapter ticks',{chapters:true}],
+ ['observed chapters plus native text carrier',{chapters:true,data:true}],
+ ['observed chapters plus subtitle',{chapters:true,captions:[[2,'mov_text']]}],
+ ]){
+ test('Linux Q2m first-visible refusal: '+name,async t=>{
+   const probe=q2mProbe(probeInput),{service,h,updates,prepare,access,output}=await q2mSetup(t,probe);
+   const prior=q2mShared(probe,'mp4').blockers;
+   const returned=await prepare(), snap=service.snapshot(), item=snap.items[0];
+   t.diagnostic('first visible actions: '+JSON.stringify(updates.filter(x=>x.value.items[0]?.remux).map(x=>[
+     x.value.items[0].reasonCode,x.value.items[0].remux.omissionCandidates.map(c=>c.streamIndex),x.registered.length])));
+   assert(updates.some(u=>u.value.items[0]?.remux));
+   for(const u of updates){q2mNoActions(u.value);assert.deepEqual(u.registered,[]);assert.equal(u.grants,0);assert.equal(u.entries,0);}
+   for(const state of [returned,snap]){
+     q2mNoActions(state);
+     assert.equal(state.items[0].status,'unsupported');
+     assert.equal(state.items[0].remux.status,'blocked');
+     assert.equal(state.items[0].reasonCode,prior[0]?.code||LINUX_ANCILLARY_REASON);
+     const reasons=state.items[0].remux.blockers;
+     assert.deepEqual(reasons.slice(0,prior.length),prior);
+     const typed=reasons.find(x=>x.code===LINUX_ANCILLARY_REASON);
+     assert(typed);
+     assert.match(typed.message,/copy to MP4/i);
+     assert.match(typed.message,/no copy was started.*nothing was omitted/i);
+     if(probeInput.captions?.length)assert.match(typed.message,probeInput.captions.length===2?/subtitle tracks/i:/subtitle track\b/i);
+     else assert.doesNotMatch(typed.message,/subtitle tracks?/i);
+     if(probeInput.chapters)assert.match(typed.message,/chapters/i);
+     else assert.doesNotMatch(typed.message,/chapters/i);
+     if(prior.length)assert(state.items[0].reason.startsWith(prior[0].message));
+   }
+   await assert.rejects(service.startBatch({planId:snap.planId,fileIds:[item.id]}));
+   assert.equal(service.plan.remuxCandidates.size,0);assert.equal(service.plan.remuxGrants.size,0);
+   assert.equal(service.plan.entries.size,0);assert.equal(service.executionBinding,null);
+   assert.equal(service.generation.observeCalls,0);assert(h.generations.every(g=>!g.runCalls));
+   assert.deepEqual(access,[]);assert.deepEqual(await fsp.readdir(output),[]);
+ });
+}
+test('Linux Q2m does not use source aliases or unknown relationships as typed authority',async t=>{
+ for(const [label,input] of [
+   ['wrong native format',{family:'matroska,webm'}],['QuickTime brand',{brand:'qt  '}],
+   ['ambiguous repeated brand',{brand:'isom;isom'}],['unrelated brand',{brand:'3gp4'}],
+   ['unknown relationships',{unknown:true}],
+   ['inconsistent subtitle codec and sample entry',{captions:[[2,'subrip']]}],
+ ]){
+   const {service,h,prepare}=await q2mSetup(t,q2mProbe({captions:[[2,'mov_text']],...input}));
+   const item=(await prepare()).items[0];
+   assert.equal(item.status,'unsupported',label);
+   assert.notEqual(item.reasonCode,LINUX_ANCILLARY_REASON,label);
+   assert(!item.remux?.blockers.some(x=>x.code===LINUX_ANCILLARY_REASON),label);
+   if(input.unknown)assert.equal(item.reasonCode,'REMUX_RELATIONSHIPS_UNKNOWN');
+   if(input.captions)assert.equal(item.reasonCode,'REMUX_STREAM_UNSUPPORTED');
+   assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls));
+ }
+});
+test('Linux Q2m never classifies origin or destination collision as typed ancillary',async t=>{
+ for(const [input,options,expected] of [
+   [{origin:true},{},'generated'],[{}, {collision:true},'skipped'],[{}, {name:'source_H264-CPU.mp4'},'ambiguous'],
+ ]){
+   const {service,h,updates,prepare,output}=await q2mSetup(t,q2mProbe({captions:[[2,'mov_text']],...input}),options);
+   const result=await prepare(),item=result.items[0];
+   assert.equal(item.status,expected,item.reason);assert.equal(item.remux,undefined);
+   for(const u of updates){assert.equal(u.value.items[0]?.remux,undefined);assert.deepEqual(u.registered,[]);}
+   assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls));
+   if(options.collision)assert.equal(await fsp.readFile(path.join(output,'source_Remux-MP4.mp4'),'utf8'),'preexisting');
+ }
+});
+test('Linux Q2m reprepare cannot show a prior target or offers before the new assessment',async t=>{
+ const probe=q2mProbe({captions:[[2,'mov_text']]}),{service,updates,prepare}=await q2mSetup(t,probe,{matroska:true});
+ const first=await prepare(),start=updates.length;
+ assert.equal(first.items[0].remux.target,'mp4');
+ const changed=await service.updateBatchOperationDefaults({planId:first.planId,draftId:first.operationDraft.id,
+   revision:first.operationDraft.revision,overrides:{remuxTarget:'matroska'}});
+ const firstUpdate=updates.slice(start).find(u=>u.value.phase==='preparing'&&u.value.items.length);
+ assert(firstUpdate);
+ assert.equal(firstUpdate.value.items[0].remux,undefined,'first reprepare event must not show retired MP4 details');
+ assert.notEqual(first.planId,changed.planId);
+ for(const u of updates.slice(start)){
+   q2mNoActions(u.value);assert.deepEqual(u.registered,[]);
+   if(u.value.items[0]?.remux)assert.equal(u.value.items[0].remux.target,'matroska');
+ }
+ q2mNoActions(changed);assert.equal(changed.items[0].remux.target,'matroska');
+ const prior=q2mShared(probe,'matroska').blockers;
+ assert.deepEqual(changed.items[0].remux.blockers.slice(0,prior.length),prior);
+ assert.equal(changed.items[0].reasonCode,prior[0]?.code||LINUX_ANCILLARY_REASON);
+ const typed=changed.items[0].remux.blockers.find(x=>x.code===LINUX_ANCILLARY_REASON);
+ assert(typed);
+ assert.match(typed.message,/copy to (?:MKV|Matroska)/i);
+ assert.match(typed.message,/subtitle track.*no copy was started.*nothing was omitted/i);
+ assert.equal(service.plan.entries.size,0);assert.equal(service.plan.remuxCandidates.size,0);
+});
+test('Linux Q2m reprepare leaves a fresh destination collision unclassified for every emission',async t=>{
+ const probe=q2mProbe({captions:[[2,'mov_text']]}),{service,h,updates,prepare,output}=await q2mSetup(t,probe,{matroska:true});
+ const first=await prepare(),start=updates.length,dest=path.join(output,'source_Remux-MKV.mkv');
+ await fsp.writeFile(dest,'newly existing output', {flag:'wx'});
+ const changed=await service.updateBatchOperationDefaults({planId:first.planId,draftId:first.operationDraft.id,
+   revision:first.operationDraft.revision,overrides:{remuxTarget:'matroska'}});
+ assert.equal(changed.items[0].status,'skipped');
+ assert.match(changed.items[0].reason,/output already exists/i);
+ assert(updates.slice(start).some(u=>u.value.phase==='preparing'&&u.value.items.length));
+ for(const u of [...updates.slice(start),{value:changed,registered:[]}])
+   for(const item of u.value.items){assert.equal(item.remux,undefined);assert.equal(item.verificationMethod,undefined);assert.deepEqual(u.registered,[]);}
+ assert.equal(service.plan.entries.size,0);assert.equal(service.plan.remuxCandidates.size,0);
+ assert(h.generations.every(g=>!g.runCalls));
+ assert.equal(await fsp.readFile(dest,'utf8'),'newly existing output');
+});
+test('Linux Q2m does not diagnose a nonprogressive source as an ordinary ancillary copy',async t=>{
+ const probe=q2mProbe({captions:[[2,'mov_text']]});
+ probe.streams[0].field_order='tt';
+ const {service,h,prepare}=await q2mSetup(t,probe);
+ const item=(await prepare()).items[0];
+ assert.equal(item.status,'unsupported');
+ assert.notEqual(item.reasonCode,LINUX_ANCILLARY_REASON);
+ assert(!item.remux?.blockers.some(x=>x.code===LINUX_ANCILLARY_REASON));
+ assert.equal(service.plan.entries.size,0);
+ assert(h.generations.every(g=>!g.runCalls));
+});
+
+test('Linux Q2m does not diagnose missing or invalid native track clocks and IDs',async t=>{
+ for(const [field,replacements] of [
+   ['time_base',[undefined,'0/1000','bogus']],['duration_ts',[undefined,0,-1]],['start_pts',[undefined,'bogus']],
+   ['id',[undefined,'0','1']],
+ ]){
+   // Video, audio, and native timed text must each be independently in scope.
+   for(const index of [0,1,2])for(const replacement of replacements){
+     // Duplicate an actual other track ID, never accidentally retain track 0's own ID.
+     const value=field==='id'&&replacement==='1'?String((index+1)%3+1):replacement;
+     const label=field+' on track '+index+': '+value;
+     await t.test(label,async sub=>{
+       const probe=q2mProbe({captions:[[2,'mov_text']]});
+       if(value===undefined)delete probe.streams[index][field];else probe.streams[index][field]=value;
+       const {service,h,prepare}=await q2mSetup(sub,probe);
+       const prior=q2mShared(probe,'mp4').blockers;
+       const item=(await prepare()).items[0];
+       assert.equal(item.status,'unsupported');
+       assert.notEqual(item.reasonCode,LINUX_ANCILLARY_REASON);
+       assert(!item.remux?.blockers.some(x=>x.code===LINUX_ANCILLARY_REASON));
+       if(prior.length){assert.equal(item.reasonCode,prior[0].code);assert.deepEqual(item.remux.blockers,prior);}
+       assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls));
+     });
+   }
+ }
+});
+test('Linux Q2m keeps unsupported subtitle and chapter-data disposition reasons',async t=>{
+ for(const [label,source] of [['subtitle',{captions:[[2,'mov_text']]}],['chapter data',{data:true,chapters:true}]]){
+   for(const [description,disposition] of [['missing default',{}],['malformed default',{default:2}],
+     ['non-default enabled flag',{default:0,forced:1}]]){
+     await t.test(label+': '+description,async sub=>{
+       const probe=q2mProbe(source);
+       probe.streams[2].disposition=disposition;
+       const {service,h,prepare}=await q2mSetup(sub,probe);
+       const prior=q2mShared(probe,'mp4').blockers;
+       const item=(await prepare()).items[0];
+       assert.equal(item.status,'unsupported');
+       assert.notEqual(item.reasonCode,LINUX_ANCILLARY_REASON);
+       assert(!item.remux?.blockers.some(x=>x.code===LINUX_ANCILLARY_REASON));
+       if(prior.length){assert.equal(item.reasonCode,prior[0].code);assert.deepEqual(item.remux.blockers,prior);}
+       assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>!g.runCalls));
+     });
+   }
+ }
+});

@@ -229,6 +229,12 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
    assert.equal(hash,'0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:24548,sha256:'d61c0185f0af9104831cee015774bb8bd4656376e4b6f52b981e2aa7c011aff6'});
    changed++;
+  }else if(name==='src/remux-workspace.cjs'){
+   // A new refusal-only Linux projection does not requalify the old resize
+   // producer. Check each exact identity rather than rewriting its receipt.
+   assert.equal(hash,'7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:15333,sha256:'ed76296926adc5e5c137101647984737dc87b11a6fed48f6f602db2c53535991'});
+   changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);
    assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);
@@ -236,7 +242,7 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,5);
+ assert.equal(changed,6);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

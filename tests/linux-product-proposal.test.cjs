@@ -235,9 +235,10 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
    changed++;
   }else if(name==='src/remux-workspace.cjs'){
    // A new refusal-only Linux projection does not requalify the old resize
-   // producer. Check each exact identity rather than rewriting its receipt.
+   // producer. The later omission UI gate is also presentation/decision-only.
+   // Check each exact identity rather than rewriting its receipt.
    assert.equal(hash,'7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:15333,sha256:'ed76296926adc5e5c137101647984737dc87b11a6fed48f6f602db2c53535991'});
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:15864,sha256:'9767c56e38c3ca29ad354c04b30f44ea5100468a9cd23659a4913eb98b5cdd19'});
    changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);

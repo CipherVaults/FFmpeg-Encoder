@@ -150,7 +150,7 @@ for (const scenario of ['valid TS','malformed TS','qualified MP4']) {
    assert.equal(service.generation.observeCalls,1);
    const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
    assert.equal(selected.qualification.inputFamily,'isobmff');assert.equal(selected.qualification.cellId,'internal-isobmff-mp4-081');
-   assert(entry.preparedArgs.includes('copy'));assert.deepEqual(item.remux.omissionCandidates.map(x=>x.streamIndex),[1]);return;
+   assert(entry.preparedArgs.includes('copy'));assert.deepEqual(item.remux.omissionCandidates,[]);return;
   }
   assert.equal(item.status,'unsupported',item.reason);assert.equal(item.remux.status,'blocked');
   assert.equal(service.plan.entries.size,0);assert.equal(service.generation.observeCalls,0);
@@ -1116,3 +1116,42 @@ test('Linux MKV input refusal stays source-only on a fresh target choice',async 
  await assert.rejects(service.startBatch({planId:next.planId,fileIds:[id]}));
  assert.deepEqual(await fsp.readdir(o),[]);assert(h.generations.every(g=>!g.runCalls&&!g.observeCalls));
 });
+
+for(const target of ['mp4','matroska','mov']){
+ test('Linux unsupported omit cannot replace a Ready verified copy to '+target,async t=>{
+  const {service,h,root}=await setup(t,{matroska:true,mov:true,movV2:true});
+  const i=path.join(root,'input'),o=path.join(root,'output'),file=path.join(i,'source.mp4');
+  await fsp.mkdir(i);await fsp.mkdir(o);
+  const p=sourceProbe();p.format.format_name='mov,mp4,m4a,3gp,3g2,mj2';p.streams.forEach((s,n)=>{s.id=String(n+1);s.tags={};});
+  await fsp.writeFile(file,require('./helpers/mov-fixture.cjs').playbackFixture(p));p.format.size=String((await fsp.stat(file)).size);
+  service.inspect=async()=>({probe:structuredClone(p),duration:2,summary:{}});
+  service.storageEligibility={check:async()=>({eligible:true})};
+  const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+  const updates=[];service.on('update',state=>updates.push({state,ids:[...service.plan?.remuxCandidates?.keys()||[]]}));
+  const before=await service.prepareRemuxBatch({inputFolderId:input.id,outputFolderId:output.id,target});
+  const row=before.items[0],entry=service.plan.entries.get(row.id),oldPlan=service.plan,oldGeneration=service.generation;
+  assert.equal(row.status,'ready',row.reason);assert(entry);
+  assert.deepEqual(row.remux.streams.map(s=>s.codecType),['video','audio']);
+  const requested=row.remux.omissionCandidates.map(c=>c.id),eventsBefore=updates.length;
+  const payload={planId:before.planId,draftId:before.operationDraft.id,revision:before.operationDraft.revision,decisionIds:requested};
+  let response,error;
+  try{response=await service.setRemuxOmissions(payload);}catch(e){error=e;}
+  const after=service.snapshot();
+  t.diagnostic('after omit action: '+JSON.stringify({offered:requested.length,before:row.status,after:after.items[0].status,
+    planReplaced:before.planId!==after.planId,rejection:error?.code,returned:response?.phase}));
+  assert.equal(error?.code,'REMUX_OMISSIONS_UNAVAILABLE');
+  assert.deepEqual(requested,[]);assert.match(row.remux.notice,/stream omission is unavailable/i);
+  assert.equal(after.planId,before.planId);assert.deepEqual(after.operationDraft,before.operationDraft);
+  assert.equal(service.plan,oldPlan);assert.equal(service.generation,oldGeneration);
+  assert.equal(service.plan.entries.get(row.id),entry);assert.equal(after.items[0].status,'ready');
+  assert.equal(updates.length,eventsBefore);
+  for(const x of updates){assert.deepEqual(x.ids,[]);assert(x.state.items.every(r=>!r.remux||r.remux.omissionCandidates.length===0));}
+  assert.equal(service.plan.remuxGrants.size,0);assert.equal(service.generation.observeCalls,1);
+  const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
+  assert.equal(selected.qualification.target,target);
+  await assert.rejects(service.setRemuxOmissions({...payload,decisionIds:['retired-choice-id']}),{code:'REMUX_OMISSIONS_UNAVAILABLE'});
+  assert.deepEqual(service.snapshot().operationDraft,before.operationDraft);
+  assert.equal(service.plan.entries.get(row.id),entry);assert.equal(service.executionBinding,null);
+  assert(h.generations.every(g=>!g.runCalls));assert.deepEqual(await fsp.readdir(o),[]);
+ });
+}

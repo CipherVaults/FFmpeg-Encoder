@@ -72,12 +72,13 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   const localReason = this.additionalAncillaryRefusal?.({ assessment, source, request, file });
   const localBlocker = typeof localReason === 'string' && localReason.length
     ? { code: 'REMUX_ANCILLARY_NOT_QUALIFIED', message: localReason, streamIndex: null } : null;
+  const omissionsAvailable = this.remuxOmissionDecisionsSupported !== false;
   const candidates = [];
   // Data/timecode/relationship cases remain refused even after a proposed
   // omission. Do not offer a button that falsely promises to resolve them.
   const unsafeRelationships = assessment.blockers.some(value => /RELATIONSHIP|PROGRAM|GROUP/.test(value.code));
   for (const stream of source.streams) {
-    if (localBlocker || assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
+    if (!omissionsAvailable || localBlocker || assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
     const fingerprint = hash(stream);
     const approved = [...this.plan.remuxGrants.values()].find(grant => grant.fileId === item.id && grant.streamIndex === stream.index);
     const candidate = { id: approved?.id || randomUUID(), fileId: item.id, planId: this.plan.id, draftId: this.plan.draft.id,
@@ -102,7 +103,8 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   item.remux = { target: request.target, status: 'assessment', streams, blockers,
     omissionCandidates: candidates.map(({ id, streamIndex, label, reasons, target }) => ({ id, streamIndex, label, reasons, target })),
     omissionDecisionIds: request.omissionRequestIds,
-    notice: 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.' };
+    notice: 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.'
+      + (omissionsAvailable ? '' : ' Stream omission is unavailable in this build.') };
   this.plan.remuxFacts.set(item.id, { file, fingerprint: identity, probe, request, assessment });
   const video = source.streams.find(value => value.index === primary);
   const duration = Number(source.format.duration);
@@ -168,6 +170,11 @@ function setRemuxOmissions(request) {
   if (plan.operation !== 'remux' || request.draftId !== snapshot.id || request.revision !== snapshot.revision
       || !Array.isArray(request.decisionIds) || request.decisionIds.length > 1024
       || new Set(request.decisionIds).size !== request.decisionIds.length) throw fail('REMUX_OMISSION_STALE', 'Review the current Remux stream decisions.');
+  // A host that cannot honor an omission must refuse it before invalidating a
+  // valid draft. Empty submissions must not trigger a needless reprepare.
+  if (this.remuxOmissionDecisionsSupported === false) {
+    throw fail('REMUX_OMISSIONS_UNAVAILABLE', 'Stream omission is unavailable in this build. The prepared batch was not changed.');
+  }
   const decisions = request.decisionIds.map(value => {
     if (typeof value !== 'string') throw fail('REMUX_OMISSION_STALE', 'Only current stream decision identifiers are accepted.');
     const decision = plan.remuxCandidates.get(value);

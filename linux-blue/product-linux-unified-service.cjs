@@ -78,6 +78,8 @@ class NarrowRemux extends RemuxOperations{
 class UnifiedService extends EncoderService{
   #ordinaryPrepared=new WeakMap();
   #encodePreparing=new WeakMap();
+  // No current unified Linux verified copy cell can honor a stream omission.
+  get remuxOmissionDecisionsSupported(){return false;}
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
     if(plan?.contract?.range?.kind==='range'&&plan?.contract?.audio?.policy==='precision-aac'

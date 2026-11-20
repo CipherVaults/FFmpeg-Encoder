@@ -1,5 +1,11 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: Q2l two-track audio copy
+
+- Three short synthetic Linux MP4 pairs retained exact per-track audio configuration, decoded sample payload and duration/edit timings when qualified independently. Measured AAC priming and terminal discard are verified per track; equality uses rational times, not identical raw clock units.
+- Exact r06 passed 17 focused and 105 cold portable checks. Five native refusals and pre-cancellation remain closed. The r05 broad comparison retained the same 38 failures as the pristine Linux checkout; no broad r06 rerun claimed.
+- Inert lab only. Next possible production slice is bounded two-AAC-track MP4-to-MP4 Linux qualification through the existing Prepare and Start lifecycle. Do not expand the original one-track ticket or assume this native lab is product acceptance.
+
 ## Latest reviewed development slice: Q2f precision AAC clock
 
 - The inert qualification helper distinguishes the first included source sample from the rounded mux clock origin. Four retained PCM-to-AAC cut observations cover 44.1 kHz stereo and 48 kHz mono, two cuts each, with measured priming and decoded tails. This is lossy AAC transcode evidence, not stream-copy, source-AAC, or runtime acceptance.

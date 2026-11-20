@@ -1,3 +1,13 @@
+# Session: Q2l isolated multi-audio copy verification
+
+- **Scope:** November 20, 2026 Cairo. Whole-Q lead and independent reviewer qualified the exact r06 laboratory only; Blue integrated on top of Q2f without changing the app route.
+- **Evidence:** Three independent short MP4 pairs cover six AAC tracks, including duplicate shape with distinct audio. A separate physical MP4 reader and per-channel FFmpeg audit verified order, fields, track mapping, rational edit times and decoded payloads. Priming was 1,024 per track; terminal discard was 768/302, 708/304 and 912/912 samples.
+- **Corrections:** Preserve and validate the observed terminal AAC discard instead of assuming none after priming; permit only exact rational equivalent movie timing, not tolerances. The fixture missing BT.709 was refused and corrected, not accepted by relaxing the validator.
+- **Checks:** Exact r06 native audit ran clean with three admissions, five intended physical refusals and pre-cancel; exact 17/17 focused and 105/105 cold portable. Prior broad r05 461/499 versus pristine 445/483 had the same 38 failed test names; no equivalent r06 broad claim.
+- **Continuation:** Existing one-track product remains unchanged. Two-track Linux Prepare/Start ownership, fresh validation, cancellation, collision and publication must be qualified separately. Neither a Windows nor a release result.
+
+---
+
 # Session: Q2f precision AAC clock evidence
 
 - **Time, scope and roles:** November 20, 2026 Cairo. The whole-Q lead delegated the isolated audio evidence; Blue integrated the sealed two-file r03 patch after independent review.

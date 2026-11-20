@@ -1,3 +1,13 @@
+# Session: Q2n exact clock-pair qualification
+
+- **Time, role and basis:** November 20, 2026 Cairo. The Milestone Q lead prepared the sealed helper on `91e1ddc7418770ed61eec7e6b2777cebb2e95402`; Blue integrated after independent review.
+- **Goal and result:** Compare the 1/30000 and 1/15360 clocks without relaxing exact packet or decoded media checks. The exact calibration pair showed matching contiguous media bytes and all 9,610 packet positions and rational timestamps. This evidence covers the observed pair, not arbitrary media.
+- **Failures and correction:** Review rejected r02 because replacement during an awaited check could leave a stale pair observation. r03 closes this observed gap before returning a token; both formerly missed cases now reject and allow a fresh bind. This is a point-in-time observation, not a filesystem lock. The strict initial x265 harness was red; the separate media audit accepted only its two retained decoded windows.
+- **Evidence:** Cold restore checks 60/60; pinned real runtime five-probe cancellation and reprepare check passed. The broad prior r02 comparison was 68/93 versus 54/79, with the same 25 inherited failures and all 14 additions passing; no broad r03 rerun is claimed.
+- **Decision and continuation:** Keep the qualifier inert and all product routes, defaults and version pins unchanged. Continue the existing Q evidence plan; Windows prerelease qualification is separate. Recovery and remote publication are recorded outside this commit.
+
+---
+
 # 📘 Session: Review the next Milestone Q media foundations
 
 ## 🤖 Models, Effort, Roles and Provenance

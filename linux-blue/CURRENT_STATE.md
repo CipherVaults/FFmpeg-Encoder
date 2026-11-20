@@ -1,5 +1,11 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: Q2n clock calibration
+
+- The standalone Linux qualification helper compares paired 1/30000 and 1/15360 MOV clocks using exact rational timing, packet placement and payload checks. Revalidation now checks both file identities again after async cleanup. It is a point-in-time observation, not an atomic filesystem lock or a live application route.
+- The reviewed revision passed both late same-byte replacement regressions (both formerly missed), the pinned-runtime cancel/reprepare lifecycle, and 60 cold portable checks. The original native x265 harness remained red; an independent media audit accepted the two exact decoded windows only. The previous broad comparison retained 25 inherited failures and was not rerun for this revision.
+- Continue the existing Milestone Q plan; no new route, default, runtime pin, platform or release acceptance.
+
 ## Latest reviewed development slice
 
 - Regular Linux work branches from public checkpoint `732881be2f482ff5fad12fa9465aeea3f3f74c68`. Review the exact branch tip separately from this file; a commit cannot name its own SHA in its content.

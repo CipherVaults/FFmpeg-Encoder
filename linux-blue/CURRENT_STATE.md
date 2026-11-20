@@ -1,3 +1,9 @@
+# Current State: regular v0.7, Milestone Q result disclosure
+
+The shared result shows what media verification actually ran for a published copy. Packet-identity verification explains the full compressed comparison, header checks and start/end-only video decode; unknown or unfinished receipts cannot claim completion. No eligibility, publication, validation, runtime or acceptance changes. See [Q08 execution evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Q08_Remux_Verification_Disclosure.md).
+
+---
+
 # Current State: regular v0.7 Linux, Milestone Q
 
 ## Latest reviewed development slice: compare the fast checker against full evidence

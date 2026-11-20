@@ -1,3 +1,11 @@
+# Session: Explain what a saved verified copy checked
+
+- **November 21, 2026 Cairo.** Exact regular checkpoint 126 lacked a visible verification-scope description although main already supplied it. The shared display describes known checks only after successful per-file publication.
+- **Evidence:** Reproduced on 126; rechecked the renderer and unchanged qualification boundaries with selected source contract suites. Details and counts are in the [Q08 execution record](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Q08_Remux_Verification_Disclosure.md).
+- **Continuation:** No changed media checks, route, native or release result. Preserve physical and owner gates as recorded.
+
+---
+
 # Session: Make the Milestone Q fast-checker comparison reusable
 
 - **November 20, 2026 Cairo.** Add offline developer tools only. Require pair identity, collector/publication binding and retained whole-decode media observations before counting agreement or a discrepancy. Do not import the tools in the product.

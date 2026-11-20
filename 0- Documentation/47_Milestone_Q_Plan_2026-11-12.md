@@ -266,3 +266,7 @@ Ahmed asked root to study Anthropic's "Building strong safety evaluations" (publ
 - **Seeking is playback** (root, from review 8). A field a player uses to seek cannot be descriptive or covered by sequential packet identity. TS sources: same presented frame after accurate seeking; indexed sources: same first decoded packet.
 - **Codex runs the builds and tests** (Ahmed: "is it absolutely necessary for you to actually make these builds yourself and tests? Can't you actually let Codex to handle this over … your quota is the bottleneck here"). Root checks the receipts' hashes against the committed bytes.
 - **Blue handoff** (Ahmed: "I think it's best now to shift to Codex directly"). Development moves to a Codex lead session; [record 50](50_Blue_Handoff_Claude_to_Codex_2026-11-15.md) holds the state, rules and next actions. The Q order in §6–§10 is unchanged.
+
+## 13. Regular v0.7 result behavior — November 21, 2026
+
+Q08 presentation follows §8–§9 without altering the fast check. Per-file results disclose completed media verification and decode coverage only for a confirmed successful save with a recognized report from main. Preparation and failed or retained outputs do not claim completed coverage. Separate transport and full-decode wording preserves the existing shared receipts; no supported route or verification option changes. [Affected checks and limits](Execution%20Summaries/2026-11-21_Regular_Q08_Remux_Verification_Disclosure.md).

@@ -1492,6 +1492,34 @@
       ? receipt.outputId : null;
   }
 
+  function remuxVerificationCoverage(item) {
+    // The same method is projected when Prepare selects it and during
+    // collection, so the claim alone never means the user has a saved copy.
+    if (!isRemux() || item.remux?.status !== 'qualified' || item.status !== 'success'
+        || item.outputDisposition?.kind !== 'published' || item.outputDisposition.published !== true
+        || !['saved', 'saved-with-warning'].includes(item.outcome)) return '';
+    const claim = item.verificationClaim, method = item.verificationMethod;
+    if (claim?.version !== 1 || claim.method !== method) return '';
+    // Match the finite known main descriptions, but render fixed UI text.
+    // Never echo a free-form description or turn it into UI authority.
+    const boundaries = 'Only the start and end of the video were decoded; the middle was not decoded.';
+    if (method === 'packet-identity-v1' && claim.interiorVideoDecoded === false) {
+      if (claim.completeAudioDecoded === true
+          && claim.statement === 'Output packets identical to source; every header validated; start and end decoded.') {
+        return `Copy verification: The retained compressed streams matched and every video header was checked. ${boundaries} Any retained audio was decoded and compared in full.`;
+      }
+      if (claim.completeAudioDecoded === false && claim.statement ===
+          'Every ordered AVC NAL and raw AAC frame preserved; source clocks kept exactly; every header validated; start and end decoded.') {
+        return `Copy verification: Coded media and source timing were checked, including every video header. ${boundaries} No full audio decode was performed.`;
+      }
+    }
+    if (method === 'complete-native-v1' && claim.interiorVideoDecoded === true && claim.completeAudioDecoded === true
+        && claim.statement === 'Every retained video frame and audio sample decoded and compared completely.') {
+      return 'Copy verification: Every retained video frame and audio sample were decoded and compared.';
+    }
+    return '';
+  }
+
   function renderOutputAccess(entry) {
     const outputId = completedOutputId(entry.item);
     if (entry.outputAccessId !== outputId) {
@@ -1596,6 +1624,10 @@
     timing.className = 'file-detail';
     timing.dataset.testid = 'operation-timing';
     timing.hidden = true;
+    const verificationCoverage = document.createElement('p');
+    verificationCoverage.className = 'file-detail';
+    verificationCoverage.dataset.testid = 'remux-verification-coverage';
+    verificationCoverage.hidden = true;
     const metadata = document.createElement('p');
     metadata.className = 'file-detail';
     metadata.dataset.testid = 'metadata-notices';
@@ -1677,7 +1709,7 @@
       const entry = itemRows.get(item.id);
       if (entry) loadEncodingDetails(entry);
     });
-    body.append(output, outputControls, outputNotice, summary, reason, timing, metadata, sampling, operation.operationEditor, remuxDetails, previousDetails, action, commandDetails);
+    body.append(output, outputControls, outputNotice, summary, reason, timing, verificationCoverage, metadata, sampling, operation.operationEditor, remuxDetails, previousDetails, action, commandDetails);
     details.append(name, body);
     // Classification and its deliberate action stay visible in compact rows.
     // Heavy provenance/argument details expand only when requested.
@@ -1699,7 +1731,7 @@
     untested.setAttribute('role', 'img');
     statusCell.append(status, untested);
     row.append(useCell, fileCell, statusCell);
-    return { row, checkbox, details, body, inspect, name, output, summary, reason, timing, metadata, sampling, action, status, untested, item, key: '', origin, previous, ...operation,
+    return { row, checkbox, details, body, inspect, name, output, summary, reason, timing, verificationCoverage, metadata, sampling, action, status, untested, item, key: '', origin, previous, ...operation,
       outputControls, outputNotice, outputAccessId: undefined, outputRequest: 0, outputPending: false, outputResult: '', outputFailed: false,
       previousDetails, previousInfo, previousArgs, reencodeBox, reencodeChoice, reencode, remuxDetails, remuxBody, remuxKey: null, remuxButtons: [],
       commandDetails, commandHeading, commandNotice, commandExecutable, commandDestination, commandArgs, commandKey: null };
@@ -1725,7 +1757,8 @@
       renderRemuxDecisions(entry);
       renderOutputAccess(entry);
       const jobStage = snapshot.progress?.fileId === item.id ? snapshot.progress.stage : null;
-      const key = JSON.stringify([currentOperation(), item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, item.timing, jobStage]);
+      const verificationCoverage = remuxVerificationCoverage(item);
+      const key = JSON.stringify([currentOperation(), item.name, item.outputName, item.status, item.reason, item.summary, item.origin, item.reencodeAuthorized, item.outcome, item.outputDisposition, item.timing, verificationCoverage, jobStage]);
       if (key !== entry.key) {
         entry.key = key;
         entry.checkbox.setAttribute('aria-label', `${operationName()} ${item.name}`);
@@ -1739,6 +1772,8 @@
         entry.reason.hidden = !item.reason;
         entry.timing.textContent = item.status === 'success' ? timingText(item.timing) : '';
         entry.timing.hidden = !entry.timing.textContent;
+        entry.verificationCoverage.textContent = verificationCoverage;
+        entry.verificationCoverage.hidden = !verificationCoverage;
         // Main's inspection describes container representation changes. Render
         // plain text only; media metadata never becomes HTML or IPC authority.
         entry.metadata.textContent = [...(item.summary?.metadataNotices || []), ...(item.hdr?.notice ? [item.hdr.notice] : [])].join(' ');

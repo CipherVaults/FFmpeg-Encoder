@@ -1632,3 +1632,105 @@ test('MOV availability comes from main without changing selected target or saved
  h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska'],notice:'MOV pending.'}}));assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,true);
  const prior=h.byId('remux-target').value;h.update(h.snapshot({remuxSupport:{targets:['mp4','matroska','mov'],notice:'MOV restricted metadata, CFR30.'}}));assert.equal(h.byId('remux-target').options.find(o=>o.value==='mov').disabled,false);assert.equal(h.byId('remux-target').value,prior);assert.match(h.byId('remux-support-notice').textContent,/restricted metadata/);
 });
+
+function verifiedCopyItem(extra = {}) {
+  const { remuxVerificationDescription } = require('../src/remux-contract.cjs');
+  const verificationMethod = 'packet-identity-v1';
+  return completedItem({ outputName: 'Source_Remux-MP4.mp4', outcome: 'saved',
+    remux: { target: 'mp4', status: 'qualified', streams: [] },
+    verificationMethod, verificationClaim: remuxVerificationDescription(verificationMethod, 'isobmff'), ...extra });
+}
+
+const copyResult = (items, revision, extra) => ({ ...completedSnapshot(items, revision), operation: 'remux', settings: null, ...extra });
+const disclosureNode = (h, index = 0) => h.byId('batch-items').children[index].querySelector('[data-testid="remux-verification-coverage"]');
+
+test('Q08 saved Remux explains the limited video decode and separate full checks from its own main claim', async () => {
+  const h = await harness();
+  h.update(copyResult([verifiedCopyItem()]));
+  const row = h.byId('batch-items').children[0], disclosure = disclosureNode(h);
+  assert.equal(disclosure?.hidden, false, 'main’s completed method and decode coverage should be visible');
+  assert.match(disclosure.textContent, /compressed streams.*every video header/i);
+  assert.match(disclosure.textContent, /only the start and end of the video were decoded; the middle was not decoded/i);
+  assert.match(disclosure.textContent, /retained audio.*decoded and compared in full/i);
+  assert.equal(disclosure.children.length, 0);
+  const before = h.calls.length;
+  await row.querySelector('[data-testid="inspect-file"]').click();
+  assert.equal(h.byId('focused-file-details-slot').contains(disclosure), true);
+  assert.equal(h.calls.length, before, 'a disclosure and viewing it must not request a new check or output action');
+  assert(row.querySelector('[data-testid="completed-output-open"]') === null, 'the independent existing output action moves with the same body');
+  assert(h.byId('focused-file-details-slot').querySelector('[data-testid="completed-output-open"]'));
+});
+
+test('Q08 selection, running verification, retention, collision, cancellation, and ordinary saving never imply completed Remux coverage', async () => {
+  const h = await harness();
+  const withheld = { published: false, kind: 'retained-completed' };
+  const notSaved = [
+    ['ready', { status: 'ready', outcome: undefined, outputDisposition: undefined }],
+    ['running', { status: 'validating', outcome: undefined, outputDisposition: { published: false, kind: 'validated-staged' } }],
+    ['failed', { status: 'failed', outcome: 'failed', outputDisposition: withheld }],
+    ['cancelled', { status: 'cancelled', outcome: 'cancelled', outputDisposition: withheld }],
+    ['completed', { status: 'skipped', outcome: 'destination-collision', outputDisposition: withheld }],
+    ['completed', { outputDisposition: { published: null, kind: 'publication-uncertain' } }],
+    ['completed', { outputDisposition: withheld }],
+    ['completed', { outputDisposition: undefined }],
+    ['completed', { outcome: undefined }],
+    ['completed', { remux: { target: 'mp4', status: 'blocked', streams: [] } }],
+  ];
+  h.update(copyResult([verifiedCopyItem()], 2));
+  const node = disclosureNode(h);
+  assert.equal(node?.hidden, false);
+  for (const [i, [phase, fields]] of notSaved.entries()) {
+    h.update(copyResult([verifiedCopyItem(fields)], 3 + i, { phase }));
+    assert.equal(disclosureNode(h), node);
+    assert.equal(node.hidden, true, `no completed verification for ${phase} ${JSON.stringify(fields)}`);
+    assert.equal(node.textContent, '');
+  }
+  h.update(completedSnapshot([verifiedCopyItem()], 50)); // publication from an ordinary Encode snapshot
+  assert.equal(node.hidden, true);
+});
+
+test('Q08 unknown, missing, stale, and mismatched method or claim cannot supply a result even when a row is saved', async () => {
+  const h = await harness(), item = verifiedCopyItem();
+  const good = () => copyResult([item], 8);
+  h.update(copyResult([verifiedCopyItem({ verificationClaim: undefined })], 7));
+  const node = disclosureNode(h);
+  assert.equal(node?.hidden, true);
+  h.update(good()); // same row, status, output and reason; only the claim arrived
+  assert.equal(node.hidden, false);
+  const bad = [
+    { verificationMethod: 'future-method' },
+    { verificationMethod: undefined },
+    { verificationClaim: { ...item.verificationClaim, version: 2 } },
+    { verificationClaim: { ...item.verificationClaim, method: 'complete-native-v1' } },
+    { verificationClaim: { ...item.verificationClaim, interiorVideoDecoded: true } },
+    { verificationClaim: { ...item.verificationClaim, completeAudioDecoded: false } },
+    { verificationClaim: { ...item.verificationClaim, statement: 'Unrecognized summary of the verification.' } },
+  ];
+  for (const [i, change] of bad.entries()) {
+    h.update(copyResult([verifiedCopyItem(change)], 9 + i));
+    assert.equal(node.hidden, true);
+    assert.equal(node.textContent, '');
+    h.update(good()); // ignored stale already completed snapshot
+    assert.equal(node.hidden, true, 'an old successful report never repaints a newer result');
+  }
+  h.update(copyResult([], 20));
+  assert.equal(h.byId('batch-items').children.length, 0);
+});
+
+test('Q08 mixed saved rows preserve separate transport and complete coverage and unrelated warnings', async () => {
+  const h = await harness(), { remuxVerificationDescription } = require('../src/remux-contract.cjs');
+  const packet = verifiedCopyItem({ id: 'packet', outcome: 'saved-with-warning', reason: 'Output saved. Descriptive tag not carried.' });
+  const transport = verifiedCopyItem({ id: 'transport', verificationClaim: remuxVerificationDescription('packet-identity-v1', 'mpegts') });
+  const native = verifiedCopyItem({ id: 'native', verificationMethod: 'complete-native-v1',
+    verificationClaim: remuxVerificationDescription('complete-native-v1', 'matroska') });
+  const unknown = verifiedCopyItem({ id: 'no-proof', verificationClaim: null });
+  h.update(copyResult([packet, transport, native, unknown], 10));
+  assert.match(h.byId('batch-items').children[0].textContent, /Saved with warning/);
+  assert.match(h.byId('batch-items').children[0].textContent, /Descriptive tag not carried/);
+  const messages = [0, 1, 2, 3].map(i => disclosureNode(h, i)?.textContent);
+  assert.match(messages[0] || '', /retained audio.*decoded and compared in full/i);
+  assert.match(messages[1] || '', /coded media and source timing.*no full audio decode/i);
+  assert.match(messages[2] || '', /every retained video frame and audio sample were decoded and compared/i);
+  assert.equal(messages[3], '');
+  assert.equal(disclosureNode(h, 3).hidden, true);
+});

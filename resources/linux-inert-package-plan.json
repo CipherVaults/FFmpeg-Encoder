@@ -773,7 +773,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
       "bytes": 41470,
-      "sha256": "70396bb39bae6287f34047f7f7fdeb79a44f2192687624d64afed543617970e4"
+      "sha256": "f78af27d3ec70b309c00b6e6d27148cf1c37362350d42d78ec5705ebd753b14a"
     },
     {
       "root": "source",
@@ -2172,24 +2172,24 @@
       "source": "linux-blue/product-two-aac-custody.cjs",
       "target": "electron/resources/app/linux-blue/product-two-aac-custody.cjs",
       "group": "application",
-      "bytes": 5830,
-      "sha256": "8058b4f12898a38077a1c894c6028a58c7748f3b9499bb0fe8a50c84697de5fb"
+      "bytes": 7429,
+      "sha256": "dc3768879eb3967c79c26dac63e0d6ac7b787ef7fc41dba1de8e01cf11c04ca7"
     },
     {
       "root": "source",
       "source": "linux-blue/product-two-aac-evidence.cjs",
       "target": "electron/resources/app/linux-blue/product-two-aac-evidence.cjs",
       "group": "application",
-      "bytes": 15228,
-      "sha256": "e32e6c33a100def1f3526a0402bb916f0484621668873b9786f9c25e8af9bd24"
+      "bytes": 15484,
+      "sha256": "187674ba93e4b4225d8cef3459abb08e747e1acc5ffcaf72d533b03568acd68f"
     },
     {
       "root": "source",
       "source": "linux-blue/product-two-aac-owner.cjs",
       "target": "electron/resources/app/linux-blue/product-two-aac-owner.cjs",
       "group": "application",
-      "bytes": 8867,
-      "sha256": "58473c7358381b75a6035a2cf10875835307d5b6a66c25634f7305726b6610b5"
+      "bytes": 8885,
+      "sha256": "837a78b8e868855af7deba2ff38597875653e8cad53913b6ccb4b9a1ffb52520"
     },
     {
       "root": "source",

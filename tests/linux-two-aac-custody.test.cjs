@@ -6,7 +6,7 @@ const {observePreparedCustody}=require('../linux-blue/product-two-aac-custody.cj
 const ordinary={skip:process.platform!=='linux'};
 async function observed(source,output){
  const stamp=async n=>{const s=await fs.lstat(n,{bigint:true});return Object.fromEntries(['dev','ino','birthtimeNs','mtimeNs','ctimeNs','size','nlink'].map(k=>[k,String(s[k])]));};
- const si=await stamp(source),oi=await stamp(output);return {sourceBefore:si,sourceAfter:si,outputBefore:oi,outputAfter:oi};
+ const si=await stamp(source),oi=await stamp(output);return {sourcePath:source,outputPath:output,sourceBefore:si,sourceAfter:si,outputBefore:oi,outputAfter:oi};
 }
 
 async function setup(t){
@@ -59,4 +59,39 @@ test('regular file handles use nonblocking no-follow opening and a directory nam
  const g=w.take();g.close();a.equal(seen.length,1);a.equal(seen[0]&f.constants.O_NOFOLLOW,f.constants.O_NOFOLLOW);
  a.equal(seen[0]&f.constants.O_NONBLOCK,f.constants.O_NONBLOCK);
  await fs.rename(w.source,w.source+'.retained');await fs.mkdir(w.source);a.throws(()=>w.take(),{code:'REMUX_OPERATION_STALE'});a.equal(seen.length,1);
+});
+
+// Regression from the ordinary 9.0.2 MP4 mux with use_metadata_tags. This is
+// only a bounded header observation on a genuine custody handle, not a media
+// receipt, a real ffprobe run, or permission to run/publish.
+const {matchesTwoAacStageContainer}=require('../linux-blue/product-two-aac-custody.cjs');
+const stagePrefix=Buffer.from('000000206674797069736f6d0000020069736f6d69736f32617663316d703431','hex');
+const observedTags=(twice)=>Object.fromEntries(Object.entries({major_brand:'isom',minor_version:'512',compatible_brands:'isomiso2avc1mp41'}).map(([k,v])=>[k,twice?v+';'+v:v]));
+const probeOf=(tags)=>({format:{format_name:'mov,mp4,m4a,3gp,3g2,mj2',tags}});
+async function observedStage(t,bytes){const w=await setup(t),g=w.take(),s=await createStage(w.output);g.claim(s);g.invocation(s.file);
+ await fs.writeFile(s.file,bytes,{flag:'wx'});g.beforeValidation();
+ return {w,g,s,r:{...await observed(w.source,s.file),sourcePath:w.source,outputPath:s.file}};}
+test('pinned physical MP4 corroborates single and mux-duplicated identical field summaries; inconsistent or unmeasured representations do not pass',ordinary,async(t)=>{
+ const {g,r}=await observedStage(t,stagePrefix);
+ for(const twice of [false,true])a.equal(matchesTwoAacStageContainer(g,r,probeOf(observedTags(twice))),true);
+ for(const tags of [{...observedTags(true),major_brand:'isom;qt  '},{...observedTags(true),major_brand:'isom;isom;isom'},
+  {...observedTags(true),minor_version:'512'}, {...observedTags(false),compatible_brands:'isomiso2mp41'},
+  {...observedTags(true),major_brand:'isom;ISOM'}, {...observedTags(false),major_brand:'qt  '}])
+   a.equal(matchesTwoAacStageContainer(g,r,probeOf(tags)),false);
+ a.equal(matchesTwoAacStageContainer(g,r,{format:{format_name:'matroska',tags:observedTags(true)}}),false);
+ g.close();a.throws(()=>matchesTwoAacStageContainer(g,r,probeOf(observedTags(true))),{code:'REMUX_OPERATION_STALE'});
+});
+test('a duplicated MP4 summary cannot validate a short, MOV or physically different file type, unrelated stage or plain custody token',ordinary,async(t)=>{
+ const tags=probeOf(observedTags(true));
+ for(const bytes of [stagePrefix.subarray(0,13),Buffer.concat([stagePrefix.subarray(0,8),Buffer.from('qt  '),stagePrefix.subarray(12)]),Buffer.from(stagePrefix).fill(0x70,24,28)]){
+  const {g,r}=await observedStage(t,bytes);a.equal(matchesTwoAacStageContainer(g,r,tags),false);
+ }
+ const {g,s,r}=await observedStage(t,stagePrefix);
+ a.equal(matchesTwoAacStageContainer(g,r,{format:{format_name:'matroska,mp4',tags:observedTags(true)}}),false);
+ a.throws(()=>matchesTwoAacStageContainer({},r,tags),{code:'REMUX_OPERATION_STALE'});
+ a.throws(()=>matchesTwoAacStageContainer(g,{...r,outputPath:s.file+'.elsewhere'},tags),{code:'REMUX_OPERATION_STALE'});
+});
+test('current file-type observation cannot be used after the ordinary same-byte output has been replaced',ordinary,async(t)=>{
+ const {g,s,r}=await observedStage(t,stagePrefix);await fs.rename(s.file,s.file+'.original');await fs.writeFile(s.file,stagePrefix,{flag:'wx'});
+ a.throws(()=>matchesTwoAacStageContainer(g,r,probeOf(observedTags(true))),{code:'REMUX_OPERATION_STALE'});
 });

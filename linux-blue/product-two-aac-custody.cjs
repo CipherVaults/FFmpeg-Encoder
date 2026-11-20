@@ -11,6 +11,23 @@ function need(x,message){if(!x)deny(message);}
 const shared='Prepared source, selected folder or owned stage changed. Prepare this file again.';
 const named=p=>fs.lstatSync(p,opt),opened=fd=>fs.fstatSync(fd,opt);
 const eq=(x,y,keys)=>keys.every(k=>String(x[k])===String(y[k]));
+// A normal MP4 mux uses this exact first box on the measured family.
+// A bounded descriptor read proves the physical bytes independently from
+// ffprobe's mdta + physical ftyp projection. No filename or persisted probe
+// can supply this observation. This observational helper alone grants nothing.
+const stagePrefixReaders=new WeakMap();
+const ftyp=Buffer.from('000000206674797069736f6d0000020069736f6d69736f32617663316d703431','hex');
+function matchesTwoAacStageContainer(custody,receipt,probe){
+  const read=stagePrefixReaders.get(custody);need(typeof read==='function',shared);
+  if(!read(receipt).equals(ftyp))return false;
+  const fmt=probe?.format,t=fmt?.tags;
+  if(fmt?.format_name!=='mov,mp4,m4a,3gp,3g2,mj2'||!t)return false;
+  // 9.0.2 use_metadata_tags may report the physical value followed by the
+  // same mapped descriptive value. Accept exactly a fully corroborated
+  // single or identical double, including minor and compatible brands.
+  const fields=[['major_brand','isom'],['minor_version','512'],['compatible_brands','isomiso2avc1mp41']];
+  return [false,true].some(double=>fields.every(([k,v])=>t[k]===(double?v+';'+v:v)));
+}
 const missing=p=>{try{named(p);return false;}catch(e){if(e.code==='ENOENT')return true;throw e;}};
 function ordinary(p){return typeof p==='string'&&path.isAbsolute(p)&&path.resolve(p)===p&&p!==path.parse(p).root&&!/[\0\r\n]/.test(p);}
 function inspect(p,fd,kind,fields,expected){
@@ -45,7 +62,10 @@ function observePreparedCustody({source,sourceIdentity,input,output,destination,
       if(file)inspect(stage.file,file.fd,'file',all,file.identity);
     };
     guarded(check);
-    return Object.freeze({
+    const sameReceipt=receipt=>receipt?.sourcePath===source&&receipt?.outputPath===stage?.file
+      &&[receipt.sourceBefore,receipt.sourceAfter].every(x=>x?.nlink==='1'&&eq(x,sourceIdentity,all))
+      &&[receipt.outputBefore,receipt.outputAfter].every(x=>x?.nlink==='1'&&eq(x,file.identity,all));
+    const custody=Object.freeze({
       current(){return guarded(check);},
       claim(actual){return guarded(()=>{check();need(!stage&&!file,shared);
         const owned=describeFreshServiceStage(actual,output);
@@ -61,13 +81,17 @@ function observePreparedCustody({source,sourceIdentity,input,output,destination,
           &&identity.size<=BigInt(maxOutputBytes)&&!eq(identity,sourceIdentity,['dev','ino']),shared);
         inspect(stage.file,fd,'file',all,identity);file={fd,identity};phase='validating';check();
       });},
-      matchReceipt(receipt){return guarded(()=>{check();need(phase==='validating'&&file
-        &&[receipt?.sourceBefore,receipt?.sourceAfter].every(x=>x?.nlink==='1'&&eq(x,sourceIdentity,all))
-        &&[receipt?.outputBefore,receipt?.outputAfter].every(x=>x?.nlink==='1'&&eq(x,file.identity,all)),shared);phase='observed';});},
+      matchReceipt(receipt){return guarded(()=>{check();need(phase==='validating'&&file&&sameReceipt(receipt),shared);phase='observed';});},
       verified(){return guarded(()=>{check();need(phase==='observed',shared);phase='validated';});},
       beforePublish(){return guarded(()=>{check();need(phase==='validated'&&missing(destination),shared);});},
       close
     });
+    stagePrefixReaders.set(custody,receipt=>guarded(()=>{
+      check();need(phase==='validating'&&file&&sameReceipt(receipt),shared);
+      const head=Buffer.alloc(ftyp.length),length=fs.readSync(file.fd,head,0,head.length,0);
+      check();return head.subarray(0,length);
+    }));
+    return custody;
   }catch(e){try{close();}catch(c){throw new AggregateError([e,c],'Two-track open and custody closure failed.');}if(e?.code==='REMUX_OPERATION_STALE')throw e;throw new ToolError('REMUX_OPERATION_STALE',shared,{cause:e});}
 }
-module.exports=Object.freeze({observePreparedCustody});
+module.exports=Object.freeze({observePreparedCustody,matchesTwoAacStageContainer});

@@ -1,3 +1,12 @@
+# Session: Qualify exact staged MP4 brand evidence without enabling two-track
+
+- **November 20, 2026 Cairo.** The isolated normal candidate successfully staged a mixed two-AAC copy, then refused output verification. The legacy one-track job succeeded; three-AAC and replaced sources were refused without a writer. Preserve the failed result and untouched stage; later cases and the separate oracle did not run.
+- **Correction:** Require the exact physical header from the current receipt-bound stage and allow only the observed uniform original or matching duplicate probe values. Preserve source admission and every other validation.
+- **Evidence:** Independently reproduced the retained probe fingerprint and observed actual header bytes. Exact broad cold check 227/227, final local source runner 233 syntax, 492 shared plus 153 Linux passes, three Windows-only skips. No new live run or activation.
+- **Continuation:** Keep accepted record null; a separate reviewed normal lifecycle and independent output audit still gate any admission. No release or Windows runtime claims.
+
+---
+
 # Session: Preserve reviewed two-AAC integration with admission off
 
 - **November 20, 2026 Cairo.** Reconcile the 115 first-emission refusal with the regular Linux two-track candidate. Leave the actual accepted record null.

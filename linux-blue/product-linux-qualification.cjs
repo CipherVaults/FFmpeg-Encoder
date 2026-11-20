@@ -613,16 +613,16 @@ const SOURCE_PINS = {
     "sha256": "08c5cb4dae897c88c7365140e1b804c3ac99dc261749cb4bf886a0e65726faa6"
   },
   "linux-blue/product-two-aac-custody.cjs": {
-    "bytes": 5830,
-    "sha256": "8058b4f12898a38077a1c894c6028a58c7748f3b9499bb0fe8a50c84697de5fb"
+    "bytes": 7429,
+    "sha256": "dc3768879eb3967c79c26dac63e0d6ac7b787ef7fc41dba1de8e01cf11c04ca7"
   },
   "linux-blue/product-two-aac-evidence.cjs": {
-    "bytes": 15228,
-    "sha256": "e32e6c33a100def1f3526a0402bb916f0484621668873b9786f9c25e8af9bd24"
+    "bytes": 15484,
+    "sha256": "187674ba93e4b4225d8cef3459abb08e747e1acc5ffcaf72d533b03568acd68f"
   },
   "linux-blue/product-two-aac-owner.cjs": {
-    "bytes": 8867,
-    "sha256": "58473c7358381b75a6035a2cf10875835307d5b6a66c25634f7305726b6610b5"
+    "bytes": 8885,
+    "sha256": "837a78b8e868855af7deba2ff38597875653e8cad53913b6ccb4b9a1ffb52520"
   },
   "linux-blue/product-two-aac-record.cjs": {
     "bytes": 415,

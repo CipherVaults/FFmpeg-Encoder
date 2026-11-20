@@ -101,7 +101,7 @@ function installProductTwoAac(legacy,generation,service){
       const s=plans.get(plan);checked(s);
       if(s.two){need(s.bound&&s.stage&&!s.validation,'Only a single actual stage validation is available.');s.custody.beforeValidation();
         need(receipt?.sourcePath===s.input&&receipt.outputPath===s.stage.file,'The observed source and actual emitted stage do not match.');
-        verifyTwoAacMp4Evidence({assessment:s.assessment,receipt,runtimeIdentity:record.runtimeIdentity,outputId:s.outputId,outputProbe:probe});s.custody.matchReceipt(receipt);}
+        verifyTwoAacMp4Evidence({assessment:s.assessment,receipt,runtimeIdentity:record.runtimeIdentity,outputId:s.outputId,outputProbe:probe,custody:s.custody});s.custody.matchReceipt(receipt);}
       const result=base.validate.call(s.owner,plan,probe,receipt,optional);
       if(s.two&&result.valid===true){s.custody.verified();s.validation=true;}
       return result;

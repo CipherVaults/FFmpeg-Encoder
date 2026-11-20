@@ -44,6 +44,7 @@ for (const [name,mutate] of [
   ['over 60 fps',p=>p.streams[0].avg_frame_rate='60001/1000'],
   ['non-square pixel',p=>p.streams[0].sample_aspect_ratio='4:3'],
   ['rotation',p=>p.streams[0].tags.rotate='90'],
+  ['output-only merged metadata representation on source',p=>p.format.tags.major_brand='isom;isom'],
   ['MOV carrier under family alias',p=>p.format.tags.major_brand='qt  '],
   ['different rate',p=>p.streams[2].sample_rate='32000'],
   ['delayed audio track',p=>p.streams[2].start_pts=1024],
@@ -65,7 +66,7 @@ test('other destination and deserialized assessment never acquire qualify-shape 
 });
 test('plain payload, output freshness and runtime strings cannot turn structural evidence into a live collector receipt',()=>{
   const a=assessment(),fields={assessment:a,receipt:{status:'completed',runtimeIdentity:RUNTIME,essenceEvidence:{complete:true}},
-    runtimeIdentity:RUNTIME,outputId:'7046a1f4-ca1e-4309-b4d9-b8851b27dbf7',outputProbe:fixture()};
+    runtimeIdentity:RUNTIME,outputId:'7046a1f4-ca1e-4309-b4d9-b8851b27dbf7',outputProbe:fixture(),custody:null};
   assert.throws(()=>verifyTwoAacMp4Evidence(fields),{code:EVIDENCE,message:/live, matching current collector receipt/});
   assert.throws(()=>verifyTwoAacMp4Evidence({...fields,runtimeIdentity:'0'.repeat(64)}),{code:EVIDENCE,message:/exact paired/});
   const lazy={...fields,get receipt(){throw Error('must not invoke an accessor');}};
@@ -85,7 +86,7 @@ test('exact retained probes are admitted but a saved current-runtime collector i
     assert.equal(sum(c),'105a976b1755d6eccc573ea85b9b23152b30130c82000062d0a6ccf9dc473564');
     const receipt=JSON.parse(c), first=report.cases[0];
     assert.throws(()=>verifyTwoAacMp4Evidence({assessment:assessment(first.sourceProbe),receipt,runtimeIdentity:RUNTIME,
-      outputId:receipt.outputId,outputProbe:first.outputProbe}),{code:EVIDENCE,message:/persisted evidence/});
+      outputId:receipt.outputId,outputProbe:first.outputProbe,custody:null}),{code:EVIDENCE,message:/persisted evidence/});
   });
 test('separate pinned held-out 720p/1080p probes admit exact ordered combinations and refuse a real three-audio input',
   {skip:!process.env.Q2L_HELD_PROBE_ROOT},()=>{

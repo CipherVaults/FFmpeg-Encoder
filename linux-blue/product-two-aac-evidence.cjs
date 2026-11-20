@@ -9,6 +9,7 @@ const { getRemuxAssessmentSource } = require('../src/remux-contract.cjs');
 const { getCollectedRemuxEvidence } = require('../src/remux-evidence.cjs');
 const { remuxProbeFingerprint } = require('../src/remux-validation.cjs');
 const RUNTIME = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
+const {matchesTwoAacStageContainer}=require('./product-two-aac-custody.cjs');
 const SOURCE = 'REMUX_TWO_AAC_MP4_SOURCE_UNQUALIFIED', EVIDENCE = 'REMUX_TWO_AAC_MP4_EVIDENCE_UNQUALIFIED';
 const HASH = /^[a-f\d]{64}$/;
 const N = /^(0|[1-9]\d{0,19})$/, P = /^[1-9]\d{0,19}$/;
@@ -120,12 +121,12 @@ function matchTrack(a,b,facts,src,out,frames) {
   prove(a.entries[0].mediaTime === b.entries[0].mediaTime, 'AAC media edit priming changed.');
 }
 function verifyTwoAacMp4Evidence(options) {
-  const fields = ['assessment','receipt','runtimeIdentity','outputId','outputProbe'];
+  const fields = ['assessment','receipt','runtimeIdentity','outputId','outputProbe','custody'];
   prove(options && [Object.prototype,null].includes(Object.getPrototypeOf(options))
     && Reflect.ownKeys(options).length === fields.length && fields.every(k=>{
       const d = Object.getOwnPropertyDescriptor(options,k); return d?.enumerable && Object.hasOwn(d,'value');
     }), 'An explicit main-owned candidate evidence request is required.');
-  const {assessment, receipt, runtimeIdentity, outputId, outputProbe} = options;
+  const {assessment, receipt, runtimeIdentity, outputId, outputProbe, custody} = options;
   const shape = qualifyTwoAacMp4Source(assessment);
   prove(runtimeIdentity === RUNTIME, 'Only the exact paired Linux runtime has two-AAC candidate evidence.');
   let essence;
@@ -144,10 +145,12 @@ function verifyTwoAacMp4Evidence(options) {
   prove(essence.complete === true && essence.verificationMethod === 'packet-identity-v1'
     && essence.sourceEvidenceFingerprint === assessment.sourceEvidenceFingerprint && receipt.outputProbeFingerprint === outputFingerprint
     && essence.outputEvidenceFingerprint === outputFingerprint && HASH.test(essence.outputFileSha256)
-    && receipt.nativeEditLists?.outputSha256 === essence.outputFileSha256 && mp4(outputProbe)
+    && receipt.nativeEditLists?.outputSha256 === essence.outputFileSha256
     && outputProbe.streams?.length === 3 && outputProbe.streams[0]?.index === 0
     && outputProbe.streams[0]?.codec_type === 'video' && outputProbe.streams[0]?.codec_name === 'h264',
     'Complete packet evidence and the observed MP4 output probe must match the selected stage.');
+  prove(matchesTwoAacStageContainer(custody,receipt,outputProbe),
+    'The held output must have the measured physical MP4 file type and matching container-brand observations.');
   const source = getRemuxAssessmentSource(assessment);
   const inv = receipt.nativeInventory;
   prove(inv?.complete && receipt.sourcePlayback?.complete && receipt.nativeEditLists?.complete

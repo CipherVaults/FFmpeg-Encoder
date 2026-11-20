@@ -1,5 +1,10 @@
 # Current State: regular v0.7 Linux, Milestone Q
 
+## Latest reviewed development slice: exact staged MP4 brand evidence
+
+- The isolated normal two-track test preserved a staged file but correctly withheld publication when probe metadata disagreed with the strict expected form. Its physical MP4 header and duplicated matching probe fields were independently checked.
+- The dormant output-only correction accepts that exact measured representation only with the canonical header read from the current validated stage. Input policy and all packet, file, and ownership checks are unchanged. Two-track remains disabled pending separate lifecycle and oracle evidence.
+
 ## Latest reviewed development slice: dormant two-track copy integration
 
 - The Linux shell contains the reviewed two-AAC ownership and validation code, but the accepted record is deliberately absent. Regular Prepare still refuses two-track files; no route or runtime default changes.

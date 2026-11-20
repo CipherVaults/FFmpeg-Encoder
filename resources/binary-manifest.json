@@ -81,7 +81,12 @@
                     {
                         "archivePath":  "generated",
                         "repositoryPath":  "resources/third-party/FFmpeg-README.txt",
-                        "sha256":  "74b5e9915e2d649289986575e9b5c88a33db40fd2f790947284bbaa5ba20e0ab"
+                        "sha256":  "30d69c44b89ee234a863745038b7ccc88bb9f18dd2800f425d67a7645b2370b0"
+                    },
+                    {
+                        "archivePath":  "generated",
+                        "repositoryPath":  "resources/third-party/Electron-extra-notices.txt",
+                        "sha256":  "d6f8736de8e95bb6a8b7a6c2700d33967325bda7f6351e5e495eeddbd06aef34"
                     }
                 ],
     "license":  {

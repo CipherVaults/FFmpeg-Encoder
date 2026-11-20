@@ -65,19 +65,23 @@ the application exits.
 This is an unsigned public Beta prerelease. Windows may warn before running it;
 compare the file with the SHA-256 checksum published on the release page instead
 of bypassing a warning you cannot verify. The Beta was tested in a clean, offline
-Windows Sandbox profile with CPU encoding. NVIDIA encoding, real folder dialogs
-and SmartScreen were not tested for this build.
+Windows Sandbox profile with CPU encoding, and NVIDIA encoding was tested on one
+GeForce RTX 5060 (driver 621.24). Other GPUs and drivers, the interactive
+installer, real folder dialogs and SmartScreen were not tested for this build.
 
 Bundled notices and provenance:
   resources/binary-manifest.json
   resources/third-party/FFmpeg-LICENSE.txt
   resources/third-party/FFmpeg-README.txt
+  resources/third-party/Electron-extra-notices.txt
   LICENSE (Electron)
   LICENSES.chromium.html (Chromium and other Electron components)
 
 The bundled FFmpeg 9.1 and FFprobe were built from source for this release and
 are licensed GPL-3.0-or-later (see FFmpeg-LICENSE.txt). FFmpeg-README.txt lists
-every library linked into them with its version and license. The complete
-corresponding source - the unmodified upstream archives of FFmpeg and each
+every library linked into them with its version and license text. The complete
+corresponding source - the exact, unpatched source archives of FFmpeg and each
 linked library plus the exact build scripts - is a separate download on the
 release page: https://github.com/CipherVaults/FFmpeg-Encoder/releases/tag/v0.6.0-beta.1
+Electron-extra-notices.txt covers Electron runtime files that Chromium's
+notices do not (ffmpeg.dll source, dxcompiler.dll and dxil.dll licences).

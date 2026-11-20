@@ -88,7 +88,7 @@ async function main() {
   assert.equal(manifest.platform, 'win32-x64');
   assert.deepEqual(manifest.binaries.map(entry => entry.name).sort(), ['ffmpeg.exe', 'ffprobe.exe']);
   assert.deepEqual(manifest.notices.map(entry => entry.repositoryPath).sort(), [
-    'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
+    'resources/third-party/Electron-extra-notices.txt', 'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
   ]);
   const sources = [];
   for (const name of appFiles(root)) sources.push({ path: name, ...await hashFile(path.join(root, name)) });

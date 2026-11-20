@@ -1,68 +1,42 @@
-# FFmpeg Encoder: Linux CPU component recovery kit
+<p align="center"><img src="docs/readme/gauge-icon.png" width="82" alt="FFmpeg Encoder Gauge icon"></p>
 
-Private owner deliverable, November 16, 2026. This is a small runnable developer
-experiment, **not the complete application, a full source backup, or a release**.
-It is independent of the untouched Windows project. No GitHub upload is performed
-by this package. Nothing here authorizes public distribution or merging Windows.
+# FFmpeg Encoder
 
-## What you can do
+**Batch-encode videos on your own PC, without writing FFmpeg commands.**
 
-From this extracted directory, with Node available:
+FFmpeg Encoder is a desktop interface for [FFmpeg](https://ffmpeg.org/). Point it at a folder of clips, choose how to encode them, and review the batch before you start. FFmpeg does the encoding on your computer; there is no upload step.
 
-```sh
-node --test tests/media.test.cjs tests/container-clock.test.cjs tests/process-runner.test.cjs linux-blue/runtime.test.cjs
-```
+**[Download Windows installer](https://github.com/CipherVaults/FFmpeg-Encoder/releases/download/v0.6.0-beta.1/FFmpeg-Encoder-0.6.0-beta.1-Setup-win32-x64.exe)** · **[Download portable ZIP](https://github.com/CipherVaults/FFmpeg-Encoder/releases/download/v0.6.0-beta.1/FFmpeg-Encoder-0.6.0-beta.1-win32-x64.zip)** · [Release notes](https://github.com/CipherVaults/FFmpeg-Encoder/releases/tag/v0.6.0-beta.1)
 
-No npm install is required. Those exact packaged files passed all 88 selected
-tests during recovery. Run the tiny synthetic CPU experiment only on the qualified
-Linux x64 host, as an ordinary non-root account:
+> **Available now: v0.6 Beta for Windows x64.** Both downloads bundle FFmpeg 9.1 and FFprobe. No separate FFmpeg install is needed. Windows may warn because these builds are unsigned; compare your file with the [published SHA-256 checksums](https://github.com/CipherVaults/FFmpeg-Encoder/releases/download/v0.6.0-beta.1/SHA256SUMS.txt).
 
-```sh
-node linux-blue/pilot.cjs
-```
+## Visual preview
 
-The pilot expects the exact reviewed Debian FFmpeg 7.1.5 executables at
-/usr/bin/ffmpeg and /usr/bin/ffprobe, whose pins are in linux-blue/runtime.cjs.
-It deliberately refuses other executables, writable tools and loader overrides.
-Do not change the pins just to make a run pass. Other systems require separate
-runtime review. Dynamically linked libraries remain host dependencies.
+![FFmpeg Encoder v0.7 development workbench showing folder pickers, encoder controls, and a file inspector](https://ahmed-selected-work.ahmedessam5500.chatgpt.site/images/ffmpeg-workbench-gauge.svg)
 
-The pilot creates its own tiny synthetic media and receipts under
-linux-blue/artifacts/. It runs H.264, H.265 and AV1 sequentially with existing CPU
-defaults. It checks complete decoding, 12 frames, stream/color/audio properties,
-no overwrite, cancellation and child cleanup. No existing personal media is used.
+*Graphite workbench from v0.7 Linux development. This is a real app capture with Gauge artwork applied for the preview; the Windows v0.6 Beta download has a different layout.*
 
-## Scope
 
-The nine exact source/test files support the selected tests and pilot. This kit
-intentionally does not include the application or the full module dependency
-closure. Optional preservation/provenance paths in media.cjs refer to omitted
-production modules and are outside this kit; do not invoke those optional APIs.
-Do not use this component subset as a drop-in app repository or run npm start.
-The originals have not been edited to remove those paths.
+## What you can do in v0.6 Beta
 
-Evidence includes the existing verified pilot summary and a fresh 88-test log.
-The existing final raw receipt, synthetic source and all three outputs were
-rechecked against recorded hashes. The raw receipts/media remain preserved in
-the original local experiment; no repeat pilot was run solely to refresh time.
-Earlier failed runs are described in the summary and remain failed.
+| | |
+| --- | --- |
+| **Encode a folder of clips** | Batch-process supported SDR video into MKV with H.264, H.265 (HEVC), or AV1. Use your CPU or a supported NVIDIA GPU. |
+| **Check the batch before encoding** | See what's ready, what needs attention, and which files will be skipped. Expand a prepared file to see the actual FFmpeg arguments. |
+| **Keep more than the picture** | Preserve compatible audio, subtitles, chapters, attachments, and metadata. The app flags cases it cannot safely handle. |
+| **Protect your originals** | Existing destinations are not replaced. On supported local NTFS drives, you can write beside the originals; recognized outputs are excluded from the next batch by default. |
+| **Spend less time setting up repeat jobs** | The app remembers folders and per-profile settings. On eligible local drives, it can reuse inspection results for unchanged files. |
 
-The source origin was codex/v0.7-candidate at
-1b9838a0c4a9379ef36032ddea4c422e66aaea9b plus captured PC edits. This kit is not
-those edits in full. Original modules/tests in this kit match intake hashes.
-FILE_HASHES.json lists every delivered file except itself with SHA-256 and size.
+## Try your first encode
 
-## Deliberately excluded
+1. **Install or extract.** The installer sets up the app for your Windows account. For portable use, extract the entire ZIP to a new writable folder and open **FFmpeg Encoder.exe**. Keep its files together.
+2. **Pick your folders and profile.** Start with separate input and output folders and an **H.264 CPU** profile. Select a short SDR clip.
+3. **Review, encode, and play the result.** Check the batch preview before you start. Verify the new MKV before processing a larger folder.
 
-Full application/assets and unrelated tests, historical docs/private Planning,
-old instructions and skills, original private intake manifest, Git history,
-credentials, personal media, generated media, binaries, node_modules and local
-app state. The complete 681-file intake and larger experiment remain untouched.
-No broad privacy guarantee is implied by the bounded credential-pattern scan.
+**Beta scope:** Windows x64 and SDR video. NVIDIA encoding was tested on one RTX 5060; it requires a compatible GPU and driver. AMD/Intel hardware encoding, HDR conversion, Linux packages, and the v0.7 workspaces are not part of this download. See the [release notes](https://github.com/CipherVaults/FFmpeg-Encoder/releases/tag/v0.6.0-beta.1) for known issues, the changes since v0.5, and what was tested.
 
-## What has and has not been proven
+## Source, licensing, and feedback
 
-Proven: the exact selected component tests and three tiny synthetic CPU cases on
-one Linux host. NOT proven: GUI/service integration, complete Linux application,
-Windows/NVIDIA/AMD/Intel compatibility, HDR, representative quality/performance,
-production qualification, packaging, release or acceptance.
+- **Released app source:** [v0.6.0-beta.1 tag](https://github.com/CipherVaults/FFmpeg-Encoder/tree/v0.6.0-beta.1) · [changelog](https://github.com/CipherVaults/FFmpeg-Encoder/blob/v0.6.0-beta.1/CHANGELOG.md). The default branch contains v0.7 development source and is not the Beta build.
+- **Bundled engine:** FFmpeg 9.1 is a separate component under GPL-3.0-or-later for this build. The [matching engine source and build materials](https://github.com/CipherVaults/FFmpeg-Encoder/releases/download/v0.6.0-beta.1/FFmpeg-Encoder-0.6.0-beta.1-ffmpeg-9.1-source.zip) and [third-party notices](https://github.com/CipherVaults/FFmpeg-Encoder/blob/v0.6.0-beta.1/resources/third-party/FFmpeg-README.txt) are separate from this UI's source. A license file for the app itself has not been published.
+- **Feedback:** Include the app version, Windows version, and encoding profile. Remove personal filenames and paths from any logs you share. [Project portfolio](https://ahmed-selected-work.ahmedessam5500.chatgpt.site/) · [All releases](https://github.com/CipherVaults/FFmpeg-Encoder/releases).

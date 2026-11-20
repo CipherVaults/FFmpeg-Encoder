@@ -30,3 +30,19 @@ The command prints path-free JSON to stdout. Exit **0** means both frozen positi
 4. Add an explicit corpus adapter and role validation with both ordinary accept and refuse tests. Do not accept a filesystem receipt as code or runtime authority. Keep `not-comparable` visible and keep failed historical samples. This tool currently supports only the reviewed two-AAC H.264/MP4 study, not every remux route.
 
 Portable decision logic: `python3 -I -B tests/q-fast-check-sample.test.py`. Fast receipt tests: `python3 -I -B scripts/qualification-tools/q-fast-oracle/fast-witness-test.py`. Decode reader: `python3 -I -B tests/decoded-witness.test.py`, with the three documented fixture variables for the retained cases.
+
+### Separate changed-copy control (component-only)
+
+The deliberately swapped synthetic pair is a **different study** from the two app-shaped positives above. The earlier fast packet collector actually rejected a compressed-packet size change before issuing complete evidence. The ordinary app never ran the bad pair. The question here is whether ordered decoded content also changed while the two track labels, sample rates, layouts and default flags stayed the same.
+
+```sh
+python3 -I -B scripts/qualification-tools/q-fast-oracle/check-swapped-component.py \
+  --assay-root "$RETAINED_COMPONENT_ASSAY" \
+  --output-oracle-root "$RETAINED_OUTPUT_ONLY_ORACLE"
+```
+
+The first directory contains the frozen original twin source, altered sample output, failed collector, six packet spools, and the earlier independent source decoder record. The second holds the separately reviewed output-only read, fixed command evidence and four raw pipes. Missing/unbound material returns exit 2; the frozen expected observation returns 0, a comparable but unexpected result 1. The tool does not execute media, write files, recreate missing evidence or alter the normal-study counts.
+
+The older source raw decoder pipes were not retained; its authenticated **complete** per-track and per-channel hashes, sample counts and picture-row digest were. New output PCM and frame rows can be re-read in full without replaying that source. The independent comparison checks both whole-track PCM and both channels of each ordered role before identifying a swap. A compressed-copy rejection and a decoded-content difference are reported as two separate observations. Different compressed packets alone do not diagnose a decoded mismatch or a false rejection.
+
+Offline regression: `python3 -I -B tests/q-fast-component-swap.test.py`. With the original private recovery, set `Q_COMPONENT_ASSAY` and `Q_SWAPPED_OUTPUT_DECODE` to the first and second directory respectively for the real pair and withheld-output case; if not supplied the evidence-dependent test is explicitly skipped. `python3 -I -B scripts/qualification-tools/q-fast-oracle/swapped-fast-test.py` checks component isolation separately.

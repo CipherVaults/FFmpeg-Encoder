@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 166659,
-    "sha256": "28730ffa6adc0f7026380ccab681e6e1abc893bab76fb30726fa40ba4a26817a"
+    "bytes": 167146,
+    "sha256": "742e8f411148557ef924fde0ba38a4a504c3b8046fbfda9091a976400a7eb4ae"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 35013,
-    "sha256": "3a76664b5ba85e0836b4259f7b94e99aaae66d35c3392d11f2e2116b0cb8ff69"
+    "bytes": 35705,
+    "sha256": "4597954a2540d657ed872b551c5b7c29b2473ba0bcc962bf2c9ff753338e725d"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,

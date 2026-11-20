@@ -800,3 +800,114 @@ test('Linux Q2m keeps unsupported subtitle and chapter-data disposition reasons'
    }
  }
 });
+
+for(const scenario of [
+ {name:'H264 existing ordinary duration bound',settings:{profileId:'h264-cpu',preset:'veryfast',quality:23},policy:'ORDINARY_DURATION',
+   modify(probe){probe.format.duration='1801';probe.streams.forEach(s=>{s.duration='1801';s.duration_ts=1801000;});}},
+ {name:'AV1 existing ordinary geometry bound',settings:{profileId:'av1-cpu',preset:'6',quality:32},policy:'ORDINARY_VIDEO',
+   modify(probe){Object.assign(probe.streams[0],{width:2560,height:1440,coded_width:2560,coded_height:1440});}},
+ {name:'H265 ordinary Matroska 1/1000 requirement',settings:{profileId:'h265-cpu',preset:'slow',quality:25},policy:'h265-clock',
+   modify(probe){Object.assign(probe.streams[1],{time_base:'1/48000',duration_ts:96000});}},
+ {name:'admitted ordinary H264 Full/Source',settings:{profileId:'h264-cpu',preset:'veryfast',quality:23},modify(){}},
+]){
+ test('Linux ordinary Prepare commits the policy verdict before inspection state: '+scenario.name,async t=>{
+   const {service,h,root}=await setup(t);
+   const input=path.join(root,'input'),output=path.join(root,'output'),source=path.join(input,'source.mkv');
+   await fsp.mkdir(input);await fsp.mkdir(output);await fsp.writeFile(source,'Inert ordinary service policy fixture, not media.');
+   const probe=sourceProbe();probe.format.size=String((await fsp.stat(source)).size);
+   probe.streams.forEach(s=>{s.duration_ts=2000;});
+   scenario.modify(probe);
+   const duration=Number(probe.format.duration),{width,height}=probe.streams[0];
+   const inspected=[];
+   service.inspect=async file=>{inspected.push(file);return {probe:structuredClone(probe),duration,
+     color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},
+     summary:{selectedVideoIndex:0,codec:'h264',width,height,durationSeconds:duration,bitDepth:8}};};
+   service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});
+   service.storageEligibility={check:async()=>({eligible:true})};
+   const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+   const snapshots=[],incidents=[];
+   service.on('update',snapshot=>snapshots.push({snapshot,entries:service.plan?.entries?.size||0}));
+   const record=service.recordIncident;
+   service.recordIncident=async event=>{
+     if(event.reason==='FILE_INSPECTED')incidents.push({event:structuredClone(event),entries:service.plan?.entries?.size||0});
+     return record(event);
+   };
+   const result=await service.prepareBatch({inputFolderId:i.id,outputFolderId:o.id,settings:scenario.settings});
+   await service.taskPromise;
+   const item=result.items[0],current=service.snapshot();
+   assert.deepEqual(inspected,[source]);assert.equal(current.items[0].id,item.id);
+   assert.equal(incidents.length,1);assert.equal(incidents[0].event.fileId,item.id);
+   assert(snapshots.some(({snapshot})=>snapshot.items.some(x=>x.id===item.id)));
+   t.diagnostic('outward statuses / FILE_INSPECTED: '+JSON.stringify([snapshots.flatMap(({snapshot,entries})=>
+     snapshot.items.filter(x=>x.id===item.id).map(x=>[snapshot.phase,x.status,entries])),incidents.map(x=>[x.event.context.status,x.entries])]));
+   const facts={probe,settings:scenario.settings,request:item.operationRequest,bytes:Number(probe.format.size)};
+   if(scenario.policy==='h265-clock')
+     assert.throws(()=>require('../linux-blue/h265-ordinary-policy.cjs').admit(facts),/Matroska 1\/1000/);
+   else if(scenario.policy)
+     assert.throws(()=>require('../linux-blue/ordinary-cpu-policy.cjs').admitInput(facts),{code:scenario.policy});
+   else assert.doesNotThrow(()=>require('../linux-blue/ordinary-cpu-policy.cjs').admitInput(facts));
+   assert.equal(service.executionBinding,null);
+   assert(h.generations.every(g=>g.runCalls===0&&g.observeCalls===0));
+   assert.deepEqual(await fsp.readdir(output),[]);
+   if(!scenario.policy){
+     assert.equal(item.status,'ready',item.reason);assert.equal(current.items[0].status,'ready');
+     assert(snapshots.some(({snapshot})=>snapshot.items.some(x=>x.id===item.id&&x.status==='ready')));
+     assert.equal(incidents[0].event.context.status,'ready');assert.equal(incidents[0].entries,1);
+     const entry=service.plan.entries.get(item.id);
+     assert(entry?.operationPlan?.compatibilityPath);assert.equal(entry.operationPlan.contract.range.kind,'full');
+     assert.equal(item.operationRequest.resolution,'source');assert.equal(item.operationRequest.audioPolicy,'copy');
+     return;
+   }
+   assert.equal(item.status,'unsupported');assert.equal(current.items[0].status,'unsupported');assert(item.reason);
+   for(const {snapshot,entries} of snapshots){
+     const row=snapshot.items.find(x=>x.id===item.id);
+     assert(!row||!['ready','conflict'].includes(row.status),'refused source was visible with a selectable status');
+     assert.equal(entries,0,'refused source was temporarily installed as a runnable entry');
+   }
+   assert.equal(incidents[0].event.context.status,'unsupported');
+   assert.equal(incidents[0].event.message,item.reason);assert.equal(incidents[0].entries,0);
+   assert.equal(service.plan.entries.size,0);
+   await assert.rejects(service.startBatch({planId:result.planId,fileIds:[item.id]}));
+   assert.equal(service.executionBinding,null);assert(h.generations.every(g=>g.runCalls===0));
+   assert.deepEqual(await fsp.readdir(output),[]);
+ });
+}
+
+test('Linux ordinary Prepare cancellation never publishes old readiness and permits a fresh owner',async t=>{
+ const {service,h,root}=await setup(t);
+ const input=path.join(root,'input'),output=path.join(root,'output');
+ await fsp.mkdir(input);await fsp.mkdir(output);await fsp.writeFile(path.join(input,'preview.mkv'),'Inert inspection fixture');
+ const probe=sourceProbe(),settings={profileId:'h264-cpu',preset:'veryfast',quality:23};
+ service.capabilities=async()=>({profiles:require('../src/media.cjs').PROFILES.map(p=>({...p,available:true,supportedBitDepths:[8]})),versions:{}});
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output');
+ const args={inputFolderId:i.id,outputFolderId:o.id,settings};
+ const inspection=()=>({probe:structuredClone(probe),duration:2,color:{classification:'sdr',supported:true,transfer:'bt709',videoIndex:0,reasons:[]},
+   summary:{selectedVideoIndex:0,codec:'h264',width:320,height:180,bitDepth:8}});
+ let inspectEntered,inspectRelease;
+ const entered=new Promise(r=>inspectEntered=r),release=new Promise(r=>inspectRelease=r);
+ service.inspect=async()=>{inspectEntered();await release;return inspection();};
+ const snapshots=[];service.on('update',state=>snapshots.push(state));
+ const incidents=[],record=service.recordIncident.bind(service);
+ service.recordIncident=async event=>{if(event.reason==='FILE_INSPECTED')incidents.push(structuredClone(event));return record(event);};
+ const first=service.prepareBatch(args);
+ await Promise.race([entered,first.then(()=>{throw Error('test preparation never entered inspection');})]);
+ const retired=service.snapshot(),old=h.generations.at(-1);
+ const cancellation=service.cancelCurrent();
+ try {await assert.rejects(service.startBatch({planId:retired.planId,fileIds:[retired.items[0].id]}));}
+ finally {inspectRelease();}
+ await first.catch(()=>{});await cancellation;
+ assert(old.closed);assert.equal(service.plan,null);
+ assert(snapshots.filter(s=>s.planId===retired.planId).every(s=>s.items.every(item=>item.status!=='ready')));
+ assert(incidents.every(e=>e.context.status!=='ready'));
+ assert.deepEqual(await fsp.readdir(output),[]);
+ service.inspect=async()=>inspection();
+ const fresh=await service.prepareBatch(args);
+ assert.notEqual(fresh.planId,retired.planId);assert.notEqual(h.generations.at(-1),old);
+ assert.equal(fresh.items[0].status,'ready',fresh.items[0].reason);
+ assert.equal(service.plan.entries.size,1);
+ assert.equal(incidents.at(-1).context.status,'ready');
+ await assert.rejects(service.startBatch({planId:retired.planId,fileIds:[retired.items[0].id]}));
+ await service.cancelCurrent();assert.equal(service.executionBinding,null);
+ assert(h.generations.every(g=>g.closed&&!g.runCalls));assert.deepEqual(await fsp.readdir(output),[]);
+});

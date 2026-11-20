@@ -1147,14 +1147,23 @@ class EncoderService extends EventEmitter {
       // slot is a template in the prepared presentation; main substitutes its
       // exclusively owned staging path at start, never the public destination.
       const preparedArgs = Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]);
-      this.plan.entries.set(item.id, { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
+      const entry = { file, destination, inspection, fingerprint: identity, overridden: this.plan.overrides.has(item.id),
         reencodeAuthorized: item.reencodeAuthorized, sourceOutputId: marker.outputId || indexed?.outputId,
         outputId, generationDescription, operationPlan, preparedArgs, qualificationBindings, qualificationSelection, operationRuntimeToken,
         ...(preparedControls ? { encodeControls: preparedControls, encodeControlsOwner: preparedPlan,
           encodeControlsSettings: preparedControlSettings } : {}),
         ...(encodePreservationSelection ? { encodePreservation: true, encodePreservationSelection, encodePreservationOwner: this.plan,
-          preparedPlanId: this.plan.id, encodePreservationRequest: item.operationRequest } : {}) });
-      if (encodePreservationSelection) requireEncodePreservation.call(this, this.plan.entries.get(item.id));
+          preparedPlanId: this.plan.id, encodePreservationRequest: item.operationRequest } : {}) };
+      // Main-only host checks may refuse or bind this exact entry before it is
+      // stored or shown as Ready. No request flag bypasses the shared checks.
+      if (preparedPlan.operation === 'encode' && typeof this.bindPreparedEncodeEntry === 'function') {
+        item.summary = inspection.summary;
+        if (this.bindPreparedEncodeEntry(item, entry) !== undefined) {
+          throw fail('INVALID_PLAN', 'Prepared entry binding must settle synchronously.');
+        }
+      }
+      this.plan.entries.set(item.id, entry);
+      if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
       this.plan.ambiguities.delete(item.id);
       Object.assign(item, { status: 'ready', summary: inspection.summary, reason: item.reencodeAuthorized
         ? 'Explicit re-encoding authorized for this file and prepared batch only.'

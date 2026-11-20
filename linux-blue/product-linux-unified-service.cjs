@@ -57,6 +57,7 @@ class NarrowRemux extends RemuxOperations{
 }
 class UnifiedService extends EncoderService{
   #ordinaryPrepared=new WeakMap();
+  #encodePreparing=new WeakMap();
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
   resolveEncodeControls(plan,settings){
     if(plan?.contract?.range?.kind==='range'&&plan?.contract?.audio?.policy==='precision-aac'
@@ -236,31 +237,40 @@ class UnifiedService extends EncoderService{
     return inspectMp3Diagnostic({baseline,selectedPath:path.join(preparedPlan.input,item.name),request,signal,current,onStage,ffprobe:this.ffprobe,run:this.run});
   }
   async prepareWithWorkers(context){assert(this.state.items.length>=1&&this.state.items.length<=(ordinaryRoute(this.route)?2:1));return super.prepareWithWorkers(context);}
-  ordinaryEntry(item){
-    const e=this.plan?.entries.get(item.id);
-    assert(e&&e.operationPlan?.compatibilityPath===true&&!e.qualificationSelection&&!e.operationRuntimeToken&&!['vendor','remux','hdr','encodePreservation','native'].some(k=>e[k])&&this.plan.operation==='encode');
-    return e;
+  ordinaryEntry(item,entry=this.plan?.entries.get(item.id)){
+    assert(entry&&entry.operationPlan?.compatibilityPath===true&&!entry.qualificationSelection&&!entry.operationRuntimeToken&&!['vendor','remux','hdr','encodePreservation','native'].some(k=>entry[k])&&this.plan.operation==='encode');
+    return entry;
   }
   async prepareItem(item,context){
-    const ordinary=ordinaryRoute(this.route);
-    const owner=ordinary?{plan:this.plan,planId:this.plan.id,generation:this.generation,route:this.route,settings:Object.freeze(ordinarySettings(context.settings))}:null;
-    await super.prepareItem(item,context);
-    if(this.plan?.entries.has(item.id)){
-      try{
+    const route=this.route,ordinary=ordinaryRoute(route);
+    if(!ordinary&&route!=='h265')return super.prepareItem(item,context);
+    const owner=Object.freeze({plan:this.plan,planId:this.plan.id,generation:this.generation,epoch:this.epoch,route,signal:context.signal,
+      settings:Object.freeze(ordinary?ordinarySettings(context.settings):{...context.settings})});
+    assert(!this.#encodePreparing.has(item),'File already has a preparation owner');
+    this.#encodePreparing.set(item,owner);
+    try{return await super.prepareItem(item,context);}
+    finally{this.#encodePreparing.delete(item);}
+  }
+  bindPreparedEncodeEntry(item,entry){
+    const owner=this.#encodePreparing.get(item),ordinary=ordinaryRoute(owner?.route);
+    if(owner?.signal.aborted)throw new ToolError('CANCELLED','Encode preparation was cancelled.');
+    try{
+      assert(owner&&this.plan===owner.plan&&this.plan.id===owner.planId&&this.generation===owner.generation
+        &&this.route===owner.route&&this.epoch===owner.epoch&&this.state.phase==='preparing','Encode preparation owner changed');
+      assert.deepEqual(ordinary?ordinarySettings(this.plan.settings):this.plan.settings,owner.settings,'Encode settings changed during preparation');
+      if(ordinary||entry.operationPlan?.compatibilityPath){
+        this.ordinaryEntry(item,entry);
+        const facts={probe:entry.inspection.probe,settings:owner.settings,request:item.operationRequest,bytes:Number(entry.fingerprint.size)};
         if(ordinary){
-          const e=this.ordinaryEntry(item);
-          assert(this.plan===owner.plan&&this.plan.id===owner.planId&&this.generation===owner.generation&&this.route===owner.route,'Ordinary preparation owner changed');
-          assert.deepEqual(ordinarySettings(this.plan.settings),owner.settings,'Ordinary settings changed during preparation');
-          routePolicy(this.route).admit({probe:e.inspection.probe,settings:owner.settings,request:item.operationRequest,bytes:Number(e.fingerprint.size)});
-          this.#ordinaryPrepared.set(e,Object.freeze({...owner,operationPlan:e.operationPlan,preparedArgs:e.preparedArgs,request:item.operationRequest}));
-        }else if(this.route==='h265'){
-          const e=this.plan.entries.get(item.id);
-          if(e.operationPlan?.compatibilityPath)H265.requireEntry(this,item);else this.requireMeasuredEntry(e);
-        }
-      }catch(error){
-        this.plan.entries.delete(item.id);item.status='unsupported';item.reasonCode='ORDINARY_ADMISSION';
-        item.reason=this.route==='h265'?'Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.':ordinary?'Outside the supported ordinary CPU Full / Keep source route.':'Outside the fixed ordinary CPU route.';
-      }
+          routePolicy(owner.route).admit(facts);
+          this.#ordinaryPrepared.set(entry,Object.freeze({plan:owner.plan,planId:owner.planId,generation:owner.generation,route:owner.route,
+            settings:owner.settings,operationPlan:entry.operationPlan,preparedArgs:entry.preparedArgs,request:item.operationRequest}));
+        }else H265.admit(facts);
+      }else this.requireMeasuredEntry(entry);
+    }catch{
+      const reason=owner?.route==='h265'?'Outside the supported H265 operation; ordinary Matroska requires 1/1000 stream clocks.'
+        :ordinary?'Outside the supported ordinary CPU Full / Keep source route.':'Outside the fixed ordinary CPU route.';
+      throw new ToolError('ORDINARY_ADMISSION',reason);
     }
   }
   requireMeasuredEntry(e){assert.deepEqual(this.plan.settings,MEASURED);assert(!this.plan.sameFolder);assert(e?.qualificationSelection&&e.operationRuntimeToken&&e.operationPlan?.instrumentation&&!e.operationPlan.compatibilityPath&&!['native','vendor','hdr','remux','encodePreservation'].some(k=>e[k]));}

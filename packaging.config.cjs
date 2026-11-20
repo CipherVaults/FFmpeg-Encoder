@@ -19,7 +19,10 @@ module.exports = function packageOptions(root, buildRoot, manifest) {
     appVersion: manifest.version, buildVersion: manifest.version.split('-')[0],
     asar: true, prune: false, derefSymlinks: false, overwrite: false,
     tmpdir: path.join(buildRoot, 'packager-temp'),
-    download: { cacheRoot: path.join(root, '.cache', 'electron') },
+    // Check the cached runtime against the checksums shipped in the lockfile-verified electron
+    // package, so packaging works offline instead of re-downloading SHASUMS256.txt.
+    download: { cacheRoot: path.join(root, '.cache', 'electron'),
+      checksums: JSON.parse(require('node:fs').readFileSync(path.join(root, 'node_modules', 'electron', 'checksums.json'), 'utf8')) },
     // Source-relative exact paths only. Development modules, logs, original
     // history and media cannot enter ASAR through a broad directory inclusion.
     ignore: filename => !allowed.has(filename.replaceAll('\\', '/').replace(/^\//, '')),

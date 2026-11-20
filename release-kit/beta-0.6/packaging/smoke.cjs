@@ -197,9 +197,10 @@ async function smoke(args) {
     const paths = new Set();
     const outputPins = [];
     for (const item of done.items) {
-      assert.equal(item.outputDisposition?.kind, 'published');
-      const output = item.outputDisposition.file;
-      assert.equal(normalize(path.dirname(output)), normalize(dir('output')));
+      // 0.6 snapshots report status and outputName (encoder-service.cjs:508), not a disposition.
+      assert.equal(item.status, 'success');
+      assert.equal(item.outputName, path.parse(item.name).name + '_H264-CPU.mkv');
+      const output = path.join(dir('output'), item.outputName);
       paths.add(normalize(output));
       const pin = await digest(output);
       assert(pin.size > 0 && pin.size < 16 * 1024 * 1024);
@@ -214,7 +215,7 @@ async function smoke(args) {
     await page.click('#new-batch'); await page.click('#prepare-batch');
     const collision = await waitState(page, s => s.phase === 'ready' && s.planId !== ready.planId, 90000);
     assert(collision.items.length === 2 && collision.items.every(i => i.status === 'skipped' && i.reason === 'Output already exists.'));
-    for (let i = 0; i < done.items.length; i++) assert.deepEqual(await digest(done.items[i].outputDisposition.file), outputPins[i]);
+    for (let i = 0; i < done.items.length; i++) assert.deepEqual(await digest(path.join(dir('output'), done.items[i].outputName)), outputPins[i]);
     assert.deepEqual(await digest(sentinel), sentinelPin);
     for (const file of [a, b]) assert.deepEqual(await digest(file), inputPin);
     assert.equal(errors.length, 0);

@@ -36,8 +36,16 @@ networking disabled; the host only stages verified inputs and reads results.
   remembered settings), installs Setup silently (`verify-installer.cjs`),
   compares the installed payload, smokes the installed app, and uninstalls,
   checking that a simulated existing 0.6 copy and the portable profile stay untouched.
-- `launch-pkg.ps1` / `pkg.template.wsb` start that sandbox run.
+- `launch-pkg.ps1` / `pkg.template.wsb` start that sandbox run. The packager's ZIP
+  module links `VCRUNTIME140.dll`, which a fresh sandbox lacks, so the launcher
+  stages the host's Microsoft-signed copy (pinned build 14.51.36247.0); the guest
+  places it beside that module only and fails if it appears in the package.
+- `host-gpu-pkg.ps1` / `gpu-smoke.cjs` (owner PC with an NVIDIA GPU, release
+  scratch only): extract the delivered ZIP with 7-Zip, compare every byte with the
+  sandbox staging inventory, then drive the packaged app through H.264, H.265 and
+  AV1 NVENC at non-default settings and the HEVC Archive Quality recipe on
+  synthetic 8- and 10-bit sources, with full decode readback and remembered settings.
 
 `installer.cjs`, `verify-installer.cjs`, `smoke.cjs` and `pe-icon.cjs` are adapted
-from the reviewed 0.7 Alpha packaging rehearsal kit. Not covered: GPU encoding on
-real hardware, real folder dialogs, SmartScreen and code signing.
+from the reviewed 0.7 Alpha packaging rehearsal kit. Not covered: AMD/Intel GPU
+encoding, real folder dialogs, SmartScreen and code signing.

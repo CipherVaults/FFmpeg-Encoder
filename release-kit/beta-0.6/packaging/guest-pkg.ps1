@@ -134,6 +134,11 @@ try {
     $count++
   }
   $status.npmPackages = $count
+  # Build-time only: the packager's zip module needs VCRUNTIME140.dll beside it (the DLL's own folder is
+  # searched first). The pinned, Microsoft-signed host copy is staged by launch-pkg.ps1; the
+  # package-inventory check below proves it is not shipped.
+  if ((Sha 'C:\kit\vcruntime140.dll') -ne 'd1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7') { throw 'vcruntime140 pin' }
+  Copy-Item -LiteralPath 'C:\kit\vcruntime140.dll' -Destination "$app\node_modules\@electron-internal\extract-zip\VCRUNTIME140.dll"
 
   Stage 'electron-runtime'
   $ed = "$app\node_modules\electron"; [void][IO.Directory]::CreateDirectory("$ed\dist")
@@ -166,13 +171,16 @@ try {
   $status.zip = @{ name = Split-Path -Leaf $zip; bytes = (Get-Item $zip).Length; sha256 = Sha $zip }; $status.commit = $report.git.commit
 
   Stage 'setup-compile'
-  Run $node @('C:\kit\installer.cjs', '--stage', $stage, '--out', "$t\setup", '--icon', 'C:\kit\gauge-app.ico', '--compiler', "$t\nsis\ucrt64\bin\makensis.exe") 'installer' 1800000 $nodeEnv $t | Out-Null
+  # installer.cjs requires realpath(icon) == path, so use a guest-owned, pin-checked copy, not the mapped folder.
+  Copy-Item -LiteralPath 'C:\kit\gauge-app.ico' -Destination "$t\gauge-app.ico"
+  if ((Sha "$t\gauge-app.ico") -ne 'b2bbcc2675f6d99b5a985f838bdd9e2128c202f109c10890fe41e00cba86a620') { throw 'Gauge icon pin' }
+  Run $node @('C:\kit\installer.cjs', '--stage', $stage, '--out', "$t\setup", '--icon', "$t\gauge-app.ico", '--compiler', "$t\nsis\ucrt64\bin\makensis.exe") 'installer' 1800000 $nodeEnv $t | Out-Null
   $ir = Get-Content -Raw -LiteralPath "$t\setup\installer-receipt.json" | ConvertFrom-Json; $setup = Join-Path "$t\setup" $ir.setup
   $status.setup = @{ name = $ir.setup; bytes = (Get-Item $setup).Length; sha256 = Sha $setup }
 
   Stage 'gauge-icons'
-  Run $node @('C:\kit\pe-icon.cjs', "$stage\FFmpeg Encoder.exe", 'C:\kit\gauge-app.ico') 'icon-app' 60000 $nodeEnv $t | Out-Null
-  Run $node @('C:\kit\pe-icon.cjs', $setup, 'C:\kit\gauge-app.ico', '103') 'icon-setup' 60000 $nodeEnv $t | Out-Null
+  Run $node @('C:\kit\pe-icon.cjs', "$stage\FFmpeg Encoder.exe", "$t\gauge-app.ico") 'icon-app' 60000 $nodeEnv $t | Out-Null
+  Run $node @('C:\kit\pe-icon.cjs', $setup, "$t\gauge-app.ico", '103') 'icon-setup' 60000 $nodeEnv $t | Out-Null
 
   Stage 'portable-test'
   $ptRoot = "$t\Portable Test"; $pt = "$ptRoot\FFmpeg Encoder 0.6 Beta"; $older = "$ptRoot\FFmpeg Encoder 0.6 (existing copy)"
@@ -182,6 +190,7 @@ try {
   $invStage = Inventory $stage; $invPortable = Inventory $pt
   if (($invStage -join "`n") -cne ($invPortable -join "`n")) { throw 'extracted ZIP differs from staging' }
   if ($invStage | Where-Object { $_ -like 'data/*' }) { throw 'package contains data' }
+  if ($invStage | Where-Object { ($_ -split '\|')[0] -match '(?i)(^|/)vcruntime140\.dll$' -or ($_ -split '\|')[2] -eq 'd1f4225df2cd877dbf130d5668a021dce3f94118455ff5ec952061c30afc9ce7' }) { throw 'build-time vcruntime140.dll leaked into the package' }
   Run $node @('C:\kit\smoke.cjs', '--source', $app, '--app', "$pt\FFmpeg Encoder.exe", '--work', "$t\smoke-portable", '--form', 'portable') 'smoke-portable' 900000 $nodeEnv $t | Out-Null
   $portableData = Inventory "$pt\data"; $status.portableDataFiles = @($portableData).Count
 

@@ -1,3 +1,5 @@
+- **November 22, 2026 — [MKV audio service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md#regular-windows-service-qualification).** Finite Windows default service, exact audio copy and explicit 64 ms earlier, retained failed receipts and fresh TS/MP3 regression.
+
 - **November 21, 2026 — [Subtitle and chapter measurements](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md).** Owned cue and chapter copies, independent clip and native unsupported-policy observations, with earlier failed stages retained.
 
 - **November 21, 2026 — [Multiple-audio laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md).** Two complete exact AAC shapes in owned MP4s, swapped-payload negative, and retained shortened source edit refusal.

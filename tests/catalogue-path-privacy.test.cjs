@@ -11,7 +11,7 @@ const plan = require('../resources/linux-inert-package-plan.json');
 const root = path.resolve(__dirname, '..');
 const catalogues = new Map([
   ['src/operation-catalog.cjs', 'fc1465cb145c974df0aab859cd467e2b1527ffc555b42828839db127d188b032'],
-  ['src/remux-catalog.cjs', '39bf6b42183d98938369f019a7cdff49abfcc3d686cd44dfd4e6f38f43c5c316'],
+  ['src/remux-catalog.cjs', 'a7ce600e96101f06caefcf1a1407d7a3f5c630e50144f1f844386b8dae907267'],
 ]);
 
 for (const source of catalogues.keys()) {

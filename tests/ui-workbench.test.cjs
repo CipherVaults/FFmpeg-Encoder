@@ -1733,6 +1733,45 @@ test('Remux omission actions submit the exact main-issued decision set and retai
   assert.deepEqual(Object.keys(requests[1].args[0]).sort(), ['decisionIds', 'draftId', 'planId', 'revision']);
 });
 
+test('Remux discloses the exact audio shift and sends only an explicit current file choice', async () => {
+  const seed = (await remuxHarness()).initial;
+  let approved = false, revision = seed.revision;
+  const view = () => ({
+    ...seed, revision: ++revision, planId: 'audio-plan-' + revision,
+    operationDraft: { ...seed.operationDraft, revision, batchDefaults: { values: { remuxTarget: 'mp4' } } },
+    items: seed.items.map((item, index) => ({
+      ...item, status: index === 0 && !approved ? 'unsupported' : 'ready',
+      reason: index === 0 && !approved ? 'Choose the disclosed audio shift before starting this file.' : '',
+      remux: { ...item.remux, target: 'mp4', blockers: [], omissionCandidates: [], omissionDecisionIds: [],
+        ...(index === 0 ? { audioShift: { id: 'owned-shift', approved, shiftSamples: -3072, milliseconds: 64,
+          message: 'This option moves audio 64 ms earlier. The app verifies every sample before saving.' } } : {}) },
+    })),
+  });
+  const h = await harness({ setRemuxAudioChoices: async request => {
+    approved = request.decisionIds.includes('owned-shift');
+    return view();
+  } });
+  const start = view();
+  h.update(start);
+  await h.byId('batch-items').children[0].querySelector('[data-testid="inspect-file"]').click();
+  const inspector = h.byId('focused-file-details-slot'), action = () => inspector.querySelector('[data-testid="remux-audio-shift"]');
+  assert.match(inspector.textContent, /64 ms earlier/);
+  assert.equal(action().textContent, 'Use audio 64 ms earlier');
+  assert.equal(h.byId('batch-items').children[0].querySelector('[data-testid="encode-file"]').disabled, true);
+  action().focus();
+  await action().click();
+  assert.deepEqual(h.calls.find(row => row.name === 'setRemuxAudioChoices').args, [{ planId: start.planId,
+    draftId: start.operationDraft.id, revision: start.operationDraft.revision, decisionIds: ['owned-shift'] }]);
+  assert.equal(action().textContent, 'Remove audio shift choice');
+  assert.equal(h.document.activeElement, action());
+  const select = h.byId('batch-items').children[0].querySelector('[data-testid="encode-file"]');
+  select.checked = true; await select.emit('change');
+  assert.match(h.byId('selected-review-list').textContent, /Audio 64 ms earlier/);
+  await action().click();
+  assert.deepEqual(h.calls.filter(row => row.name === 'setRemuxAudioChoices').at(-1).args[0].decisionIds, []);
+  assert.equal(h.byId('batch-items').children[0].querySelector('[data-testid="encode-file"]').disabled, true);
+});
+
 test('DOM focus fixture clears removed descendants and refuses detached or disabled focus', () => {
   const h = dom(), container = h.document.createElement('div'), button = h.document.createElement('button');
   h.document.body.append(container); container.append(button); button.focus();

@@ -13,6 +13,7 @@ const { observeNativeInventory } = require('./remux-native-checks.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
 const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
 const { prepareMp3Source } = require('./remux-mp3-source.cjs');
+const { observeMkvAacClock } = require('./remux-mkv-aac-clock.cjs');
 const { COPY_NOTICE } = require('./remux-mp3-copy.cjs');
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
 const fail = (code, message) => Object.assign(new Error(message), { code });
@@ -30,6 +31,12 @@ function requireRemuxGrants(entry) {
   if (!plan || plan.operation !== 'remux' || entry.remuxOwner !== plan || entry.preparedPlanId !== plan.id
       || request.draftRevision !== plan.draft.snapshot().revision) {
     throw fail('REMUX_AUTHORITY_STALE', 'The prepared Remux workspace changed. Prepare again.');
+  }
+  if (entry.mkvAacClock?.shiftSamples) {
+    const clock = entry.mkvAacClock, stream = getRemuxAssessmentSource(entry.remuxAssessment).streams[1];
+    if (!currentAudioChoice(plan.remuxAudioChoices.get(request.fileId), plan, request, clock, entry.fingerprint, stream, this.runtimeIdentity)) {
+      throw fail('REMUX_AUDIO_SHIFT_STALE', 'The explicit audio shift no longer belongs to the current file and target.');
+    }
   }
   for (const grantId of request.omissionRequestIds) {
     const grant = plan.remuxGrants.get(grantId);
@@ -65,19 +72,48 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   };
   const mp3Source = this.remuxOperations.allowsStandaloneMp3?.(request.target) && path.extname(file).toLowerCase() === '.mp3'
     ? await prepareMp3Source(file, identity, { signal }) : undefined;
-  const assessment = assessRemux({ request, probe, sourceFingerprint, resolveOmission: resolve,
-    ...(mp3Source ? { mp3Source } : {}) });
-  // A blocked genuine assessment intentionally cannot issue a builder source
-  // capability. Main already owns this inspected data; use its normalized copy
-  // only for the refusal/decision view, never as execution authority.
   const source = (mp3Source ? normalizeMp3RemuxProbe : normalizeProbe)(structuredClone(probe));
+  let mkvAacClock, audioShift, clockRefusal;
+  const measuredAudioRoute = this.remuxOperations.allowsMkvAacClock?.(request.target) && source.format.format_name === 'matroska,webm';
+  if (measuredAudioRoute && !request.omissionRequestIds.length) {
+    try {
+      mkvAacClock = await observeMkvAacClock({ file, identity, probe: source, signal });
+    } catch (error) {
+      if (error.code !== 'REMUX_MKV_AAC_CLOCK_UNQUALIFIED') throw error;
+      clockRefusal = { code: error.code, message: error.message, streamIndex: 1 };
+    }
+    if (mkvAacClock?.shiftSamples) {
+      const granted = this.plan.remuxAudioChoices.get(item.id), stream = source.streams[1];
+      const approved = currentAudioChoice(granted, this.plan, request, mkvAacClock, identity, stream, this.runtimeIdentity);
+      const offer = {
+        id: approved ? granted.id : randomUUID(), fileId: item.id, planId: this.plan.id, draftId: this.plan.draft.id,
+        identityRevision: request.identityRevision, draftRevision: request.draftRevision, target: request.target,
+        runtimeIdentity: this.runtimeIdentity, identity, sourceSha256: mkvAacClock.sha256,
+        streamFingerprint: hash(stream), shiftSamples: mkvAacClock.shiftSamples,
+      };
+      this.plan.remuxAudioOffers.set(offer.id, offer);
+      const milliseconds = Math.abs(mkvAacClock.shiftSamples) * 1000 / mkvAacClock.sampleRate;
+      audioShift = { id: offer.id, approved, shiftSamples: offer.shiftSamples, milliseconds,
+        message: 'This option moves audio ' + milliseconds + ' ms earlier. The app verifies every sample before saving.' };
+      if (!approved) {
+        clockRefusal = { code: 'REMUX_AUDIO_SHIFT_CHOICE_REQUIRED',
+          message: 'Choose the disclosed audio shift before starting this file.', streamIndex: 1 };
+      }
+    }
+  }
+  const assessment = assessRemux({ request, probe, sourceFingerprint, resolveOmission: resolve,
+    ...(mp3Source ? { mp3Source } : {}), ...(mkvAacClock ? { mkvAacClock } : {}) });
   const primary = assessment.expectedOutput.selectedVideoInputIndex;
   // An individual main-process service can add a refusal, never a grant.
   // Its text is presented only after the shared assessment's own blockers.
   const localReason = this.additionalAncillaryRefusal?.({ assessment, source, request, file });
   const localBlocker = typeof localReason === 'string' && localReason.length
     ? { code: 'REMUX_ANCILLARY_NOT_QUALIFIED', message: localReason, streamIndex: null } : null;
-  const omissionsAvailable = this.remuxOmissionDecisionsSupported !== false;
+  const omissionsAvailable = this.remuxOmissionDecisionsSupported !== false && !measuredAudioRoute;
+  if (audioShift && (assessment.blockers.length || localBlocker)) {
+    this.plan.remuxAudioOffers.delete(audioShift.id);
+    audioShift = undefined;
+  }
   const candidates = [];
   // Data/timecode/relationship cases remain refused even after a proposed
   // omission. Do not offer a button that falsely promises to resolve them.
@@ -104,10 +140,11 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
       reasons: blocked.length ? blocked.map(value => value.message) : localBlocker
         ? ['This file is blocked as a whole. No stream will be copied.'] : [], representations: mapped?.metadata?.representations || [] };
   });
-  const blockers = localBlocker ? [...assessment.blockers, localBlocker] : assessment.blockers;
+  const blockers = [...assessment.blockers, ...(localBlocker ? [localBlocker] : []), ...(clockRefusal ? [clockRefusal] : [])];
   item.remux = { target: request.target, status: 'assessment', streams, blockers,
     omissionCandidates: candidates.map(({ id, streamIndex, label, reasons, target }) => ({ id, streamIndex, label, reasons, target })),
     omissionDecisionIds: request.omissionRequestIds,
+    ...(audioShift ? { audioShift } : {}),
     notice: mp3Source ? COPY_NOTICE : 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.'
       + (omissionsAvailable ? '' : ' Stream omission is unavailable in this build.') };
   this.plan.remuxFacts.set(item.id, { file, fingerprint: identity, probe, request, assessment });
@@ -122,6 +159,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     item.remux.status = 'blocked'; throw fail(assessment.blockers[0].code, assessment.blockers.map(value => value.message).join(' '));
   }
   if (localBlocker) { item.remux.status = 'blocked'; throw fail(localBlocker.code, localBlocker.message); }
+  if (clockRefusal) { item.remux.status = 'blocked'; throw fail(clockRefusal.code, clockRefusal.message); }
   const outputId = randomUUID();
   let operationPlan;
   try { operationPlan = this.remuxOperations.prepare({ assessment, input: file, output: destination, outputId, sourceIdentity: identity, request }); }
@@ -154,7 +192,8 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     environment: null, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
   const qualificationSelection = this.remuxOperations.select(qualificationBindings);
   const entry = { remux: true, remuxOwner: this.plan, preparedPlanId: this.plan.id,
-    remuxRequest: request, remuxAssessment: assessment, transportPreparation, ...(mp3Source ? { mp3Source } : {}), file, destination, inspection, fingerprint: identity,
+    remuxRequest: request, remuxAssessment: assessment, transportPreparation, ...(mp3Source ? { mp3Source } : {}),
+    ...(mkvAacClock ? { mkvAacClock } : {}), file, destination, inspection, fingerprint: identity,
     overridden: this.plan.overrides.has(item.id), reencodeAuthorized: item.reencodeAuthorized,
     sourceOutputId: marker.outputId || indexed?.outputId, outputId, operationPlan,
     preparedArgs: Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]),
@@ -208,4 +247,52 @@ async function installRemuxDecisions(decisions, signal) {
     { ...decision, planId: this.plan.id, draftRevision: revision, draftId: this.plan.draft.id });
 }
 
-module.exports = { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName };
+
+function currentAudioChoice(choice, plan, request, clock, identity, stream, runtimeIdentity) {
+  return choice?.planId === plan.id && choice.draftId === plan.draft.id
+    && choice.fileId === request.fileId && choice.draftRevision === request.draftRevision
+    && choice.identityRevision === request.identityRevision && choice.target === 'mp4' && request.target === 'mp4'
+    && choice.runtimeIdentity === runtimeIdentity && choice.sourceSha256 === clock.sha256
+    && choice.shiftSamples === clock.shiftSamples && choice.streamFingerprint === hash(stream)
+    && sameIdentity(choice.identity, identity);
+}
+
+function setRemuxAudioChoices(request) {
+  const keys = ['planId', 'draftId', 'revision', 'decisionIds'];
+  if (!request || Object.keys(request).length !== keys.length || keys.some(key => !Object.hasOwn(request, key))) {
+    throw fail('INVALID_REMUX_REQUEST', 'Supply only the current plan, draft, revision and explicit audio choices.');
+  }
+  if (!this.remuxOperations?.allowsMkvAacClock?.('mp4')) {
+    throw fail('REMUX_AUDIO_SHIFT_UNAVAILABLE', 'The measured Matroska audio shift is unavailable in this build.');
+  }
+  const plan = this.requireEditableDraft(request.planId), snapshot = plan.draft.snapshot();
+  if (plan.operation !== 'remux' || request.draftId !== snapshot.id || request.revision !== snapshot.revision
+      || !Array.isArray(request.decisionIds) || request.decisionIds.length > 1024
+      || new Set(request.decisionIds).size !== request.decisionIds.length) {
+    throw fail('REMUX_AUDIO_SHIFT_STALE', 'Review the current per-file audio shift choices.');
+  }
+  const choices = request.decisionIds.map(value => {
+    const choice = typeof value === 'string' && plan.remuxAudioOffers.get(value);
+    if (!choice || choice.planId !== plan.id || choice.draftId !== snapshot.id || choice.draftRevision !== snapshot.revision
+        || choice.runtimeIdentity !== this.runtimeIdentity || choice.target !== 'mp4') {
+      throw fail('REMUX_AUDIO_SHIFT_STALE', 'An audio choice belongs to another file, target or preparation.');
+    }
+    return choice;
+  });
+  if (new Set(choices.map(row => row.fileId)).size !== choices.length) {
+    throw fail('REMUX_AUDIO_SHIFT_STALE', 'Each file can have only one audio shift choice.');
+  }
+  plan.draft.invalidatePreparedChoices({ draftId: snapshot.id, revision: snapshot.revision });
+  return this.reprepareDraft({ remuxAudioChoices: choices, remuxDecisions: [...plan.remuxGrants.values()] });
+}
+
+function installRemuxAudioChoices(choices) {
+  const snapshot = this.plan.draft.snapshot();
+  for (const choice of choices) {
+    this.plan.remuxAudioChoices.set(choice.fileId,
+      { ...choice, planId: this.plan.id, draftId: snapshot.id, draftRevision: snapshot.revision });
+  }
+}
+
+module.exports = { prepareRemuxItem, setRemuxOmissions, setRemuxAudioChoices, requireRemuxGrants,
+  installRemuxDecisions, installRemuxAudioChoices, remuxOutputName };

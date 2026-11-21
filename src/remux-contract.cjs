@@ -8,6 +8,7 @@ const { requireMp3Source } = require('./remux-mp3-source.cjs');
 const { validateMp3SourceProbe } = require('./remux-mp3-copy.cjs');
 const { streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { provenanceArgs, classifyMarker, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
+const { CLOCK_FILTER, VERIFICATION_METHOD: AAC_CLOCK_METHOD, requireMkvAacClock } = require('./remux-mkv-aac-clock.cjs');
 const { REMUX_METADATA_POLICY, classifyRemuxMetadataTag } = require('./remux-metadata-policy.cjs');
 const { transportSourceReasons } = require('./remux-transport.cjs');
 
@@ -217,11 +218,17 @@ function streamReasons(stream, target) {
 function qualificationRequirement(id, message, streamIndex = null) { return { id, message, streamIndex, status: 'unverified' }; }
 
 function assessRemux(options) {
-  record(options, ['request', 'probe', 'sourceFingerprint', 'resolveOmission', 'mp3Source'], 'Remux assessment', ['request', 'probe', 'sourceFingerprint']);
+  record(options, ['request', 'probe', 'sourceFingerprint', 'resolveOmission', 'mp3Source', 'mkvAacClock'], 'Remux assessment', ['request', 'probe', 'sourceFingerprint']);
   const request = validateRemuxRequest(options.request);
   if (typeof options.sourceFingerprint !== 'string' || !/^[a-f0-9]{64}$/.test(options.sourceFingerprint)) fail('INVALID_REMUX_REQUEST', 'Source fingerprint must be the current main-owned identity digest.');
   if (options.resolveOmission !== undefined && typeof options.resolveOmission !== 'function') fail('INVALID_REMUX_REQUEST', 'Omission resolver must be a main-owned function.');
-  const { mp3Source } = options;
+  const { mp3Source, mkvAacClock } = options;
+  if (mkvAacClock) {
+    requireMkvAacClock(mkvAacClock);
+    if (mp3Source || request.target !== 'mp4' || request.omissionRequestIds.length) {
+      fail('REMUX_MKV_AAC_CLOCK_UNQUALIFIED', 'The measured AAC copy does not combine with another route or omission.');
+    }
+  }
   const mp3Only = mp3Source !== undefined;
   const probe = (mp3Only ? normalizeMp3RemuxProbe : normalizeProbe)(copyEvidence(options.probe));
   if (mp3Only) {
@@ -235,6 +242,7 @@ function assessRemux(options) {
   const family = mp3Only ? 'mp3' : sourceFamily(probe);
   if (family === 'mpegts') blockers.push(...transportSourceReasons(probe, request.target));
   if (family === 'mpegts' && request.omissionRequestIds.length) addBlocker('REMUX_TS_OMISSION', 'This TS route preserves every admitted stream; stream omissions are unsupported.');
+  if (mkvAacClock && family !== 'matroska') fail('REMUX_MKV_AAC_CLOCK_UNQUALIFIED', 'Only the measured Matroska source may use the AAC sample clock.');
   if (!family) addBlocker('REMUX_CONTAINER_UNKNOWN', 'The inspected container is outside the bounded local remux input set.');
   const evidence = probe.mediaEvidence;
   const relationships = evidence.container.relationships;
@@ -356,8 +364,11 @@ function assessRemux(options) {
       chapters, metadata: globalMetadata, metadataPolicy: REMUX_METADATA_POLICY, bitstream,
       auxiliaryStreams: { policy: 'no-unexpected-streams', chapterCarrierQualificationRequired: chapters.length > 0 && request.target !== 'matroska',
         qualifiedCarriers: null, automaticTimecodeTrack: false },
-      timeline: { policy: 'copy-input-timestamps-no-independent-stream-rebase', trim: false, frameRateConversion: false,
-        validation: 'relative-offsets-content-and-full-interval; qualified-time-base-rounding-only', source: evidence.container },
+      timeline: { policy: mkvAacClock?.shiftSamples ? 'explicit-matroska-aac-sample-clock-shift' : 'copy-input-timestamps-no-independent-stream-rebase',
+        trim: false, frameRateConversion: false,
+        validation: mkvAacClock ? 'complete-coded-and-decoded-essence-and-exact-sample-clock'
+          : 'relative-offsets-content-and-full-interval; qualified-time-base-rounding-only',
+        source: evidence.container, ...(mkvAacClock ? { audioShiftSamples: mkvAacClock.shiftSamples, audioSampleRate: mkvAacClock.sampleRate } : {}) },
       relationships: { sourcePrograms: structuredClone(probe.programs || []), sourceStreamGroups: structuredClone(probe.stream_groups || []),
         target: 'flat-explicit-stream-map', disposition: programs.length ? 'operation-required-transformation' : 'no-reported-relationships',
         limitation: 'Transport PID/program structure is not claimed identical to MP4/MOV/Matroska track structure.' },
@@ -368,7 +379,7 @@ function assessRemux(options) {
       'No encoder, scaling, color conversion, audio conversion or range operation is introduced.',
       'Metadata-only evidence cannot prove all packet relationships or dynamic HDR payloads.'],
   });
-  assessments.set(result, { probe, mp3Source });
+  assessments.set(result, { probe, mp3Source, mkvAacClock });
   return result;
 }
 
@@ -390,7 +401,7 @@ function buildRemuxQualificationArgs(options) {
   if (path.win32.normalize(input).toLowerCase() === path.win32.normalize(output).toLowerCase()) fail('INVALID_REMUX_PATH', 'Source and output must be different files.');
   const markerArgs = provenanceArgs(outputId);
   if (assessment.sourceAdmission.marker.outputId === String(outputId).toLowerCase()) fail('INVALID_REMUX_PROVENANCE', 'A remux needs a new output identity.');
-  const { probe, mp3Source } = privateState;
+  const { probe, mp3Source, mkvAacClock } = privateState;
   if (assessment.inputFamily === 'mp3') {
     requireMp3Source(mp3Source);
     return freeze(['-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats', '-progress', 'pipe:1', '-n',
@@ -415,6 +426,7 @@ function buildRemuxQualificationArgs(options) {
   // TS keeps its complete native clocks, including common non-zero start.
   // A 90 kHz video timescale prevents an independent video clock rescale.
   if (assessment.inputFamily === 'mpegts') args.push('-video_track_timescale', '90000', '-movie_timescale', '90000', '-use_editlist', '1');
+  if (mkvAacClock) args.push('-bsf:a:0', CLOCK_FILTER, '-video_track_timescale', '1000', '-movie_timescale', '48000', '-use_editlist', '1');
   // A copied old encode description must not be advertised as a new remux's
   // configuration. Clear original casing too, then write the existing v1 marker.
   for (const key of Object.keys(probe.format.tags || {})) if (APPLICATION_TAGS.includes(key.toUpperCase())) args.push('-metadata', `${key}=`);
@@ -440,7 +452,16 @@ function getRemuxMp3Source(assessment) {
   return observed;
 }
 
+function getRemuxMkvAacClock(assessment) {
+  const clock = assessments.get(assessment)?.mkvAacClock;
+  if (clock) requireMkvAacClock(clock);
+  return clock;
+}
+
 function remuxVerificationDescription(method, inputFamily = null) {
+  if (method === AAC_CLOCK_METHOD && inputFamily === 'matroska') return freeze({ version: 1, method,
+    statement: 'Verify every AAC unit, decoded sample and adjusted sample clock, plus all video frames and timestamps.',
+    interiorVideoDecoded: true, completeAudioDecoded: true });
   if (!['packet-identity-v1', 'complete-native-v1'].includes(method)) fail('REMUX_VERIFICATION_METHOD', 'Unknown main-selected Remux verification method.');
   const deep = method === 'complete-native-v1';
   if (inputFamily === 'mp3' && deep) return freeze({ version: 1, method,
@@ -455,4 +476,4 @@ function remuxVerificationDescription(method, inputFamily = null) {
   interiorVideoDecoded: deep, completeAudioDecoded: true });
 }
 module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs, getRemuxAssessmentSource,
-  getRemuxMp3Source, remuxVerificationDescription };
+  getRemuxMp3Source, getRemuxMkvAacClock, remuxVerificationDescription };

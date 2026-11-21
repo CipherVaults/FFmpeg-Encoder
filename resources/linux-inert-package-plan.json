@@ -780,8 +780,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 42466,
-      "sha256": "301aeaa4f78f3bc30d405767181cbf5906a1b2c1de5fe3f64dfd47b7abda9c9c"
+      "bytes": 42750,
+      "sha256": "926e78cd4aabd3d1547067516fab25c7bc9ae44ca567754bd7763f7ba1da1158"
     },
     {
       "root": "source",
@@ -932,8 +932,8 @@
       "source": "preload.js",
       "target": "electron/resources/app/preload.js",
       "group": "application",
-      "bytes": 3683,
-      "sha256": "c4480a209476b994d4132e1bfb99960da16bef935b04ce1dc58288fe55450f07"
+      "bytes": 3766,
+      "sha256": "7b3449ff9dfb9447547b438dacede602beb7c2c85abe5e6c1b44bc2facbcbf73"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 172468,
-      "sha256": "dac28a0ded1ba10e26ccd116779c5581c32b6f05bcf2d91e870382ae9464d475"
+      "bytes": 173909,
+      "sha256": "8ed285b0861cb375d3d117860431e4ff0fa408f724d8de88e2986a01e61aadb6"
     },
     {
       "root": "source",
@@ -1196,8 +1196,8 @@
       "source": "src/ipc.cjs",
       "target": "electron/resources/app/src/ipc.cjs",
       "group": "application",
-      "bytes": 8998,
-      "sha256": "278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd"
+      "bytes": 9088,
+      "sha256": "4342a871911f5d345d61d4764e7eb4e6c4554102226ea805f8e1c03c6aa564de"
     },
     {
       "root": "source",
@@ -1516,16 +1516,16 @@
       "source": "src/remux-catalog.cjs",
       "target": "electron/resources/app/src/remux-catalog.cjs",
       "group": "application",
-      "bytes": 6512,
-      "sha256": "92f043c0f9fa8f5c9162537fb1773c11dd5c21336166c25d024ed6e23474a608"
+      "bytes": 7109,
+      "sha256": "6548f7fcf55683c04e10821d851364e81c97ca9872a3b64802ae4f74df7d6d35"
     },
     {
       "root": "source",
       "source": "src/remux-contract.cjs",
       "target": "electron/resources/app/src/remux-contract.cjs",
       "group": "application",
-      "bytes": 36673,
-      "sha256": "22a9d6f6603e2e3c5196de9a1c833009280224859138caebad915c10f2375a43"
+      "bytes": 38172,
+      "sha256": "a3de56bc5a35027aac7c49f60423333a97fe35680ab50f92329bae2c09f225a2"
     },
     {
       "root": "source",
@@ -1548,8 +1548,8 @@
       "source": "src/remux-evidence.cjs",
       "target": "electron/resources/app/src/remux-evidence.cjs",
       "group": "application",
-      "bytes": 155395,
-      "sha256": "e6ce6a624f800ace5853c9baa4655ed61adc3cf08e57b0cc38386f6ba1adf622"
+      "bytes": 156321,
+      "sha256": "ba222fbe7df96ff1175d6a620b422a5f99c3afd086597f4820230540c2337957"
     },
     {
       "root": "source",
@@ -1574,6 +1574,22 @@
       "group": "application",
       "bytes": 6530,
       "sha256": "56b613509412a0a986276a705e6fff57aa97577fd5b6def2aaec275781c129a8"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-mkv-aac-clock.cjs",
+      "target": "electron/resources/app/src/remux-mkv-aac-clock.cjs",
+      "group": "application",
+      "bytes": 9107,
+      "sha256": "234a52dd6b3953c261d51d1ac03058bf70ffdc20e64db6a270e96c9c7198c89f"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-mkv-aac-evidence.cjs",
+      "target": "electron/resources/app/src/remux-mkv-aac-evidence.cjs",
+      "group": "application",
+      "bytes": 19835,
+      "sha256": "dc457d75398f7d73be94a779e45a96fb9ab2d73c2a960d29d5c07a6243ea9b12"
     },
     {
       "root": "source",
@@ -1676,8 +1692,8 @@
       "source": "src/remux-operation.cjs",
       "target": "electron/resources/app/src/remux-operation.cjs",
       "group": "application",
-      "bytes": 44744,
-      "sha256": "00dc5debe55e45a127d89f69ec2883a364f5db8e26759ed09c9f32f925a9cbed"
+      "bytes": 46018,
+      "sha256": "5ca282fbda7625d939c840db311b34f5bbb809283f64637985f85d90bf2e13f4"
     },
     {
       "root": "source",
@@ -1700,16 +1716,16 @@
       "source": "src/remux-validation.cjs",
       "target": "electron/resources/app/src/remux-validation.cjs",
       "group": "application",
-      "bytes": 41268,
-      "sha256": "ceed68c465a75055a3b339f58f43aabaf604382678ec1a0d6d015425633d102d"
+      "bytes": 43525,
+      "sha256": "e554ab2e020baff103d726d2591feb1f18bbe72dac13fd17a92b135c0bf6fe47"
     },
     {
       "root": "source",
       "source": "src/remux-workspace.cjs",
       "target": "electron/resources/app/src/remux-workspace.cjs",
       "group": "application",
-      "bytes": 16743,
-      "sha256": "4af957ce6e91f8fe056d906c911dc83152933bb4d2ef322e6f30cbc2dcc9d5d1"
+      "bytes": 22045,
+      "sha256": "ead43df231694bfd3956e1fdb1cb1ffa6a5dcb0dc728ab970753dbaf2dc70134"
     },
     {
       "root": "source",
@@ -1796,8 +1812,8 @@
       "source": "ui/renderer.js",
       "target": "electron/resources/app/ui/renderer.js",
       "group": "application",
-      "bytes": 167495,
-      "sha256": "4932e4ffdf71a4c22620aaff7a9cac3a93106989c623cb2aa04218f47eb7b526"
+      "bytes": 170431,
+      "sha256": "0d5f3f021cad0df3815c5cea7ddd722d593b0373e6a6837f779be2b13a7cf814"
     },
     {
       "root": "source",

@@ -81,8 +81,8 @@ const SOURCE_PINS = {
     "sha256": "b5678dc133c1e5fb8da250bfe828c9da55f50d89dac3728af1f0870693e69a82"
   },
   "preload.js": {
-    "bytes": 3683,
-    "sha256": "c4480a209476b994d4132e1bfb99960da16bef935b04ce1dc58288fe55450f07"
+    "bytes": 3766,
+    "sha256": "7b3449ff9dfb9447547b438dacede602beb7c2c85abe5e6c1b44bc2facbcbf73"
   },
   "src/app-settings.cjs": {
     "bytes": 19769,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 172468,
-    "sha256": "dac28a0ded1ba10e26ccd116779c5581c32b6f05bcf2d91e870382ae9464d475"
+    "bytes": 173909,
+    "sha256": "8ed285b0861cb375d3d117860431e4ff0fa408f724d8de88e2986a01e61aadb6"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -205,8 +205,8 @@ const SOURCE_PINS = {
     "sha256": "51cd1013264a3886be63ff49a193c2cdfd309bb1425339e5532a7da5cf839b95"
   },
   "src/ipc.cjs": {
-    "bytes": 8998,
-    "sha256": "278cf0cc43278cf549709f259b557805169fcb2b5f327d94e215ad6e66a9a7fd"
+    "bytes": 9088,
+    "sha256": "4342a871911f5d345d61d4764e7eb4e6c4554102226ea805f8e1c03c6aa564de"
   },
   "src/local-protocol.cjs": {
     "bytes": 1583,
@@ -345,12 +345,12 @@ const SOURCE_PINS = {
     "sha256": "6a4ff865f95b55b4afeeccc85781c1c213121f94c3bffdb23deff5a811d4fe76"
   },
   "src/remux-catalog.cjs": {
-    "bytes": 6512,
-    "sha256": "92f043c0f9fa8f5c9162537fb1773c11dd5c21336166c25d024ed6e23474a608"
+    "bytes": 7109,
+    "sha256": "6548f7fcf55683c04e10821d851364e81c97ca9872a3b64802ae4f74df7d6d35"
   },
   "src/remux-contract.cjs": {
-    "bytes": 36673,
-    "sha256": "22a9d6f6603e2e3c5196de9a1c833009280224859138caebad915c10f2375a43"
+    "bytes": 38172,
+    "sha256": "a3de56bc5a35027aac7c49f60423333a97fe35680ab50f92329bae2c09f225a2"
   },
   "src/remux-ebml-reader.cjs": {
     "bytes": 12786,
@@ -361,8 +361,8 @@ const SOURCE_PINS = {
     "sha256": "2c43bcd88ee7772470abddc232d428751e37b95a072e4f989189a5a4178a99de"
   },
   "src/remux-evidence.cjs": {
-    "bytes": 155395,
-    "sha256": "e6ce6a624f800ace5853c9baa4655ed61adc3cf08e57b0cc38386f6ba1adf622"
+    "bytes": 156321,
+    "sha256": "ba222fbe7df96ff1175d6a620b422a5f99c3afd086597f4820230540c2337957"
   },
   "src/remux-fragments.cjs": {
     "bytes": 5772,
@@ -375,6 +375,14 @@ const SOURCE_PINS = {
   "src/remux-metadata-policy.cjs": {
     "bytes": 6530,
     "sha256": "56b613509412a0a986276a705e6fff57aa97577fd5b6def2aaec275781c129a8"
+  },
+  "src/remux-mkv-aac-clock.cjs": {
+    "bytes": 9107,
+    "sha256": "234a52dd6b3953c261d51d1ac03058bf70ffdc20e64db6a270e96c9c7198c89f"
+  },
+  "src/remux-mkv-aac-evidence.cjs": {
+    "bytes": 19835,
+    "sha256": "dc457d75398f7d73be94a779e45a96fb9ab2d73c2a960d29d5c07a6243ea9b12"
   },
   "src/remux-mp3-copy.cjs": {
     "bytes": 9444,
@@ -425,8 +433,8 @@ const SOURCE_PINS = {
     "sha256": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7"
   },
   "src/remux-operation.cjs": {
-    "bytes": 44744,
-    "sha256": "00dc5debe55e45a127d89f69ec2883a364f5db8e26759ed09c9f32f925a9cbed"
+    "bytes": 46018,
+    "sha256": "5ca282fbda7625d939c840db311b34f5bbb809283f64637985f85d90bf2e13f4"
   },
   "src/remux-transport-evidence.cjs": {
     "bytes": 14174,
@@ -437,12 +445,12 @@ const SOURCE_PINS = {
     "sha256": "cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e"
   },
   "src/remux-validation.cjs": {
-    "bytes": 41268,
-    "sha256": "ceed68c465a75055a3b339f58f43aabaf604382678ec1a0d6d015425633d102d"
+    "bytes": 43525,
+    "sha256": "e554ab2e020baff103d726d2591feb1f18bbe72dac13fd17a92b135c0bf6fe47"
   },
   "src/remux-workspace.cjs": {
-    "bytes": 16743,
-    "sha256": "4af957ce6e91f8fe056d906c911dc83152933bb4d2ef322e6f30cbc2dcc9d5d1"
+    "bytes": 22045,
+    "sha256": "ead43df231694bfd3956e1fdb1cb1ffa6a5dcb0dc728ab970753dbaf2dc70134"
   },
   "src/source-catalog-seals.cjs": {
     "bytes": 2619,
@@ -481,8 +489,8 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 167495,
-    "sha256": "4932e4ffdf71a4c22620aaff7a9cac3a93106989c623cb2aa04218f47eb7b526"
+    "bytes": 170431,
+    "sha256": "0d5f3f021cad0df3815c5cea7ddd722d593b0373e6a6837f779be2b13a7cf814"
   },
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,

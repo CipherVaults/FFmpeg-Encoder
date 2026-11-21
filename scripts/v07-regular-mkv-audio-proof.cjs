@@ -5,7 +5,12 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { readNativeMetadata, ancestor } = require('../src/remux-native-reader.cjs');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
+const { observeMkvAacClock, requireMkvAacClock, CLOCK_FILTER } = require('../src/remux-mkv-aac-clock.cjs');
+const { verifyMkvAacCopy } = require('../src/remux-mkv-aac-evidence.cjs');
 const { parseProbeJson } = require('../src/inspection.cjs');
+const { EncoderService } = require('../src/encoder-service.cjs');
+const { createOperationControls } = require('../src/operation-controls.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
 const { createOwnedSession, hashFile, readBoundedFile, copyPinnedFile, fault, ROOT } = require('./v07-remux-long-fixtures.cjs');
 
 const MiB = 1024 ** 2, GiB = 1024 ** 3;
@@ -22,9 +27,9 @@ const hash = value => createHash('sha256').update(value).digest('hex');
 
 function generationArgs(spec, file) {
   const audio = 'aevalsrc=0.23*sin(2*PI*(' + spec.frequency + '*t+4*t*t))|0.19*sin(2*PI*('
-    + (spec.frequency + 219) + '*t+6*t*t)):s=48000:c=stereo:d=1.5';
+    + (spec.frequency + 219) + '*t+6*t*t)):s=48000:c=stereo:d=' + (spec.videoSeconds ? '2' : '1.5');
   return ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', '-n',
-    '-f', 'lavfi', '-i', 'testsrc2=size=320x180:rate=25:duration=1.28',
+    '-f', 'lavfi', '-i', 'testsrc2=size=320x180:rate=25:duration=' + (spec.videoSeconds ?? '1.28'),
     '-f', 'lavfi', '-i', audio, '-map', '0:v:0', '-map', '1:a:0', '-threads:v:0', '2',
     '-map_metadata', '-1', '-map_chapters', '-1', '-vf',
     'setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709',
@@ -533,8 +538,332 @@ async function run(recovery, clockTrial = null, nativeOffset = null) {
   return report;
 }
 
+
+
+async function recoverSourceClockHoldout(id, sha256) {
+  assert.match(id, /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/);
+  assert.match(sha256, /^[a-f0-9]{64}$/);
+  const directory = path.join(ROOT, 'artifacts/v0.7/q2k-regular-audio/smoke', id);
+  const bytes = await readBoundedFile(path.join(directory, 'report.json'), LIMITS.reportBytes);
+  assert.equal(hash(bytes), sha256);
+  const saved = JSON.parse(bytes);
+  assert.equal(saved.id, id);
+  assert.equal(saved.status, 'failed-retained');
+  assert.equal(saved.childrenClosed, 2);
+  assert.equal(saved.leaseReleased, true);
+  assert.deepEqual(saved.closureFailures, []);
+  assert.equal(saved.holdouts.length, 1);
+  const held = saved.holdouts[0];
+  assert.equal(held.file, path.join(directory, 'owned', 'exact-holdout', 'source.mkv'));
+  assert.deepEqual(await hashFile(held.file), held.pin);
+  return held;
+}
+
+async function runSourceClockHoldouts(previous) {
+  const limits = { ...LIMITS, maxChildren: 6 };
+  const session = createOwnedSession({ kind: 'smoke', limits, regularProof: 'mkv-audio' });
+  const { report, io } = session;
+  report.scope = 'Fresh Windows 9.1 Matroska AAC source-clock holdouts before product admission';
+  report.holdouts = [];
+  if (previous) report.reusedExactSourcePin = previous.pin.sha256;
+  const cases = [
+    { id: 'exact-holdout', samples: 76800, offset: 0, frequency: 673, videoSeconds: '1.60', mode: 'exact' },
+    { id: 'earlier-holdout', samples: 74657, offset: 3072, frequency: 733, videoSeconds: '1.60', mode: 'earlier' },
+    { id: 'unknown-clock', samples: 76800, offset: 3072, frequency: 827, videoSeconds: '1.60', mode: null },
+  ];
+  try {
+    await session.open();
+    for (const spec of cases) {
+      const dir = path.join(session.owned, spec.id);
+      await io.mkdir(dir);
+      const file = path.join(dir, 'source.mkv');
+      if (previous && spec.id === 'exact-holdout') {
+        assert.deepEqual(previous.spec, spec);
+        await copyPinnedFile(previous.file, file, previous.pin);
+      } else await session.run(session.runtime.ffmpeg, generationArgs(spec, file));
+      const result = await session.run(session.runtime.ffprobe, ['-v', 'error', '-protocol_whitelist', 'file',
+        '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
+        '-show_data_hash', 'sha256', '-of', 'json', '-i', file], { stdoutLimit: MiB });
+      const probe = parseProbeJson(result.stdout, 'Windows Matroska AAC source holdout');
+      const pin = await hashFile(file), identity = await readSourceIdentity(file);
+      const item = { spec, file, pin, probe };
+      report.holdouts.push(item);
+      const options = { file, identity, probe, signal: session.controller.signal };
+      if (spec.mode) {
+        const observed = await observeMkvAacClock(options);
+        requireMkvAacClock(observed, identity);
+        assert.equal(observed.sha256, pin.sha256);
+        assert.equal(observed.mode, spec.mode);
+        assert.equal(observed.shiftSamples, -spec.offset || 0);
+        assert.equal(observed.sampleFrames, spec.samples);
+        assert.equal(observed.videoFrames, 40);
+        item.sourceClock = observed;
+      } else {
+        await assert.rejects(observeMkvAacClock(options), { code: 'REMUX_MKV_AAC_CLOCK_UNQUALIFIED' });
+        item.refused = true;
+      }
+      await session.save();
+    }
+    report.status = 'passed-mkv-audio-source-holdouts';
+  } catch (error) {
+    report.status = 'failed-retained';
+    report.failure = fault(error);
+    if (typeof error.stderr === 'string') report.toolDiagnostic = error.stderr.slice(-8192);
+  } finally {
+    await session.close();
+  }
+  return report;
+}
+
+
+async function readSourceHoldouts(id, sha256) {
+  assert.match(id, /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/);
+  assert.match(sha256, /^[a-f0-9]{64}$/);
+  const directory = path.join(ROOT, 'artifacts/v0.7/q2k-regular-audio/smoke', id);
+  const bytes = await readBoundedFile(path.join(directory, 'report.json'), LIMITS.reportBytes);
+  assert.equal(hash(bytes), sha256);
+  const saved = JSON.parse(bytes);
+  assert.equal(saved.id, id);
+  assert.equal(saved.status, 'passed-mkv-audio-source-holdouts');
+  assert.equal(saved.leaseReleased, true);
+  assert.deepEqual(saved.closureFailures, []);
+  assert.deepEqual(saved.holdouts.map(row => row.spec.mode), ['exact', 'earlier', null]);
+  for (const row of saved.holdouts) {
+    assert.equal(row.file, path.join(directory, 'owned', row.spec.id, 'source.mkv'));
+    assert.deepEqual(await hashFile(row.file), row.pin);
+  }
+  return saved;
+}
+
+
+async function recoverClockCopy(id, receiptSha, seedSha, outputSha) {
+  assert.match(id, /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/);
+  for (const digest of [receiptSha, seedSha, outputSha]) assert.match(digest, /^[a-f0-9]{64}$/);
+  const directory = path.join(ROOT, 'artifacts/v0.7/q2k-regular-audio/smoke', id);
+  const bytes = await readBoundedFile(path.join(directory, 'report.json'), LIMITS.reportBytes);
+  assert.equal(hash(bytes), receiptSha);
+  const saved = JSON.parse(bytes);
+  assert.equal(saved.id, id);
+  assert.equal(saved.status, 'failed-retained');
+  assert.equal(saved.childrenClosed, 2);
+  assert.equal(saved.leaseReleased, true);
+  assert.deepEqual(saved.closureFailures, []);
+  assert.equal(saved.copies.length, 1);
+  const seed = await readSourceHoldouts(saved.seed, seedSha);
+  const output = path.join(directory, 'owned', 'exact-holdout', 'copy.mp4');
+  assert.equal(saved.copies[0].output, output);
+  assert.equal(saved.invocations[0].argv.at(-1), output);
+  assert.equal(saved.invocations[0].status, 'completed');
+  assert.equal(saved.copies[0].clock.sha256, seed.holdouts[0].pin.sha256);
+  const pin = await hashFile(output);
+  assert.equal(pin.sha256, outputSha);
+  return { id, output, pin, seed };
+}
+
+async function runClockCopyHoldouts(seed, previous) {
+  const session = createOwnedSession({ kind: 'smoke', limits: { ...LIMITS, maxChildren: 22 }, regularProof: 'mkv-audio' });
+  const { report, io } = session;
+  report.scope = 'Independent AAC clock-copy verifier against fresh held-out Windows sources';
+  report.seed = seed.id;
+  if (previous) report.recoveredExactOutput = previous.id;
+  report.copies = [];
+  try {
+    await session.open();
+    for (const held of seed.holdouts.slice(0, 2)) {
+      const dir = path.join(session.owned, held.spec.id);
+      await io.mkdir(dir);
+      const source = path.join(dir, 'source.mkv'), output = path.join(dir, 'copy.mp4');
+      const sourcePin = await copyPinnedFile(held.file, source, held.pin);
+      const sourceIdentity = await readSourceIdentity(source);
+      const signal = session.controller.signal;
+      const sourceProbe = { ...held.probe, format: { ...held.probe.format, filename: source } };
+      const clock = await observeMkvAacClock({ file: source, identity: sourceIdentity, probe: sourceProbe, signal });
+      assert.equal(clock.sha256, held.sourceClock.sha256);
+      assert.equal(clock.mode, held.spec.mode);
+      const row = { source, sourcePin, output, clock };
+      report.copies.push(row);
+      if (previous && held.spec.mode === 'exact') await copyPinnedFile(previous.output, output, previous.pin);
+      else await makeCopy(session, source, output, false, CLOCK_FILTER);
+      const invoke = async (_label, executable, args, stdoutLimit, onStdoutChunk) => {
+        const result = await session.run(executable, args, { stdoutLimit, ...(onStdoutChunk ? { onStdoutChunk } : {}) });
+        assert.equal(result.stderrCapture.totalBytes, 0);
+        if (onStdoutChunk) assert.equal(result.stdoutCapture.truncated, false);
+        return result.stdout;
+      };
+      const context = { clock, sourcePath: source, sourceIdentity, ffprobe: session.runtime.ffprobe, ffmpeg: session.runtime.ffmpeg,
+        signal, invoke };
+      const result = await verifyMkvAacCopy({ ...context, outputPath: output });
+      row.verified = result.copy;
+      assert.equal(result.copy.shiftSamples, -held.spec.offset || 0);
+      assert.equal(result.copy.sampleFrames, held.spec.samples);
+      assert.equal(result.copy.outputSha256, (await hashFile(output)).sha256);
+      if (held.spec.mode === 'exact') {
+        const plain = path.join(dir, 'unreconstructed-clock.mp4');
+        await makeCopy(session, source, plain, false);
+        await assert.rejects(verifyMkvAacCopy({ ...context, outputPath: plain }), { code: 'REMUX_MKV_AAC_COPY_UNVERIFIED' });
+        row.plain = { file: plain, pin: await hashFile(plain), refused: true };
+      }
+      await session.save();
+    }
+    report.status = 'passed-mkv-audio-clock-copy-holdouts';
+  } catch (error) {
+    report.status = 'failed-retained';
+    report.failure = fault(error);
+    if (typeof error.stderr === 'string') report.toolDiagnostic = error.stderr.slice(-8192);
+  } finally {
+    await session.close();
+  }
+  return report;
+}
+
+async function runServiceHoldouts(seed, prospective) {
+  const limits = { ...LIMITS, totalMs: 360000, maxChildren: 48, maxStarts: 2 };
+  const session = createOwnedSession({ kind: 'smoke', limits, regularProof: 'mkv-audio' });
+  const { report, io } = session;
+  report.scope = prospective ? 'Prospective real-service route proof' : 'Default factory real-service route proof';
+  report.seed = seed.id;
+  report.cases = [];
+  let service;
+  try {
+    await session.open();
+    const runtime = session.runtime;
+    const stateDir = path.join(session.owned, 'state');
+    const input = path.join(session.owned, 'input'), output = path.join(session.owned, 'output');
+    for (const folder of [stateDir, input, output]) await io.mkdir(folder);
+    const sourcePins = new Map();
+    for (const row of seed.holdouts) {
+      const file = path.join(input, row.spec.id + '.mkv');
+      sourcePins.set(file, await copyPinnedFile(row.file, file, row.pin));
+    }
+    const policy = prospective ? { remuxPolicyIdentity: 'q2k-mkv-aac-service-prospective',
+      remuxPolicies: [{ id: 'q2k-mkv-aac-prospective', inputFamily: 'matroska', target: 'mp4',
+        allowAncillary: false, allowRotation90: false, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+        verificationMethod: 'aac-sample-clock-v1', evidenceIds: ['449ea838-7423-4733-802a-baf779211e4e:source-holdouts',
+          '5a829a0a-cdcb-4fb0-b365-805e38faf5fa:staged-verification'] }] } : {};
+    const controls = createOperationControls({ runtime, stateDir, ...policy });
+    const invoke = controls.operationRuntime.invoke.bind(controls.operationRuntime);
+    controls.operationRuntime.invoke = (token, tool, args, options) => session.run(runtime[tool], args, options,
+      (_file, argv, owned) => invoke(token, tool, argv, owned));
+    service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+      stateDir, run: session.run, inspectionWorkers: 1, ...controls });
+    await service.initializeDiagnostics();
+    session.controller.signal.addEventListener('abort', () => { void service.cancelCurrent(); }, { once: true });
+    const a = await service.registerFolder(input, 'input'), b = await service.registerFolder(output, 'output');
+    const ready = await service.prepareRemuxBatch({ inputFolderId: a.id, outputFolderId: b.id, target: 'mp4' });
+    report.prepared = ready.items;
+    await session.save();
+    assert.equal(ready.phase, 'ready', ready.error);
+    const item = (snapshot, id) => snapshot.items.find(row => row.name === id + '.mkv');
+    const exact = item(ready, 'exact-holdout'), earlier = item(ready, 'earlier-holdout'), unknown = item(ready, 'unknown-clock');
+    assert.equal(exact.status, 'ready', exact.reason);
+    assert.equal(exact.remux.audioShift, undefined);
+    assert.equal(earlier.status, 'unsupported', earlier.reason);
+    assert.equal(earlier.reasonCode, 'REMUX_AUDIO_SHIFT_CHOICE_REQUIRED');
+    assert.equal(earlier.remux.audioShift.approved, false);
+    assert.equal(earlier.remux.audioShift.shiftSamples, -3072);
+    assert.equal(earlier.remux.audioShift.milliseconds, 64);
+    assert.equal(unknown.status, 'unsupported', unknown.reason);
+    assert.equal(unknown.reasonCode, 'REMUX_MKV_AAC_CLOCK_UNQUALIFIED');
+    assert.equal(unknown.remux.audioShift, undefined);
+
+    const beforeRefusals = report.invocations.length;
+    for (const refused of [earlier, unknown]) {
+      assert.throws(() => service.startBatch({ planId: ready.planId, fileIds: [refused.id] }), { code: 'INVALID_SELECTION' });
+    }
+    const consent = { planId: ready.planId, draftId: ready.operationDraft.id, revision: ready.operationDraft.revision,
+      decisionIds: [earlier.remux.audioShift.id] };
+    assert.throws(() => service.setRemuxAudioChoices({ ...consent, decisionIds: [exact.id] }), { code: 'REMUX_AUDIO_SHIFT_STALE' });
+    assert.throws(() => service.setRemuxAudioChoices({ ...consent, revision: consent.revision - 1 }), { code: 'REMUX_AUDIO_SHIFT_STALE' });
+    assert.throws(() => service.setRemuxAudioChoices({ ...consent, shiftSamples: -3072 }), { code: 'INVALID_REMUX_REQUEST' });
+    assert.equal(report.invocations.length, beforeRefusals);
+    assert.deepEqual(await io.readdir(output), []);
+    report.refusals = { unapprovedAndUnknownStarts: 2, fabricatedOrStaleChoice: 3, children: 0 };
+
+    const prepared = await service.setRemuxAudioChoices(consent);
+    report.approved = prepared.items;
+    await session.save();
+    assert.equal(prepared.phase, 'ready', prepared.error);
+    assert.notEqual(prepared.planId, ready.planId);
+    assert.throws(() => service.setRemuxAudioChoices({ ...consent, planId: prepared.planId }), { code: 'REMUX_AUDIO_SHIFT_STALE' });
+    const currentExact = item(prepared, 'exact-holdout'), currentEarlier = item(prepared, 'earlier-holdout');
+    assert.equal(currentExact.status, 'ready', currentExact.reason);
+    assert.equal(currentExact.remux.audioShift, undefined);
+    assert.equal(currentEarlier.status, 'ready', currentEarlier.reason);
+    assert.equal(currentEarlier.remux.audioShift.approved, true);
+    assert.equal(currentEarlier.remux.audioShift.shiftSamples, -3072);
+    const entries = [currentExact, currentEarlier].map(row => service.plan.entries.get(row.id));
+    service.startBatch({ planId: prepared.planId, fileIds: [currentExact.id, currentEarlier.id] });
+    report.acceptedStarts++;
+    await service.taskPromise;
+    const finished = service.snapshot();
+    report.finished = finished.items;
+    for (const [index, row] of [currentExact, currentEarlier].entries()) {
+      const result = finished.items.find(value => value.id === row.id), entry = entries[index];
+      const evidence = entry.operationEvidence;
+      const outcome = { item: result, evidence };
+      report.cases.push(outcome);
+      await session.save();
+      assert.equal(result.status, 'success', result.reason);
+      assert.equal(result.outputDisposition.published, true);
+      assert.equal(result.verificationMethod, 'aac-sample-clock-v1');
+      const shift = result.warnings?.find(warning => warning.code === 'REMUX_AAC_SHIFT_VERIFIED');
+      assert.equal(shift?.message, index === 0 ? undefined : 'Every audio sample was preserved. Audio moved 64 ms earlier.');
+      assert.equal(evidence.status, 'completed');
+      assert.equal(evidence.invocations.length, 6);
+      assert.equal(evidence.nativeInventory.complete, true);
+      const copy = evidence.essenceEvidence.mkvAacCopy;
+      assert.equal(copy.videoFrames, 40);
+      assert.equal(copy.sampleFrames, seed.holdouts[index].spec.samples);
+      assert.equal(copy.shiftSamples, index === 0 ? 0 : -3072);
+      outcome.output = { file: entry.destination, ...await hashFile(entry.destination) };
+      assert.equal(outcome.output.sha256, copy.outputSha256);
+      outcome.source = { file: entry.file, ...await hashFile(entry.file) };
+      assert.deepEqual(await hashFile(entry.file), sourcePins.get(entry.file));
+    }
+    report.outputNames = (await io.readdir(output)).sort();
+    assert.deepEqual(report.outputNames, [currentEarlier.outputName, currentExact.outputName].sort());
+    for (const [file, pinned] of sourcePins) assert.deepEqual(await hashFile(file), pinned);
+    assert.equal(report.acceptedStarts, 1);
+    report.status = prospective ? 'passed-mkv-audio-service-prospective' : 'passed-mkv-audio-service-normal';
+  } catch (error) {
+    report.status = 'failed-retained';
+    report.failure = fault(error);
+    if (typeof error.stderr === 'string') report.toolDiagnostic = error.stderr.slice(-8192);
+  } finally {
+    try {
+      if (service) {
+        await service.cancelCurrent();
+        await service.closeOperationResources();
+        report.diagnosticClosure = await service.closeDiagnostics(report.status.startsWith('passed') ? 'completed' : 'failed');
+        assert.equal(report.diagnosticClosure.persisted, true);
+      }
+    } catch (error) {
+      report.status = 'failed-retained';
+      report.serviceClosureFailure = fault(error);
+    } finally { await session.close(); }
+  }
+  return report;
+}
+
 if (require.main === module) (async () => {
   const [mode, id, digest, negativeSha, ...extra] = process.argv.slice(2);
+  if (mode === '--service-prospective' || mode === '--service-normal') {
+    assert(id && digest && !negativeSha && extra.length === 0);
+    return runServiceHoldouts(await readSourceHoldouts(id, digest), mode === '--service-prospective');
+  }
+  if (mode === '--resume-clock-copy') {
+    assert(id && digest && negativeSha && extra.length === 1);
+    const recovered = await recoverClockCopy(id, digest, negativeSha, extra[0]);
+    return runClockCopyHoldouts(recovered.seed, recovered);
+  }
+  if (mode === '--verify-clock-copy') {
+    assert(id && digest && !negativeSha);
+    return runClockCopyHoldouts(await readSourceHoldouts(id, digest));
+  }
+  if (mode === '--source-clock-holdouts') {
+    assert(!id || (digest && !negativeSha));
+    return runSourceClockHoldouts(id ? await recoverSourceClockHoldout(id, digest) : null);
+  }
   assert(!mode || (mode === '--resume-aligned' && id && digest && negativeSha && !extra.length)
     || (['--repair-sample-clock', '--preserve-offset'].includes(mode) && id && digest && !negativeSha));
   if (mode === '--repair-sample-clock') return run(null, await recoverForClockTrial(id, digest));
@@ -542,7 +871,8 @@ if (require.main === module) (async () => {
   return run(mode ? await recoverAligned(id, digest, negativeSha) : null);
 })().then(report => {
   console.log(JSON.stringify({ id: report.id, status: report.status, children: report.childrenClosed,
-    comparison: report.comparisons.map(row => ({ id: row.spec.id, outcome: row.comparison })),
+    comparison: report.comparisons?.map(row => ({ id: row.spec.id, outcome: row.comparison })),
     report: path.join(report.directory, 'report.json'), failure: report.failure, closureFailures: report.closureFailures }));
-  if (report.status !== 'completed-mkv-audio-measurement') process.exitCode = 1;
+  if (!['completed-mkv-audio-measurement', 'passed-mkv-audio-source-holdouts', 'passed-mkv-audio-clock-copy-holdouts',
+      'passed-mkv-audio-service-prospective', 'passed-mkv-audio-service-normal'].includes(report.status)) process.exitCode = 1;
 }).catch(error => { console.error(error); process.exitCode = 1; });

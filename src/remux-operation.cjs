@@ -4,11 +4,12 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { ToolError } = require('./process-runner.cjs');
-const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, getRemuxMp3Source, remuxVerificationDescription } = require('./remux-contract.cjs');
+const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, getRemuxMp3Source, getRemuxMkvAacClock, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { createRemuxValidator, remuxProbeFingerprint, qualifiedSingletonDefault } = require('./remux-validation.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { validateMp3SourceProbe, COPY_NOTICE, MAX_SOURCE_BYTES, MAX_OUTPUT_BYTES, MAX_PACKETS } = require('./remux-mp3-copy.cjs');
 const { requireMp3Source } = require('./remux-mp3-source.cjs');
+const { VERIFICATION_METHOD: AAC_CLOCK_METHOD, requireMkvAacClock } = require('./remux-mkv-aac-clock.cjs');
 
 // Main-private ownership, not a renderer registry or a codec-table permission.
 // A policy is supplied only after main reviews its retained route/lifecycle
@@ -86,7 +87,7 @@ function sourceIdentity(value) {
 }
 function fingerprintRemuxSourceIdentity(value) { return hash(sourceIdentity(value)); }
 function deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod) {
-  need(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod),
+  need(['packet-identity-v1', 'complete-native-v1', AAC_CLOCK_METHOD].includes(verificationMethod),
     'A main-selected verification method is required for Remux accounting.', 'REMUX_VERIFICATION_METHOD');
   if (assessment.inputFamily === 'mp3') {
     const mp3 = getRemuxMp3Source(assessment);
@@ -109,7 +110,7 @@ function policy(value) {
   const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope', 'verificationMethod'];
   record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
   need(['isobmff', 'matroska', 'mpegts', 'mp3'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
-  need(!own(value, 'verificationMethod') || ['packet-identity-v1', 'complete-native-v1'].includes(value.verificationMethod),
+  need(!own(value, 'verificationMethod') || ['packet-identity-v1', 'complete-native-v1', AAC_CLOCK_METHOD].includes(value.verificationMethod),
     'Only a main-reviewed Remux verification method is available.');
   need(!PACKET_ROUTES[value.id] || !own(value, 'verificationMethod') || value.verificationMethod === 'packet-identity-v1',
     'Every current production route uses the fast verifier.', 'REMUX_VERIFICATION_METHOD');
@@ -117,6 +118,9 @@ function policy(value) {
   need(!value.allowAncillary || value.inputFamily === 'matroska' && value.target === 'matroska', 'Ancillary collection is available only for reviewed Matroska-to-Matroska routes.');
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
     'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
+  if (value.verificationMethod === AAC_CLOCK_METHOD) need(value.inputFamily === 'matroska' && value.target === 'mp4'
+    && value.runtimeIdentity === REGULAR_WINDOWS_PAIR && !value.allowAncillary && value.allowRotation90 !== true && !own(value, 'audio'),
+  'AAC sample-clock copy requires the exact regular Windows Matroska-to-MP4 policy.');
   const transport = value.inputFamily === 'mpegts' && value.target === 'mp4' && value.sourceEnvelope === 'h264-adts-lc-48k-v1';
   const standaloneMp3 = value.inputFamily === 'mp3' && value.target === 'mp4' && value.runtimeIdentity === REGULAR_WINDOWS_PAIR
     && value.sourceEnvelope === 'mpeg1-layer3-untagged-v1' && value.verificationMethod === 'complete-native-v1'
@@ -322,8 +326,16 @@ function sourcePolicy(assessment, source, identity, route) {
   geometry(ve, route);
   need((video.side_data_list || []).every(item => item.side_data_type === 'Display Matrix'), 'Unreviewed video stream side data is unavailable.', REQUIRED);
   need(audio.length <= 2, 'At most two measured AAC audio tracks are qualified.', REQUIRED);
-  if (assessment.inputFamily === 'matroska' && assessment.target !== 'matroska' && audio.some(stream => stream.codec_name === 'aac'))
-    fail('Matroska AAC to MP4/MOV remains refused: retained priming, decoded tail and delayed-track samples change.', REQUIRED);
+  const mkvAacClock = getRemuxMkvAacClock(assessment);
+  if (route.verificationMethod === AAC_CLOCK_METHOD) {
+    need(audio.length === 1 && mkvAacClock && !assessment.request.omissionRequestIds.length,
+      'The measured AAC clock route needs a current exact source without omissions.', REQUIRED);
+    requireMkvAacClock(mkvAacClock, identity);
+  } else {
+    need(!mkvAacClock, 'A Matroska audio clock cannot select a different Remux policy.', REQUIRED);
+    if (assessment.inputFamily === 'matroska' && assessment.target !== 'matroska' && audio.some(stream => stream.codec_name === 'aac'))
+      fail('Matroska AAC to MP4/MOV remains refused: retained priming, decoded tail and delayed-track samples change.', REQUIRED);
+  }
   if (assessment.target === 'matroska' && audio.some(stream => /^pcm_/.test(stream.codec_name)))
     fail('PCM to Matroska remains refused: explicit native channel-layout semantics were lost in retained evidence.', REQUIRED);
   for (const stream of audio) need(stream.codec_name === 'aac' && stream.profile === 'LC' && stream.sample_fmt === 'fltp'
@@ -357,6 +369,9 @@ class RemuxOperations {
   }
   allowsStandaloneMp3(target) {
     return target === 'mp4' && this.#policies.some(row => row.inputFamily === 'mp3' && row.runtimeIdentity === this.#runtime);
+  }
+  allowsMkvAacClock(target) {
+    return target === 'mp4' && this.#policies.some(row => row.verificationMethod === AAC_CLOCK_METHOD && row.runtimeIdentity === this.#runtime);
   }
   #current(plan) {
     const state = plan && typeof plan === 'object' ? this.#plans.get(plan) : null;
@@ -396,7 +411,8 @@ class RemuxOperations {
       sourceProbeFingerprint, runtimeIdentity: this.#runtime };
     const plan = freeze({ ...description, planFingerprint: hash({ ...description, sourceIdentity: identity, outputId: options.outputId.toLowerCase(),
       policyIdentity: this.#policyIdentity, route, epoch,
-      ...(route.inputFamily === 'mp3' ? { sourceSha256: getRemuxMp3Source(options.assessment).sha256 } : {}) }) });
+      ...(route.inputFamily === 'mp3' ? { sourceSha256: getRemuxMp3Source(options.assessment).sha256 } : {}),
+      ...(route.verificationMethod === AAC_CLOCK_METHOD ? { mkvAacClock: getRemuxMkvAacClock(options.assessment) } : {}) }) });
     this.#plans.set(plan, { epoch, request, identity: freeze(identity), sourceProbeFingerprint, route, facts, costs, validator, innerPlan,
       assessment: options.assessment, input: options.input, outputId: options.outputId.toLowerCase(), invocationOutput: null, selected: false });
     this.#outputIds.add(outputId); this.#latest.set(request.fileId, plan); return plan;

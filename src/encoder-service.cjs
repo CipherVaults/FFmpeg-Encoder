@@ -36,9 +36,12 @@ const { Preferences } = require('./preferences.cjs');
 const { DiagnosticJournal } = require('./diagnostics.cjs');
 const { AppSettings } = require('./app-settings.cjs');
 const { OperationDraft } = require('./operation-draft.cjs');
-const { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName } = require('./remux-workspace.cjs');
+const { prepareRemuxItem, setRemuxOmissions, setRemuxAudioChoices, requireRemuxGrants,
+  installRemuxDecisions, installRemuxAudioChoices, remuxOutputName } = require('./remux-workspace.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { readMp3File, rereadMp3Source } = require('./remux-mp3-source.cjs');
+const { recheckMkvAacSource } = require('./remux-mkv-aac-clock.cjs');
+const { recheckMkvAacStage } = require('./remux-mkv-aac-evidence.cjs');
 const { MAX_SOURCE_BYTES: MAX_MP3_SOURCE_BYTES, MAX_OUTPUT_BYTES: MAX_MP3_OUTPUT_BYTES } = require('./remux-mp3-copy.cjs');
 const { collectRemuxEvidence, REMUX_VERIFICATION_CANCELLED_MESSAGE } = require('./remux-evidence.cjs');
 const { createRemuxStorageAllowance } = require('./operation-storage.cjs');
@@ -885,6 +888,7 @@ class EncoderService extends EventEmitter {
       if (entry.mp3Source) {
         await rereadMp3Source(entry.file, entry.mp3Source, { signal });
       }
+      if (entry.mkvAacClock) await recheckMkvAacSource(entry.file, entry.mkvAacClock, entry.inspection.probe, signal);
       return assessCompletedSource(entry.fingerprint, actual);
     } catch (error) {
       if (error.code === 'CANCELLED' || signal?.aborted) throw error;
@@ -1274,6 +1278,8 @@ class EncoderService extends EventEmitter {
     return this.prepareSourceBatch(request, 'encode');
   }
 
+  setRemuxAudioChoices(request) { return setRemuxAudioChoices.call(this, request); }
+
   async prepareRemuxBatch(request) {
     objectKeys(request, ['inputFolderId', 'outputFolderId', 'target']);
     if (!['matroska', 'mp4', 'mov'].includes(request.target)) throw fail('INVALID_REMUX_REQUEST', 'Choose a supported container; Remux is Full-only.');
@@ -1348,7 +1354,8 @@ class EncoderService extends EventEmitter {
     this.remuxOperations?.invalidate();
     this.hdrOperations?.invalidate();
     this.encodePreservationOperations?.invalidate();
-    this.plan = { operation, encodePreservationGrants: new Map(), encodePreservationCandidates: new Map(), remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
+    this.plan = { operation, encodePreservationGrants: new Map(), encodePreservationCandidates: new Map(), remuxGrants: new Map(), remuxCandidates: new Map(), remuxFacts: new Map(),
+      remuxAudioOffers: new Map(), remuxAudioChoices: new Map(), id: randomUUID(), input: input.path, output: output.path, settings, sameFolder, draft, entries: new Map(),
       baseline: new Map(), reservedPaths: new Set(), reservedIdentities: new Set(), overrides: new Map(), ambiguities: new Map(),
       generated: new Map(), reencodeAuthorizations: new Map() };
     if (native) this.plan.nativeSelection = native.token;
@@ -1486,7 +1493,7 @@ class EncoderService extends EventEmitter {
     for (const item of this.state.items) item.outputName = encodeOutputName(item.name, profile.suffix);
     return this.reprepareDraft();
   }
-  async reprepareDraft({ remuxDecisions = null, encodePreservationDecisions = null } = {}) {
+  async reprepareDraft({ remuxDecisions = null, remuxAudioChoices = null, encodePreservationDecisions = null } = {}) {
     // Meaningful edits start a new prepared authority. Reuse evidence through
     // the ordinary cache, but never reuse a generated-source/omission grant.
     // The original source reservation remains protected throughout this draft.
@@ -1494,7 +1501,7 @@ class EncoderService extends EventEmitter {
     // An explicit exact-set omission edit is related to this same prepared
     // source subset. Revalidate its existing generated-source grants; ordinary
     // reprepare/target changes still discard them without renewal.
-    const relatedSources = remux && remuxDecisions !== null || !remux && encodePreservationDecisions !== null
+    const relatedSources = remux && (remuxDecisions !== null || remuxAudioChoices !== null) || !remux && encodePreservationDecisions !== null
       ? new Map(this.plan.reencodeAuthorizations) : null;
     const relatedOriginals = !remux && encodePreservationDecisions !== null ? new Map(this.plan.overrides) : null;
     this.hdrOperations?.invalidate();
@@ -1505,6 +1512,7 @@ class EncoderService extends EventEmitter {
     this.plan.generated.clear(); this.plan.reencodeAuthorizations.clear();
     if (remux) {
       this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); this.plan.remuxFacts.clear();
+      this.plan.remuxAudioOffers.clear(); this.plan.remuxAudioChoices.clear();
       for (const item of this.state.items) item.outputName = this.plan.inspectionOnly?.has(item.name) ? '' : remuxOutputName(item.name, this.plan.draft.fileRequest(item.id).target);
     } else {
       const profile = catalogProfile(this.plan.settings.profileId);
@@ -1541,6 +1549,7 @@ class EncoderService extends EventEmitter {
         }
         if (remux) {
           await installRemuxDecisions.call(this, remuxDecisions || [], signal);
+          installRemuxAudioChoices.call(this, remuxAudioChoices || []);
         } else await installEncodePreservationDecisions.call(this, encodePreservationDecisions || [], signal);
         await this.verifyFolders(); await this.prepareWithWorkers(context);
         notCancelled(signal);
@@ -1810,6 +1819,7 @@ class EncoderService extends EventEmitter {
       }
       if (entry?.vendor) requireVendorArgs(entry);
       this.requirePreparedEncodeControls(entry);
+      if (entry?.mkvAacClock) requireRemuxGrants.call(this, entry);
       requireEncodePreservation.call(this, this.plan.entries.get(fileId));
       const key = item.outputName.toLowerCase();
       if (names.has(key)) throw fail('OUTPUT_CONFLICT', 'Select only one input for each output name.');
@@ -2097,6 +2107,10 @@ class EncoderService extends EventEmitter {
             requireVendorArgs(entry);
             await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
           }
+          if (entry.mkvAacClock) {
+            await recheckMkvAacSource(entry.file, entry.mkvAacClock, entry.inspection.probe, jobSignal);
+            requireQualification(); notCancelled(jobSignal);
+          }
           const encodeResult = await run(this.ffmpeg, args, { signal: jobSignal, timeoutMs: 0, onProgress: record => {
             advanceRemux(processingStage, Math.max(record.seconds || 0, record.bytes || 0, record.frame || 0));
             if (entry.vendor) encoderProgress = { frame: record.frame, ended: record.ended };
@@ -2269,6 +2283,11 @@ class EncoderService extends EventEmitter {
             requireQualification();
             notCancelled(jobSignal);
           }
+          if (entry.mkvAacClock) {
+            await recheckMkvAacSource(entry.file, entry.mkvAacClock, entry.inspection.probe, jobSignal);
+            await recheckMkvAacStage(stage.file, entry.operationEvidence, jobSignal);
+            requireQualification(); notCancelled(jobSignal);
+          }
           const assertCurrent = this.publicationCurrentness?.(entry, qualified);
           const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder, assertCurrent,
             ...(entry.remux ? { onProgress: event => advanceRemux(event.stage, event.completed) } : {}) });
@@ -2414,7 +2433,10 @@ class EncoderService extends EventEmitter {
       // all newly generated diagnostic content shares the bounded journal.
       // Keep admission closed through all asynchronous finalization. Otherwise a
       // new batch could replace state while the old batch is still logging it.
-      if (this.plan?.operation === 'remux') { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
+      if (this.plan?.operation === 'remux') {
+        this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear();
+        this.plan.remuxAudioOffers.clear(); this.plan.remuxAudioChoices.clear();
+      }
       this.hdrOperations?.invalidate();
       this.encodePreservationOperations?.invalidate();
       this.plan?.encodePreservationGrants.clear(); this.plan?.encodePreservationCandidates.clear();
@@ -2448,7 +2470,10 @@ class EncoderService extends EventEmitter {
     const preparedNative = this.plan?.operation === 'native-encode';
     if (!this.busy && (this.plan?.operation === 'remux' || preparedHdr || preparedPreservation || preparedNative) && this.state.phase === 'ready') {
       const remux = this.plan.operation === 'remux';
-      if (remux) { this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear(); }
+      if (remux) {
+        this.remuxOperations.invalidate(); this.plan.remuxGrants.clear(); this.plan.remuxCandidates.clear();
+        this.plan.remuxAudioOffers.clear(); this.plan.remuxAudioChoices.clear();
+      }
       if (preparedNative) this.plan.nativeSelection = null;
       this.hdrOperations?.invalidate(); this.plan.entries.clear();
       this.encodePreservationOperations?.invalidate(); this.plan.encodePreservationGrants.clear(); this.plan.encodePreservationCandidates.clear();

@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 22, 2026 — Verified MKV audio in Windows service
+
+Ahmed’s exact-copy preference now applies to the measured Windows 9.1 route. One accepted batch published two outputs, with a separate current file choice before the 64 ms earlier copy. Full media and native verification preserved all samples and frames. TS seeking and MP3 normal-service regression passed. The prior failed receipts remain available. [MKV audio service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md#regular-windows-service-qualification)
+
 # 📘 Session checkpoint — November 21, 2026 — Subtitle and chapter measurements
 
 Windows 9.1 test copies preserved the named Matroska cues, chapters and video. The current native index and chapter-language guards still refuse these inputs. Earlier failed stages stay retained. Ahmed separately selected exact MKV audio copy as the default where verified and an explicit choice before a shift. [Subtitle and chapter measurements](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md)

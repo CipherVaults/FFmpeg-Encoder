@@ -1,10 +1,11 @@
 'use strict';
 
 const { createHash } = require('node:crypto');
+const { VERIFICATION_METHOD: AAC_CLOCK_METHOD } = require('./remux-mkv-aac-clock.cjs');
 const { isDeepStrictEqual } = require('node:util');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
-const { getRemuxAssessmentSource, remuxVerificationDescription } = require('./remux-contract.cjs');
+const { getRemuxAssessmentSource, getRemuxMkvAacClock, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { classifyMarker, provenanceArgs, GENERATION_KEY } = require('./provenance.cjs');
 const { STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { getMovRepresentation } = require('./mov-representation.cjs');
@@ -157,14 +158,17 @@ function dispositions(stream) {
   return result.sort();
 }
 function qualifiedSingletonDefault(source, inputFamily, target, codecType) {
-  // Root's disclosed normalization is currently proved for the owned long
-  // Matroska->MP4 video. ISO/MOV and audio normalizations remain strict until
-  // an owned fixture demonstrates them; the three Q2d videos already default.
+  // These older singleton representations have independent route evidence.
+  // The finite Windows AAC case below additionally requires its bound clock.
   return (inputFamily === 'matroska' && codecType === 'video' || inputFamily === 'mpegts' && ['video', 'audio'].includes(codecType)) && target === 'mp4'
     && source.streams.filter(stream => stream.codec_type === codecType).length === 1;
 }
 function singletonDefaultWarning(source, output, assessment, stream, after) {
-  if (!qualifiedSingletonDefault(source, assessment.inputFamily, assessment.target, stream.codecType)
+  const measuredMkvAudio = assessment.inputFamily === 'matroska' && assessment.target === 'mp4'
+    && stream.inputIndex === 1 && stream.codecType === 'audio' && stream.codecName === 'aac'
+    && stream.disposition.length === 0 && Boolean(getRemuxMkvAacClock(assessment))
+    && source.streams.filter(item => item.codec_type === 'audio').length === 1;
+  if ((!measuredMkvAudio && !qualifiedSingletonDefault(source, assessment.inputFamily, assessment.target, stream.codecType))
     || output.streams.filter(item => item.codec_type === stream.codecType).length !== 1
     || stream.disposition.includes('default')) return null;
   const flags = dispositions(after);
@@ -342,10 +346,11 @@ function createRemuxValidator({ requireQualification } = {}) {
       output = normalizeProbe(dataCopy(options.outputProbe));
       const evidence = dataCopy(options.essenceEvidence);
       const evidenceFields = ['version', 'runtimeIdentity', 'sourceFingerprint', 'sourceEvidenceFingerprint', 'outputId', 'outputEvidenceFingerprint', 'complete', 'streams'];
-      record(evidence, [...evidenceFields, 'outputFileSha256', 'verificationMethod', 'verificationClaim'], 'Complete remux essence evidence', evidenceFields);
+      record(evidence, [...evidenceFields, 'outputFileSha256', 'verificationMethod', 'verificationClaim', 'mkvAacCopy'], 'Complete remux essence evidence', evidenceFields);
       verificationMethod = evidence.verificationMethod ?? 'complete-native-v1';
-      check(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod), 'Unknown Remux verification method.');
-      check(verificationMethod !== 'packet-identity-v1' || isDeepStrictEqual(evidence.verificationClaim, remuxVerificationDescription(verificationMethod, assessment.inputFamily)),
+      check(['packet-identity-v1', 'complete-native-v1', AAC_CLOCK_METHOD].includes(verificationMethod), 'Unknown Remux verification method.');
+      check(verificationMethod === AAC_CLOCK_METHOD || !own(evidence, 'mkvAacCopy'), 'AAC sample-clock evidence cannot select a different verifier.');
+      check(!['packet-identity-v1', AAC_CLOCK_METHOD].includes(verificationMethod) || isDeepStrictEqual(evidence.verificationClaim, remuxVerificationDescription(verificationMethod, assessment.inputFamily)),
         'Fast verification must disclose complete header checks and the absence of interior video decoding.');
       check(evidence.version === VERSION && evidence.complete === true && ['runtimeIdentity', 'sourceFingerprint', 'sourceEvidenceFingerprint', 'outputId'].every(key => evidence[key] === plan[key])
         && evidence.outputEvidenceFingerprint === hash(output) && (!own(evidence, 'outputFileSha256') || HASH.test(evidence.outputFileSha256)),
@@ -408,46 +413,64 @@ function createRemuxValidator({ requireQualification } = {}) {
       const marker = classifyMarker(output);
       if (marker.kind !== 'generated' || marker.outputId !== plan.outputId) errors.push('Fresh normal application provenance did not round-trip.');
       if (Object.keys(output.format.tags || {}).some(key => key.toUpperCase() === GENERATION_KEY)) errors.push('Prior encode settings must not describe the newly remuxed generation.');
-      check(Array.isArray(evidence.streams) && evidence.streams.length === expected.streams.length, 'Complete decoded evidence must cover every admitted stream.');
-      const seen = new Set();
-      for (const item of evidence.streams) {
-        record(item, ['inputIndex', 'outputIndex', 'codecType', 'source', 'output', 'timestamps'], 'Stream essence evidence');
-        const stream = expected.streams.find(candidate => candidate.inputIndex === item.inputIndex && candidate.outputIndex === item.outputIndex && candidate.codecType === item.codecType);
-        check(stream && !seen.has(item.outputIndex), 'Stream essence evidence is duplicated, unmapped or has changed type.'); seen.add(item.outputIndex);
-        const label = `Stream ${item.inputIndex} → ${item.outputIndex}`;
-        const transport = assessment.inputFamily === 'mpegts';
-        const semanticAudio = !transport && item.codecType === 'audio' && assessment.inputFamily !== (assessment.target === 'matroska' ? 'matroska' : 'isobmff');
-        const before = verifyDecode(item.source, item.codecType, `${label} source`, verificationMethod, semanticAudio, transport), after = verifyDecode(item.output, item.codecType, `${label} output`, verificationMethod, semanticAudio, transport);
-        if (verificationMethod === 'packet-identity-v1' && item.codecType !== 'attachment') {
-          if (item.source.decoderParametersSha256 !== item.output.decoderParametersSha256
-            || !isDeepStrictEqual(item.source.decodedWindows, item.output.decodedWindows) || !isDeepStrictEqual(item.source.pcm, item.output.pcm))
-            errors.push(`${label}: codec parameters, bounded decoded windows or complete PCM changed.`);
-          if (['video', 'audio'].includes(item.codecType) && item.source.admission.configurationSha256 !== item.output.admission.configurationSha256)
-            errors.push(`${label}: admitted compressed configuration changed.`);
-          if (semanticAudio && !isDeepStrictEqual(item.source.audioTrim, item.output.audioTrim)) errors.push(`${label}: effective leading samples or trailing padding changed.`);
-        }
-        if (item.codecType === 'video') {
-          const original = originals.get(item.inputIndex), actualVideo = actual.get(item.outputIndex);
-          const avg = original.avg_frame_rate, nominal = original.r_frame_rate;
-          if (avg && nominal && avg === nominal) {
-            const a = positiveRate(avg), b = positiveRate(actualVideo?.avg_frame_rate);
-            if (before.cadence === 'variable' && after.cadence === 'variable' && a && b) {
-              if (difference(a, b).n !== 0n) warnings.push(`${label}: average frame-rate summaries differ; complete variable presentation timestamps remain subject to every preservation check.`);
-            } else compareRatio(original, actualVideo || {}, 'avg_frame_rate', '/', label, errors);
+      if (verificationMethod === AAC_CLOCK_METHOD) {
+        const clock = getRemuxMkvAacClock(assessment);
+        const copy = evidence.mkvAacCopy;
+        check(clock && Array.isArray(evidence.streams) && evidence.streams.length === 0
+          && expected.streams.length === 2 && expected.streams[0].codecType === 'video' && expected.streams[1].codecType === 'audio',
+        'AAC sample-clock verification must cover the exact two mapped tracks.');
+        record(copy, ['sourceSha256', 'outputSha256', 'sampleRate', 'sampleFrames', 'shiftSamples',
+          'codedAudioPackets', 'videoFrames', 'audioConfig', 'videoConfig', 'videoSha256', 'pcmSha256'], 'AAC sample-clock evidence');
+        check(copy.sourceSha256 === clock.sha256 && copy.outputSha256 === evidence.outputFileSha256
+          && copy.sampleRate === clock.sampleRate && copy.sampleFrames === clock.sampleFrames && copy.shiftSamples === clock.shiftSamples
+          && copy.codedAudioPackets === clock.codedAudioPackets && copy.videoFrames === clock.videoFrames
+          && copy.audioConfig === clock.audioConfig && copy.videoConfig === clock.videoConfig
+          && HASH.test(copy.videoSha256) && HASH.test(copy.pcmSha256),
+        'Complete AAC sample-clock verification differs from the prepared source and selected shift.');
+        if (copy.shiftSamples) warnings.push({ code: 'REMUX_AAC_SHIFT_VERIFIED',
+          message: 'Every audio sample was preserved. Audio moved ' + Math.abs(copy.shiftSamples) * 1000 / copy.sampleRate + ' ms earlier.' });
+      } else {
+        check(Array.isArray(evidence.streams) && evidence.streams.length === expected.streams.length, 'Complete decoded evidence must cover every admitted stream.');
+        const seen = new Set();
+        for (const item of evidence.streams) {
+          record(item, ['inputIndex', 'outputIndex', 'codecType', 'source', 'output', 'timestamps'], 'Stream essence evidence');
+          const stream = expected.streams.find(candidate => candidate.inputIndex === item.inputIndex && candidate.outputIndex === item.outputIndex && candidate.codecType === item.codecType);
+          check(stream && !seen.has(item.outputIndex), 'Stream essence evidence is duplicated, unmapped or has changed type.'); seen.add(item.outputIndex);
+          const label = `Stream ${item.inputIndex} → ${item.outputIndex}`;
+          const transport = assessment.inputFamily === 'mpegts';
+          const semanticAudio = !transport && item.codecType === 'audio' && assessment.inputFamily !== (assessment.target === 'matroska' ? 'matroska' : 'isobmff');
+          const before = verifyDecode(item.source, item.codecType, `${label} source`, verificationMethod, semanticAudio, transport), after = verifyDecode(item.output, item.codecType, `${label} output`, verificationMethod, semanticAudio, transport);
+          if (verificationMethod === 'packet-identity-v1' && item.codecType !== 'attachment') {
+            if (item.source.decoderParametersSha256 !== item.output.decoderParametersSha256
+              || !isDeepStrictEqual(item.source.decodedWindows, item.output.decodedWindows) || !isDeepStrictEqual(item.source.pcm, item.output.pcm))
+              errors.push(`${label}: codec parameters, bounded decoded windows or complete PCM changed.`);
+            if (['video', 'audio'].includes(item.codecType) && item.source.admission.configurationSha256 !== item.output.admission.configurationSha256)
+              errors.push(`${label}: admitted compressed configuration changed.`);
+            if (semanticAudio && !isDeepStrictEqual(item.source.audioTrim, item.output.audioTrim)) errors.push(`${label}: effective leading samples or trailing padding changed.`);
           }
-        }
-        if (item.source.contentSha256 !== item.output.contentSha256 || item.source.metadataSha256 !== item.output.metadataSha256 || before.units !== after.units) errors.push(`${label}: complete native essence, meaningful per-unit metadata or unit count changed.`);
-        if (item.codecType === 'attachment') { check(item.timestamps === null, 'Attachments cannot invent a packet timeline.'); continue; }
-        record(item.timestamps, ['complete', 'comparedUnits', 'maxPtsError', 'maxDurationError'], 'Complete timestamp comparison');
-        check(item.timestamps.complete === true && count(item.timestamps.comparedUnits, 'Compared units') === before.units, `${label}: per-unit timestamp comparison is incomplete.`);
-        for (const field of ['maxPtsError', 'maxDurationError']) if (greater(rational(item.timestamps[field], `${label} ${field}`, true), transport ? { n: 0n, d: 1n } : tolerance.timestamp)) errors.push(`${label}: ${field} exceeds its measured cell tolerance.`);
-        if (before.first && after.first) {
-          if (greater(absolute(difference(before.first, after.first)), tolerance.timestamp) || greater(absolute(difference(before.end, after.end)), tolerance.timestamp)) errors.push(`${label}: complete interval or source A/V offset changed.`);
+          if (item.codecType === 'video') {
+            const original = originals.get(item.inputIndex), actualVideo = actual.get(item.outputIndex);
+            const avg = original.avg_frame_rate, nominal = original.r_frame_rate;
+            if (avg && nominal && avg === nominal) {
+              const a = positiveRate(avg), b = positiveRate(actualVideo?.avg_frame_rate);
+              if (before.cadence === 'variable' && after.cadence === 'variable' && a && b) {
+                if (difference(a, b).n !== 0n) warnings.push(`${label}: average frame-rate summaries differ; complete variable presentation timestamps remain subject to every preservation check.`);
+              } else compareRatio(original, actualVideo || {}, 'avg_frame_rate', '/', label, errors);
+            }
+          }
+          if (item.source.contentSha256 !== item.output.contentSha256 || item.source.metadataSha256 !== item.output.metadataSha256 || before.units !== after.units) errors.push(`${label}: complete native essence, meaningful per-unit metadata or unit count changed.`);
+          if (item.codecType === 'attachment') { check(item.timestamps === null, 'Attachments cannot invent a packet timeline.'); continue; }
+          record(item.timestamps, ['complete', 'comparedUnits', 'maxPtsError', 'maxDurationError'], 'Complete timestamp comparison');
+          check(item.timestamps.complete === true && count(item.timestamps.comparedUnits, 'Compared units') === before.units, `${label}: per-unit timestamp comparison is incomplete.`);
+          for (const field of ['maxPtsError', 'maxDurationError']) if (greater(rational(item.timestamps[field], `${label} ${field}`, true), transport ? { n: 0n, d: 1n } : tolerance.timestamp)) errors.push(`${label}: ${field} exceeds its measured cell tolerance.`);
+          if (before.first && after.first) {
+            if (greater(absolute(difference(before.first, after.first)), tolerance.timestamp) || greater(absolute(difference(before.end, after.end)), tolerance.timestamp)) errors.push(`${label}: complete interval or source A/V offset changed.`);
+          }
         }
       }
     } catch (error) { errors.push(error.message || 'Remux validation failed.'); }
     return freeze({ valid: errors.length === 0, errors, warnings, version: VERSION, operation: 'remux', target: plan.target, verificationMethod,
-      verificationClaim: ['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod) ? remuxVerificationDescription(verificationMethod, assessment.inputFamily) : null,
+      verificationClaim: ['packet-identity-v1', 'complete-native-v1', AAC_CLOCK_METHOD].includes(verificationMethod) ? remuxVerificationDescription(verificationMethod, assessment.inputFamily) : null,
       qualificationEvidenceId: plan.qualificationEvidenceId,
       contentClaim: verificationMethod === 'packet-identity-v1' && assessment.inputFamily === 'mpegts'
         ? 'Complete ordered AVC NAL/raw AAC frame identity, exact source clocks, complete header checks and bounded video boundary decoding.'

@@ -1071,7 +1071,7 @@
   function renderSelectedReview() {
     const list = byId('selected-review-list');
     const chosen = (snapshot.items || []).filter(item => selectedIds.has(item.id));
-    const key = JSON.stringify(chosen.map(item => [item.id, item.name, item.status, Boolean(outsideFileListView(item))]));
+    const key = JSON.stringify(chosen.map(item => [item.id, item.name, item.status, Boolean(outsideFileListView(item)), item.remux?.audioShift]));
     // Keep the selected-set controls alive across unrelated progress/default
     // updates, so a keyboard user does not lose focus during inspection.
     if (key !== selectedReviewKey) {
@@ -1081,6 +1081,8 @@
       const row = document.createElement('li');
       const label = document.createElement('span');
       label.textContent = `${item.name} · ${statusLabels[item.status] || item.status}${outsideFileListView(item) ? ' · Hidden in file-list view' : ''}`;
+      const audioShift = item.remux?.audioShift;
+      if (audioShift?.approved) label.textContent += ` · Audio ${audioShift.milliseconds} ms earlier (approved for this file)`;
       const inspect = document.createElement('button'); inspect.type = 'button'; inspect.className = 'subtle';
       inspect.textContent = 'Inspect'; inspect.setAttribute('aria-label', `Inspect selected file ${item.name}`);
       inspect.addEventListener('click', () => focusFile(item.id, true));
@@ -1487,6 +1489,38 @@
       }
       entry.remuxBody.append(streams);
       for (const blocker of details.blockers || []) addText(`${blocker.code}: ${blocker.message}`);
+      if (remux && details.audioShift) {
+        const shift = details.audioShift, fileId = entry.item.id;
+        addText(shift.message);
+        if (shift.approved) addText('Approved for this file. The saved output will report the shift after verification.');
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'subtle';
+        button.dataset.testid = 'remux-audio-shift';
+        button.textContent = shift.approved ? 'Remove audio shift choice' : `Use audio ${shift.milliseconds} ms earlier`;
+        button.addEventListener('click', async () => {
+          const focused = document.activeElement === button && focusedFileId === fileId;
+          const navigation = workspaceNavigationRevision, draftId = snapshot.operationDraft?.id;
+          await command(async () => {
+            const draft = snapshot.operationDraft;
+            const current = snapshot.items?.find(item => item.id === fileId)?.remux?.audioShift;
+            if (!isRemux() || snapshot.phase !== 'ready' || dirty || remuxTargetChanged() || !draft || draft.frozen
+                || current?.id !== shift.id) throw new Error('Review the current prepared file before changing its audio shift choice.');
+            const ids = new Set((snapshot.items || []).map(item => item.remux?.audioShift)
+              .filter(choice => choice?.approved).map(choice => choice.id));
+            if (current.approved) ids.delete(current.id); else ids.add(current.id);
+            applySnapshot(await api.setRemuxAudioChoices({ planId: snapshot.planId, draftId: draft.id,
+              revision: draft.revision, decisionIds: [...ids] }));
+          });
+          if (focused && isRemux() && snapshot.phase === 'ready' && snapshot.operationDraft?.id === draftId
+              && workspaceNavigationRevision === navigation && focusedFileId === fileId) {
+            const active = document.activeElement;
+            const replacement = itemRows.get(fileId)?.remuxButtons.find(value => value.dataset.testid === 'remux-audio-shift');
+            if (replacement && !replacement.disabled && (!active || [button, document.body, byId('tab-jobs')].includes(active))) {
+              replacement.focus();
+            }
+          }
+        });
+        entry.remuxBody.append(button); entry.remuxButtons.push(button);
+      }
       for (const candidate of details.omissionCandidates || []) {
         const approved = (details.omissionDecisionIds || []).includes(candidate.id);
         const row = document.createElement('div'); row.className = 'remux-decision';
@@ -1569,6 +1603,10 @@
           'Every ordered AVC NAL and raw AAC frame preserved; source clocks kept exactly; every header validated; start and end decoded.') {
         return `Copy verification: Coded media and source timing were checked, including every video header. ${boundaries} No full audio decode was performed.`;
       }
+    }
+    if (method === 'aac-sample-clock-v1' && claim.interiorVideoDecoded === true && claim.completeAudioDecoded === true
+        && claim.statement === 'Verify every AAC unit, decoded sample and adjusted sample clock, plus all video frames and timestamps.') {
+      return 'Copy verification: Every coded AAC unit, decoded audio sample and video frame matched. The audio and video timing was checked.';
     }
     if (method === 'complete-native-v1' && claim.interiorVideoDecoded === false && claim.completeAudioDecoded === true
         && claim.statement === 'Compare every compressed MP3 frame, exact sample clock and all decoded audio.') {

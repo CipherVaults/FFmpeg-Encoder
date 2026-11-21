@@ -935,6 +935,19 @@ async function collectRemuxEvidence(options) {
   need(plain(options), 'A main-owned collector request is required.');
   need(options.onProgress === undefined || typeof options.onProgress === 'function', 'Evidence progress requires a main-owned callback.');
   const { assessment, runtimeIdentity, outputId, sourceProbe, outputProbe, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal } = options;
+  const { VERIFICATION_METHOD: AAC_CLOCK_METHOD } = require('./remux-mkv-aac-clock.cjs');
+  if (options.verificationMethod === AAC_CLOCK_METHOD) {
+    const observed = require('./remux-contract.cjs').getRemuxMkvAacClock(assessment);
+    need(observed, 'AAC sample-clock evidence requires its actual prepared source.');
+    const { budget } = deriveRemuxAssessmentBudget(assessment, String(observed.bytes), AAC_CLOCK_METHOD);
+    need(isDeepStrictEqual(options.budget, budget), 'AAC sample-clock evidence requires the exact source-derived budget.');
+    const { collectMkvAacRemuxEvidence } = require('./remux-mkv-aac-evidence.cjs');
+    const result = freeze(await collectMkvAacRemuxEvidence(options));
+    if (result.status === 'completed') {
+      receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence: result.essenceEvidence, movRepresentation: null });
+    }
+    return result;
+  }
   if (assessment?.inputFamily === 'mp3') {
     const observed = getRemuxMp3Source(assessment);
     const { budget } = deriveRemuxAssessmentBudget(assessment, observed.size, options.verificationMethod);

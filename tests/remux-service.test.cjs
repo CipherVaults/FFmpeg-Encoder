@@ -238,6 +238,129 @@ test('preferences and renderer requests cannot select the internal complete-nati
   assert.equal(service.snapshot().items[0].verificationMethod, 'packet-identity-v1');
 });
 
+for (const boundary of ['before-publication', 'fallback-verification', 'after-checked-save']) {
+  test('controlled Remux Cancel at publication boundary: ' + boundary, async t => {
+    const { OutputAccess } = require('../src/output-access.cjs');
+    const digest = bytes => require('node:crypto').createHash('sha256').update(bytes).digest('hex');
+    const revealed = [];
+    const outputAccess = new OutputAccess({
+      openPath: () => { assert.fail('No native file open during a source test'); },
+      showItemInFolder: file => { revealed.push(file); },
+    });
+    let reach, release, held = false, service, validatedStage, fallbackReadClosed = false, fallbackLinks = 0;
+    const entered = new Promise(resolve => { reach = resolve; }), wait = new Promise(resolve => { release = resolve; });
+    function currentEntry() { return [...service.plan.entries.values()][0]; }
+    async function hold(event) {
+      if (held) return;
+      held = true; reach(event); await wait;
+    }
+    class ObservedRemuxService extends EncoderService {
+      constructor(options) { super({ ...options, outputAccess }); service = this; }
+      async recordIncident(event) {
+        if ((boundary === 'before-publication' && event.reason === 'SOURCE_ASSESSED')
+            || (boundary === 'after-checked-save' && event.reason === 'OUTPUT_PUBLISHED')) await hold(event);
+        return super.recordIncident(event);
+      }
+    }
+    if (boundary === 'fallback-verification') {
+      const link = fs.link.bind(fs), open = fs.open.bind(fs);
+      t.mock.method(fs, 'link', async (from, to) => {
+        if (!held && service?.plan?.entries.size === 1 && to === currentEntry().destination && path.basename(from) === 'encoded.mkv') {
+          fallbackLinks++; validatedStage = from;
+          throw Object.assign(new Error('Controlled link unavailable on this owned destination'), { code: 'EXDEV' });
+        }
+        return link(from, to);
+      });
+      t.mock.method(fs, 'open', async (file, flags, ...rest) => {
+        const handle = await open(file, flags, ...rest);
+        if (!held && fallbackLinks === 1 && flags === 'r' && file === currentEntry().destination) {
+          const close = handle.close.bind(handle);
+          handle.close = async () => { await close(); fallbackReadClosed = true; };
+          await hold(null);
+        }
+        return handle;
+      });
+    }
+    const finished = cadenceJob(t, { Service: ObservedRemuxService, verificationMethod: 'packet-identity-v1' });
+    let cancel, h, ended, beforeBytes, beforeStage, beforeSource, entry, id;
+    try {
+      const event = await Promise.race([entered, finished.then(() => { throw Error('The intended publication boundary was never reached'); })]);
+      const before = service.snapshot();
+      entry = currentEntry(); id = before.items[0].id;
+      assert.equal(before.phase, 'running'); assert.equal(before.items[0].status, 'validating');
+      assert.equal(before.items[0].outputDisposition.kind, 'validated-staged');
+      assert.equal(entry.operationEvidence.status, 'completed');
+      assert.equal(entry.operationEvidence.verificationMethod, 'packet-identity-v1');
+      beforeSource = await fs.readFile(entry.file);
+      if (event) assert.equal(event.fileId, id);
+      if (boundary === 'before-publication') {
+        assert.equal(event.context.sourceAssessment.kind, 'unchanged');
+        await assert.rejects(fs.lstat(entry.destination), { code: 'ENOENT' });
+      } else {
+        beforeBytes = await fs.readFile(entry.destination);
+        assert(beforeBytes.length > 0);
+        if (boundary === 'fallback-verification') {
+          beforeStage = await fs.readFile(validatedStage);
+          assert.deepEqual(beforeBytes, beforeStage);
+        }
+      }
+      cancel = service.cancelBatch({ batchId: before.batchId });
+      assert.equal(service.snapshot().phase, 'cancelling');
+      assert.equal(service.snapshot().items[0].outputAccess, undefined);
+    } finally {
+      release();
+      try { [h, ended] = await Promise.all([finished, cancel]); }
+      finally { t.mock.restoreAll(); }
+    }
+    const item = h.result, sealedHash = entry.operationEvidence.essenceEvidence.outputFileSha256;
+    assert.match(sealedHash, /^[a-f0-9]{64}$/);
+    assert.equal(ended.phase, 'cancelled'); assert.equal(ended.items[0].id, id);
+    assert.deepEqual(await fs.readFile(entry.file), beforeSource);
+    assert.deepEqual(revealed, []);
+    if (boundary === 'before-publication') {
+      assert.equal(item.status, 'cancelled');
+      assert.equal(item.outputDisposition.kind, 'retained-completed');
+      assert.equal(item.outputDisposition.published, false);
+      assert.equal(item.outputDisposition.validationCurrent, true);
+      assert.equal(digest(await fs.readFile(item.outputDisposition.file)), sealedHash);
+      await assert.rejects(fs.lstat(entry.destination), { code: 'ENOENT' });
+      assert.equal(item.outputAccess, undefined);
+    } else if (boundary === 'fallback-verification') {
+      assert(fallbackReadClosed); assert.equal(fallbackLinks, 1);
+      assert.equal(item.status, 'cancelled'); assert.equal(item.reasonCode, 'PUBLICATION_UNCERTAIN');
+      assert.equal(item.outputDisposition.kind, 'publication-uncertain');
+      assert.equal(item.outputDisposition.published, null);
+      assert.equal(item.outputDisposition.validationCurrent, false);
+      assert.equal(item.outputDisposition.stage.kind, 'retained-completed');
+      assert.equal(item.outputDisposition.stage.validationCurrent, true);
+      assert.equal(digest(beforeStage), sealedHash);
+      assert.deepEqual(await fs.readFile(item.outputDisposition.stage.file), beforeStage);
+      assert.deepEqual(await fs.readFile(entry.destination), beforeBytes);
+      assert.equal(item.outputAccess, undefined);
+    } else {
+      assert.equal(item.status, 'success', item.reason);
+      assert.equal(item.outcome, 'saved');
+      assert.equal(item.outputDisposition.kind, 'published');
+      assert.equal(item.outputDisposition.published, true);
+      assert.equal(digest(beforeBytes), sealedHash);
+      assert.deepEqual(await fs.readFile(entry.destination), beforeBytes);
+      assert.equal((await fs.lstat(entry.destination, { bigint: true })).nlink, 1n);
+      assert(item.outputAccess?.outputId, item.outputAccessWarning);
+      const revealedResult = await service.openCompletedOutput({ outputId: item.outputAccess.outputId, action: 'reveal' });
+      assert.equal(revealedResult.dispatched, true);
+      assert.deepEqual(revealed, [entry.destination]);
+    }
+    // Cancelled batch cannot be restarted. If a destination exists, a fresh
+    // Prepare skips it rather than replacing saved or unconfirmed bytes.
+    const request = { inputFolderId: h.a.id, outputFolderId: h.b.id, target: 'mov' };
+    assert.throws(() => service.startBatch({ planId: ended.planId, fileIds: [id] }));
+    const fresh = await service.prepareRemuxBatch(request);
+    assert.notEqual(fresh.batchId, ended.batchId);
+    assert.equal(fresh.items[0].status, boundary === 'before-publication' ? 'ready' : 'skipped');
+    if (beforeBytes) assert.deepEqual(await fs.readFile(entry.destination), beforeBytes);
+  });
+}
+
 async function publicationClockJob(t, { stalled = false, Service = EncoderService } = {}) {
   let publishing = false, idleCheck, fakeNow = Date.now(), copiedReads = 0;
   const actualNow = Date.now, actualOpen = fs.open.bind(fs), actualLink = fs.link.bind(fs), actualInterval = global.setInterval;

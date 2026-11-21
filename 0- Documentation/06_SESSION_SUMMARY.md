@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Verify Remux Cancel around a checked save [Q07/Q08]
+
+## 🤖 Models, Effort, Roles and Provenance
+GPT-6.2 Astra Ultra Milestone Q worker; Blue owns independent review, integration and ordered external checkpoint. Proof began on original regular 132; final composition and comparison use exact 133 without changing the reviewed test bytes or R history.
+
+## 🕒 Time
+November 21 Cairo. Exact start and process exit record for each test batch is in the evidence receipts.
+
+## 🎯 Session Goal
+Show that Cancel cannot expose unconfirmed output as saved, discard the verified stage, or undo a checked save.
+
+## 🛠️ Actions Taken
+Extended the existing controlled main Remux workflow to hold and cancel at three stages. Compared actual owned file bytes, correlated verifier SHA, output access and fresh no-overwrite handling. Compared final affected suites against the untouched base.
+
+## 🧠 Key Insights
+A destination name can exist before publication is confirmed; neither a missed confirmation nor a late Cancel should promote it. A completed save remains usable even if the surrounding batch is cancelled.
+
+## 📌 Decisions Made
+No product edit: all three obligations passed under the real source behavior already present. Retain the missing acceptance coverage, not speculative changes.
+
+## ⚠️ Difficulties / Friction
+The initial test assumed the item was still Running while the batch was Running. The item correctly says Validating. The initial harness-only failure was preserved separately.
+
+## 🔧 Adjustments Made
+Use the exact Validating row, actual exclusive fallback write/read, and genuine service-owned success for the respective boundary checks. Substitute only tool response, narrow filesystem availability, and shell action callbacks.
+
+## ❌ Mistakes / Risks Noted
+These are injected media facts and owned generated test atoms, not playable-media or actual cross-volume proof. Do not present the stubbed reveal as opening an OS file manager.
+
+## 📍 Current Position
+Exact 133 base clean; affected base 450 pass, candidate 453 pass, each with one same archived-read skip. Focused three pass. [Publication and cancellation evidence](Execution%20Summaries/2026-11-21_Regular_Q_Remux_Cancel_Publication_Boundaries.md).
+
+## 🔜 Next Steps
+Independent review for integration; prioritize a separately authorized existing-runtime native cloud gate, not format admission by inference or rerunning older collateral.
+
+## ❓ Open Questions
+Native interruption durability and real supported fixture breadth remain separate. Q07/Q08 and whole Q remain partial.
+
+## 🧾 Session Outcome
+One test-only three-boundary regression with retained exact benchmark-free evidence. Product and all active/inert source pins unchanged.
+
+## 🔍 Confidence Level
+High for the exact controlled controller and ownership results; no fresh Windows, PC, media, package or release proof.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Keep Files drawer disclosure truthful [R06]
 
 ## 🤖 Models, Effort, Roles and Provenance

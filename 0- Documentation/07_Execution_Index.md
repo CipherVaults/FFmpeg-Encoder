@@ -1,3 +1,5 @@
+- **November 21, 2026 — [R02/R04/R05: recover vendor label guard and witness preserved recipes](Execution%20Summaries/2026-11-21_Regular_R_Workbench_Guard_Quality.md).** Test-only exact-129 candidate; retained red and cold controlled-suite evidence.
+
 - **November 21, 2026 — [R06: re-enter workspaces on the selected tab](Execution%20Summaries/2026-11-21_Regular_R06_Workspace_Tab_Reentry.md).** Exact-source red/green focus evidence and Linux source-identity checks; no native or release qualification.
 
 - **November 21, 2026 — [Linux verified MP4 copy: refuse an impossible packet check at Prepare](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Packet_Verification_Limit.md).** Exact modeled red-to-green using normal main service, current active/inert source identity checks and selected offline source contracts. No media run, copy or capability expansion.

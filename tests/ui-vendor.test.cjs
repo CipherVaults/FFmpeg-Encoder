@@ -377,19 +377,22 @@ const mutations = [
   ['disabled vendor option', 'option.disabled = !profile.available;\n        if (!profile.available) option.title', 'option.disabled = false;\n        if (!profile.available) option.title', checkOptions],
   ['disabled option reason', 'if (!profile.available) option.title = profile.reason;', '', checkOptions],
   ['vendor-only profile mark', "visible('profile-untested', Boolean(vendor));", "visible('profile-untested', true);", checkMark],
-  ['vendor-only starting values', "put('tested-default', vendor ? 'Starting values' : 'Tested Default');", "put('tested-default', 'Starting values');", checkMark],
+  // Replace only the vendor-vs-ordinary branch. Leave the outer fixed
+  // Candidate settings choice intact and require the label check to kill it.
+  ['vendor-only starting values', "vendor ? 'Starting values' : 'Tested Default'", "'Starting values'", checkMark,
+    { name: 'AssertionError', operator: 'strictEqual', actual: 'Starting values', expected: 'Tested Default' }],
   ['vendor-specific disclosure', "vendor ? vendor.hardware === 'AMD'", 'vendor ? true', checkMark],
   ['close obsolete vendor help', "if (activeHelp?.help === byId('profile-untested')) closeHelp();", '', checkOpenHelp],
   ['untested-only result mark', "entry.untested.hidden = item.hardwareTier !== 'untested';", 'entry.untested.hidden = false;', checkResults],
   ['text-only vendor option', "option.textContent = `${profile.label} ⚠${profile.available ? '' : ' — unavailable'}`;", "option.innerHTML = `${profile.label} ⚠${profile.available ? '' : ' — unavailable'}`;", checkInertText],
   ['text-only vendor capability', 'row.textContent = `${profile.label} ⚠', 'row.innerHTML = `${profile.label} ⚠', checkInertText],
 ];
-for (const [name, before, after, check] of mutations) test(`guard removal in memory fails: ${name}; original bytes pass with unchanged hashes`, async () => {
+for (const [name, before, after, check, refusal = { name: 'AssertionError' }] of mutations) test(`guard removal in memory fails: ${name}; original bytes pass with unchanged hashes`, async () => {
   const files = ['ui/renderer.js', 'ui/index.html', 'ui/styles.css', 'tests/ui-vendor.test.cjs'];
   const hashes = () => files.map(file => createHash('sha256').update(fs.readFileSync(path.join(root, file))).digest('hex'));
   const originalHashes = hashes();
   assert.equal(renderer.split(before).length, 2, 'mutation target must occur exactly once');
-  await assert.rejects(() => check(renderer.replace(before, after)), { name: 'AssertionError' });
+  await assert.rejects(() => check(renderer.replace(before, after)), refusal);
   await check(renderer);
   assert.deepEqual(hashes(), originalHashes);
 });

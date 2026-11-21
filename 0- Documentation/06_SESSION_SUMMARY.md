@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Strengthen workbench guard evidence [R02/R04/R05]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned this cloud implementation lane using GPT-6.2 Astra Ultra (coordinating thread's verified launch configuration). Blue retains independent review, integration and checkpoint ownership. Sources: Git checkpoint 129, the earlier R study and [Workbench guard evidence](Execution%20Summaries/2026-11-21_Regular_R_Workbench_Guard_Quality.md).
+
+## 🕒 Time
+November 21, approximately 02:38–02:45 Cairo. Exact UTC run times are in the receipts.
+
+## 🎯 Session Goal
+Restore the stale vendor wording mutation and determine whether active recipe evidence misses a concrete in-scope case.
+
+## 🛠️ Actions Taken
+Reproduced the stale precondition on exact 129. Changed only the targeted vendor-vs-ordinary arm and required its specific observed mismatch. Extended the existing queue service test to a running file and a still-queued file, preserving the other tests. Replayed the exact patch in a separate checkout.
+
+## 🧠 Key Insights
+A stale mutation target does not test the guard. A one-file busy check also does not prove what a later queued file runs or what appears in its eventual export.
+
+## 📌 Decisions Made
+Preserve the fixed-candidate label branch and the unique mutation requirement. Compare actual recipe details to immutable prepared data and use the existing redacted diagnostic preview, not a new recipe-export feature.
+
+## ⚠️ Difficulties / Friction
+The initial vendor suite fails its mutation match before it reaches the original assertion. Native/hardware and broad acceptance remain outside scope.
+
+## 🔧 Adjustments Made
+Use exact expected and actual labels for the recovered mutation, rather than allowing an unrelated assertion to count. In the two-file test, wait for the controlled first invocation, keep the second pending and always release the injected gate.
+
+## ❌ Mistakes / Risks Noted
+Do not interpret passing software fixtures as native settings, GPU, full queue matrix or release proof. The preview is a redacted diagnostic subset, not a runnable command or complete recipe export.
+
+## 📍 Current Position
+Test-only patch frozen and cold rebuilt. Baseline vendor: 21 pass, one stale precondition failure. Cold selected suite: 295 pass, no failures or skips. [Workbench guard evidence](Execution%20Summaries/2026-11-21_Regular_R_Workbench_Guard_Quality.md).
+
+## 🔜 Next Steps
+Independent review and integrated portable rerun, then the regular lead's approved checkpoint. Keep R02/R04/R05 partial until native/workflow acceptance is actually bound.
+
+## ❓ Open Questions
+Broader native settings precedence and persistence, active-plan lifecycle and per-route recipe transparency are not answered by this slice.
+
+## 🧾 Session Outcome
+Vendor wording assertion is exercised again, with one extra controlled running-and-waiting witness. The product is unchanged.
+
+## 🔍 Confidence Level
+High for the exact software fixtures and test quality, no new basis for native or release claims.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Restore keyboard entry to the selected workspace [R06]
 
 ## 🤖 Models, Effort, Roles and Provenance

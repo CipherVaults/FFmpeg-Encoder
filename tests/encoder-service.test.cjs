@@ -285,20 +285,54 @@ test('meaningful operation edits expire generated-source grants and never make f
   assert.equal(h.service.plan.reencodeAuthorizations.size, 0);
 });
 
-test('queued operation snapshots survive App Settings edits while draft mutation is denied', async t => {
+test('running and still-queued files retain their prepared recipe in invocation and redacted export after an App Settings edit', async t => {
   const entered = deferred(), release = deferred();
-  const h = await harness(t, { onEncode: async () => { entered.resolve(); await release.promise; } });
+  const h = await harness(t, { onEncode: async ({ number }) => { if (number === 1) { entered.resolve(); await release.promise; } } });
   const plan = await h.prepare();
-  h.service.startBatch({ planId: plan.planId, fileIds: [plan.items[0].id] }); await entered.promise;
-  const queued = h.service.plan.queueOperationSnapshot;
-  assert.equal(Object.isFrozen(queued), true);
-  const app = await h.service.getAppSettings();
-  await h.service.saveAppSettings({ revision: app.revision, defaults: { ...app.defaults, fullAudioPolicy: 'precision-aac' } });
-  assert.equal(queued.requests[0].audioPolicy, 'copy');
-  assert.throws(() => h.service.updateFileOperations({ planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
-    fileIds: [plan.items[0].id], overrides: {} }), { code: 'BUSY' });
-  release.resolve(); await h.service.taskPromise;
-  assert.equal(h.service.snapshot().items[0].status, 'success');
+  const fileIds = plan.items.map(item => item.id);
+  const details = fileId => h.service.getEncodingDetails({ planId: plan.planId, fileId });
+  const prepared = new Map(fileIds.map(id => [id, details(id)]));
+  h.service.startBatch({ planId: plan.planId, fileIds });
+  await Promise.race([entered.promise, h.service.taskPromise]);
+  try {
+    const stages = h.service.snapshot().items;
+    const running = stages.find(item => item.status === 'running'), waiting = stages.find(item => item.status === 'pending');
+    assert(running && waiting, 'observe one actual invocation and one waiting file before editing');
+    assert.equal(h.calls.length, 1);
+    const queued = h.service.plan.queueOperationSnapshot;
+    assert.equal(Object.isFrozen(queued), true);
+    const app = await h.service.getAppSettings();
+    await h.service.saveAppSettings({ revision: app.revision, defaults: { ...app.defaults, fullAudioPolicy: 'precision-aac' } });
+    assert.equal((await h.service.getAppSettings()).defaults.fullAudioPolicy, 'precision-aac');
+    assert.equal(h.service.plan.queueOperationSnapshot, queued);
+    assert.deepEqual(queued.requests.map(request => request.audioPolicy), ['copy', 'copy']);
+    assert.equal(details(running.id).kind, 'actual-invocation');
+    assert.deepEqual(details(running.id).args, h.calls[0].args);
+    assert.deepEqual(details(waiting.id), prepared.get(waiting.id));
+    assert.throws(() => h.service.updateFileOperations({ planId: plan.planId, draftId: plan.operationDraft.id, revision: plan.operationDraft.revision,
+      fileIds: [waiting.id], overrides: { audioPolicy: 'precision-aac' } }), { code: 'BUSY' });
+  } finally {
+    release.resolve(); await h.service.taskPromise;
+  }
+  assert.equal(h.service.snapshot().counts.success, 2);
+  assert.equal(h.maximumActive(), 1);
+  for (const item of plan.items) {
+    const call = h.calls.find(value => path.basename(value.file) === item.name);
+    assert(call, 'each selected file reached the injected runner');
+    assert.deepEqual(call.args.slice(0, -1), prepared.get(item.id).args.slice(0, -1));
+    assert.deepEqual(details(item.id).args, call.args);
+    const event = await diagnosticRecord(h.service, 'ENCODE_STARTED', item.id);
+    const exported = await h.service.getDiagnosticExport({ eventIds: [event.id] });
+    const recipe = exported.data.events[0].context;
+    assert.deepEqual(recipe.settings, defaultSettings);
+    assert.equal(recipe.operation.requested.audioPolicy, 'copy');
+    assert.equal(recipe.operation.resolved.range.kind, 'full');
+    assert.deepEqual(recipe.argv.slice(recipe.argv.indexOf('-crf:v:0'), recipe.argv.indexOf('-crf:v:0') + 2), ['-crf:v:0', '25']);
+    assert.match(recipe.argv[recipe.argv.indexOf('-i') + 1], /^\[PATH_\d+\]$/);
+    assert.match(recipe.argv.at(-1), /^\[PATH_\d+\]$/);
+    assert(!exported.json.includes(item.name), 'the shareable export omits raw media names');
+    assert(!exported.json.includes(path.basename(call.temporary)), 'the shareable export omits the actual staging name');
+  }
 });
 
 test('only saved outputs obtain post-cleanup action tokens; stale contents cannot open', async t => {

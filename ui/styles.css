@@ -363,6 +363,7 @@ h3 { color: var(--text); font-size: .95rem; font-weight: 600; }
 .scope-caption::before { display: inline-block; content: ""; width: .4rem; height: .4rem; background: var(--green); border-radius: 50%; margin-right: .55rem; vertical-align: .08rem; }
 .scope-label { color: var(--scope-text); border: 1px solid var(--scope-border); background: var(--scope-background); padding: .2rem .45rem; border-radius: 4px; font-size: .72rem; white-space: nowrap; }
 #files-toggle, #remux-files-toggle { display: none; }
+#files-toggle:focus, #remux-files-toggle:focus { display: inline-block; }
 #setup-panel, #encode-batch-slot > .panel, #remux-batch-slot > .panel { margin: 0; }
 #setup-panel { border-top: 2px solid var(--inspector-accent); }
 #encode-batch-slot, #remux-batch-slot { display: grid; gap: 1rem; min-width: 0; align-items: start; }
@@ -579,13 +580,15 @@ footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wr
   #workbench-context, #setup-panel, .remux-panel, #file-inspector, #batch-panel { width: 100%; }
   #files-toggle, #remux-files-toggle { display: inline-block; flex: 0 0 auto; }
   #encode-batch-slot, #remux-batch-slot { display: contents; }
-  #workspace-encode:not(.files-drawer-open) #preview-list,
-  #workspace-encode:not(.files-drawer-open) .preview-toolbar,
-  #workspace-encode:not(.files-drawer-open) #reencode-toolbar,
-  #workspace-remux:not(.files-drawer-open) #preview-list,
-  #workspace-remux:not(.files-drawer-open) .preview-toolbar,
-  #workspace-remux:not(.files-drawer-open) #reencode-toolbar { display: none; }
-  #workspace-encode #preview-collapse, #workspace-remux #preview-collapse { display: none; }
+  /* Keep the departing control rendered until the breakpoint listener moves
+     focus. Once focus leaves, the closed drawer stays out of the tab order. */
+  #workspace-encode:not(.files-drawer-open) #preview-list:not(:focus-within),
+  #workspace-encode:not(.files-drawer-open) .preview-toolbar:not(:focus-within),
+  #workspace-encode:not(.files-drawer-open) #reencode-toolbar:not(:focus-within),
+  #workspace-remux:not(.files-drawer-open) #preview-list:not(:focus-within),
+  #workspace-remux:not(.files-drawer-open) .preview-toolbar:not(:focus-within),
+  #workspace-remux:not(.files-drawer-open) #reencode-toolbar:not(:focus-within) { display: none; }
+  #workspace-encode #preview-collapse:not(:focus), #workspace-remux #preview-collapse:not(:focus) { display: none; }
   #setup-panel .settings-grid { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr); }
   #setup-panel .settings-grid > .field:first-child { grid-column: auto; }
   .prepare-actions button { width: auto; }

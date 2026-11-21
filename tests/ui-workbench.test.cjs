@@ -1117,6 +1117,61 @@ test('narrow drawer and breakpoint changes disclose hidden selections without ch
   assert.equal(h.calls.length, calls);
 });
 
+test('R06 responsive focus: closed Encode drawer hands focus to the shown control on each breakpoint crossing', async () => {
+  const h = await processingHarness();
+  const before = JSON.stringify(h.draft.snapshot()), calls = [...h.calls];
+  const trigger = h.byId('files-toggle'), collapse = h.byId('preview-collapse');
+  for (const control of [h.row(0).querySelector('[data-testid="encode-file"]'), h.byId('batch-filter')]) {
+    control.focus();
+    h.setNarrow(true);
+    assert.equal(h.document.activeElement.id, trigger.id, 'the focused desktop control is inside a region being closed');
+    assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+    assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+    h.setNarrow(false);
+    assert.equal(h.document.activeElement.id, collapse.id, 'the narrow-only trigger gives focus to the desktop list toggle');
+    assert.match(h.byId('hidden-selected-count').textContent, /0 selected hidden/);
+  }
+  assert.equal(h.byId('workspace-encode').hidden, false);
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.match(h.byId('selected-count').textContent, /^2 selected/);
+  assert.equal(JSON.stringify(h.draft.snapshot()), before);
+  assert.deepEqual(h.calls, calls);
+});
+
+test('R06 responsive focus: unrelated controls and Current Jobs retain focus instead of opening a drawer', async () => {
+  const h = await processingHarness();
+  const picker = h.byId('choose-input');
+  picker.focus(); h.setNarrow(true);
+  assert.equal(h.document.activeElement.id, picker.id);
+  const before = [...h.calls];
+  const jobs = h.snapshot('running');
+  jobs.items[0].status = 'running'; jobs.items[1].status = 'pending';
+  h.update(jobs);
+  const trigger = h.byId('files-toggle');
+  trigger.focus(); h.setNarrow(false);
+  assert.equal(h.document.activeElement.id, 'workspace-encode', 'no visible Encode list: use its workspace, not a hidden Jobs control');
+  await h.byId('tab-jobs').click();
+  const viewport = h.byId('batch-viewport');
+  viewport.focus(); h.setNarrow(true); h.setNarrow(false);
+  assert.equal(h.document.activeElement.id, viewport.id, 'the Jobs list is not an editor drawer');
+  assert.equal(h.byId('cancel-bar').hidden, false);
+  assert.deepEqual(h.calls, before);
+});
+
+test('R06 responsive focus: CSS keeps a disappearing focus target visible until the renderer can hand it off', () => {
+  // Static selector binding only. A real browser's resize/focus sequence, not
+  // simulated by this fixture, must still be verified on the supported runtime.
+  const css = fs.readFileSync(path.join(root, 'ui/styles.css'), 'utf8');
+  const expected = ['encode', 'remux'].flatMap(workspace => [
+    `#workspace-${workspace}:not(.files-drawer-open) #preview-list:not(:focus-within)`,
+    `#workspace-${workspace}:not(.files-drawer-open) .preview-toolbar:not(:focus-within)`,
+    `#workspace-${workspace}:not(.files-drawer-open) #reencode-toolbar:not(:focus-within)`,
+    `#workspace-${workspace} #preview-collapse:not(:focus)`,
+  ]);
+  for (const selector of expected) assert(css.includes(selector), `layout-only focus preservation for ${selector}`);
+  assert.match(css, /#files-toggle:focus, #remux-files-toggle:focus\s*\{\s*display:\s*inline-block;/);
+});
+
 test('selected-review disclosure reports expansion for its button and native summary toggles', async () => {
   const h = await processingHarness();
   await h.byId('review-selected').click();
@@ -1401,6 +1456,27 @@ test('Remux narrow drawer and Encode-only settings retain source selection witho
   assert.equal(row.querySelector('[data-testid="encode-file"]').checked, true);
   assert.equal(h.byId('batch-panel').parentElement, h.byId('remux-batch-slot'));
   assert.equal(h.calls.some(call => ['prepareRemuxBatch', 'prepareBatch', 'setRemuxOmissions', 'startBatch'].includes(call.name)), false);
+});
+
+test('R06 responsive focus: open Remux drawer keeps file-list focus but hands off the desktop-only collapse button', async () => {
+  const h = await remuxHarness();
+  await h.byId('tab-remux').click();
+  const trigger = h.byId('remux-files-toggle'), collapse = h.byId('preview-collapse'), filter = h.byId('batch-filter');
+  const row = h.byId('batch-items').children[1], selected = row.querySelector('[data-testid="encode-file"]');
+  h.setNarrow(true);
+  await trigger.click();
+  const calls = [...h.calls];
+  filter.focus();
+  h.setNarrow(false); h.setNarrow(true);
+  assert.equal(h.document.activeElement.id, filter.id, 'the open drawer filter remains visible');
+  h.setNarrow(false);
+  collapse.focus(); h.setNarrow(true);
+  assert.equal(h.document.activeElement.id, trigger.id, 'Collapse is desktop-only even when the drawer is open');
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  assert.equal(h.byId('workspace-remux').hidden, false);
+  assert.equal(selected.checked, true);
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.deepEqual(h.calls, calls);
 });
 
 test('a finished changed-path row shows asked versus kept timing and the AAC delay as plain read-only text', async () => {

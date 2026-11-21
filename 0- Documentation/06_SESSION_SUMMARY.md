@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Focus recovery across the Files breakpoint [R06]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned the cloud lane using GPT-6.2 Astra Ultra (coordinating thread's verified launch configuration). The prior independent responsive survey, original Git checkpoint 130, and [R06 responsive focus evidence](Execution%20Summaries/2026-11-21_Regular_R06_Responsive_Focus_Handoff.md) bind this slice. Blue retains integration and independent review.
+
+## 🕒 Time
+November 21, approximately 02:51–02:57 Cairo. Exact UTC run times are retained.
+
+## 🎯 Session Goal
+Restore keyboard focus to an appropriate visible control when crossing the existing breakpoint, without opening or closing the drawer or changing processing state.
+
+## 🛠️ Actions Taken
+Added controlled focus and CSS assertions first, then a local renderer focus handoff plus matching CSS retention. Rebuilt in a second checkout and verified the active/inert source pins.
+
+## 🧠 Key Insights
+The earlier media-query handler updated visibility counts but not focus. CSS can hide a control before app code sees its focus; keep the departing region rendered until the handoff.
+
+## 📌 Decisions Made
+Limit to the existing 900 CSS px breakpoint and editor controls. Do not shift unrelated focus, open the drawer, mirror a queue, or claim that a real browser has already followed the modeled sequence.
+
+## ⚠️ Difficulties / Friction
+The first red run tried to print a large simulated element on mismatch and ended early. The preserved second red compares control IDs and reaches all four assertions. No verified pinned Electron with a usable display was identified here.
+
+## 🔧 Adjustments Made
+Keep the existing media query and selection update; move focus only from a disappearing list control or narrow trigger. Bind the exact changed renderer and stylesheet to existing source identities.
+
+## ❌ Mistakes / Risks Noted
+Layout/CSS behavior and browser ordering are not executed by the DOM fixture. Do not use the green subset to infer minimum window size, no horizontal overflow, short-viewport Cancel reachability or full accessibility.
+
+## 📍 Current Position
+Source patch and PBS records frozen for review. Second red: 94 passed, four expected failures. Cold selected suite: 239 passed, no failures or skips. [R06 responsive focus evidence](Execution%20Summaries/2026-11-21_Regular_R06_Responsive_Focus_Handoff.md).
+
+## 🔜 Next Steps
+Independent review and merged-source retest, then a native desktop resize and keyboard spot-check on an approved pinned runtime. Leave the owner PC and release lane untouched.
+
+## ❓ Open Questions
+Does the actual native compositor deliver the media-query transition while the focused region is still rendered, and is resulting focus visible at small sizes and supported DPI?
+
+## 🧾 Session Outcome
+In the controlled renderer the narrow Files trigger and desktop list control receive focus when their counterparts disappear. Open and unrelated controls remain in place; no work is triggered.
+
+## 🔍 Confidence Level
+High for the exact controlled renderer contract and static source closure; native ordering, geometry and assistive technology are unproved.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Strengthen workbench guard evidence [R02/R04/R05]
 
 ## 🤖 Models, Effort, Roles and Provenance

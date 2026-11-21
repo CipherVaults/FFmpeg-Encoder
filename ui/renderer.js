@@ -159,7 +159,7 @@
   let displayedFileId = null;
   let filesDrawerOpen = false;
   const narrowFilesLayout = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 900px)') : null;
-  narrowFilesLayout?.addEventListener('change', () => syncSelection());
+  narrowFilesLayout?.addEventListener('change', syncFilesLayout);
   let selectedReviewKey = null;
   let appDefaults = null;
   let defaultsLoading = false;
@@ -954,6 +954,24 @@
     const closedDrawer = narrowFilesLayout?.matches && !filesDrawerOpen
       && ['encode', 'remux'].some(name => byId(`workspace-${name}`).contains(byId('batch-panel')));
     return previewCollapsed || closedDrawer || !matchesFilter(item);
+  }
+
+  function syncFilesLayout() {
+    if (activeWorkspace === 'encode' || activeWorkspace === 'remux') {
+      const workspace = byId(`workspace-${activeWorkspace}`);
+      const trigger = byId(activeWorkspace === 'remux' ? 'remux-files-toggle' : 'files-toggle');
+      const batchPanel = byId('batch-panel'), collapse = byId('preview-collapse'), focused = document.activeElement;
+      const ownsList = !batchPanel.hidden && workspace.contains(batchPanel);
+      // CSS keeps the currently focused control visible long enough for this
+      // handoff. Do not reopen the drawer or move focus out of another region.
+      if (narrowFilesLayout.matches && ownsList && (focused === collapse || (!filesDrawerOpen
+          && [byId('preview-list'), collapse.parentElement, byId('reencode-toolbar')].some(region => region.contains(focused))))) {
+        trigger.focus();
+      } else if (!narrowFilesLayout.matches && focused === trigger) {
+        (ownsList ? collapse : workspace).focus();
+      }
+    }
+    syncSelection();
   }
 
   function setFilesDrawer(open, returnFocus = false) {

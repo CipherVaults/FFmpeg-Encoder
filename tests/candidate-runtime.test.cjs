@@ -42,6 +42,38 @@ test('candidate manifest is detached, fixed and validates the tracked manifest',
   assert.equal(MINIMUM_D_FREE_BYTES, 25n * 1024n ** 3n);
 });
 
+test('portable manifest evidence uses opaque labels and keeps the exact canonical manifest', async t => {
+  const root = await fixture(t);
+  const trackedPath = path.resolve(__dirname, '../resources/candidate-binary-manifest.json');
+  const bytes = await fsp.readFile(trackedPath);
+  const tracked = JSON.parse(bytes);
+  const expected = expectedCandidateManifest();
+  for (const manifest of [tracked, expected]) {
+    const { transferReceipt, runtimeTrial, qualificationLimit } = manifest.evidence;
+    assert.match(transferReceipt, /^[a-z0-9][a-z0-9.-]{0,63}$/, 'transfer evidence must not be a private path');
+    assert.match(runtimeTrial, /^[a-z0-9][a-z0-9.-]{0,63}$/, 'runtime evidence must not be a private path');
+    assert.notEqual(transferReceipt, runtimeTrial);
+    assert.equal(qualificationLimit, 'The isolated trial passed current CPU/NVIDIA capability and supplied-file inspection checks. This is not full candidate or packaged acceptance.');
+  }
+  assert.deepEqual(tracked, expected);
+
+  // Only copy the tracked JSON into the ordinary packaged location; do not
+  // invoke Packager, the actual runtime, or the historical evidence locators.
+  const resourcesPath = path.join(root, 'package-resources');
+  await fsp.mkdir(resourcesPath);
+  const packaged = path.join(resourcesPath, 'binary-manifest.json');
+  await fsp.writeFile(packaged, bytes, { flag: 'wx' });
+  assert.deepEqual(await loadCandidateManifest({ root, resourcesPath, isPackaged: true }), tracked);
+  for (const [key, pathValue] of [
+    ['transferReceipt', 'X:/owned-fixture/receipt.json'],
+    ['runtimeTrial', 'artifacts/owned-fixture/runtime-trial.json'],
+  ]) {
+    const altered = expectedCandidateManifest();
+    altered.evidence[key] = pathValue;
+    assert.throws(() => validateCandidateManifest(altered), /approved fixed pins/);
+  }
+});
+
 test('manifest rejects runtime redirection, mixed pairs, changed pins and extra authority', () => {
   const mutations = [
     value => { value.release = '9.0.1'; },

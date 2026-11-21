@@ -70,8 +70,8 @@
     "distributionStatus": "Local candidate only. Publisher source identification is not a complete corresponding-source distribution or public-release approval."
   },
   "evidence": {
-    "transferReceipt": "F:/FFmpeg Encoder Project supplied videos/_FFmpeg-0.7-Owned/downloads/runtime-trials/transfer-report.json",
-    "runtimeTrial": "artifacts/v0.7/runtime-trials/ffmpeg-9.0.2-Sy8OaJ/report.json",
+    "transferReceipt": "win-9.0.2-transfer-receipt",
+    "runtimeTrial": "win-9.0.2-runtime-trial",
     "qualificationLimit": "The isolated trial passed current CPU/NVIDIA capability and supplied-file inspection checks. This is not full candidate or packaged acceptance."
   }
 }

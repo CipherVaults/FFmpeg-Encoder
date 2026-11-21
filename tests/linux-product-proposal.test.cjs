@@ -198,7 +198,7 @@ test('1080 range compact record preserves original clocks and refuses mutated sc
  }
 });
 
-test('historical 97 pins remain intact; explicit service and UHD source deltas with historical identities intact',()=>{
+test('historical 97 pins remain intact with explicitly reviewed current source deltas',()=>{
  const crypto=require('node:crypto');
  const source=fs.readFileSync(path.join(root,'linux-blue/candidate-resize-service.cjs'),'utf8');
  const original=JSON.parse(source.match(/const PRODUCERS = Object.freeze\((\{[\s\S]*?\n\})\);/)[1]);
@@ -249,6 +249,12 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
    assert.equal(hash,'76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:154677,sha256:'56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8'});
    changed++;
+  }else if(name==='src/candidate-runtime.cjs'){
+   // Remove operational evidence locators from the current matched manifest.
+   // Keep the historical producer identity; this is not new calibration proof.
+   assert.equal(hash,'9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:11606,sha256:'22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9'});
+   changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);
    assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);
@@ -256,7 +262,7 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,7);
+ assert.equal(changed,8);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

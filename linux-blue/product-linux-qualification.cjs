@@ -113,8 +113,8 @@ const SOURCE_PINS = {
     "sha256": "22b8a83730d303bd5f8159b27ecc8f6be2cbee3df86128fdc749d8119c0c9139"
   },
   "src/candidate-runtime.cjs": {
-    "bytes": 11723,
-    "sha256": "9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712"
+    "bytes": 11606,
+    "sha256": "22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9"
   },
   "src/capabilities.cjs": {
     "bytes": 13255,

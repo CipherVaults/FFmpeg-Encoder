@@ -773,7 +773,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
       "bytes": 41913,
-      "sha256": "f115ac9a0e0b520d23ffb3993a8231b46d4cd200d3fc741a7424172a892826a1"
+      "sha256": "ca3ef674b13554d5c5ae2f690b0f5ff2cd4b918482c835ac4cd208b21cef4002"
     },
     {
       "root": "source",
@@ -932,8 +932,8 @@
       "source": "resources/candidate-binary-manifest.json",
       "target": "electron/resources/app/resources/candidate-binary-manifest.json",
       "group": "application",
-      "bytes": 3555,
-      "sha256": "79ed7d063dc57480e065c86795dd14af11c179d9a377ef0fa0e47beab8339e3a"
+      "bytes": 3438,
+      "sha256": "5317f20a872e0e456adbf69217010caf5b4e5e864a68ac4bc01309066ca91378"
     },
     {
       "root": "source",
@@ -1012,8 +1012,8 @@
       "source": "src/candidate-runtime.cjs",
       "target": "electron/resources/app/src/candidate-runtime.cjs",
       "group": "application",
-      "bytes": 11723,
-      "sha256": "9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712"
+      "bytes": 11606,
+      "sha256": "22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9"
     },
     {
       "root": "source",

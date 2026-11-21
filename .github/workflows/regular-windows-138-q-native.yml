@@ -1,0 +1,47 @@
+name: Regular checkpoint 138 Windows native Remux suites (log only)
+on:
+  push:
+    branches: [blue/regular-win-q-native-138-once]
+    paths: [.github/workflows/regular-windows-138-q-native.yml]
+permissions:
+  contents: read
+concurrency:
+  group: regular-windows-q-native-138-once
+  cancel-in-progress: false
+jobs:
+  native-remux:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder' && github.repository_id == '1460111553' && github.ref == 'refs/heads/blue/regular-win-q-native-138-once' && github.event_name == 'push' && github.event.before == '78dfd58029b3d56177f84167ee4f10b92e661751' && github.event.after == github.sha && github.workflow_sha == github.sha && github.workflow_ref == 'CipherVaults/FFmpeg-Encoder/.github/workflows/regular-windows-138-q-native.yml@refs/heads/blue/regular-win-q-native-138-once' && github.event.created == false && github.event.forced == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: windows-2022
+    timeout-minutes: 25
+    env:
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_LFS_SKIP_SMUDGE: '1'
+    steps:
+      - name: Check out reviewed harness event revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: harness
+          ref: ${{ github.sha }}
+          fetch-depth: 3
+          persist-credentials: false
+          lfs: false
+          submodules: false
+      - name: Check out exact independent checkpoint 138 product
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: product
+          ref: 33196f7434d781e683bb35ed4445fd1db3cc118a
+          fetch-depth: 1
+          persist-credentials: false
+          lfs: false
+          submodules: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Verify exact runtime and run four bounded native CLI suites
+        timeout-minutes: 21
+        shell: pwsh
+        run: node harness/.github/regular-windows-138-q-native/binding.cjs run

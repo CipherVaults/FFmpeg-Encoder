@@ -769,11 +769,19 @@
     },
     {
       "root": "source",
+      "source": "linux-blue/flac-timing-qualification.cjs",
+      "target": "electron/resources/app/linux-blue/flac-timing-qualification.cjs",
+      "group": "application",
+      "bytes": 3155,
+      "sha256": "52cf982f59ad76b974b84a2a23dcc9b0e0784f1a1f74901470b5c5e3377e879b"
+    },
+    {
+      "root": "source",
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 41913,
-      "sha256": "8fc4ac7c1979d8c0deb11ccb825c7c3168ee216dd871e97b02600d6b43ed6a04"
+      "bytes": 41910,
+      "sha256": "78c5f04aac8f1df18cf371ba455da24bf466acec628eb0b2579fde8f46eafd61"
     },
     {
       "root": "source",
@@ -852,24 +860,24 @@
       "source": "linux-blue/workbench-flac-calibration.cjs",
       "target": "electron/resources/app/linux-blue/workbench-flac-calibration.cjs",
       "group": "application",
-      "bytes": 11319,
-      "sha256": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4"
+      "bytes": 11305,
+      "sha256": "a0ca87a0def08a367fdecc2ce46d069a81400af534f214d4fb4d03de76dceba1"
     },
     {
       "root": "source",
       "source": "linux-blue/workbench-long-range-calibration.cjs",
       "target": "electron/resources/app/linux-blue/workbench-long-range-calibration.cjs",
       "group": "application",
-      "bytes": 33462,
-      "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc"
+      "bytes": 33448,
+      "sha256": "63914e348d426d40566086a6a58aea87209d0e420197b7fab53de9306e1ac903"
     },
     {
       "root": "source",
       "source": "linux-blue/workbench-long-range-service.cjs",
       "target": "electron/resources/app/linux-blue/workbench-long-range-service.cjs",
       "group": "application",
-      "bytes": 15912,
-      "sha256": "02f513956133f79ef7764424a4b7e2c558265868aa1b6e2084c7068894f1ce58"
+      "bytes": 15898,
+      "sha256": "461ae64a8005f7635a3ad73dead9b7a322bcf3c69a8097cdc1adf3dafa47525b"
     },
     {
       "root": "source",
@@ -942,14 +950,6 @@
       "group": "application",
       "bytes": 16448,
       "sha256": "0fa6a742ddb2a8ae4e888f6d8f591bf25e88fdf48ce228325d132991a195fd5f"
-    },
-    {
-      "root": "source",
-      "source": "scripts/v07-sdr-flac-range-calibration.cjs",
-      "target": "electron/resources/app/scripts/v07-sdr-flac-range-calibration.cjs",
-      "group": "application",
-      "bytes": 44169,
-      "sha256": "623973624f0ff72a92d8d684ba4d19a31d2fb4abc017d3f5cc0e078b2146ec28"
     },
     {
       "root": "source",

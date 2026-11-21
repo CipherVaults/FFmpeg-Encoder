@@ -40,9 +40,9 @@ test('pathless catalogue comments do not change policy, evidence IDs, device bin
   }
 });
 
-test('catalogue source inventory remains an inert Linux plan; calibration is separate and not Windows source', () => {
+test('catalogue source inventory remains an inert Linux plan; the historical calibration CLI is not app source', () => {
   assert.ok(validatePlan(plan) > 0);
   const calibration = 'scripts/v07-sdr-flac-range-calibration.cjs';
   assert.equal(appFiles(root).includes(calibration), false);
-  assert.equal(plan.files.filter(row => row.root === 'source' && row.source === calibration).length, 1);
+  assert.equal(plan.files.filter(row => row.root === 'source' && row.source === calibration).length, 0);
 });

@@ -222,11 +222,25 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // reviewed Linux Remux diagnostic handles actual Cancel during receipt
  // settlement; this current identity does not requalify historical evidence.
  const currentEncoderService={bytes:169269,sha256:'0c80ce7ba770f53e47c7aede3a9b6397df46429071f57f82a59776b51ecdd66b'};
- let changed=0;
+ let changed=0, historicalOnly=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
   const actual=crypto.createHash('sha256').update(bytes).digest('hex');
-  if(name==='src/encoder-service.cjs'){
+  if(name==='scripts/v07-sdr-flac-range-calibration.cjs'){
+   // The owned Windows calibration CLI stays exact historical source, not
+   // part of the current Linux application or its active source gate.
+   assert.equal(hash,'623973624f0ff72a92d8d684ba4d19a31d2fb4abc017d3f5cc0e078b2146ec28');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:44169,sha256:hash});
+   assert.equal(Object.hasOwn(pins,name),false);
+   historicalOnly++;
+   continue;
+  }else if(name==='linux-blue/workbench-long-range-calibration.cjs'){
+   // Only the import changed to a pathless copy of the same arithmetic.
+   // Do not re-seal the historical producer map or requalify its results.
+   assert.equal(hash,'ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:33448,sha256:'63914e348d426d40566086a6a58aea87209d0e420197b7fab53de9306e1ac903'});
+   changed++;
+  }else if(name==='src/encoder-service.cjs'){
    assert.equal(hash,successor.historicalEncoderService.sha256);
    assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
    changed++;
@@ -274,7 +288,8 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,10);
+ assert.equal(changed,11);
+ assert.equal(historicalOnly,1);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

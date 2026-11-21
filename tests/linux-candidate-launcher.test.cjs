@@ -29,17 +29,32 @@ test('actual fixed plan binds the launcher artifacts and the reviewed applicatio
     },target);
   }
 
-  // fe3d787 had 172 application, 273 total and 155 active source paths.
-  // CP138/139 add only the reviewed MP3 source/inspection/Prepare triplet to
-  // that topology. Bind full membership independently of mutable byte pins.
+  // CP138/139 added the MP3 triplet over fe3d787 (172 application,
+  // 273 total, 155 active). Preserve CP144 and the successor inventory hashes.
+  // The only permitted membership change is old calibration CLI out, timing
+  // helper in. Reconstruct CP144 by reversing exactly that one change.
   assert.equal(plan.files.filter(row=>row.group==='application').length,175);
   assert.equal(plan.files.length,276);
-  const topology=[...rowsByTarget.keys()].sort().map(target=>{
-    const {root,source,group}=rowsByTarget.get(target);
+  const historical='scripts/v07-sdr-flac-range-calibration.cjs';
+  const helper='linux-blue/flac-timing-qualification.cjs';
+  const historicalTarget='electron/resources/app/'+historical;
+  const helperTarget='electron/resources/app/'+helper;
+  const helperRow=rowsByTarget.get(helperTarget);
+  assert.ok(helperRow,'reviewed timing helper missing from current package');
+  assert.equal(rowsByTarget.has(historicalTarget),false,'historical CLI must not be in the current package');
+  assert.equal(plan.files.some(row=>row.root==='source'&&row.source===historical),false);
+  assert.equal(plan.files.filter(row=>row.root==='source'&&row.source===helper).length,1);
+  const topology=rows=>[...rows.keys()].sort().map(target=>{
+    const {root,source,group}=rows.get(target);
     return [root,source,target,group];
   });
-  assert.equal(digest(JSON.stringify(topology)),'85507bd980ca27c7e111afe9eb0cd6fcb15d8ccad02243e696bdd6ff2ae87833',
-    'reviewed inert package topology changed');
+  assert.equal(digest(JSON.stringify(topology(rowsByTarget))),'007c45246cd32481be82a47a321753fa6539c876801d668d0e404593fc747627',
+    'reviewed current inert package topology changed');
+  const cp144Rows=new Map(rowsByTarget);
+  cp144Rows.delete(helperTarget);
+  cp144Rows.set(historicalTarget,{root:'source',source:historical,group:'application'});
+  assert.equal(digest(JSON.stringify(topology(cp144Rows))),'85507bd980ca27c7e111afe9eb0cd6fcb15d8ccad02243e696bdd6ff2ae87833',
+    'reversing the one reviewed row substitution must recover CP144 topology');
 
   const qualificationFile=require.resolve('../linux-blue/product-linux-qualification.cjs');
   const qualification=require(qualificationFile);
@@ -49,8 +64,17 @@ test('actual fixed plan binds the launcher artifacts and the reviewed applicatio
   const declaration=(await fs.readFile(qualificationFile,'utf8')).match(/const SOURCE_PINS = (\{[\s\S]*?\n\});/);
   assert.ok(declaration,'reviewed active source pin declaration missing');
   const pins=JSON.parse(declaration[1]);
-  assert.equal(digest(JSON.stringify(Object.keys(pins).sort())),'5e51b617d0dd575c789a396ccc9d9a1034e4518fb1fd7741edfaa9192678d4e6',
-    'reviewed active product paths changed');
+  assert.equal(Object.hasOwn(pins,historical),false,'historical CLI must not be an active source pin');
+  assert.equal(Object.hasOwn(pins,helper),true,'reviewed timing helper missing from active pins');
+  const helperBytes=await fs.readFile(path.join(root,helper));
+  assert.deepEqual(pins[helper],{bytes:helperBytes.length,sha256:digest(helperBytes)});
+  assert.deepEqual(helperRow,{root:'source',source:helper,target:helperTarget,group:'application',...pins[helper]});
+  const activePaths=Object.keys(pins).sort();
+  assert.equal(digest(JSON.stringify(activePaths)),'8333b16d218c95f93cc3e4e32e27a40e83c245b71523f35f9fbf5d9542ed904a',
+    'reviewed current active product paths changed');
+  const cp144Paths=activePaths.map(source=>source===helper?historical:source).sort();
+  assert.equal(digest(JSON.stringify(cp144Paths)),'5e51b617d0dd575c789a396ccc9d9a1034e4518fb1fd7741edfaa9192678d4e6',
+    'reversing the one reviewed pin substitution must recover CP144 active paths');
 
   const mp3Pins={
     'linux-blue/product-mp3-source.cjs': {bytes:7623,sha256:'e8b552a2e10dda42e2bc2b7431adbb63d761d823fa0cc8c8a3b99cbbf9d58389'},

@@ -67,6 +67,20 @@ test('physical relocated app preserves real product source and compact qualifica
  const moved=path.join(root,'moved');await fs.rename(path.join(root,'electron'),moved);
  const relocated=require(path.join(moved,'resources/app/linux-blue/product-linux-qualification.cjs'));
  assert.equal(relocated.verifyProductSources().files,158);assert.equal(relocated.loadQualification().nativeProof,null);
+ const relocatedApp=path.join(moved,'resources/app');
+ const helper=path.join(relocatedApp,'linux-blue/flac-timing-qualification.cjs');
+ await assert.rejects(fs.lstat(path.join(relocatedApp,'scripts/v07-sdr-flac-range-calibration.cjs')),{code:'ENOENT'});
+ const bytes=await fs.readFile(helper);
+ await fs.unlink(helper);
+ assert.throws(()=>relocated.verifyProductSources(),{code:'LINUX_PRODUCT_SOURCE_CHANGED'});
+ await fs.writeFile(helper,Buffer.concat([Buffer.from([bytes[0]^1]),bytes.subarray(1)]));
+ assert.throws(()=>relocated.verifyProductSources(),{code:'LINUX_PRODUCT_SOURCE_CHANGED'});
+ await fs.writeFile(helper,bytes);
+ assert.equal(relocated.verifyProductSources().files,158);
+ for(const consumer of ['workbench-flac-calibration.cjs','workbench-long-range-calibration.cjs','workbench-long-range-service.cjs']){
+  assert.doesNotThrow(()=>require(path.join(relocatedApp,'linux-blue',consumer)));
+ }
+ assert.ok(require.cache[helper]);
  await assert.rejects(fs.lstat(path.join(moved,'resources/app.asar')),{code:'ENOENT'});
 });
 

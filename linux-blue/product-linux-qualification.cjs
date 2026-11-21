@@ -44,17 +44,21 @@ const SOURCE_PINS = {
     "bytes": 5005,
     "sha256": "0ddd5026996fa23e8122e359c340b08ff84a2786f56362099b38eaf8927331c8"
   },
+  "linux-blue/flac-timing-qualification.cjs": {
+    "bytes": 3155,
+    "sha256": "52cf982f59ad76b974b84a2a23dcc9b0e0784f1a1f74901470b5c5e3377e879b"
+  },
   "linux-blue/workbench-flac-calibration.cjs": {
-    "bytes": 11319,
-    "sha256": "059cbfd0edbcc4ffdae0c0174669b28e097b4f5e748ca12dacb1302f6285c0c4"
+    "bytes": 11305,
+    "sha256": "a0ca87a0def08a367fdecc2ce46d069a81400af534f214d4fb4d03de76dceba1"
   },
   "linux-blue/workbench-long-range-calibration.cjs": {
-    "bytes": 33462,
-    "sha256": "ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc"
+    "bytes": 33448,
+    "sha256": "63914e348d426d40566086a6a58aea87209d0e420197b7fab53de9306e1ac903"
   },
   "linux-blue/workbench-long-range-service.cjs": {
-    "bytes": 15912,
-    "sha256": "02f513956133f79ef7764424a4b7e2c558265868aa1b6e2084c7068894f1ce58"
+    "bytes": 15898,
+    "sha256": "461ae64a8005f7635a3ad73dead9b7a322bcf3c69a8097cdc1adf3dafa47525b"
   },
   "linux-blue/workbench-remux.cjs": {
     "bytes": 7108,
@@ -79,10 +83,6 @@ const SOURCE_PINS = {
   "preload.js": {
     "bytes": 3683,
     "sha256": "c4480a209476b994d4132e1bfb99960da16bef935b04ce1dc58288fe55450f07"
-  },
-  "scripts/v07-sdr-flac-range-calibration.cjs": {
-    "bytes": 44169,
-    "sha256": "623973624f0ff72a92d8d684ba4d19a31d2fb4abc017d3f5cc0e078b2146ec28"
   },
   "src/app-settings.cjs": {
     "bytes": 19769,

@@ -17,7 +17,7 @@ const { readSourceIdentity } = require('../src/source-identity.cjs');
 const { PROFILES, describeRecipe } = require('../src/media.cjs');
 const { generationDescriptionOf } = require('../src/provenance.cjs');
 // Reuse only this pure pre-encode clock derivation, never its Windows main or evidence.
-const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
+const { frozenQualifications } = require('./flac-timing-qualification.cjs');
 const BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000,
   maxFrameBytes: 8 * 1024 * 1024, maxPcmBytes: 128 * 1024 * 1024,
   maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });

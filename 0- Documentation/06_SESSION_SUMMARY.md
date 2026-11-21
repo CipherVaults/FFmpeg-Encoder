@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Preserve Linux Prepare failure through late Cancel [Q07/Q08]
+
+## 🤖 Models, Effort, Roles and Provenance
+Confirmed GPT-6.2 Astra Ultra Milestone Q worker; Blue owns review and ordered Git, private Notion and GitHub checkpoint. The issue was first reproduced on original 130; the final patch and rechecks use original 131, with responsive R work preserved.
+
+## 🕒 Time
+November 21 Cairo; exact UTC times are recorded in the immutable run receipts.
+
+## 🎯 Session Goal
+Keep the reason a verified copy could not be prepared when the user presses Cancel during the final record write.
+
+## 🛠️ Actions Taken
+Reproduced and fixed a Failed→Cancelled result from two existing Linux Remux preparation paths and prevented the old ID from aborting a fresh renewal. Independently reproducible controlled IPC ordering includes normal cancel and shutdown. No new capability.
+
+## 🧠 Key Insights
+The shared preparer and journal already preserve the first outcome; Linux Cancel was relabelling it only after joining the same batch.
+
+## 📌 Decisions Made
+Keep the shared terminal outcome only for the same joined preparing batch that settles Failed. Revocation and cleanup remain mandatory. Do not change execution-phase cancellation or Windows.
+
+## ⚠️ Difficulties / Friction
+The race occurs during a real journal promise; synthetic probe denial and an explicit held write make it reproducible without media or scheduling luck.
+
+## 🔧 Adjustments Made
+Bind the failure to the current Prepare/draft receipt before sharing its result; same-ID delayed or repeated Cancel does not conceal it. Refuse that old public ID during proven newer explicit Prepare renewal. Preserve ordinary cancellation, owner shutdown and unrelated Start handling. Refresh only the affected source identity rows.
+
+## ❌ Mistakes / Risks Noted
+Do not read this as native Remux qualification, permission to Start, or proof of all failure/cancellation combinations.
+
+## 📍 Current Position
+Frozen source/inert candidate; exact-131 focused red four pass and five targeted failures, green/cold nine pass; exact selected affected 486 pass and one archived-read skip. Preliminary r01/r02 repros are preserved privately, not integrated. [Evidence and limits](Execution%20Summaries/2026-11-21_Regular_Q_Prepare_Failure_Precedence.md).
+
+## 🔜 Next Steps
+Independent exact review, scoped integration and usual source checkpoint. Keep active cloud qualification within already reviewed families; do not use owner hardware or reopen separate gates by inference.
+
+## ❓ Open Questions
+Actual interrupted native validation, other source families and whole-Q acceptance remain separate evidence questions.
+
+## 🧾 Session Outcome
+On the two tested Linux Prepare paths, Failed stays Failed through cleanup. Genuine cancellation still reports Cancelled; cancelled plans cannot Start.
+
+## 🔍 Confidence Level
+High for the exact controlled source-bound scenarios; no native, GPU, package or release claim.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Focus recovery across the Files breakpoint [R06]
 
 ## 🤖 Models, Effort, Roles and Provenance

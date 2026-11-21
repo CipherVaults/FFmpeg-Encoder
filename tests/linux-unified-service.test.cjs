@@ -1255,3 +1255,138 @@ for(const target of ['mov','matroska'])test('Linux MP4 packet-text budget does n
  assert.equal(service.plan.entries.size,1);assert.equal(service.generation.observeCalls,1);
  await verifyNoWrite();
 });
+
+for (const [outcome,draft,delivery] of [['failed',false,'held'],['ready',false,'held'],['failed',true,'held'],['failed',false,'after-settlement'],['failed',true,'after-settlement']]) {
+ test('Linux Remux terminal Prepare receipt preserves '+outcome+' precedence ('+(draft?'target edit':'initial')+', '+delivery+')',async t=>{
+  const {service,h,root}=await setup(t,{matroska:true});
+  const i=path.join(root,'input'),o=path.join(root,'output'),file=path.join(i,'source.mp4');
+  await fsp.mkdir(i);await fsp.mkdir(o);
+  const probe=sourceProbe();
+  Object.assign(probe.format,{format_name:'mov,mp4,m4a,3gp,3g2,mj2',tags:{major_brand:'isom'}});
+  const body=require('./helpers/mov-fixture.cjs').playbackFixture(probe);
+  await fsp.writeFile(file,body,{flag:'wx'});probe.format.size=String(body.length);
+  const errorText='Test-owned probe could not be started.';
+  const inspect=async inspected=>{assert.equal(inspected,file);return {probe:structuredClone(probe),duration:2,summary:{}};};
+  service.inspect=inspect;
+  service.storageEligibility={check:async()=>({eligible:true})};
+  const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+  const request={inputFolderId:input.id,outputFolderId:output.id,target:'mp4'};
+  const first=draft?await service.prepareRemuxBatch(request):null;
+  if(first)assert.equal(first.items[0].status,'ready',first.items[0].reason);
+  if(outcome==='failed')service.inspect=async inspected=>{
+   assert.equal(inspected,file);throw Object.assign(new Error(errorText),{code:'SPAWN_FAILED'});
+  };
+  let reached,release,hold=true;
+  const reason=draft?'DRAFT_REPREPARATION_FINISHED':'PREPARATION_FINISHED',receipts=[];
+  const awaiting=new Promise(r=>reached=r),gate=new Promise(r=>release=r);
+  const original=service.diagnostics.append.bind(service.diagnostics);
+  service.diagnostics.append=async event=>{
+   if(hold&&event.reason===reason){reached(structuredClone(event));await gate;}
+   if(event.reason==='PREPARED_AUTHORITY_REVOKED')receipts.push(structuredClone(event));
+   return original(event);
+  };
+  const updates=[];service.on('update',state=>updates.push(state));
+  const preparing=first?service.updateBatchOperationDefaults({planId:first.planId,draftId:first.operationDraft.id,
+   revision:first.operationDraft.revision,overrides:{remuxTarget:'matroska'}}):service.prepareRemuxBatch(request);
+  let cancelling,result,cancelled,finish,held,old,at;
+  try {
+   finish=await Promise.race([awaiting,preparing.then(()=>{throw Error('Expected the final journal append to be held');})]);
+   held=service.snapshot();old=service.generation;at=updates.length;
+   assert.equal(held.phase,'preparing');
+   assert.equal(finish.context.phase,outcome);assert.equal(finish.batchId,held.batchId);
+   if(delivery==='after-settlement'){
+    // The click can originate in the held receipt window but main receives it
+    // only after the already failed reply/update. The same batch is addressed.
+    hold=false;release();
+    assert.equal((await preparing).phase,'failed');
+    assert.equal(service.snapshot().batchId,held.batchId);
+   }
+   cancelling=service.cancelBatch({batchId:held.batchId});
+   assert.equal(service.controller.signal.aborted,true);
+   await assert.rejects(service.startBatch({planId:finish.planId,fileIds:[held.items[0].id]}));
+  } finally {
+   hold=false;release();[result,cancelled]=await Promise.all([preparing,cancelling]);
+  }
+  const expected=outcome==='failed'?'failed':'cancelled';
+  const duplicate=await service.cancelBatch({batchId:held.batchId});
+  const final=service.snapshot(),terminal=updates.slice(at).filter(s=>['failed','cancelled','completed','ready'].includes(s.phase));
+  t.diagnostic('terminal Prepare / Cancel / same batch Cancel again / snapshot / emitted: '+JSON.stringify([result.phase,cancelled?.phase,duplicate.phase,final.phase,terminal.map(s=>s.phase)]));
+  assert.equal(receipts.length,1);
+  assert.equal(receipts[0].context.phase,expected);
+  assert.equal(receipts[0].planId,finish.planId);assert.equal(receipts[0].batchId,finish.batchId);
+  assert.equal(result.phase,expected);assert.equal(cancelled?.phase,expected);assert.equal(duplicate.phase,expected);assert.equal(final.phase,expected);
+  assert(terminal.length>0&&terminal.every(s=>s.phase===expected));
+  if(outcome==='failed')for(const state of [result,cancelled,duplicate,final,...terminal])assert.equal(state.error,errorText);
+  assert.equal(final.planId,null);assert.equal(final.operationDraft,null);assert.equal(service.plan,null);
+  assert.equal(service.generation,null);assert(old.closed);assert.equal(service.executionBinding,null);
+  assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(await fsp.readdir(o),[]);assert.deepEqual(await fsp.readFile(file),body);
+  await assert.rejects(service.startBatch({planId:finish.planId,fileIds:[held.items[0].id]}));
+  service.inspect=inspect;
+  const fresh=await service.prepareRemuxBatch(request);
+  assert.equal(fresh.phase,'ready');assert.equal(fresh.items[0].status,'ready',fresh.items[0].reason);assert.notEqual(fresh.planId,finish.planId);
+  assert.notEqual(service.generation,old);assert(h.generations.every(g=>g.runCalls===0));
+  await assert.rejects(service.cancelBatch({batchId:held.batchId}),{code:'STALE_BATCH'});
+  assert.equal(service.snapshot().phase,'ready');
+ });
+}
+
+test('Linux Remux terminal Prepare receipt failure scope does not reclassify an actual Start refusal',async t=>{
+ const {service,h,request}=await preparedLongMp4(t);
+ const generation=service.generation;
+ generation.begin=()=>{throw Error('Test-owned refusal at Start before execution.');};
+ await assert.rejects(service.startBatch(request),/Start failed/);
+ const startFailure=service.snapshot();
+ assert.equal(startFailure.phase,'failed');
+ assert.match(startFailure.error,/Start failed/);
+ assert.equal(startFailure.planId,null);assert.equal(service.generation,null);
+ // Preserve existing non-Prepare Cancel behavior; no run or staging occurred.
+ const cancelled=await service.cancelBatch({batchId:startFailure.batchId});
+ assert.equal(cancelled.phase,'cancelled');
+ assert.equal(service.plan,null);assert(generation.closed);assert(h.generations.every(g=>g.runCalls===0));
+});
+
+for(const action of ['old public Cancel','internal Cancel','shutdown']){
+ test('Linux Remux terminal Prepare receipt: '+action+' during fresh explicit Prepare renewal',async t=>{
+ const {service,h,root}=await setup(t);
+ const i=path.join(root,'input'),o=path.join(root,'output'),file=path.join(i,'source.mp4');
+ await fsp.mkdir(i);await fsp.mkdir(o);
+ const probe=sourceProbe();Object.assign(probe.format,{format_name:'mov,mp4,m4a,3gp,3g2,mj2',tags:{major_brand:'isom'}});
+ const body=require('./helpers/mov-fixture.cjs').playbackFixture(probe);
+ await fsp.writeFile(file,body,{flag:'wx'});probe.format.size=String(body.length);
+ service.inspect=async()=>{throw Object.assign(new Error('Owned first Prepare probe failure.'),{code:'SPAWN_FAILED'});};
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const input=await service.registerFolder(i,'input'),output=await service.registerFolder(o,'output');
+ const request={inputFolderId:input.id,outputFolderId:output.id,target:'mp4'};
+ const old=await service.prepareRemuxBatch(request),generation=service.generation;
+ assert.equal(old.phase,'failed');assert(generation);
+ service.inspect=async()=>({probe:structuredClone(probe),duration:2,summary:{}});
+ let entered,release;
+ const waiting=new Promise(r=>entered=r),gate=new Promise(r=>release=r),original=generation.close;
+ generation.close=async()=>{entered();await gate;return original();};
+ const fresh=service.prepareRemuxBatch(request);
+ let cancellation,results;
+ try{
+  await Promise.race([waiting,fresh.then(()=>{throw Error('Expected the fresh preparation to enter generation renewal');})]);
+  assert.equal(service.snapshot().batchId,old.batchId);
+  assert.equal(service.snapshot().phase,'failed');
+  cancellation=action==='old public Cancel'?service.cancelBatch({batchId:old.batchId})
+   :action==='internal Cancel'?service.cancelCurrent():service.closeOperationResources();
+ }finally{release();results=await Promise.allSettled([fresh,cancellation].filter(Boolean));}
+ t.diagnostic('new Prepare / '+action+': '+JSON.stringify(results.map(x=>[x.status,x.reason?.code||x.value?.phase])));
+ const [prepared,stale]=results;
+ if(action==='old public Cancel'){
+  assert.equal(prepared.status,'fulfilled');assert.equal(prepared.value.phase,'ready');
+  assert.equal(prepared.value.items[0].status,'ready',prepared.value.items[0].reason);
+  assert.notEqual(prepared.value.batchId,old.batchId);
+  assert.equal(stale.status,'rejected');assert.equal(stale.reason.code,'STALE_BATCH');
+  assert.notEqual(service.generation,generation);
+ }else{
+  assert.equal(prepared.status,'rejected');assert.match(prepared.reason.message,/Preparation owner retired/);
+  assert.equal(stale.status,'fulfilled');assert.equal(service.generation,null);
+ }
+ assert(generation.closed);
+ assert.equal(service.executionBinding,null);
+ assert(h.generations.every(g=>g.runCalls===0));assert.deepEqual(await fsp.readdir(o),[]);
+ assert.deepEqual(await fsp.readFile(file),body);
+});
+}

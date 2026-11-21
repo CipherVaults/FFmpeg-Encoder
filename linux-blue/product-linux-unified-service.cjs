@@ -1,7 +1,7 @@
 'use strict';
 const {randomUUID}=require('node:crypto');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs/promises');
-const {EncoderService}=require('../src/encoder-service.cjs');
+const {EncoderService,objectKeys}=require('../src/encoder-service.cjs');
 const {ToolError}=require('../src/process-runner.cjs');
 const {discoverMp3Diagnostic, inspectMp3Diagnostic, MP3_NOTICE}=require('./product-mp3-prepare.cjs');
 const {installProductTwoAac,composed}=require('./product-two-aac-owner.cjs');
@@ -88,6 +88,7 @@ class NarrowRemux extends RemuxOperations{
 class UnifiedService extends EncoderService{
   #ordinaryPrepared=new WeakMap();
   #encodePreparing=new WeakMap();
+  #failedPrepareBatch=null;
   // No current unified Linux verified copy cell can honor a stream omission.
   get remuxOmissionDecisionsSupported(){return false;}
   constructor(options,configuration){super(options);this.configuration=configuration;this.generation=null;this.route=null;this.epoch=0;this.mutationOwner=null;this.cancellation=null;this.shuttingDown=false;this.executionBinding=null;}
@@ -99,7 +100,10 @@ class UnifiedService extends EncoderService{
   }
   async mutate(name,args){
     assert(!this.shuttingDown&&!this.cancellation&&!this.mutationOwner,'Operation admission is fenced');
-    const owner={epoch:this.epoch};this.mutationOwner=owner;
+    const batch=this.state.batchId;
+    const freshPrepare=name==='prepareBatch'||name==='prepareRemuxBatch';
+    const owner={epoch:this.epoch,retiringFailedPrepare:freshPrepare&&this.state.phase==='failed'&&batch===this.#failedPrepareBatch?batch:null};
+    this.mutationOwner=owner;
     owner.done=Promise.resolve().then(async()=>{try{this.currentEpoch(owner.epoch);return await this[name](...args);}finally{if(this.mutationOwner===owner)this.mutationOwner=null;}});
     return owner.done;
   }
@@ -149,6 +153,7 @@ class UnifiedService extends EncoderService{
     if(this.route==='h265'){if(phase==='running'){const b=this.executionBinding;assert(b&&b.planId===this.plan?.id&&b.generation===this.generation&&this.plan.entries.get(b.fileId)===b.entry,'Execution binding is stale');phaseRoute=b.kind;control=b.control;}else if(phase==='preparing')phaseRoute='measured';}
     if(this.route==='remux'&&phase==='running'&&this.executionBinding){const b=this.executionBinding;assert(b.kind==='remux-isobmff');b.requireCurrent();control=b.control;}
     this.generation.begin(phaseRoute,phase,controller,control);
+    this.#failedPrepareBatch=null;
     // Same shared begin state transition, with the already admitted controller.
     this.controller=controller;this.preparationFailure=null;this.startedAt=Date.now();this.finishedAt=0;
     this.state={...this.state,phase,batchId:randomUUID(),progress:null,preparation:null,error:null};
@@ -174,7 +179,15 @@ class UnifiedService extends EncoderService{
       binding.generation.assertCurrent(binding.control);
     };
   }
-  async finishPreparationReceipt(options){try{return await super.finishPreparationReceipt(options);}finally{this.generation?.settle();}}
+  async finishPreparationReceipt(options){
+    const {reason,receiptIds}=options;
+    // Remember the failure's exact Prepare origin before shared code emits its
+    // terminal snapshot. Cancel IPC can arrive after that snapshot was sent.
+    if((reason==='PREPARATION_FINISHED'||reason==='DRAFT_REPREPARATION_FINISHED')
+        &&this.state.phase==='failed'&&this.state.batchId===receiptIds.batchId)
+      this.#failedPrepareBatch=receiptIds.batchId;
+    try{return await super.finishPreparationReceipt(options);}finally{this.generation?.settle();}
+  }
   async execute(selected,signal){
     try{return await super.execute(selected,signal);}
     finally{try{this.generation?.settle();}finally{
@@ -414,8 +427,20 @@ class UnifiedService extends EncoderService{
   async saveSettings(value){fixedSettings(value);return super.saveSettings(value);}
   getRecipe(value){fixedSettings(value);const recipe=super.getRecipe(value);return {...recipe,mediaNote:(value.profileId===MEASURED.profileId?'Existing H265 settings/defaults; transformed measured operations still require slow/25. ':[H264_DEFAULT.profileId,AV1_DEFAULT.profileId].includes(value.profileId)?'Existing CPU settings/defaults within the supported ordinary Full / Keep source route. ':'Fixed internal candidate settings; ')+ 'Not a new production default. '+recipe.mediaNote};}
   async resetProfile(request){assert.deepEqual(request,{profileId:request.profileId});const settings=request.profileId===AV1_DEFAULT.profileId?AV1_DEFAULT:request.profileId===H264_DEFAULT.profileId?H264_DEFAULT:MEASURED;assert.equal(request.profileId,settings.profileId);await this.saveSettings(settings);return this.getPreferences();}
+  async cancelBatch(request){
+    // A newly admitted explicit Prepare can still be retiring old resources
+    // before publishing its own batch ID. The earlier public ID cannot cancel
+    // it. Internal no-ID cancellation and shutdown retain their authority.
+    const previous=this.mutationOwner?.retiringFailedPrepare;
+    if(previous&&this.state.batchId===previous){
+      objectKeys(request,['batchId']);
+      if(request.batchId===previous)throw new ToolError('STALE_BATCH','That batch is no longer active.');
+    }
+    return super.cancelBatch(request);
+  }
   cancelCurrent(){
     if(this.cancellation)return this.cancellation;
+    const batch=this.state.batchId;
     this.epoch++;const pending=this.mutationOwner?.done;this.controller?.abort();
     this.cancellation=(async()=>{
       if(pending)await pending.catch(()=>{});
@@ -423,7 +448,11 @@ class UnifiedService extends EncoderService{
       this.operationQualifications?.invalidate('Cancelled operation');this.remuxOperations?.invalidate();
       this.plan=null;this.state.planId=null;this.state.operationDraft=null;
       for(const item of this.state.items)if(['ready','pending','conflict'].includes(item.status)){item.status='cancelled';item.reason='Cancelled. Prepare explicitly to create new authority.';}
-      this.state.phase='cancelled';this.finishedAt=Date.now();
+      // Preserve only the settled Prepare failure of the addressed batch.
+      // The cancellation still joins the task and revokes all authority.
+      if(!(batch&&this.state.batchId===batch&&this.#failedPrepareBatch===batch&&this.state.phase==='failed')){
+        this.state.phase='cancelled';this.finishedAt=Date.now();
+      }
       if(this.generation||this.operationStoragePromise)await this.retireGeneration();
       this.emitState();return this.snapshot();
     })();

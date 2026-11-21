@@ -739,3 +739,120 @@ for(const boundary of ['owned window closes','failure receipt writes','service r
   if(collectorStatus==='cancelled')assert.equal(receipt.failure.verificationLimit,undefined);
  });
 }
+
+for (const mode of ['cancel', 'complete']) test('Remux inspection journal keeps prepared details private: ' + mode, { timeout: 4000 }, async t => {
+  let service, calls = 0, release, entered;
+  const gate = new Promise(resolve => { release = resolve; });
+  const atJournal = new Promise(resolve => { entered = resolve; });
+  const updates = [];
+  class HeldRemux extends EncoderService {
+    constructor(options) {
+      super({ ...options, run: async () => { calls++; throw new Error('Prepare must not start a media tool'); } });
+      service = this;
+      this.on('update', state => updates.push(state));
+    }
+    async recordIncident(event) {
+      if (event.reason === 'FILE_INSPECTED') { entered(event); await gate; }
+      return super.recordIncident(event);
+    }
+  }
+  const prep = harness(t, { Service: HeldRemux });
+  let before, duringCancel, commandWhileSaving, entriesWhileSaving, cancellation, result, cancelled, request, cancelUpdateIndex;
+  try {
+    const incident = await Promise.race([atJournal, prep.then(() => { throw new Error('Expected held inspection audit'); })]);
+    before = service.snapshot();
+    assert.equal(before.phase, 'preparing');
+    assert.equal(incident.context.status, 'ready', 'Private inspection verdict stays honest');
+    const row = before.items[0];
+    request = { planId: before.planId, fileId: row.id };
+    assert.equal(incident.fileId, row.id);
+    entriesWhileSaving = service.plan.entries.size;
+    try { commandWhileSaving = service.getEncodingDetails(request).kind; }
+    catch (error) { commandWhileSaving = error.code; }
+    assert.throws(() => service.startBatch({ planId: before.planId, fileIds: [row.id] }));
+    if (mode === 'cancel') {
+      cancelUpdateIndex = updates.length;
+      cancellation = service.cancelBatch({ batchId: before.batchId });
+      assert.equal(service.controller.signal.aborted, true);
+      duringCancel = service.snapshot();
+    }
+  } finally {
+    release();
+    [result, cancelled] = await Promise.all([prep, cancellation]);
+  }
+  const expectUnprepared = snapshot => {
+    const row = snapshot.items[0];
+    assert.equal(row.status, 'pending');
+    assert.equal(row.remux.status, 'assessment');
+    assert.equal(row.verificationMethod, undefined);
+    assert.equal(row.verificationClaim, undefined);
+  };
+  assert.equal(calls, 0);
+  assert.deepEqual(await fs.readdir(result.output), []);
+  assert.equal(entriesWhileSaving, 0);
+  assert.equal(commandWhileSaving, 'UNPREPARED_FILE');
+  expectUnprepared(before);
+  if (cancelled) {
+    assert.equal(duringCancel.phase, 'cancelling');
+    expectUnprepared(duringCancel);
+    for (const snapshot of [...updates.slice(cancelUpdateIndex), cancelled]) {
+      assert.notEqual(snapshot.items[0].status, 'ready');
+      assert.notEqual(snapshot.items[0].remux.status, 'qualified');
+      assert.equal(snapshot.items[0].verificationMethod, undefined);
+      assert.equal(snapshot.items[0].verificationClaim, undefined);
+    }
+    assert.equal(cancelled.phase, 'cancelled');
+    assert.equal(cancelled.items[0].status, 'cancelled');
+    assert.equal(cancelled.planId, null);
+    assert.equal(service.plan, null);
+    assert.throws(() => service.getEncodingDetails(request), { code: 'STALE_PLAN' });
+  } else {
+    const ready = service.snapshot();
+    assert.equal(ready.phase, 'ready');
+    assert.equal(ready.items[0].status, 'ready');
+    assert.equal(ready.items[0].remux.status, 'qualified');
+    assert.equal(ready.items[0].verificationMethod, 'complete-native-v1');
+    assert.equal(service.plan.entries.size, 1);
+    const resolved = service.getEncodingDetails(request);
+    assert.equal(resolved.kind, 'resolved-argument-template');
+    assert.equal(resolved.operation.verificationMethod, ready.items[0].verificationMethod);
+    assert.deepEqual(resolved.operation.verificationClaim, ready.items[0].verificationClaim);
+    assert.equal(resolved.args[resolved.args.indexOf('-c') + 1], 'copy');
+  }
+});
+
+test('Remux target edit retires the previous summary before the draft journal yields', { timeout: 4000 }, async t => {
+  const { service } = await harness(t);
+  const first = service.snapshot(), oldRow = first.items[0];
+  assert.equal(oldRow.remux.status, 'qualified');
+  assert.equal(typeof oldRow.verificationMethod, 'string');
+  let hold, release;
+  const entered = new Promise(resolve => { hold = resolve; });
+  const gate = new Promise(resolve => { release = resolve; });
+  const original = service.recordIncident.bind(service);
+  service.recordIncident = async event => {
+    if (event.reason === 'DRAFT_REPREPARATION_STARTED') { hold(); await gate; }
+    return original(event);
+  };
+  const draft = first.operationDraft, preparing = service.updateBatchOperationDefaults({ planId: first.planId, draftId: draft.id,
+    revision: draft.revision, overrides: { remuxTarget: 'mp4' } });
+  let state, final, entries;
+  try {
+    await Promise.race([entered, preparing.then(() => { throw new Error('Expected held draft receipt'); })]);
+    state = service.snapshot();
+    entries = service.plan.entries.size;
+  } finally {
+    release(); final = await preparing;
+  }
+  assert.notEqual(state.planId, first.planId);
+  assert.equal(state.phase, 'preparing');
+  assert.equal(state.items[0].status, 'pending');
+  assert.equal(entries, 0);
+  assert.equal(state.items[0].remux, undefined);
+  assert.equal(state.items[0].verificationMethod, undefined);
+  assert.equal(state.items[0].verificationClaim, undefined);
+  assert.equal(final.items[0].remux.target, 'mp4');
+  assert.equal(final.items[0].status, 'unsupported');
+  assert.equal(final.items[0].verificationMethod, undefined);
+  assert.equal(final.items[0].verificationClaim, undefined);
+});

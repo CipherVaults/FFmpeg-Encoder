@@ -148,16 +148,18 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     sourceProbeFingerprint: remuxProbeFingerprint(source), runtimeIdentity: this.runtimeIdentity,
     environment: null, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
   const qualificationSelection = this.remuxOperations.select(qualificationBindings);
-  this.plan.entries.set(item.id, { remux: true, remuxOwner: this.plan, preparedPlanId: this.plan.id,
+  const entry = { remux: true, remuxOwner: this.plan, preparedPlanId: this.plan.id,
     remuxRequest: request, remuxAssessment: assessment, transportPreparation, file, destination, inspection, fingerprint: identity,
     overridden: this.plan.overrides.has(item.id), reencodeAuthorized: item.reencodeAuthorized,
     sourceOutputId: marker.outputId || indexed?.outputId, outputId, operationPlan,
     preparedArgs: Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]),
-    qualificationBindings, qualificationSelection, operationRuntimeToken });
-  this.plan.ambiguities.delete(item.id);
-  item.remux.status = 'qualified';
-  Object.assign(item, { status: 'ready', reason: item.reencodeAuthorized
-    ? 'Explicitly authorized as a Remux source for this prepared batch only.' : '' });
+    qualificationBindings, qualificationSelection, operationRuntimeToken };
+  // The shared service publishes the prepared entry and the Ready row together
+  // after the file inspection journal and current-owner check settle.
+  return { entry, ready: { status: 'ready', summary: inspection.summary,
+    reason: item.reencodeAuthorized ? 'Explicitly authorized as a Remux source for this prepared batch only.' : '',
+    remux: { ...item.remux, status: 'qualified' },
+    verificationMethod: operationPlan.verificationMethod, verificationClaim: operationPlan.verificationClaim } };
 }
 
 function setRemuxOmissions(request) {

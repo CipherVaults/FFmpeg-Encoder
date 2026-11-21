@@ -938,7 +938,7 @@ class EncoderService extends EventEmitter {
     const inspectionOnly = preparedPlan.inspectionOnly?.has(item.name);
     let destination = inspectionOnly ? null : path.join(output.path, item.outputName);
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
-    let inspectionDiagnostic, nativePrivate = null, pendingEncodeReady = null;
+    let inspectionDiagnostic, nativePrivate = null, pendingPreparedReady = null;
     const onStage = detail => {
       if (signal.aborted || owner !== this.state.batchId || this.state.phase !== 'preparing') return;
       Object.assign(progress, { fileId: item.id, stage: detail.stage, window: detail.window || null });
@@ -1032,9 +1032,9 @@ class EncoderService extends EventEmitter {
         // preservation collector, not Encode's color/encoder capability path.
         if (!inspection) progress.inspected++;
         onStage({ stage: 'stream-preservation' });
-        await prepareRemuxItem.call(this, item, { file, destination, probe, identity, marker, indexed, signal });
-        const prepared = this.plan.entries.get(item.id)?.operationPlan;
-        if (prepared) { item.verificationMethod = prepared.verificationMethod; item.verificationClaim = prepared.verificationClaim; }
+        const currentRequest = item.operationRequest;
+        const prepared = await prepareRemuxItem.call(this, item, { file, destination, probe, identity, marker, indexed, signal });
+        pendingPreparedReady = { ...prepared, planId: preparedPlan.id, request: currentRequest };
         return;
       }
       if (!inspection) {
@@ -1165,7 +1165,7 @@ class EncoderService extends EventEmitter {
           throw fail('INVALID_PLAN', 'Prepared entry binding must settle synchronously.');
         }
         if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
-        pendingEncodeReady = { entry, ready, planId: preparedPlan.id, request: item.operationRequest };
+        pendingPreparedReady = { entry, ready, planId: preparedPlan.id, request: item.operationRequest };
       } else {
         this.plan.entries.set(item.id, entry);
         if (encodePreservationSelection) requireEncodePreservation.call(this, entry);
@@ -1197,30 +1197,30 @@ class EncoderService extends EventEmitter {
         progress.workers = progress.workers.filter(entry => entry.fileId !== item.id);
         if (item.status !== 'pending') progress.resolved++;
       };
-      if (!pendingEncodeReady) settleProgress();
+      if (!pendingPreparedReady) settleProgress();
       if (preparedPlan.operation === 'native-encode') nativePrivate = { file, ...nativePrivate };
       // The inspection record describes its verdict, not whether the batch
       // eventually made the accepted entry available. Keep that entry private
       // while the journal yields, and never publish it after cancellation.
-      const observed = pendingEncodeReady?.ready || item;
+      const observed = pendingPreparedReady?.ready || item;
       try {
         await this.recordIncident({ stage: 'inspection', reason: 'FILE_INSPECTED', severity: observed.status === 'unsupported' ? 'warning' : 'info',
           fileId: item.id, message: observed.reason, ...(inspectionDiagnostic || {}),
           context: { ...(preparedPlan.operation === 'native-encode' ? {} : { file }), status: observed.status, summary: observed.summary, code: item.reasonCode,
             ...(item.encodePreservation ? { preservation: item.encodePreservation, warnings: item.warnings || [] } : {}), sourceIdentityDiagnostic: item.sourceIdentityDiagnostic,
             ...(nativePrivate ? { nativePrivate } : {}) } });
-        if (pendingEncodeReady) {
-          const current = this.plan === preparedPlan && preparedPlan.id === pendingEncodeReady.planId && owner === this.state.batchId
-            && this.state.items.includes(item) && item.status === 'pending' && item.operationRequest === pendingEncodeReady.request;
+        if (pendingPreparedReady) {
+          const current = this.plan === preparedPlan && preparedPlan.id === pendingPreparedReady.planId && owner === this.state.batchId
+            && this.state.items.includes(item) && item.status === 'pending' && item.operationRequest === pendingPreparedReady.request;
           if (signal.aborted && current) Object.assign(item, { status: 'cancelled', reason: 'Preparation cancelled. Prepare again.' });
           notCancelled(signal);
           if (!current || this.state.phase !== 'preparing') throw fail('STALE_PLAN', 'Preparation changed before the inspected file was ready.');
-          preparedPlan.entries.set(item.id, pendingEncodeReady.entry);
+          preparedPlan.entries.set(item.id, pendingPreparedReady.entry);
           preparedPlan.ambiguities.delete(item.id);
-          Object.assign(item, pendingEncodeReady.ready);
+          Object.assign(item, pendingPreparedReady.ready);
         }
       } finally {
-        if (pendingEncodeReady) settleProgress();
+        if (pendingPreparedReady) settleProgress();
       }
       if (owner === this.state.batchId) this.emitState();
     }
@@ -1490,6 +1490,9 @@ class EncoderService extends EventEmitter {
     for (const item of this.state.items) {
       Object.assign(item, { status: 'pending', reason: '', reencodeAuthorized: false });
       if (this.plan.inspectionOnly?.has(item.name)) delete item.inspectionMethod;
+      // A newly owned draft must never display the previous target's verdict
+      // or proposed verification while its fresh inspection is still pending.
+      if (remux) for (const field of ['remux', 'verificationMethod', 'verificationClaim']) delete item[field];
       for (const field of ['reasonCode', 'details', 'sourceIdentityDiagnostic', 'summary', 'rangeLimitUs', 'timing', 'hdr', 'encodePreservation', 'warnings', 'hardwareTier']) delete item[field];
     }
     const signal = this.begin('preparing');

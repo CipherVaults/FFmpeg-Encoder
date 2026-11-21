@@ -221,7 +221,8 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // Checkpoint 137 retained the 168722-byte d7e0218e shared service. The
  // reviewed Linux Remux diagnostic handles actual Cancel during receipt
  // settlement; this current identity does not requalify historical evidence.
- const currentEncoderService={bytes:169269,sha256:'0c80ce7ba770f53e47c7aede3a9b6397df46429071f57f82a59776b51ecdd66b'};
+ // Current per-file Remux journal settlement does not requalify the old source.
+ const currentEncoderService={bytes:169520,sha256:'3f83e17d27a4d2036d8769e7e9bc7f1c66ceb73cc7213186b71e4bd8edaa3a29'};
  let changed=0, historicalOnly=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
@@ -259,9 +260,10 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else if(name==='src/remux-workspace.cjs'){
    // A new refusal-only Linux projection does not requalify the old resize
    // producer. The later omission UI gate is also presentation/decision-only.
+   // Current per-file Remux journal settlement changes no media proof.
    // Check each exact identity rather than rewriting its receipt.
    assert.equal(hash,'7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:15864,sha256:'9767c56e38c3ca29ad354c04b30f44ea5100468a9cd23659a4913eb98b5cdd19'});
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:16115,sha256:'2669305c36f0ab49df24a478bfc4e56b61492d3dd21252c6f37ac6a73f257242'});
    changed++;
   }else if(name==='src/remux-evidence.cjs'){
    // The Linux-only diagnostic records rejected verification and honest

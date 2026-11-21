@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 169269,
-    "sha256": "0c80ce7ba770f53e47c7aede3a9b6397df46429071f57f82a59776b51ecdd66b"
+    "bytes": 169520,
+    "sha256": "3f83e17d27a4d2036d8769e7e9bc7f1c66ceb73cc7213186b71e4bd8edaa3a29"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -425,8 +425,8 @@ const SOURCE_PINS = {
     "sha256": "6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810"
   },
   "src/remux-workspace.cjs": {
-    "bytes": 15864,
-    "sha256": "9767c56e38c3ca29ad354c04b30f44ea5100468a9cd23659a4913eb98b5cdd19"
+    "bytes": 16115,
+    "sha256": "2669305c36f0ab49df24a478bfc4e56b61492d3dd21252c6f37ac6a73f257242"
   },
   "src/source-catalog-seals.cjs": {
     "bytes": 2619,

@@ -1,8 +1,8 @@
 'use strict';
 
 // Reviewed finite source-owned routes, not generic codec-table permission.
-// Exact reports: artifacts/v0.7/slice3/service/<UUID>/report.json. Every new
-// output still requires complete collection and independent validation.
+// Exact reports are retained by run ID. Every new output still requires
+// complete collection and independent validation.
 // Verification method (record 47 Q2i/Q2o, sections 8-9): every route proves
 // essence identity on compressed packets (packet-identity-v1), with compressed-
 // domain admission, every NAL and slice header validated, and a bounded start

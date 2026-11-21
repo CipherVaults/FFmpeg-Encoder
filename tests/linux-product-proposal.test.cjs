@@ -255,6 +255,12 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,'76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:154677,sha256:'56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8'});
    changed++;
+  }else if(name==='src/remux-catalog.cjs'){
+   // Retain the historical producer hash; removing a file locator from a
+   // comment neither changes route policy nor requalifies old measurements.
+   assert.equal(hash,'ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:5087,sha256:'d9895047206cf1dd65e6ea776497b32237648c059e28eb710694c38af16614a1'});
+   changed++;
   }else if(name==='src/candidate-runtime.cjs'){
    // Remove operational evidence locators from the current matched manifest.
    // Keep the historical producer identity; this is not new calibration proof.
@@ -268,7 +274,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,9);
+ assert.equal(changed,10);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

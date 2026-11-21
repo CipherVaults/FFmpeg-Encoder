@@ -1,16 +1,13 @@
 'use strict';
 
 // Reviewed local qualification, not encoder discovery or renderer authority.
-// Evidence: artifacts/v0.7/slice2/continuation2-2026-10-23/catalog-evidence-v2.json
-// and, for the NVIDIA cell re-measured on driver 621.14 (record 47, Q2a),
-// artifacts/v0.7/milestone-q/q2a/catalog-evidence-v3-nvidia-621.14.json
+// Evidence: SDR range catalogue v2 (October 23, 2026).
+// The NVIDIA cell re-measured on driver 621.14 uses catalogue v3 (record 47, Q2a)
 // (SHA256 91cd933c82437553dd8046bc5a61511ebb167fa43918414b1cbcdb1dbdf52a90).
 // The 621.01 cell stays: its evidence still describes that driver.
-// The two whole-file copied-audio cells (record 47, Q2b) come from
-// artifacts/v0.7/milestone-q/q2b/catalog-evidence-v4-full-copy-r2.json
+// The two whole-file copied-audio cells use catalogue v4 (record 47, Q2b)
 // (SHA256 48fb030eef87f19cd616e0044c73bc9c3da40b6d3060ba1ba69a2c25b5ad2811).
-// The two precision-FLAC range cells (record 47, Q2c) come from
-// artifacts/v0.7/milestone-q/q2c/catalog-evidence-v5-flac-range.json
+// The two precision-FLAC range cells use catalogue v5 (record 47, Q2c)
 // (SHA256 58e6c2aef6fdbf46ae59d490324af87ffb7c0be11bd4a81192e55ff9b7ab3d3c).
 // CPU A/B use a transparent retained-output clock correction; all other cells
 // have current compact-collector endpoints. Per-job source/runtime/storage and

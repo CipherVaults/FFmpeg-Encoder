@@ -277,8 +277,8 @@ const SOURCE_PINS = {
     "sha256": "032d30b043934cfbb6e5063f799128ddabd6aef2aa7a6a3ec1c851153823caa7"
   },
   "src/operation-catalog.cjs": {
-    "bytes": 14692,
-    "sha256": "43f236c38b9c6de2f8bd209adaed5e05c0221b59be77e14da4649de44b4c30c4"
+    "bytes": 14470,
+    "sha256": "6f955334bfa4a3e567d4037b0ad1ce0fcb84a6a08e85a4b40bc45a6b594198ab"
   },
   "src/operation-contract.cjs": {
     "bytes": 29342,
@@ -341,8 +341,8 @@ const SOURCE_PINS = {
     "sha256": "3fcce843cbc995086adda7b45444c23acedce9d54813c01b92123d97cfcff894"
   },
   "src/remux-catalog.cjs": {
-    "bytes": 5114,
-    "sha256": "ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec"
+    "bytes": 5087,
+    "sha256": "d9895047206cf1dd65e6ea776497b32237648c059e28eb710694c38af16614a1"
   },
   "src/remux-contract.cjs": {
     "bytes": 34909,

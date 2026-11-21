@@ -218,7 +218,10 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
  // Moving Linux readiness binding earlier does not requalify either historical native witness.
  // 123 issued Ready before its inspection journal awaited: {bytes:167146,sha256:'742e8f411148557ef924fde0ba38a4a504c3b8046fbfda9091a976400a7eb4ae'}.
  // Deferring one host's Ready through that await is a source-only change.
- const currentEncoderService={bytes:168722,sha256:'d7e0218e7532ebbdcdccc028b24b66bbabd3831c464a47bcc77463000e6c6745'};
+ // Checkpoint 137 retained the 168722-byte d7e0218e shared service. The
+ // reviewed Linux Remux diagnostic handles actual Cancel during receipt
+ // settlement; this current identity does not requalify historical evidence.
+ const currentEncoderService={bytes:169269,sha256:'0c80ce7ba770f53e47c7aede3a9b6397df46429071f57f82a59776b51ecdd66b'};
  let changed=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
@@ -240,6 +243,12 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
    assert.equal(hash,'7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:15864,sha256:'9767c56e38c3ca29ad354c04b30f44ea5100468a9cd23659a4913eb98b5cdd19'});
    changed++;
+  }else if(name==='src/remux-evidence.cjs'){
+   // The Linux-only diagnostic records rejected verification and honest
+   // cancellation. It supplies no new native authority to the old producer.
+   assert.equal(hash,'76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:154677,sha256:'56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8'});
+   changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);
    assert.equal(actual,successor.uhdSourceDeltas[name].currentSha256);
@@ -247,7 +256,7 @@ test('historical 97 pins remain intact; explicit service and UHD source deltas w
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,6);
+ assert.equal(changed,7);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

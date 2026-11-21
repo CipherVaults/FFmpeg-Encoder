@@ -904,8 +904,32 @@ async function checkRemuxBindings(entries, io = fs) {
   }));
   const failed = results.find(result => result.status === 'rejected'); if (failed) throw failed.reason;
 }
-function errorData(error) { return { code: String(error?.code || 'REMUX_EVIDENCE_FAILED').slice(0, 128), message: String(error?.message || error).slice(0, 2000),
+const linuxVerificationLimits = new WeakMap();
+const REMUX_VERIFICATION_CANCELLED_MESSAGE = 'The copy was cancelled before verification finished. No copy was saved.';
+function errorData(error) {
+  const limit = linuxVerificationLimits.get(error);
+  return { code: String(error?.code || 'REMUX_EVIDENCE_FAILED').slice(0, 128), message: String(error?.message || error).slice(0, 2000),
+  ...(limit ? { verificationLimit: limit } : {}),
   ...(error?.cause ? { cause: { code: String(error.cause.code || 'ERROR').slice(0, 128), message: String(error.cause.message || error.cause).slice(0, 2000) } } : {}) }; }
+function describeLinuxRemuxPipeLimit(error, label) {
+  if (!(error instanceof ToolError) || error.code !== 'REMUX_LINUX_CHILD_STDOUT_LIMIT'
+      || !Number.isSafeInteger(error.limitBytes) || error.limitBytes <= 0
+      || !Number.isSafeInteger(error.requestedBytes) || error.requestedBytes <= error.limitBytes) return error;
+  // The collector's own label, not the path or a child diagnostic, identifies
+  // the complete check. This is a forecast refusal, not measured bytes or
+  // corruption. Keep exact counts in the receipt and no paths in the message.
+  const role = /^(source|output)-\d+-(complete-parameters|native-audio)$/.exec(label);
+  if (!role) return error;
+  const side = role[1], h264 = role[2] === 'complete-parameters', check = h264 ? 'h264' : 'pcm';
+  const code = 'REMUX_LINUX_' + side.toUpperCase() + (h264 ? '_H264_LIMIT' : '_AAC_PCM_LIMIT');
+  const part = side === 'source' ? 'source' : 'temporary copy’s';
+  const media = h264 ? 'video (H.264)' : 'decoded AAC audio';
+  const limit = error.limitBytes === 1024 ** 3 ? '1 GiB' : error.limitBytes + ' byte';
+  const message = `The verification request exceeds this Linux build’s ${limit} limit for the ${part} ${media}. No copy was saved. Try a ${h264 ? 'smaller' : 'shorter'} source.`;
+  const refusal = new ToolError(code, message);
+  linuxVerificationLimits.set(refusal, Object.freeze({ side, check, requestedBytes: error.requestedBytes, limitBytes: error.limitBytes }));
+  return refusal;
+}
 
 async function collectRemuxEvidence(options) {
   need(plain(options), 'A main-owned collector request is required.');
@@ -1138,7 +1162,9 @@ async function collectRemuxEvidence(options) {
       const auxiliarySummary = await auxiliary?.sink.finish();
       if (outputSpool) entry.artifact = (await outputSpool.finish()).artifact;
       progress(label, bytes, bytes, true); return { bytes, sha256: entry.sha256, summary, auxiliarySummary };
-    } catch (error) {
+    } catch (original) {
+      const error = verificationMethod === 'packet-identity-v1' && !transport && !signal?.aborted
+        ? describeLinuxRemuxPipeLimit(original, label) : original;
       entry.status = 'failed'; entry.failure = errorData(error);
       if (label.endsWith('-complete-parameters') && error.code === 'TOOL_FAILED')
         throw new ToolError('REMUX_H264_HEADER_SYNTAX', 'FFmpeg CBS refused a complete H264 NAL/slice header.', { cause: error,
@@ -1880,11 +1906,23 @@ async function collectRemuxEvidence(options) {
     await paths(); for (const item of owned) await unchanged(item.file, item.stat);
     const result = freeze(receipt); receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence, movRepresentation }); return result;
   } catch (error) {
-    receipt.status = signal?.aborted ? 'cancelled' : 'failed'; receipt.failure = errorData(error); receipt.essenceEvidence = null;
+    const linuxForecastRefusal = linuxVerificationLimits.has(error)
+      || (verificationMethod === 'packet-identity-v1' && !transport && error instanceof ToolError
+        && error.code === 'REMUX_LINUX_CHILD_STDOUT_LIMIT');
+    const cancelled = () => errorData(new ToolError('CANCELLED', REMUX_VERIFICATION_CANCELLED_MESSAGE));
+    receipt.status = signal?.aborted ? 'cancelled' : 'failed';
+    receipt.failure = linuxForecastRefusal && receipt.status === 'cancelled' ? cancelled() : errorData(error);
+    receipt.essenceEvidence = null;
     // Never clean up or overwrite partial evidence. If the owned directory/path
     // changed, saving is refused and the in-memory failure retains that reason.
     try { await persist('failure.json', Buffer.from(JSON.stringify(receipt, null, 2)), 0); }
     catch (saveError) { receipt.persistenceFailure = errorData(saveError); }
+    // The immutable receipt on disk reflects its write boundary. A Cancel
+    // arriving during it still owns the returned terminal result, while the
+    // recorded refusal and its completed substep remain private evidence.
+    if (linuxForecastRefusal && signal?.aborted && receipt.status !== 'cancelled') {
+      receipt.status = 'cancelled'; receipt.failure = cancelled();
+    }
     return freeze(receipt);
   }
 }
@@ -1901,6 +1939,6 @@ function getCollectedMovRepresentation(receipt, bindings) {
   getCollectedRemuxEvidence(receipt, bindings); return receipts.get(receipt).movRepresentation;
 }
 
-module.exports = { REMUX_EVIDENCE_LIMITS: LIMITS, collectRemuxEvidence, getCollectedRemuxEvidence, getCollectedMovRepresentation, createRemuxJsonSink, createLineSink, decodeRemuxTimelineRow, compareRemuxTimelines,
+module.exports = { REMUX_VERIFICATION_CANCELLED_MESSAGE, REMUX_EVIDENCE_LIMITS: LIMITS, collectRemuxEvidence, getCollectedRemuxEvidence, getCollectedMovRepresentation, createRemuxJsonSink, createLineSink, decodeRemuxTimelineRow, compareRemuxTimelines,
   remuxCodecParameters, createRemuxPacketAccumulator, compareRemuxPackets, inspectRemuxSps, parseRemuxAvcc, parseRemuxAsc,
   createRemuxHexSink, createRemuxParameterSink, createRemuxHeaderSink, createRemuxPacketHeaderSink, createRemuxAvccClipSink, createRemuxAudioTrim };

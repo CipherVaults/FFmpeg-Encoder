@@ -278,3 +278,7 @@ Q07 readiness now agrees with the fixed packet-reader invocation limit for the e
 ## 15. Existing Linux MKV and MOV readiness uses the same packet limit — November 21, 2026
 
 Q07 and Q08: Extend the existing early known-budget refusal only to the already admitted verified Linux ISO input targets MKV and MOV. The actual collector and the fixed per-child ceiling never change. Current target-specific / shared-policy refusals still win. This corrects readiness, not length promises, resource optimization, media admission or native qualification. [Packet verification limit evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).
+
+## 16. Report the existing Linux complete-verification request limit — November 21, 2026
+
+Q07 and Q08: leave the fixed cap, existing Prepare rules and complete evidence requirements unchanged. Distinguish H.264 video and decoded AAC checks, for the source and temporary copy, when the unchanged Linux invocation gate already rejects their requested byte budget. A forecast refusal is not a measurement or a media error. Keep Cancel and existing unpublished-stage handling. The eventual long-file proof and native executor gates remain open. [Verification request evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Verification_Request_Diagnostics.md).

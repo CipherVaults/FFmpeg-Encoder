@@ -1,3 +1,9 @@
+# Current State: regular v0.7 Linux, explain verification requests beyond the stock limit
+
+When the already-selected complete video or decoded audio verification cannot request its full allowance on the source or temporary copy, show why nothing was saved, distinguishing this from a cancelled job. Existing caps, preparation rules, retention and supported formats are unchanged. Controlled evidence only. [Verification request evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Verification_Request_Diagnostics.md).
+
+---
+
 # Current State: regular v0.7 Linux, packet check readiness for every current target
 
 An existing single-AAC MP4-to-MP4, MKV or MOV copy is not marked Ready if its planned packet verification cannot fit the unchanged child stdout allowance. Existing source and target refusals take precedence. Controlled evidence only; no new duration, media, input or target qualification. [Packet verification limit evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).

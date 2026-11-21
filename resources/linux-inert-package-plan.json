@@ -773,7 +773,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
       "bytes": 41913,
-      "sha256": "498480d97e31b69d6851293ff7caf266c0c50b378bb539eb46e7aec1a18538b0"
+      "sha256": "f115ac9a0e0b520d23ffb3993a8231b46d4cd200d3fc741a7424172a892826a1"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 168722,
-      "sha256": "d7e0218e7532ebbdcdccc028b24b66bbabd3831c464a47bcc77463000e6c6745"
+      "bytes": 169269,
+      "sha256": "0c80ce7ba770f53e47c7aede3a9b6397df46429071f57f82a59776b51ecdd66b"
     },
     {
       "root": "source",
@@ -1540,8 +1540,8 @@
       "source": "src/remux-evidence.cjs",
       "target": "electron/resources/app/src/remux-evidence.cjs",
       "group": "application",
-      "bytes": 151932,
-      "sha256": "76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75"
+      "bytes": 154677,
+      "sha256": "56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8"
     },
     {
       "root": "source",
@@ -1972,8 +1972,8 @@
       "source": "linux-blue/product-linux-remux-service.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-remux-service.cjs",
       "group": "application",
-      "bytes": 17108,
-      "sha256": "a567305ffd5f322a69eea03d28a394d355874bb9d1b461d089883d70ac04c4a2"
+      "bytes": 17802,
+      "sha256": "c51c2bd14975818d26d446fdb7d35646cbe5837842d8cc0665e8a4dc0da5ed5b"
     },
     {
       "root": "source",
@@ -2012,8 +2012,8 @@
       "source": "linux-blue/product-linux-unified-runtime.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-unified-runtime.cjs",
       "group": "application",
-      "bytes": 9512,
-      "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
+      "bytes": 9689,
+      "sha256": "ded4c4731734d415ecc080198aac3c8828a1cf4db368fe941b4a1f4518cafa64"
     },
     {
       "root": "source",

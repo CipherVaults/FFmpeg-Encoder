@@ -110,7 +110,7 @@ test('MOV source-shape, AAC and required-track-tag guards reach service preparat
 
 async function cadenceJob(t, { sourceVariable = false, outputVariable = false, insufficient = false,
   sourceEnvelope = 'h264-aac-lc-48k-stereo-v1', average = '30/1', nominal = '30/1', outputAverage,
-  cadenceFps = 30, offsetTicks = 0, contentChanged = false, cancelStage = null, verificationMethod = 'complete-native-v1', Service = EncoderService } = {}) {
+  cadenceFps = 30, offsetTicks = 0, contentChanged = false, cancelStage = null, verificationMethod = 'complete-native-v1', Service = EncoderService, verificationFault = null } = {}) {
   // Real service, owner, collector, validator and publication; only tool output,
   // runtime observation and storage accounting are injected. Atom fixtures are
   // inert bytes, not playable media, and no native process is created.
@@ -159,6 +159,7 @@ async function cadenceJob(t, { sourceVariable = false, outputVariable = false, i
       bytes = Buffer.from(JSON.stringify(outputProbe));
     } else {
       const file = args[args.indexOf('-i') + 1], isOutput = file !== entry.file && !path.basename(file).startsWith('source-');
+      verificationFault?.({ executable, args, options, isOutput, service });
       const index = args.includes('-map') || args.includes('-select_streams')
         ? Number(args[args.indexOf(args.includes('-select_streams') ? '-select_streams' : '-map') + 1].replace(/^0:/, '')) : 0;
       const pts = timestamps(isOutput ? outputVariable : sourceVariable).map(value => value + (isOutput ? offsetTicks : 0));
@@ -623,3 +624,118 @@ test('only the exact shared stage during its own synchronous service handoff car
   assert.throws(()=>check(saved.service,saved.entry,saved.stage),{code:'REMUX_STAGE_ORIGIN'});
   assert.equal((await cleanupStage(h.service.peer)).retained,false);assert.deepEqual(await fs.readdir(h.output),[]);
 });
+
+for (const [side, check, codeSuffix, text] of [
+  ['source', 'h264', 'H264', /source video \(H\.264\)/],
+  ['output', 'h264', 'H264', /temporary copy.*video \(H\.264\)/],
+  ['source', 'pcm', 'AAC_PCM', /source decoded AAC audio/],
+  ['output', 'pcm', 'AAC_PCM', /temporary copy.*decoded AAC audio/],
+]) test('Linux verification request limit explains the '+side+' '+check+' stop without promoting the output', async t => {
+  const { invocation, REMUX_CHILD_STDOUT_MAX_BYTES: cap }=require('../linux-blue/product-linux-remux-service.cjs');
+  let matched=0;
+  const h=await cadenceJob(t,{verificationMethod:'packet-identity-v1',verificationFault({executable,args,options,isOutput,service}){
+    if((side==='output')!==isOutput || !(check==='h264'?args.includes('-bsf:v')&&args.includes('pipe:3'):args.includes('pcm_f32le')))return;
+    matched++;
+    // Inject only the whole-size forecast at the existing real Linux argument
+    // guard. The normal shared collector, service and owned-stage cleanup
+    // process the refusal; no large allocation, file or process is involved.
+    invocation({ffmpeg:{path:service.ffmpeg},ffprobe:{path:service.ffprobe}},executable,args,
+      {...options,stdoutLimit:cap+1},path.join(service.stateDir,'operation-evidence'),true);
+  }});
+  assert.equal(matched,1);
+  const expected='REMUX_LINUX_'+side.toUpperCase()+'_'+codeSuffix+'_LIMIT';
+  const receipt=h.entry.operationEvidence,failure=receipt.failure;
+  assert.equal(receipt.status,'failed');assert.equal(receipt.essenceEvidence,null);
+  assert.equal(failure.code,expected);assert.deepEqual(failure.verificationLimit,{side,check,requestedBytes:cap+1,limitBytes:cap});
+  assert.equal(receipt.invocations.find(c=>c.status==='failed').failure.code,expected);
+  assert.equal(h.result.status,'failed');assert.equal(h.result.reasonCode,expected);
+  assert.equal(h.result.reason,failure.message+' Temporary files retained for safety: The encoder closed successfully, but changed-operation evidence or publication is incomplete. These bytes are retained without validation authority.');
+  const savedFailure=JSON.parse(await fs.readFile(path.join(receipt.directory,'failure.json'),'utf8'));
+  assert.deepEqual(savedFailure.failure,failure);
+  assert.match(h.result.reason,text);assert.match(h.result.reason,/verification request exceeds.*1 GiB/i);assert.match(h.result.reason,/No copy was saved\. Try a (?:shorter|smaller) source\./);
+  for(const priv of [h.entry.file,h.entry.destination,h.output,h.input])assert(!h.result.reason.includes(priv));
+  assert(!JSON.stringify(failure.verificationLimit).includes(h.output));
+  assert.equal(h.refusedCopies,0);assert.equal(h.result.outputAccess,undefined);
+  assert.notEqual(h.result.outputDisposition?.published,true);assert.notEqual(h.result.outputDisposition?.validationCurrent,true);
+  await assert.rejects(fs.lstat(h.entry.destination),{code:'ENOENT'});
+});
+
+test('Cancel at the modeled Linux verification request takes precedence over the specialized diagnosis', async t=>{
+ const { invocation, REMUX_CHILD_STDOUT_MAX_BYTES:cap }=require('../linux-blue/product-linux-remux-service.cjs');
+ let refused=0;
+ const h=await cadenceJob(t,{verificationMethod:'packet-identity-v1',verificationFault({executable,args,options,service}){
+  if(!args.includes('-bsf:v')||!args.includes('pipe:3'))return;
+  refused++;
+  // A controlled cancellation delivered as the guard returns; no child/tool.
+  void service.cancelCurrent();
+  invocation({ffmpeg:{path:service.ffmpeg},ffprobe:{path:service.ffprobe}},executable,args,
+    {...options,stdoutLimit:cap+1},path.join(service.stateDir,'operation-evidence'),true);
+ }});
+ assert.equal(refused,1);assert.equal(h.entry.operationEvidence.status,'cancelled');
+ assert.equal(h.result.status,'cancelled');assert.equal(h.result.outputAccess,undefined);
+ assert.equal(h.entry.operationEvidence.failure.verificationLimit,undefined);
+ assert.notEqual(h.result.outputDisposition?.published,true);
+ await assert.rejects(fs.lstat(h.entry.destination),{code:'ENOENT'});
+});
+
+for(const boundary of ['owned window closes','failure receipt writes','service records prior receipt']){
+ test('Linux modeled verification refusal and Cancel during '+boundary+' produce honest terminal cancellation', async t=>{
+  const { invocation, REMUX_CHILD_STDOUT_MAX_BYTES:cap }=require('../linux-blue/product-linux-remux-service.cjs');
+  let armed=false, cancelledAt=0, activeService;
+  const deliverCancel=()=>{
+   assert(armed);assert(activeService);assert.equal(cancelledAt++,0);
+   void activeService.cancelCurrent();
+  };
+  if(boundary!=='service records prior receipt'){
+   const originalOpen=fs.open;
+   t.mock.method(fs,'open',async(file,...other)=>{
+    const handle=await originalOpen(file,...other);
+    if(typeof file!=='string')return handle;
+    if(boundary==='owned window closes'&&path.basename(file)==='source-0-window-start.h264'){
+     const close=handle.close.bind(handle);
+     handle.close=async()=>{if(armed&&!cancelledAt)deliverCancel();return close();};
+    }
+    if(boundary==='failure receipt writes'&&path.basename(file)==='failure.json'){
+     const write=handle.writeFile.bind(handle);
+     handle.writeFile=async(...args)=>{const result=await write(...args);if(armed&&!cancelledAt)deliverCancel();return result;};
+    }
+    return handle;
+   });
+  }
+  class Service extends EncoderService {
+   async recordIncident(event){
+    const result=await super.recordIncident(event);
+    if(boundary==='service records prior receipt'&&event.reason==='OPERATION_EVIDENCE_COLLECTED'
+        &&event.context.failure?.verificationLimit&&!cancelledAt)deliverCancel();
+    return result;
+   }
+  }
+  const h=await cadenceJob(t,{Service,verificationMethod:'packet-identity-v1',verificationFault({executable,args,options,service}){
+   if(!args.includes('-bsf:v')||!args.includes('pipe:3'))return;
+   assert(!armed);armed=true;activeService=service;
+   invocation({ffmpeg:{path:service.ffmpeg},ffprobe:{path:service.ffprobe}},executable,args,
+     {...options,stdoutLimit:cap+1},path.join(service.stateDir,'operation-evidence'),true);
+  }});
+  assert.equal(cancelledAt,1);
+  assert.equal(h.result.status,'cancelled');assert.equal(h.result.reasonCode,'CANCELLED');
+  assert.match(h.result.reason,/cancelled before verification finished/i);
+  assert.doesNotMatch(h.result.reason,/limit|1 GiB|try a smaller/i);
+  assert.equal(h.result.outputAccess,undefined);assert.notEqual(h.result.outputDisposition?.published,true);
+  await assert.rejects(fs.lstat(h.entry.destination),{code:'ENOENT'});
+  const receipt=h.entry.operationEvidence;
+  assert.equal(receipt.essenceEvidence,null);
+  const observed=receipt.invocations.find(c=>c.status==='failed').failure;
+  assert.equal(observed.code,'REMUX_LINUX_SOURCE_H264_LIMIT');
+  assert.deepEqual(observed.verificationLimit,{side:'source',check:'h264',requestedBytes:cap+1,limitBytes:cap});
+  const persisted=JSON.parse(await fs.readFile(path.join(receipt.directory,'failure.json'),'utf8'));
+  // Receipt bytes are write-once: a completed substep or already-written
+  // failure observation is historical when later cancellation wins.
+  const persistedStatus = boundary==='owned window closes' ? 'cancelled' : 'failed';
+  assert.equal(persisted.status,persistedStatus);
+  assert.equal(persisted.failure.code,persistedStatus==='cancelled'?'CANCELLED':observed.code);
+  const collectorStatus=boundary==='service records prior receipt'?'failed':'cancelled';
+  assert.equal(receipt.status,collectorStatus);
+  assert.equal(receipt.failure.code,collectorStatus==='cancelled'?'CANCELLED':observed.code);
+  if(collectorStatus==='cancelled')assert.equal(receipt.failure.verificationLimit,undefined);
+ });
+}

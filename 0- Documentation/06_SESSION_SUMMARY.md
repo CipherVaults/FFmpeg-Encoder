@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Explain why the Linux verification could not finish [Q07/Q08]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned the retained regular Q worker in a separate exact-136 Linux workspace. Independent review and integration belong to Blue. [Verification request evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Verification_Request_Diagnostics.md).
+
+## 🕒 Time
+November 21 Cairo; the source receipts retain UTC timestamps.
+
+## 🎯 Session Goal
+When the existing complete video or audio verification step is refused by the fixed Linux child limit, tell the user what stopped and that no copy was saved.
+
+## 🛠️ Actions Taken
+Traced the collector, per-child Linux guard and independent storage reservations. Modeled the exact forecast boundary with the real arithmetic and invocation guard, then controlled the small normal service from Prepare and Start through receipt, failed result and stage retention. Tested source and temporary-copy H.264 and decoded AAC, unchanged exact-cap behavior, and Cancel at three late settlement points.
+
+## 🧠 Key Insights
+The packet-text limit in Prepare is a separate bound. The complete H.264 check requests the entire held file extent as a conservative bound, and the AAC check budgets decoded PCM with two seconds of headroom. Either request can fail later without showing that the media is corrupt or that the actual bytes exceeded the limit.
+
+## 📌 Decisions Made
+Do not clamp or increase the request, change Prepare, remove evidence, or qualify more media. Preserve the stock unpublished-stage behavior. Keep the exact request and limit in the private evidence and use a path-free explanation in the result.
+
+## ⚠️ Difficulties / Friction
+The intact native verification run remains blocked on a qualified executor and effective role capacity. An initial broad source run lacked ASAR modules, equally in original and candidate. Reused only the existing lock-verified eight-package closure; no install or download.
+
+## 🔧 Adjustments Made
+The R02 follow-up retains the private failed-check observation, then gives actual cancellation precedence at the collector and service boundaries. It never overwrites a previously written receipt. Only active and enclosing inert pins were refreshed; historical suites and evidence stay attached to their own bytes.
+
+## ❌ Mistakes / Risks Noted
+First expected red five; initial candidate produced the old explicit stage-retention suffix, which the controls then verified as required. Independent review caught late cancellation after the typed check; all three R01 regressions remained in evidence. Do not treat these modeled sizes and seconds as format admissions or the native run as authorized.
+
+## 📍 Current Position
+R02 controlled focus 61 pass. Exact nine-suite dependency-bound baseline 344 passes, candidate 354 passes, each with zero fails and one optional archived observation skipped. Runtime cap, media admission, Windows behavior outside this typed Linux event and output authority are unchanged in scope.
+
+## 🔜 Next Steps
+Review the exact composite and retest affected boundaries if combined with another slice. Qualify the distinct Linux native two-case journey only when exact execution, file-role capacity, ownership and authorization are verified.
+
+## ❓ Open Questions
+No new owner policy decision here. Practical long-file verification, native application/media acceptance, and the remaining Q requirements are still open.
+
+## 🧾 Session Outcome
+Failure text now names the required check and offers using a smaller or shorter source; the application never advertises a confirmed save on this failure. Actual cancellation remains terminal even after the underlying forecast refusal was observed privately.
+
+## 🔍 Confidence Level
+High for the reviewed source and controlled service cases only. No new FFmpeg, ffprobe, Electron, real media, hosted Windows, physical hardware, actual package, optimization, or release evidence.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Announce Current Jobs changes once [R06]
 
 ## 🤖 Models, Effort, Roles and Provenance

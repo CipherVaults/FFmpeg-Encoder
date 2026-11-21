@@ -38,7 +38,7 @@ const { AppSettings } = require('./app-settings.cjs');
 const { OperationDraft } = require('./operation-draft.cjs');
 const { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName } = require('./remux-workspace.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
-const { collectRemuxEvidence } = require('./remux-evidence.cjs');
+const { collectRemuxEvidence, REMUX_VERIFICATION_CANCELLED_MESSAGE } = require('./remux-evidence.cjs');
 const { createRemuxStorageAllowance } = require('./operation-storage.cjs');
 const { prepareHdrItem } = require('./hdr-workspace.cjs');
 const { fingerprintHdrProbe } = require('./hdr-operation.cjs');
@@ -2155,10 +2155,17 @@ class EncoderService extends EventEmitter {
             // A failed collector deliberately has no validation authority. Keep
             // its actual acquisition reason, rather than hiding it behind the
             // genuine-receipt guard in the independent validator.
-            if ((entry.remux || entry.hdr) && evidence.status !== 'completed') throw Object.assign(fail(
-              evidence.failure?.code || (entry.hdr ? 'HDR_EVIDENCE_INCOMPLETE' : 'REMUX_EVIDENCE_INCOMPLETE'),
-              evidence.failure?.message || 'Complete native preservation evidence could not be collected. Output retained without publication.'),
-            { evidenceDirectory: evidence.directory, evidenceReceipt: evidence });
+            if ((entry.remux || entry.hdr) && evidence.status !== 'completed') {
+              // Cancellation can arrive while recording an already-settled
+              // typed Linux forecast refusal. Keep that receipt private; do not
+              // label a genuinely cancelled job as a verification-limit error.
+              const cancelledLinuxForecast = entry.remux && signal.aborted && evidence.failure?.verificationLimit;
+              throw Object.assign(fail(
+                cancelledLinuxForecast ? 'CANCELLED' : evidence.failure?.code || (entry.hdr ? 'HDR_EVIDENCE_INCOMPLETE' : 'REMUX_EVIDENCE_INCOMPLETE'),
+                cancelledLinuxForecast ? REMUX_VERIFICATION_CANCELLED_MESSAGE
+                  : evidence.failure?.message || 'Complete native preservation evidence could not be collected. Output retained without publication.'),
+              { evidenceDirectory: evidence.directory, evidenceReceipt: evidence });
+            }
             requireQualification(); setJobStage('output-validation');
             validation = entry.remux ? this.remuxOperations.validate(entry.operationPlan, outputProbe, evidence)
               : entry.hdr ? this.hdrOperations.validate(entry.operationPlan, outputProbe, evidence)

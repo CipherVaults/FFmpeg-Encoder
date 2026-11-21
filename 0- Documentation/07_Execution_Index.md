@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Identify the video or audio check that prevented a verified save](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Verification_Request_Diagnostics.md).** Exact-136 models and controlled normal service; preflight refusal, retained-stage, typed receipt and late Cancel evidence. No change to eligibility or native media testing.
+
 - **November 21, 2026 — [Current Jobs announcement evidence](Execution%20Summaries/2026-11-21_Regular_R06_Current_Jobs_Announcements.md).** Exact 136 controlled DOM and shared workbench evidence; one persistently mounted Jobs phase/file/result status, actual Cancel-reply ordering, no unchanged contextual text writes, and truthful local edit/re-Prepare guidance; no screen-reader observation.
 
 - **November 21, 2026 — [Packet verification limit evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).** Exact 135 false Ready reproduced for MOV and MKV; controlled before/after, preserving the same bound, policy precedence, and existing MP4 case; no native media.

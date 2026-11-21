@@ -39,7 +39,7 @@ function exactRawWindow(args, evidenceRoot) {
   for (let n = 0; n < count; n++) for (const x of ['-map',n + ':v:0','-an','-sn','-dn','-frames:v','1','-c:v','rawvideo','-threads','1','-pix_fmt','yuv420p','-fps_mode','passthrough','-f','framehash','-hash','sha256',n ? 'pipe:3' : 'pipe:1']) if (args[i++] !== x) return false;
   return i === args.length;
 }
-function invocation(pins, executable, args, options, evidenceRoot) {
+function invocation(pins, executable, args, options, evidenceRoot, describeRemuxPipeLimit = false) {
   const kind = ['ffmpeg','ffprobe'].find(k => pins[k].path === executable);
   if (!kind || !Array.isArray(args) || args.length > 512 || Reflect.ownKeys(args).length !== args.length + 1) assert.fail('Fixed candidate tool and dense bounded arguments required.');
   for (let i = 0; i < args.length; i++) {
@@ -48,8 +48,19 @@ function invocation(pins, executable, args, options, evidenceRoot) {
   }
   record(options, ['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onChild', 'onProgress', 'onStdoutChunk', 'onOutputBytes'], ['timeoutMs']);
   if (options.signal !== undefined && !(options.signal instanceof AbortSignal)) assert.fail('Native cancellation signal required.');
-  for (const [k, max] of [['timeoutMs', 2147483647], ['stdoutLimit', REMUX_CHILD_STDOUT_MAX_BYTES], ['stderrLimit', 256 * 1024]])
-    if (options[k] !== undefined && (!Number.isSafeInteger(options[k]) || options[k] < 1 || options[k] > max)) assert.fail('Positive bounded child budgets required.');
+  for (const [k, max] of [['timeoutMs', 2147483647], ['stdoutLimit', REMUX_CHILD_STDOUT_MAX_BYTES], ['stderrLimit', 256 * 1024]]) {
+    if (options[k] !== undefined && (!Number.isSafeInteger(options[k]) || options[k] < 1 || options[k] > max)) {
+      // Same refusal, without spawning or clamping. Only the current unified
+      // packet-remux owner opts into the typed forecast; old callers retain
+      // the original admission behavior and malformed bounds stay generic.
+      if (describeRemuxPipeLimit === true && kind === 'ffmpeg' && k === 'stdoutLimit' && typeof options.onStdoutChunk === 'function'
+          && Number.isSafeInteger(options[k]) && options[k] > max) {
+        throw new ToolError('REMUX_LINUX_CHILD_STDOUT_LIMIT', 'A required Linux Remux verification request exceeds the child output limit.',
+          { requestedBytes: options[k], limitBytes: max });
+      }
+      assert.fail('Positive bounded child budgets required.');
+    }
+  }
   for (const k of ['onChild', 'onProgress', 'onStdoutChunk', 'onOutputBytes']) if (options[k] !== undefined && typeof options[k] !== 'function') assert.fail('Observation callback required.');
   for (let i = 0; i < args.length; i++) if (/^-(?:hwaccel(?:_.*)?|init_hw_device|filter_hw_device)$/.test(args[i])
     || (/^-(?:c|codec)(?::v(?::\d+)?)?$/.test(args[i]) || args[i] === '-vcodec') && !(args[i + 1] === 'copy' || args[i + 1] === 'rawvideo' && exactRawWindow(args, evidenceRoot))) assert.fail('Candidate calibration is CPU-only.');

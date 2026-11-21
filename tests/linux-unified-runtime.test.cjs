@@ -194,3 +194,45 @@ test('two-track final guard rejects an unsettled native invocation, then accepts
  assert.equal(g.snapshot().live,0);g.assertCurrentTwoAac(token);assert.throws(()=>g.assertCurrentTwoAac({}));
  g.settle();assert.throws(()=>g.begin('remux','running',new AbortController(),token));await g.close();
 });
+
+test('normal Linux packet-remux alone types the same bounded FFmpeg forecast refusal, with the exact cap still admitted', async()=>{
+ const {REMUX_CHILD_STDOUT_MAX_BYTES:cap}=require('../linux-blue/product-linux-remux-service.cjs');
+ const h=harness(), g=await h.openUnifiedGeneration('/runtime','/state',undefined),base=remuxControl();
+ const selected=Object.freeze({...base.selected,verificationMethod:'packet-identity-v1'});
+ const token=h.bind(g,Object.freeze({requireCurrent:()=>selected}));
+ const options={timeoutMs:1000,stdoutLimit:cap+1,onStdoutChunk:async()=>{}}, args=['-c:v','copy','-f','data','pipe:1'];
+ try{
+  g.begin('remux','preparing',new AbortController());
+  await assert.rejects(g.run('/runtime/ffmpeg',args,options),{code:'ERR_ASSERTION'});g.settle();
+  const controller=new AbortController();g.begin('remux','running',controller,token);
+  await assert.rejects(g.run('/runtime/ffmpeg',args,options),{code:'REMUX_LINUX_CHILD_STDOUT_LIMIT',requestedBytes:cap+1,limitBytes:cap});
+  await assert.rejects(g.run('/runtime/ffprobe',['-show_packets'],options),{code:'ERR_ASSERTION'});
+  await assert.rejects(g.run('/runtime/ffmpeg',args,{timeoutMs:1000,stdoutLimit:cap+1}),{code:'ERR_ASSERTION'});
+  await assert.rejects(g.run('/runtime/ffmpeg',args,{...options,timeoutMs:-1}),{code:'ERR_ASSERTION'});
+  await assert.rejects(g.run('/runtime/ffmpeg',args,{...options,stdoutLimit:Infinity}),{code:'ERR_ASSERTION'});
+  assert.equal(h.calls.length,0);assert.equal(g.snapshot().live,0);
+  assert.equal((await g.run('/runtime/ffmpeg',args,{...options,stdoutLimit:cap})).exitCode,0);
+  assert.equal(h.calls.length,1);assert.equal(h.calls[0].options.stdoutLimit,cap);
+  controller.abort();await assert.rejects(g.run('/runtime/ffmpeg',args,options),{code:'ERR_ASSERTION'});
+  assert.equal(h.calls.length,1);g.settle();assert.equal(g.snapshot().phase,null);
+ } finally { await g.close(); }
+});
+
+test('default standalone, other method, and special dual-AAC controllers keep the original guard', async()=>{
+ const {REMUX_CHILD_STDOUT_MAX_BYTES:cap,invocation}=require('../linux-blue/product-linux-remux-service.cjs');
+ const {CELL:two}=require('../linux-blue/product-two-aac-owner.cjs');
+ const h=harness(),g=await h.openUnifiedGeneration('/runtime','/state');
+ const executable='/runtime/ffmpeg', args=['-c:v','copy','-f','data','pipe:1'];
+ const options={timeoutMs:1000,stdoutLimit:cap+1,onStdoutChunk:async()=>{}};
+ assert.throws(()=>invocation({ffmpeg:{path:executable}},executable,args,options,'/state/operation-evidence'),{code:'ERR_ASSERTION'});
+ try{
+  for(const [verificationMethod,cellId] of [['complete-native-v1','ordinary'],['packet-identity-v1',two]]){
+   const base=remuxControl();
+   const selected=Object.freeze({...base.selected,verificationMethod,qualification:Object.freeze({...base.selected.qualification,cellId})});
+   const grant=h.bind(g,Object.freeze({requireCurrent:()=>selected}));
+   g.begin('remux','running',new AbortController(),grant);
+   await assert.rejects(g.run(executable,args,options),{code:'ERR_ASSERTION'});
+   assert.equal(h.calls.length,0);g.settle();
+  }
+ } finally { await g.close(); }
+});

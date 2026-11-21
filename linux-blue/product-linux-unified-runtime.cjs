@@ -36,7 +36,10 @@ async function openUnifiedGeneration(runtimeRoot, stateDir, onChild, measuredSel
   async function run(executable, args, options = {}) {
     const owner = phase; assert(owner); phaseCurrent(owner);
     const signal = options.signal ? AbortSignal.any([owner.signal, options.signal]) : owner.signal;
-    assert(!signal.aborted); if(owner.route === 'remux') invocation(candidate.pins, executable, args, options, path.join(stateDir,'operation-evidence'));
+    assert(!signal.aborted);
+    if(owner.route === 'remux') invocation(candidate.pins, executable, args, options, path.join(stateDir,'operation-evidence'),
+      owner.kind==='running' && owner.control?.kind==='remux-isobmff' && !twoAac(owner.control)
+        && owner.control.selected.verificationMethod==='packet-identity-v1');
     assert(++owner.calls <= owner.maxChildren, 'Operation invocation ceiling');
     owner.live++;
     try {

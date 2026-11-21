@@ -95,18 +95,23 @@ test('source playback and native timeout/type guards have individual negatives',
 async function directory(t) { const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'remux-iso-controls-'));
   t.after(async () => { assert.equal(path.dirname(dir), os.tmpdir()); assert.match(path.basename(dir), /^remux-iso-controls-/); await fs.rm(dir, { recursive: true }); }); return dir; }
 async function probe(file) { return JSON.parse((await runTool(ffprobe, ['-v', 'error', '-show_streams', '-show_format', '-show_programs', '-show_stream_groups', '-show_chapters', '-show_data_hash', 'sha256', '-of', 'json', file])).stdout); }
-async function generated(t) {
+async function generated(t, audioSeconds = '3') {
   const dir = await directory(t), file = path.join(dir, 'input.mp4');
-  await runTool(ffmpeg, ['-v', 'error', '-nostdin', '-n', '-f', 'lavfi', '-i', 'testsrc2=s=128x72:r=30:d=3', '-f', 'lavfi', '-i', 'sine=r=48000:d=3',
+  await runTool(ffmpeg, ['-v', 'error', '-nostdin', '-n', '-f', 'lavfi', '-i', 'testsrc2=s=128x72:r=30:d=3', '-f', 'lavfi', '-i', 'sine=r=48000:d=' + audioSeconds,
     '-map', '0:v', '-map', '1:a', '-vf', 'setsar=1,setparams=range=limited:color_primaries=bt709:color_trc=bt709:colorspace=bt709',
     '-c:v', 'libx264', '-preset', 'ultrafast', '-threads', '1', '-bf', '0', '-pix_fmt', 'yuv420p',
     '-color_range', 'tv', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-colorspace', 'bt709', '-c:a', 'aac', '-ac', '2',
     '-video_track_timescale', '1000003', '-movie_timescale', '1000003', '-output_ts_offset', '0.0015', file]);
   return { dir, file, raw: await probe(file) };
 }
-
-test('pinned noncommensurate media clock 1000003 and movie clocks 1000/1001 pass complete MP4/MOV verification', async t => {
-  const f = await generated(t), identity = await readSourceIdentity(f.file);
+async function lastAudioPadding(file) {
+  const packets = JSON.parse((await runTool(ffprobe, ['-v', 'error', '-select_streams', 'a:0', '-show_entries', 'packet_side_data=discard_padding', '-of', 'json', file])).stdout).packets;
+  return packets.at(-1).side_data_list?.[0]?.discard_padding ?? 0;
+}
+// Remux the generated source to MP4 and MOV on forced movie clocks 1000/1001.
+// Controlled muxer clock variation tests the observer, not a new route argv.
+async function forcedMovieClocks(t, f, check) {
+  const identity = await readSourceIdentity(f.file);
   await observeRemuxSourcePlayback({ file: f.file, probe: f.raw, identity, maxRecords: 10000 });
   for (const target of ['mp4', 'mov']) for (const movieScale of [1000, 1001]) {
     const request = { fileId: 'iso', identityRevision: 0, draftRevision: 0, operation: 'remux', target, range: null, omissionRequestIds: [] };
@@ -114,13 +119,41 @@ test('pinned noncommensurate media clock 1000003 and movie clocks 1000/1001 pass
     const api = new RemuxOperations({ runtimeIdentity, policyIdentity: REMUX_POLICY_ID, policies: REMUX_POLICIES }), outputId = randomUUID(), output = path.join(f.dir, movieScale + '.' + target);
     const plan = api.prepare({ assessment, request, input: f.file, output, outputId, sourceIdentity: identity });
     api.select({ plan, settings: null, sourceIdentity: identity, sourceProbeFingerprint: plan.sourceProbeFingerprint, runtimeIdentity, environment: null, budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS });
-    // Controlled muxer clock variation tests the observer, not a new route argv.
     const args = [...api.resolveInvocation(plan, { output })]; args.splice(-1, 0, '-movie_timescale', String(movieScale)); await runTool(ffmpeg, args);
     const outputProbe = await probe(output), evidence = await collectRemuxEvidence({ assessment, runtimeIdentity, outputId, sourceProbe: f.raw, outputProbe,
       sourcePath: f.file, outputPath: output, stageDirectory: f.dir, ffmpeg, ffprobe, run: runTool, budget: EVIDENCE_BUDGET, verificationMethod: 'packet-identity-v1', maxConcurrentChildren: 2 });
-    assert.equal(evidence.status, 'completed', JSON.stringify(evidence.failure)); assert.equal(api.validate(plan, outputProbe, evidence).valid, true);
-    assert.equal(evidence.nativeEditLists.tracks[0].trackDuration, movieScale === 1000 ? '3002' : '3005');
+    await check({ movieScale, output, evidence, validate: () => api.validate(plan, outputProbe, evidence) });
   }
+}
+
+// 3.008 s of audio after the 72-sample offset fills the last AAC frame exactly,
+// so the source has a full-media audio edit and no trailing padding to trim.
+test('pinned noncommensurate media clock 1000003 and movie clocks 1000/1001 pass complete MP4/MOV verification', async t => {
+  const f = await generated(t, '3.008');
+  assert.equal(await lastAudioPadding(f.file), 0);
+  await forcedMovieClocks(t, f, async ({ movieScale, output, evidence, validate }) => {
+    assert.equal(await lastAudioPadding(output), 0);
+    assert.equal(evidence.status, 'completed', JSON.stringify(evidence.failure)); assert.equal(validate().valid, true);
+    assert.equal(evidence.nativeEditLists.tracks[0].trackDuration, movieScale === 1000 ? '3002' : '3005');
+  });
+});
+
+// FFmpeg 9.1 movenc (b1327568b6) keeps the last AAC frame whole and trims its
+// padding with the audio edit end, rounded UP into the movie clock. The
+// source's 1000003 movie clock holds that end at 144072 samples (last packet
+// discard_padding 384). A 1000 or 1001 movie clock cannot: the end becomes
+// 3002 ms (3005/1001 s), the 9.1 mov demuxer derives discard_padding 360 from
+// it, and the output decodes 24 more trailing samples of codec padding than
+// the source. That is different presented audio, not another representation
+// of the same audio, so packet side-data identity refuses it.
+test('FFmpeg 9.1 AAC tail edit on movie clock 1000003 is refused when forced movie clocks 1000/1001 lengthen the decoded tail', async t => {
+  const f = await generated(t);
+  assert.equal(await lastAudioPadding(f.file), 384);
+  await forcedMovieClocks(t, f, async ({ output, evidence, validate }) => {
+    assert.equal(await lastAudioPadding(output), 360);
+    assert.equal(evidence.status, 'failed'); assert.equal(evidence.failure.code, 'REMUX_PACKET_SIDE_DATA');
+    assert.match(evidence.failure.message, /at packet 141$/); assert.throws(validate, { code: 'REMUX_EVIDENCE_RECEIPT_REQUIRED' });
+  });
 });
 
 test('real service refuses native ISO playback mutants before Ready with a window reason', async t => {

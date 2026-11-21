@@ -18,7 +18,16 @@ async function probe(file) { return JSON.parse((await runTool(ffprobe, ['-v','er
 const CORPUS = [
   { name:'cfr', bf:0 }, { name:'bframes', bf:2 }, { name:'vfr', bf:0, vfr:true },
   { name:'vfr-bframes', bf:2, vfr:true }, { name:'vfr-bframes-mov', bf:2, vfr:true, ext:'mov' },
-  { name:'delayed-audio', delay:true }, { name:'two-audio', two:true }, { name:'group17',two:true,alternateGroup:17 },{name:'singleton-group0',alternateGroup:0}, { name:'subtitle', subtitle:true },
+  // FFmpeg 9.1 limitation, stated as an expected refusal rather than waived.
+  // 9.1 movenc (b1327568b6) keeps the last AAC frame whole and trims its
+  // padding with the media edit only. After an empty edit the 9.1 mov demuxer
+  // drops that trim: mov_fix_index clips st->duration to the media span, but
+  // mov_finalize_packet compares it with presentation pts that include the
+  // empty-edit delay, so no discard padding reaches the decoder or the muxer.
+  // Stream copy then rewrites the media edit longer by exactly the trimmed
+  // samples, so the source tail binding must refuse every target.
+  { name:'delayed-audio', delay:true, tailRefusal:{ code:'REMUX_SOURCE_EDIT_UNSUPPORTED', targets:['mp4','mov','matroska'] } },
+  { name:'two-audio', two:true }, { name:'group17',two:true,alternateGroup:17 },{name:'singleton-group0',alternateGroup:0}, { name:'subtitle', subtitle:true },
   { name:'faststart', fast:true }, { name:'compact-stz2', compact:true }, { name:'fragmented-video', fragment:true, video:true },
   // Fragmented AAC still trips the pre-existing packet discard/priming
   // comparison; this regression corpus covers the previously accepted video
@@ -31,7 +40,15 @@ const CORPUS = [
   { name:'hybrid-fragment', hybrid:true, video:true },
   { name:'hybrid-no-tfdt', hybrid:true, video:true, noTfdt:true },
   { name:'unknown-cluster-mkv',ext:'mkv',video:true,rate:25,unknownClusters:true,candidateTargets:['mp4','matroska'] },
-].map(spec=>({...spec,requiredTargets:spec.video||spec.two||spec.subtitle?['mp4','matroska']:['mp4','mov','matroska']}));
+].map(spec=>({...spec,requiredTargets:(spec.video||spec.two||spec.subtitle?['mp4','matroska']:['mp4','mov','matroska']).filter(t=>!spec.tailRefusal?.targets.includes(t))}));
+// Minimal ISO reader for the refusal witness: movie clock and audio edits.
+function isoAudioEdits(b){const out={movieScale:null,audio:[]};const walk=(s,e,trak)=>{for(let at=s;at<e;){const n=b.readUInt32BE(at),t=b.toString('ascii',at+4,at+8),h=at+8;assert.ok(n>=8&&at+n<=e,'fixture atom '+t);
+  if(t==='mvhd')out.movieScale=BigInt(b.readUInt32BE(h+(b[h]?20:12)));
+  else if(t==='trak'){const tr={handler:null,entries:[]};walk(h,at+n,tr);if(tr.handler==='soun')out.audio.push(tr.entries);}
+  else if(['moov','edts','mdia'].includes(t))walk(h,at+n,trak);
+  else if(t==='hdlr')trak.handler=b.toString('ascii',h+8,h+12);
+  else if(t==='elst'){const v=b[h];for(let i=0,q=h+8;i<b.readUInt32BE(h+4);i++,q+=v?20:12)trak.entries.push(v?{duration:b.readBigUInt64BE(q),mediaTime:b.readBigInt64BE(q+8)}:{duration:BigInt(b.readUInt32BE(q)),mediaTime:BigInt(b.readInt32BE(q+4))});}
+  at+=n;}};walk(0,b.length,null);return out;}
 function assessmentFor(raw, identity, target) {
   const request = { fileId:'corpus',identityRevision:0,draftRevision:0,operation:'remux',target,range:null,omissionRequestIds:[] },
     sourceFingerprint = fingerprintRemuxSourceIdentity(identity);
@@ -77,17 +94,40 @@ test('pinned ordinary round-trip corpus admits source layouts and validates ever
       const {request,assessment}=assessmentFor(raw,identity,target),api=new RemuxOperations({runtimeIdentity,policyIdentity:REMUX_POLICY_ID,policies:REMUX_POLICIES}),
         stage=await createStage(root),output=stage.file,outputId=randomUUID();let plan;
       try{plan=api.prepare({assessment,request,input:file,output,outputId,sourceIdentity:identity});}
-      catch(e){assert.ok(!spec.requiredTargets.includes(target),spec.name+'/'+target+' must succeed: '+e.message);assert.equal(target,'mov');assert.equal(e.code,'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');continue;}
+      catch(e){assert.ok(!spec.requiredTargets.includes(target)&&!spec.tailRefusal?.targets.includes(target),spec.name+'/'+target+' must succeed: '+e.message);assert.equal(target,'mov');assert.equal(e.code,'REMUX_MOV_SOURCE_SHAPE_UNQUALIFIED');continue;}
+      let admitted;
       if(spec.unknownClusters){
-        const admitted=await require('../src/remux-native-checks.cjs').observeNativeInventory({file,probe:raw,identity,target,family:'matroska',maxRecords:10000});
+        admitted=await require('../src/remux-native-checks.cjs').observeNativeInventory({file,probe:raw,identity,target,family:'matroska',maxRecords:10000});
         assert.ok(admitted.headerWalk.unknownClusters>0);
       }else{
-        const admitted=await observeRemuxSourcePlayback({file,probe:raw,identity,target,selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),maxRecords:10000});assert.ok(admitted.complete);
+        admitted=await observeRemuxSourcePlayback({file,probe:raw,identity,target,selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),maxRecords:10000});assert.ok(admitted.complete);
       }
       api.select({plan,settings:null,sourceIdentity:identity,sourceProbeFingerprint:plan.sourceProbeFingerprint,runtimeIdentity,environment:null,budget:EVIDENCE_BUDGET,executionBudgetMs:EXECUTION_BUDGET_MS});
       await runTool(ffmpeg,api.resolveInvocation(plan,{output}));
       const outputProbe=await probe(output),evidence=await collectRemuxEvidence({assessment,runtimeIdentity,outputId,sourceProbe:raw,outputProbe,sourcePath:file,outputPath:output,stageDirectory:root,
         ffmpeg,ffprobe,run:runTool,budget:EVIDENCE_BUDGET,verificationMethod:'packet-identity-v1',maxConcurrentChildren:2});
+      if(spec.tailRefusal?.targets.includes(target)){
+        // Witness the exact 9.1 cause before accepting the refusal: one empty
+        // edit, then an AAC media edit admitting exactly one trailing count,
+        // and no discard padding signalled on the final demuxed packet.
+        const audio=admitted.tracks.find(t=>t.aacTail),at=spec.name+'/'+target;
+        assert.ok(audio&&audio.entries.length===2&&audio.entries[0].mediaTime==='-1',at);
+        assert.equal(audio.aacTail.maximumTrailingSamples,audio.aacTail.minimumTrailingSamples,at);
+        const trailing=BigInt(audio.aacTail.minimumTrailingSamples),rate=BigInt(audio.aacTail.sampleRate);assert.ok(trailing>0n,at);
+        const last=JSON.parse((await runTool(ffprobe,['-v','error','-select_streams','a','-show_packets','-of','json',file])).stdout).packets.at(-1);
+        assert.ok(!(last.side_data_list||[]).some(d=>Number(d.discard_padding)>0),at+': the engine now signals the tail trim; re-evaluate this refusal');
+        assert.equal(evidence.status,'failed',at);assert.equal(evidence.failure.code,spec.tailRefusal.code,at+': '+JSON.stringify(evidence.failure));
+        assert.match(evidence.failure.message,/AAC tail edit/,at);
+        assert.throws(()=>api.validate(plan,outputProbe,evidence),{code:'REMUX_EVIDENCE_RECEIPT_REQUIRED'},at);
+        if(target!=='matroska'){
+          // The refusal protects a real change: the copied media edit is
+          // longer than the source's by exactly the trimmed samples.
+          const src=isoAudioEdits(await fs.readFile(file)),dst=isoAudioEdits(await fs.readFile(output));
+          const [s,o]=[src,dst].map(x=>{assert.equal(x.audio.length,1,at);const e=x.audio[0];assert.equal(e.length,2,at);assert.equal(e[0].mediaTime,-1n,at);return e[1].duration;});
+          assert.equal((o*src.movieScale-s*dst.movieScale)*rate,trailing*src.movieScale*dst.movieScale,at);
+        }
+        continue;
+      }
       assert.equal(evidence.status,'completed',spec.name+'/'+target+': '+JSON.stringify(evidence.failure));
       for(const native of [evidence.nativeInventory.source,evidence.nativeInventory.output]){
         const rows=require('../src/remux-native-inventory.cjs').INVENTORY.filter(r=>r.container===native.family);

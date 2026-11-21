@@ -672,7 +672,7 @@ function createRemuxAudioTrim(stream, samplesPerPacket, packetCount, family) {
   } };
 }
 
-async function* packetDecodeClock(input, { allowPrefix, signal } = {}) {
+async function* packetDecodeClock(input, { allowPrefix, signal, observed = null } = {}) {
   const prefix = []; let seenDts = false;
   for await (const row of input) {
     need(!signal?.aborted, 'Packet comparison cancelled.', 'CANCELLED');
@@ -680,6 +680,7 @@ async function* packetDecodeClock(input, { allowPrefix, signal } = {}) {
       need(allowPrefix && !seenDts && prefix.length < MAX_REORDER, 'Missing interior or excessive leading DTS.', 'REMUX_PACKET_DTS');
       prefix.push(row); continue;
     }
+    if (observed && observed.prefix === null) observed.prefix = prefix.length;
     if (prefix.length) {
       let dts = rational(row.dts.numerator, row.dts.denominator);
       for (let i = prefix.length - 1; i >= 0; i--) { dts = sub(dts, rational(prefix[i].duration.numerator, prefix[i].duration.denominator)); prefix[i].dts = encoded(dts); }
@@ -689,8 +690,53 @@ async function* packetDecodeClock(input, { allowPrefix, signal } = {}) {
   }
   need(prefix.length === 0, 'No concrete DTS anchors the leading reorder prefix.', 'REMUX_PACKET_DTS');
 }
-async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRows, { signal, sourcePrefix = false, outputPrefix = false, audioTrim = null, exactTiming = false } = {}) {
-  const a = packetDecodeClock(sourceRows, { allowPrefix: sourcePrefix, signal }), b = packetDecodeClock(outputRows, { allowPrefix: outputPrefix, signal });
+// Matroska stores no DTS. Its demuxer names no decode time for the leading
+// reorder packets, and the output side derives them backwards from the first
+// concrete DTS through the packets' own durations. Matroska BlockDurations are
+// presentation durations: FFmpeg 9.1 reports reordered VFR ISO durations in
+// presentation order (mov_update_sample_durations) and copies them there, so
+// they no longer sum to the ISO decode-clock steps. For ISO to Matroska only,
+// the source's same leading packets (exactly the output's prefix count, at
+// most MAX_REORDER) take the identical derivation from the source's own
+// durations and its own concrete DTS at the same anchor packet. Every output
+// field stays compared: pts, durations and the anchor DTS directly, and the
+// derived prefix DTS still bound the accumulated duration difference. The
+// source's real leading DTS, which Matroska cannot carry, must still advance
+// strictly through the anchor and never follow their own presentation times.
+async function* mirroredPrefixClock(input, clock, signal) {
+  const held = []; let count = null, anchored = false;
+  for await (const row of input) {
+    need(!signal?.aborted, 'Packet comparison cancelled.', 'CANCELLED');
+    if (count === null) {
+      need(clock.prefix === null || (Number.isSafeInteger(clock.prefix) && clock.prefix >= 0 && clock.prefix <= MAX_REORDER),
+        'Excessive mirrored DTS prefix.', 'REMUX_PACKET_DTS');
+      count = clock.prefix ?? 0;
+    }
+    need(row.dts, 'An ISO source packet has no concrete DTS.', 'REMUX_PACKET_DTS');
+    if (!anchored && held.length < count) { held.push(row); continue; }
+    if (!anchored && held.length) {
+      let previous = null;
+      for (const value of [...held, row]) {
+        const dts = rational(value.dts.numerator, value.dts.denominator);
+        need(previous === null || greater(dts, previous), 'The source decode clock does not advance through the mirrored prefix.', 'REMUX_PACKET_DTS');
+        // A real decode time is never later than its own presentation time.
+        need(value.pts && !greater(dts, rational(value.pts.numerator, value.pts.denominator)),
+          'A source packet in the mirrored prefix decodes after it is presented.', 'REMUX_PACKET_DTS');
+        previous = dts;
+      }
+      let dts = rational(row.dts.numerator, row.dts.denominator);
+      for (let i = held.length - 1; i >= 0; i--) { dts = sub(dts, rational(held[i].duration.numerator, held[i].duration.denominator)); held[i] = { ...held[i], dts: encoded(dts) }; }
+      for (const value of held) yield value; held.length = 0;
+    }
+    anchored = true; yield row;
+  }
+  need(held.length === 0, 'Packet count changed within the mirrored DTS prefix.', 'REMUX_PACKET_COUNT');
+}
+async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRows, { signal, sourcePrefix = false, outputPrefix = false, audioTrim = null, exactTiming = false, mirrorPrefix = false } = {}) {
+  need(!mirrorPrefix || (outputPrefix && !sourcePrefix), 'A mirrored DTS prefix needs a Matroska output and an ISO source.', 'REMUX_PACKET_DTS');
+  const clock = { prefix: null }, b = packetDecodeClock(outputRows, { allowPrefix: outputPrefix, signal, observed: mirrorPrefix ? clock : null });
+  const a = mirrorPrefix ? mirroredPrefixClock(packetDecodeClock(sourceRows, { allowPrefix: false, signal }), clock, signal)
+    : packetDecodeClock(sourceRows, { allowPrefix: sourcePrefix, signal });
   let count = 0, ptsError = rational(0), durationError = rational(0), dtsError = rational(0);
   const exact = (row, field) => rational(row[field].numerator, row[field].denominator);
   const trims = audioTrim && [createRemuxAudioTrim(audioTrim.source, audioTrim.sourceSamples, beforeCount, audioTrim.sourceFamily),
@@ -698,7 +744,9 @@ async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRo
   try {
     while (true) {
       need(!signal?.aborted, 'Packet comparison cancelled.', 'CANCELLED');
-      const av = await a.next(), bv = await b.next();
+      // The output is read first so its DTS prefix count is known before the
+      // mirrored source clock takes its first packet.
+      const bv = await b.next(), av = await a.next();
       need(av.done === bv.done, `Packet count changed at packet ${count}.`, 'REMUX_PACKET_COUNT');
       if (av.done) break;
       const ar = av.value, br = bv.value, at = ` at packet ${count}`;
@@ -1684,14 +1732,16 @@ async function collectRemuxEvidence(options) {
           `Decoder parameters/extradata changed for stream ${mapping.inputIndex} → ${mapping.outputIndex}.`, 'REMUX_CODEC_PARAMETERS');
         need(before.count === after.count, 'Complete packet counts differ.', 'REMUX_PACKET_COUNT');
         if (!semanticAudio(mapping.codecType)) await compareRemuxPackets(before.count, after.count, rows(before.held), rows(after.held), { signal,
-          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska' });
+          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska',
+          mirrorPrefix: before.family === 'isobmff' && after.family === 'matroska' });
       }
       await collectCodecAdmission();
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
         const before = collections.source.get(mapping.inputIndex), after = collections.output.get(mapping.outputIndex);
         if (semanticAudio(mapping.codecType)) continue; // ASC sample grid is admitted below, before semantic audio comparison.
         before.packetComparison = await compareRemuxPackets(before.count, after.count, rows(before.held), rows(after.held), { signal,
-          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska' });
+          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska',
+          mirrorPrefix: before.family === 'isobmff' && after.family === 'matroska' });
         need(before.presentationSha256 === after.presentationSha256, 'Complete presentation packet order changed.', 'REMUX_PACKET_REORDER');
       }
       for (const mapping of mappings.filter(m => semanticAudio(m.codecType))) {

@@ -11,7 +11,7 @@ const { createHash, randomUUID } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { runTool } = require('../src/process-runner.cjs');
 const { inspectMetadata } = require('../src/inspection.cjs');
-const { verifyCandidateRuntime, assertOrdinaryPath } = require('../src/candidate-runtime.cjs');
+const { verifyCandidateRuntime, assertOrdinaryPath, expectedCandidateManifest } = require('../src/candidate-runtime.cjs');
 const { assessRemux, buildRemuxQualificationArgs } = require('../src/remux-contract.cjs');
 const { createRemuxValidator, validateRemuxMediaQualification, remuxProbeFingerprint } = require('../src/remux-validation.cjs');
 const { observeMovRepresentation } = require('../src/mov-representation.cjs');
@@ -399,7 +399,7 @@ async function main(cli = process.argv.slice(2)) {
     report.modules = {};
     for (const module of MODULES) report.modules[module] = await hashFile(path.join(ROOT, module), 2 * 1024 * 1024);
     const runtime = await verifyCandidateRuntime({ root: ROOT }); tools = { ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe };
-    assert.equal(runtime.manifest.release, '9.0.2'); runtimeId = sha(JSON.stringify(runtime.verified.slice(0, 2).map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 }))));
+    assert.equal(runtime.manifest.release, expectedCandidateManifest().release); runtimeId = sha(JSON.stringify(runtime.verified.slice(0, 2).map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 }))));
     report.runtimeIdentity = runtimeId; report.runtime = {};
     for (const [tool, file] of Object.entries(tools)) {
       report.runtime[tool] = await hashFile(file, 256 * 1024 * 1024);

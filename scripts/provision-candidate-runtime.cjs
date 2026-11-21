@@ -1,34 +1,49 @@
 'use strict';
 
-// Local-only provisioning from the already verified trial archive/extraction.
-// There is no download, child process, root ffmpeg activation or overwrite mode.
-// A failed/partial destination is preserved for explicit review, never deleted.
+// Local-only provisioning of the qualified source-built candidate pair and its
+// notices from two folders the caller names: the build output that holds
+// ffmpeg.exe/ffprobe.exe and the folder that holds the generated notices.
+// There is no download, child process, shell, root ffmpeg activation or
+// overwrite mode. Every source is checked against the fixed manifest pins
+// before anything is created. A failed/partial destination is preserved for
+// explicit review, never deleted, repaired or replaced.
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const fsp = require('node:fs/promises');
 const path = require('node:path');
-const { DEVELOPMENT_ROOT, MINIMUM_D_FREE_BYTES, expectedCandidateManifest,
-  validateCandidateManifest, loadCandidateManifest, readBoundedJson, assertOrdinaryPath, verifyPinnedFile,
-  verifyCandidateRuntime } = require('../src/candidate-runtime.cjs');
+const { DEVELOPMENT_ROOT, MINIMUM_D_FREE_BYTES, loadCandidateManifest, readBoundedJson,
+  assertOrdinaryPath, verifyPinnedFile, verifyCandidateRuntime } = require('../src/candidate-runtime.cjs');
 
-const OWNED_TRIAL_ROOT = 'F:\\FFmpeg Encoder Project supplied videos\\_FFmpeg-0.7-Owned';
-const DEFAULT_RECEIPT = path.join(OWNED_TRIAL_ROOT, 'downloads', 'runtime-trials', 'transfer-report.json');
-const DEFAULT_PAYLOAD = path.join(OWNED_TRIAL_ROOT, 'staging', 'runtime-trials', 'ffmpeg-9.0.2', 'ffmpeg-9.0.2-full_build');
 const READY_RECEIPT = 'provision-receipt.json';
+const READY_FIELDS = Object.freeze(['schemaVersion', 'completedAtUtc', 'release', 'version', 'developmentRoot',
+  'upstreamCommit', 'qualification', 'sources', 'files', 'freeBytesBefore', 'plannedBytes', 'scope'].sort());
+const noticeName = entry => path.posix.basename(entry.repositoryPath);
+// Fixed receipt values shared by the writer and the reuse check, so a reused
+// slot's receipt can carry only these manifest-derived relative identifiers.
+const RECEIPT_SCOPE = 'Local candidate pair/notices only; no activation, media jobs, network or modification of legacy runtimes.';
+const receiptSources = manifest => ({ binaries: manifest.binaries.map(entry => entry.buildOutputPath), notices: manifest.notices.map(noticeName) });
+const ISO_UTC = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
-function verifyTransferReceipt(receipt, manifest = expectedCandidateManifest()) {
-  validateCandidateManifest(manifest);
-  assert(receipt && receipt.schema === 1 && Array.isArray(receipt.items) && receipt.items.length <= 32, 'Expected a bounded runtime transfer receipt.');
-  const matching = receipt.items.filter(item => item?.name === manifest.archive.fileName);
-  assert.equal(matching.length, 1, 'Receipt must identify exactly one candidate FFmpeg archive.');
-  const item = matching[0];
-  assert.equal(item.verified, true, 'Archive transfer was not marked verified.');
-  assert.equal(item.release, manifest.releasePage, 'Archive release receipt differs.');
-  assert.equal(item.url, manifest.archive.url, 'Archive URL receipt differs.');
-  assert.equal(item.expectedBytes, manifest.archive.sizeBytes, 'Archive size receipt differs.');
-  assert.equal(item.expectedSha256, manifest.archive.sha256, 'Archive digest receipt differs.');
-  assert(typeof item.path === 'string' && path.isAbsolute(item.path) && path.basename(item.path) === manifest.archive.fileName, 'Archive receipt has an invalid local path.');
-  return { ...item };
+// Source files are named only by the fixed manifest: a binary by its pinned
+// name (the basename of its build output path), a notice by its pinned
+// repository basename. Nothing in either folder chooses what is copied.
+function plannedInputs(manifest, binariesDirectory, noticesDirectory) {
+  return [
+    ...manifest.binaries.map(entry => {
+      assert.equal(path.posix.basename(entry.buildOutputPath), entry.name, 'Build output path differs from the pinned binary name.');
+      return { entry, source: path.join(binariesDirectory, entry.name), relative: `bin/${entry.name}` };
+    }),
+    ...manifest.notices.map(entry => ({ entry, source: path.join(noticesDirectory, noticeName(entry)), relative: `notices/${noticeName(entry)}` })),
+  ];
+}
+
+async function verifySourceFolders({ binariesDirectory, noticesDirectory }, manifest) {
+  await assertOrdinaryPath(binariesDirectory, 'directory');
+  await assertOrdinaryPath(noticesDirectory, 'directory');
+  const input = plannedInputs(manifest, binariesDirectory, noticesDirectory);
+  // Exact size and SHA-256 through the retained handle, before any write.
+  for (const item of input) await verifyPinnedFile(item.source, item.entry);
+  return input;
 }
 
 async function reserveParentDirectory(root) {
@@ -50,23 +65,34 @@ async function verifyReadyDestination(root, destination, manifest) {
   assert.deepEqual((await fsp.readdir(destination)).sort(), ['bin', 'notices', READY_RECEIPT].sort(), 'Existing candidate destination is incomplete or contains unexpected files; preserve it for review.');
   await assertOrdinaryPath(path.join(destination, 'bin'), 'directory');
   await assertOrdinaryPath(path.join(destination, 'notices'), 'directory');
-  assert.deepEqual((await fsp.readdir(path.join(destination, 'bin'))).sort(), ['ffmpeg.exe', 'ffprobe.exe']);
-  assert.deepEqual((await fsp.readdir(path.join(destination, 'notices'))).sort(), ['FFmpeg-LICENSE.txt', 'FFmpeg-README.txt']);
+  assert.deepEqual((await fsp.readdir(path.join(destination, 'bin'))).sort(), manifest.binaries.map(entry => entry.name).sort(), 'Candidate bin folder differs from the pinned pair.');
+  assert.deepEqual((await fsp.readdir(path.join(destination, 'notices'))).sort(), manifest.notices.map(noticeName).sort(), 'Candidate notices folder differs from the pinned notice set.');
   const ready = await readBoundedJson(path.join(destination, READY_RECEIPT));
-  assert.equal(ready.schemaVersion, 1, 'Existing provision receipt schema differs.');
-  assert.equal(ready.release, manifest.release);
-  assert.equal(ready.developmentRoot, DEVELOPMENT_ROOT);
-  assert.equal(ready.archive.sha256, manifest.archive.sha256);
-  assert.equal(ready.archive.sizeBytes, manifest.archive.sizeBytes);
+  assert(ready && typeof ready === 'object' && !Array.isArray(ready), 'Existing provision receipt is not an object.');
+  assert.deepEqual(Object.keys(ready).sort(), READY_FIELDS, 'Existing provision receipt fields differ.');
+  assert.equal(ready.schemaVersion, 2, 'Existing provision receipt schema differs.');
+  assert.equal(ready.release, manifest.release, 'Existing provision receipt release differs.');
+  assert.equal(ready.version, manifest.version, 'Existing provision receipt version differs.');
+  assert.equal(ready.developmentRoot, DEVELOPMENT_ROOT, 'Existing provision receipt development root differs.');
+  assert.equal(ready.upstreamCommit, manifest.sourceBuild.upstream.commit, 'Existing provision receipt upstream commit differs.');
+  assert.equal(ready.qualification, manifest.sourceBuild.qualification, 'Existing provision receipt qualification differs.');
+  assert.deepEqual(ready.sources, receiptSources(manifest), 'Existing provision receipt sources differ from the manifest-derived relative paths.');
+  assert.equal(ready.scope, RECEIPT_SCOPE, 'Existing provision receipt scope differs.');
+  assert(typeof ready.completedAtUtc === 'string' && ISO_UTC.test(ready.completedAtUtc)
+    && Number.isFinite(Date.parse(ready.completedAtUtc)) && new Date(ready.completedAtUtc).toISOString() === ready.completedAtUtc, 'Existing provision receipt completion time is not an ISO-8601 UTC timestamp.');
+  for (const field of ['freeBytesBefore', 'plannedBytes']) {
+    assert(typeof ready[field] === 'string' && /^(?:0|[1-9]\d{0,30})$/.test(ready[field]), `Existing provision receipt ${field} is not a decimal byte count.`);
+  }
   const verified = await verifyCandidateRuntime({ root });
   assert.deepEqual(ready.files, verified.verified.map(({ path: filename, ...pin }) => ({ path: path.relative(destination, filename).replaceAll('\\', '/'), ...pin })), 'Existing candidate receipt differs from the verified payload.');
   return { status: 'reused-verified', destination, receipt: path.join(destination, READY_RECEIPT), files: verified.verified };
 }
 
-async function provisionCandidateRuntime({ root = path.resolve(__dirname, '..'), receiptPath = DEFAULT_RECEIPT,
-  payloadDirectory = DEFAULT_PAYLOAD } = {}) {
-  assert(path.isAbsolute(root) && path.isAbsolute(receiptPath) && path.isAbsolute(payloadDirectory), 'Provisioning paths must be absolute.');
-  root = path.resolve(root); payloadDirectory = path.resolve(payloadDirectory);
+async function provisionCandidateRuntime({ root = path.resolve(__dirname, '..'), binariesDirectory, noticesDirectory } = {}) {
+  for (const value of [root, binariesDirectory, noticesDirectory]) {
+    assert(typeof value === 'string' && path.isAbsolute(value) && !value.includes('\0'), 'Provisioning root, --binaries and --notices must be absolute paths.');
+  }
+  root = path.resolve(root); binariesDirectory = path.resolve(binariesDirectory); noticesDirectory = path.resolve(noticesDirectory);
   const manifest = await loadCandidateManifest({ root });
   const destination = path.join(root, ...DEVELOPMENT_ROOT.split('/'));
   let existing = false;
@@ -75,14 +101,7 @@ async function provisionCandidateRuntime({ root = path.resolve(__dirname, '..'),
   // Verify, never repair/replace, an existing versioned destination. A missing
   // file inside it is a failed provision, not permission to start over.
   if (existing) return await verifyReadyDestination(root, destination, manifest);
-  const transfer = verifyTransferReceipt(await readBoundedJson(receiptPath), manifest);
-  const archive = await verifyPinnedFile(transfer.path, manifest.archive);
-  await assertOrdinaryPath(payloadDirectory, 'directory');
-  const input = [
-    ...manifest.binaries.map(entry => ({ entry, source: path.join(payloadDirectory, ...entry.archivePath.split('/')), relative: `bin/${entry.name}` })),
-    ...manifest.notices.map(entry => ({ entry, source: path.join(payloadDirectory, entry.archivePath), relative: `notices/${path.posix.basename(entry.repositoryPath)}` })),
-  ];
-  for (const item of input) await verifyPinnedFile(item.source, item.entry);
+  const input = await verifySourceFolders({ binariesDirectory, noticesDirectory }, manifest);
   const plannedBytes = input.reduce((total, item) => total + BigInt(item.entry.sizeBytes), 0n) + 65536n;
   const disk = await fsp.statfs(root, { bigint: true });
   const free = disk.bavail * disk.bsize;
@@ -100,14 +119,18 @@ async function provisionCandidateRuntime({ root = path.resolve(__dirname, '..'),
     const target = path.join(destination, ...item.relative.split('/'));
     await assertOrdinaryPath(path.dirname(target), 'directory');
     await fsp.copyFile(item.source, target, fs.constants.COPYFILE_EXCL);
+    // The copy, not the source, is what the pin must describe.
     const { path: ignored, ...verified } = await verifyPinnedFile(target, item.entry);
     files.push({ path: item.relative, ...verified });
   }
+  // Relative, non-private identifiers only: the receipt names no source folder.
   const ready = {
-    schemaVersion: 1, completedAtUtc: new Date().toISOString(), release: manifest.release,
-    developmentRoot: DEVELOPMENT_ROOT, sourceReceipt: receiptPath, sourcePayload: payloadDirectory,
-    archive, files, freeBytesBefore: free.toString(), plannedBytes: plannedBytes.toString(),
-    scope: 'Local candidate pair/notices only; no activation, media jobs, network or modification of legacy runtimes.',
+    schemaVersion: 2, completedAtUtc: new Date().toISOString(), release: manifest.release, version: manifest.version,
+    developmentRoot: DEVELOPMENT_ROOT, upstreamCommit: manifest.sourceBuild.upstream.commit,
+    qualification: manifest.sourceBuild.qualification,
+    sources: receiptSources(manifest),
+    files, freeBytesBefore: free.toString(), plannedBytes: plannedBytes.toString(),
+    scope: RECEIPT_SCOPE,
   };
   await fsp.writeFile(path.join(destination, READY_RECEIPT), JSON.stringify(ready, null, 2) + '\n', { flag: 'wx' });
   const result = await verifyReadyDestination(root, destination, manifest);
@@ -115,16 +138,22 @@ async function provisionCandidateRuntime({ root = path.resolve(__dirname, '..'),
 }
 
 function parseArguments(args) {
+  assert(Array.isArray(args) && args.length === 4, 'Use exactly --binaries ABSOLUTE_DIRECTORY --notices ABSOLUTE_DIRECTORY; no destination/activation option exists.');
   const options = {};
   for (let index = 0; index < args.length; index += 2) {
-    const field = { '--receipt': 'receiptPath', '--payload': 'payloadDirectory' }[args[index]];
-    assert(field && !Object.hasOwn(options, field) && typeof args[index + 1] === 'string' && path.isAbsolute(args[index + 1]), 'Use only --receipt ABSOLUTE_PATH and --payload ABSOLUTE_DIRECTORY; no destination/activation option exists.');
+    const field = { '--binaries': 'binariesDirectory', '--notices': 'noticesDirectory' }[args[index]];
+    assert(field && !Object.hasOwn(options, field) && typeof args[index + 1] === 'string' && path.isAbsolute(args[index + 1]), 'Use exactly --binaries ABSOLUTE_DIRECTORY --notices ABSOLUTE_DIRECTORY; no destination/activation option exists.');
     options[field] = args[index + 1];
   }
   return options;
 }
 
-module.exports = { DEFAULT_RECEIPT, DEFAULT_PAYLOAD, READY_RECEIPT, verifyTransferReceipt, parseArguments, provisionCandidateRuntime };
-if (require.main === module) provisionCandidateRuntime(parseArguments(process.argv.slice(2)))
-  .then(result => console.log(JSON.stringify(result, null, 2)))
-  .catch(error => { console.error(error.stack || String(error)); process.exitCode = 1; });
+module.exports = { READY_RECEIPT, RECEIPT_SCOPE, receiptSources, parseArguments, verifySourceFolders, provisionCandidateRuntime };
+if (require.main === module) {
+  let options;
+  try { options = parseArguments(process.argv.slice(2)); }
+  catch (error) { console.error(error.message); process.exitCode = 1; }
+  if (options) provisionCandidateRuntime(options)
+    .then(result => console.log(JSON.stringify(result, null, 2)))
+    .catch(error => { console.error(error.stack || String(error)); process.exitCode = 1; });
+}

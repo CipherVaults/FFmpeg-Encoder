@@ -11,8 +11,50 @@ const { createHash } = require('node:crypto');
 const { execFile, execFileSync } = require('node:child_process');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
-const { loadCandidateManifest, resolveCandidateRuntime, verifyCandidateRuntime,
+const { DEVELOPMENT_ROOT, loadCandidateManifest, resolveCandidateRuntime, verifyCandidateRuntime,
   validateCandidateManifest, readBoundedJson, verifyPinnedFile } = require('../src/candidate-runtime.cjs');
+
+const CANDIDATE_NOTICE_PATHS = Object.freeze([
+  'third-party/Electron-extra-notices.txt', 'third-party/FFmpeg-LICENSE.txt', 'third-party/FFmpeg-README.txt',
+]);
+
+// The source-built Alpha engine ships exactly these three notices, each copied
+// from the fixed candidate slot to resources/third-party/<name>.
+function assertCandidateNotices(manifest) {
+  assert.deepEqual(manifest.notices.map(entry => entry.packagedPath).sort(), [...CANDIDATE_NOTICE_PATHS], 'Candidate notices differ from the three pinned third-party notices.');
+  for (const entry of manifest.notices) {
+    assert.equal(entry.repositoryPath, `${DEVELOPMENT_ROOT}/notices/${path.posix.basename(entry.packagedPath)}`, `Candidate notice is not read from the fixed slot: ${entry.packagedPath}`);
+  }
+}
+
+const CANDIDATE_README = 'resources/PORTABLE_README_CANDIDATE.txt';
+const README_NOTICES_HEADING = 'Bundled notices and provenance:';
+
+// The candidate package's README must list exactly the packaged manifest and
+// the manifest's notices, and name the published corresponding-source asset
+// and release page. Legacy (Gyan) wording that denies a source offer is refused.
+function assertCandidateReadme(value, manifest) {
+  assert(typeof value === 'string', 'Candidate README must be text.');
+  // Checkout may use CRLF (core.autocrlf); compare the normalized text.
+  const text = value.replace(/\r\n/g, '\n');
+  const blocks = text.split('\n\n').filter(block => block.startsWith(`${README_NOTICES_HEADING}\n`));
+  assert.equal(blocks.length, 1, 'Candidate README must contain exactly one bundled-notices section.');
+  const listed = blocks[0].split('\n').slice(1).map(line => line.trim()).filter(line => line.startsWith('resources/')).sort();
+  const expected = ['resources/binary-manifest.json', ...manifest.notices.map(entry => `resources/${entry.packagedPath}`)].sort();
+  assert.deepEqual(listed, expected, 'Candidate README notice list differs from the candidate manifest notices.');
+  const flat = text.replace(/\s+/g, ' ');
+  for (const required of [manifest.license.correspondingSource.asset, manifest.license.correspondingSource.releasePage, manifest.license.identifier]) {
+    assert(flat.includes(required), `Candidate README does not name ${required}.`);
+  }
+  for (const stale of ['full static build', 'not a complete corresponding source', 'written source offer']) {
+    assert(!flat.toLowerCase().includes(stale), `Candidate README contains legacy wording: ${stale}`);
+  }
+}
+
+function candidateDistribution(manifest) {
+  const { asset, releasePage } = manifest.license.correspondingSource;
+  return `Unsigned local ZIP only; this build publishes nothing. The bundled FFmpeg 9.1 engine's corresponding source is the release asset ${asset} on ${releasePage}.`;
+}
 
 function selectPortableRuntime(packageJson) {
   if (/^0\.6\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageJson.version)) {
@@ -149,6 +191,7 @@ async function main() {
   let candidateProof = null;
   let electronArchive = null;
   if (candidate) {
+    assertCandidateNotices(manifest);
     candidateProof = await verifyCandidateRuntime({ root });
     electronArchive = await verifyPinnedFile(resolveCandidateRuntime({ root }).electronArchive, manifest.electron.archive);
   } else {
@@ -169,7 +212,8 @@ async function main() {
     tools: versions, sources, resources: [],
     runtimeSelection: { mode: selection.mode, release: manifest.release, sourceManifest: `resources/${selection.manifestName}` },
     acceptance: { extractedApp: 'not-run', offline: 'not-run', realEncodeCancelSkip: 'not-run', cleanMachine: 'not-run' },
-    distribution: 'Unsigned local ZIP only; no publication or complete corresponding-source claim.',
+    distribution: candidate ? candidateDistribution(manifest)
+      : 'Unsigned local ZIP only; no publication or complete corresponding-source claim.',
   };
   try {
     if (candidate) { report.candidateRuntime = candidateProof.verified; report.electronArchive = electronArchive; }
@@ -191,7 +235,9 @@ async function main() {
     // runtime filename. The repository/benchmark legacy manifest is untouched.
     report.resources.push(await stageFile(root, staged, `resources/${selection.manifestName}`, 'binary-manifest.json'));
     if (candidate) validateCandidateManifest(await readBoundedJson(path.join(staged, 'binary-manifest.json')));
-    report.resources.push(await stageFile(root, staged, 'resources/PORTABLE_README.txt', 'PORTABLE_README.txt'));
+    if (candidate) assertCandidateReadme(await fsp.readFile(path.join(root, ...CANDIDATE_README.split('/')), 'utf8'), manifest);
+    report.resources.push(await stageFile(root, staged, candidate ? CANDIDATE_README : 'resources/PORTABLE_README.txt', 'PORTABLE_README.txt'));
+    if (candidate) assertCandidateReadme(await fsp.readFile(path.join(staged, 'PORTABLE_README.txt'), 'utf8'), manifest);
     report.electronNotices = [];
     for (const name of ['LICENSE', 'LICENSES.chromium.html']) {
       report.electronNotices.push({ path: name, ...await hashFile(path.join(root, 'node_modules', 'electron', 'dist', name)) });
@@ -230,6 +276,10 @@ async function main() {
     }
     const expectedResources = ['app.asar', ...report.resources.map(entry => entry.path)].sort();
     assert.deepEqual(await walkFiles(path.join(packageDir, 'resources')), expectedResources, 'Unexpected packaged resources or loose application files.');
+    if (candidate) {
+      assert.deepEqual(expectedResources.filter(name => name.startsWith('third-party/')), [...CANDIDATE_NOTICE_PATHS], 'Packaged candidate notices differ from the three pinned notices.');
+      assert(expectedResources.includes('binary-manifest.json'), 'Packaged candidate manifest is missing.');
+    }
     for (const entry of report.resources) {
       assert.deepEqual(await hashFile(path.join(packageDir, 'resources', entry.path)), { sizeBytes: entry.sizeBytes, sha256: entry.sha256 }, `Bundled resource differs: ${entry.path}`);
     }
@@ -265,5 +315,6 @@ async function main() {
   }
 }
 
-module.exports = { appFiles, appDirectories, appSources, readAsarSource, hashFile, selectPortableRuntime };
+module.exports = { appFiles, appDirectories, appSources, readAsarSource, hashFile, selectPortableRuntime, assertCandidateNotices, CANDIDATE_NOTICE_PATHS,
+  assertCandidateReadme, candidateDistribution, CANDIDATE_README };
 if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

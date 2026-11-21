@@ -377,8 +377,8 @@ const SOURCE_PINS = {
     "sha256": "70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7"
   },
   "src/remux-native-cues.cjs": {
-    "bytes": 6081,
-    "sha256": "fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd"
+    "bytes": 6456,
+    "sha256": "93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd"
   },
   "src/remux-native-indexes.cjs": {
     "bytes": 10122,
@@ -409,8 +409,8 @@ const SOURCE_PINS = {
     "sha256": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7"
   },
   "src/remux-operation.cjs": {
-    "bytes": 40397,
-    "sha256": "62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac"
+    "bytes": 41395,
+    "sha256": "6adc49a4b26c5cc5d98f08724c3969c58351dedf781d8a8ad13581c78d6bd258"
   },
   "src/remux-transport-evidence.cjs": {
     "bytes": 14174,

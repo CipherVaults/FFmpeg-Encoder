@@ -27,7 +27,11 @@ async function matroskaSeeking({meta,tracks,integer}){
     for(const position of positions){if(position.children.filter(n=>n.type==='0xf7').length!==1||position.children.filter(n=>n.type==='0xf1').length!==1)fail('CueTrackPositions','one track and one cluster position are required.');
       const track=String(await value(position,'0xf7','CueTrack',true)),cluster=await value(position,'0xf1','CueClusterPosition',true),candidateTrack=tracks.find(t=>t.trackId===track);
       if(!candidateTrack)fail('CueTrack','does not identify a native admitted track.');if(pointTracks.has(track))fail('CueTrackPositions','duplicate native cue track.');pointTracks.add(track);
-      if(candidateTrack.kind!=='video')fail('CueTrack','non-video cue packet ordinals have no proved target index/trim mapping.');
+      // Omitted audio still needs exact native locators, but contributes no
+      // target seek coverage. Probe kind alone cannot authorize another native
+      // TrackType; selected audio and every other non-video kind stay refused.
+      if(candidateTrack.kind!=='video'&&!(candidateTrack.kind==='audio'&&candidateTrack.selected===false
+        &&await value(candidateTrack.node,'0x83','CueTrack',true)===2n))fail('CueTrack','non-video cue packet ordinals have no proved target index/trim mapping.');
       const clusterNode=top.find(n=>n.type==='0x1f43b675'&&BigInt(n.start-segment.body)===cluster);if(!clusterNode)fail('CueClusterPosition','does not resolve to the start of a cluster.');
       let choices=(byTrack.get(track)||[]).filter(p=>p.cluster===clusterNode.start&&p.key);
       const relative=one(position,'0xf0','CueRelativePosition');if(relative){const offset=await integer(relative);choices=choices.filter(p=>BigInt(p.start-p.clusterBody)===offset);if(!choices.length)fail('CueRelativePosition','does not locate a keyframe block of the declared track.');}

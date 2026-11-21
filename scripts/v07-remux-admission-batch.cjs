@@ -21,7 +21,9 @@ async function batch(log,beforeRoot,candidateRoot=path.resolve(__dirname,'..'),s
   const a=await implementation(beforeRoot),b=candidateRoot==='-'?null:await implementation(candidateRoot),oldLines=(await fs.readFile(log,'utf8')).split('\n'),saved=new Map();
   for(const line of oldLines)if(line.startsWith('ADMISSION_BATCH_ROW ')){const r=JSON.parse(line.slice(20));saved.set(r.file,r);}
   const ffprobe=resolveCandidateRuntime({root:path.resolve(__dirname,'..')}).ffprobe,rows=[];
-  const ordered=await Promise.all((selectedFiles??await sources()).map(async file=>({file,size:BigInt((await identity(file)).size)})));ordered.sort((x,y)=>x.size<y.size?-1:x.size>y.size?1:x.file.localeCompare(y.file));
+  const discovered=selectedFiles??await sources();
+  if(!discovered.length)throw Error('Full admission discovery found no source files.');
+  const ordered=await Promise.all(discovered.map(async file=>({file,size:BigInt((await identity(file)).size)})));ordered.sort((x,y)=>x.size<y.size?-1:x.size>y.size?1:x.file.localeCompare(y.file));
   for(const {file} of partition(ordered,shard)){
     let row;try{
       const id=await identity(file),prior=saved.get(file),same=prior&&!prior.inconclusive&&JSON.stringify(prior.identity)===JSON.stringify(id);

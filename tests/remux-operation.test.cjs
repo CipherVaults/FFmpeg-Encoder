@@ -152,7 +152,9 @@ test('omitted5.1/7.1 audio counts packets but never PCM; retained surround keeps
     const costs = target.deriveRemuxAssessmentBudget(h.assessment, h.identity.size, 'packet-identity-v1');
     assert.deepEqual(selected.budget, costs.budget); assert.equal(costs.budget.maxPcmBytes, BUDGET.maxPcmBytes);
     const native = target.deriveRemuxAssessmentBudget(h.assessment, h.identity.size, 'complete-native-v1');
-    assert.ok(costs.budget.maxRecords > native.budget.maxRecords); assert.ok(costs.budget.maxSpoolBytes > native.budget.maxSpoolBytes);
+    // Both collectors run the all-track native seek walk before the verifier
+    // branch, so omitted blocks need records in either mode (never PCM).
+    assert.equal(costs.budget.maxRecords, native.budget.maxRecords);
     return h;
   }
   for (const channels of [6, 8]) {
@@ -166,7 +168,8 @@ test('omitted5.1/7.1 audio counts packets but never PCM; retained surround keeps
   function variant(before, after) { assert.equal(text.split(before).length, 2); const m = new Module(filename, module); m.filename = filename;
     m.paths = Module._nodeModulePaths(path.dirname(filename)); m._compile(text.replace(before, after), filename); return m.exports; }
   assert.throws(() => exercise(variant("verificationMethod === 'packet-identity-v1' ? null : retained, retained", "verificationMethod === 'packet-identity-v1' ? null : retained, null"), 6), assert.AssertionError);
-  assert.throws(() => exercise(variant("verificationMethod === 'packet-identity-v1' ? null : retained, retained", 'retained, retained'), 8), assert.AssertionError);
+  assert.throws(() => exercise(variant('for (const s of source.streams) {',
+    'for (const s of source.streams.filter(s => selectedIndexes === null || selectedIndexes.includes(s.index))) {'), 8), assert.AssertionError);
   const h = exercise(api, 6), noGuard = variant('[1, 2].includes(channels)', 'true');
   assert.throws(() => assert.throws(() => noGuard.deriveRemuxBudget(getRemuxAssessmentSource(h.assessment), h.identity.size), { code: 'REMUX_PROPORTIONAL_BUDGET' }), assert.AssertionError);
 });
@@ -621,7 +624,7 @@ test('Q2d actual-growth walk accounts for every file and refuses malformed or un
 
 test('the finite SDR/source envelope refuses unmeasured dimensions/rates/color/layout and bounded observation conflicts', () => {
   for (const change of [p => { p.streams[0].width = 1921; }, p => { p.streams[0].height = 1920; }, p => { p.streams[0].pix_fmt = 'yuv420p10le'; },
-    p => { p.streams[0].field_order = 'tt'; }, p => { p.streams[0].r_frame_rate = '61/1'; }, p => { p.streams[0].avg_frame_rate = '0/0'; },
+    p => { p.streams[0].field_order = 'tt'; }, p => { p.streams[0].r_frame_rate = '61/1'; }, p => { p.streams[0].r_frame_rate = '120/1'; }, p => { p.streams[0].avg_frame_rate = '0/0'; },
     p => { p.streams[0].color_transfer = 'smpte2084'; }, p => { delete p.streams[0].color_range; }, p => { p.streams[0].sample_aspect_ratio = '4:3'; },
     p => { p.streams[1].sample_rate = '96000'; }, p => { p.streams[1].channel_layout = '5.1'; }, p => { p.streams[1].codec_name = 'opus'; },
     p => { p.format.duration = '0'; }, p => { p.format.size = '1'; }]) {

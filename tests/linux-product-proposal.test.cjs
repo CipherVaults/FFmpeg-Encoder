@@ -256,6 +256,16 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,'4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:10894,sha256:'1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8'});
    changed++;
+  }else if(name==='src/remux-native-cues.cjs'){
+   // The Windows Remux transplant refreshes current source identity. The Linux producer receipt retains its old bytes.
+   assert.equal(hash,'fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:6456,sha256:'93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd'});
+   changed++;
+  }else if(name==='src/remux-operation.cjs'){
+   // The Windows Remux transplant refreshes current source identity. The Linux producer receipt retains its old bytes.
+   assert.equal(hash,'62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:41395,sha256:'6adc49a4b26c5cc5d98f08724c3969c58351dedf781d8a8ad13581c78d6bd258'});
+   changed++;
   }else if(name==='src/process-runner.cjs'){
    // The historical resize producer still names the pre-hardening runner.
    // Child-only FFREPORT removal does not requalify that historical evidence.
@@ -301,7 +311,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,13);
+ assert.equal(changed,15);
  assert.equal(historicalOnly,1);
 });
 

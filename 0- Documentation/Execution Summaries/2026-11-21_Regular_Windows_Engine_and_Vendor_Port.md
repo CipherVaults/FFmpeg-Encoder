@@ -25,3 +25,9 @@ The pre-port Windows suites reported 77 passes and 50 failures, including the co
 ## Continuation
 
 Port the reviewed Remux corrections and reconcile the changed service test with CP146 readiness and cancellation. Switch the regular Windows runtime to the new pair with its own manifest and recipe provenance. Qualify each claimed route freshly. Verified TS seeking must match the first displayed frame and exact PTS from independent linear decoding at all six frozen targets. R and S remain open. This is development for the approved integration branch.
+
+## Q Remux source corrections
+
+The eight reviewed Windows WIP paths were transplanted from their verified snapshot. The service test change is limited to the storage case and preserves the later CP146 Ready, cancellation and target checks. Both verifier methods budget the complete native source walk. Omitted audio spends no PCM and may claim no video seek coverage. The new cue fixtures use owned temporary directories.
+
+The receipt q2j-readmission-port-final-902 passed 182 of 182 Windows checks. Three additional static Linux-source and historical-pin checks passed on Windows. Current Linux source and inert inventory rows were rebound without changing historical receipts. The 1,340 old comparisons remain historical. The remaining 364 do not answer the current qualification question. Normal-service 9.1 media evidence remains pending.

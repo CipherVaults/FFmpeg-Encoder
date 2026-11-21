@@ -141,8 +141,25 @@ function deriveRemuxBudget(source, sourceBytes, selectedIndexes = null, pcmIndex
   let records = 0, pcm = 0;
   need(Array.isArray(source.streams) && source.streams.length > 0 && source.streams.length <= 32,
     'Remux budgets require a bounded complete stream set.', 'REMUX_PROPORTIONAL_BUDGET');
-  for (const s of source.streams.filter(s => selectedIndexes === null || selectedIndexes.includes(s.index))) {
-    if (s.codec_type === 'video') records = exact(records + exact((seconds + 2) * 60) + 4096);
+  // Both verification methods inspect every source block for native seeking,
+  // including omitted tracks. Selection restricts decoding, never that walk.
+  for (const s of source.streams) {
+    if (s.codec_type === 'video') {
+      let n = 60n, d = 1n;
+      for (const key of ['r_frame_rate', 'avg_frame_rate']) {
+        const rate = typeof s[key] === 'string' && /^(\d+)\/(\d+)$/.exec(s[key]);
+        if (!rate) continue; // Unknown/malformed hints keep the existing floor.
+        need(rate[1].length <= 40 && rate[2].length <= 40,
+          'Remux proportional rate exceeds exact arithmetic bounds.', 'REMUX_PROPORTIONAL_BUDGET');
+        const rn = BigInt(rate[1]), rd = BigInt(rate[2]);
+        if (rn > 0n && rd > 0n && rn * d > n * rd) { n = rn; d = rd; }
+      }
+      // These summaries forecast cost only; complete record guards still prove
+      // coverage. Ceil before conversion so fractional rates never round down.
+      const videoRecords = ((BigInt(seconds) + 2n) * n + d - 1n) / d + 4096n;
+      need(videoRecords <= BigInt(Number.MAX_SAFE_INTEGER), 'Remux proportional budget overflow.', 'REMUX_PROPORTIONAL_BUDGET');
+      records = exact(records + Number(videoRecords));
+    }
     else if (s.codec_type === 'audio') {
       const rate = Number(s.sample_rate), channels = s.channels;
       need(Number.isSafeInteger(rate) && rate > 0 && rate <= 768000,

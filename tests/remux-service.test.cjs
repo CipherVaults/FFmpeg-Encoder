@@ -51,11 +51,11 @@ async function harness(t, { target = 'matroska', count = 1, explicitAudio = fals
   await service.prepareRemuxBatch({ inputFolderId: a.id, outputFolderId: b.id, target });
   return { service, input, output, a, b };
 }
-test('real service/storage admits the complete long omitted-AAC packet forecast; wrong-method allowance mutant is killed', async t => {
+test('real service/storage uses the all-track forecast and an invalid allowance prevents invocation', async t => {
   const { openEvidenceStorage } = require('../src/operation-storage.cjs'), { deriveRemuxAssessmentBudget } = require('../src/remux-operation.cjs');
   const originalStatfs = fs.statfs; fs.statfs = async () => ({ bavail: 1024n ** 4n, bsize: 1n });
   t.after(() => { fs.statfs = originalStatfs; });
-  async function exercise(Service, seconds, channels = 2) {
+  async function exercise(Service, seconds, channels = 2, invalidAllowance = false) {
     const h = await harness(t, { Service, target: 'mp4', explicitAudio: true, verificationMethod: 'packet-identity-v1', change: p => {
       p.format.duration = String(seconds); for (const s of p.streams) { s.duration = String(seconds); s.duration_ts = seconds * 1000; }
       p.streams[1].channels = channels; p.streams[1].channel_layout = channels === 6 ? '5.1' : channels === 8 ? '7.1' : 'stereo';
@@ -78,10 +78,17 @@ test('real service/storage admits the complete long omitted-AAC packet forecast;
     try {
       h.service.startBatch({ planId: ready.planId, fileIds: [ready.items[0].id] }); await h.service.taskPromise;
       const expected = deriveRemuxAssessmentBudget(entry.remuxAssessment, entry.fingerprint.size, 'packet-identity-v1');
-      const selectedOnly = deriveRemuxAssessmentBudget(entry.remuxAssessment, entry.fingerprint.size, 'complete-native-v1');
+      const completeNative = deriveRemuxAssessmentBudget(entry.remuxAssessment, entry.fingerprint.size, 'complete-native-v1');
       assert.equal(expected.budget.maxPcmBytes, EVIDENCE_BUDGET.maxPcmBytes, 'Omitted audio spends no PCM beyond the unchanged floor.');
-      assert.ok(expected.resources.evidenceReserveBytes > selectedOnly.resources.evidenceReserveBytes);
+      assert.equal(expected.resources.evidenceReserveBytes, completeNative.resources.evidenceReserveBytes,
+        'Both methods fund the same complete all-track native seek walk.');
       assert.equal(forecast, expected.resources.evidenceReserveBytes, 'Never lower the all-stream forecast to fit a smaller allowance.');
+      if (invalidAllowance) {
+        assert.equal(copied, false); assert.equal(childClosed, false);
+        assert.equal(h.service.snapshot().items[0].reasonCode, 'OPERATION_STORAGE_INVALID');
+        await assert.rejects(fs.lstat(entry.destination), { code: 'ENOENT' });
+        return;
+      }
       assert.equal(copied, true, h.service.snapshot().items[0].reason); assert.equal(childClosed, true);
       assert.equal(h.service.snapshot().items[0].status, 'cancelled'); await assert.rejects(fs.lstat(entry.destination), { code: 'ENOENT' });
     } finally { await store.close(); }
@@ -90,8 +97,8 @@ test('real service/storage admits the complete long omitted-AAC packet forecast;
   const filename = require.resolve('../src/encoder-service.cjs'), text = require('node:fs').readFileSync(filename, 'utf8');
   const before = 'createRemuxStorageAllowance(entry.remuxAssessment, entry.fingerprint.size, qualified.verificationMethod)'; assert.equal(text.split(before).length, 2);
   const Module = require('node:module'), m = new Module(filename, module); m.filename = filename; m.paths = Module._nodeModulePaths(path.dirname(filename));
-  m._compile(text.replace(before, "createRemuxStorageAllowance(entry.remuxAssessment, entry.fingerprint.size, 'complete-native-v1')"), filename);
-  await assert.rejects(exercise(m.exports.EncoderService, 1200), { code: 'ERR_ASSERTION' });
+  m._compile(text.replace(before, "null"), filename);
+  await exercise(m.exports.EncoderService, 1200, 2, true);
 });
 test('MOV source-shape, AAC and required-track-tag guards reach service preparation before any Start', async t => {
   for (const [change, code] of [

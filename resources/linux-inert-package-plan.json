@@ -724,32 +724,32 @@
       "source": "assets/app-icon/PROVENANCE.md",
       "target": "electron/resources/app/assets/app-icon/PROVENANCE.md",
       "group": "application",
-      "bytes": 2529,
-      "sha256": "eb498cde94cb4d22bc72df6ed252443bd97c4c692761d54fb0aa84abc7821083"
+      "bytes": 1374,
+      "sha256": "b34e7903727876bf8138d2e0c18849acfdda21f8f1cb7a41d4a862aa77087d20"
     },
     {
       "root": "source",
       "source": "assets/app-icon/app-icon-256.png",
       "target": "electron/resources/app/assets/app-icon/app-icon-256.png",
       "group": "application",
-      "bytes": 8288,
-      "sha256": "79c685c05246e1d5cd4d9c505e32c6ceaa1de0c0febd385a2368a5138acae2e9"
+      "bytes": 2490,
+      "sha256": "ae2dd9da264722982df9ff485ea546ec1c61d1f79eec31ac58b8f6d84a3d3d6e"
     },
     {
       "root": "source",
       "source": "assets/app-icon/app-icon.ico",
       "target": "electron/resources/app/assets/app-icon/app-icon.ico",
       "group": "application",
-      "bytes": 21195,
-      "sha256": "9d45805495e3bfdaa047508b0ff9bfb47ea904a187abe82e68c51a12e6f57b9c"
+      "bytes": 5531,
+      "sha256": "75ec15164d2cb75ad84344102ca23f16972ebd4a21211fc7ad12eda0245be2db"
     },
     {
       "root": "source",
       "source": "assets/app-icon/app-icon.svg",
       "target": "electron/resources/app/assets/app-icon/app-icon.svg",
       "group": "application",
-      "bytes": 750,
-      "sha256": "2f42a5b1c25add5f33ceb06925c0ffa18d0699cdff7b903045c5c391668ec763"
+      "bytes": 644,
+      "sha256": "4bed5a3ba69fd691016d2aaf9a366067581e8b3131d5105735070af6372aca33"
     },
     {
       "root": "source",
@@ -1788,8 +1788,8 @@
       "source": "ui/index.html",
       "target": "electron/resources/app/ui/index.html",
       "group": "application",
-      "bytes": 40137,
-      "sha256": "313768794c125988ba17be602131ab521b1b90ccd21d2cdd8ceca3eabe63fc5b"
+      "bytes": 39983,
+      "sha256": "e33ff5f4d9df4168b49af86891a4e36487e3e9f5b5f7ddfb6d33e9f9f2aecde2"
     },
     {
       "root": "source",

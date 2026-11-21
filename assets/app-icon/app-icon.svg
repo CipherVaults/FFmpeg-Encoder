@@ -1,9 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
-  <title id="title">FFmpeg Encoder — Folded Frame</title>
-  <desc id="desc">An original ivory media frame with an amber folded corner and a teal output bracket on an ink rounded square.</desc>
-  <rect x="8" y="8" width="240" height="240" rx="52" fill="#172A33"/>
-  <path d="M76 54H136V78H80V178H136V202H76C64.954 202 56 193.046 56 182V74C56 62.954 64.954 54 76 54Z" fill="#F9F6EC"/>
-  <path d="M136 54H180C191.046 54 200 62.954 200 74V118L176 94V78H136Z" fill="#F4B54C"/>
-  <path d="M176 94L200 118H176Z" fill="#D88D28"/>
-  <path d="M176 134H200V182C200 193.046 191.046 202 180 202H136V178H176Z" fill="#50C7BC"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Gauge / Windows midtone / 256 px">
+  <title>Gauge / Windows midtone / 256 px</title>
+  <desc>Original FFmpeg Encoder Gauge artwork. Fixed amber output square ring; open source frame. November 14, 2026. Transparent background.</desc>
+  <path d="M32 104V40H216V72H64V104ZM32 152H64V184H96V216H32Z" fill="#808080" data-part="frame"/>
+  <path d="M112 104H224V216H112ZM144 136V184H192V136Z" fill="#ffad42" fill-rule="evenodd" data-part="amber"/>
+  <path d="M88 104H104V120H88ZM88 144H104V160H88Z" fill="#808080" data-part="ticks"/>
 </svg>

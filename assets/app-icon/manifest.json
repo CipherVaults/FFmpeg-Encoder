@@ -1,182 +1,98 @@
 {
   "schemaVersion": 1,
-  "design": "Folded Frame",
+  "design": "Gauge, mid-tone Windows variant",
   "license": "ISC",
+  "verification": "assets/logo-gauge-2026-11-14/verification.json",
   "source": {
-    "path": "assets/app-icon/app-icon.svg",
-    "sizeBytes": 750,
-    "sha256": "2f42a5b1c25add5f33ceb06925c0ffa18d0699cdff7b903045c5c391668ec763",
-    "viewBox": [
-      0,
-      0,
-      256,
-      256
-    ]
+    "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-256.svg",
+    "sizeBytes": 644,
+    "sha256": "4bed5a3ba69fd691016d2aaf9a366067581e8b3131d5105735070af6372aca33"
   },
-  "provenance": [
+  "icoEntries": [
     {
-      "path": "assets/app-icon/PROVENANCE.md",
-      "sizeBytes": 2529,
-      "sha256": "eb498cde94cb4d22bc72df6ed252443bd97c4c692761d54fb0aa84abc7821083"
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-16.png",
+      "sizeBytes": 190,
+      "sha256": "87885db437dd4ec157a777dedf5fc0bdc964a347586892560dd7ff3b74b12286",
+      "width": 16,
+      "height": 16
     },
     {
-      "path": "assets/app-icon/LICENSE.txt",
-      "sizeBytes": 758,
-      "sha256": "db487fa434f73fa49d6619f84131fab7b0286f3fdd1a07ff7a3010c29cada112"
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-20.png",
+      "sizeBytes": 207,
+      "sha256": "42782046835a937f1b64f39cfaa1f49d894cea81812ecdb22f5de93fe69fdd7f",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-24.png",
+      "sizeBytes": 205,
+      "sha256": "fc7d42cc83a92d60a62894baa0ff37c093d4a5dd3a755cd33c22f20820ee3720",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-32.png",
+      "sizeBytes": 246,
+      "sha256": "cee79d57140ab8d0296cfa77272724a31ee6c2a30d32454265dae1584c500569",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-40.png",
+      "sizeBytes": 275,
+      "sha256": "bb3c5b1d48ea339014d97cdc91f4ec6a1461321111705414d6d5d667d95ca524",
+      "width": 40,
+      "height": 40
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-48.png",
+      "sizeBytes": 318,
+      "sha256": "8a1443645c9bf840e52d30bc4a81a712c8fafb3ed017ae3b95c47afe42d93c4e",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-64.png",
+      "sizeBytes": 441,
+      "sha256": "959abc43e3183e62cb8a584a75ebb99a0cdfc307c41af106c1538395d9a6c4ac",
+      "width": 64,
+      "height": 64
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-128.png",
+      "sizeBytes": 1009,
+      "sha256": "6570c30d07e8eb59cc6caf1c37a6264bdf98df22e2568554ed492700dbf81eb5",
+      "width": 128,
+      "height": 128
+    },
+    {
+      "path": "assets/logo-gauge-2026-11-14/gauge-win-midtone-256.png",
+      "sizeBytes": 2490,
+      "sha256": "ae2dd9da264722982df9ff485ea546ec1c61d1f79eec31ac58b8f6d84a3d3d6e",
+      "width": 256,
+      "height": 256
     }
   ],
   "generator": {
     "path": "scripts/generate-app-icon.cjs",
-    "sha256": "f57a26431c01979dd048c710f5e93e253e8c11deea5907b5093df23ac59c9939",
-    "command": "node scripts/generate-app-icon.cjs"
-  },
-  "renderer": {
-    "tool": "Version: ImageMagick 7.1.1-47 Q16-HDRI x64 82572af:20250329 https://imagemagick.org",
-    "masterPixels": 1024,
-    "opticalPixels": [
-      16,
-      20,
-      24,
-      32
-    ],
-    "downsample": "Lanczos",
-    "colorspace": "sRGB",
-    "png": "8-bit RGBA"
+    "sizeBytes": 4797,
+    "sha256": "4de07d8c0888dee57d9e426500068c8d339b9b7e292ed5b2a7d0beeb136925d0"
   },
   "assets": [
     {
-      "path": "assets/app-icon/app-icon-16.svg",
-      "sizeBytes": 470,
-      "sha256": "c1ad1bc297a9fd79acbb932b3a2367f2463d1dfda20e98f397f2e83417fbc54e",
-      "width": 16,
-      "height": 16,
-      "purpose": "whole-pixel optical source"
-    },
-    {
-      "path": "assets/app-icon/app-icon-16.png",
-      "sizeBytes": 597,
-      "sha256": "2d5e91793321b9c124441f8bf2d9c41eb989092156a67be2108a53f2ac0bb29f",
-      "width": 16,
-      "height": 16,
-      "opticalAdjustment": true
-    },
-    {
-      "path": "assets/app-icon/app-icon-20.svg",
-      "sizeBytes": 476,
-      "sha256": "8a0c0b4abb8f65163243faf4c3247b0a79294d981d094fbdd59fcaf422fbbc3a",
-      "width": 20,
-      "height": 20,
-      "purpose": "whole-pixel optical source"
-    },
-    {
-      "path": "assets/app-icon/app-icon-20.png",
-      "sizeBytes": 736,
-      "sha256": "f3bb4fdc40996d1ffd1f9a80ed5c1da7183529ebc85dd4a1e215ea23598b8d2f",
-      "width": 20,
-      "height": 20,
-      "opticalAdjustment": true
-    },
-    {
-      "path": "assets/app-icon/app-icon-24.svg",
-      "sizeBytes": 478,
-      "sha256": "de921120d3720f2865b89b67469398e9d9888397c3e6be02f1e06b14f89d9b75",
-      "width": 24,
-      "height": 24,
-      "purpose": "whole-pixel optical source"
-    },
-    {
-      "path": "assets/app-icon/app-icon-24.png",
-      "sizeBytes": 893,
-      "sha256": "f8cbb7491a25eafc5219f074fbbd0bedc81de6f722b8ba9ea7e2122385688c77",
-      "width": 24,
-      "height": 24,
-      "opticalAdjustment": true
-    },
-    {
-      "path": "assets/app-icon/app-icon-32.svg",
-      "sizeBytes": 483,
-      "sha256": "31bedca2b2c6b80d299ace133d94fc3e407747b850dd7e4b7b7c8d779be66b76",
-      "width": 32,
-      "height": 32,
-      "purpose": "whole-pixel optical source"
-    },
-    {
-      "path": "assets/app-icon/app-icon-32.png",
-      "sizeBytes": 1214,
-      "sha256": "6c49ffebb80ab4dbd57b85ab82c99c399d586be4a3011b2a71fec191cf86a663",
-      "width": 32,
-      "height": 32,
-      "opticalAdjustment": true
-    },
-    {
-      "path": "assets/app-icon/app-icon-40.png",
-      "sizeBytes": 1390,
-      "sha256": "533c05e0cdc141769cd2572e6177afa8b6465a4450da5d9019d0f47eb5fbdb9e",
-      "width": 40,
-      "height": 40,
-      "opticalAdjustment": false
-    },
-    {
-      "path": "assets/app-icon/app-icon-48.png",
-      "sizeBytes": 1664,
-      "sha256": "9269c312cdae26306d785df7debf4c8e4df23fbe194162b2e40a7e2a365f4ba5",
-      "width": 48,
-      "height": 48,
-      "opticalAdjustment": false
-    },
-    {
-      "path": "assets/app-icon/app-icon-64.png",
-      "sizeBytes": 2139,
-      "sha256": "d2826df924b31b95c3d63a6d72b209bb8d6a7b51267011413d1ac70d9220f307",
-      "width": 64,
-      "height": 64,
-      "opticalAdjustment": false
-    },
-    {
-      "path": "assets/app-icon/app-icon-128.png",
-      "sizeBytes": 4124,
-      "sha256": "2010cc2b65c055a6a9173dc12c0e4e4b8779d653535ed369543c3783de032ecc",
-      "width": 128,
-      "height": 128,
-      "opticalAdjustment": false
+      "path": "assets/app-icon/app-icon.svg",
+      "sizeBytes": 644,
+      "sha256": "4bed5a3ba69fd691016d2aaf9a366067581e8b3131d5105735070af6372aca33"
     },
     {
       "path": "assets/app-icon/app-icon-256.png",
-      "sizeBytes": 8288,
-      "sha256": "79c685c05246e1d5cd4d9c505e32c6ceaa1de0c0febd385a2368a5138acae2e9",
-      "width": 256,
-      "height": 256,
-      "opticalAdjustment": false
+      "sizeBytes": 2490,
+      "sha256": "ae2dd9da264722982df9ff485ea546ec1c61d1f79eec31ac58b8f6d84a3d3d6e"
     },
     {
       "path": "assets/app-icon/app-icon.ico",
-      "sizeBytes": 21195,
-      "sha256": "9d45805495e3bfdaa047508b0ff9bfb47ea904a187abe82e68c51a12e6f57b9c",
-      "sizes": [
-        16,
-        20,
-        24,
-        32,
-        40,
-        48,
-        64,
-        128,
-        256
-      ],
-      "encoding": "PNG entries; 32-bit RGBA; Windows Vista and newer"
-    },
-    {
-      "path": "assets/app-icon/review-sheet.png",
-      "sizeBytes": 64530,
-      "sha256": "1b84fe1a4560c92b37c47fdaafe309810a1450361d998a66e175ae26224d6226",
-      "width": 1100,
-      "height": 1000,
-      "purpose": "design review only; not packaged"
+      "sizeBytes": 5531,
+      "sha256": "75ec15164d2cb75ad84344102ca23f16972ebd4a21211fc7ad12eda0245be2db"
     }
-  ],
-  "validation": {
-    "dimensions": "checked from PNG IHDR",
-    "ico": "directory sizes and exact embedded PNG bytes checked",
-    "nativeIntegration": "not performed by this generator"
-  }
+  ]
 }

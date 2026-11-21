@@ -162,7 +162,7 @@ test('native backend discovery is explanatory and cannot silently populate an en
   assert.match(h.byId('capability-list').textContent, /Inventory warning/);
 });
 
-async function harness(overrides = {}, { narrow = false } = {}) {
+async function harness(overrides = {}, { narrow = false, subscribe } = {}) {
   const view = dom();
   const calls = [];
   let update;
@@ -181,7 +181,7 @@ async function harness(overrides = {}, { narrow = false } = {}) {
     cancelBatch: async () => ({ revision: 99, phase: 'cancelled', items: [], counts: {} }),
     ...overrides,
   };
-  const api = { onUpdate: callback => { update = callback; return () => {}; } };
+  const api = { onUpdate: callback => { update = callback; return subscribe ? subscribe(callback) : () => {}; } };
   for (const [name, method] of Object.entries(methods)) api[name] = async (...args) => { calls.push({ name, args: plain(args) }); return method(...args); };
   let layoutListener;
   let clock = 100; const intervals = [];
@@ -951,6 +951,299 @@ test('saved app defaults require an explicit keep/reset decision and never alter
   assert.equal(h.calls.filter(call => call.name === 'applyAppDefaultsToBatch').at(-1).args[0].resetFileOverrides, true);
   assert.equal(h.draft.snapshot().files[0].request.range, null);
   assert.deepEqual(h.draft.snapshot().files.map(file => file.request.resolution), ['1440', '1440']);
+});
+
+test('R02: real settings through named IPC bind only explicitly adopted defaults to two prepared rows', { timeout: 25_000 }, async t => {
+  const fsp = require('node:fs/promises');
+  const { createHash } = require('node:crypto');
+  const { EncoderService } = require('../src/encoder-service.cjs');
+  const { registerIpc } = require('../src/ipc.cjs');
+  const { normalizeProbe } = require('../src/inspection.cjs');
+  const { PROFILES, selectVideo, classifyColor } = require('../src/media.cjs');
+  const fixtureNames = [
+    ['first.mp4', 'historical-source-probe.json', '0a88ec9794674d6bafeec89cfb332bb140745dabf350d1165be43a1f161afbb2', 8],
+    ['second.mp4', 'second-cell-historical-source-probe.json', '6eea4bb0390c4391113130c9c56f3c33384d2df94bf1e04434419f3f83bf37cb', 31],
+  ];
+  const artifactParent = path.join(root, 'artifacts/r02-controlled');
+  await fsp.mkdir(artifactParent, { recursive: true });
+  const scratch = await fsp.mkdtemp(path.join(artifactParent, 'case-'));
+  let close = async () => {};
+  t.after(async () => {
+    try { await close(); } finally {
+      assert.equal(await fsp.realpath(scratch), path.join(await fsp.realpath(artifactParent), path.basename(scratch)));
+      await fsp.rm(scratch, { recursive: true });
+    }
+  });
+  const [input, output1, output2, stateDir] = ['in', 'out', 'next-out', 'state'].map(leaf => path.join(scratch, leaf));
+  await Promise.all([input, output1, output2, stateDir].map(folder => fsp.mkdir(folder)));
+  const sources = new Map();
+  for (const [name, receipt, hash, duration] of fixtureNames) {
+    const bytes = await fsp.readFile(path.join(root, 'linux-blue/calibration/remux-mov-095', receipt));
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), hash, receipt);
+    const probe = normalizeProbe(JSON.parse(bytes));
+    const video = selectVideo(probe);
+    assert.deepEqual(probe.streams.map(stream => [stream.codec_type, stream.codec_name]), [['video', 'h264'], ['audio', 'aac']]);
+    assert.equal(Number(probe.format.duration), duration);
+    const color = classifyColor(probe);
+    assert.equal(color.classification, 'sdr');
+    const file = path.join(input, name);
+    const standIn = 'Non-media source-identity stand-in for ' + receipt + '\n';
+    await fsp.writeFile(file, standIn, { flag: 'wx' });
+    sources.set(file, { standIn, inspection: { probe, color, duration,
+      summary: { selectedVideoIndex: video.index, durationSeconds: duration, codec: video.codec_name, width: video.width, height: video.height, bitDepth: 8 } } });
+  }
+  const inspected = [], toolRequests = [], destinationActions = [], channels = [], updates = [], pending = new Set();
+  const service = new EncoderService({
+    ffmpeg: 'r02-controlled-ffmpeg-not-executable', ffprobe: 'r02-controlled-ffprobe-not-executable', stateDir, inspectionWorkers: 1,
+    storageEligibility: { check: async () => ({ eligible: false, reason: 'Controlled replay does not store native inspection evidence.' }) },
+    capabilities: async () => ({ profiles: [{ ...PROFILES.find(entry => entry.id === 'h265-cpu'), available: true, supportedBitDepths: [8, 10] }], recipes: [] }),
+    // Replay metadata from two project synthetic receipts. No decoded frame evidence
+    // or stock tool/NTFS claim. Main still owns filesystem identity, plan and store.
+    inspect: async (file, { signal }) => {
+      assert.equal(signal.aborted, false);
+      assert.ok(sources.has(file));
+      inspected.push(file);
+      return structuredClone(sources.get(file).inspection);
+    },
+    run: async executable => { toolRequests.push(executable); assert.fail('This controlled Prepare must not launch a tool.'); },
+    outputAccess: { action: async () => { destinationActions.push('action'); assert.fail('This journey cannot expose output.'); } },
+  });
+  const handlers = new Map(), messages = new Map();
+  const entryUrl = 'file:///controlled-r02/ui/index.html';
+  const window = { isDestroyed: () => false, webContents: { mainFrame: { url: entryUrl } } };
+  const caller = { sender: window.webContents, senderFrame: window.webContents.mainFrame };
+  const dialogChoices = [['Select input video folder', input], ['Select output folder', output1], ['Select output folder', output2]];
+  const unregister = registerIpc({
+    ipcMain: { handle: (channel, method) => handlers.set(channel, method), removeHandler: channel => handlers.delete(channel) },
+    window, service, appearance: { load: async () => ({ schema: 1, theme: 'dark', persistence: {}, notices: [] }) },
+    dialog: { showOpenDialog: async (owner, options) => {
+      assert.equal(owner, window);
+      const next = dialogChoices.shift();
+      assert.equal(options.title, next?.[0]);
+      return { canceled: false, filePaths: [next[1]] };
+    } }, entryUrl,
+  });
+  const relay = snapshot => {
+    updates.push(snapshot);
+    for (const callback of messages.get('encoder:update') || []) callback({}, structuredClone(snapshot));
+  };
+  service.on('update', relay);
+  close = async () => {
+    await unregister.whenIdle();
+    unregister();
+    service.removeListener('update', relay);
+    await service.closeOperationResources();
+    assert.equal((await service.closeDiagnostics()).persisted, true);
+  };
+  let api;
+  const allowedChannels = new Set([
+    'encoder:snapshot', 'encoder:capabilities', 'encoder:preferences', 'encoder:workbench-session', 'encoder:appearance',
+    'encoder:input-folder', 'encoder:output-folder', 'encoder:prepare', 'encoder:save-settings',
+    'encoder:app-settings', 'encoder:save-app-settings', 'encoder:apply-app-defaults-to-batch',
+    'encoder:update-batch-operation-defaults', 'encoder:update-file-operations', 'encoder:reprepare-encoding-settings',
+  ]);
+  const transport = {
+    invoke(channel, ...args) {
+      channels.push({ channel, args: structuredClone(args) });
+      assert.ok(allowedChannels.has(channel), 'Unexpected bridge request: ' + channel);
+      assert.ok(handlers.has(channel), channel);
+      const call = handlers.get(channel)(caller, ...structuredClone(args));
+      pending.add(call);
+      return call.then(structuredClone).finally(() => pending.delete(call));
+    },
+    on(channel, callback) {
+      assert.equal(channel, 'encoder:update');
+      if (!messages.has(channel)) messages.set(channel, new Set());
+      messages.get(channel).add(callback);
+    },
+    removeListener(channel, callback) { messages.get(channel)?.delete(callback); },
+  };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'preload.js'), 'utf8'), { require(name) {
+    assert.equal(name, 'electron');
+    return { ipcRenderer: transport, contextBridge: { exposeInMainWorld(key, value) { assert.equal(key, 'encoder'); api = value; } } };
+  } });
+  const { onUpdate, ...requests } = api;
+  const h = await harness(requests, { subscribe: onUpdate });
+  const by = h.byId;
+  const choice = async (key, value) => { by(key).value = value; await by(key).emit('change'); };
+  const wait = async (description, condition) => {
+    const deadline = performance.now() + 4000;
+    do {
+      const outcome = condition();
+      if (outcome && pending.size === 0) return outcome;
+      assert.equal(by('error-banner').textContent, '', description);
+      await new Promise(resolve => setTimeout(resolve, 10));
+    } while (performance.now() < deadline);
+    assert.fail(description);
+  };
+  const button = async key => { assert.equal(by(key).disabled, false, key); await by(key).click(); };
+  const calls = channel => channels.filter(call => call.channel === channel);
+  const row = index => by('batch-items').children[index];
+  const summary = index => row(index).querySelector('[data-testid="file-operation-summary"]').textContent;
+  const draftBinding = snapshot => ({ planId: snapshot.planId, draftId: snapshot.operationDraft.id, revision: snapshot.operationDraft.revision });
+  const readyAfter = async prior => wait('main plan and rendered rows settle', () => {
+    const snapshot = service.snapshot();
+    return snapshot.phase === 'ready' && !snapshot.encodingSettingsStale && snapshot.planId !== prior && row(1) && snapshot;
+  });
+  const checkRows = (snapshot, defaultsRevision, expected) => {
+    assert.equal(snapshot.items.length, 2);
+    assert.deepEqual(snapshot.items.map(item => [item.name, item.summary.durationSeconds]), fixtureNames.map(([name, , , duration]) => [name, duration]));
+    assert.deepEqual(snapshot.operationDraft.files.map(file => [file.fileId, file.request]), snapshot.items.map(item => [item.id, item.operationRequest]));
+    assert.equal(snapshot.operationDraft.batchDefaults.appDefaultsRevision, defaultsRevision);
+    assert.deepEqual(snapshot.items.map(item => [
+      item.status, item.operationRequest.resolution, item.operationRequest.origins.resolution,
+      item.operationRequest.hdrPolicy, item.operationRequest.origins.hdrPolicy,
+    ]), expected);
+    for (const item of snapshot.items) {
+      assert.equal(item.operationRequest.appDefaultsRevision, defaultsRevision);
+      assert.equal(item.operationRequest.audioPolicy, 'copy');
+      assert.equal(item.operationRequest.range, null);
+    }
+    assert.match(by('batch-operation-summary').textContent, new RegExp('saved app revision ' + defaultsRevision + '\\b'));
+    assert.deepEqual([...service.plan.entries.keys()], snapshot.items.filter(item => item.status === 'ready').map(item => item.id));
+  };
+  const saveDefaults = async (revision, edits) => {
+    await button('tab-settings');
+    await wait('stored defaults are visible', () => !by('app-settings-fields').disabled);
+    for (const [id, value] of edits) await choice(id, value);
+    assert.equal(by('app-settings-save').disabled, false);
+    await by('app-settings-form').emit('submit');
+    await wait('actual app defaults save was confirmed', () => /Confirmed saved locally/.test(by('app-settings-status').textContent)
+      && by('app-settings-status').textContent.includes('Revision ' + revision + '.'));
+    assert.equal(by('app-settings-error').textContent, '');
+    const disk = JSON.parse(await fsp.readFile(path.join(stateDir, 'appsettings-v1/settings.json'), 'utf8'));
+    assert.deepEqual(Object.keys(disk).sort(), ['defaults', 'namespace', 'revision', 'schema']);
+    assert.equal(disk.namespace, 'appsettings-v1'); assert.equal(disk.schema, 1); assert.equal(disk.revision, revision);
+    assert.deepEqual(disk.defaults, calls('encoder:save-app-settings').at(-1).args[0].defaults);
+    await button('tab-encode');
+  };
+
+  await wait('renderer startup settled', () => !by('choose-input').disabled);
+  await button('choose-input'); await wait('first registered folder', () => by('input-path').textContent === input);
+  await button('choose-output'); await wait('registered output folder', () => by('output-path').textContent === output1);
+  await button('prepare-batch');
+  const initial = await readyAfter(null);
+  const factory = ['ready', 'source', 'app', 'preserve', 'app'];
+  checkRows(initial, 0, [factory, factory]); // The actual store supplies complete factory values at rev0; main labels them as app-origin.
+  assert.equal(by('start-batch').disabled, false);
+
+  // Writing the store is neither adoption nor encoder preference autosave.
+  await saveDefaults(1, [['default-hdr', 'sdr']]);
+  assert.equal(service.snapshot().planId, initial.planId);
+  assert.equal(calls('encoder:apply-app-defaults-to-batch').length, 0);
+  checkRows(service.snapshot(), 0, [factory, factory]);
+
+  await button('batch-app-defaults-apply');
+  const adopted = await readyAfter(initial.planId);
+  const appA = ['ready', 'source', 'app', 'sdr', 'app'];
+  checkRows(adopted, 1, [appA, appA]);
+  assert.deepEqual(calls('encoder:apply-app-defaults-to-batch').at(-1).args, [{ ...draftBinding(initial), resetFileOverrides: false }]);
+  assert.match(by('batch-operation-notice').textContent, /existing file overrides and ranges were kept/);
+
+  await choice('batch-operation-hdr', 'preserve'); await by('batch-operation-form').emit('submit');
+  const batch = await readyAfter(adopted.planId);
+  const batchOverride = ['ready', 'source', 'app', 'preserve', 'batch'];
+  checkRows(batch, 1, [batchOverride, batchOverride]);
+  assert.deepEqual(calls('encoder:update-batch-operation-defaults').at(-1).args, [{ ...draftBinding(adopted), overrides: { hdrPolicy: 'preserve' } }]);
+
+  // Select an explicit Keep Source override, not an implicit app fallback.
+  const fileResolution = row(0).querySelector('[data-testid="file-operation-resolution"]');
+  fileResolution.value = '720'; await fileResolution.emit('change');
+  fileResolution.value = 'source'; await fileResolution.emit('change');
+  await row(0).querySelector('form').emit('submit');
+  const overridden = await readyAfter(batch.planId);
+  const fileOverride = ['ready', 'source', 'file', 'preserve', 'batch'];
+  checkRows(overridden, 1, [fileOverride, batchOverride]);
+  assert.deepEqual(calls('encoder:update-file-operations').at(-1).args, [{ ...draftBinding(batch), fileIds: [batch.items[0].id], overrides: { resolution: 'source' } }]);
+  assert.match(summary(0), /Keep source \(file\)/); assert.match(summary(1), /Keep source \(app\)/);
+
+  const heldPlan = service.plan;
+  const held = overridden.items.map(item => {
+    const entry = heldPlan.entries.get(item.id);
+    assert.ok(Object.isFrozen(entry.preparedArgs));
+    return { entry, argv: entry.preparedArgs.slice(), request: structuredClone(entry.operationPlan.contract.request) };
+  });
+  const heldUpdates = updates.length;
+  await saveDefaults(2, [['default-resolution', '720']]);
+  assert.equal(service.plan, heldPlan); assert.equal(updates.length, heldUpdates);
+  const unchanged = service.snapshot();
+  assert.deepEqual(draftBinding(unchanged), draftBinding(overridden));
+  checkRows(unchanged, 1, [fileOverride, batchOverride]);
+  for (const [index, item] of overridden.items.entries()) {
+    const entry = service.plan.entries.get(item.id);
+    assert.equal(entry, held[index].entry);
+    assert.deepEqual(entry.preparedArgs, held[index].argv);
+    assert.deepEqual(entry.operationPlan.contract.request, held[index].request);
+  }
+  assert.equal(by('start-batch').disabled, false);
+  assert.equal(calls('encoder:apply-app-defaults-to-batch').length, 1);
+  assert.deepEqual(calls('encoder:save-app-settings').map(call => call.args[0].revision), [0, 1]);
+  await assert.rejects(api.applyAppDefaultsToBatch({ ...draftBinding(initial), resetFileOverrides: false }), { code: 'STALE_PLAN' });
+  assert.deepEqual(draftBinding(service.snapshot()), draftBinding(overridden));
+
+  // Revising encoder-specific controls invalidates argv but does not adopt new app defaults.
+  by('quality').value = '26'; await by('quality').emit('input');
+  assert.equal(by('start-batch').disabled, true);
+  await button('prepare-batch');
+  const reprepared = await readyAfter(overridden.planId);
+  assert.equal(reprepared.operationDraft.id, initial.operationDraft.id);
+  assert.equal(reprepared.operationDraft.revision, overridden.operationDraft.revision + 1);
+  assert.deepEqual(reprepared.items.map(item => item.id), overridden.items.map(item => item.id));
+  assert.equal(calls('encoder:reprepare-encoding-settings').length, 1);
+  assert.equal(calls('encoder:reprepare-encoding-settings')[0].args[0].settings.quality, 26);
+  assert.equal(calls('encoder:prepare').length, 1);
+  checkRows(reprepared, 1, [fileOverride, batchOverride]);
+  for (const [index, item] of reprepared.items.entries()) {
+    const next = service.plan.entries.get(item.id).preparedArgs;
+    assert.equal(held[index].argv[held[index].argv.indexOf('-crf:v:0') + 1], '25');
+    assert.equal(next[next.indexOf('-crf:v:0') + 1], '26');
+  }
+
+  await button('batch-app-defaults-apply');
+  const mixed = await readyAfter(reprepared.planId);
+  const refusal = ['unsupported', '720', 'app', 'sdr', 'app'];
+  checkRows(mixed, 2, [['ready', 'source', 'file', 'sdr', 'app'], refusal]);
+  assert.equal(mixed.operationDraft.id, reprepared.operationDraft.id);
+  assert.deepEqual(mixed.items.map(item => item.id), reprepared.items.map(item => item.id));
+  assert.deepEqual(calls('encoder:apply-app-defaults-to-batch').at(-1).args, [{ ...draftBinding(reprepared), resetFileOverrides: false }]);
+  assert.equal(mixed.items[1].reasonCode, 'OPERATION_QUALIFICATION_REQUIRED');
+  assert.match(summary(1), /720p \(app\)/);
+  assert.match(row(1).textContent, /No encode plan was created/);
+
+  // Selecting a different ordinary output folder goes through a fresh batch,
+  // which reads B but must not inherit the old draft's file override.
+  await button('choose-output'); await wait('second registered output', () => by('output-path').textContent === output2);
+  await button('prepare-batch');
+  const fresh = await readyAfter(mixed.planId);
+  assert.notEqual(fresh.operationDraft.id, mixed.operationDraft.id);
+  assert.notEqual(fresh.batchId, mixed.batchId);
+  assert.ok(fresh.items.every(item => !mixed.items.some(previous => previous.id === item.id)));
+  assert.equal(calls('encoder:prepare').length, 2);
+  checkRows(fresh, 2, [refusal, refusal]);
+  for (const [index, item] of fresh.items.entries()) {
+    assert.equal(item.reasonCode, 'OPERATION_QUALIFICATION_REQUIRED');
+    assert.match(summary(index), /720p \(app\)/);
+    assert.match(row(index).textContent, /No encode plan was created/);
+  }
+  assert.equal(by('start-batch').disabled, true);
+  assert.deepEqual(dialogChoices, []);
+  assert.deepEqual(toolRequests, []); assert.deepEqual(destinationActions, []);
+  assert.equal(calls('encoder:start').length, 0);
+  assert.deepEqual([...new Set(updates.map(snapshot => snapshot.phase))].sort(), ['checking', 'idle', 'preparing', 'ready']);
+  assert.equal(inspected.length, 14, 'both mapped receipts in each of seven actual Prepare/reprepare evaluations');
+  for (const [file, { standIn }] of sources) {
+    assert.equal(inspected.filter(entry => entry === file).length, 7);
+    assert.equal(await fsp.readFile(file, 'utf8'), standIn);
+  }
+  assert.deepEqual(await fsp.readdir(output1), []); assert.deepEqual(await fsp.readdir(output2), []);
+  const history = await service.getDiagnosticHistory({ limit: 200 });
+  const savedRevisions = [];
+  for (const { id } of history.events.filter(event => event.reason === 'APP_DEFAULTS_SAVED')) {
+    const { event } = await service.getDiagnosticRecord({ eventId: id });
+    savedRevisions.push(event.context.revision);
+  }
+  assert.deepEqual(savedRevisions.sort(), [1, 2]);
+  assert.ok(history.events.every(event => !['execution', 'publication'].includes(event.stage)));
 });
 
 test('frozen jobs disable processing actions while navigation remains available', async () => {

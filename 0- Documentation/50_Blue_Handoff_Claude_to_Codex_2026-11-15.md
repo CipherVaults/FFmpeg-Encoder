@@ -74,3 +74,9 @@ AMF same-component producer technical disposition; milestone and product accepta
 - Roadmap artifact "FFmpeg Encoder Roadmap" (claude.ai, Claude-only); its source is `artifacts/v0.7/roadmap/ffmpeg-encoder-roadmap.html` and is out of date after November 14.
 - Briefs and receipts for every Q2j job under `artifacts/v0.7/milestone-q/q2j/` and `artifacts/v0.7/codex/` (ignored by Git; local only).
 - PBS 1.2 work, paused, in `D:\Claude's Projects\The AI PBS` (its own `HANDOFF.md`). Not part of this project.
+
+## 9. Dated addendum: regular v0.7 safe-stop on November 21, 2026 Cairo
+
+The November 15 handoff above is historical and preserved as written. Its former readiness, executor assignments and ordered queue do not authorize resuming regular work after this stop. Blue owns the regular lane only; the separate Windows Alpha remains with its existing owner and qualification/publication path. No owner machine, physical GPU or additional executor action is requested by this addendum.
+
+Re-entry reference if the owner later reconciles and authorizes resumption: exact original CP146 `fd7dc4e480f8c47fe300cac8de744019e65a87c4` / tree `3ed50e9781a2c77f2261a8515b50a0eb2bb0308c`, Current State, Continuation, and [Regular v0.7 safe-stop and evidence record](Execution%20Summaries/2026-11-21_Regular_v0.7_Safe_Stop.md). The designated public mirror and exact private recovery were verified independently, and CP146's own hosted Windows and Ubuntu source checks passed. Reconfirm alignment instead of assuming Git-history identity or package availability. Keep the exact-146 vendor composition held: 96 controlled cases passed on the composed and cold copies and the delta is privately recoverable, but uncommitted and unintegrated pending outstanding evidence and final exact review. Q and R still have real native or method-specific gaps and S manufacture remains held; no work resumes automatically and no new product, package or release claim follows.

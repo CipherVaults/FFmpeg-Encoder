@@ -1,3 +1,63 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Close regular v0.7 at a safe stopping point
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Blue retains regular v0.7 coordination and the authority to reconcile records on the owner's direction. Retained workers and fresh reviewers owned separate controlled-source, vendor and packaging-readiness checks. This retrospective uses exact source receipts and provider evidence; it does not infer a serving model from a preference. The separate Windows Alpha and its acceptance path are not part of this checkpoint. [Regular v0.7 safe-stop and evidence record](Execution%20Summaries/2026-11-21_Regular_v0.7_Safe_Stop.md).
+
+## 🕒 Time
+
+November 21, 2026 Cairo. The final source checkpoint's local commit was recorded at 18:11:19 Cairo. This entry records the later verification of those source bytes and the safe stop. It performs no new test or integration.
+
+## 🎯 Session Goal
+
+Leave the next authorized owner a reliable starting state: preserve the last reviewed Remux correction and its failure evidence, separate what is safe to resume from what remains held, and make it clear no jobs should restart automatically.
+
+## 🛠️ Actions Taken
+
+Recorded both original Git identities, CP146's verified private recovery and matching public source mirror, and its own successful Windows and Ubuntu selected-source run. CP145's separate earlier matrix remains historical. Read the CP146 review/controlled and cold receipts. The Remux correction relies on the current per-file inspection journal before exposing its Ready row, command and proposed verification; a target edit clears the old target's assessment. The three earlier failures remain reproducible evidence from the older source, not new failures on 146. Captured the vendor hold and the exact limits of R and S in the existing owning records.
+
+## 🧠 Key Insights
+
+A meaningful source assessment can appear while inspection is pending without exposing an actionable prepared plan. Similarly, a successful Windows source matrix, deliberate Linux controlled render/service evidence, an exact original Git restore and an executable release all answer different questions. Affording more development time cannot collapse those gates.
+
+## 📌 Decisions Made
+
+End regular new work here pending owner reconciliation. Preserve admitted routes, verification methods, no-overwrite/publish/reveal guards and historical records. Keep held vendor work isolated and avoid redispatching prior runs. No change to version, runtime/defaults, release scope, owner gates or separate Alpha ownership.
+
+## ⚠️ Difficulties / Friction
+
+Pending Remux inspection previously let a Ready row, command and verification proposal appear too soon; changing target could show the old assessment. This was not a demonstrated Start bypass or unauthorized publication. Native persistence and full accessibility remain incomplete. S can account for historical runtime inputs, but the current executor does not attest per-job no-egress, enforced aggregate scratch capacity and exclusive process closure.
+
+## 🔧 Adjustments Made
+
+The already-reviewed source change withholds the prepared details until the exact current inspection completes and clears stale assessment on target change. Pin updates were limited to current enclosing source rows; historical qualification and package topology remain as recorded. The safe-stop records distinguish suggested future work from instructions that remain authorized now.
+
+## ❌ Mistakes / Risks Noted
+
+Do not convert a failed-then-fixed controlled regression into a new hosted pass. Do not conflate CP145's matrix with CP146's independent source-mirror pass, infer a Windows or native diagnosis from a modeled case, confuse a private vendor readback with integration, or call the historical inert Linux archive a clean candidate. Do not expose private execution or recovery references in tracked records.
+
+## 📍 Current Position
+
+Exact original CP146 source, cold readback and scoped controlled evidence are retained: three expected red checks on the prior source and 44/44 on the reviewed candidate and cold copy, with independent review. CP146 is aligned through original Git, verified private recovery and public source mirror; the separate CP146 hosted matrix (44923351597) passed on Windows and Ubuntu. The exact-146 vendor composition and cold readback passed 96 distinct checks each, but its privately recovered delta is uncommitted and unintegrated pending outstanding evidence and exact final review. Q, R and S remain open as described in the owning evidence record. No final product or package is qualified.
+
+## 🔜 Next Steps
+
+None automatically. If owner reconciliation later reopens work, confirm exact source and current authority, settle the held vendor comparison without changing default behavior, then only advance the explicitly approved unresolved Q/R/S claim with an appropriate exact-artifact test. Keep source and package recovery distinct.
+
+## ❓ Open Questions
+
+Which remaining admission and native acceptance cases belong in the next authorized slice? Has a compliant private S executor and artifact/source custody route become available? No new approval is requested or granted by this retrospective.
+
+## 🧾 Session Outcome
+
+The last reviewed source and its limits have one durable status and continuation entry. Existing work and historic accounts are preserved. Development is paused, not silently abandoned, and no further execution or release was performed for this documentation close.
+
+## 🔍 Confidence Level
+
+High for the verified original Git, prior exact hosted source observation, reviewed source behavior and named controlled cases. Not established for new native runs, hardware, complete persistence, assistive technology, packages, distribution or owner acceptance.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Explain why the Linux verification could not finish [Q07/Q08]
 
 ## 🤖 Models, Effort, Roles and Provenance

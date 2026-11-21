@@ -277,6 +277,25 @@ test('incomplete warnings, missing streaming accounting and unreviewed warnings 
   }
 });
 
+// FFmpeg 9.1 warns when it discards the probe output's copied Matroska DURATION
+// tag from the re-encoded raw decode. The raw frames carry no metadata, so the
+// decode copies none; every decode diagnostic, that one included, still refuses.
+test('probe decode copies no metadata into raw frames and any decode warning still cannot qualify', async t => {
+  const h = await fixture(t), result = await h.run();
+  assert.equal(result.status, 'verified', JSON.stringify(result.failure));
+  const argv = h.calls[2].argv; assert.equal(h.calls[2].kind, 'decode');
+  assert.deepEqual(argv.slice(0, 3), ['-hide_banner', '-loglevel', 'warning']);
+  assert.deepEqual(argv.slice(argv.indexOf('-i') + 2, argv.indexOf('-i') + 9), ['-map', '0:v:0', '-an', '-sn', '-dn', '-map_metadata', '-1']);
+  assert.equal(argv.filter(arg => arg === '-map_metadata').length, 1); assert.ok(!argv.includes('-keep_metadata'));
+  for (const stderr of ['[in#0/matroska,webm @ 0000000000000001] File ended prematurely\r\n',
+    "[vost#0:0/rawvideo @ 0000000000000001] Discarding stream metadata 'DURATION' because the stream is being re-encoded. Use '-keep_metadata DURATION' to keep it.\r\n"]) {
+    const changed = await fixture(t, { changeResult: (value, kind) => { if (kind === 'decode') Object.assign(value, captured(stderr)); } });
+    const refused = await changed.run();
+    assert.equal(refused.status, 'untested'); assert.equal(refused.cell.available, false); assert.equal(refused.failure.code, 'PROBE_WARNINGS_UNREVIEWED');
+    assert.equal(changed.registry.snapshot().activeProbeId, null); assert.equal(changed.released, 1);
+  }
+});
+
 test('final discovery failure abandons a closed probe without inventing a fresh environment', async t => {
   const h = await fixture(t, { failRefresh: true }), result = await h.run();
   assert.equal(result.status, 'untested'); assert.equal(result.cell.reason, 'PROBE_INTERRUPTED');

@@ -376,8 +376,10 @@ class NativeBackendProbe {
       const metadata = await invoke('metadata', this.#runtime.ffprobe, ['-v', 'warning', '-protocol_whitelist', 'file,pipe', '-show_streams', '-show_frames', '-show_format', '-of', 'json', '-i', output]);
       outputValidation = validateMetadata(metadata.stdout, ticket.plan);
       let pending = Buffer.alloc(0), count = 0, totalBytes = 0;
+      // Raw decoded frames carry no metadata. FFmpeg 9.1 warns when it drops the
+      // Matroska DURATION tag of a re-encoded stream, so copy none at all.
       const decoded = await invoke('decode', this.#runtime.ffmpeg, ['-hide_banner', '-loglevel', 'warning', '-nostdin', '-xerror', '-protocol_whitelist', 'file,pipe',
-        '-noautorotate', '-i', output, '-map', '0:v:0', '-an', '-sn', '-dn', '-c:v', 'rawvideo', '-pix_fmt', `+${ticket.plan.fixture.pixelFormat}`, '-fps_mode', 'passthrough', '-f', 'rawvideo', 'pipe:1'],
+        '-noautorotate', '-i', output, '-map', '0:v:0', '-an', '-sn', '-dn', '-map_metadata', '-1', '-c:v', 'rawvideo', '-pix_fmt', `+${ticket.plan.fixture.pixelFormat}`, '-fps_mode', 'passthrough', '-f', 'rawvideo', 'pipe:1'],
       { stdoutLimit: frameBytes * FRAMES + 1, onStdoutChunk: chunk => {
         if (!Buffer.isBuffer(chunk)) fail('PROBE_CAPTURE_INCOMPLETE', 'Binary decode callback must receive bytes.');
         totalBytes += chunk.length; if (totalBytes > frameBytes * FRAMES) fail('PROBE_OUTPUT_MISMATCH', 'Decode contains excess frames or bytes.');

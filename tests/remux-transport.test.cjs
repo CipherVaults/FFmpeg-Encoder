@@ -51,8 +51,11 @@ async function complete(t, shape = {}, mutant = null) {
   const selection = api.select({ plan, settings: null, sourceIdentity: f.identity, sourceProbeFingerprint: plan.sourceProbeFingerprint,
     runtimeIdentity, environment: null, budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS });
   assert.ok(selection); const transportPreparation = await prepare(f);
-  await runTool(ffmpeg, api.resolveInvocation(plan, { output }));
+  let invocation = api.resolveInvocation(plan, { output });
+  if (mutant?.invocation) invocation = mutant.invocation([...invocation], output);
+  await runTool(ffmpeg, invocation);
   if (mutant?.native) { const bytes = await fs.readFile(output); mutant.native(bytes); await fs.writeFile(output, bytes); }
+  if (mutant?.rewrite) await fs.writeFile(output, mutant.rewrite(await fs.readFile(output)));
   const outputProbe = await probe(output);
   const controller=new AbortController();let opened=0,closed=0;
   const calls = [], run = async (file, args, opts) => {
@@ -409,4 +412,77 @@ test('transport budget overflow and an idle preparation refuse without a grant',
   try {await assert.rejects(prepare(f,async(_file,_args,options)=>{clock+=120001;tick();assert.equal(options.signal.aborted,true);
     throw Object.assign(Error('aborted'),{code:'CANCELLED'});}),{code:'REMUX_TS_STALLED'});}
   finally{global.setInterval=interval;global.clearInterval=clear;Date.now=now;}
+});
+
+// FFmpeg 9.1 reports reordered VFR MP4 packet durations in presentation order.
+// The output transcript uses decode-order DTS steps plus the native final stts
+// duration, so every decode-clock change still refuses with packet identity.
+function videoStts(b) {
+  const parents = [], find = (start, end, want) => {
+    for (let at = start; at + 8 <= end;) { const size = b.readUInt32BE(at), type = b.toString('latin1', at + 4, at + 8);
+      assert.ok(size >= 8 && at + size <= end);
+      if (type === want[0]) { if (want.length === 1) return at; parents.push(at); return find(at + 8, at + size, want.slice(1)); }
+      at += size; }
+    assert.fail('missing ' + want[0]);
+  };
+  const at = find(0, b.length, ['moov', 'trak', 'mdia', 'minf', 'stbl', 'stts']);
+  const entries = []; for (let i = 0; i < b.readUInt32BE(at + 12); i++) entries.push([b.readUInt32BE(at + 16 + i * 8), b.readUInt32BE(at + 20 + i * 8)]);
+  return { at, parents, entries };
+}
+test('VFR B-frame MP4 decode clocks stay exact: interior and final-only stts changes and fragments refuse', async t => {
+  await t.test('interior one-sample stts delta +3', async t => {
+    await complete(t, { audio: false, vfr: true }, { code: 'REMUX_TS_PACKET_IDENTITY', native: b => {
+      const { at, entries } = videoStts(b), i = entries.findIndex((e, n) => e[0] === 1 && n > 0 && n < entries.length - 1);
+      assert.ok(entries.length >= 3 && i > 0); b.writeUInt32BE(entries[i][1] + 3, at + 20 + i * 8);
+    } });
+  });
+  await t.test('final sample alone: 7x3000 split into 6x3000 + 1x3003', async t => {
+    await complete(t, { audio: false, vfr: true }, { code: 'REMUX_TS_PACKET_IDENTITY', rewrite: b => {
+      const { at, parents, entries } = videoStts(b), last = at + 16 + (entries.length - 1) * 8, [count, delta] = entries.at(-1);
+      assert.ok(entries.length >= 2 && count > 1 && b.indexOf('mdat') < b.indexOf('moov')); // moov growth moves no chunk offset
+      const entry = Buffer.alloc(8); entry.writeUInt32BE(1); entry.writeUInt32BE(delta + 3, 4);
+      const out = Buffer.concat([b.subarray(0, last + 8), entry, b.subarray(last + 8)]);
+      out.writeUInt32BE(count - 1, last); out.writeUInt32BE(entries.length + 1, at + 12);
+      for (const box of [...parents, at]) out.writeUInt32BE(out.readUInt32BE(box) + 8, box);
+      const changed = videoStts(out).entries; assert.deepEqual(changed.slice(0, -2), entries.slice(0, -1));
+      assert.deepEqual(changed.slice(-2), [[count - 1, delta], [1, delta + 3]]); return out;
+    } });
+  });
+  await t.test('fragmented MP4 output', async t => {
+    const { evidence } = await complete(t, { audio: false, vfr: true }, { code: 'REMUX_TS_PACKET_IDENTITY', invocation: (args, output) => {
+      assert.equal(args.at(-1), output); args.splice(args.length - 1, 0, '-movflags', '+frag_keyframe+empty_moov+skip_trailer'); return args;
+    } });
+    assert.match(evidence.failure.message || '', /Fragmented MP4 video/);
+  });
+});
+test('MP4 transport scan takes the final video duration only from an exact non-fragmented native reading', async t => {
+  const { scanTransportPackets, getTransportPreparation } = require('../src/remux-transport-evidence.cjs');
+  const { observeNativeInventory } = require('../src/remux-native-checks.cjs');
+  const f = await fixture(t, { audio: false, vfr: true }), api = owner(), output = path.join(f.dir, 'out.mp4');
+  const plan = api.prepare({ assessment: f.assessment, request, input: f.file, output, outputId: randomUUID(), sourceIdentity: f.identity });
+  assert.ok(api.select({ plan, settings: null, sourceIdentity: f.identity, sourceProbeFingerprint: plan.sourceProbeFingerprint,
+    runtimeIdentity, environment: null, budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS }));
+  const token = await prepare(f); await runTool(ffmpeg, api.resolveInvocation(plan, { output }));
+  const stampOf = async file => { const s = await fs.lstat(file, { bigint: true });
+    return Object.fromEntries(['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].map(k => [k, String(s[k])])); };
+  const prepared = getTransportPreparation(token, f.file, f.raw, await stampOf(f.file)), outputProbe = await probe(output);
+  const budget = deriveRemuxAssessmentBudget(f.assessment, f.identity.size, 'packet-identity-v1').budget;
+  const native = await observeNativeInventory({ file: output, probe: outputProbe, family: 'isobmff', target: 'mp4', identity: await stampOf(output),
+    maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs });
+  const [stream] = native.randomAccess.streams, [count, delta] = videoStts(await fs.readFile(output)).entries.at(-1);
+  assert.ok(count > 1); assert.equal(stream.finalDuration, String(delta)); assert.equal(stream.fragmented, false);
+  assert.deepEqual(Object.keys(stream), ['index', 'indexed']); assert.equal(JSON.stringify(stream).includes('finalDuration'), false);
+  const scan = nativeOutput => scanTransportPackets({ file: output, probe: outputProbe, source: false, sourceAdmission: prepared.admitted, nativeOutput, budget,
+    invoke: async (args, maximum, sink) => { const r = await runTool(ffprobe, args, { stdoutLimit: maximum, onStdoutChunk: chunk => sink.push(chunk) });
+      assert.equal(r.stderr, ''); await sink.finish(); } });
+  const transcript = async nativeOutput => (await scan(nativeOutput)).entries.get(0).record.metadataSha256;
+  assert.equal(await transcript(native), prepared.entries.get(0).record.metadataSha256);
+  const replica = (entry, family = 'isobmff') => ({ family, randomAccess: { streams: entry === undefined ? [] : [entry].flat() } });
+  assert.notEqual(await transcript(replica({ index: 0, finalDuration: String(delta + 3), fragmented: false })), prepared.entries.get(0).record.metadataSha256);
+  for (const [name, nativeOutput] of [['absent', null], ['Matroska reading', replica({ index: 0, finalDuration: String(delta), fragmented: false }, 'matroska')],
+    ['stream missing', replica()], ['duplicate stream', replica([{ index: 0, finalDuration: String(delta), fragmented: false }, { index: 0, finalDuration: String(delta), fragmented: false }])],
+    ['fragmented', replica({ index: 0, finalDuration: String(delta), fragmented: true })], ['fragment flag unknown', replica({ index: 0, finalDuration: String(delta) })],
+    ['zero', replica({ index: 0, finalDuration: '0', fragmented: false })], ['number', replica({ index: 0, finalDuration: delta, fragmented: false })],
+    ['leading zero', replica({ index: 0, finalDuration: '0' + delta, fragmented: false })], ['unavailable', replica({ index: 0, finalDuration: null, fragmented: false })]])
+    await assert.rejects(scan(nativeOutput), { code: 'REMUX_TS_PACKET_IDENTITY' }, name);
 });

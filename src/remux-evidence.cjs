@@ -13,7 +13,7 @@ const { classifyColor } = require('./media.cjs');
 const { observeMovRepresentation } = require('./mov-representation.cjs');
 const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
-const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
+const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback, bindRemuxSourceTail } = require('./remux-edit-lists.cjs');
 const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
 const { TextDecoder } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
@@ -1160,8 +1160,11 @@ async function collectRemuxEvidence(options) {
     finally { await outputSpool?.close(); active--; }
   }
   const probeArgs = (file, index) => ['-v', 'warning', '-protocol_whitelist', 'file,pipe', '-select_streams', String(index)];
+  // Raw PCM, framehash, data and null evidence outputs carry no metadata.
+  // FFmpeg 9.1 warns when it discards copied stale tags (DURATION, BPS, ...)
+  // from a re-encoded stream, so copy none; stderr must still stay empty.
   const ffmpegArgs = (file, index) => ['-hide_banner', '-loglevel', 'warning', '-nostdin', '-n', '-xerror', '-threads', '1',
-    '-protocol_whitelist', 'file,pipe', '-copyts', '-noautorotate', '-i', file, '-map', `0:${index}`];
+    '-protocol_whitelist', 'file,pipe', '-copyts', '-noautorotate', '-i', file, '-map', `0:${index}`, '-map_metadata', '-1'];
   const probeQueries = new Map([
     ['frames', ['-show_frames']],
     ['packets', ['-show_packets', '-show_data_hash', 'sha256']],
@@ -1347,11 +1350,13 @@ async function collectRemuxEvidence(options) {
     const primary = failures.find(result => result.reason?.code !== 'CANCELLED') || failures[0];
     if (primary) throw primary.reason;
   }
-  async function collectTransportSides() {
+  async function collectTransportSides(nativeOutput) {
     const { getTransportPreparation, scanTransportPackets } = require('./remux-transport-evidence.cjs');
     const prepared = getTransportPreparation(options.transportPreparation, sourcePath, sourceProbe, stamp(sourceBefore));
+    // nativeOutput is this collector's own stamped native reading of the
+    // output, never a caller option; it names the final video sample clock.
     const scanned = await scanTransportPackets({ file: outputPath, probe: outputProbe, source: false, sourceAdmission: prepared.admitted,
-      budget, signal, invoke: (args, maximum, sink) => invoke('output-all-packets', ffprobe, args, maximum, false, null, sink) });
+      nativeOutput, budget, signal, invoke: (args, maximum, sink) => invoke('output-all-packets', ffprobe, args, maximum, false, null, sink) });
     for (const mapping of mappings) {
       const before = prepared.entries.get(mapping.inputIndex), after = scanned.entries.get(mapping.outputIndex);
       need(before && after && before.count === after.count, 'Transport packet count changed.', 'REMUX_PACKET_COUNT');
@@ -1670,7 +1675,7 @@ async function collectRemuxEvidence(options) {
       identity:stamp(outputBefore),...budget,signal});
     receipt.nativeInventory=compareNativeInventories(nativeSource,nativeOutput,mappings);
     if (verificationMethod === 'packet-identity-v1') {
-      if (transport) await collectTransportSides();
+      if (transport) await collectTransportSides(nativeOutput);
       else {
       await collectPacketSides();
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
@@ -1819,11 +1824,15 @@ async function collectRemuxEvidence(options) {
       identity: { canonicalPath: sourcePath, ...stamp(sourceBefore) }, selectedIndexes: mappings.map(m => m.inputIndex),
       maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs, signal, onProgress: value => progress('source-playback-controls', value.completed, value.total) }) : null;
     if (sourcePlayback) receipt.sourcePlayback = sourcePlayback;
+    // An admitted AAC tail edit must name the trailing padding the complete
+    // packet/PCM trim evidence proves, whatever the target (fails closed).
+    const sourceTails = new Map(sourcePlayback ? mappings.map(m => [m.inputIndex, bindRemuxSourceTail(sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex),
+      collections.source.get(m.inputIndex)?.record)]) : []);
     if (['mp4', 'mov'].includes(assessment.target)) {
       receipt.nativeEditLists = await observeRemuxEditLists({ outputProbe, signal, maxRecords: budget.maxRecords, exact: transport,
         fileReceipt: { path: outputPath, sha256: essence.outputFileSha256, bytes: Number(outputBefore.size), identity: stamp(outputBefore) },
         intervals: mappings.map(m => ({ outputIndex: m.outputIndex,
-          ...remuxEditInterval(collections.source.get(m.inputIndex).record, source.streams.find(s => s.index === m.inputIndex)),
+          ...remuxEditInterval(collections.source.get(m.inputIndex).record, source.streams.find(s => s.index === m.inputIndex), sourceTails.get(m.inputIndex)),
           ...(sourcePlayback ? { sourceControls: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).controls,
             sourceDimensions: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).dimensions } : {}) })),
         onProgress: value => progress('native-edit-lists', value.completed, value.total) });

@@ -184,7 +184,24 @@ test('normalization ignores forged derived claims and old policy cannot share th
   const normalized = normalizeProbe(probe);
   assert.equal(normalized.mediaEvidence.streams[0].geometry.sampleAspectRatio.state, 'unknown');
   assert.equal(normalized.mediaEvidence.streams[0].hdr.supported, undefined);
-  assert.equal(INSPECTION_POLICY.normalization, 5);
+  assert.equal(INSPECTION_POLICY.normalization, 6);
+});
+
+test('audio seek_preroll is carried exactly like initial_padding and malformed values fail closed with the same code', () => {
+  const audio = extra => ({ index: 1, codec_type: 'audio', codec_name: 'aac', sample_fmt: 'fltp', sample_rate: '48000', channels: 2, initial_padding: 1024, ...extra });
+  for (const value of [1024, 0, '1024']) {
+    const probe = source(); probe.streams.push(audio({ seek_preroll: value }));
+    const normalized = normalizeProbe(probe);
+    assert.equal(normalized.streams[1].seek_preroll, value);
+    assert.equal(normalized.streams[1].initial_padding, 1024);
+    assert.deepEqual(normalizeProbe(normalized).streams[1], normalized.streams[1]);
+  }
+  const absent = source(); absent.streams.push(audio());
+  assert.equal(Object.hasOwn(normalizeProbe(absent).streams[1], 'seek_preroll'), false);
+  for (const value of [null, true, {}, [1024], Infinity, NaN]) for (const field of ['initial_padding', 'seek_preroll']) {
+    const probe = source(); probe.streams.push(audio({ [field]: value }));
+    assert.throws(() => normalizeProbe(probe), { code: 'INVALID_PROBE', message: `Invalid inspection field: ${field}.` }, field + ' ' + String(value));
+  }
 });
 
 test('source and output objects never share side-data mutation or relationship references', () => {

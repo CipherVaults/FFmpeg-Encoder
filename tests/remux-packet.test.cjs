@@ -280,6 +280,25 @@ for (const [label, code, attack] of attacks) test('packet identity refuses ' + l
   const r = await s.collect(); assert.equal(r.status, 'failed', label); assert.equal(r.failure.code, code, JSON.stringify(r.failure));
   assert.throws(() => getCollectedRemuxEvidence(r, { assessment: s.options.assessment, runtimeIdentity: HASH, outputId: OUTPUT }), { code: 'REMUX_EVIDENCE_RECEIPT_REQUIRED' });
 });
+test('audio seek_preroll reaches the bound probe and is compared exactly on header, bound and cross-side views', async t => {
+  // FFmpeg 9.1 ffprobe prints seek_preroll for every audio stream (AAC 1024, others 0).
+  for (const value of [1024, 0]) {
+    const s = await setup(t, { mutateSource: p => { p.streams[1].seek_preroll = value; } }), r = await s.collect();
+    assert.equal(r.status, 'completed', JSON.stringify(r.failure)); assert.equal(s.validate(r).valid, true);
+  }
+  const preroll = p => { p.streams[1].seek_preroll = 1024; };
+  for (const [label, options] of [
+    ['output header differs', { mutateSource: preroll, mutateHeaders: (h, side) => { if (side === 'output') h[1].seek_preroll = 0; } }],
+    ['source header differs', { mutateSource: preroll, mutateHeaders: (h, side) => { if (side === 'source') h[1].seek_preroll = 2048; } }],
+    ['header omits it', { mutateSource: preroll, mutateHeaders: (h, side) => { if (side === 'output') delete h[1].seek_preroll; } }],
+    ['bound probe omits it', { mutateHeaders: h => { h[1].seek_preroll = 1024; } }],
+    ['textual near miss', { mutateSource: preroll, mutateHeaders: (h, side) => { if (side === 'output') h[1].seek_preroll = '01024'; } }],
+    ['output differs from source', { mutateSource: preroll, mutateOutput: o => { o.streams[1].seek_preroll = 2048; } }],
+    ['output gains it', { mutateOutput: o => { o.streams[1].seek_preroll = 1024; } }]]) {
+    const s = await setup(t, options), r = await s.collect();
+    assert.equal(r.status, 'failed', label); assert.equal(r.failure.code, 'REMUX_CODEC_PARAMETERS', label + ' ' + JSON.stringify(r.failure));
+  }
+});
 test('extradata and every codec interpretation field refuse independently of packet bytes', async t => {
   for (const mutate of [o => { o.streams[0].extradata_hash = 'SHA256:' + sha('changed'); }, o => { delete o.streams[0].extradata_hash; },
     o => { o.streams[0].sample_aspect_ratio = '2:1'; }, o => { o.streams[0].profile = 'Main'; }, o => { o.streams[0].codec_tag_string = 'avc3'; },

@@ -76,7 +76,13 @@ async function isoSeeking({meta,tracks,integer}){
       }previousEnd=position;
     }
   }
-  for(const state of byId.values())if(state.track.selected&&state.track.kind==='video')streams.push({index:state.track.index,indexed:[...state.indexed]});
+  // FFmpeg 9.1 reports reordered VFR mov packet durations in presentation
+  // order, so its final decode-order duration no longer names its own sample
+  // clock. Keep this reader's exact final sample-table duration, main-only and
+  // out of serialized receipts, and say whether any fragment exists at all.
+  const fragmented=nodes.some(n=>n.type==='moof');
+  for(const state of byId.values())if(state.track.selected&&state.track.kind==='video'){const entry={index:state.track.index,indexed:[...state.indexed]};
+    Object.defineProperties(entry,{finalDuration:{value:state.packets.length?String(state.packets.at(-1).duration):null},fragmented:{value:fragmented}});streams.push(entry);}
   return{streams,states:byId,packets};
 }
 module.exports={isoSeeking};

@@ -432,6 +432,29 @@ test('the same TTF diagnostic is still refused from every FFmpeg native decode c
   }
 });
 
+// FFmpeg 9.1 warns when it discards copied stale tags (DURATION, BPS, ...) of a
+// re-encoded stream. Evidence decodes copy no metadata into their raw outputs,
+// and every decode diagnostic, that exact warning included, still refuses.
+test('every FFmpeg evidence decode copies no metadata and any decode warning still refuses', async t => {
+  const s = await setup(t), receipt = await s.collect(); assert.equal(receipt.status, 'completed');
+  const decodes = s.calls.filter(call => call.executable === s.options.ffmpeg);
+  assert.ok(decodes.some(call => call.args.includes('framehash')) && decodes.some(call => call.args.includes('-c:a')));
+  for (const { args, stream } of decodes) {
+    const map = args.indexOf('-map');
+    assert.deepEqual(args.slice(0, 3), ['-hide_banner', '-loglevel', 'warning']); assert.ok(args.indexOf('-i') < map);
+    assert.deepEqual(args.slice(map, map + 4), ['-map', `0:${stream.index}`, '-map_metadata', '-1']);
+    assert.equal(args.filter(arg => arg === '-map_metadata').length, 1); assert.ok(!args.includes('-keep_metadata'));
+  }
+  const warnings = ['[aac @ 0000000000000001] File ended prematurely\r\n',
+    "[aost#0:0/pcm_f32le @ 0000000000000001] Discarding stream metadata 'DURATION' because the stream is being re-encoded. Use '-keep_metadata DURATION' to keep it.\r\n",
+    "[vost#0:0/rawvideo @ 0000000000000001] Discarding stream metadata 'DURATION' because the stream is being re-encoded. Use '-keep_metadata DURATION' to keep it.\r\n"];
+  for (const command of ['framehash', '-c:a']) for (const stderr of warnings) {
+    const changed = await setup(t, { changeCapture: (result, call) => call.args.includes(command) ? withDiagnostic(result, stderr) : result });
+    const refused = await changed.collect(); failure(refused, /REMUX_EVIDENCE_DECODE/);
+    assert.equal(refused.invocations.find(item => item.status === 'failed').diagnosticAssessment, undefined);
+  }
+});
+
 test('measured canonical packet/header queries classify TTF discovery and still prove complete validator evidence', async t => {
   const probe = richAttachmentProbe();
   Object.assign(probe.streams[0], { extradata_size: 47, extradata_hash: `SHA256:${'7'.repeat(64)}` });

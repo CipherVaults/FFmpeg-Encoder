@@ -30,7 +30,7 @@ function codecParameters(stream, admitted, asc) {
   if (!Number(v.trailing_padding || 0)) delete v.trailing_padding;
   return sha(JSON.stringify(remuxCodecParameters(v)));
 }
-async function scanTransportPackets({ file, probe, source = true, sourceAdmission = null, invoke, budget, signal }) {
+async function scanTransportPackets({ file, probe, source = true, sourceAdmission = null, invoke, budget, signal, nativeOutput = null }) {
   const { createRemuxJsonSink, createRemuxHeaderSink, createRemuxPacketAccumulator, parseRemuxAvcc, parseRemuxAsc } = require('./remux-evidence.cjs');
   const media = normalizeProbe(probe), entries = new Map(); let admitted = sourceAdmission, headers = 0, payloadBytes = 0;
   for (const stream of media.streams) {
@@ -80,13 +80,20 @@ async function scanTransportPackets({ file, probe, source = true, sourceAdmissio
           .flatMap(n => [Buffer.from([0, 0, 0, 1]), n]));
         entry.firstClip ||= clip; entry.lastClip = clip;
       }
-      if (source && video) {
+      if (video) {
         // TS has no coded packet-duration field. FFprobe's nominal frame-rate
         // guess is not the transport interval for VFR: consecutive native DTS
         // delimit that interval exactly. Only the final packet uses its
         // positive demuxer duration, as there is no following decode clock.
+        // The MP4 side uses the same decode-order form: in non-fragmented MP4
+        // each DTS step is exactly its stts delta, while FFmpeg 9.1 reports
+        // reordered VFR durations in presentation order. Its final packet
+        // takes the native sample-table duration below, never FFprobe's.
+        need(source || /^(0|-?[1-9][0-9]{0,18})$/.test(String(p.dts)), 'REMUX_PACKET_DTS', 'MP4 video packet DTS is not an exact native tick.');
         if (entry.pending) {
-          entry.pending.packet.duration = String(BigInt(p.dts) - BigInt(entry.pending.packet.dts)); delete entry.pending.packet.duration_time;
+          const step = BigInt(p.dts) - BigInt(entry.pending.packet.dts);
+          need(source || step > 0n, 'REMUX_TS_PACKET_IDENTITY', 'MP4 video decode clocks do not advance.');
+          entry.pending.packet.duration = String(step); delete entry.pending.packet.duration_time;
           commit(entry, entry.pending.packet, entry.pending.nalUnitsSha256);
         }
         entry.pending = { packet: p, nalUnitsSha256 };
@@ -115,7 +122,20 @@ async function scanTransportPackets({ file, probe, source = true, sourceAdmissio
   need(headers === entries.size && admitted && headerSink, 'REMUX_CODEC_PARAMETERS', 'Incomplete transport codec header coverage.');
   const videoAdmission = await headerSink.finish();
   for (const entry of entries.values()) {
-    if (entry.pending) { commit(entry, entry.pending.packet, entry.pending.nalUnitsSha256); delete entry.pending; }
+    if (entry.pending) {
+      if (!source) {
+        // Only the collector's own native ISO sample-table reading of this
+        // stamped output names the final sample clock; fragments add samples
+        // outside that table, so they have no admitted final duration here.
+        const native = nativeOutput?.family === 'isobmff' ? nativeOutput.randomAccess?.streams?.filter(s => s?.index === entry.stream.index) : null;
+        need(Array.isArray(native) && native.length === 1, 'REMUX_TS_PACKET_IDENTITY', 'The MP4 final native video sample duration is unavailable.');
+        need(native[0].fragmented === false, 'REMUX_TS_PACKET_IDENTITY', 'Fragmented MP4 video has no admitted final native sample duration.');
+        need(typeof native[0].finalDuration === 'string' && /^[1-9][0-9]{0,9}$/.test(native[0].finalDuration), 'REMUX_TS_PACKET_IDENTITY',
+          'The MP4 final native video sample duration is unavailable.');
+        entry.pending.packet.duration = native[0].finalDuration; delete entry.pending.packet.duration_time;
+      }
+      commit(entry, entry.pending.packet, entry.pending.nalUnitsSha256); delete entry.pending;
+    }
     Object.assign(entry, entry.accumulator.finish());
     const parameters = codecParameters(entry.stream, admitted, entry.asc);
     entry.record = { complete: true, exitCode: 0, stderrComplete: true, errors: [], representation: 'packet-identity-v1',

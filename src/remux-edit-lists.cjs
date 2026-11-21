@@ -22,8 +22,59 @@ function scaled(value, scale, rounding = 'exact') {
   need(n >= 0n && (rounding !== 'exact' || n % value.d === 0n), 'The source interval cannot be represented exactly on the native movie/media clock.', 'REMUX_EDIT_LIST_UNEXPECTED');
   return rounding === 'up' ? (n + value.d - 1n) / value.d : n / value.d;
 }
-function remuxEditInterval(record, stream) {
-  let start = ratio(record.firstPts); const end = ratio(record.endPts);
+const AAC_FRAME = 1024n, ceilDiv = (n, d) => n >= 0n ? (n + d - 1n) / d : -((-n) / d);
+// FFmpeg 9.1 movenc (b1327568b6) stores the encoder's last AAC frame at its
+// full 1024-sample duration and trims only its Skip Samples end padding with
+// the media edit. Admit that one representation exactly: one AAC media edit
+// (optionally after one empty edit) ending strictly inside a last sample of
+// exactly one frame. Movie rounding can map several tails to one edit, so the
+// receipt names every admissible trailing sample count; the packet/PCM trim
+// evidence must later name one of them (bindRemuxSourceTail).
+function aacTailEdit({ stream, kind, entries, media, full, minimum, maximum, clock, lastDelta, mediaScale, movieScale }) {
+  if (kind !== 'audio' || stream.codec_name !== 'aac' || entries.length !== (entries[0].mediaTime === -1n ? 2 : 1) || media.duration >= full || maximum !== clock || lastDelta === null || !/^[1-9]\d{0,8}$/.test(String(stream.sample_rate))) return null;
+  const rate = BigInt(stream.sample_rate);
+  if (lastDelta * rate !== AAC_FRAME * mediaScale) return null;
+  // ceil((maximum - s*m/rate) * M/m) === target for trailing samples s:
+  // (target-1)*m*rate < (maximum*rate - s*m)*M <= target*m*rate.
+  const target = media.duration + scaled({ n: media.mediaTime, d: mediaScale }, movieScale, 'up'), unit = mediaScale * movieScale, whole = maximum * rate * movieScale;
+  const low = ceilDiv(whole - target * mediaScale * rate, unit), high = ceilDiv(whole - (target - 1n) * mediaScale * rate, unit) - 1n;
+  const first = low > 1n ? low : 1n, last = high < AAC_FRAME - 1n ? high : AAC_FRAME - 1n;
+  if (first > last) return null;
+  const lead = (media.mediaTime - minimum) * rate;
+  return { version: 1, samplesPerPacket: Number(AAC_FRAME), sampleRate: String(rate), lastPacketSamples: String(AAC_FRAME),
+    ...(lead % mediaScale === 0n ? { leadingSamples: String(lead / mediaScale) } : {}),
+    minimumTrailingSamples: String(first), maximumTrailingSamples: String(last) };
+}
+// The tail edit and the demuxed discard padding must agree. Cross-family audio
+// carries its complete effective AAC trim; same-family packet identity keeps
+// the exact decoded PCM count, which fixes the trailing padding by
+// codedSamples - leadingSamples - decodedSamples. Anything else fails closed.
+function bindRemuxSourceTail(track, record) {
+  const tail = track?.aacTail; if (!tail) return null;
+  const refuse = ok => need(ok, 'The source AAC tail edit does not match its complete decoded trailing padding.', 'REMUX_SOURCE_EDIT_UNSUPPORTED');
+  const count = value => { refuse(/^\d{1,20}$/.test(String(value))); return BigInt(value); };
+  refuse(tail.version === 1 && tail.samplesPerPacket === Number(AAC_FRAME) && record && typeof record === 'object');
+  let trailing;
+  if (record.audioTrim) {
+    refuse(record.audioTrim.samplesPerPacket === Number(AAC_FRAME) && (tail.leadingSamples === undefined || record.audioTrim.leadingSamples === tail.leadingSamples));
+    trailing = count(record.audioTrim.trailingSamples);
+  } else {
+    refuse(record.pcm && tail.leadingSamples !== undefined && /^[1-9]\d{0,19}$/.test(String(record.unitCount)));
+    trailing = AAC_FRAME * count(record.unitCount) - count(tail.leadingSamples) - count(record.pcm.samples);
+  }
+  refuse(trailing >= count(tail.minimumTrailingSamples) && trailing <= count(tail.maximumTrailingSamples));
+  return { samplesPerPacket: tail.samplesPerPacket, sampleRate: tail.sampleRate, lastPacketSamples: tail.lastPacketSamples, trailingSamples: String(trailing) };
+}
+function remuxEditInterval(record, stream, tail = null) {
+  let start = ratio(record.firstPts), end = ratio(record.endPts);
+  // A bound AAC tail edit ends where movenc ends it, for both the full-frame
+  // (9.1) and short-last-sample (9.0.2) layouts:
+  // lastPts + max(frame, lastPacketDuration) - trailingSamples.
+  if (tail) {
+    need(stream.codec_type === 'audio' && stream.codec_name === 'aac' && String(stream.sample_rate) === tail.sampleRate, 'The bound AAC tail edit names another stream.', 'REMUX_EDIT_LIST_UNEXPECTED');
+    const rate = BigInt(tail.sampleRate), frame = BigInt(tail.samplesPerPacket), lastPacket = BigInt(tail.lastPacketSamples);
+    end = { n: end.n * rate + ((frame > lastPacket ? frame : lastPacket) - lastPacket - BigInt(tail.trailingSamples)) * end.d, d: end.d * rate };
+  }
   if (stream.start_pts !== undefined && /^-?\d{1,20}$/.test(String(stream.start_pts)) && /^\d{1,16}\/\d{1,16}$/.test(stream.time_base)) {
     const [n, d] = stream.time_base.split('/').map(BigInt); need(n > 0n && d > 0n, 'Source track clock is invalid.');
     const declared = { n: BigInt(stream.start_pts) * n, d };
@@ -37,7 +88,8 @@ function remuxEditInterval(record, stream) {
     if (greater(trimmed, start)) start = trimmed;
   }
   need(start.n >= 0n && greater(end, start), 'The source visible interval has no supported nonnegative movie edit.', 'REMUX_EDIT_LIST_UNEXPECTED');
-  return { firstPts: record.firstPts, visibleStart: { numerator: String(start.n), denominator: String(start.d) }, endPts: record.endPts,
+  return { firstPts: record.firstPts, visibleStart: { numerator: String(start.n), denominator: String(start.d) },
+    endPts: tail ? { numerator: String(end.n), denominator: String(end.d) } : record.endPts,
     ...(record.representation === 'packet-identity-v1' ? { packetCount: record.unitCount } : {}) };
 }
 
@@ -191,7 +243,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       }
       const ctts = samples.filter(b => b.type === 'ctts'); need(ctts.length <= 1, 'Duplicate native composition table.');
       const ds = runs(one(samples, 'stts')), cs = ctts.length ? runs(ctts[0], true) : (async function* () { yield { n: BigInt(sampleCount), value: 0n }; })();
-      let d, c, clock = 0n, minimum = null, maximum = null;
+      let d, c, clock = 0n, minimum = null, maximum = null, lastDelta = null;
       try {
         if (!sampleCount) {
           minimum = maximum = 0n;
@@ -201,7 +253,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
           const take = d.value.n < c.value.n ? d.value.n : c.value.n, first = clock + c.value.value, end = clock + take * d.value.value + c.value.value;
           if (minimum === null || first < minimum) minimum = first;
           if (maximum === null || end > maximum) maximum = end;
-          clock += take * d.value.value; d.value.n -= take; c.value.n -= take;
+          lastDelta = d.value.value; clock += take * d.value.value; d.value.n -= take; c.value.n -= take;
           if (!d.value.n) d = await ds.next(); if (!c.value.n) c = await cs.next();
         }
         need(d.done && c.done && minimum !== null, 'Incomplete native timing coverage.');
@@ -219,6 +271,9 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       // presentation span UP to movie ticks. Measured 1/30, 2/30, 4/30 seconds
       // at mvhd=1000 produce spans 34,67,134; 1/30 and 2/30 starts produce
       // delays 33,66. Require those exact integers (no +/- tick tolerance).
+      // For AAC the span ends at lastPts + max(frame, lastPacketDuration) -
+      // trailing padding: FFmpeg 9.1 movenc keeps the full last frame in STTS
+      // and trims that padding with the edit alone (9.0.2 shortened STTS).
       // media_time remains exact in mdhd ticks. The last reordered sample's
       // STTS/CTTS endpoint is not a movie edit endpoint: the saved B-frame proof
       // has a 16/16000 s native tail but an exact 8 s source/movie interval.
@@ -238,7 +293,7 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
         need(b.readInt16BE(rateAt) === 1 && b.readInt16BE(rateAt + 2) === 0, 'Movie edit rates must be exactly 1.0; speed changes and held-frame edits cannot be preserved by Remux.', sourceMode ? 'REMUX_SOURCE_EDIT_UNSUPPORTED' : 'REMUX_EDIT_RATE_UNSUPPORTED');
         entries.push({ duration: version ? b.readBigUInt64BE() : BigInt(b.readUInt32BE()), mediaTime: version ? b.readBigInt64BE(8) : BigInt(b.readInt32BE(4)) });
       }
-      let trackEnd;
+      let trackEnd, aacTail = null;
       if (sourceMode) {
         need(entries.length < 2 || entries[0].mediaTime === -1n,
           'Consecutive media edits require exact accounting for demuxer-repeated preroll; this edit layout is not verified.', 'REMUX_SOURCE_EDIT_PREROLL_UNVERIFIED');
@@ -248,24 +303,41 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
           'An interior or video-head edit cannot be preserved by Remux.', editCode);
         // movenc subtracts the independently rounded leading AAC edit from
         // the rounded decode span. This also covers noncommensurate clocks.
-        if (media) need(media.duration === scaled({ n: maximum, d: mediaScale }, movieScale, 'up') - scaled({ n: media.mediaTime, d: mediaScale }, movieScale, 'up'),
-          'A shortened or extended source media edit cannot be carried by Remux.', editCode);
+        // The only other admitted media edit is the bounded AAC tail edit.
+        if (media) {
+          const full = scaled({ n: maximum, d: mediaScale }, movieScale, 'up') - scaled({ n: media.mediaTime, d: mediaScale }, movieScale, 'up');
+          if (media.duration !== full && !fragmented) aacTail = aacTailEdit({ stream, kind, entries, media, full, minimum, maximum, clock, lastDelta, mediaScale, movieScale });
+          need(media.duration === full || aacTail, 'A shortened or extended source media edit cannot be carried by Remux.', editCode);
+        }
         const editEnd = entries.reduce((n, e) => n + e.duration, 0n);
         // Source semantics: edits describe track duration; some writers retain
         // independently rounded absolute ends. Both exact declarations are
         // reconciled with native presentation coverage, never a tick tolerance.
-        const coverageEnd = scaled({ n: (maximum - (media?.mediaTime || minimum)) * movieScale + (blank?.duration || 0n) * mediaScale,
-          d: mediaScale * movieScale }, movieScale, 'up');
-        // An empty edit stores floor(original delay), while movenc stores
-        // ceil(original absolute end) in tkhd. The original fractional delay
-        // is no longer present in moov. Reconcile that writer's declaration
-        // by its exact half-open delay interval [empty, empty+1 movie tick),
-        // rather than imposing the output writer's layout on an input or
-        // adding a numerical tolerance. The media edit itself stays exact.
-        const endNumerator = (maximum - (media?.mediaTime || minimum)) * movieScale + (blank?.duration || 0n) * mediaScale;
-        const declaredEndFitsQuantisedDelay = blank && duration * mediaScale >= endNumerator
-          && (duration - 1n) * mediaScale < endNumerator + mediaScale;
-        need(fragmented && duration === 0n || duration === (entries.length ? editEnd : coverageEnd) || duration === coverageEnd || declaredEndFitsQuantisedDelay,
+        // An AAC tail edit ends its presentation coverage `trailing` samples
+        // before the sample table (r = sample rate); otherwise r = 1, s = 0.
+        const r = aacTail ? BigInt(aacTail.sampleRate) : 1n;
+        const declared = s => {
+          const endNumerator = ((maximum - (media?.mediaTime || minimum)) * r - s * mediaScale) * movieScale + (blank?.duration || 0n) * mediaScale * r;
+          const coverageEnd = scaled({ n: endNumerator, d: mediaScale * movieScale * r }, movieScale, 'up');
+          // An empty edit stores floor(original delay), while movenc stores
+          // ceil(original absolute end) in tkhd. The original fractional delay
+          // is no longer present in moov. Reconcile that writer's declaration
+          // by its exact half-open delay interval [empty, empty+1 movie tick),
+          // rather than imposing the output writer's layout on an input or
+          // adding a numerical tolerance. The media edit itself stays exact.
+          const declaredEndFitsQuantisedDelay = blank && duration * mediaScale * r >= endNumerator
+            && (duration - 1n) * mediaScale * r < endNumerator + mediaScale * r;
+          return fragmented && duration === 0n || duration === (entries.length ? editEnd : coverageEnd) || duration === coverageEnd || !!declaredEndFitsQuantisedDelay;
+        };
+        if (aacTail) {
+          // Keep only the tails this tkhd declaration also reconciles exactly;
+          // a non-contiguous remainder is not one admissible interval.
+          const kept = [];
+          for (let s = BigInt(aacTail.minimumTrailingSamples); s <= BigInt(aacTail.maximumTrailingSamples); s++) if (declared(s)) kept.push(s);
+          need(kept.length && kept.at(-1) - kept[0] === BigInt(kept.length - 1),
+            `Stream ${outputIndex}: source tkhd.duration=${duration} contradicts its edits/presentation coverage.`, 'REMUX_SOURCE_DURATION_UNVERIFIED');
+          aacTail = { ...aacTail, minimumTrailingSamples: String(kept[0]), maximumTrailingSamples: String(kept.at(-1)) };
+        } else need(declared(0n),
           `Stream ${outputIndex}: source tkhd.duration=${duration} contradicts its edits/presentation coverage.`, 'REMUX_SOURCE_DURATION_UNVERIFIED');
         trackEnd = duration;
       } else {
@@ -282,7 +354,8 @@ async function observeRemuxEditLists({ fileReceipt, outputProbe, intervals, maxR
       if (!sourceMode) need(duration === trackEnd, 'Native track duration differs from its independently rounded presentation end.', 'REMUX_TRACK_DURATION_UNEXPECTED');
       if (trackEnd > maximumTrackEnd) maximumTrackEnd = trackEnd;
       result.push({ outputIndex, trackId: id, controls, dimensions, movieScale: String(movieScale), mediaScale: String(mediaScale), trackDuration: String(duration),
-        mediaDuration: String(mediaHeaderDuration), entries: entries.map(e => ({ duration: String(e.duration), mediaTime: String(e.mediaTime), rateInteger: 1, rateFraction: 0 })) });
+        mediaDuration: String(mediaHeaderDuration), entries: entries.map(e => ({ duration: String(e.duration), mediaTime: String(e.mediaTime), rateInteger: 1, rateFraction: 0 })),
+        ...(aacTail ? { aacTail } : {}) });
     }
     if (fragmented) {
       // moov duration/edit headers describe only the initial flat segment.
@@ -317,4 +390,4 @@ async function observeRemuxSourcePlayback({ file, probe, identity, selectedIndex
     throw new ToolError('REMUX_SOURCE_PLAYBACK_UNVERIFIED', 'The source native playback controls could not be verified: ' + error.message);
   }
 }
-module.exports = { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback };
+module.exports = { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback, bindRemuxSourceTail };

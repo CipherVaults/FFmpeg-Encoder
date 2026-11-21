@@ -23,10 +23,41 @@ test('VP9 show-existing/profile/key subfields and AV1 sequence/frame/OBU bounds 
   for(const b of [Buffer.from([0xb2,1,0]),Buffer.from([0x32,2,0]),Buffer.from([0x32,128]),Buffer.from([0x36]),Buffer.from([0x32,0])])await assert.rejects(classify('av1',b,config),{code});
   await assert.rejects(classify('av1',key,Buffer.alloc(4)),{code});await assert.rejects(classify('unknown',key,null),{code});
 });
-for(const [codec,encoder,family,args]of [['hevc','libx265','isobmff',['-x265-params','pools=1:frame-threads=1:log-level=error']],['av1','libaom-av1','isobmff',['-cpu-used','8']],['vp9','libvpx-vp9','matroska',['-deadline','realtime','-cpu-used','8']]])test('ordinary '+codec+' own access points survive actual native admission',async t=>{
+// Real coded access points from the shipped engine. It encodes AV1 only with
+// SVT-AV1, which refuses pictures below 64x64, so the 64x48 witness is padded.
+const svtav1=['-vf','pad=64:64','-preset','12'];
+async function codedWitness(t,encoder,family,args){
   const f=await realWitness(t,'isobmff',{audio:false}),file=path.join(path.dirname(f.sourcePath),'coded.'+(family==='matroska'?'mkv':'mp4'));
-  await runTool(ffmpeg,['-v','error','-nostdin','-n','-i',f.sourcePath,'-an','-c:v',encoder,'-threads','1','-g','10',...args,file]);const probe=await f.probe(file),inspect=()=>observeNativeInventory({file,probe,family,target:family==='matroska'?'matroska':'mp4'}),native=await inspect();assert.ok(native.randomAccess.streams[0].indexed.length>0);
+  await runTool(ffmpeg,['-v','error','-nostdin','-n','-i',f.sourcePath,'-an','-c:v',encoder,'-threads','1','-g','10',...args,file]);const probe=await f.probe(file);
+  return {file,inspect:()=>observeNativeInventory({file,probe,family,target:family==='matroska'?'matroska':'mp4'})};
+}
+for(const [codec,encoder,family,args]of [['hevc','libx265','isobmff',['-x265-params','pools=1:frame-threads=1:log-level=error']],['av1','libsvtav1','matroska',svtav1]])test('ordinary '+codec+' '+family+' own access points survive actual native admission',async t=>{
+  const {file,inspect}=await codedWitness(t,encoder,family,args),native=await inspect();assert.ok(native.randomAccess.streams[0].indexed.length>0);
   if(codec==='hevc'){const original=await fs.readFile(file);await fs.writeFile(file,isoRewrite(original,'sdtp',b=>{const at=b.indexOf(0x18,4);assert.ok(at>=4);b[at]=0x14;return b;}));await assert.rejects(inspect(),{code:'REMUX_NATIVE_SDTP'});}
+});
+// Known ISO AV1 gap, kept visible by owner decision: SVT-AV1 marks its
+// non-reference pictures disposable, the MP4 muxer then writes sdtp
+// is_depended_on=2, and the AV1 own-packet classifier derives no reference
+// property, so admission refuses the file. This pins that refusal; admitting
+// it needs a reviewed classifier change, never a relaxed sdtp check.
+test('SVT-AV1 isobmff own access points are refused with REMUX_NATIVE_SDTP (known ISO AV1 coverage gap, not admitted)',async t=>{
+  const {file,inspect}=await codedWitness(t,'libsvtav1','isobmff',svtav1);
+  assert.ok((await fs.readFile(file)).includes(Buffer.from('sdtp')),'the refusal must come from a real SVT-AV1 sdtp box');
+  await assert.rejects(inspect(),{code:'REMUX_NATIVE_SDTP'});
+});
+// VP9 coverage gap: the shipped engine has no software VP9 encoder (no libvpx),
+// so no real coded VP9 file can be generated here. VP9 own-packet admission is
+// covered only by the synthetic classifier test above. If the engine gains a
+// software VP9 encoder this test fails, so real-file VP9 coverage is restored
+// rather than left silently missing.
+test('VP9 real-file native admission coverage gap: the shipped engine has no software VP9 encoder, so VP9 stays synthetic-only',async()=>{
+  const r=await runTool(ffmpeg,['-v','error','-nostdin','-hide_banner','-encoders'],{stdoutLimit:1048576}),encoders=new Map();
+  for(const line of r.stdout.split(/\r?\n/)){const m=/^ ([VAS])[.A-Z]{5} (\S+) .*?(?: \(codec (\S+)\))?$/.exec(line);if(m)encoders.set(m[2],m[1]+':'+(m[3]??m[2]));}
+  for(const shipped of ['libx264','libx265','libsvtav1'])assert.equal(encoders.get(shipped)?.[0],'V','the encoder list must be parsed, not empty');
+  assert.equal(encoders.has('libvpx-vp9'),false,'libvpx-vp9 is present; restore real-file VP9 admission coverage');
+  const vp9=[...encoders].filter(([,kind])=>kind==='V:vp9').map(([name])=>name);
+  for(const name of vp9)assert.match(name,/^vp9_(qsv|vaapi|amf|nvenc|mf|videotoolbox)$/,'only hardware VP9 encoders, which a test cannot rely on');
+  assert.equal(await classify('vp9',Buffer.from([0x82])),true);assert.equal(await classify('vp9',Buffer.from([0x86])),false);
 });
 
 // Grow a syntactically complete hvcC with a user_data_unregistered prefix SEI.

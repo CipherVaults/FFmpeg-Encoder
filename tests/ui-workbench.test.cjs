@@ -1172,6 +1172,65 @@ test('R06 responsive focus: CSS keeps a disappearing focus target visible until 
   assert.match(css, /#files-toggle:focus, #remux-files-toggle:focus\s*\{\s*display:\s*inline-block;/);
 });
 
+for (const workspace of ['encode', 'remux']) test(`R06 drawer disclosure: ${workspace} reopens a desktop-collapsed list with one narrow press`, async () => {
+  const h = workspace === 'encode' ? await processingHarness({ narrow: true }) : await remuxHarness({ narrow: true });
+  if (workspace === 'remux') await h.byId('tab-remux').click();
+  const panel = h.byId(`workspace-${workspace}`), preview = h.byId('preview-list');
+  const trigger = h.byId(workspace === 'remux' ? 'remux-files-toggle' : 'files-toggle');
+  const collapse = h.byId('preview-collapse'), selected = h.byId('selected-count').textContent;
+  const before = [...h.calls];
+  await trigger.click();
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  assert.equal(preview.hidden, false);
+  trigger.focus(); h.setNarrow(false);
+  assert.equal(h.document.activeElement.id, collapse.id);
+  await collapse.click();
+  assert.equal(preview.hidden, true);
+  h.setNarrow(true);
+  assert.equal(h.document.activeElement.id, trigger.id);
+  assert.equal(preview.hidden, true, 'resizing never expands a deliberately collapsed list');
+  assert.equal(trigger.getAttribute('aria-controls'), preview.id);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  assert.equal(panel.className.includes('files-drawer-open'), false);
+  const escape = await panel.emit('keydown', { key: 'Escape' });
+  assert.equal(escape.defaultPrevented, false, 'a closed drawer does not consume Escape');
+  await trigger.click();
+  assert.equal(preview.hidden, false);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  assert.equal(panel.className.includes('files-drawer-open'), true);
+  trigger.focus(); h.setNarrow(false);
+  await collapse.click();
+  h.byId('batch-filter').focus(); h.setNarrow(true);
+  assert.equal(h.document.activeElement.id, trigger.id, 'a collapsed drawer toolbar needs the same handoff as Collapse');
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  await trigger.click();
+  assert.equal(preview.hidden, false);
+  assert.equal(h.byId('selected-count').textContent, selected);
+  assert.deepEqual(h.calls, before);
+});
+
+test('R06 drawer disclosure: an existing open preference does not mislabel a newly auto-collapsed preview', async () => {
+  const h = await processingHarness({ narrow: true });
+  const trigger = h.byId('files-toggle'), preview = h.byId('preview-list'), collapse = h.byId('preview-collapse');
+  await trigger.click();
+  const before = [...h.calls], next = h.snapshot();
+  next.planId = 'large-prepared-plan';
+  next.items.push(...Array.from({ length: 19 }, (_, index) => ({ ...next.items[0], id: `owned-extra-${index}`, name: `Extra ${index}.mkv` })));
+  h.update(next);
+  assert.equal(preview.hidden, true, 'large-batch collapse is intentionally retained');
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  assert.equal(h.byId('workspace-encode').className.includes('files-drawer-open'), false);
+  assert.match(h.byId('hidden-selected-count').textContent, /2 selected hidden/);
+  h.setNarrow(false);
+  await collapse.click(); // The deliberate wide choice reuses the remembered open preference.
+  h.setNarrow(true);
+  assert.equal(preview.hidden, false);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  assert.equal(h.byId('workspace-encode').className.includes('files-drawer-open'), true);
+  assert.match(h.byId('hidden-selected-count').textContent, /0 selected hidden/);
+  assert.deepEqual(h.calls, before);
+});
+
 test('selected-review disclosure reports expansion for its button and native summary toggles', async () => {
   const h = await processingHarness();
   await h.byId('review-selected').click();

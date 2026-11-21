@@ -1,3 +1,5 @@
+- **November 21, 2026 — [R06: disclose the Files drawer's actual expansion state](Execution%20Summaries/2026-11-21_Regular_R06_Drawer_Disclosure_Consistency.md).** Exact-131 red/green, source-pin verification and an open native case.
+
 - **November 21, 2026 — [Regular Linux Q: preserve a reported preparation failure through late cancellation](Execution%20Summaries/2026-11-21_Regular_Q_Prepare_Failure_Precedence.md).** Late delivery and ownership defects reproduced with controlled probes; nine focused cases including ordinary cancel, fresh renewal and shutdown controls; affected offline source checks. No native process, route or release change.
 
 - **November 21, 2026 — [R06: preserve focus at the Files drawer breakpoint](Execution%20Summaries/2026-11-21_Regular_R06_Responsive_Focus_Handoff.md).** Exact-130 cold source and controls only; no live layout/viewport or package claim.

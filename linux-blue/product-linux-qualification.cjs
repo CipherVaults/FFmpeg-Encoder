@@ -465,8 +465,8 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 161835,
-    "sha256": "6fd72ae6f9d4641788f8673a4c794f1b7fd3f835db4069bc392448864f200686"
+    "bytes": 162402,
+    "sha256": "e3e61a9e623cd7d4a160fe38416965b8d4f5798a394df1f04675496cfca1281a"
   },
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,

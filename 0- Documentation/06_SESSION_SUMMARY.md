@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Keep Files drawer disclosure truthful [R06]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned this cloud lane using GPT-6.2 Astra Ultra (coordinating thread's verified launch configuration). Evidence includes independent follow-up reproduction, Git checkpoint 131 and [R06 drawer disclosure evidence](Execution%20Summaries/2026-11-21_Regular_R06_Drawer_Disclosure_Consistency.md). Blue retains independent review and integration.
+
+## 🕒 Time
+November 21, approximately 03:00–03:07 Cairo. Exact evidence timestamps are recorded in UTC.
+
+## 🎯 Session Goal
+Correct the independently observed expanded label for a file list that remains collapsed across a viewport change.
+
+## 🛠️ Actions Taken
+Reproduced the mismatch in Encode and Remux and in a normal large prepared preview before editing renderer code. Derived drawer presentation and user actions from the same effective expansion condition. Reconstructed the exact candidate and pins separately.
+
+## 🧠 Key Insights
+Remembering the narrow drawer choice and respecting a desktop collapse are both useful. The exposed disclosure state must describe the controlled list, not the remembered choice alone.
+
+## 📌 Decisions Made
+Do not expand on resize, alter desktop collapse policy, or touch new job/selection state. A single deliberate narrow trigger press can reverse a collapse. If wide preview was explicitly expanded instead, the remembered narrow preference is reused.
+
+## ⚠️ Difficulties / Friction
+The mismatch already existed before checkpoint 131; this is a follow-up, not a reclassification of 131's scope. Native rendering and exact keyboard transitions were unavailable by design in this lane.
+
+## 🔧 Adjustments Made
+One presentation calculation now drives the expanded label and class, narrow toggle, Escape, hidden-selection reporting and focus handoff. Active source and two inert identities were refreshed without changing the roster.
+
+## ❌ Mistakes / Risks Noted
+A modeled 21-item snapshot and simulated media-query callback do not prove actual layout, keyboard traversal, accessibility tree or screen-reader announcement. Do not overstate the result.
+
+## 📍 Current Position
+Exact 131-based source passed independent review (277/277 affected checks). The byte-identical renderer/tests are composed over exact Q132 with a recomputed merged inert pin. Exact composed source: 400 passes, zero failures, one historical archived-MKV fixture skip. [R06 drawer disclosure evidence](Execution%20Summaries/2026-11-21_Regular_R06_Drawer_Disclosure_Consistency.md).
+
+## 🔜 Next Steps
+Independently verify the focused red/green, exact integrated source/pins and no Q overlap. Use a pinned approved native app session for the accumulated R06 scenarios, including actual focus and size/DPI.
+
+## ❓ Open Questions
+Actual compositor focus ordering, viewport/overflow, screen-reader announcement and native minimum-size/Cancel access are still open.
+
+## 🧾 Session Outcome
+The collapsed preview is correctly presented as closed; an explicit open expands it without affecting queue state.
+
+## 🔍 Confidence Level
+High for the controlled software contract and exact reconstructed bytes; no fresh native or release confidence.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Preserve Linux Prepare failure through late Cancel [Q07/Q08]
 
 ## 🤖 Models, Effort, Roles and Provenance

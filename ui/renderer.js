@@ -920,6 +920,7 @@
   }
 
   function syncSelection() {
+    syncFilesDrawerPresentation();
     const canSelect = snapshot.phase === 'ready' && !dirty && !pendingCommands && !developerSessionClosed;
     const eligible = (snapshot.items || []).filter(item => selectableStatuses.has(item.status));
     const eligibleIds = new Set(eligible.map(item => item.id));
@@ -951,7 +952,7 @@
   function outsideFileListView(item) {
     // The narrow drawer hides only an editor list. It does not hide a list
     // moved into Current Jobs and never changes membership or main grants.
-    const closedDrawer = narrowFilesLayout?.matches && !filesDrawerOpen
+    const closedDrawer = narrowFilesLayout?.matches && !filesDrawerExpanded()
       && ['encode', 'remux'].some(name => byId(`workspace-${name}`).contains(byId('batch-panel')));
     return previewCollapsed || closedDrawer || !matchesFilter(item);
   }
@@ -964,7 +965,7 @@
       const ownsList = !batchPanel.hidden && workspace.contains(batchPanel);
       // CSS keeps the currently focused control visible long enough for this
       // handoff. Do not reopen the drawer or move focus out of another region.
-      if (narrowFilesLayout.matches && ownsList && (focused === collapse || (!filesDrawerOpen
+      if (narrowFilesLayout.matches && ownsList && (focused === collapse || (!filesDrawerExpanded()
           && [byId('preview-list'), collapse.parentElement, byId('reencode-toolbar')].some(region => region.contains(focused))))) {
         trigger.focus();
       } else if (!narrowFilesLayout.matches && focused === trigger) {
@@ -974,13 +975,27 @@
     syncSelection();
   }
 
-  function setFilesDrawer(open, returnFocus = false) {
-    filesDrawerOpen = Boolean(open);
+  function filesDrawerExpanded() {
+    // Remember the narrow drawer choice across resizes without overriding a
+    // collapsed preview. The trigger describes the list it actually controls.
+    return filesDrawerOpen && !previewCollapsed;
+  }
+
+  function syncFilesDrawerPresentation() {
+    const expanded = filesDrawerExpanded();
     for (const name of ['encode', 'remux']) {
       const panel = byId(`workspace-${name}`);
-      panel.className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${filesDrawerOpen ? ' files-drawer-open' : ''}`;
+      const className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${expanded ? ' files-drawer-open' : ''}`;
+      if (panel.className !== className) panel.className = className;
     }
-    for (const id of ['files-toggle', 'remux-files-toggle']) byId(id).setAttribute('aria-expanded', String(filesDrawerOpen));
+    for (const id of ['files-toggle', 'remux-files-toggle']) {
+      const trigger = byId(id);
+      if (trigger.getAttribute('aria-expanded') !== String(expanded)) trigger.setAttribute('aria-expanded', String(expanded));
+    }
+  }
+
+  function setFilesDrawer(open, returnFocus = false) {
+    filesDrawerOpen = Boolean(open);
     if (filesDrawerOpen && previewCollapsed) {
       // Opening the narrow file drawer is an explicit view action; expand the
       // same list, not a second selection model or a second collapsed state.
@@ -2078,8 +2093,8 @@
       } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
     });
   }
-  byId('files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerOpen));
-  byId('remux-files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerOpen));
+  byId('files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerExpanded()));
+  byId('remux-files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerExpanded()));
   byId('focused-file-clear').addEventListener('click', () => {
     const previous = itemRows.get(focusedFileId); focusedFileId = null; renderFocusedFile();
     const rowVisible = previous && !previous.row.hidden && !previewCollapsed
@@ -2097,7 +2112,7 @@
   }
   byId('selected-review').addEventListener('toggle', syncReviewDisclosure);
   for (const name of ['encode', 'remux']) byId(`workspace-${name}`).addEventListener('keydown', event => {
-    if (event.key === 'Escape' && filesDrawerOpen && !activeHelp) { event.preventDefault(); setFilesDrawer(false, true); }
+    if (event.key === 'Escape' && filesDrawerExpanded() && !activeHelp) { event.preventDefault(); setFilesDrawer(false, true); }
   });
   byId('view-jobs').addEventListener('click', () => activateWorkspace('jobs', true));
   byId('jobs-open-encode').addEventListener('click', () => activateWorkspace(currentOperation(), true));

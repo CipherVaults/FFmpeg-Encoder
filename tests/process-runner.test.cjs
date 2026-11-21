@@ -176,6 +176,31 @@ test('binary arguments are passed literally with shell disabled', async () => {
   assert.equal((await promise).stdout, '{"ok":true}');
 });
 
+test('children get a system-only PATH and no oneVPL search or log variables', async () => {
+  const { childEnvironment } = require('../src/process-runner.cjs');
+  const env = childEnvironment({ SystemRoot: 'C:\\Windows', PATH: 'C:\\Users\\x\\tools;C:\\Windows', Path: 'D:\\planted',
+    ONEVPL_SEARCH_PATH: 'D:\\planted', onevpl_dispatcher_log: 'ON', ONEVPL_DISPATCHER_LOG_FILE: 'D:\\log.txt', TEMP: 'C:\\t', USERPROFILE: 'C:\\u' });
+  assert.deepEqual(Object.keys(env).sort(), ['Path', 'SystemRoot', 'TEMP', 'USERPROFILE']);
+  assert.equal(env.Path, 'C:\\Windows\\System32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0');
+  // A malformed or missing system root yields no PATH at all rather than an inherited one.
+  for (const root of [undefined, 'relative', 'C:\\Win;D:\\planted', 'C:\\"x']) {
+    const e = childEnvironment({ PATH: 'D:\\planted', SystemRoot: root });
+    assert.ok(!Object.keys(e).some(key => /^path$/i.test(key)), String(root));
+  }
+  const saved = process.env.ONEVPL_SEARCH_PATH; process.env.ONEVPL_SEARCH_PATH = 'D:\\planted';
+  try {
+    const child = fakeChild();
+    const promise = runTool('C:\\fixed\\ffmpeg.exe', [], { spawnImpl: (_exe, _args, options) => {
+      assert.equal(options.env.ONEVPL_SEARCH_PATH, undefined);
+      assert.ok(!Object.keys(options.env).some(key => /^path$/i.test(key) && key !== 'Path'));
+      if (process.platform === 'win32') assert.match(options.env.Path, /^[A-Za-z]:\\[^;]+\\System32;/);
+      return child;
+    } });
+    child.emit('close', 0);
+    await promise;
+  } finally { if (saved === undefined) delete process.env.ONEVPL_SEARCH_PATH; else process.env.ONEVPL_SEARCH_PATH = saved; }
+});
+
 test('bounded helper stdin is data, with literal arguments and no shell', async () => {
   const child = fakeChild();
   child.stdin = new EventEmitter();

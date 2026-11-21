@@ -1,6 +1,26 @@
 const { spawn } = require('node:child_process');
 const { StringDecoder } = require('node:string_decoder');
 
+// Children get the parent environment except for the library search inputs of
+// the bundled media tools. FFmpeg 9.1 loads AMD's runtime only from its own
+// folder and System32, but the static oneVPL dispatcher also loads candidate
+// runtimes from every PATH folder and ONEVPL_SEARCH_PATH (after the driver
+// store). PATH is therefore reduced to fixed Windows system folders and every
+// ONEVPL_* variable (search path, dispatcher log file) is removed. Executables
+// are always launched by absolute path, so no command lookup depends on PATH.
+function childEnvironment(source = process.env, systemRoot = source.SystemRoot || source.SYSTEMROOT || source.windir || source.WINDIR) {
+  const result = {};
+  for (const [key, value] of Object.entries(source)) {
+    if (typeof value !== 'string' || /^path$/i.test(key) || /^onevpl_/i.test(key)) continue;
+    result[key] = value;
+  }
+  if (typeof systemRoot === 'string' && /^[A-Za-z]:\\[^;"]*$/.test(systemRoot)) {
+    const root = systemRoot.replace(/\\+$/, '');
+    result.Path = [`${root}\\System32`, root, `${root}\\System32\\Wbem`, `${root}\\System32\\WindowsPowerShell\\v1.0`].join(';');
+  }
+  return result;
+}
+
 class ToolError extends Error {
   constructor(code, message, details = {}) {
     super(message);
@@ -192,7 +212,7 @@ function runTool(executable, args, options = {}) {
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
       const stdio = [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe']; if (auxiliary) stdio.push('pipe');
-      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio });
+      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio, env: childEnvironment() });
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {
         cause: error, stderr: '', stderrCapture: { totalBytes: 0, truncated: false },
@@ -329,4 +349,4 @@ function isSharedToolFailure(error) {
   return ['SPAWN_FAILED', 'PIPE_FAILED', 'ENOSPC', 'EACCES', 'EPERM', 'EROFS', 'OUTPUT_FOLDER_CHANGED'].includes(error.code)
     || /no space left|disk full|cannot load.*nv|driver does not support|no capable devices/i.test(error.stderr || '');
 }
-module.exports = { ToolError, ProgressParser, runTool, isSharedToolFailure, boundedToolStderr };
+module.exports = { ToolError, ProgressParser, runTool, isSharedToolFailure, boundedToolStderr, childEnvironment };

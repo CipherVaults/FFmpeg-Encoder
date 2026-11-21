@@ -134,6 +134,7 @@
   let pendingCommands = 0;
   let cancelPending = false;
   let cancelSettlementFailure = null;
+  let lastJobAnnouncement = null;
   let uiError = '';
   const itemRows = new Map();
   let batchFilter = 'all';
@@ -206,6 +207,12 @@
   const isBusy = () => busyPhases.has(snapshot.phase);
   const finite = value => typeof value === 'number' && Number.isFinite(value);
   const put = (id, value) => { byId(id).textContent = String(value ?? ''); };
+  // Selection/attention notices retain their live roles, but recurring Jobs
+  // snapshots must not replace unchanged text nodes in those notices.
+  const putStatusChange = (id, text) => {
+    const node = byId(id);
+    if (node.textContent !== text) node.textContent = text;
+  };
   const visible = (id, show) => { byId(id).hidden = !show; };
   const isGenerated = item => item.origin?.kind === 'generated' || item.status === 'generated';
   const canAuthorize = item => isGenerated(item) && !item.reencodeAuthorized && item.status === 'generated';
@@ -930,9 +937,9 @@
       checkbox.checked = selectedIds.has(checkbox.dataset.fileId);
       checkbox.disabled = !canSelect || !eligibleIds.has(checkbox.dataset.fileId);
     }
-    put('selected-count', `${selectedIds.size} selected · ${(snapshot.items || []).length} found`);
+    putStatusChange('selected-count', `${selectedIds.size} selected · ${(snapshot.items || []).length} found`);
     const hiddenSelected = (snapshot.items || []).filter(item => selectedIds.has(item.id) && outsideFileListView(item)).length;
-    put('hidden-selected-count', `${hiddenSelected} selected hidden`);
+    putStatusChange('hidden-selected-count', `${hiddenSelected} selected hidden`);
     byId('start-batch').disabled = !canSelect || !selectedIds.size || !snapshot.planId || hasOperationEdits() || remuxTargetChanged();
     byId('select-ready').disabled = !canSelect || !eligible.some(item => item.status === 'ready');
     byId('clear-selection').disabled = !canSelect || !selectedIds.size;
@@ -1878,7 +1885,7 @@
       const count = items.filter(item => item.status === status).length;
       return count ? `${count} ${statusLabels[status].toLowerCase()}` : '';
     }).filter(Boolean);
-    put('attention-warning', problems.length ? `Needs attention: ${problems.join(' · ')}. Expand a filename for its reason and available actions.` : '');
+    putStatusChange('attention-warning', problems.length ? `Needs attention: ${problems.join(' · ')}. Expand a filename for its reason and available actions.` : '');
     visible('empty-message', !items.length);
     visible('reencode-toolbar', counts.generated > 0 && snapshot.phase === 'ready' && !dirty);
     put('reencode-warning', isRemux() ? 'Choose exact generated outputs, then explicitly authorize them as sources for this prepared Remux batch. Remux copies qualified streams without a new lossy encoding generation.' : 'Re-encoding an already compressed video can introduce additional quality loss. Choose individual generated outputs below, then explicitly authorize them for this prepared batch.');
@@ -1887,6 +1894,64 @@
       : 'Filtering does not authorize files. Re-encoding permission applies only to unchanged files in this preparation.');
     put('reencode-selected', isRemux() ? 'Use chosen outputs as Remux sources' : 'Re-encode chosen outputs');
     syncSelection();
+  }
+
+  function renderJobAnnouncement(error, reviewActivity) {
+    // One persistent live region receives only authoritative semantic changes.
+    // Neither visual progress nor the visibility of the Jobs/Cancel panels
+    // decides what is announced. Display-only telemetry continues unchanged.
+    const { phase, batchId, planId, preparation, progress, counts } = snapshot;
+    const items = snapshot.items || [];
+    let keyPhase = phase, label = '', item = null, detail = '';
+    if (cancelPending || phase === 'cancelling') {
+      keyPhase = 'cancelling';
+      label = 'Cancelling. Waiting for the operation and cleanup to settle.';
+    } else if (terminalPhases.has(phase)) {
+      const unconfirmed = cancelSettlementFailure && cancelSettlementFailure.batchId === batchId;
+      // The existing assertive error owns the failure explanation. Never
+      // announce a successful settlement from a snapshot kept after failed IPC.
+      if (!unconfirmed && !(phase === 'failed' && error)) {
+        label = { completed: 'Batch finished.', failed: 'Batch stopped.', cancelled: 'Operation cancelled.' }[phase];
+        detail = ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']
+          .filter(key => counts?.[key] > 0)
+          .map(key => `${counts[key]} ${statusLabels[key].toLowerCase()}`).join(', ');
+      }
+    } else if (phase === 'running') {
+      const reported = items.find(entry => entry.id === progress?.fileId);
+      const working = entry => entry && ['running', 'validating'].includes(entry.status);
+      const operation = isRemux() ? 'Remuxing' : 'Encoding';
+      item = working(reported) ? reported : items.find(working);
+      if (item) {
+        const stage = item === reported ? progress?.stage : null;
+        label = stage === 'encoding' && isRemux() ? operation
+          : Object.hasOwn(jobStageLabels, stage) ? jobStageLabels[stage]
+            : item.status === 'validating' ? statusLabels.validating : operation;
+      } else if (reported && ['success', 'failed', 'skipped', 'cancelled', 'unprocessed'].includes(reported.status)) {
+        item = reported;
+        const disposition = item.outputDisposition;
+        label = disposition?.published === true ? item.outcome === 'saved-with-warning' ? 'Saved with warning' : 'Saved'
+          : disposition?.kind === 'publication-uncertain' ? 'Publication could not be confirmed'
+            : disposition?.kind === 'retained-completed' ? 'Completed stage retained; not saved'
+              : statusLabels[item.status];
+      } else label = `${operationName()} batch is running`;
+    } else if (phase === 'preparing') {
+      item = items.find(entry => entry.id === preparation?.fileId);
+      label = 'Inspecting files';
+    } else if (phase === 'checking') label = 'Checking the bundled encoders on this computer.';
+    else if (phase === 'native-checking') label = 'Checking the selected native backend. Cancellation remains available in Current Jobs.';
+    else if (snapshot.revision < 0) label = 'Checking available encoders…';
+    else label = reviewActivity;
+    if (item) {
+      label += `. File ${items.indexOf(item) + 1} of ${items.length}: ${item.name}`;
+    }
+    const text = [label, detail].filter(Boolean).join(' ');
+    // Some settled snapshots clear batch/plan identities while the Cancel
+    // reply is still pending; that is still the one waiting announcement.
+    const scope = keyPhase === 'cancelling' ? null : [batchId, planId];
+    const key = JSON.stringify([scope, keyPhase, item?.id, text]);
+    if (key === lastJobAnnouncement) return;
+    lastJobAnnouncement = key;
+    if (text || byId('current-job-announcement').textContent) put('current-job-announcement', text);
   }
 
   function renderTelemetry() {
@@ -1908,8 +1973,6 @@
     if (hasPercent) byId('active-job-progress').value = Math.min(100, Math.max(0, progress.percent));
     else byId('active-job-progress').removeAttribute('value');
     const activeStage = currentJobLabel();
-    byId('active-job-summary').setAttribute('role', 'status');
-    byId('active-job-summary').setAttribute('aria-live', 'polite');
     for (const progressId of ['encode-progress', 'active-job-progress']) {
       byId(progressId).setAttribute('aria-label', `${activeStage} progress`);
       byId(progressId).setAttribute('aria-valuetext', hasPercent ? `${Math.min(100, Math.max(0, progress.percent)).toFixed(1)}%` : `${activeStage}; progress is indeterminate`);
@@ -1950,9 +2013,12 @@
     const busy = isBusy();
     const terminal = terminalPhases.has(phase);
     const ready = phase === 'ready' && !dirty;
+    const readyActivity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
+    const setupActivity = dirty && editing && capabilities ? 'Choose your settings, then review the batch.' : '';
     const showResults = terminal;
     const error = uiError || (!editing ? snapshot.error : '') || '';
-    visible('error-banner', Boolean(error)); put('error-banner', error);
+    visible('error-banner', Boolean(error));
+    if (byId('error-banner').textContent !== error) put('error-banner', error);
     put('phase-badge', currentJobLabel());
     let activity = '';
     if (cancelPending) activity = 'Waiting for cancellation and cleanup to settle. Setup remains locked until the cancellation request finishes.';
@@ -1967,8 +2033,7 @@
       ? `${currentJobLabel()}. The job is still active; cancellation and Jobs remain available.`
       : `${isRemux() ? 'Remuxing' : 'Encoding'} locally. Each completed output is verified before it is saved.`;
     else if (pendingCommands) activity = 'Working…';
-    else if (ready) activity = `Review the effective settings and select the files to ${isRemux() ? 'remux' : 'encode'}.`;
-    else if (dirty && editing && capabilities) activity = 'Choose your settings, then review the batch.';
+    else activity = ready ? readyActivity : setupActivity;
     put('activity-message', developerPreview ? `${developerSessionClosed ? (ordinaryRecovery ? 'This session is closed. New ordinary session discards this batch and output access after cleanup; close and relaunch if cleanup fails.' : developerSessionChoices?.replaceClosed ? 'This session is closed. Choose an explicit session below after cleanup; no work is replayed.' : developerPreview.relaunchNotice) : developerPreview.notice} ${activity}` : activity);
     visible('diagnostic-warning', Boolean(snapshot.diagnosticWarning)); put('diagnostic-warning', snapshot.diagnosticWarning || '');
     visible('setup-panel', true);
@@ -2083,6 +2148,7 @@
       put('result-phase', phaseLabels[phase]);
       put('result-message', phase === 'completed' ? 'The batch has finished. Review individual results above; skipped and unsupported files are listed with their reasons.' : phase === 'cancelled' ? 'The operation was cancelled. Completed outputs are preserved. Remaining files were not processed.' : snapshot.error || 'The batch stopped. Review the file results before preparing a new batch.');
     }
+    renderJobAnnouncement(error, ready && !snapshot.encodingSettingsStale ? readyActivity : setupActivity);
   }
 
   const workspaceTabList = byId('workspace-tabs');

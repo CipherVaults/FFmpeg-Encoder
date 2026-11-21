@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Announce Current Jobs changes once [R06]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned the dedicated GPT-6.2 Astra Ultra regular work to the existing cloud worker on exact 136. The independent reviewer reproduced duplicate writes before implementation and found two remaining R01 gaps; Blue owns final exact review and integration. [Current Jobs announcement evidence](Execution%20Summaries/2026-11-21_Regular_R06_Current_Jobs_Announcements.md).
+
+## 🕒 Time
+November 21 Cairo; exact test receipts record UTC.
+
+## 🎯 Session Goal
+Report meaningful job stages, file changes and settled results without repeating progress chatter or dropping the final cancellation.
+
+## 🛠️ Actions Taken
+Instrumented real renderer text assignments in controlled Encode/Remux scenarios, moved polite job updates to one persistent status, and kept all ordinary displayed text/actions and actual main-issued outcomes.
+
+## 🧠 Key Insights
+A visible activity label can update as often as progress requires without being a second live region. A hidden Cancel bar cannot carry terminal feedback. Independent review also found unchanged live selection/attention nodes in the moved Jobs panel and a stale Ready prompt after a local edit.
+
+## 📌 Decisions Made
+The new status is a presentation-only projection of the current batch, file and stage plus actual settlement. Existing assertive errors carry their explanation once; unknown or retained output is never called Saved.
+
+## ⚠️ Difficulties / Friction
+A cancelled event can arrive before the Cancel reply; keeping the visible result does not yet prove cleanup. The mocked DOM observes explicit live writes, not actual assistive technology speech.
+
+## 🔧 Adjustments Made
+Ignore percent, ETA, inspection counters, duplicate snapshots and presentation renders. Bind stage to the file actually identified by main so stale stage cannot label the next same-name file. Keep the status independent of tabs and the Cancel bar. Treat the three existing selection/attention texts as write-on-change, and share the renderer’s actual Ready/setup condition with the semantic prompt.
+
+## ❌ Mistakes / Risks Noted
+Do not infer accessibility compatibility from DOM roles alone, or claim native cancellation/cleanup or new Q support. Non-job controls retain their distinct feedback.
+
+## 📍 Current Position
+Seven intended failures on the original renderer and two additional intended failures on R01. R02 focused 10/10; full renderer 104 baseline to 113 R02 passing. Ten affected suites 413 baseline to 422 R02 passing with zero failures and one unchanged archived skip. Source remains a private integration candidate.
+
+## 🔜 Next Steps
+Review exact patch, tracked tree and pins. Later, on an approved native artifact, listen to the two job types, fraction-only changes, local edit/re-Prepare, cancellation races and terminal result while Jobs is visible and hidden.
+
+## ❓ Open Questions
+Actual screen-reader speech, native timing, minimum-size, DPI and platform differences remain open.
+
+## 🧾 Session Outcome
+Both jobs expose one stable semantic status without changing user-facing progress, workspace, queue, selection or Cancel behavior.
+
+## 🔍 Confidence Level
+High on exact controlled renderer behavior; no browser, native assistive technology, OS/package or release claim.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Refuse an impossible MKV or MOV check before Ready [Q07/Q08]
 
 ## 🤖 Models, Effort, Roles and Provenance

@@ -376,8 +376,9 @@ test('post-encode stages have accessible indeterminate labels, retained details 
     assert.equal(h.byId('phase-badge').textContent, label);
     assert.match(h.byId('active-job-summary').textContent, new RegExp(`${label}.*Source\\.mkv`));
     assert.doesNotMatch(h.byId('active-job-summary').textContent, /%/);
-    assert.equal(h.byId('active-job-summary').getAttribute('role'), 'status');
-    assert.equal(h.byId('active-job-summary').getAttribute('aria-live'), 'polite');
+    assert.equal(h.byId('active-job-summary').getAttribute('role'), null);
+    assert.equal(h.byId('active-job-summary').getAttribute('aria-live'), null);
+    assert.match(h.byId('current-job-announcement').textContent, new RegExp(`${label}.*Source\\.mkv`));
     for (const progress of ['encode-progress', 'active-job-progress']) {
       assert.equal(h.byId(progress).getAttribute('value'), null); assert.equal(h.byId(progress).value, '');
       assert.match(h.byId(progress).getAttribute('aria-label'), new RegExp(label));
@@ -1999,4 +2000,242 @@ test('Q08 mixed saved rows preserve separate transport and complete coverage and
   assert.match(messages[2] || '', /every retained video frame and audio sample were decoded and compared/i);
   assert.equal(messages[3], '');
   assert.equal(disclosureNode(h, 3).hidden, true);
+});
+
+function watchJobStatusWrites(h, ids = ['activity-message', 'active-job-summary', 'current-job-announcement', 'error-banner']) {
+  const writes = [];
+  for (const id of ids) {
+    const node = h.byId(id);
+    if (!node) continue;
+    const text = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(node), 'textContent');
+    Object.defineProperty(node, 'textContent', {
+      get: () => text.get.call(node),
+      set: value => {
+        let status, hidden = false;
+        for (let parent = node; parent; parent = parent.parentElement) {
+          const role = parent.getAttribute('role');
+          if (!status && (role === 'status' || role === 'alert' || parent.getAttribute('aria-live') === 'polite')) status = parent;
+          hidden ||= parent.hidden || parent.getAttribute('aria-hidden') === 'true';
+        }
+        if (status) writes.push({ id, role: status.getAttribute('role'), value: String(value), hidden });
+        text.set.call(node, value);
+      },
+    });
+  }
+  return writes;
+}
+
+test('R06 Jobs contextual selection and attention status writes only when their text changes', async () => {
+  const h = await harness(), writes = watchJobStatusWrites(h, ['selected-count', 'hidden-selected-count', 'attention-warning']);
+  const film = { id: 'film', name: 'Film.mp4', status: 'ready', summary: {} };
+  const unsupported = { id: 'other', name: 'Other.mp4', status: 'unsupported', summary: {}, reason: 'Unqualified streams.' };
+  const ready = { revision: 2, phase: 'ready', operation: 'encode', batchId: 'job', planId: 'plan', items: [film, unsupported], counts: {} };
+  h.update(ready);
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.equal(h.byId('hidden-selected-count').textContent, '1 selected hidden');
+  writes.length = 0;
+  await h.byId('clear-selection').click();
+  assert.deepEqual(writes, [
+    { id: 'selected-count', role: 'status', value: '0 selected · 2 found', hidden: false },
+    { id: 'hidden-selected-count', role: 'status', value: '0 selected hidden', hidden: false },
+  ], 'a real selection change still reaches its existing live parent');
+  await h.byId('select-ready').click();
+  const running = { ...ready, revision: 3, phase: 'running', items: [{ ...film, status: 'running' }, unsupported],
+    progress: { fileId: film.id, stage: 'encoding', percent: 10.01 } };
+  h.update(running);
+  await h.byId('tab-jobs').click();
+  assert.equal(h.byId('workspace-jobs').hidden, false);
+  assert.equal(h.byId('workspace-jobs').contains(h.byId('selected-count')), true);
+  assert.equal(h.byId('attention-warning').hidden, false);
+  writes.length = 0;
+  for (const [revision, percent] of [[4, 10.04], [5, 10.14], [6, 25.04]]) {
+    h.update({ ...running, revision, progress: { ...running.progress, percent } });
+  }
+  assert.match(h.byId('active-job-summary').textContent, /25\.0%/);
+  const validating = { ...running, revision: 7, items: [{ ...film, status: 'validating' }, unsupported],
+    progress: { fileId: film.id, stage: 'output-validation' } };
+  h.update(validating); h.update({ ...validating, revision: 8 });
+  assert.match(h.byId('active-job-summary').textContent, /Validating output/);
+  assert.deepEqual(writes, [], 'no text setter calls to visible contextual status nodes during telemetry and validation');
+  h.update({ ...validating, revision: 9, items: [validating.items[0], { ...unsupported, status: 'failed', reason: 'Stopped.' }] });
+  assert.deepEqual(writes, [{ id: 'attention-warning', role: 'status',
+    value: 'Needs attention: 1 failed. Expand a filename for its reason and available actions.', hidden: false }]);
+  assert.equal(h.calls.some(call => ['startBatch', 'cancelBatch', 'prepareBatch'].includes(call.name)), false);
+});
+
+test('R06 Jobs live status follows local Quality edits even with an unchanged main Ready flag', async () => {
+  const film = { id: 'film', name: 'Film.mp4', status: 'ready', summary: {} };
+  const ready = { revision: 2, phase: 'ready', operation: 'encode', planId: 'first-plan', batchId: 'first-batch',
+    items: [film], counts: {}, encodingSettingsStale: false };
+  const h = await harness({
+    getPreferences: async () => ({ settingsByProfile: {}, profileId: 'h265-cpu', inputFolder: { id: 'in' }, outputFolder: { id: 'out' }, notices: [] }),
+    saveSettings: async settings => { assert.equal(settings.quality, 24); return { notices: [] }; },
+    prepareBatch: async request => {
+      assert.equal(request.settings.quality, 24);
+      return { ...ready, revision: 4, planId: 'fresh-plan', batchId: 'fresh-batch' };
+    },
+  });
+  const writes = watchJobStatusWrites(h);
+  h.update(ready);
+  const live = h.byId('current-job-announcement');
+  assert.match(live?.textContent || h.byId('activity-message').textContent, /Review the effective settings/);
+  assert.equal(h.byId('start-batch').disabled, false);
+  writes.length = 0;
+  h.byId('quality').value = '24';
+  await h.byId('quality').emit('input');
+  assert.equal(h.byId('start-batch').disabled, true);
+  assert.equal(h.byId('batch-panel').hidden, true);
+  assert.equal(h.byId('activity-message').textContent, 'Choose your settings, then review the batch.');
+  assert.deepEqual(writes, [{ id: 'current-job-announcement', role: 'status', value: 'Choose your settings, then review the batch.', hidden: false }]);
+  h.update({ ...ready, revision: 3 });
+  assert.equal(writes.length, 1, 'a newer delivery of the same plan does not re-announce or reset local setup');
+  assert.equal(h.byId('start-batch').disabled, true);
+  assert.equal(h.byId('prepare-batch').disabled, false);
+  await h.byId('prepare-batch').click();
+  assert.equal(h.byId('start-batch').disabled, false);
+  assert.equal(writes.length, 2);
+  assert.equal(writes.at(-1).id, 'current-job-announcement');
+  assert.match(writes.at(-1).value, /Review the effective settings/);
+  assert.deepEqual(h.calls.filter(call => ['startBatch', 'cancelBatch', 'prepareBatch'].includes(call.name)).map(call => call.name), ['prepareBatch']);
+});
+
+for (const operation of ['encode', 'remux']) test('R06 Jobs live status announces real '+operation+' file and stage transitions once', async () => {
+  const h = await harness({}, { narrow: true });
+  const writes = watchJobStatusWrites(h);
+  const first = { id: 'first-file', name: 'Same name.mp4', status: 'running', summary: {} };
+  const next = { ...first, id: 'next-file', status: 'pending' };
+  const scope = { operation, phase: 'running', batchId: 'current-batch', planId: 'current-plan', items: [first, next], counts: {} };
+  const moving = { ...scope, revision: 2, progress: { fileId: first.id, stage: 'encoding', percent: 10.01, speed: 2, etaSeconds: 30 } };
+  const verb = operation === 'remux' ? 'Remuxing' : 'Encoding';
+  h.update(moving);
+  assert.equal(writes.length, 1, 'only one polite stage write');
+  const live = h.byId('current-job-announcement');
+  assert.equal(writes[0].id, 'current-job-announcement');
+  assert.equal(live.getAttribute('role'), 'status');
+  assert.equal(live.getAttribute('aria-live'), 'polite');
+  assert.equal(live.getAttribute('aria-atomic'), 'true');
+  assert.equal(writes[0].hidden, false);
+  assert.match(writes[0].value, new RegExp(verb+'[.] File 1 of 2: Same name[.]mp4'));
+  assert.match(h.byId('active-job-summary').textContent, /10\.0%/);
+  h.update({ ...moving, revision: 3, progress: { ...moving.progress, percent: 10.04 } });
+  h.update({ ...moving, revision: 3, progress: { ...moving.progress, speed: 1.5, etaSeconds: 31, percent: 10.12 } });
+  assert.match(h.byId('active-job-summary').textContent, /10\.1%/);
+  await h.byId('tab-jobs').click();
+  h.setNarrow(false); h.tick(8000);
+  assert.equal(writes.length, 1, 'percent changes, same-revision deliveries, elapsed ticks, layout and navigation do not speak');
+  const validating = { ...scope, revision: 4, items: [{ ...first, status: 'validating' }, next],
+    progress: { fileId: first.id, stage: 'output-validation', percent: 99, fps: 30, etaSeconds: 1 } };
+  h.update(validating); h.update({ ...validating, revision: 5, progress: { ...validating.progress, percent: 100 } });
+  h.update(moving); // Lower revision must not resurrect the previous stage.
+  assert.equal(writes.length, 2);
+  assert.match(writes.at(-1).value, /Validating output.*File 1 of 2/);
+  assert.equal(h.byId('eta').textContent, '—');
+  assert.match(h.byId('active-job-progress').getAttribute('aria-valuetext'), /indeterminate/);
+  h.update({ ...validating, revision: 6, progress: { ...validating.progress, stage: 'publication' } });
+  assert.match(writes.at(-1).value, /Publishing output/);
+  const saved = { ...first, status: 'success', outcome: 'saved', outputDisposition: { kind: 'published', published: true } };
+  h.update({ ...scope, revision: 7, items: [saved, next], counts: { success: 1 }, progress: { fileId: first.id, stage: 'publication' } });
+  assert.match(writes.at(-1).value, /Saved.*File 1 of 2/);
+  h.update({ ...scope, revision: 8, items: [saved, { ...next, status: 'running' }], counts: { success: 1 }, progress: { fileId: first.id, stage: 'publication' } });
+  assert.match(writes.at(-1).value, new RegExp(verb+'[.] File 2 of 2: Same name[.]mp4'), 'stale stage for the prior ID cannot label the next same-name item');
+  h.update({ ...scope, revision: 9, phase: 'completed', items: [saved, { ...next, status: 'failed' }], counts: { success: 1, failed: 1 } });
+  assert.match(writes.at(-1).value, /Batch finished.*1 succeeded.*1 failed/i);
+  assert.equal(h.byId('cancel-bar').hidden, true);
+  assert.equal(h.byId('results-panel').hidden, false);
+  assert.equal(writes.at(-1).hidden, false);
+  assert.equal(h.byId('current-job-announcement'), live);
+  assert.equal(writes.length, 6);
+  h.update({ ...scope, revision: 10, phase: 'completed', items: [saved, { ...next, status: 'failed' }], counts: { success: 1, failed: 1 } });
+  assert.equal(writes.length, 6);
+  assert.equal(h.calls.some(call => ['startBatch', 'cancelBatch', 'prepareBatch', 'prepareRemuxBatch'].includes(call.name)), false);
+});
+
+for (const settles of [true, false]) test('R06 Jobs live status follows the actual Cancel reply: '+(settles?'settled':'not confirmed'), async () => {
+  let resolveCancel, rejectCancel;
+  const reply = new Promise((resolve, reject) => { resolveCancel = resolve; rejectCancel = reject; });
+  const h = await harness({ cancelBatch: () => reply });
+  const writes = watchJobStatusWrites(h);
+  const active = { revision: 2, operation: 'remux', phase: 'running', batchId: 'cancel-current', planId: 'cancel-plan',
+    items: [{ id: 'one', name: 'Film.mp4', status: 'running', summary: {} }], counts: {}, progress: { stage: 'remuxing', fileId: 'one', percent: 20 } };
+  h.update(active);
+  const queued = h.byId('cancel-batch').click();
+  await settle();
+  assert.equal(writes.length, 2);
+  assert.match(writes.at(-1).value, /Cancelling.*settle/i);
+  h.update({ ...active, revision: 3, phase: 'cancelling' });
+  h.update({ ...active, revision: 4, phase: 'cancelling' });
+  const terminal = { ...active, revision: 5, phase: 'cancelled', ...(settles ? { batchId: null, planId: null } : {}),
+    counts: { cancelled: 1 }, items: [{ ...active.items[0], status: 'cancelled' }] };
+  h.update(terminal);
+  assert.equal(writes.length, 2, 'waiting, duplicate Cancelling and a retained terminal snapshot are not extra announcements');
+  assert.equal(h.byId('cancel-bar').hidden, false);
+  if (settles) resolveCancel(terminal);
+  else rejectCancel(new Error('Cancellation reply failed; cleanup is not confirmed.'));
+  await queued;
+  assert.equal(h.byId('cancel-bar').hidden, true);
+  const announced = writes.filter(x => x.value);
+  assert.equal(announced.length, 3);
+  assert.equal(announced.at(-1).hidden, false);
+  assert.equal(announced.at(-1).id, settles ? 'current-job-announcement' : 'error-banner');
+  assert.match(announced.at(-1).value, settles ? /Operation cancelled/i : /Cancellation reply failed/);
+  h.update({ ...terminal, revision: 6 });
+  assert.equal(writes.filter(x => x.value).length, 3, 'retained result and error are not spoken twice');
+  assert.deepEqual(h.calls.filter(call => call.name === 'cancelBatch').map(call => call.args), [[{ batchId: 'cancel-current' }]]);
+});
+
+test('R06 Jobs live status preserves startup checks and does not override an assertive stopped error', async () => {
+  const h = await harness();
+  const writes = watchJobStatusWrites(h);
+  const checking = { revision: 2, phase: 'checking', batchId: 'boot', items: [], counts: {} };
+  h.update(checking);
+  assert.equal(writes.filter(x => x.value).length, 1);
+  assert.match(writes.at(-1).value, /Checking.*encoders/i);
+  h.update({ ...checking, revision: 3, phase: 'native-checking' });
+  assert.match(writes.at(-1).value, /Checking.*native backend/i);
+  const fail = { ...checking, revision: 4, phase: 'failed', error: 'Could not finish the final verification.' };
+  h.update(fail); h.update({ ...fail, revision: 5 });
+  assert.equal(writes.filter(x => x.value).length, 3);
+  assert.deepEqual(writes.filter(x => x.value).at(-1), { id: 'error-banner', role: 'alert', value: fail.error, hidden: false });
+  assert.equal(h.byId('result-message').textContent, fail.error);
+  h.update({ ...fail, revision: 6, batchId: 'stopped-no-reason', error: '', counts: { failed: 2 } });
+  assert.match(writes.filter(x => x.value).at(-1).value, /Batch stopped.*2 failed/i);
+});
+
+test('R06 Jobs live status distinguishes held, unconfirmed and warning saves without speaking private paths', async () => {
+  const h = await harness();
+  const writes = watchJobStatusWrites(h);
+  const file = { id: 'active-file', name: 'Owned.mp4', status: 'validating', summary: {} };
+  const base = { operation: 'remux', phase: 'running', batchId: 'one-run', planId: 'copy-plan', items: [file], counts: {},
+    progress: { fileId: file.id, stage: 'publication' } };
+  h.update({ ...base, revision: 2 });
+  const status = { ...file, status: 'failed', reason: 'Private folder item failure' };
+  for (const [revision, disposition, label] of [
+    [3, { kind: 'retained-completed', published: false }, /^Completed stage retained; not saved/],
+    [4, { kind: 'publication-uncertain', published: null }, /^Publication could not be confirmed/],
+    [5, { kind: 'published', published: true }, /^Saved with warning/],
+  ]) {
+    const item = { ...(revision === 5 ? { ...status, status: 'success', outcome: 'saved-with-warning' } : status),
+      outputDisposition: { ...disposition, file: '/private/output/should-not-be-announced.mp4' } };
+    h.update({ ...base, revision, items: [item] });
+    assert.match(writes.at(-1).value, label);
+    assert.doesNotMatch(writes.at(-1).value, /private\/output|Private folder|active-file/);
+  }
+  assert.equal(writes.filter(row => row.value).length, 4);
+});
+
+test('R06 Jobs live status announces inspection and readiness without presentation or inspection counter churn', async () => {
+  const h = await harness();
+  const writes = watchJobStatusWrites(h);
+  const file = { id: 'inspection-item', name: 'Original.mp4', status: 'pending', summary: {} };
+  const base = { operation: 'encode', phase: 'preparing', batchId: 'inspection-batch', planId: 'inspection-plan', items: [file], counts: {} };
+  h.update({ ...base, revision: 2, preparation: { fileId: file.id, resolved: 0, total: 1, stage: 'metadata' } });
+  assert.match(writes.at(-1).value, /^Inspecting files.*Original\.mp4/);
+  h.update({ ...base, revision: 3, preparation: { fileId: file.id, resolved: 1, total: 1, stage: 'frames', window: 'middle' } });
+  assert.equal(writes.filter(row => row.value).length, 1);
+  await h.byId('tab-help').click(); h.tick(10000);
+  const ready = { ...base, revision: 4, phase: 'ready', items: [{ ...file, status: 'ready' }] };
+  h.update(ready);
+  assert.match(writes.at(-1).value, /Review the effective settings.*encode/);
+  h.update({ ...ready, revision: 5 }); assert.equal(writes.filter(row => row.value).length, 2);
+  assert.match(h.byId('activity-message').textContent, /Review the effective settings/);
 });

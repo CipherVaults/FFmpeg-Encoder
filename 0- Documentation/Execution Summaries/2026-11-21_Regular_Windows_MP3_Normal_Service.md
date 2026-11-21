@@ -23,3 +23,7 @@ The original product lab attempt `aa346098-529d-4cdd-a5f3-04c6e54ede04` remains 
 The final Windows receipt `q-win-mp3-normal-source` passed 434 controlled checks. Three static Linux source and package-plan checks passed separately on Windows. The Linux current source inventory contains 162 pins and the three added modules. The 97 historical producer hashes and native receipts remain attached to their original artifacts. Actual Linux execution, broad TS and MP3 inputs, final package, Apple playback and new hardware evidence remain open.
 
 Next, show the selected Gauge in a live preview before any shipped icon replacement. Continue the approved long trim and resize work, including 4K to 1440p and 1080p and a 1440p source. Keep wider Q qualification, exact performance targets, owner decisions, then R and S separate.
+
+## Package inventory readback
+
+Independent review found one stale portable-helper pin in the Linux inert plan. The one affected row now matches the Windows integration helper. All 192 repository source rows in the inert plan matched on readback. Pinned dependencies were staged from the existing lock and 35 portable source and isolated ASAR checks passed. Native package manufacture and Linux execution remain separate.

@@ -948,8 +948,8 @@
       "source": "scripts/build-portable.cjs",
       "target": "electron/resources/app/scripts/build-portable.cjs",
       "group": "application",
-      "bytes": 16448,
-      "sha256": "0fa6a742ddb2a8ae4e888f6d8f591bf25e88fdf48ce228325d132991a195fd5f"
+      "bytes": 16804,
+      "sha256": "74c130b24032b2be8997007c88063312b88ab49ef1d3bb6fb4c0c62c2f9b6eff"
     },
     {
       "root": "source",

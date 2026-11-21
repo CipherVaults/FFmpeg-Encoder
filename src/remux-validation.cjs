@@ -3,7 +3,7 @@
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { ToolError } = require('./process-runner.cjs');
-const { normalizeProbe } = require('./inspection.cjs');
+const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
 const { getRemuxAssessmentSource, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { classifyMarker, provenanceArgs, GENERATION_KEY } = require('./provenance.cjs');
 const { STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
@@ -57,7 +57,10 @@ function record(value, fields, label, required = fields) {
     && required.every(key => own(value, key)), `${label} has an invalid schema.`);
 }
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
-function remuxProbeFingerprint(probe) { return hash(normalizeProbe(dataCopy(probe))); }
+function remuxProbeFingerprint(probe, inputFamily) {
+  const normalize = inputFamily === 'mp3' ? normalizeMp3RemuxProbe : normalizeProbe;
+  return hash(normalize(dataCopy(probe)));
+}
 function rational(value, label, nonnegative = false) {
   record(value, ['numerator', 'denominator'], label);
   check(typeof value.numerator === 'string' && /^-?\d{1,40}$/.test(value.numerator)

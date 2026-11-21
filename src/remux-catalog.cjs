@@ -56,11 +56,18 @@ const REMUX_POLICY_ID = 'full-remux-v6:2026-11-14:packet-identity-transport';
 // rejects a paired cut before the first IDR. The packet-identity collector
 // and exact transport thresholds stay mandatory on every admitted file.
 // Lab receipt SHA-256: 80d755b40cb8e0b8d2bd42fd3ba1af194793ce2463127d818edfe44dfa47a364
-const REGULAR_WINDOWS_REMUX_POLICY_ID = 'full-remux-windows-9.1-v1:2026-11-21:transport';
+const REGULAR_WINDOWS_REMUX_POLICY_ID = 'full-remux-windows-9.1-v2:2026-11-21:transport-layer3';
 const REGULAR_WINDOWS_REMUX_POLICIES = Object.freeze([Object.freeze({
   ...REMUX_POLICIES[0], id: 'full-remux-mpegts-mp4-windows-9.1-v1', runtimeIdentity: REGULAR_WINDOWS_PAIR,
   evidenceIds: Object.freeze(['6fe624a3-bb17-4e18-94b4-97ad2017515a:moving-h264-aac-ts-seek',
     '6fe624a3-bb17-4e18-94b4-97ad2017515a:mid-gop-refused']),
+}), Object.freeze({
+  // Regular Windows service lab SHA-256: 4981224cecee9cc093fa95b35554f28f13946d7f01a6c99c5b9c1f6b8cab460b
+  id: 'full-remux-mp3-mp4-windows-9.1-v1', inputFamily: 'mp3', target: 'mp4',
+  runtimeIdentity: REGULAR_WINDOWS_PAIR, allowAncillary: false, allowRotation90: false,
+  sourceEnvelope: 'mpeg1-layer3-untagged-v1', verificationMethod: 'complete-native-v1',
+  evidenceIds: Object.freeze(['883d570b-2d2f-43f6-a911-26873be841ef:three-exact-copies',
+    '883d570b-2d2f-43f6-a911-26873be841ef:protected-lifecycle']),
 })]);
 
 module.exports = { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID };

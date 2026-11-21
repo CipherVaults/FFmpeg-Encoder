@@ -38,6 +38,8 @@ const { AppSettings } = require('./app-settings.cjs');
 const { OperationDraft } = require('./operation-draft.cjs');
 const { prepareRemuxItem, setRemuxOmissions, requireRemuxGrants, installRemuxDecisions, remuxOutputName } = require('./remux-workspace.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
+const { readMp3File, rereadMp3Source } = require('./remux-mp3-source.cjs');
+const { MAX_SOURCE_BYTES: MAX_MP3_SOURCE_BYTES, MAX_OUTPUT_BYTES: MAX_MP3_OUTPUT_BYTES } = require('./remux-mp3-copy.cjs');
 const { collectRemuxEvidence, REMUX_VERIFICATION_CANCELLED_MESSAGE } = require('./remux-evidence.cjs');
 const { createRemuxStorageAllowance } = require('./operation-storage.cjs');
 const { prepareHdrItem } = require('./hdr-workspace.cjs');
@@ -875,6 +877,9 @@ class EncoderService extends EventEmitter {
       // readSourceIdentity still rejects internally inconsistent path/handle
       // samples. Only a complete stable observation reaches the ctime policy.
       const actual = await readSourceIdentity(entry.file, { signal });
+      if (entry.mp3Source) {
+        await rereadMp3Source(entry.file, entry.mp3Source, { signal });
+      }
       return assessCompletedSource(entry.fingerprint, actual);
     } catch (error) {
       if (error.code === 'CANCELLED' || signal?.aborted) throw error;
@@ -938,6 +943,10 @@ class EncoderService extends EventEmitter {
     const file = path.join(input.path, item.name);
     const preparedPlan = this.plan;
     const inspectionOnly = preparedPlan.inspectionOnly?.has(item.name);
+    const standaloneMp3 = preparedPlan.operation === 'remux' && path.extname(file).toLowerCase() === '.mp3'
+      && this.remuxOperations?.allowsStandaloneMp3?.(preparedPlan.draft.fileRequest(item.id).target) === true;
+    const recognizeGeneratedMp3 = path.extname(file).toLowerCase() === '.mp4'
+      && this.remuxOperations?.allowsStandaloneMp3?.('mp4') === true;
     let destination = inspectionOnly ? null : path.join(output.path, item.outputName);
     if (this.plan.draft) item.operationRequest = this.plan.draft.fileRequest(item.id);
     let inspectionDiagnostic, nativePrivate = null, pendingPreparedReady = null;
@@ -964,11 +973,14 @@ class EncoderService extends EventEmitter {
       notCancelled(signal);
       if (reason) progress.notice ||= preparedPlan.operation === 'native-encode' ? NATIVE_MESSAGES.NATIVE_FILE_INSPECTION_REUSE_UNAVAILABLE
         : VENDOR_PROFILES.includes(profile) ? VENDOR_MESSAGES.VENDOR_INSPECTION_REUSE_UNAVAILABLE : reason;
-      let inspection = reusable ? await this.inspectionCache.lookup(identity) : null;
+      if (standaloneMp3 && BigInt(identity.size) > BigInt(MAX_MP3_SOURCE_BYTES)) {
+        throw fail('MP3_WITNESS_LIMIT', 'The MP3 source exceeds the bounded complete-read limit.');
+      }
+      let inspection = reusable && !standaloneMp3 ? await this.inspectionCache.lookup(identity) : null;
       let probe = inspection?.probe;
       item.inspectionMethod = inspection ? 'reused' : 'fresh';
       if (inspection) { onStage({ stage: 'reused' }); progress.reused++; }
-      else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage, remux: preparedPlan.operation === 'remux' });
+      else if (this.inspect === inspectInput) probe = await inspectMetadata(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage, remux: preparedPlan.operation === 'remux', standaloneMp3, recognizeGeneratedMp3 });
       else { inspection = await this.inspect(file, { ffprobe: this.ffprobe, signal, run: this.run, onStage }); probe = inspection.probe; }
       notCancelled(signal);
       assertIdentityMatches(identity, await readFileStamp(file), { stage: 'after-metadata-inspection', message: 'Source identity changed during metadata inspection.' });
@@ -1346,7 +1358,12 @@ class EncoderService extends EventEmitter {
         if (native) await requireNativeOutputFolder(this.plan.output);
         await this.initializeInspectionCache(signal);
         const entries = await fs.readdir(input.path, { withFileTypes: true });
-        let files = entries.filter(entry => (entry.isFile() || entry.isSymbolicLink()) && (operation === 'remux' ? REMUX_EXTENSIONS : EXTENSIONS).has(path.extname(entry.name).toLowerCase()))
+        const discoverMp3 = remux && this.remuxOperations?.allowsStandaloneMp3?.(request.target) === true;
+        const allowedExtensions = remux ? REMUX_EXTENSIONS : EXTENSIONS;
+        let files = entries.filter(entry => {
+          const extension = path.extname(entry.name).toLowerCase();
+          return (entry.isFile() || entry.isSymbolicLink()) && (allowedExtensions.has(extension) || discoverMp3 && extension === '.mp3');
+        })
           .sort((a, b) => a.name.localeCompare(b.name, 'en', { numeric: false }) || a.name.localeCompare(b.name));
         // Never append a diagnostic file to a normal batch; a host's fallback
         // cannot change admission, output naming or selection of existing files.
@@ -1354,7 +1371,7 @@ class EncoderService extends EventEmitter {
           files = this.discoverInspectionOnly(entries, request.target);
           if (files.length) this.plan.inspectionOnly = new Set(files.map(entry => entry.name));
         }
-        if (!files.length) throw fail('NO_INPUTS', 'No supported top-level video files were found.');
+        if (!files.length) throw fail('NO_INPUTS', discoverMp3 ? 'No supported top-level video or standalone MP3 files were found.' : 'No supported top-level video files were found.');
         await this.captureBaseline(files, signal);
         if (sameFolder) {
           const candidate = [...this.plan.baseline.values()].find(entry => entry.identity);
@@ -1719,7 +1736,8 @@ class EncoderService extends EventEmitter {
         notCancelled(signal);
         if (!await exists(destination)) return null;
         const identity = await readSourceIdentity(destination, { signal });
-        const probe = await inspectMetadata(destination, { ffprobe: this.ffprobe, signal, run: this.run });
+        const probe = await inspectMetadata(destination, { ffprobe: this.ffprobe, signal, run: this.run,
+          recognizeGeneratedMp3: this.remuxOperations?.allowsStandaloneMp3?.('mp4') === true });
         if (!sameStamp(identity, await readFileStamp(destination))) throw fail('INPUT_CHANGED', 'Output changed during provenance recovery.');
         return { identity, marker: classifyMarker(probe) };
       } });
@@ -1828,7 +1846,8 @@ class EncoderService extends EventEmitter {
         let storageWatch = Promise.resolve();
         try {
           const qualificationOwner = entry.remux ? this.remuxOperations : entry.hdr ? this.hdrOperations : this.operationQualifications;
-          const sourceFingerprint = entry.remux ? remuxProbeFingerprint : entry.hdr ? fingerprintHdrProbe : fingerprintEncodeSource;
+          const sourceFingerprint = entry.remux ? probe => remuxProbeFingerprint(probe, entry.remuxAssessment.inputFamily)
+            : entry.hdr ? fingerprintHdrProbe : fingerprintEncodeSource;
           const qualificationBindings = () => ({ ...entry.qualificationBindings, settings: this.plan.settings,
             sourceIdentity: entry.fingerprint, sourceProbeFingerprint: sourceFingerprint(entry.inspection.probe),
             runtimeIdentity: this.runtimeIdentity,
@@ -1992,8 +2011,10 @@ class EncoderService extends EventEmitter {
           if (this.plan.reservedPaths.has(entry.destination.toLowerCase())) throw fail('PROTECTED_SOURCE', 'The destination belonged to the baseline input snapshot. It remains protected after disappearance.');
           validatingSource = true;
           await this.assertSourceMatches(entry, jobSignal, 'before-encode', 'Source identity changed since preview.');
+          if (entry.mp3Source) await rereadMp3Source(entry.file, entry.mp3Source, { signal: jobSignal });
           const currentProbe = this.inspect === inspectInput
-            ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal: jobSignal, run })
+            ? await inspectMetadata(entry.file, { ffprobe: this.ffprobe, signal: jobSignal, run,
+              ...(entry.mp3Source ? { remux: true, standaloneMp3: true } : {}) })
             : (await this.inspect(entry.file, { ffprobe: this.ffprobe, signal: jobSignal, run })).probe;
           if (qualified && sourceFingerprint(currentProbe) !== entry.qualificationBindings.sourceProbeFingerprint) {
             throw fail('OPERATION_QUALIFICATION_STALE', 'The current media evidence no longer matches the prepared qualification.');
@@ -2231,6 +2252,17 @@ class EncoderService extends EventEmitter {
           if (storageFailure) throw storageFailure;
           if (entry.vendor) await requireVendorDevice(entry.vendor.binding, { signal: jobSignal, run: this.run, adapters: this.vendorAdapters });
           if (ordinaryGuard) { await ordinaryGuard.beforePublish(stage); notCancelled(jobSignal); }
+          if (entry.mp3Source) {
+            await rereadMp3Source(entry.file, entry.mp3Source, { signal: jobSignal });
+            const receipt = entry.operationEvidence;
+            const candidate = await readMp3File(stage.file, { maximumBytes: MAX_MP3_OUTPUT_BYTES,
+              expectedIdentity: receipt.outputAfter, signal: jobSignal });
+            if (candidate.sha256 !== receipt.essenceEvidence.outputFileSha256) {
+              throw fail('MP3_COPY_CHANGED', 'The verified MP3 copy changed before publication.');
+            }
+            requireQualification();
+            notCancelled(jobSignal);
+          }
           const assertCurrent = this.publicationCurrentness?.(entry, qualified);
           const published = await publishOutput(stage, entry.destination, { signal: jobSignal, atomicOnly: this.plan.sameFolder, assertCurrent,
             ...(entry.remux ? { onProgress: event => advanceRemux(event.stage, event.completed) } : {}) });

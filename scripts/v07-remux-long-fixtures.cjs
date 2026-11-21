@@ -206,6 +206,7 @@ async function moduleSeals(io, regularProof = false) {
   if (regularProof) names.push('resources/regular-windows-engine-manifest.json');
   if (regularProof === 'mp3') names.push('scripts/v07-regular-mp3-proof.cjs', 'scripts/q2j-mp3-laboratory.cjs',
     'scripts/fixtures/q2j-layer3.cjs', 'linux-blue/qualification-tests/q2j-mp3-witness.cjs');
+  else if (regularProof === 'mp3-service') names.push('scripts/v07-regular-mp3-service.cjs', 'scripts/fixtures/q2j-layer3.cjs');
   else if (regularProof) names.push('scripts/v07-regular-ts-proof.cjs');
   names.sort();
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
@@ -218,7 +219,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
   assert.ok(['fixtures', 'smoke'].includes(kind));
   const id = uuid();
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
-  const campaign = regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
+  const campaign = regularProof === 'mp3-service' ? 'q2j-regular-mp3-service'
+    : regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
   const directory = path.join(ROOT, 'artifacts/v0.7', campaign, kind, id);
   const owned = regularProof ? path.join(directory, 'owned') : path.join(OWNED, kind === 'fixtures' ? 'fixtures' : 'outputs', 'remux-long-' + id);
   const controller = new AbortController(), children = new Set(), report = { schema: 1, id, kind, status: 'running', directory, owned,
@@ -302,7 +304,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       if (!regularProof) await bindDirectory(directory);
       reportHandle = await io.open(path.join(directory, 'report.json'), 'wx+'); reportStamp = await reportHandle.stat({ bigint: true }); assert.ok(ordinary(reportStamp));
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
-      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
+      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'mp3-service' ? 'Windows Q2j MP3 service proof'
+        : regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
         : regularProof ? 'Windows Q2j regular TS proof' : 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
       runtime = await verify({ root: ROOT }); report.runtime = runtime.verified; report.modulesBefore = await moduleSeals(io, regularProof); opened = true;
       timer = setTimeout(() => { report.deadlineExceeded = true; controller.abort(); }, limits.totalMs); timer.unref();

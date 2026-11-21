@@ -3,6 +3,7 @@
 const { runTool, ToolError, isSharedToolFailure, boundedToolStderr } = require('./process-runner.cjs');
 const { PROFILES, validateSettings, selectVideo, classifyColor, mappedStreams, outputPixelFormat, streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { EVIDENCE_LIMITS, normalizeSideData, normalizeRelationships, buildMediaEvidence } = require('./media-evidence.cjs');
+const { classifyMarker } = require('./provenance.cjs');
 
 const UNKNOWN_COLOR = new Set(['', 'unknown', 'unspecified', 'reserved', 'n/a']);
 const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'number_of_bytes']);
@@ -45,7 +46,7 @@ function dictionary(value) {
 function sideData(value) {
   return normalizeSideData(value);
 }
-function normalizeProbe(probe) {
+function normalizeMediaProbe(probe, standaloneMp3) {
   if (!plainObject(probe) || !Array.isArray(probe.streams) || probe.streams.length > EVIDENCE_LIMITS.streams) invalidEvidence('Invalid or excessive stream evidence.');
   const normalized = { streams: probe.streams.map(stream => {
     const result = fields(stream, STREAM_FIELDS);
@@ -64,7 +65,12 @@ function normalizeProbe(probe) {
     if (Object.hasOwn(chapter, 'tags')) result.tags = dictionary(chapter.tags);
     return result;
   });
-  selectVideo(normalized);
+  if (standaloneMp3) {
+    const [audio] = normalized.streams;
+    if (normalized.streams.length !== 1 || audio.codec_type !== 'audio' || audio.codec_name !== 'mp3') {
+      throw new ToolError('REMUX_MP3_SHAPE', 'This route requires exactly one standalone MP3 audio stream.');
+    }
+  } else selectVideo(normalized);
   for (const kind of ['programs', 'stream_groups']) {
     if (Object.hasOwn(probe, kind)) normalized[kind] = normalizeRelationships(probe[kind], kind);
   }
@@ -73,6 +79,8 @@ function normalizeProbe(probe) {
   normalized.mediaEvidence = buildMediaEvidence(normalized);
   return normalized;
 }
+function normalizeProbe(probe) { return normalizeMediaProbe(probe, false); }
+function normalizeMp3RemuxProbe(probe) { return normalizeMediaProbe(probe, true); }
 function normalizeFrames(frames) {
   if (!Array.isArray(frames)) invalidEvidence('Invalid decoded-frame evidence.');
   return frames.map(frame => {
@@ -161,7 +169,7 @@ function pixelLayout(format) {
   return packed ? { depth: Number(packed[2]), chroma: packed[1] === '0' ? '420' : '422', alpha: false } : null;
 }
 
-async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage, remux = false } = {}) {
+async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage, remux = false, standaloneMp3 = false, recognizeGeneratedMp3 = false } = {}) {
   ensureNotCancelled(signal);
   if (typeof file !== 'string' || !file || typeof ffprobe !== 'string' || !ffprobe) {
     throw new ToolError('INVALID_INSPECTION', 'Inspection requires an input file and the bundled ffprobe.');
@@ -170,15 +178,21 @@ async function inspectMetadata(file, { ffprobe, signal, run = runTool, onStage, 
   // boundary: media playlists cannot turn this local inspector into a network client.
   onStage?.({ stage: 'metadata' });
   ensureNotCancelled(signal);
-  if (remux) await require('./remux-transport.cjs').inspectTransportHead(file, signal);
+  if (standaloneMp3 && (!remux || !/\.mp3$/i.test(file))) throw new ToolError('REMUX_MP3_SHAPE', 'Standalone MP3 probing is only available in the MP4 Remux route.');
+  if (remux && !standaloneMp3) await require('./remux-transport.cjs').inspectTransportHead(file, signal);
   const result = await run(ffprobe, [
-    '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
+    '-v', 'error', '-protocol_whitelist', 'file,pipe', '-format_whitelist', standaloneMp3 ? 'mp3' : 'mov,matroska,webm,avi,mpegts', '-show_streams', '-show_format', '-show_chapters', '-show_programs', '-show_stream_groups',
     '-show_data_hash', 'sha256', '-of', 'json', '-i', file,
-  ], { signal, timeoutMs: 30_000, stdoutLimit: 16 * 1024 * 1024, stderrLimit: INSPECTION_STDERR_LIMIT });
+  ], { signal, timeoutMs: standaloneMp3 ? 8000 : 30_000, stdoutLimit: standaloneMp3 ? 128 * 1024 : 16 * 1024 * 1024, stderrLimit: INSPECTION_STDERR_LIMIT });
   try {
     ensureNotCancelled(signal);
     if (result.stderr?.trim() || result.stderrCapture?.truncated) throw new ToolError('INVALID_PROBE', 'Media metadata inspection reported an error or incomplete diagnostics.');
-    return normalizeProbe(parseJson(result.stdout, 'Media inspection'));
+    const probe = parseJson(result.stdout, 'Media inspection');
+    const generatedMp3 = recognizeGeneratedMp3 && /\.mp4$/i.test(file)
+      && probe.format?.format_name === 'mov,mp4,m4a,3gp,3g2,mj2' && Array.isArray(probe.streams) && probe.streams.length === 1
+      && probe.streams[0]?.codec_type === 'audio' && probe.streams[0].codec_name === 'mp3'
+      && classifyMarker(probe).kind === 'generated';
+    return standaloneMp3 || generatedMp3 ? normalizeMp3RemuxProbe(probe) : normalizeProbe(probe);
   }
   catch (error) {
     // JSON/normalization failures belong to this child invocation too. Keep its
@@ -526,4 +540,4 @@ function validateOutput(inputInspection, outputProbe, settings, { preservationSe
   return { valid: errors.length === 0, errors };
 }
 
-module.exports = { inspectInput, inspectMetadata, finishInspection, parseProbeJson: parseJson, validateOutput, normalizeProbe, reconstructInspection, cacheableInspection, INSPECTION_POLICY };
+module.exports = { inspectInput, inspectMetadata, finishInspection, parseProbeJson: parseJson, validateOutput, normalizeProbe, normalizeMp3RemuxProbe, reconstructInspection, cacheableInspection, INSPECTION_POLICY };

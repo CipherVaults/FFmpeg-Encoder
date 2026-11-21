@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 169805,
-    "sha256": "72f82458a13a7d7a4d8eddaa7f64894108f5b092c84dd38cb451a86b35f0163f"
+    "bytes": 172031,
+    "sha256": "70cdf308c36ff1b66d81161e5b16bfc52a25fb9765151e14678641a007f96e02"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -201,8 +201,8 @@ const SOURCE_PINS = {
     "sha256": "a8df2a0b65a4c4117e1efb903710ff159335424d4f3645adb53b99b278e55de1"
   },
   "src/inspection.cjs": {
-    "bytes": 32810,
-    "sha256": "948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491"
+    "bytes": 34107,
+    "sha256": "51cd1013264a3886be63ff49a193c2cdfd309bb1425339e5532a7da5cf839b95"
   },
   "src/ipc.cjs": {
     "bytes": 8998,
@@ -345,12 +345,12 @@ const SOURCE_PINS = {
     "sha256": "6a4ff865f95b55b4afeeccc85781c1c213121f94c3bffdb23deff5a811d4fe76"
   },
   "src/remux-catalog.cjs": {
-    "bytes": 5969,
-    "sha256": "789881be3220d1b926fdc7ddd6b3aa4a395a1884583ecc5730eacdba1569e836"
+    "bytes": 6512,
+    "sha256": "92f043c0f9fa8f5c9162537fb1773c11dd5c21336166c25d024ed6e23474a608"
   },
   "src/remux-contract.cjs": {
-    "bytes": 34909,
-    "sha256": "f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da"
+    "bytes": 36673,
+    "sha256": "22a9d6f6603e2e3c5196de9a1c833009280224859138caebad915c10f2375a43"
   },
   "src/remux-ebml-reader.cjs": {
     "bytes": 12786,
@@ -361,8 +361,8 @@ const SOURCE_PINS = {
     "sha256": "2c43bcd88ee7772470abddc232d428751e37b95a072e4f989189a5a4178a99de"
   },
   "src/remux-evidence.cjs": {
-    "bytes": 154677,
-    "sha256": "56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8"
+    "bytes": 155395,
+    "sha256": "e6ce6a624f800ace5853c9baa4655ed61adc3cf08e57b0cc38386f6ba1adf622"
   },
   "src/remux-fragments.cjs": {
     "bytes": 5772,
@@ -375,6 +375,18 @@ const SOURCE_PINS = {
   "src/remux-metadata-policy.cjs": {
     "bytes": 6530,
     "sha256": "56b613509412a0a986276a705e6fff57aa97577fd5b6def2aaec275781c129a8"
+  },
+  "src/remux-mp3-copy.cjs": {
+    "bytes": 9444,
+    "sha256": "e5059fabe6623eb979faa741b8328344af86522388414577c14bab06701ef5a2"
+  },
+  "src/remux-mp3-evidence.cjs": {
+    "bytes": 7756,
+    "sha256": "d28398c27a47753375372aa73081ca818f791cb23edb9cdde0017b95dc29a631"
+  },
+  "src/remux-mp3-source.cjs": {
+    "bytes": 4519,
+    "sha256": "072986180f2b5f443bcd4b74aacb90fe4569381d3a3703b8238868e319721971"
   },
   "src/remux-native-checks.cjs": {
     "bytes": 31906,
@@ -413,8 +425,8 @@ const SOURCE_PINS = {
     "sha256": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7"
   },
   "src/remux-operation.cjs": {
-    "bytes": 41395,
-    "sha256": "6adc49a4b26c5cc5d98f08724c3969c58351dedf781d8a8ad13581c78d6bd258"
+    "bytes": 44744,
+    "sha256": "00dc5debe55e45a127d89f69ec2883a364f5db8e26759ed09c9f32f925a9cbed"
   },
   "src/remux-transport-evidence.cjs": {
     "bytes": 14174,
@@ -425,12 +437,12 @@ const SOURCE_PINS = {
     "sha256": "cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e"
   },
   "src/remux-validation.cjs": {
-    "bytes": 41149,
-    "sha256": "6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810"
+    "bytes": 41268,
+    "sha256": "ceed68c465a75055a3b339f58f43aabaf604382678ec1a0d6d015425633d102d"
   },
   "src/remux-workspace.cjs": {
-    "bytes": 16115,
-    "sha256": "2669305c36f0ab49df24a478bfc4e56b61492d3dd21252c6f37ac6a73f257242"
+    "bytes": 16743,
+    "sha256": "4af957ce6e91f8fe056d906c911dc83152933bb4d2ef322e6f30cbc2dcc9d5d1"
   },
   "src/source-catalog-seals.cjs": {
     "bytes": 2619,
@@ -469,8 +481,8 @@ const SOURCE_PINS = {
     "sha256": "8700b6de13ecf46e49d1b8bd7ac347b04232c86efd9b8a1eee2827d0d3265eb4"
   },
   "ui/renderer.js": {
-    "bytes": 167138,
-    "sha256": "adbb2d6a4ad868fb275c3659a78648838ab467e890f884e50ee9085d0ed76ef1"
+    "bytes": 167495,
+    "sha256": "4932e4ffdf71a4c22620aaff7a9cac3a93106989c623cb2aa04218f47eb7b526"
   },
   "linux-blue/candidate-full-copy-calibration.cjs": {
     "bytes": 27666,

@@ -227,12 +227,18 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  const regularWindowsSourceDeltas={
    'src/candidate-runtime.cjs': ['9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712',11835,'92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9'],
    'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',57405,'0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287'],
-   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',169805,'72f82458a13a7d7a4d8eddaa7f64894108f5b092c84dd38cb451a86b35f0163f'],
+   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',172031,'70cdf308c36ff1b66d81161e5b16bfc52a25fb9765151e14678641a007f96e02'],
+   'src/inspection.cjs': ['948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491',34107,'51cd1013264a3886be63ff49a193c2cdfd309bb1425339e5532a7da5cf839b95'],
    'src/media.cjs': ['79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7',25811,'2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0'],
    'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',3837,'10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471'],
    'src/operation-runtime.cjs': ['95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79',24869,'a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294'],
    'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
-   'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',5969,'789881be3220d1b926fdc7ddd6b3aa4a395a1884583ecc5730eacdba1569e836'],
+   'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',6512,'92f043c0f9fa8f5c9162537fb1773c11dd5c21336166c25d024ed6e23474a608'],
+   'src/remux-contract.cjs': ['f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da',36673,'22a9d6f6603e2e3c5196de9a1c833009280224859138caebad915c10f2375a43'],
+   'src/remux-evidence.cjs': ['76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75',155395,'e6ce6a624f800ace5853c9baa4655ed61adc3cf08e57b0cc38386f6ba1adf622'],
+   'src/remux-operation.cjs': ['62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac',44744,'00dc5debe55e45a127d89f69ec2883a364f5db8e26759ed09c9f32f925a9cbed'],
+   'src/remux-validation.cjs': ['6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810',41268,'ceed68c465a75055a3b339f58f43aabaf604382678ec1a0d6d015425633d102d'],
+   'src/remux-workspace.cjs': ['7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260',16743,'4af957ce6e91f8fe056d906c911dc83152933bb4d2ef322e6f30cbc2dcc9d5d1'],
    'src/vendor-encode.cjs': ['4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74',11018,'71a10e6d08c293ed681bb5e1f7bbc176361204bd8d98cce14ddc18577827f71f'],
  };
  let changed=0, historicalOnly=0;
@@ -263,30 +269,11 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,'fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:6456,sha256:'93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd'});
    changed++;
-  }else if(name==='src/remux-operation.cjs'){
-   // The Windows Remux transplant refreshes current source identity. The Linux producer receipt retains its old bytes.
-   assert.equal(hash,'62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:41395,sha256:'6adc49a4b26c5cc5d98f08724c3969c58351dedf781d8a8ad13581c78d6bd258'});
-   changed++;
   }else if(name==='src/outputs.cjs'){
    // The H.265 publication helper at 115 was {bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'}.
    // This later observational change introduces no publication or cleanup grant.
    assert.equal(hash,'0871e35adb50b7fca7c177b6beb34c5533df8bac98751b55c8af31b8e422ca96');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:24548,sha256:'d61c0185f0af9104831cee015774bb8bd4656376e4b6f52b981e2aa7c011aff6'});
-   changed++;
-  }else if(name==='src/remux-workspace.cjs'){
-   // A new refusal-only Linux projection does not requalify the old resize
-   // producer. The later omission UI gate is also presentation/decision-only.
-   // Current per-file Remux journal settlement changes no media proof.
-   // Check each exact identity rather than rewriting its receipt.
-   assert.equal(hash,'7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:16115,sha256:'2669305c36f0ab49df24a478bfc4e56b61492d3dd21252c6f37ac6a73f257242'});
-   changed++;
-  }else if(name==='src/remux-evidence.cjs'){
-   // The Linux-only diagnostic records rejected verification and honest
-   // cancellation. It supplies no new native authority to the old producer.
-   assert.equal(hash,'76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:154677,sha256:'56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8'});
    changed++;
   }else if(regularWindowsSourceDeltas[name]){
    const [historicalHash,currentBytes,currentHash]=regularWindowsSourceDeltas[name];
@@ -300,7 +287,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,19);
+ assert.equal(changed,22);
  assert.equal(historicalOnly,1);
 });
 

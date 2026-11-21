@@ -4,8 +4,11 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { isDeepStrictEqual } = require('node:util');
 const { ToolError } = require('./process-runner.cjs');
-const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, remuxVerificationDescription } = require('./remux-contract.cjs');
+const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, getRemuxMp3Source, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { createRemuxValidator, remuxProbeFingerprint, qualifiedSingletonDefault } = require('./remux-validation.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { validateMp3SourceProbe, COPY_NOTICE, MAX_SOURCE_BYTES, MAX_OUTPUT_BYTES, MAX_PACKETS } = require('./remux-mp3-copy.cjs');
+const { requireMp3Source } = require('./remux-mp3-source.cjs');
 
 // Main-private ownership, not a renderer registry or a codec-table permission.
 // A policy is supplied only after main reviews its retained route/lifecycle
@@ -85,6 +88,19 @@ function fingerprintRemuxSourceIdentity(value) { return hash(sourceIdentity(valu
 function deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod) {
   need(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod),
     'A main-selected verification method is required for Remux accounting.', 'REMUX_VERIFICATION_METHOD');
+  if (assessment.inputFamily === 'mp3') {
+    const mp3 = getRemuxMp3Source(assessment);
+    need(verificationMethod === 'complete-native-v1' && sourceBytes === mp3.size,
+      'MP3 requires its complete source-bound verification budget.', 'REMUX_VERIFICATION_METHOD');
+    const maxPcmBytes = mp3.sampleFrames * mp3.channels * 4;
+    const maxSpoolBytes = BUDGET.maxSpoolBytes;
+    const pipeBytes = 2 * maxPcmBytes + maxSpoolBytes;
+    return freeze({ budget: { sourceDecode: 'complete', timeoutMs: BUDGET.timeoutMs, maxFrameBytes: BUDGET.maxFrameBytes,
+      maxPcmBytes, maxRecords: MAX_PACKETS, maxSpoolBytes, maxTextBytes: 4 * MiB,
+      maxDurationSeconds: Math.ceil(mp3.sampleFrames / mp3.rate) + 2, maxSourceBytes: Number(sourceBytes), maxOutputBytes: MAX_OUTPUT_BYTES },
+    executionBudgetMs: EXECUTION_MS, resources: { pipeBytes, evidenceBytes: pipeBytes, maxChildren: 16, stallMs: 120000,
+      outputReserveBytes: MAX_OUTPUT_BYTES + 64 * MiB, evidenceReserveBytes: maxSpoolBytes } });
+  }
   const retained = assessment.expectedOutput.streams.map(stream => stream.inputIndex);
   return deriveRemuxBudget(getRemuxAssessmentSource(assessment), sourceBytes,
     verificationMethod === 'packet-identity-v1' ? null : retained, retained);
@@ -92,7 +108,7 @@ function deriveRemuxAssessmentBudget(assessment, sourceBytes, verificationMethod
 function policy(value) {
   const fields = ['id', 'inputFamily', 'target', 'evidenceIds', 'allowAncillary', 'runtimeIdentity', 'allowRotation90', 'audio', 'sourceEnvelope', 'verificationMethod'];
   record(value, fields, fields.slice(0, 6), 'Main-reviewed Remux route policy');
-  need(['isobmff', 'matroska', 'mpegts'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
+  need(['isobmff', 'matroska', 'mpegts', 'mp3'].includes(value.inputFamily) && ['matroska', 'mp4', 'mov'].includes(value.target), 'Only the finite reviewed local Remux families are available.');
   need(!own(value, 'verificationMethod') || ['packet-identity-v1', 'complete-native-v1'].includes(value.verificationMethod),
     'Only a main-reviewed Remux verification method is available.');
   need(!PACKET_ROUTES[value.id] || !own(value, 'verificationMethod') || value.verificationMethod === 'packet-identity-v1',
@@ -102,8 +118,12 @@ function policy(value) {
   if (own(value, 'audio')) need(value.audio === 'explicitly-omitted-only' && value.inputFamily === 'matroska' && value.target === 'mp4',
     'The explicitly-omitted-only audio policy is available only for reviewed Matroska-to-MP4 routes.');
   const transport = value.inputFamily === 'mpegts' && value.target === 'mp4' && value.sourceEnvelope === 'h264-adts-lc-48k-v1';
+  const standaloneMp3 = value.inputFamily === 'mp3' && value.target === 'mp4' && value.runtimeIdentity === REGULAR_WINDOWS_PAIR
+    && value.sourceEnvelope === 'mpeg1-layer3-untagged-v1' && value.verificationMethod === 'complete-native-v1'
+    && !value.allowAncillary && value.allowRotation90 !== true;
+  need(value.inputFamily !== 'mp3' || standaloneMp3, 'MP3 requires the exact regular Windows runtime and finite audio-only envelope.');
   need(value.inputFamily !== 'mpegts' || transport && value.verificationMethod === 'packet-identity-v1' && value.allowRotation90 !== true, 'TS requires its explicit unrotated fast transport envelope.');
-  if (own(value, 'sourceEnvelope')) need(transport || ['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
+  if (own(value, 'sourceEnvelope')) need(transport || standaloneMp3 || ['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
     && value.inputFamily === 'isobmff' && value.target === 'mov' && value.allowRotation90 !== true,
   'The measured H264/AAC source envelope is available only for unrotated ISOBMFF-to-MOV routes.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
@@ -222,6 +242,13 @@ function geometry(evidence, route) {
   else need(degrees === 0 && g.rotationSource === 'legacy-rotate-tag', 'A rotated source needs its exact native display matrix.', REQUIRED);
 }
 function sourcePolicy(assessment, source, identity, route) {
+  if (route.inputFamily === 'mp3') {
+    const mp3 = getRemuxMp3Source(assessment);
+    requireMp3Source(mp3, identity);
+    validateMp3SourceProbe(source, mp3);
+    return freeze({ id: route.id, inputFamily: 'mp3', target: 'mp4', maximumSourceBytes: MAX_SOURCE_BYTES,
+      maximumDurationSeconds: Math.ceil(mp3.sampleFrames / mp3.rate), videoInputIndex: null, audioInputIndexes: [0], ancillary: false });
+  }
   const mapped = assessment.expectedOutput.streams.map(mapping => source.streams.find(stream => stream.index === mapping.inputIndex));
   // This measured MOV cell cannot borrow the broader AAC/omission envelopes of
   // other routes. Inspect the whole source, so an omission cannot hide a track
@@ -328,6 +355,9 @@ class RemuxOperations {
       && new Set(this.#policies.map(item => `${item.inputFamily}:${item.target}`)).size === this.#policies.length, 'Reviewed Remux policies must have unique identities and routes.');
     freeze(this.#policies);
   }
+  allowsStandaloneMp3(target) {
+    return target === 'mp4' && this.#policies.some(row => row.inputFamily === 'mp3' && row.runtimeIdentity === this.#runtime);
+  }
   #current(plan) {
     const state = plan && typeof plan === 'object' ? this.#plans.get(plan) : null;
     need(state && state.epoch === this.#epoch && this.#latest.get(state.request.fileId) === plan, 'Only this owner\'s current genuine Remux plan is usable.', PLAN_REQUIRED); return state;
@@ -360,12 +390,13 @@ class RemuxOperations {
         cellId: route.id, evidenceId: route.evidenceIds[0], requirementIds: [...binding.requirementIds], maxTimestampError: route.inputFamily === 'mpegts' ? TRANSPORT_TIMING : TIMING, maxChapterError: TIMING };
     } });
     const innerPlan = validator.prepare({ assessment: options.assessment, runtimeIdentity: this.#runtime, cellId: route.id, outputId: options.outputId });
-    const sourceProbeFingerprint = remuxProbeFingerprint(source), contract = freeze({ operation: 'remux', range: { kind: 'full' }, target: request.target, request });
+    const sourceProbeFingerprint = remuxProbeFingerprint(source, route.inputFamily), contract = freeze({ operation: 'remux', range: { kind: 'full' }, target: request.target, request });
     const description = { operation: 'remux', compatibilityPath: false, verificationMethod: route.verificationMethod,
       verificationClaim: remuxVerificationDescription(route.verificationMethod, route.inputFamily), args, contract, expectedOutput: options.assessment.expectedOutput,
       sourceProbeFingerprint, runtimeIdentity: this.#runtime };
     const plan = freeze({ ...description, planFingerprint: hash({ ...description, sourceIdentity: identity, outputId: options.outputId.toLowerCase(),
-      policyIdentity: this.#policyIdentity, route, epoch }) });
+      policyIdentity: this.#policyIdentity, route, epoch,
+      ...(route.inputFamily === 'mp3' ? { sourceSha256: getRemuxMp3Source(options.assessment).sha256 } : {}) }) });
     this.#plans.set(plan, { epoch, request, identity: freeze(identity), sourceProbeFingerprint, route, facts, costs, validator, innerPlan,
       assessment: options.assessment, input: options.input, outputId: options.outputId.toLowerCase(), invocationOutput: null, selected: false });
     this.#outputIds.add(outputId); this.#latest.set(request.fileId, plan); return plan;
@@ -417,11 +448,21 @@ class RemuxOperations {
       "A MOV representation must be the collector's own observation of this output.");
     need(collectorReceipt.sourcePath === state.input && collectorReceipt.outputPath === state.invocationOutput
       && collectorReceipt.sourceProbeFingerprint === state.sourceProbeFingerprint
-      && collectorReceipt.outputProbeFingerprint === remuxProbeFingerprint(outputProbe), 'Collected evidence belongs to another actual source, output path or probe.');
+      && collectorReceipt.outputProbeFingerprint === remuxProbeFingerprint(outputProbe, state.route.inputFamily), 'Collected evidence belongs to another actual source, output path or probe.');
     for (const stamp of [collectorReceipt.sourceBefore, collectorReceipt.sourceAfter]) need(stamp
       && SOURCE_FIELDS.slice(1, -1).every(key => stamp[key] === state.identity[key]), 'Collected source identity differs from its prepared identity.');
     digest(essence.outputFileSha256, 'Complete owned output seal');
     need(!own(optional, 'outputFileSha256') || optional.outputFileSha256 === essence.outputFileSha256, 'The supplied output seal differs from complete collected bytes.');
+    if (state.route.inputFamily === 'mp3') {
+      const source = getRemuxMp3Source(state.assessment), copy = essence.mp3Copy;
+      need(copy && copy.sourceSha256 === source.sha256 && copy.orderedPacketPayloadSha256 === source.sha256
+        && copy.rate === source.rate && copy.channels === source.channels && copy.packets === source.packets
+        && copy.sampleFrames === source.sampleFrames && copy.outputSha256 === essence.outputFileSha256
+        && HASH.test(copy.pcmS32leSha256), 'Complete MP3 copy verification differs from the prepared source.', 'MP3_COPY_UNVERIFIED');
+      return freeze({ valid: true, errors: [], warnings: [{ code: 'REMUX_MP3_COMPATIBILITY', message: COPY_NOTICE }],
+        version: 1, operation: 'remux', target: 'mp4', verificationMethod: essence.verificationMethod,
+        verificationClaim: essence.verificationClaim });
+    }
     if (state.route.sourceEnvelope === 'h264-aac-lc-48k-stereo-v1') {
       // Rate summaries are only an early filter. Publication requires complete
       // source/output cadence from this plan's genuine bound collector receipt;

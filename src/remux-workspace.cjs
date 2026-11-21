@@ -11,7 +11,9 @@ const { prepareTransport } = require('./remux-transport-evidence.cjs');
 const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { observeNativeInventory } = require('./remux-native-checks.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
-const { normalizeProbe } = require('./inspection.cjs');
+const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
+const { prepareMp3Source } = require('./remux-mp3-source.cjs');
+const { COPY_NOTICE } = require('./remux-mp3-copy.cjs');
 const OUTPUT_PLACEHOLDER = '<temporary output assigned at start>';
 const fail = (code, message) => Object.assign(new Error(message), { code });
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -61,11 +63,14 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     return Object.fromEntries(['id', 'fileId', 'identityRevision', 'draftRevision', 'sourceFingerprint', 'target',
       'operation', 'streamIndex', 'streamFingerprint', 'action'].map(key => [key, grant[key]]));
   };
-  const assessment = assessRemux({ request, probe, sourceFingerprint, resolveOmission: resolve });
+  const mp3Source = this.remuxOperations.allowsStandaloneMp3?.(request.target) && path.extname(file).toLowerCase() === '.mp3'
+    ? await prepareMp3Source(file, identity, { signal }) : undefined;
+  const assessment = assessRemux({ request, probe, sourceFingerprint, resolveOmission: resolve,
+    ...(mp3Source ? { mp3Source } : {}) });
   // A blocked genuine assessment intentionally cannot issue a builder source
   // capability. Main already owns this inspected data; use its normalized copy
   // only for the refusal/decision view, never as execution authority.
-  const source = normalizeProbe(structuredClone(probe));
+  const source = (mp3Source ? normalizeMp3RemuxProbe : normalizeProbe)(structuredClone(probe));
   const primary = assessment.expectedOutput.selectedVideoInputIndex;
   // An individual main-process service can add a refusal, never a grant.
   // Its text is presented only after the shared assessment's own blockers.
@@ -78,7 +83,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   // omission. Do not offer a button that falsely promises to resolve them.
   const unsafeRelationships = assessment.blockers.some(value => /RELATIONSHIP|PROGRAM|GROUP/.test(value.code));
   for (const stream of source.streams) {
-    if (!omissionsAvailable || localBlocker || assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
+    if (!omissionsAvailable || localBlocker || mp3Source || assessment.inputFamily === 'mpegts' || unsafeRelationships || stream.index === primary || !['audio', 'subtitle', 'attachment'].includes(stream.codec_type)) continue;
     const fingerprint = hash(stream);
     const approved = [...this.plan.remuxGrants.values()].find(grant => grant.fileId === item.id && grant.streamIndex === stream.index);
     const candidate = { id: approved?.id || randomUUID(), fileId: item.id, planId: this.plan.id, draftId: this.plan.draft.id,
@@ -103,14 +108,14 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   item.remux = { target: request.target, status: 'assessment', streams, blockers,
     omissionCandidates: candidates.map(({ id, streamIndex, label, reasons, target }) => ({ id, streamIndex, label, reasons, target })),
     omissionDecisionIds: request.omissionRequestIds,
-    notice: 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.'
+    notice: mp3Source ? COPY_NOTICE : 'Full stream copy. Content, timing and functional metadata must validate before publication. Known nonfunctional descriptive tags are copied where possible; differences are reported as warnings.'
       + (omissionsAvailable ? '' : ' Stream omission is unavailable in this build.') };
   this.plan.remuxFacts.set(item.id, { file, fingerprint: identity, probe, request, assessment });
   const video = source.streams.find(value => value.index === primary);
-  const duration = Number(source.format.duration);
+  const duration = mp3Source ? mp3Source.sampleFrames / mp3Source.rate : Number(source.format.duration);
   const inspection = { probe: source, duration,
-    summary: { durationSeconds: duration, codec: video?.codec_name, width: video?.width, height: video?.height,
-      pixelFormat: video?.pix_fmt, bitDepth: 8, frameRate: null,
+    summary: { durationSeconds: duration, codec: mp3Source ? 'mp3' : video?.codec_name, width: video?.width, height: video?.height,
+      pixelFormat: video?.pix_fmt, bitDepth: mp3Source ? null : 8, frameRate: null,
       streamCounts: Object.fromEntries(['video', 'audio', 'subtitle', 'attachment', 'data'].map(type => [type, source.streams.filter(value => value.codec_type === type).length])) } };
   item.summary = inspection.summary;
   if (assessment.blockers.length) {
@@ -129,7 +134,7 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     const operationRuntimeToken = await this.operationRuntime.observe({ hardware: 'CPU', signal });
     const observed = this.operationRuntime.snapshot(operationRuntimeToken);
     if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
-    if (assessment.inputFamily !== 'mpegts') await observeNativeInventory({file,probe:source,identity,signal,family:assessment.inputFamily,target:assessment.target,
+    if (!mp3Source && assessment.inputFamily !== 'mpegts') await observeNativeInventory({file,probe:source,identity,signal,family:assessment.inputFamily,target:assessment.target,
       selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),...deriveRemuxAssessmentBudget(assessment,identity.size,operationPlan.verificationMethod).budget});
     if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,
       selectedIndexes: assessment.expectedOutput.streams.map(s => s.inputIndex),
@@ -145,11 +150,11 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   try { ({ operationRuntimeToken, transportPreparation } = await admission); }
   catch (error) { item.remux.status = 'blocked'; item.remux.blockers = [{ code: error.code, message: error.message, streamIndex: null }]; throw error; }
   const qualificationBindings = { plan: operationPlan, settings: null, sourceIdentity: identity,
-    sourceProbeFingerprint: remuxProbeFingerprint(source), runtimeIdentity: this.runtimeIdentity,
+    sourceProbeFingerprint: remuxProbeFingerprint(source, assessment.inputFamily), runtimeIdentity: this.runtimeIdentity,
     environment: null, budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
   const qualificationSelection = this.remuxOperations.select(qualificationBindings);
   const entry = { remux: true, remuxOwner: this.plan, preparedPlanId: this.plan.id,
-    remuxRequest: request, remuxAssessment: assessment, transportPreparation, file, destination, inspection, fingerprint: identity,
+    remuxRequest: request, remuxAssessment: assessment, transportPreparation, ...(mp3Source ? { mp3Source } : {}), file, destination, inspection, fingerprint: identity,
     overridden: this.plan.overrides.has(item.id), reencodeAuthorized: item.reencodeAuthorized,
     sourceOutputId: marker.outputId || indexed?.outputId, outputId, operationPlan,
     preparedArgs: Object.freeze([...operationPlan.args.slice(0, -1), OUTPUT_PLACEHOLDER]),

@@ -3,7 +3,9 @@
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
-const { normalizeProbe } = require('./inspection.cjs');
+const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
+const { requireMp3Source } = require('./remux-mp3-source.cjs');
+const { validateMp3SourceProbe } = require('./remux-mp3-copy.cjs');
 const { streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS } = require('./media.cjs');
 const { provenanceArgs, classifyMarker, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
 const { REMUX_METADATA_POLICY, classifyRemuxMetadataTag } = require('./remux-metadata-policy.cjs');
@@ -215,15 +217,22 @@ function streamReasons(stream, target) {
 function qualificationRequirement(id, message, streamIndex = null) { return { id, message, streamIndex, status: 'unverified' }; }
 
 function assessRemux(options) {
-  record(options, ['request', 'probe', 'sourceFingerprint', 'resolveOmission'], 'Remux assessment', ['request', 'probe', 'sourceFingerprint']);
+  record(options, ['request', 'probe', 'sourceFingerprint', 'resolveOmission', 'mp3Source'], 'Remux assessment', ['request', 'probe', 'sourceFingerprint']);
   const request = validateRemuxRequest(options.request);
   if (typeof options.sourceFingerprint !== 'string' || !/^[a-f0-9]{64}$/.test(options.sourceFingerprint)) fail('INVALID_REMUX_REQUEST', 'Source fingerprint must be the current main-owned identity digest.');
   if (options.resolveOmission !== undefined && typeof options.resolveOmission !== 'function') fail('INVALID_REMUX_REQUEST', 'Omission resolver must be a main-owned function.');
-  const probe = normalizeProbe(copyEvidence(options.probe));
+  const { mp3Source } = options;
+  const mp3Only = mp3Source !== undefined;
+  const probe = (mp3Only ? normalizeMp3RemuxProbe : normalizeProbe)(copyEvidence(options.probe));
+  if (mp3Only) {
+    requireMp3Source(mp3Source);
+    if (request.target !== 'mp4' || request.omissionRequestIds.length) fail('REMUX_MP3_SHAPE', 'Standalone MP3 supports Full copy into MP4 without omissions.');
+    validateMp3SourceProbe(probe, mp3Source);
+  }
   const sourceFingerprint = options.sourceFingerprint;
   const blockers = [], decisionsNeeded = [], qualifications = [];
   const addBlocker = (code, message, streamIndex = null) => blockers.push({ code, message, streamIndex });
-  const family = sourceFamily(probe);
+  const family = mp3Only ? 'mp3' : sourceFamily(probe);
   if (family === 'mpegts') blockers.push(...transportSourceReasons(probe, request.target));
   if (family === 'mpegts' && request.omissionRequestIds.length) addBlocker('REMUX_TS_OMISSION', 'This TS route preserves every admitted stream; stream omissions are unsupported.');
   if (!family) addBlocker('REMUX_CONTAINER_UNKNOWN', 'The inspected container is outside the bounded local remux input set.');
@@ -289,18 +298,19 @@ function assessRemux(options) {
     catch (error) { addBlocker(error.code || 'REMUX_METADATA_AMBIGUOUS', error.message, stream.index); }
     const outputIndex = mapped.length;
     mapped.push({ inputIndex: stream.index, outputIndex, streamFingerprint: fingerprints.get(stream.index), codecType: stream.codec_type,
-      codecName: stream.codec_name, action: 'preserve-copy', disposition: flags, metadata,
+      codecName: stream.codec_name, action: 'preserve-copy', disposition: mp3Only ? ['default'] : flags, metadata,
       evidence: evidence.streams.find(item => item.index === stream.index), sideData: structuredClone(stream.side_data_list || []),
       attachment: stream.codec_type === 'attachment' ? { extradataHash: stream.extradata_hash, extradataSize: stream.extradata_size ?? null } : null });
     qualifications.push(qualificationRequirement(`codec:${request.target}:${stream.codec_type}:${stream.codec_name}`, 'Exact runtime codec/container mux, decode and preservation round-trip.', stream.index));
-    if (flags.length) qualifications.push(qualificationRequirement(`dispositions:${request.target}:${flags.join('+')}`, 'Every enabled disposition survives without automatic additions.', stream.index));
+    const expectedFlags = mp3Only ? ['default'] : flags;
+    if (expectedFlags.length) qualifications.push(qualificationRequirement(`dispositions:${request.target}:${expectedFlags.join('+')}`, 'Every enabled disposition survives without automatic additions.', stream.index));
     if (Object.keys(stream.tags || {}).length) qualifications.push(qualificationRequirement(`track-tags:${stream.index}`, 'Every meaningful track tag or explicitly declared equivalent representation survives.', stream.index));
     if (stream.side_data_list?.length) qualifications.push(qualificationRequirement(`side-data:${stream.index}`, 'Rotation, HDR/Dolby and other side-data require actual semantic and bitstream retention evidence.', stream.index));
   }
   const videos = mapped.filter(stream => stream.codecType === 'video' && !stream.disposition.includes('attached_pic'));
   const defaults = videos.filter(stream => stream.disposition.includes('default'));
   const selected = videos.length === 1 ? videos[0] : defaults.length === 1 ? defaults[0] : null;
-  if (!selected) addBlocker(videos.length ? 'REMUX_SELECTED_VIDEO_AMBIGUOUS' : 'REMUX_NO_VIDEO', 'A single primary video must be identifiable; all admitted alternate streams still remain mapped.');
+  if (!selected && !mp3Only) addBlocker(videos.length ? 'REMUX_SELECTED_VIDEO_AMBIGUOUS' : 'REMUX_NO_VIDEO', 'A single primary video must be identifiable; all admitted alternate streams still remain mapped.');
   let globalMetadata = null;
   try {
     const tags = { ...probe.format.tags };
@@ -358,7 +368,7 @@ function assessRemux(options) {
       'No encoder, scaling, color conversion, audio conversion or range operation is introduced.',
       'Metadata-only evidence cannot prove all packet relationships or dynamic HDR payloads.'],
   });
-  assessments.set(result, { probe });
+  assessments.set(result, { probe, mp3Source });
   return result;
 }
 
@@ -380,7 +390,15 @@ function buildRemuxQualificationArgs(options) {
   if (path.win32.normalize(input).toLowerCase() === path.win32.normalize(output).toLowerCase()) fail('INVALID_REMUX_PATH', 'Source and output must be different files.');
   const markerArgs = provenanceArgs(outputId);
   if (assessment.sourceAdmission.marker.outputId === String(outputId).toLowerCase()) fail('INVALID_REMUX_PROVENANCE', 'A remux needs a new output identity.');
-  const { probe } = privateState;
+  const { probe, mp3Source } = privateState;
+  if (assessment.inputFamily === 'mp3') {
+    requireMp3Source(mp3Source);
+    return freeze(['-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats', '-progress', 'pipe:1', '-n',
+      '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mp3', '-copyts', '-i', input,
+      '-map', '0:0', '-map_metadata', '-1', '-map_chapters', '-1', '-c:a:0', 'copy', '-disposition:a:0', 'default',
+      ...markerArgs, '-fflags', '+bitexact', '-avoid_negative_ts', 'disabled', '-movie_timescale', String(mp3Source.rate),
+      '-use_editlist', '1', '-movflags', 'use_metadata_tags', '-write_tmcd', '0', '-f', 'mp4', output]);
+  }
   const args = ['-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats', '-progress', 'pipe:1', '-n',
     '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi,mpegts', '-copyts', '-i', input];
   for (const stream of assessment.expectedOutput.streams) args.push('-map', `0:${stream.inputIndex}`);
@@ -415,9 +433,19 @@ function getRemuxAssessmentSource(assessment) {
   return freeze(structuredClone(state.probe));
 }
 
+function getRemuxMp3Source(assessment) {
+  getRemuxAssessmentSource(assessment);
+  const observed = assessments.get(assessment).mp3Source;
+  requireMp3Source(observed);
+  return observed;
+}
+
 function remuxVerificationDescription(method, inputFamily = null) {
   if (!['packet-identity-v1', 'complete-native-v1'].includes(method)) fail('REMUX_VERIFICATION_METHOD', 'Unknown main-selected Remux verification method.');
   const deep = method === 'complete-native-v1';
+  if (inputFamily === 'mp3' && deep) return freeze({ version: 1, method,
+    statement: 'Compare every compressed MP3 frame, exact sample clock and all decoded audio.',
+    interiorVideoDecoded: false, completeAudioDecoded: true });
   if (inputFamily === 'mpegts' && !deep) return freeze({ version: 1, method,
     statement: 'Every ordered AVC NAL and raw AAC frame preserved; source clocks kept exactly; every header validated; start and end decoded.',
     interiorVideoDecoded: false, completeAudioDecoded: false });
@@ -427,4 +455,4 @@ function remuxVerificationDescription(method, inputFamily = null) {
   interiorVideoDecoded: deep, completeAudioDecoded: true });
 }
 module.exports = { REMUX_CONTRACT_VERSION, REMUX_TARGETS: TARGETS, validateRemuxRequest, assessRemux, buildRemuxQualificationArgs, getRemuxAssessmentSource,
-  remuxVerificationDescription };
+  getRemuxMp3Source, remuxVerificationDescription };

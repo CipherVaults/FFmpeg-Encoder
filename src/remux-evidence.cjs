@@ -5,7 +5,7 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
-const { getRemuxAssessmentSource, remuxVerificationDescription } = require('./remux-contract.cjs');
+const { getRemuxAssessmentSource, getRemuxMp3Source, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { provenanceArgs } = require('./provenance.cjs');
 const { assertOrdinaryPath } = require('./candidate-runtime.cjs');
@@ -15,7 +15,7 @@ const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
-const { TextDecoder } = require('node:util');
+const { TextDecoder, isDeepStrictEqual } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
 
 // Acquisition is main-owned and deliberately separate from qualification and
@@ -935,6 +935,17 @@ async function collectRemuxEvidence(options) {
   need(plain(options), 'A main-owned collector request is required.');
   need(options.onProgress === undefined || typeof options.onProgress === 'function', 'Evidence progress requires a main-owned callback.');
   const { assessment, runtimeIdentity, outputId, sourceProbe, outputProbe, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal } = options;
+  if (assessment?.inputFamily === 'mp3') {
+    const observed = getRemuxMp3Source(assessment);
+    const { budget } = deriveRemuxAssessmentBudget(assessment, observed.size, options.verificationMethod);
+    need(isDeepStrictEqual(options.budget, budget), 'MP3 evidence requires its exact source-derived budget.');
+    const { collectMp3RemuxEvidence } = require('./remux-mp3-evidence.cjs');
+    const result = freeze(await collectMp3RemuxEvidence(options));
+    if (result.status === 'completed') {
+      receipts.set(result, { assessment, runtimeIdentity, outputId: outputId.toLowerCase(), essence: result.essenceEvidence, movRepresentation: null });
+    }
+    return result;
+  }
   const verificationMethod = options.verificationMethod ?? 'complete-native-v1';
   need(['packet-identity-v1', 'complete-native-v1'].includes(verificationMethod), 'Unknown main-selected verification method.', 'REMUX_VERIFICATION_METHOD');
   const maximumChildren = options.maxConcurrentChildren ?? 1;

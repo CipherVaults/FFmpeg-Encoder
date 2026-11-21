@@ -1570,6 +1570,10 @@
         return `Copy verification: Coded media and source timing were checked, including every video header. ${boundaries} No full audio decode was performed.`;
       }
     }
+    if (method === 'complete-native-v1' && claim.interiorVideoDecoded === false && claim.completeAudioDecoded === true
+        && claim.statement === 'Compare every compressed MP3 frame, exact sample clock and all decoded audio.') {
+      return 'Copy verification: Every compressed MP3 frame, exact sample clock and complete decoded audio matched.';
+    }
     if (method === 'complete-native-v1' && claim.interiorVideoDecoded === true && claim.completeAudioDecoded === true
         && claim.statement === 'Every retained video frame and audio sample decoded and compared completely.') {
       return 'Copy verification: Every retained video frame and audio sample were decoded and compared.';

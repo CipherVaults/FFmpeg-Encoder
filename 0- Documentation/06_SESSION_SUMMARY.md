@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Windows Q2j default MP3 route
+
+Codex Sol Ultra integrated the finite source-owned MP3 route and kept the broad video and Linux admission paths separate. The normal factory produced three verified copies, preserved failure and cancellation boundaries, recognized a generated output on rescan and recovered a pending match read-only. The companion TS seek passed on the same policy version. Independent Sol Ultra review verified the exact saved evidence. Closeout and broader Q, R and S gates follow. [Windows MP3 normal-service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Normal_Service.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Windows MP3 exact copy laboratory
 
 Codex Sol Ultra ran the three direct-copy cases on the rebuilt engine. The first attempt retained a Windows-only collision exit handling failure. The corrected repeat passed all three cases, and an independent worker verified saved outputs, packet clocks, decoded samples, negative controls and closure. Product route work follows. [Exact MP3 copy laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Copy_Laboratory.md)

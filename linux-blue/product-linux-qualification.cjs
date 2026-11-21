@@ -333,8 +333,8 @@ const SOURCE_PINS = {
     "sha256": "ba49926594e97665064f63b5db440ef9e3144c5b4eee6e60404af5dfde2f82c9"
   },
   "src/process-runner.cjs": {
-    "bytes": 16953,
-    "sha256": "257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c"
+    "bytes": 18138,
+    "sha256": "0fc86b3d7a5c03f2d055fa1de4613234084895956f2357920c6bdc1ec999a8fa"
   },
   "src/provenance.cjs": {
     "bytes": 35994,

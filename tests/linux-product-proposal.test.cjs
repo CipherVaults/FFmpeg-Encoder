@@ -230,6 +230,12 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,successor.historicalEncoderService.sha256);
    assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
    changed++;
+  }else if(name==='src/process-runner.cjs'){
+   // The historical resize producer still names the pre-hardening runner.
+   // Child-only FFREPORT removal does not requalify that historical evidence.
+   assert.equal(hash,'257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:18138,sha256:'0fc86b3d7a5c03f2d055fa1de4613234084895956f2357920c6bdc1ec999a8fa'});
+   changed++;
   }else if(name==='src/outputs.cjs'){
    // The H.265 publication helper at 115 was {bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'}.
    // This later observational change introduces no publication or cleanup grant.
@@ -262,7 +268,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,8);
+ assert.equal(changed,9);
 });
 
 test('successor activation remains gated by current evidence rather than historical runtime authority',async()=>{

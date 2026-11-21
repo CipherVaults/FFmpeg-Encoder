@@ -1,6 +1,28 @@
 const { spawn } = require('node:child_process');
 const { StringDecoder } = require('node:string_decoder');
 
+const path = require('node:path');
+
+// Only the media child receives this copy. The current caller still owns
+// executable identity and argv admission; matching the tool name grants neither.
+function mediaToolEnvironment(executable) {
+  if (typeof executable !== 'string') return undefined;
+  const windows = process.platform === 'win32';
+  const paths = windows ? path.win32 : path.posix;
+  if (!paths.isAbsolute(executable)) return undefined;
+  const leaf = paths.basename(executable);
+  const isMediaTool = windows ? /^ff(?:mpeg|probe)\.exe$/i.test(leaf) : leaf === 'ffmpeg' || leaf === 'ffprobe';
+  if (!isMediaTool) return undefined;
+
+  // FFmpeg and FFprobe can create an out-of-band report from FFREPORT, even
+  // when app-owned arguments did not request it. Keep all other inherited keys.
+  const overrides = Object.keys(process.env).filter(key => (windows ? key.toUpperCase() : key) === 'FFREPORT');
+  if (!overrides.length) return undefined;
+  const env = { ...process.env };
+  for (const key of overrides) delete env[key];
+  return env;
+}
+
 class ToolError extends Error {
   constructor(code, message, details = {}) {
     super(message);
@@ -192,7 +214,10 @@ function runTool(executable, args, options = {}) {
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
       const stdio = [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe']; if (auxiliary) stdio.push('pipe');
-      child = spawnImpl(executable, args, { windowsHide: true, shell: false, stdio });
+      const spawnOptions = { windowsHide: true, shell: false, stdio };
+      const env = mediaToolEnvironment(executable);
+      if (env) spawnOptions.env = env;
+      child = spawnImpl(executable, args, spawnOptions);
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {
         cause: error, stderr: '', stderrCapture: { totalBytes: 0, truncated: false },

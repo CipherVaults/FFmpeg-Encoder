@@ -16,6 +16,71 @@ function fakeChild() {
 function auxiliaryChild() {
   const child = fakeChild(); child.stdout = new PassThrough(); child.stdio = [null, child.stdout, child.stderr, new PassThrough()]; return child;
 }
+
+function simulatedRunner(platform, env) {
+  const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
+  const file = path.resolve(__dirname, '../src/process-runner.cjs');
+  const load = request => request === 'node:child_process' ? { spawn: () => assert.fail('Real spawn is forbidden') } : require(request);
+  const sandbox = { require: load, module: { exports: {} }, process: { platform, env }, Buffer, setTimeout, clearTimeout };
+  vm.runInNewContext(fs.readFileSync(file, 'utf8'), sandbox, { filename: file });
+  return sandbox.module.exports.runTool;
+}
+
+async function captureToolOptions(run, executable) {
+  const args = ['-v', 'error', '-i', 'input with spaces & ampersand.mp4'];
+  const child = fakeChild(); let captured;
+  const work = run(executable, args, { spawnImpl: (file, argv, options) => {
+    captured = { file, argv, options };
+    return child;
+  } });
+  child.emit('close', 0);
+  await work;
+  assert.ok(captured);
+  assert.equal(captured.file, executable);
+  assert.strictEqual(captured.argv, args);
+  assert.equal(captured.options.shell, false);
+  assert.equal(captured.options.windowsHide, true);
+  assert.deepEqual(Array.from(captured.options.stdio), ['ignore', 'pipe', 'pipe']);
+  return captured.options;
+}
+
+test('report environment is removed for absolute Linux media tools only, preserving other environment keys', async () => {
+  const ambient = { FFREPORT: '', ffreport: 'distinct POSIX key', AV_LOG_FORCE_NOCOLOR: '1', PATH: '/usr/bin', HOME: '/home/example' };
+  const before = { ...ambient }, run = simulatedRunner('linux', ambient);
+  for (const executable of ['/opt/candidate/ffmpeg', '/opt/candidate/ffprobe']) {
+    const { env } = await captureToolOptions(run, executable);
+    assert.ok(env, 'media spawn must isolate inherited FFREPORT');
+    assert.notStrictEqual(env, ambient);
+    assert.deepEqual({ ...env }, { ffreport: before.ffreport, AV_LOG_FORCE_NOCOLOR: '1', PATH: '/usr/bin', HOME: '/home/example' });
+  }
+  assert.deepEqual(ambient, before);
+});
+
+test('report environment removes all Windows spellings for mixed-case bundled EXEs, without changing other casing', async () => {
+  const ambient = { FFREPORT: 'inert fixture', FfRePoRt: 'second inert fixture', Path: 'C:\\Windows\\System32', SYSTEMROOT: 'C:\\Windows', FFREPORT_EXAMPLE: 'unrelated' };
+  const before = { ...ambient }, run = simulatedRunner('win32', ambient);
+  for (const executable of ['C:\\App Folder\\ffmpeg\\FFMPEG.EXE', 'D:/App/ffmpeg/FFprobe.exe']) {
+    const { env } = await captureToolOptions(run, executable);
+    assert.ok(env, 'media spawn must isolate inherited FFREPORT');
+    assert.notStrictEqual(env, ambient);
+    assert.deepEqual({ ...env }, { Path: before.Path, SYSTEMROOT: before.SYSTEMROOT, FFREPORT_EXAMPLE: 'unrelated' });
+  }
+  assert.deepEqual(ambient, before);
+  const aliasOnly = { ffreport: 'inert fixture', Path: before.Path };
+  const { env } = await captureToolOptions(simulatedRunner('win32', aliasOnly), 'C:\\App\\FFprobe.exe');
+  assert.deepEqual({ ...env }, { Path: before.Path });
+  assert.equal(aliasOnly.ffreport, 'inert fixture');
+});
+
+test('report environment preserves default inheritance for the Windows helper, unrelated/relative names and no override', async () => {
+  const win = simulatedRunner('win32', { ffreport: 'inert fixture', Path: 'C:\\Windows\\System32' });
+  const linux = simulatedRunner('linux', { FFREPORT: 'inert fixture', PATH: '/usr/bin' });
+  const clean = simulatedRunner('linux', { ffreport: 'distinct POSIX key', PATH: '/usr/bin' });
+  for (const [run, exe] of [
+    [win, 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'],
+    [linux, '/usr/bin/ffmpeg-helper'], [linux, 'ffmpeg'], [clean, '/opt/candidate/ffmpeg'],
+  ]) assert.equal(Object.hasOwn(await captureToolOptions(run, exe), 'env'), false);
+});
 test('optional auxiliary streaming keeps stdout/diagnostics separate, accounts all bytes and awaits both consumers after close', async () => {
   const child = auxiliaryChild(), observed = [], received = []; let release, finished = false;
   const pending = new Promise(resolve => { release = resolve; });

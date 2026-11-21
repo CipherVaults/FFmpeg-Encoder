@@ -1,3 +1,7 @@
+- **November 21, 2026 — [Windows CPU resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Laboratory.md).** Three independently audited short UHD outcomes, a recovered short 1440p range, the two passed 150-second laboratory cases and retained harness failures.
+
+- **November 21, 2026 — [Gauge live preview evidence](Execution%20Summaries/2026-11-21_Regular_Gauge_Live_Preview.md).** Ahmed’s approval, fresh integrated dark and light captures, saved Light appearance, nine exact Windows icon sizes and the outstanding packaged-shell check.
+
 - **November 21, 2026 — [Windows MP3 normal-service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Normal_Service.md).** Exact Windows 9.1 standalone MP3 product admission and publication, paired refusals, active cancellation and provenance controls. Fresh regression for default TS seek on the combined policy.
 
 - **November 21, 2026 — [Exact MP3 copy laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Copy_Laboratory.md).** Three fresh Windows 9.1 cases, exact compressed and PCM payloads, sample clocks, negative controls and complete process closure. No normal-service admission.

@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Gauge and long Windows CPU resize
+
+Ahmed approved the theme-aware Gauge and reviewed mid-tone Windows icon. The integrated renderer passed 130 controlled renderer and packaging checks and fresh Electron display in both themes. Linux inert inventory checked 192 source rows. The regular 9.1 service also passed two 150-second laboratory resize cases with exact selected PCM. An independent review reconciled hashes, samples, clocks, staging, publication and closure. Default family proof, packaged Windows appearance and native Linux remain open. [Gauge evidence](Execution%20Summaries/2026-11-21_Regular_Gauge_Live_Preview.md) · [Resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Laboratory.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Windows Q2j default MP3 route
 
 Codex Sol Ultra integrated the finite source-owned MP3 route and kept the broad video and Linux admission paths separate. The normal factory produced three verified copies, preserved failure and cancellation boundaries, recognized a generated output on rescan and recovered a pending match read-only. The companion TS seek passed on the same policy version. Independent Sol Ultra review verified the exact saved evidence. Closeout and broader Q, R and S gates follow. [Windows MP3 normal-service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Normal_Service.md)

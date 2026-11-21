@@ -175,7 +175,7 @@ async function ownedBytes(directory, io = fs) {
       const before = await stat(file, listed); if (!before) return;
       if (before.isFile()) {
         const after = await stat(file, listed); if (!after) return;
-        assert.ok(after.isFile() && sameObject(before, after), 'Owned growth file changed identity.');
+        assert.ok(after.isFile() && sameObject(before, after), 'Owned growth file changed identity: ' + path.relative(directory, file));
         assert.ok(typeof before.size === 'bigint' && before.size >= 0n && typeof after.size === 'bigint' && after.size >= before.size, 'Owned growth file shrank or has unknown size.');
         total += after.size; assert.ok(total <= BigInt(Number.MAX_SAFE_INTEGER), 'Owned growth byte total exceeds exact representation.');
         return;
@@ -207,6 +207,7 @@ async function moduleSeals(io, regularProof = false) {
   if (regularProof === 'mp3') names.push('scripts/v07-regular-mp3-proof.cjs', 'scripts/q2j-mp3-laboratory.cjs',
     'scripts/fixtures/q2j-layer3.cjs', 'linux-blue/qualification-tests/q2j-mp3-witness.cjs');
   else if (regularProof === 'mp3-service') names.push('scripts/v07-regular-mp3-service.cjs', 'scripts/fixtures/q2j-layer3.cjs');
+  else if (regularProof === 'resize') names.push('scripts/v07-regular-resize-proof.cjs', 'scripts/v07-sdr-flac-range-calibration.cjs');
   else if (regularProof) names.push('scripts/v07-regular-ts-proof.cjs');
   names.sort();
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
@@ -219,7 +220,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
   assert.ok(['fixtures', 'smoke'].includes(kind));
   const id = uuid();
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
-  const campaign = regularProof === 'mp3-service' ? 'q2j-regular-mp3-service'
+  const campaign = regularProof === 'resize' ? 'q2n-regular-resize' : regularProof === 'mp3-service' ? 'q2j-regular-mp3-service'
     : regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
   const directory = path.join(ROOT, 'artifacts/v0.7', campaign, kind, id);
   const owned = regularProof ? path.join(directory, 'owned') : path.join(OWNED, kind === 'fixtures' ? 'fixtures' : 'outputs', 'remux-long-' + id);
@@ -304,7 +305,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       if (!regularProof) await bindDirectory(directory);
       reportHandle = await io.open(path.join(directory, 'report.json'), 'wx+'); reportStamp = await reportHandle.stat({ bigint: true }); assert.ok(ordinary(reportStamp));
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
-      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'mp3-service' ? 'Windows Q2j MP3 service proof'
+      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'resize' ? 'Windows Q2n owned CPU resize proof' : regularProof === 'mp3-service' ? 'Windows Q2j MP3 service proof'
         : regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
         : regularProof ? 'Windows Q2j regular TS proof' : 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
       runtime = await verify({ root: ROOT }); report.runtime = runtime.verified; report.modulesBefore = await moduleSeals(io, regularProof); opened = true;
@@ -342,9 +343,12 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
         const frames = argv.flatMap((value, index) => value === '-frames:v' ? [argv[index + 1]] : []);
         assert.ok(kind === 'smoke' && argv.includes('pipe:1') && frames.length === 2 && frames.every(value => value === '1')
           && argv.includes('rawvideo') && argv.includes('framehash') && argv.includes('sha256'), 'Only two bounded decoded hash pipes.');
-      } else if (file === runtime.ffmpeg && !['pipe:1', '-'].includes(argv.at(-1))) assert.ok(path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
+      } else if (file === runtime.ffmpeg && !['pipe:1', '-'].includes(argv.at(-1))) {
+        const versionOnly = regularProof === 'resize' && argv.length === 1 && argv[0] === '-version';
+        assert.ok(versionOnly || path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
+      }
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
-        const lavfi = (kind === 'fixtures' || regularProof === true) && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
+        const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
         assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
       }
       assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();

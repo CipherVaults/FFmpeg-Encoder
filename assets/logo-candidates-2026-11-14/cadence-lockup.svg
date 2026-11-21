@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Cadence lockup">
-  <title>Cadence</title>
-  <desc>A measured signal crosses a video frame, linking sound, timing and picture. Original candidate, November 14, 2026.</desc>
-  <g transform="translate(0 4) scale(.34375)">
-  <path d="M32 88V40H224V88H192V72H64V88ZM32 168H64V184H192V168H224V216H32Z" fill="#edf0f4"/>
-  <path d="M24 116H72L96 68L136 156L160 100L184 116H232V140H176L170 136L136 212L96 124L88 140H24Z" fill="#ffad42"/>
-  </g>
-  <text x="112" y="61" fill="#edf0f4" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
-</svg>

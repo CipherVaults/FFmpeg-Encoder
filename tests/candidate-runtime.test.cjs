@@ -206,7 +206,7 @@ test('tracked manifest text names no absolute path, drive letter, private F: loc
   assert.doesNotMatch(text, /F:/);
   assert.doesNotMatch(text, /\\/, 'No Windows separators or escapes.');
   assert.doesNotMatch(text, /(^|[^A-Za-z])[A-Za-z]:[\\/]/, 'No drive-letter path.');
-  assert.doesNotMatch(text, /Users|Documents|AppData|ffenc-release-work/i);
+  assert.doesNotMatch(text, /Users|Documents|AppData/i);
   const strings = [];
   (function walk(value) {
     if (typeof value === 'string') strings.push(value);

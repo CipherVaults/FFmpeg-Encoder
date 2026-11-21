@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="560" height="96" viewBox="0 0 560 96" role="img" aria-label="FFmpeg Encoder — Lattice lockup">
-  <title>Lattice</title>
-  <desc>Two machined rails form an abstract FE monogram, with a shared central working line. Original candidate, November 14, 2026.</desc>
-  <g transform="translate(0 4) scale(.34375)">
-  <path d="M40 40H120V72H72V112H104V144H72V216H40Z" fill="#1c2925"/>
-  <path d="M136 40H216V72H168V112H200V144H168V184H216V216H136Z" fill="#176b5c"/>
-  </g>
-  <text x="112" y="61" fill="#1c2925" font-family="'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif" font-size="40" font-weight="600" letter-spacing="-.6">FFmpeg Encoder</text>
-</svg>

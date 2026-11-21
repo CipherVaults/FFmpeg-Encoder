@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" role="img" aria-label="FFmpeg Encoder — Gauge optical 16 pixel mark">
-  <title>Gauge</title>
-  <desc>A large source frame steps down into a smaller, precisely aligned output. Original candidate, November 14, 2026.</desc>
-  <path d="M2 6V2H14V4H4V6ZM2 9H4V12H6V14H2Z" fill="#1c2925"/>
-  <path d="M7 7H14V14H7ZM9 9V12H12V9Z" fill="#176b5c" fill-rule="evenodd"/>
-</svg>

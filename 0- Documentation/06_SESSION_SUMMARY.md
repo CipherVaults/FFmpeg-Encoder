@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — MKV audio copy choices
+
+Owned 9.1 laboratory measurements gave a finite exact copy and a finite uniform −64 ms copy with every retained AAC sample. Plain copy and the offset-preserving trial had different, retained decoded audio failures. Automatic selection awaits Ahmed. Independent Q work continues without treating laboratory files as product publications. [MKV audio measurements](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Default Windows CPU resize
 
 The regular Windows factory admitted the two measured 9.1 CPU precision-FLAC resize families. Two long holdouts published through normal service and an unsupported trim refused before Start. Independent source and evidence review passed. Fresh TS and MP3 regression passed on the same factory. Continue with the measured MKV audio alternatives and keep Ahmed’s default decision open. [Windows default resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Default_Service.md)

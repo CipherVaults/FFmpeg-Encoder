@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Exact MP3 copy laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Copy_Laboratory.md).** Three fresh Windows 9.1 cases, exact compressed and PCM payloads, sample clocks, negative controls and complete process closure. No normal-service admission.
+
 - **November 21, 2026 — [Exact-pair TS seek evidence](Execution%20Summaries/2026-11-21_Regular_Windows_9.1_and_TS_Seek.md).** Regular 9.1 runtime selection, the reviewed lab policy and the final ordinary service TS publication. Independent linear and seek evidence, cut refusal, child closure, and remaining qualification.
 
 - **November 21, 2026 — [Regular Windows 9.1 rebuild and vendor command port](Execution%20Summaries/2026-11-21_Regular_Windows_Engine_and_Vendor_Port.md).** Two separately qualified offline engine builds, raw pair equality, verified corresponding source, and the 9.0.2 vendor transplant with scoped Windows control tests.

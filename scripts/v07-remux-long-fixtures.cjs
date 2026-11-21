@@ -203,7 +203,10 @@ async function moduleSeals(io, regularProof = false) {
   assert.ok(entries.length <= 128 && entries.every(e => e.isFile() && !e.isSymbolicLink() && e.name.endsWith('.cjs')));
   const names = ['main.js', 'preload.js', 'scripts/v07-remux-long-fixtures.cjs', 'scripts/v07-remux-long-smoke.cjs',
     'scripts/v07-remux-mov-vfr-smoke.cjs', 'scripts/v07-mov-vfr-fixtures.cjs', 'scripts/v07-remux-mkv-mp4-smoke.cjs', ...entries.map(e => 'src/' + e.name)];
-  if (regularProof) names.push('resources/regular-windows-engine-manifest.json', 'scripts/v07-regular-ts-proof.cjs');
+  if (regularProof) names.push('resources/regular-windows-engine-manifest.json');
+  if (regularProof === 'mp3') names.push('scripts/v07-regular-mp3-proof.cjs', 'scripts/q2j-mp3-laboratory.cjs',
+    'scripts/fixtures/q2j-layer3.cjs', 'linux-blue/qualification-tests/q2j-mp3-witness.cjs');
+  else if (regularProof) names.push('scripts/v07-regular-ts-proof.cjs');
   names.sort();
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
     return { file, sha256: sha(await readBoundedFile(target, 2 * MiB, { io })) }; }));
@@ -215,7 +218,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
   assert.ok(['fixtures', 'smoke'].includes(kind));
   const id = uuid();
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
-  const directory = path.join(ROOT, regularProof ? 'artifacts/v0.7/q2j-regular' : 'artifacts/v0.7/q2i', kind, id);
+  const campaign = regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
+  const directory = path.join(ROOT, 'artifacts/v0.7', campaign, kind, id);
   const owned = regularProof ? path.join(directory, 'owned') : path.join(OWNED, kind === 'fixtures' ? 'fixtures' : 'outputs', 'remux-long-' + id);
   const controller = new AbortController(), children = new Set(), report = { schema: 1, id, kind, status: 'running', directory, owned,
     startedAt: new Date().toISOString(), limits, cases: [], invocations: [], peakRssBytes: process.memoryUsage().rss, rssSamples: 1,
@@ -298,7 +302,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       if (!regularProof) await bindDirectory(directory);
       reportHandle = await io.open(path.join(directory, 'report.json'), 'wx+'); reportStamp = await reportHandle.stat({ bigint: true }); assert.ok(ordinary(reportStamp));
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
-      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof ? 'Windows Q2j regular TS proof' : 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
+      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
+        : regularProof ? 'Windows Q2j regular TS proof' : 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
       runtime = await verify({ root: ROOT }); report.runtime = runtime.verified; report.modulesBefore = await moduleSeals(io, regularProof); opened = true;
       timer = setTimeout(() => { report.deadlineExceeded = true; controller.abort(); }, limits.totalMs); timer.unref();
       monitor = setInterval(() => {
@@ -336,7 +341,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
           && argv.includes('rawvideo') && argv.includes('framehash') && argv.includes('sha256'), 'Only two bounded decoded hash pipes.');
       } else if (file === runtime.ffmpeg && !['pipe:1', '-'].includes(argv.at(-1))) assert.ok(path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
-        const lavfi = (kind === 'fixtures' || regularProof) && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
+        const lavfi = (kind === 'fixtures' || regularProof === true) && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
         assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
       }
       assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();

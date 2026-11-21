@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Windows MP3 exact copy laboratory
+
+Codex Sol Ultra ran the three direct-copy cases on the rebuilt engine. The first attempt retained a Windows-only collision exit handling failure. The corrected repeat passed all three cases, and an independent worker verified saved outputs, packet clocks, decoded samples, negative controls and closure. Product route work follows. [Exact MP3 copy laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_MP3_Copy_Laboratory.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Regular Windows TS seek
 
 Codex Sol Ultra bound the fresh regular Windows 9.1 pair and ran the Q2j laboratory and ordinary factory. Each published one verified output from the same generated moving fixture into a separate owned destination. Linear TS and MP4 decoding agreed on every frame. The six accurate seeks returned the exact first eligible presentation frames. The paired cut was refused before Start. Independent Sol Ultra review checked the timing, policy and child receipts. Continue the approved Q → R → S sequence from this checkpoint. [Exact-pair TS seek evidence](Execution%20Summaries/2026-11-21_Regular_Windows_9.1_and_TS_Seek.md)

@@ -7,7 +7,7 @@ const path = require('node:path');
 const { VENDOR_MESSAGES } = require('../src/vendor-profiles.cjs');
 const { buildEncodeArgs } = require('../src/media.cjs');
 const { resolveCatalogSettings } = require('../src/encoder-catalog.cjs');
-const { overlayVendorArgs } = require('../src/vendor-encode.cjs');
+const { overlayVendorArgs, createVendorTwinCommand } = require('../src/vendor-encode.cjs');
 const { queryWindowsAdapters } = require('../src/windows-adapters.cjs');
 const { api, filename, sha, adapter, error, load, harness, encodeCalls, noPrivate } = require('./vendor-capabilities-fixtures.cjs');
 
@@ -48,8 +48,10 @@ test('each passing profile/depth uses the production twin overlay and its own ve
       const input = call.args[call.args.indexOf('-i') + 1];
       const { settings, twinSettings } = resolveCatalogSettings({ profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default });
       const catalogProfile = require('../src/vendor-profiles.cjs').VENDOR_PROFILES.find(row => row.id === profile.id);
-      assert.deepEqual(call.args, overlayVendorArgs(buildEncodeArgs({ input, output: call.args.at(-1), settings: twinSettings,
-        probe: { streams: [h.media.get(input)] } }), { profile: catalogProfile, settings, twinSettings, bitDepth, binding }));
+      const cpu = { input, output: call.args.at(-1), settings: twinSettings, probe: { streams: [h.media.get(input)] } };
+      const twinCommand = createVendorTwinCommand(cpu);
+      assert.deepEqual(twinCommand.args, buildEncodeArgs(cpu));
+      assert.deepEqual(call.args, overlayVendorArgs(twinCommand.args, { profile: catalogProfile, settings, twinSettings, bitDepth, binding, twinCommand }));
       assert.ok(h.calls.some(call2 => call2.args.includes('-count_frames') && call2.args.at(-1) === call.args.at(-1)));
     }
   }

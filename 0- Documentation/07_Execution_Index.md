@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Regular Windows 9.1 rebuild and vendor command port](Execution%20Summaries/2026-11-21_Regular_Windows_Engine_and_Vendor_Port.md).** Two separately qualified offline engine builds, raw pair equality, verified corresponding source, and the 9.0.2 vendor transplant with scoped Windows control tests.
+
 - **November 21, 2026 — [Windows release engineering continuation: Beta, Alpha and Milestone S](Execution%20Summaries/2026-11-21_Windows_Release_Engineering_Continuation.md).** Baseline selection, engine identity, metadata and Remux failure lessons, and the acceptance record for exact packaged and distributed bytes. Documentation only; does not restart regular development.
 
 - **November 21, 2026 — [Regular v0.7 safe-stop and evidence record](Execution%20Summaries/2026-11-21_Regular_v0.7_Safe_Stop.md).** Separate exact CP145 and CP146 hosted source results, aligned CP146 source recovery and controlled inspection/target readiness evidence (three expected prior-source reds, 44 selected passes and exact cold readback); held vendor/R/S acceptance and no automatic restart. Documentation only; no new tests or change to product requirements.

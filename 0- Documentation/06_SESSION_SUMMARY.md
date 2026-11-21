@@ -1,3 +1,63 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Rebuild the regular Windows engine and begin Q
+
+## 🤖 Models, Effort, Roles and Provenance
+
+Codex Sol Ultra led integration. Independent Sol Ultra workers reviewed build materials, source custody and the vendor change. Ahmed retains acceptance. [Execution evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Engine_and_Vendor_Port.md)
+
+## 🕒 Time
+
+November 21, 2026, Cairo evening. Both corrected engine runs were sequential and the final readback followed shortly after 21:15.
+
+## 🎯 Session Goal
+
+Produce a reproducible offline 9.1 engine for regular Windows and resume approved Q work at the verified checkpoint.
+
+## 🛠️ Actions Taken
+
+Rechecked launch capacity, pinned inputs and tools, rebuilt and checked the exact engine pair twice, then applied the vendor command repair under the old runtime control.
+
+## 🧠 Key Insights
+
+Raw pair bytes matched across clean guests at the same virtual paths. CPU and registration checks establish a bounded engine result. TS seeking, hardware and packages need their own witnesses.
+
+## 📌 Decisions Made
+
+Admit the new pair for regular Windows integration. Require per-kind stream-copy options from the inspected ordinary command. Preserve independent Windows and Linux qualification scopes.
+
+## ⚠️ Difficulties / Friction
+
+The original build stopped at the oneVPL pkg-config check. The initial vendor tests exposed baseline command mismatch and an outdated test receipt.
+
+## 🔧 Adjustments Made
+
+Sealed a corrected recipe, retained the original failure, completed both fresh runs and checked the corresponding-source layout and notices. Rebound the vendor test receipt to the exact probe.
+
+## ❌ Mistakes / Risks Noted
+
+Exploratory Windows execution of Linux-only tests triggered platform guards. Preserve those results and run the Linux checks on the intended platform.
+
+## 📍 Current Position
+
+Gate 0 ready. The vendor port has 172 passing scoped Windows checks on 9.0.2. The 9.1 application integration and Q media gates are still open.
+
+## 🔜 Next Steps
+
+Finish the reviewed Remux ports, bind the new pair and run exact normal-service qualification with independent seeking evidence.
+
+## ❓ Open Questions
+
+Fresh performance and vendor hardware measurements, Linux rerun, final policy activation and release acceptance remain outstanding.
+
+## 🧾 Session Outcome
+
+Reproducible regular Windows engine in project custody and first controlled Q repair. Private originals and prior failures preserved.
+
+## 🔍 Confidence Level
+
+High for the two exact engine runs, the source archive readback and focused Windows regressions. Platform and product checks retain their stated limits.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Close regular v0.7 at a safe stopping point
 
 ## 🤖 Models, Effort, Roles and Provenance

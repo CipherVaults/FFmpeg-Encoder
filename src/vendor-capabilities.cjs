@@ -3,13 +3,12 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { performance } = require('node:perf_hooks');
-const { buildEncodeArgs } = require('./media.cjs');
 const { verifyVideo, parseProbe, failureReason } = require('./capabilities.cjs');
 const { runTool, ToolError, boundedToolStderr } = require('./process-runner.cjs');
 const { queryWindowsAdapters, parseAdapterInventory } = require('./windows-adapters.cjs');
 const { VENDOR_PROFILES, VENDOR_MESSAGES } = require('./vendor-profiles.cjs');
 const { resolveCatalogSettings } = require('./encoder-catalog.cjs');
-const { overlayVendorArgs, createVendorBinding } = require('./vendor-encode.cjs');
+const { overlayVendorArgs, createVendorBinding, createVendorTwinCommand } = require('./vendor-encode.cjs');
 
 const CODECS = { H264: 'h264', H265: 'hevc', AV1: 'av1' };
 const STDERR_LIMIT = 64 * 1024;
@@ -152,8 +151,8 @@ async function checkVendorCapabilities({ ffmpeg, ffprobe, stateDir, signal, run 
               const { settings, twinSettings } = resolveCatalogSettings({ profileId: profile.id,
                 preset: profile.defaultPreset, quality: profile.quality.default });
               const output = own(`${profile.id}-${bitDepth}-${adapter.adapterIndex}.mkv`);
-              const encoded = await execute(ffmpeg, overlayVendorArgs(buildEncodeArgs({ input, output, settings: twinSettings, probe }),
-                { twinSettings, profile, settings, bitDepth, binding }));
+              const twinCommand = createVendorTwinCommand({ input, output, settings: twinSettings, probe });
+              const encoded = await execute(ffmpeg, overlayVendorArgs(twinCommand.args, { twinSettings, profile, settings, bitDepth, binding, twinCommand }));
               const inspected = await execute(ffprobe, ['-v', 'error', '-protocol_whitelist', 'file,pipe', '-count_frames',
                 '-show_streams', '-show_format', '-of', 'json', output]);
               const stream = verifyVideo(parseProbe(inspected), { bitDepth, codec: CODECS[profile.codec], countFrames: true }, inspected);

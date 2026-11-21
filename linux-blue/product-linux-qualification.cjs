@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 169520,
-    "sha256": "3f83e17d27a4d2036d8769e7e9bc7f1c66ceb73cc7213186b71e4bd8edaa3a29"
+    "bytes": 169766,
+    "sha256": "ac04754d0ff4639c4caf58ee22ba7847e1f715265a6b641124a0035042c3673f"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -441,12 +441,12 @@ const SOURCE_PINS = {
     "sha256": "a03a88ed0820beb807719d0e92ddbd761932efa8a11e9891cc6893902f930196"
   },
   "src/vendor-capabilities.cjs": {
-    "bytes": 13413,
-    "sha256": "a48712b3b93c792c1aab7298b37f576a5eb8859504ffe95aec9ccd3bbfa20fea"
+    "bytes": 13443,
+    "sha256": "ccfdbd2e35825a77919f25af06553f0bd7b744a1f219860854630600cdb5ac62"
   },
   "src/vendor-encode.cjs": {
-    "bytes": 9527,
-    "sha256": "4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74"
+    "bytes": 10894,
+    "sha256": "1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8"
   },
   "src/vendor-execution.cjs": {
     "bytes": 8441,

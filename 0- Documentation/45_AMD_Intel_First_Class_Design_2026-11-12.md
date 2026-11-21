@@ -396,3 +396,13 @@ The overlay then inserts the only device and filter options. Negative tests:
 **A6 — Test baseline (low).** The golden fixture and the "tests are only added" proof use `f8fc2df` as the implementation baseline. Its three test files changed by the security fixes are pre-existing.
 
 **A7 — Owner versus root (low).** Vendor changed routes (range, resize, audio transform, omission) are already inside record 43's direction, which says Q's workflows apply to every encoder. They need measured families, a technical prerequisite that root schedules in Q; they are not a new owner scope. O7 therefore keeps only vendor HDR (still deferred) and a manual device choice.
+
+## 13. Proposed source-contract amendment, November 21, 2026
+
+Ahmed authorized repairing the existing ordinary vendor route while preserving the strict command guard. This proposed amendment supersedes only the global-copy spelling in §4 item 2 and its example, when independently reviewed and integrated. The historic example and golden capture stay as records of their original base, not a second supported grammar.
+
+For the existing Windows-backed Full / Keep Source compatibility path only, main's current ordinary builder supplies one explicit primary-video encoder option directly after metadata/chapter mapping. Each already mapped audio, subtitle or attachment gets exactly one explicit copy decision, in map order, with its own output-kind ordinal. There is no global copy default and no fallback to the historical form. The vendor overlay preserves the main-selected stream order and copy options exactly, substituting only the already reviewed encoder, its settings, pixel block and device arguments.
+
+Only private evidence built from the inspected source and current ordinary builder can bind a twin command. The shape check still consumes the complete command (including paths, metadata, dispositions, pixel/timing and provenance) and verifies the exact expected tokens and lengths. It refuses reordering, missing or additional codec decisions, or mismatched command/inspection evidence. No command, device choice or new option crosses from renderer to main.
+
+This is not a new supported route, catalog row, format, driver, Linux vendor feature, hardware qualification or release. The ordinary CPU/NVIDIA builder and golden archive do not change; neither do device discovery, run/publish checks, output identity, the untested marker, the independent review gate or Ahmed's deferred physical acceptance.

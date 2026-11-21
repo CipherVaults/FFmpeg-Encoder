@@ -222,7 +222,8 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // reviewed Linux Remux diagnostic handles actual Cancel during receipt
  // settlement; this current identity does not requalify historical evidence.
  // Current per-file Remux journal settlement does not requalify the old source.
- const currentEncoderService={bytes:169520,sha256:'3f83e17d27a4d2036d8769e7e9bc7f1c66ceb73cc7213186b71e4bd8edaa3a29'};
+ // The authored vendor command repair is source-only, not historical proof.
+ const currentEncoderService={bytes:169766,sha256:'ac04754d0ff4639c4caf58ee22ba7847e1f715265a6b641124a0035042c3673f'};
  let changed=0, historicalOnly=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
@@ -244,6 +245,16 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else if(name==='src/encoder-service.cjs'){
    assert.equal(hash,successor.historicalEncoderService.sha256);
    assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
+   changed++;
+  }else if(name==='src/vendor-capabilities.cjs'){
+   // Preserve the frozen producer identity; the explicit copy overlay is not historical hardware evidence.
+   assert.equal(hash,'a48712b3b93c792c1aab7298b37f576a5eb8859504ffe95aec9ccd3bbfa20fea');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:13443,sha256:'ccfdbd2e35825a77919f25af06553f0bd7b744a1f219860854630600cdb5ac62'});
+   changed++;
+  }else if(name==='src/vendor-encode.cjs'){
+   // Preserve the frozen producer identity; the explicit copy overlay is not historical hardware evidence.
+   assert.equal(hash,'4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74');
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:10894,sha256:'1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8'});
    changed++;
   }else if(name==='src/process-runner.cjs'){
    // The historical resize producer still names the pre-hardening runner.
@@ -290,7 +301,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,11);
+ assert.equal(changed,13);
  assert.equal(historicalOnly,1);
 });
 

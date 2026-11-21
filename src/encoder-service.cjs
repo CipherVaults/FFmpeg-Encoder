@@ -7,7 +7,7 @@ const { randomUUID, createHash } = require('node:crypto');
 const { selectVideo, outputPixelFormat, classifyColor } = require('./media.cjs');
 const { resolveCatalogSettings, catalogProfile, describeCatalogRecipe, catalogCapability } = require('./encoder-catalog.cjs');
 const { VENDOR_PROFILES, VENDOR_MESSAGES, vendorPixelFormat } = require('./vendor-profiles.cjs');
-const { overlayVendorArgs, vendorArgsHash } = require('./vendor-encode.cjs');
+const { createVendorTwinCommand, overlayVendorArgs, vendorArgsHash } = require('./vendor-encode.cjs');
 const { vendorGuard, vendorRefusal, vendorPublicItem, requireVendorRoute, declaredVendorFrames, requireVendorArgs,
   requireVendorDevice, vendorOutputCheck } = require('./vendor-execution.cjs');
 // The catalog returns ordinary settings unchanged; vendor twins stay main-only.
@@ -912,7 +912,9 @@ class EncoderService extends EventEmitter {
     const operationPlan = buildEncodeOperation({ input: file, output: destination, settings: twinSettings, inspection,
       request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription });
     vendorGuard('compatibility', operationPlan.compatibilityPath === true, 'VENDOR_ROUTE_UNQUALIFIED');
-    const args = overlayVendorArgs(operationPlan.args, { twinSettings, profile, settings, bitDepth, binding });
+    const twinCommand = createVendorTwinCommand({ input: file, output: destination, settings: twinSettings, probe: inspection.probe,
+      colorEvidence: inspection.color, outputId, generationDescription });
+    const args = overlayVendorArgs(operationPlan.args, { twinSettings, profile, settings, bitDepth, binding, twinCommand });
     const preparedArgs = Object.freeze([...args.slice(0, -1), OUTPUT_PLACEHOLDER]);
     const vendor = Object.freeze({ profileId: profile.id, settings: Object.freeze({ ...settings }),
       twinSettings: Object.freeze(twinSettings), binding, argsHash: vendorArgsHash(preparedArgs), sourceFrameCount: declaredVendorFrames(video) });

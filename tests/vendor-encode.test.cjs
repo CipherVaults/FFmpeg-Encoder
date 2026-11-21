@@ -22,17 +22,19 @@ const bindingData = (vendor = 'AMD', adapterIndex = 3) => ({ vendor, adapterInde
   luid: '00000001:00000002', umdVersion: '31.0.1.2', description: 'Private DXGI description' });
 const settingsFor = profile => ({ profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default });
 function make(implementation = api, { id = 'h265-amd', bitDepth = 10, variant = 'plain', provenance = false,
-  settings, twinSettings, generationDescription } = {}) {
+  settings, twinSettings, generationDescription, changeProbe = () => {} } = {}) {
   const profile = VENDOR_PROFILES.find(row => row.id === id);
   const resolved = resolveCatalogSettings(settings || settingsFor(profile));
   const twin = twinSettings || resolved.twinSettings;
   const probe = ordinaryProbe(bitDepth === 10 ? 'yuv420p10le' : 'yuv420p', variant);
-  const plan = buildEncodeOperation({ input: 'X:\\golden\\input.mkv', output: 'X:\\golden\\output.mkv',
-    settings: twin, inspection: { probe, color: classifyColor(probe) },
-    request: resolveFileRequest({ fileId: 'vendor-fixture', identityRevision: 1, draftRevision: 1, operation: 'encode' }),
-    ...(provenance ? { outputId: '12345678-1234-4123-8123-123456789abc' } : {}),
-    ...(generationDescription ? { generationDescription } : {}) });
-  return { args: [...plan.args], options: { twinSettings: twin, profile, settings: resolved.settings, bitDepth,
+  changeProbe(probe);
+  const input = 'X:\\golden\\input.mkv', output = 'X:\\golden\\output.mkv', color = classifyColor(probe);
+  const metadata = { ...(provenance ? { outputId: '12345678-1234-4123-8123-123456789abc' } : {}),
+    ...(generationDescription ? { generationDescription } : {}) };
+  const plan = buildEncodeOperation({ input, output, settings: twin, inspection: { probe, color },
+    request: resolveFileRequest({ fileId: 'vendor-fixture', identityRevision: 1, draftRevision: 1, operation: 'encode' }), ...metadata });
+  const twinCommand = implementation.createVendorTwinCommand({ input, output, settings: twin, probe, colorEvidence: color, ...metadata });
+  return { args: [...plan.args], options: { twinSettings: twin, profile, settings: resolved.settings, bitDepth, twinCommand,
     binding: implementation.createVendorBinding(bindingData(profile.hardware)) } };
 }
 function overlay(h, implementation = api) { return implementation.overlayVendorArgs(h.args, h.options); }
@@ -61,7 +63,8 @@ test('h265-amd 10-bit example is built end to end from a genuine CPU operation p
     '-n', '-protocol_whitelist', 'file,pipe', '-format_whitelist', 'mov,matroska,webm,avi'];
   assert.deepEqual(result, [...prefix,
     '-init_hw_device', 'd3d11va=ffenc_d3d:3', '-filter_hw_device', 'ffenc_d3d', '-i', 'X:\\golden\\input.mkv',
-    '-map', '0:2', '-map', '0:4', '-map', '0:7', '-map', '0:9', '-map_metadata', '0', '-map_chapters', '0', '-c', 'copy', '-c:v:0', 'hevc_amf',
+    '-map', '0:2', '-map', '0:4', '-map', '0:7', '-map', '0:9', '-map_metadata', '0', '-map_chapters', '0', '-c:v:0', 'hevc_amf',
+    '-c:a:0', 'copy', '-c:t:0', 'copy', '-c:s:0', 'copy',
     '-map_metadata:s:0', '0:s:2', '-metadata:s:0', 'SOURCE_CREATION_TIME=source-time-text', '-disposition:0', 'default',
     '-map_metadata:s:1', '0:s:4', '-metadata:s:1', 'SOURCE_CREATION_TIME=audio-time-text', '-disposition:1', 'default+original',
     '-map_metadata:s:2', '0:s:7', '-disposition:2', '0', '-map_metadata:s:3', '0:s:9', '-disposition:3', 'forced',
@@ -107,13 +110,10 @@ const negatives = [
   { guard: 'argv-data', run: a => expectCode(changed(a, h => { h.args.extra = 'hidden-selector'; })) },
   { guard: 'prefix', run: a => expectCode(changed(a, h => { h.args[9] = 'file,http'; })) },
   { guard: 'paths', run: a => expectCode(changed(a, h => { h.args[13] = 'https://foreign/input'; })) },
-  { guard: 'map-index', run: a => expectCode(changed(a, h => {
-    h.args[h.args.indexOf('-map') + 1] = '0:02'; h.args[h.args.indexOf('-map_metadata:s:0') + 1] = '0:s:02';
-  })) },
-  { guard: 'map-set', run: a => expectCode(changed(a, h => {
-    h.args.splice(h.args.indexOf('-map'), 2); h.args.splice(h.args.indexOf('-map_metadata:s:0'), 4);
-  })) },
-  { guard: 'mapping-codec', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-c')] = '-unknown-copy-option'; })) },
+  { guard: 'twin-command', run: a => expectCode(changed(a, h => { h.options.twinCommand = structuredClone(h.options.twinCommand); })) },
+  { guard: 'map-set', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-map') + 1] = '0:3'; })) },
+  { guard: 'mapping-codec', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-c:v:0')] = '-c:v:1'; })) },
+  { guard: 'stream-codecs', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-c:a:0')] = '-c:a:1'; }, { variant: 'metadata' })) },
   { guard: 'stream-metadata', run: a => expectCode(changed(a, h => { h.args[h.args.indexOf('-map_metadata:s:0')] = '-map_metadata:s:1'; })) },
   { guard: 'creation-alias', run: a => expectCode(changed(a, h => {
     h.args[h.args.indexOf('-metadata:s:0') + 1] = 'UNREVIEWED_TIME=source';
@@ -212,7 +212,9 @@ test('optional color and provenance syntax accepts genuine builder outputs and r
   const h = make();
   const probe = ordinaryProbe('yuv420p10le');
   for (const key of ['color_primaries', 'color_space', 'color_range']) delete probe.streams[0][key];
-  h.args = buildEncodeArgs({ input: 'X:\\golden\\input.mkv', output: 'X:\\golden\\output.mkv', settings: h.options.twinSettings, probe });
+  const input = 'X:\\golden\\input.mkv', output = 'X:\\golden\\output.mkv', settings = h.options.twinSettings;
+  h.args = buildEncodeArgs({ input, output, settings, probe });
+  h.options.twinCommand = api.createVendorTwinCommand({ input, output, settings, probe });
   assert.ok(overlay(h).includes('hevc_amf'));
   for (const mutate of [
     x => { x.args[x.args.indexOf('-metadata') + 3] = 'FFMPEG_ENCODER_OUTPUT_ID=invalid'; },
@@ -262,4 +264,53 @@ test('each guard removal makes its own negative assertion fail in memory, with u
     assert.throws(() => negative.run(mutant), { code: 'ERR_ASSERTION' }, `surviving guard mutant: ${negative.guard}`);
   }
   assert.equal(createHash('sha256').update(fs.readFileSync(filename)).digest('hex'), before);
+});
+
+test('canonical vendor overlay retains the ordered explicit copy block and sealing metadata', () => {
+  const h = make(api, { variant: 'combined', provenance: true });
+  assert.ok(Object.isFrozen(h.options.twinCommand) && Object.isFrozen(h.options.twinCommand.args));
+  assert.deepEqual(h.options.twinCommand.args, h.args);
+  const converted = overlay(h);
+  const codecBlock = argv => argv.slice(argv.indexOf('-map_chapters') + 2, argv.indexOf('-map_metadata:s:0'));
+  assert.deepEqual(codecBlock(h.args), ['-c:v:0', 'libx265', '-c:a:0', 'copy', '-c:t:0', 'copy', '-c:s:0', 'copy']);
+  assert.deepEqual(codecBlock(converted), ['-c:v:0', 'hevc_amf', '-c:a:0', 'copy', '-c:t:0', 'copy', '-c:s:0', 'copy']);
+  assert.deepEqual(converted.slice(converted.indexOf('-metadata')), h.args.slice(h.args.indexOf('-metadata')));
+  const maps = argv => argv.flatMap((token, index) => token === '-map' ? [argv[index + 1]] : []);
+  assert.deepEqual(maps(converted), maps(h.args));
+});
+
+test('canonical vendor overlay will not substitute another mapping, metadata or historical codec block', () => {
+  const change = (operation, index, value) => { operation.args[index] = value; };
+  const config = { variant: 'combined', provenance: true };
+  for (const mutate of [
+    h => change(h, h.args.indexOf('-map') + 1, '0:4'),
+    h => change(h, h.args.indexOf('-i') + 1, 'X:\\golden\\other-input.mkv'),
+    h => change(h, h.args.length - 1, 'X:\\golden\\other-output.mkv'),
+    h => change(h, h.args.indexOf('-c:a:0'), '-c:a:1'),
+    h => change(h, h.args.indexOf('-c:s:0'), '-c:t:0'),
+    h => h.args.splice(h.args.indexOf('-c:a:0'), 2),
+    h => h.args.splice(h.args.indexOf('-c:v:0'), 0, '-c', 'copy'),
+    h => change(h, h.args.indexOf('-metadata:s:0') + 1, 'SOURCE_CREATION_TIME=other-source-time'),
+    h => change(h, h.args.indexOf('-disposition:0') + 1, '0'),
+    h => change(h, h.args.indexOf('-color_trc:v:0') + 1, 'gamma22'),
+    h => change(h, h.args.indexOf('-metadata') + 3, 'FFMPEG_ENCODER_OUTPUT_ID=22345678-1234-4123-8123-123456789abc'),
+    h => { h.options.twinCommand = make(api, { variant: 'metadata', provenance: true }).options.twinCommand; },
+  ]) expectCode(changed(api, mutate, config));
+});
+
+test('canonical vendor overlay uses per-kind ordinals independently of sparse source indexes', () => {
+  const h = make(api, { variant: 'combined', changeProbe: probe => {
+    const [video, audio, font, subtitle] = probe.streams;
+    probe.streams = [video, font, audio, subtitle,
+      { ...audio, index: 12, tags: { language: 'deu' }, disposition: { default: 0 } },
+      { ...subtitle, index: 19, tags: { language: 'fra' }, disposition: { forced: 0 } }];
+  } });
+  const args = overlay(h);
+  assert.deepEqual(args.flatMap((token, index) => token === '-map' ? [args[index + 1]] : []),
+    ['0:2', '0:7', '0:4', '0:9', '0:12', '0:19']);
+  assert.deepEqual(args.slice(args.indexOf('-map_chapters') + 2, args.indexOf('-map_metadata:s:0')),
+    ['-c:v:0', 'hevc_amf', '-c:t:0', 'copy', '-c:a:0', 'copy', '-c:s:0', 'copy', '-c:a:1', 'copy', '-c:s:1', 'copy']);
+  const position = h.args.indexOf('-c:a:1');
+  h.args[position] = '-c:a:0';
+  expectCode(() => overlay(h));
 });

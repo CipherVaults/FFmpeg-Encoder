@@ -133,7 +133,7 @@ function buildCompatibility(options) {
   const preservation = options.preservationSelection === undefined ? null
     : require('./encode-preservation.cjs').getEncodePreservationSelection(options.preservationSelection, probe);
   const video = selectVideo(probe), mapped = mappedStreams(probe, video, options.preservationSelection);
-  const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color,
+  const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color, runtimeIdentity,
     ...(preservation ? { preservationSelection: options.preservationSelection } : {}),
     ...(outputId === undefined ? {} : { outputId }), ...(generationDescription === undefined ? {} : { generationDescription }) });
   // Do not make old Full admission depend on newly added relationship/geometry
@@ -202,7 +202,7 @@ function buildEncodeOperation(options) {
   if (contract.request.operation !== 'encode' || contract.request.target !== 'matroska'
       || !['preserve', 'sdr'].includes(contract.request.hdrPolicy)) fail('ENCODE_OPERATION_UNSUPPORTED', 'This builder implements SDR Encode to Matroska only; HDR routes use their separately qualified builder.');
   if (contract.omissionRequests.ids.length) fail('ENCODE_OMISSION_UNBOUND', 'This path cannot authorize omissions from request IDs; use a separately bound per-file preservation plan.');
-  const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color,
+  const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color, runtimeIdentity,
     ...(outputId === undefined ? {} : { outputId }), ...(generationDescription === undefined ? {} : { generationDescription }) });
   const isRange = contract.range.kind === 'range';
   const resize = contract.geometry.filterRequired;

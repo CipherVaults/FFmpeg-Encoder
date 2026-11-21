@@ -2,25 +2,31 @@ const { spawn } = require('node:child_process');
 const { StringDecoder } = require('node:string_decoder');
 
 const path = require('node:path');
+const { isRegularWindowsMediaPath } = require('./regular-windows-runtime.cjs');
 
 // Only the media child receives this copy. The current caller still owns
 // executable identity and argv admission; matching the tool name grants neither.
-function mediaToolEnvironment(executable) {
-  if (typeof executable !== 'string') return undefined;
+function mediaToolLaunchOptions(executable) {
+  if (typeof executable !== 'string') return {};
   const windows = process.platform === 'win32';
   const paths = windows ? path.win32 : path.posix;
-  if (!paths.isAbsolute(executable)) return undefined;
+  if (!paths.isAbsolute(executable)) return {};
   const leaf = paths.basename(executable);
   const isMediaTool = windows ? /^ff(?:mpeg|probe)\.exe$/i.test(leaf) : leaf === 'ffmpeg' || leaf === 'ffprobe';
-  if (!isMediaTool) return undefined;
+  if (!isMediaTool) return {};
 
-  // FFmpeg and FFprobe can create an out-of-band report from FFREPORT, even
-  // when app-owned arguments did not request it. Keep all other inherited keys.
-  const overrides = Object.keys(process.env).filter(key => (windows ? key.toUpperCase() : key) === 'FFREPORT');
-  if (!overrides.length) return undefined;
-  const env = { ...process.env };
-  for (const key of overrides) delete env[key];
-  return env;
+  // The oneVPL dispatcher in the regular engine also uses PATH and ONEVPL_*
+  // for discovery and logs. Absolute executable paths need no PATH lookup.
+  const regularWindows = windows && isRegularWindowsMediaPath(executable, process.resourcesPath);
+  const overrides = Object.keys(process.env).filter(key => (windows ? key.toUpperCase() : key) === 'FFREPORT'
+    || regularWindows && /^(path$|onevpl_)/i.test(key));
+  const options = regularWindows ? { cwd: paths.dirname(executable) } : {};
+  if (overrides.length) {
+    const env = { ...process.env };
+    for (const key of overrides) delete env[key];
+    options.env = env;
+  }
+  return options;
 }
 
 class ToolError extends Error {
@@ -214,9 +220,7 @@ function runTool(executable, args, options = {}) {
     const abort = () => stop(new ToolError('CANCELLED', 'Operation cancelled.'));
     try {
       const stdio = [input === undefined ? 'ignore' : 'pipe', 'pipe', 'pipe']; if (auxiliary) stdio.push('pipe');
-      const spawnOptions = { windowsHide: true, shell: false, stdio };
-      const env = mediaToolEnvironment(executable);
-      if (env) spawnOptions.env = env;
+      const spawnOptions = { windowsHide: true, shell: false, stdio, ...mediaToolLaunchOptions(executable) };
       child = spawnImpl(executable, args, spawnOptions);
     } catch (error) {
       reject(new ToolError('SPAWN_FAILED', `Could not launch the bundled media tool: ${error.message}`, {

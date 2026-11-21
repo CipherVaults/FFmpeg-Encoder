@@ -3,7 +3,7 @@
 const path = require('node:path');
 const { types } = require('node:util');
 const { createHash } = require('node:crypto');
-const { PROFILES, describeRecipe, buildEncodeArgs, selectVideo, mappedStreams } = require('./media.cjs');
+const { PROFILES, describeRecipe, buildEncodeArgs, selectVideo, mappedStreams, keepMetadataArgs } = require('./media.cjs');
 const { provenanceArgs, MARKER_KEY, OUTPUT_ID_KEY, GENERATION_KEY } = require('./provenance.cjs');
 const { VENDOR_MESSAGES, vendorFragments } = require('./vendor-profiles.cjs');
 
@@ -55,14 +55,14 @@ function createVendorBinding(value) {
 // Main passes the ordinary builder's own inspected source and output choices,
 // never renderer argv. The branded receipt snapshots the exact twin array and
 // separately fixes the output-kind ordinals allowed in the copy block.
-function createVendorTwinCommand({ input, output, settings, probe, colorEvidence, outputId, generationDescription }) {
-  const args = Object.freeze(buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription }));
+function createVendorTwinCommand({ input, output, settings, probe, colorEvidence, outputId, generationDescription, runtimeIdentity }) {
+  const args = Object.freeze(buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription, runtimeIdentity }));
   const mapped = mappedStreams(probe, selectVideo(probe));
   const maps = mapped.map(stream => String(stream.index));
   const ordinals = { audio: 0, subtitle: 0, attachment: 0 };
   const copy = mapped.slice(1).flatMap(({ codec_type: kind }) => [`-c:${COPY_SPECIFIERS[kind]}:${ordinals[kind]++}`, 'copy']);
   const token = Object.freeze({ args });
-  twinCommands.set(token, { args, maps, copy });
+  twinCommands.set(token, { args, maps, copy, runtimeIdentity });
   return token;
 }
 
@@ -83,10 +83,10 @@ function parseTwin(args, twinSettings, bitDepth, command) {
   guard('paths', exact(cursor, cursor + 1) && output === command.args.at(-1) && localPath(input) && localPath(output)
     && path.win32.normalize(input).toLowerCase() !== path.win32.normalize(output).toLowerCase());
   cursor++;
-  const { maps, copy } = command;
+  const { maps, copy, runtimeIdentity } = command;
   take('map-set', maps.flatMap(index => ['-map', `0:${index}`]));
   const recipe = describeRecipe(twinSettings);
-  take('mapping-codec', ['-map_metadata', '0', '-map_chapters', '0', '-c:v:0', recipe.encoder]);
+  take('mapping-codec', ['-map_metadata', '0', '-map_chapters', '0', ...keepMetadataArgs(runtimeIdentity), '-c:v:0', recipe.encoder]);
   const codecValue = cursor - 1;
   take('stream-codecs', copy);
   for (const [index, sourceIndex] of maps.entries()) {

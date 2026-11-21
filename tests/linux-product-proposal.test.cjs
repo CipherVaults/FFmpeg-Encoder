@@ -23,7 +23,7 @@ test('main opt-in is Linux only and uses app-data state by default', () => {
  const s=fs.readFileSync(path.join(root,'main.js'),'utf8');
  assert.ok(s.includes("process.platform === 'linux' && app.commandLine.hasSwitch('linux-product-candidate')"));
  assert.ok(s.includes("path.join(app.getPath('appData'), 'FFmpegEncoder-Linux-Candidate')"));
- assert.ok(s.includes('else {\n  // A separate verified namespace'));
+ assert.ok(s.includes('else {\n  // Only the reviewed regular Windows engine'));
 });
 
 const vm = require('node:vm'), os = require('node:os'), {createRequire}=require('node:module');
@@ -97,11 +97,12 @@ test('private handle and dependency mismatch cannot compose a product service',a
  let f=serviceFixture({badHandle:true});await assert.rejects(f.api.createLinuxProductService({verifiedRuntime:{},stateDir:'/inert'}),/private handle/);
  f=serviceFixture({badDependencies:true});await assert.rejects(f.api.createLinuxProductService({verifiedRuntime:f.candidate,stateDir:'/inert'}),{code:'LINUX_PRODUCT_SCOPE'});assert.equal(f.events.at(-1),'candidate-close');
 });
-test('Windows construction matches frozen reviewed baseline except declaration scope',()=>{
+test('Windows construction binds the reviewed regular engine entry point',()=>{
  const current=fs.readFileSync(path.join(root,'main.js'),'utf8');
- const begin='  // A separate verified namespace',end='  await service.initializeDiagnostics();';
- const branch=current.slice(current.indexOf(begin),current.indexOf(end)).replace(/\n  }\s*$/,'').trim();
- assert.equal(require('node:crypto').createHash('sha256').update(branch).digest('hex'),'a4cd1bd2e1f0def9572400ee3ae61a3c77e0738110ca8e70337ff111d57b27b8');
+ const begin=current.indexOf('  // Only the reviewed regular Windows engine'),end=current.indexOf('  await service.initializeDiagnostics();');
+ assert(begin>=0&&end>begin);
+ const branch=current.slice(begin,end).replace(/\n  }\s*$/,'').trim();
+ assert.equal(require('node:crypto').createHash('sha256').update(branch).digest('hex'),'9b49d8cc34c47e0f7ef0f372f1a1748d85b5609183171e81c9c633e9b1990aa5');
  assert(current.includes('let nativeFilesFailure = null;'));
 });
 
@@ -222,8 +223,18 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // reviewed Linux Remux diagnostic handles actual Cancel during receipt
  // settlement; this current identity does not requalify historical evidence.
  // Current per-file Remux journal settlement does not requalify the old source.
- // The authored vendor command repair is source-only, not historical proof.
- const currentEncoderService={bytes:169766,sha256:'ac04754d0ff4639c4caf58ee22ba7847e1f715265a6b641124a0035042c3673f'};
+ // Windows integration changes current shared bytes without replacing the old Linux proof.
+ const regularWindowsSourceDeltas={
+   'src/candidate-runtime.cjs': ['9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712',11835,'92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9'],
+   'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',57405,'0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287'],
+   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',169805,'72f82458a13a7d7a4d8eddaa7f64894108f5b092c84dd38cb451a86b35f0163f'],
+   'src/media.cjs': ['79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7',25811,'2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0'],
+   'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',3837,'10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471'],
+   'src/operation-runtime.cjs': ['95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79',24869,'a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294'],
+   'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
+   'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',5969,'789881be3220d1b926fdc7ddd6b3aa4a395a1884583ecc5730eacdba1569e836'],
+   'src/vendor-encode.cjs': ['4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74',11018,'71a10e6d08c293ed681bb5e1f7bbc176361204bd8d98cce14ddc18577827f71f'],
+ };
  let changed=0, historicalOnly=0;
  for(const [name,hash] of Object.entries(original)){
   const bytes=fs.readFileSync(path.join(root,name));
@@ -242,19 +253,10 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,'ee8d48e294f098ed9f47e7b6e1e75edd5a4661d460ee6b00bb2a375010692afc');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:33448,sha256:'63914e348d426d40566086a6a58aea87209d0e420197b7fab53de9306e1ac903'});
    changed++;
-  }else if(name==='src/encoder-service.cjs'){
-   assert.equal(hash,successor.historicalEncoderService.sha256);
-   assert.deepEqual({bytes:bytes.length,sha256:actual},currentEncoderService);
-   changed++;
   }else if(name==='src/vendor-capabilities.cjs'){
    // Preserve the frozen producer identity; the explicit copy overlay is not historical hardware evidence.
    assert.equal(hash,'a48712b3b93c792c1aab7298b37f576a5eb8859504ffe95aec9ccd3bbfa20fea');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:13443,sha256:'ccfdbd2e35825a77919f25af06553f0bd7b744a1f219860854630600cdb5ac62'});
-   changed++;
-  }else if(name==='src/vendor-encode.cjs'){
-   // Preserve the frozen producer identity; the explicit copy overlay is not historical hardware evidence.
-   assert.equal(hash,'4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:10894,sha256:'1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8'});
    changed++;
   }else if(name==='src/remux-native-cues.cjs'){
    // The Windows Remux transplant refreshes current source identity. The Linux producer receipt retains its old bytes.
@@ -265,12 +267,6 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    // The Windows Remux transplant refreshes current source identity. The Linux producer receipt retains its old bytes.
    assert.equal(hash,'62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:41395,sha256:'6adc49a4b26c5cc5d98f08724c3969c58351dedf781d8a8ad13581c78d6bd258'});
-   changed++;
-  }else if(name==='src/process-runner.cjs'){
-   // The historical resize producer still names the pre-hardening runner.
-   // Child-only FFREPORT removal does not requalify that historical evidence.
-   assert.equal(hash,'257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:18138,sha256:'0fc86b3d7a5c03f2d055fa1de4613234084895956f2357920c6bdc1ec999a8fa'});
    changed++;
   }else if(name==='src/outputs.cjs'){
    // The H.265 publication helper at 115 was {bytes:23755,sha256:'37953bf5b9f2faa62cf3bbf88414854a6019b864805a6c19cb8d40b5c42527b1'}.
@@ -292,17 +288,10 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    assert.equal(hash,'76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75');
    assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:154677,sha256:'56b0cea544029c91d158aa5e2ec1b973b24639b6a8e6be17754695e256f8b9c8'});
    changed++;
-  }else if(name==='src/remux-catalog.cjs'){
-   // Retain the historical producer hash; removing a file locator from a
-   // comment neither changes route policy nor requalifies old measurements.
-   assert.equal(hash,'ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:5087,sha256:'d9895047206cf1dd65e6ea776497b32237648c059e28eb710694c38af16614a1'});
-   changed++;
-  }else if(name==='src/candidate-runtime.cjs'){
-   // Remove operational evidence locators from the current matched manifest.
-   // Keep the historical producer identity; this is not new calibration proof.
-   assert.equal(hash,'9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712');
-   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:11606,sha256:'22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9'});
+  }else if(regularWindowsSourceDeltas[name]){
+   const [historicalHash,currentBytes,currentHash]=regularWindowsSourceDeltas[name];
+   assert.equal(hash,historicalHash);
+   assert.deepEqual({bytes:bytes.length,sha256:actual},{bytes:currentBytes,sha256:currentHash});
    changed++;
   }else if(successor.uhdSourceDeltas[name]){
    assert.equal(hash,successor.uhdSourceDeltas[name].historicalSha256);
@@ -311,7 +300,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,15);
+ assert.equal(changed,19);
  assert.equal(historicalOnly,1);
 });
 

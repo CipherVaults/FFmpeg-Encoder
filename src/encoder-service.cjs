@@ -913,7 +913,7 @@ class EncoderService extends EventEmitter {
       request: item.operationRequest, runtimeIdentity: this.runtimeIdentity, outputId, generationDescription });
     vendorGuard('compatibility', operationPlan.compatibilityPath === true, 'VENDOR_ROUTE_UNQUALIFIED');
     const twinCommand = createVendorTwinCommand({ input: file, output: destination, settings: twinSettings, probe: inspection.probe,
-      colorEvidence: inspection.color, outputId, generationDescription });
+      colorEvidence: inspection.color, outputId, generationDescription, runtimeIdentity: this.runtimeIdentity });
     const args = overlayVendorArgs(operationPlan.args, { twinSettings, profile, settings, bitDepth, binding, twinCommand });
     const preparedArgs = Object.freeze([...args.slice(0, -1), OUTPUT_PLACEHOLDER]);
     const vendor = Object.freeze({ profileId: profile.id, settings: Object.freeze({ ...settings }),

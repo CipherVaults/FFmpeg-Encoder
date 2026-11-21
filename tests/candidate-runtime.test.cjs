@@ -231,6 +231,6 @@ test('invalid transfer receipt does not create a candidate destination', async t
 test('build selection preserves legacy pins and independently selects the candidate', () => {
   assert.deepEqual(selectPortableRuntime({ version: '0.6.0' }), { mode: 'legacy-0.6', electronVersion: '44.2.0', manifestName: 'binary-manifest.json' });
   assert.deepEqual(selectPortableRuntime({ version: '0.6.1-rc.2' }), { mode: 'legacy-0.6', electronVersion: '44.2.0', manifestName: 'binary-manifest.json' });
-  assert.deepEqual(selectPortableRuntime({ version: '0.7.0-alpha.1' }), { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: 'candidate-binary-manifest.json' });
+  assert.deepEqual(selectPortableRuntime({ version: '0.7.0-alpha.1' }), { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: 'regular-windows-engine-manifest.json' });
   for (const version of ['0.7.0', '0.7.0-alpha.2', '1.0.0', '0.8.0-alpha.1', undefined]) assert.throws(() => selectPortableRuntime({ version }));
 });

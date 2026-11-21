@@ -156,7 +156,7 @@ async function assertStableFile(filename, handle, before) {
   await assertOrdinaryPath(filename);
 }
 
-async function readBoundedJson(filename, maxBytes = MAX_MANIFEST_BYTES) {
+async function readBoundedJson(filename, maxBytes = MAX_MANIFEST_BYTES, expectedSha256) {
   assert(Number.isSafeInteger(maxBytes) && maxBytes > 0 && maxBytes <= 1024 * 1024, 'JSON read limit is invalid.');
   const { handle, before } = await openStableFile(filename);
   try {
@@ -170,7 +170,11 @@ async function readBoundedJson(filename, maxBytes = MAX_MANIFEST_BYTES) {
     }
     assert(offset <= maxBytes, `JSON grew past its bounded read limit: ${filename}`);
     await assertStableFile(filename, handle, before);
-    return JSON.parse(buffer.subarray(0, offset).toString('utf8'));
+    const content = buffer.subarray(0, offset);
+    if (expectedSha256 !== undefined) {
+      assert.equal(createHash('sha256').update(content).digest('hex'), expectedSha256, `Runtime manifest SHA-256 mismatch: ${filename}`);
+    }
+    return JSON.parse(content.toString('utf8'));
   } finally { await handle.close(); }
 }
 

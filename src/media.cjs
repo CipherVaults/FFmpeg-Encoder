@@ -347,6 +347,19 @@ function outputPixelFormat(profile, video) {
 // track's exact source text under an explicit alias instead of losing it. A
 // pre-existing different alias is user metadata and must never be overwritten.
 const STREAM_CREATION_TIME_ALIAS = 'SOURCE_CREATION_TIME';
+// FFmpeg 9.1 strips these source keys when a stream is re-encoded. The fixed
+// regular Windows pair keeps the mapped values, including language suffixes.
+const KEEP_91_METADATA_ARGS = Object.freeze([
+  'iTunPGAP', 'comment-iTunPGAP-eng', 'iTunSMPB', 'comment-iTunSMPB-eng', 'gapless_playback',
+  'iTunNORM', 'comment-iTunNORM-eng', 'encoded_by', 'encoding_tool', 'vendor_id',
+  'BPS', 'DURATION', 'NUMBER_OF_BYTES', 'NUMBER_OF_FRAMES',
+  '_STATISTICS_TAGS', '_STATISTICS_WRITING_APP', '_STATISTICS_WRITING_DATE_UTC',
+  'major_brand', 'minor_version', 'compatible_brands',
+].flatMap(key => ['-keep_metadata', key]));
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+function keepMetadataArgs(runtimeIdentity) {
+  return runtimeIdentity === REGULAR_WINDOWS_PAIR ? KEEP_91_METADATA_ARGS : [];
+}
 function streamCreationTimeAlias(stream) {
   if (!['video', 'audio', 'subtitle'].includes(stream.codec_type)) return null;
   const entries = Object.entries(stream.tags || {});
@@ -359,7 +372,7 @@ function streamCreationTimeAlias(stream) {
   return times[0];
 }
 
-function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription, preservationSelection }) {
+function buildEncodeArgs({ input, output, settings, probe, colorEvidence, outputId, generationDescription, preservationSelection, runtimeIdentity }) {
   const validated = validateSettings(settings);
   if (preservationSelection !== undefined) require('./encode-preservation.cjs').getEncodePreservationSelection(preservationSelection, probe, { input, settings: validated });
   validateLocalPath(input, 'Input');
@@ -393,7 +406,7 @@ function buildEncodeArgs({ input, output, settings, probe, colorEvidence, output
     '-format_whitelist', 'mov,matroska,webm,avi', '-i', input,
   ];
   for (const stream of mapped) args.push('-map', `0:${stream.index}`);
-  args.push('-map_metadata', '0', '-map_chapters', '0', ...contribution.codec);
+  args.push('-map_metadata', '0', '-map_chapters', '0', ...keepMetadataArgs(runtimeIdentity), ...contribution.codec);
   // Every mapped output has one codec decision. A global copy option would
   // overlap the encoded video and later precision-audio decision.
   const copyOrdinals = { audio: 0, subtitle: 0, attachment: 0 };
@@ -438,5 +451,5 @@ module.exports = {
   // Inspection uses the same preservation/pixel policies as execution, so a
   // preview cannot approve a combination that the argument builder rejects.
   mappedStreams, outputPixelFormat,
-  streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS,
+  streamCreationTimeAlias, STREAM_CREATION_TIME_ALIAS, keepMetadataArgs,
 };

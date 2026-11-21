@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Regular Windows TS seek
+
+Codex Sol Ultra bound the fresh regular Windows 9.1 pair and ran the Q2j laboratory and ordinary factory. Each published one verified output from the same generated moving fixture into a separate owned destination. Linear TS and MP4 decoding agreed on every frame. The six accurate seeks returned the exact first eligible presentation frames. The paired cut was refused before Start. Independent Sol Ultra review checked the timing, policy and child receipts. Continue the approved Q → R → S sequence from this checkpoint. [Exact-pair TS seek evidence](Execution%20Summaries/2026-11-21_Regular_Windows_9.1_and_TS_Seek.md)
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Rebuild the regular Windows engine and begin Q
 
 ## 🤖 Models, Effort, Roles and Provenance

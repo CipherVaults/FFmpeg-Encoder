@@ -68,12 +68,10 @@ copy on the development computer. Public distribution is a separate decision.
 
 Bundled notices and provenance:
   resources/binary-manifest.json
-  resources/third-party/FFmpeg-LICENSE.txt
-  resources/third-party/FFmpeg-README.txt
+  resources/third-party/ (FFmpeg and linked component notices)
   LICENSE (Electron)
   LICENSES.chromium.html (Chromium and other Electron components)
 
-FFmpeg's included full static build is identified as GPL-3.0-or-later in the
-binary manifest. These notices and provenance are not a complete corresponding
+The binary manifest identifies the exact included FFmpeg build and license. These notices and provenance are not a complete corresponding
 source distribution or a written source offer. External distribution requires
 its separate licensing review.

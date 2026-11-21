@@ -11,15 +11,15 @@ const { createHash } = require('node:crypto');
 const { execFile, execFileSync } = require('node:child_process');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
-const { loadCandidateManifest, resolveCandidateRuntime, verifyCandidateRuntime,
-  validateCandidateManifest, readBoundedJson, verifyPinnedFile } = require('../src/candidate-runtime.cjs');
+const { expectedCandidateManifest, resolveCandidateRuntime, verifyPinnedFile } = require('../src/candidate-runtime.cjs');
+const { MANIFEST_NAME, MANIFEST_SHA256, verifyRegularWindowsRuntime } = require('../src/regular-windows-runtime.cjs');
 
 function selectPortableRuntime(packageJson) {
   if (/^0\.6\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(packageJson.version)) {
     return { mode: 'legacy-0.6', electronVersion: '44.2.0', manifestName: 'binary-manifest.json' };
   }
   assert.equal(packageJson.version, '0.7.0-alpha.1', 'Expected approved legacy 0.6.x or isolated 0.7.0-alpha.1 candidate.');
-  return { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: 'candidate-binary-manifest.json' };
+  return { mode: 'candidate-0.7', electronVersion: '44.7.0', manifestName: MANIFEST_NAME };
 }
 
 const CANDIDATE_ICON_FILES = Object.freeze([
@@ -118,7 +118,8 @@ async function runPackaging(root, buildRoot, packageJson, electronZipDir = null)
   assert.deepEqual(packages, [path.join(buildRoot, 'package', 'FFmpeg Encoder-win32-x64')]);
   const zipDirectory = path.join(buildRoot, 'zip');
   await fsp.mkdir(zipDirectory);
-  const zip = path.join(zipDirectory, 'FFmpeg-Encoder-' + packageJson.version + '-win32-x64.zip');
+  const version = selectPortableRuntime(packageJson).mode === 'candidate-0.7' ? `${packageJson.version}-regular-integration` : packageJson.version;
+  const zip = path.join(zipDirectory, `FFmpeg-Encoder-${version}-win32-x64.zip`);
   const executable = 'C:\\Program Files\\7-Zip\\7z.exe';
   const args = ['a', '-tzip', '-mx=5', '-mmt=on', zip, '.'];
   await new Promise((resolve, reject) => execFile(executable, args, { cwd: packages[0], windowsHide: true, timeout: 180000, maxBuffer: 2 * 1024 * 1024 }, async (error, stdout, stderr) => {
@@ -141,15 +142,15 @@ async function main({ root = path.resolve(__dirname, '..'), sourceProvenance = n
     assert.equal(versions[name], required, `Installed ${name} differs from its pin.`);
   }
   const candidate = selection.mode === 'candidate-0.7';
-  const manifest = candidate ? await loadCandidateManifest({ root })
+  const candidateProof = candidate ? await verifyRegularWindowsRuntime({ root }) : null;
+  const manifest = candidate ? candidateProof.manifest
     : JSON.parse(await fsp.readFile(path.join(root, 'resources', 'binary-manifest.json'), 'utf8'));
   assert.equal(manifest.platform, 'win32-x64');
   assert.deepEqual(manifest.binaries.map(entry => entry.name).sort(), ['ffmpeg.exe', 'ffprobe.exe']);
-  let candidateProof = null;
   let electronArchive = null;
+  const electronPin = candidate ? expectedCandidateManifest().electron.archive : null;
   if (candidate) {
-    candidateProof = await verifyCandidateRuntime({ root });
-    electronArchive = await verifyPinnedFile(resolveCandidateRuntime({ root }).electronArchive, manifest.electron.archive);
+    electronArchive = await verifyPinnedFile(resolveCandidateRuntime({ root }).electronArchive, electronPin);
   } else {
     assert.deepEqual(manifest.notices.map(entry => entry.repositoryPath).sort(), [
       'resources/third-party/FFmpeg-LICENSE.txt', 'resources/third-party/FFmpeg-README.txt',
@@ -166,7 +167,8 @@ async function main({ root = path.resolve(__dirname, '..'), sourceProvenance = n
     schemaVersion: 1, startedAtUtc: new Date().toISOString(), status: 'building', buildRoot,
     product: 'FFmpeg Encoder', version: packageJson.version, platform: 'win32', arch: 'x64',
     tools: versions, sources, resources: [],
-    runtimeSelection: { mode: selection.mode, release: manifest.release, sourceManifest: `resources/${selection.manifestName}` },
+    runtimeSelection: { mode: selection.mode, release: manifest.release, sourceManifest: `resources/${selection.manifestName}`,
+      ...(candidate ? { enginePair: manifest.enginePair, correspondingSource: manifest.correspondingSource } : {}) },
     acceptance: { extractedApp: 'not-run', offline: 'not-run', realEncodeCancelSkip: 'not-run', cleanMachine: 'not-run' },
     distribution: 'Unsigned local ZIP only; no publication or complete corresponding-source claim.',
   };
@@ -188,16 +190,17 @@ async function main({ root = path.resolve(__dirname, '..'), sourceProvenance = n
     }
     // Only the fresh package receives the candidate manifest under the normal
     // runtime filename. The repository/benchmark legacy manifest is untouched.
-    report.resources.push(await stageFile(root, staged, `resources/${selection.manifestName}`, 'binary-manifest.json'));
-    if (candidate) validateCandidateManifest(await readBoundedJson(path.join(staged, 'binary-manifest.json')));
+    report.resources.push(await stageFile(root, staged, `resources/${selection.manifestName}`, 'binary-manifest.json',
+      candidate ? { sha256: MANIFEST_SHA256 } : {}));
+    if (candidate) await verifyRegularWindowsRuntime({ root, resourcesPath: staged, isPackaged: true });
     report.resources.push(await stageFile(root, staged, 'resources/PORTABLE_README.txt', 'PORTABLE_README.txt'));
     report.electronNotices = [];
     for (const name of ['LICENSE', 'LICENSES.chromium.html']) {
       report.electronNotices.push({ path: name, ...await hashFile(path.join(root, 'node_modules', 'electron', 'dist', name)) });
     }
-    if (candidate) await verifyPinnedFile(electronArchive.path, manifest.electron.archive);
+    if (candidate) await verifyPinnedFile(electronArchive.path, electronPin);
     report.command = await runPackaging(root, buildRoot, packageJson, candidate ? path.dirname(electronArchive.path) : null);
-    if (candidate) await verifyPinnedFile(electronArchive.path, manifest.electron.archive);
+    if (candidate) await verifyPinnedFile(electronArchive.path, electronPin);
     report.electronExtraction = JSON.parse(await fsp.readFile(path.join(buildRoot, 'electron-extraction.json'), 'utf8'));
     assert.equal(report.electronExtraction.electronVersion, versions.electron);
 

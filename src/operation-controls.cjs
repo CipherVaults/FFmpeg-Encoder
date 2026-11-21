@@ -10,7 +10,8 @@ const { OperationRuntimeObserver, parseNvidiaObservation } = require('./operatio
 const { OperationFamilySelector } = require('./operation-family.cjs');
 const { openEvidenceStorage } = require('./operation-storage.cjs');
 const { RemuxOperations } = require('./remux-operation.cjs');
-const { REMUX_POLICIES, REMUX_POLICY_ID } = require('./remux-catalog.cjs');
+const { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID } = require('./remux-catalog.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { HdrOperations } = require('./hdr-operation.cjs');
 const { HDR_POLICIES, HDR_POLICY_ID } = require('./hdr-catalog.cjs');
 const { EncodePreservationOperations } = require('./encode-preservation.cjs');
@@ -28,7 +29,7 @@ async function observeNvidia({ signal } = {}) {
   return parseNvidiaObservation(stdout);
 }
 function createOperationControls({ runtime, stateDir, families, policyIdentity,
-  remuxPolicies = REMUX_POLICIES, remuxPolicyIdentity = REMUX_POLICY_ID,
+  remuxPolicies, remuxPolicyIdentity,
   hdrPolicies = HDR_POLICIES, hdrPolicyIdentity = HDR_POLICY_ID,
   encodePreservationPolicies = loadEncodePreservationPolicies(), encodePreservationPolicyIdentity = ENCODE_PRESERVATION_POLICY_ID }) {
   const observer = new OperationRuntimeObserver({ runtime: { ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe },
@@ -36,8 +37,11 @@ function createOperationControls({ runtime, stateDir, families, policyIdentity,
       { sizeBytes: runtime.verified[index].sizeBytes, sha256: runtime.verified[index].sha256 }])), observeNvidia });
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
+  const regularWindows = runtimeIdentity === REGULAR_WINDOWS_PAIR;
   return { operationQualifications: new OperationFamilySelector({ families, policyIdentity }),
-    remuxOperations: new RemuxOperations({ runtimeIdentity, policies: remuxPolicies, policyIdentity: remuxPolicyIdentity }),
+    remuxOperations: new RemuxOperations({ runtimeIdentity,
+      policies: remuxPolicies ?? (regularWindows ? REGULAR_WINDOWS_REMUX_POLICIES : REMUX_POLICIES),
+      policyIdentity: remuxPolicyIdentity ?? (regularWindows ? REGULAR_WINDOWS_REMUX_POLICY_ID : REMUX_POLICY_ID) }),
     hdrOperations: new HdrOperations({ runtimeIdentity, policies: hdrPolicies, policyIdentity: hdrPolicyIdentity }),
     encodePreservationOperations: new EncodePreservationOperations({ runtimeIdentity, policies: encodePreservationPolicies, policyIdentity: encodePreservationPolicyIdentity }),
     operationRuntime: observer, operationTelemetry: true, operationEvidenceBudget: EVIDENCE_BUDGET,

@@ -17,11 +17,12 @@ function auxiliaryChild() {
   const child = fakeChild(); child.stdout = new PassThrough(); child.stdio = [null, child.stdout, child.stderr, new PassThrough()]; return child;
 }
 
-function simulatedRunner(platform, env) {
+function simulatedRunner(platform, env, resourcesPath) {
   const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
   const file = path.resolve(__dirname, '../src/process-runner.cjs');
-  const load = request => request === 'node:child_process' ? { spawn: () => assert.fail('Real spawn is forbidden') } : require(request);
-  const sandbox = { require: load, module: { exports: {} }, process: { platform, env }, Buffer, setTimeout, clearTimeout };
+  const localRequire = require('node:module').createRequire(file);
+  const load = request => request === 'node:child_process' ? { spawn: () => assert.fail('Real spawn is forbidden') } : localRequire(request);
+  const sandbox = { require: load, module: { exports: {} }, process: { platform, env, resourcesPath }, Buffer, setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync(file, 'utf8'), sandbox, { filename: file });
   return sandbox.module.exports.runTool;
 }
@@ -70,6 +71,23 @@ test('report environment removes all Windows spellings for mixed-case bundled EX
   const { env } = await captureToolOptions(simulatedRunner('win32', aliasOnly), 'C:\\App\\FFprobe.exe');
   assert.deepEqual({ ...env }, { Path: before.Path });
   assert.equal(aliasOnly.ffreport, 'inert fixture');
+});
+
+test('regular Windows engine children use their tool directory and omit discovery overrides', async () => {
+  const { RUNTIME_SLOT } = require('../src/regular-windows-runtime.cjs');
+  const ambient = { Path: 'D:\\untrusted', ONEVPL_SEARCH_PATH: 'D:\\untrusted', onevpl_log_file: 'D:\\outside.log',
+    ffreport: 'file=outside.log', SYSTEMROOT: 'C:\\Windows' };
+  const resourcesPath = 'D:\\isolated\\resources';
+  const run = simulatedRunner('win32', ambient, resourcesPath);
+  for (const directory of [resourcesPath + '\\ffmpeg', 'D:\\isolated\\.tools\\candidate-runtime\\' + RUNTIME_SLOT + '\\bin']) {
+    const options = await captureToolOptions(run, directory + '\\ffmpeg.exe');
+    assert.equal(options.cwd, directory);
+    assert.deepEqual({ ...options.env }, { SYSTEMROOT: ambient.SYSTEMROOT });
+  }
+  const heldControl = await captureToolOptions(run, 'D:\\legacy\\ffmpeg.exe');
+  assert.equal(heldControl.cwd, undefined);
+  assert.equal(heldControl.env.Path, ambient.Path);
+  assert.equal(heldControl.env.ONEVPL_SEARCH_PATH, ambient.ONEVPL_SEARCH_PATH);
 });
 
 test('report environment preserves default inheritance for the Windows helper, unrelated/relative names and no override', async () => {

@@ -22,14 +22,14 @@ const bindingData = (vendor = 'AMD', adapterIndex = 3) => ({ vendor, adapterInde
   luid: '00000001:00000002', umdVersion: '31.0.1.2', description: 'Private DXGI description' });
 const settingsFor = profile => ({ profileId: profile.id, preset: profile.defaultPreset, quality: profile.quality.default });
 function make(implementation = api, { id = 'h265-amd', bitDepth = 10, variant = 'plain', provenance = false,
-  settings, twinSettings, generationDescription, changeProbe = () => {} } = {}) {
+  settings, twinSettings, generationDescription, runtimeIdentity, changeProbe = () => {} } = {}) {
   const profile = VENDOR_PROFILES.find(row => row.id === id);
   const resolved = resolveCatalogSettings(settings || settingsFor(profile));
   const twin = twinSettings || resolved.twinSettings;
   const probe = ordinaryProbe(bitDepth === 10 ? 'yuv420p10le' : 'yuv420p', variant);
   changeProbe(probe);
   const input = 'X:\\golden\\input.mkv', output = 'X:\\golden\\output.mkv', color = classifyColor(probe);
-  const metadata = { ...(provenance ? { outputId: '12345678-1234-4123-8123-123456789abc' } : {}),
+  const metadata = { runtimeIdentity, ...(provenance ? { outputId: '12345678-1234-4123-8123-123456789abc' } : {}),
     ...(generationDescription ? { generationDescription } : {}) };
   const plan = buildEncodeOperation({ input, output, settings: twin, inspection: { probe, color },
     request: resolveFileRequest({ fileId: 'vendor-fixture', identityRevision: 1, draftRevision: 1, operation: 'encode' }), ...metadata });
@@ -74,6 +74,20 @@ test('h265-amd 10-bit example is built end to end from a genuine CPU operation p
     '-metadata', `${MARKER_KEY}=1`, '-metadata', 'FFMPEG_ENCODER_OUTPUT_ID=12345678-1234-4123-8123-123456789abc',
     '-default_mode', 'passthrough', '-f', 'matroska', 'X:\\golden\\output.mkv']);
   assert.deepEqual(h.args, original.args); assert.deepEqual(h.options.settings, original.options.settings);
+});
+
+test('the regular Windows twin requires the exact metadata keep block before the per-stream copy block', () => {
+  const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
+  const h = make(api, { variant: 'combined', runtimeIdentity: REGULAR_WINDOWS_PAIR });
+  const args = overlay(h);
+  const keep = args.flatMap((word, index) => word === '-keep_metadata' ? [args[index + 1]] : []);
+  assert.equal(keep.length, 20);
+  assert.deepEqual(keep.slice(-3), ['major_brand', 'minor_version', 'compatible_brands']);
+  assert(args.indexOf('-keep_metadata') < args.indexOf('-c:v:0'));
+  assert.equal(args[args.indexOf('-c:a:0') + 1], 'copy');
+  h.args.splice(h.args.indexOf('-keep_metadata'), 2);
+  expectCode(() => overlay(h));
+  assert(!overlay(make(api, { runtimeIdentity: 'other-pair' })).includes('-keep_metadata'));
 });
 
 for (const profile of VENDOR_PROFILES) for (const bitDepth of profile.bitDepths) {

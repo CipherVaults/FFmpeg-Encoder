@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Regular Windows v0.7 integration engine",
+  "release": "9.1",
+  "platform": "win32-x64",
+  "license": "GPL-3.0-or-later",
+  "enginePair": "faea502a4addd1dde4b74f1a63ae454d3615c7c04fac7d9b20b85a77c74b5590",
+  "binaries": [
+    {
+      "name": "ffmpeg.exe",
+      "sizeBytes": 53270528,
+      "sha256": "30c48cf14402bbd2aee20977d0b28263ea5c2758247f1e3d342594f9e44db798",
+      "version": "9.1",
+      "developmentPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/bin/ffmpeg.exe",
+      "runtimePath": "ffmpeg/ffmpeg.exe"
+    },
+    {
+      "name": "ffprobe.exe",
+      "sizeBytes": 53071360,
+      "sha256": "1c934c5cd0d5cc4a60daafc1fc74e0056237d8db7f04a20944567b65d719ce86",
+      "version": "9.1",
+      "developmentPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/bin/ffprobe.exe",
+      "runtimePath": "ffmpeg/ffprobe.exe"
+    }
+  ],
+  "notices": [
+    {
+      "name": "AMF-header-notice.txt",
+      "sizeBytes": 1734,
+      "sha256": "b91a907c8530e53c93b92683f8c2200811029e630214532a245e933e1a4a7cb7",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/AMF-header-notice.txt",
+      "packagedPath": "third-party/AMF-header-notice.txt"
+    },
+    {
+      "name": "dav1d-COPYING",
+      "sizeBytes": 1317,
+      "sha256": "b327887de263238deaa80c34cdd2ff3e0ba1d35db585ce14a37ce3e74ee389e9",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/dav1d-COPYING",
+      "packagedPath": "third-party/dav1d-COPYING"
+    },
+    {
+      "name": "dav1d-PATENTS",
+      "sizeBytes": 5730,
+      "sha256": "335eca574598bf4ca181b12f708d6669e5a5e78c8e1513e5b35fa1f03901484b",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/dav1d-PATENTS",
+      "packagedPath": "third-party/dav1d-PATENTS"
+    },
+    {
+      "name": "ffmpeg-COPYING.GPLv2",
+      "sizeBytes": 18092,
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/ffmpeg-COPYING.GPLv2",
+      "packagedPath": "third-party/ffmpeg-COPYING.GPLv2"
+    },
+    {
+      "name": "ffmpeg-COPYING.GPLv3",
+      "sizeBytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/ffmpeg-COPYING.GPLv3",
+      "packagedPath": "third-party/ffmpeg-COPYING.GPLv3"
+    },
+    {
+      "name": "ffmpeg-COPYING.LGPLv2.1",
+      "sizeBytes": 26517,
+      "sha256": "246041b6ecf9bc32d718a62c57877c78b5eb397b6467e74ed7ae2626ab189c30",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/ffmpeg-COPYING.LGPLv2.1",
+      "packagedPath": "third-party/ffmpeg-COPYING.LGPLv2.1"
+    },
+    {
+      "name": "ffmpeg-COPYING.LGPLv3",
+      "sizeBytes": 7651,
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/ffmpeg-COPYING.LGPLv3",
+      "packagedPath": "third-party/ffmpeg-COPYING.LGPLv3"
+    },
+    {
+      "name": "ffmpeg-LICENSE.md",
+      "sizeBytes": 4352,
+      "sha256": "e6dc72d5665a1ebd6dcc841de59278dad4ca77ecc47b03f1064a55c3e9ea8bb8",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/ffmpeg-LICENSE.md",
+      "packagedPath": "third-party/ffmpeg-LICENSE.md"
+    },
+    {
+      "name": "llvm-mingw-license-files.txt",
+      "sizeBytes": 356,
+      "sha256": "154c034f45a1ef6e5a80a6acb61b18b496577c58a22aa920d7db2c4d50eb21a5",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/llvm-mingw-license-files.txt",
+      "packagedPath": "third-party/llvm-mingw-license-files.txt"
+    },
+    {
+      "name": "llvm-mingw-LICENSE.TXT",
+      "sizeBytes": 15141,
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/llvm-mingw-LICENSE.TXT",
+      "packagedPath": "third-party/llvm-mingw-LICENSE.TXT"
+    },
+    {
+      "name": "nv-codec-headers-nvEncodeAPI-header.txt",
+      "sizeBytes": 1674,
+      "sha256": "07fdd3df836c2ad892a2306d37ae9d459e4f371bbd5cff61553f1e29f66f8a8c",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/nv-codec-headers-nvEncodeAPI-header.txt",
+      "packagedPath": "third-party/nv-codec-headers-nvEncodeAPI-header.txt"
+    },
+    {
+      "name": "nv-codec-headers-README",
+      "sizeBytes": 203,
+      "sha256": "cb55c8f0feaf250e8bb9313b71ba7727a093788c14ce736422214d0fc974c3b9",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/nv-codec-headers-README",
+      "packagedPath": "third-party/nv-codec-headers-README"
+    },
+    {
+      "name": "oneVPL-LICENSE.txt",
+      "sizeBytes": 1074,
+      "sha256": "bf1cfac2e2792b6e1e995ce103d70796aecaf2ec7e4c5fe5474f7acec7b4a677",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/oneVPL-LICENSE.txt",
+      "packagedPath": "third-party/oneVPL-LICENSE.txt"
+    },
+    {
+      "name": "SVT-AV1-cpuinfo-LICENSE",
+      "sizeBytes": 1424,
+      "sha256": "8e7e60636c3aa0cb03571a1a841ce5697f9551ff92b3c426c2561613d15ade70",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-cpuinfo-LICENSE",
+      "packagedPath": "third-party/SVT-AV1-cpuinfo-LICENSE"
+    },
+    {
+      "name": "SVT-AV1-fastfeat-LICENSE",
+      "sizeBytes": 1506,
+      "sha256": "043dcfd059386f9facd376351b2bd79325778744aa442177390cdfcca54babed",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-fastfeat-LICENSE",
+      "packagedPath": "third-party/SVT-AV1-fastfeat-LICENSE"
+    },
+    {
+      "name": "SVT-AV1-LICENSE-BSD2.md",
+      "sizeBytes": 1316,
+      "sha256": "c582fcbeb9cf972a60d298bfaf41dc5adff2dd14208946edcb9bb56a281e8438",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-LICENSE-BSD2.md",
+      "packagedPath": "third-party/SVT-AV1-LICENSE-BSD2.md"
+    },
+    {
+      "name": "SVT-AV1-LICENSE.md",
+      "sizeBytes": 1709,
+      "sha256": "0acc2fcb27472bdc9aaf8b71f37055bbdac4f54671b7d922f241bd7fcd0dd3e6",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-LICENSE.md",
+      "packagedPath": "third-party/SVT-AV1-LICENSE.md"
+    },
+    {
+      "name": "SVT-AV1-PATENTS.md",
+      "sizeBytes": 5767,
+      "sha256": "20678ab10402659106dc4c147c97b2a6e94b5c0695415e15a8f195ebc3547922",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-PATENTS.md",
+      "packagedPath": "third-party/SVT-AV1-PATENTS.md"
+    },
+    {
+      "name": "SVT-AV1-safestringlib-LICENSE",
+      "sizeBytes": 2247,
+      "sha256": "c0f99a208799ca20c9ccf31a30533d49334eb458dca5a3d14f9afe3e884e5d7d",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/SVT-AV1-safestringlib-LICENSE",
+      "packagedPath": "third-party/SVT-AV1-safestringlib-LICENSE"
+    },
+    {
+      "name": "x264-COPYING",
+      "sizeBytes": 17992,
+      "sha256": "32b1062f7da84967e7019d01ab805935caa7ab7321a7ced0e30ebe75e5df1670",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/x264-COPYING",
+      "packagedPath": "third-party/x264-COPYING"
+    },
+    {
+      "name": "x265-COPYING",
+      "sizeBytes": 18120,
+      "sha256": "d8afb1bcc7a2cfc603683b168d6987ef0a48e59e0da3693bf55c5d33b67e2b49",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/x265-COPYING",
+      "packagedPath": "third-party/x265-COPYING"
+    },
+    {
+      "name": "zlib-LICENSE",
+      "sizeBytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2",
+      "sourceGroup": "engine",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/zlib-LICENSE",
+      "packagedPath": "third-party/zlib-LICENSE"
+    },
+    {
+      "name": "COPYING.MinGW-w64-runtime.txt",
+      "sizeBytes": 12155,
+      "sha256": "1db8da07b436c68833c0673ffee3d9fcb2526047f3820b81661865dfedc79a1f",
+      "sourceGroup": "toolchain",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/COPYING.MinGW-w64-runtime.txt",
+      "packagedPath": "third-party/COPYING.MinGW-w64-runtime.txt"
+    },
+    {
+      "name": "COPYING.MinGW-w64.txt",
+      "sizeBytes": 5905,
+      "sha256": "f38e6194bd3bfa1b654f118e5acefe0aead437bbe669eee43957ccc65a7127f1",
+      "sourceGroup": "toolchain",
+      "repositoryPath": ".tools/candidate-runtime/ffmpeg-9.1-faea502a4add/notices/COPYING.MinGW-w64.txt",
+      "packagedPath": "third-party/COPYING.MinGW-w64.txt"
+    }
+  ],
+  "correspondingSource": {
+    "fileName": "windows-regular-ffmpeg-9.1-source-faea502a4add-complete.zip",
+    "sizeBytes": 44906646,
+    "sha256": "7d267bcbdfad4f23e765bd005c7b25e783c54c9064e5764cf5288c5830e85e4d"
+  }
+}

@@ -7,6 +7,7 @@ const path = require('node:path');
 const { createHash, randomUUID } = require('node:crypto');
 const { runTool } = require('../src/process-runner.cjs');
 const { verifyCandidateRuntime, assertOrdinaryPath } = require('../src/candidate-runtime.cjs');
+const { verifyRegularWindowsRuntime } = require('../src/regular-windows-runtime.cjs');
 const { normalizeProbe, parseProbeJson } = require('../src/inspection.cjs');
 const ROOT = path.resolve(__dirname, '..');
 const OWNED = 'F:\\FFmpeg Encoder Project supplied videos\\_FFmpeg-0.7-Owned';
@@ -37,7 +38,7 @@ const fault = error => ({ code: String(error.code || 'ERROR').slice(0, 128), mes
 function requireSpace(d, f, limits, remaining = limits.forecastBytes) {
   for (const s of [d, f]) assert.ok(typeof s.bavail === 'bigint' && s.bavail >= 0n && typeof s.bsize === 'bigint' && s.bsize > 0n, 'Exact volume free space required.');
   assert.ok(d.bavail * d.bsize >= BigInt(limits.minimumDFreeBytes), 'D: 25GiB free-space floor.');
-  assert.ok(f.bavail * f.bsize >= BigInt(remaining + limits.marginBytes), 'F: forecast plus margin required.');
+  assert.ok(f.bavail * f.bsize >= BigInt(remaining + limits.marginBytes), 'The owned fixture volume needs the forecast plus margin.');
 }
 function generationArgs(spec, output) {
   assert.ok(FIXTURES.includes(spec) || TS_FIXTURES.includes(spec) && !spec.cut, 'Only a frozen fixture specification may generate.');
@@ -197,19 +198,25 @@ async function ownedBytes(directory, io = fs) {
   throw Object.assign(new Error('Owned growth namespace did not stabilize within three complete scans.'),
     { code: 'REMUX_OWNED_SCAN_UNSTABLE', attempts: MAX_OWNED_SCAN_ATTEMPTS });
 }
-async function moduleSeals(io) {
+async function moduleSeals(io, regularProof = false) {
   const entries = await io.readdir(path.join(ROOT, 'src'), { withFileTypes: true });
   assert.ok(entries.length <= 128 && entries.every(e => e.isFile() && !e.isSymbolicLink() && e.name.endsWith('.cjs')));
   const names = ['main.js', 'preload.js', 'scripts/v07-remux-long-fixtures.cjs', 'scripts/v07-remux-long-smoke.cjs',
-    'scripts/v07-remux-mov-vfr-smoke.cjs', 'scripts/v07-mov-vfr-fixtures.cjs', 'scripts/v07-remux-mkv-mp4-smoke.cjs', ...entries.map(e => 'src/' + e.name)].sort();
+    'scripts/v07-remux-mov-vfr-smoke.cjs', 'scripts/v07-mov-vfr-fixtures.cjs', 'scripts/v07-remux-mkv-mp4-smoke.cjs', ...entries.map(e => 'src/' + e.name)];
+  if (regularProof) names.push('resources/regular-windows-engine-manifest.json', 'scripts/v07-regular-ts-proof.cjs');
+  names.sort();
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
     return { file, sha256: sha(await readBoundedFile(target, 2 * MiB, { io })) }; }));
 }
-function createOwnedSession({ kind, limits, dependencies = {} }) {
-  const { fs: io = fs, runTool: execute = runTool, verifyCandidateRuntime: verify = verifyCandidateRuntime,
+function createOwnedSession({ kind, limits, dependencies = {}, regularProof = false }) {
+  const { fs: io = fs, runTool: execute = runTool,
+    verifyCandidateRuntime: verify = regularProof ? verifyRegularWindowsRuntime : verifyCandidateRuntime,
     assertOrdinaryPath: checkPath = assertOrdinaryPath, randomUUID: uuid = randomUUID, platform = process.platform } = dependencies;
   assert.ok(['fixtures', 'smoke'].includes(kind));
-  const id = uuid(), directory = path.join(ROOT, 'artifacts/v0.7/q2i', kind, id), owned = path.join(OWNED, kind === 'fixtures' ? 'fixtures' : 'outputs', 'remux-long-' + id);
+  const id = uuid();
+  const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
+  const directory = path.join(ROOT, regularProof ? 'artifacts/v0.7/q2j-regular' : 'artifacts/v0.7/q2i', kind, id);
+  const owned = regularProof ? path.join(directory, 'owned') : path.join(OWNED, kind === 'fixtures' ? 'fixtures' : 'outputs', 'remux-long-' + id);
   const controller = new AbortController(), children = new Set(), report = { schema: 1, id, kind, status: 'running', directory, owned,
     startedAt: new Date().toISOString(), limits, cases: [], invocations: [], peakRssBytes: process.memoryUsage().rss, rssSamples: 1,
     maxConcurrentChildren: 0, pipeBytes: { stdout: 0, stderr: 0 }, childrenClosed: 0, acceptedStarts: 0,
@@ -258,11 +265,11 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
     await guardDirectories();
     // Namespace churn must never suppress the independent free-space floor or
     // conservative remaining-growth reserve while awaiting a stable sample.
-    const beforeD = await io.statfs(ROOT, { bigint: true }), beforeF = await io.statfs(OWNED, { bigint: true });
+    const beforeD = await io.statfs(ROOT, { bigint: true }), beforeF = await io.statfs(ownedRoot, { bigint: true });
     requireSpace(beforeD, beforeF, limits, Math.max(0, limits.forecastBytes - (report.ownedBytes || 0)));
     const bytes = await ownedBytes(owned, io); assert.ok(bytes <= limits.forecastBytes, 'Actual owned growth exceeded the prospective forecast.'); report.ownedBytes = bytes;
-    const d = await io.statfs(ROOT, { bigint: true }), f = await io.statfs(OWNED, { bigint: true }); requireSpace(d, f, limits, Math.max(0, limits.forecastBytes - bytes));
-    report.freeBytes = { D: String(d.bavail * d.bsize), F: String(f.bavail * f.bsize) };
+    const d = await io.statfs(ROOT, { bigint: true }), f = await io.statfs(ownedRoot, { bigint: true }); requireSpace(d, f, limits, Math.max(0, limits.forecastBytes - bytes));
+    report.freeBytes = { D: String(d.bavail * d.bsize), [regularProof ? 'ownedVolume' : 'F']: String(f.bavail * f.bsize) };
   };
   return { id, directory, owned, report, io, controller, children, get runtime() { return runtime; }, save: persist,
     async assertHealthy() {
@@ -283,15 +290,16 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
       await observe(); await persist(); return { leaseIntact: true, liveChildren: 0 };
     },
     async open() {
-      assert.equal(platform, 'win32'); await checkPath(OWNED, 'directory');
-      requireSpace(await io.statfs(ROOT, { bigint: true }), await io.statfs(OWNED, { bigint: true }), limits);
+      assert.equal(platform, 'win32'); await checkPath(ownedRoot, 'directory');
+      requireSpace(await io.statfs(ROOT, { bigint: true }), await io.statfs(ownedRoot, { bigint: true }), limits);
       await io.mkdir(path.dirname(directory), { recursive: true }); await io.mkdir(directory);
       await io.mkdir(path.dirname(owned), { recursive: true }); await checkPath(path.dirname(owned), 'directory'); await io.mkdir(owned);
-      await bindDirectory(OWNED); await bindDirectory(path.dirname(owned)); await bindDirectory(owned); await bindDirectory(directory);
+      await bindDirectory(ownedRoot); await bindDirectory(path.dirname(owned)); await bindDirectory(owned);
+      if (!regularProof) await bindDirectory(directory);
       reportHandle = await io.open(path.join(directory, 'report.json'), 'wx+'); reportStamp = await reportHandle.stat({ bigint: true }); assert.ok(ordinary(reportStamp));
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
-      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
-      runtime = await verify({ root: ROOT }); report.runtime = runtime.verified; report.modulesBefore = await moduleSeals(io); opened = true;
+      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof ? 'Windows Q2j regular TS proof' : 'Q2i bounded owned long-remux ' + kind })); await lease.sync();
+      runtime = await verify({ root: ROOT }); report.runtime = runtime.verified; report.modulesBefore = await moduleSeals(io, regularProof); opened = true;
       timer = setTimeout(() => { report.deadlineExceeded = true; controller.abort(); }, limits.totalMs); timer.unref();
       monitor = setInterval(() => {
         report.peakRssBytes = Math.max(report.peakRssBytes, process.memoryUsage().rss); report.rssSamples++;
@@ -314,11 +322,12 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
       assert.ok(inFlight < (kind === 'smoke' ? 2 : 1), 'Only a remux smoke session permits two owned invocations.');
       assert.ok(admitted < limits.maxChildren, 'Prospective child ceiling.');
       inFlight++; admitted++; report.activeInvocations = inFlight; report.invocationAttempts = admitted;
-      const admissionStartedAt = Date.now();
+      const admissionOrdinal = admitted, admissionStartedAt = Date.now();
+      let reachedLedger = false;
       try {
       const helper = path.join(process.env.SystemRoot || 'C:\\Windows', 'System32/WindowsPowerShell/v1.0/powershell.exe');
-      if (file === helper && kind === 'smoke') { assert.deepEqual(argv.slice(0, 4), ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command']);
-        assert.equal(argv.length, 5); assert.ok(argv[4].includes('[System.IO.DriveInfo]::new')); assert.deepEqual(JSON.parse(options.input), { root: 'F:\\' });
+      if (file.toLowerCase() === helper.toLowerCase() && kind === 'smoke') { assert.deepEqual(argv.slice(0, 4), ['-NoLogo', '-NoProfile', '-NonInteractive', '-Command']);
+        assert.equal(argv.length, 5); assert.ok(argv[4].includes('[System.IO.DriveInfo]::new')); assert.deepEqual(JSON.parse(options.input), { root: path.parse(owned).root });
       } else assert.ok([runtime.ffmpeg, runtime.ffprobe].includes(file), 'Only the verified paired media runtime.');
       assert.ok(!argv.includes('-y'));
       if (file === runtime.ffmpeg && argv.at(-1) === 'pipe:3') {
@@ -327,12 +336,12 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
           && argv.includes('rawvideo') && argv.includes('framehash') && argv.includes('sha256'), 'Only two bounded decoded hash pipes.');
       } else if (file === runtime.ffmpeg && !['pipe:1', '-'].includes(argv.at(-1))) assert.ok(path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
-        const lavfi = kind === 'fixtures' && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
+        const lavfi = (kind === 'fixtures' || regularProof) && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
         assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
       }
-      assert.deepEqual(await moduleSeals(io), report.modulesBefore, 'Producer modules changed before admission.'); await observe();
+      assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();
       const entry = { ordinal: report.invocations.length + 1, file, argv, admissionStartedAt, startedAt: new Date().toISOString(), status: 'running', stdoutBytes: 0, stderrBytes: 0 };
-      report.invocations.push(entry); if (kind === 'smoke') await persistInvocation(entry, 'admission'); else await persist();
+      report.invocations.push(entry); reachedLedger = true; if (kind === 'smoke') await persistInvocation(entry, 'admission'); else await persist();
       let child;
       try {
         entry.executorStartedAt = Date.now();
@@ -349,6 +358,11 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
       } catch (error) { entry.status = 'failed'; entry.failure = fault(error); throw error; }
       finally { entry.executorSettledAt = Date.now(); assert.ok(!child || entry.closed, 'Never release an unclosed child.'); entry.wallMs = Date.now() - Date.parse(entry.startedAt);
         if (kind === 'smoke') await persistInvocation(entry, 'close'); else await persist(); entry.proofDoneAt = Date.now(); }
+      } catch (error) {
+        if (regularProof && !reachedLedger) {
+          (report.preAdmissionRefusals ||= []).push({ admissionOrdinal, file, failure: fault(error) });
+        }
+        throw error;
       } finally { inFlight--; report.activeInvocations = inFlight; }
     },
     async close() {
@@ -356,7 +370,7 @@ function createOwnedSession({ kind, limits, dependencies = {} }) {
       report.closureFailures = [];
       const attempt = async (label, fn) => { try { await fn(); } catch (error) { report.closureFailures.push({ label, ...fault(error) }); report.status = 'failed-retained'; } };
       await attempt('children', async () => { assert.equal(children.size, 0); assert.equal(inFlight, 0); });
-      if (opened) { await attempt('growth', observe); await attempt('module-freeze', async () => { report.modulesAfter = await moduleSeals(io); assert.deepEqual(report.modulesAfter, report.modulesBefore); }); }
+      if (opened) { await attempt('growth', observe); await attempt('module-freeze', async () => { report.modulesAfter = await moduleSeals(io, regularProof); assert.deepEqual(report.modulesAfter, report.modulesBefore); }); }
       if (lease && children.size === 0 && inFlight === 0) await attempt('lease', async () => {
         const named = await io.lstat(leasePath, { bigint: true }), held = await lease.stat({ bigint: true });
         assert.ok(ordinary(named) && same(named, held) && named.dev === leaseStamp.dev && named.ino === leaseStamp.ino);

@@ -5,7 +5,6 @@ const { createHash } = require('node:crypto');
 const { EncoderService } = require('./src/encoder-service.cjs');
 const { checkVendorCapabilities } = require('./src/vendor-capabilities.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
-const { verifyCandidateRuntime } = require('./src/candidate-runtime.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
 const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
 const { createNativeBackendControls } = require('./src/native-backend-controls.cjs');
@@ -203,10 +202,11 @@ async function createWindow() {
       outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }),
     });
   } else {
-  // A separate verified namespace preserves the paused benchmark's9.0.1 pair.
-  // No renderer, IPC handler or capability child exists before verification;
-  // a missing or altered candidate runtime is an explicit startup failure.
-  const runtime = await verifyCandidateRuntime({ root, isPackaged: app.isPackaged, resourcesPath: process.resourcesPath });
+  // Only the reviewed regular Windows engine can start this branch. No
+  // renderer, IPC handler or capability child exists before verification.
+  if (process.platform !== 'win32' || process.arch !== 'x64') throw new Error('The regular Windows runtime requires Windows x64.');
+  const { verifyRegularWindowsRuntime } = require('./src/regular-windows-runtime.cjs');
+  const runtime = await verifyRegularWindowsRuntime({ root, isPackaged: app.isPackaged, resourcesPath: process.resourcesPath });
   if (quitDuringStartup || shutdownComplete) return;
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');

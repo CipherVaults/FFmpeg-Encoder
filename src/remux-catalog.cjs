@@ -24,6 +24,7 @@
 // Fresh run 1865c531 proves A/V, video-only, nonzero start, 20 minutes and the
 // two-audio/cut-head refusals. All five earlier routes pass normal run 16477e14.
 // Other MOV/TS shapes and HDR remain unqualified.
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const runtimeIdentity = '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6';
 const REMUX_POLICIES = Object.freeze([
   { id: 'full-remux-mpegts-mp4-v1', inputFamily: 'mpegts', target: 'mp4', allowAncillary: false,
@@ -51,4 +52,15 @@ const REMUX_POLICIES = Object.freeze([
       'c020cf60-8664-483a-918c-e90d9b6dc35d:mp4-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:vfr-mp4-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:vfr-mov-mov', 'c020cf60-8664-483a-918c-e90d9b6dc35d:cfr-mp4-mov'] },
 ].map(value => Object.freeze({ ...value, runtimeIdentity, allowRotation90: false, verificationMethod: 'packet-identity-v1', evidenceIds: Object.freeze(value.evidenceIds) })));
 const REMUX_POLICY_ID = 'full-remux-v6:2026-11-14:packet-identity-transport';
-module.exports = { REMUX_POLICIES, REMUX_POLICY_ID };
+// Fresh regular Windows qualification covers moving CFR H.264/AAC-LC and
+// rejects a paired cut before the first IDR. The packet-identity collector
+// and exact transport thresholds stay mandatory on every admitted file.
+// Lab receipt SHA-256: 80d755b40cb8e0b8d2bd42fd3ba1af194793ce2463127d818edfe44dfa47a364
+const REGULAR_WINDOWS_REMUX_POLICY_ID = 'full-remux-windows-9.1-v1:2026-11-21:transport';
+const REGULAR_WINDOWS_REMUX_POLICIES = Object.freeze([Object.freeze({
+  ...REMUX_POLICIES[0], id: 'full-remux-mpegts-mp4-windows-9.1-v1', runtimeIdentity: REGULAR_WINDOWS_PAIR,
+  evidenceIds: Object.freeze(['6fe624a3-bb17-4e18-94b4-97ad2017515a:moving-h264-aac-ts-seek',
+    '6fe624a3-bb17-4e18-94b4-97ad2017515a:mid-gop-refused']),
+})]);
+
+module.exports = { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID };

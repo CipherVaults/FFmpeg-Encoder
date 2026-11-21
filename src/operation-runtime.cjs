@@ -10,6 +10,7 @@ const fsp = require('node:fs/promises');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { assertOrdinaryPath } = require('./candidate-runtime.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { ToolError, runTool, boundedToolStderr } = require('./process-runner.cjs');
 
 const TOOLS = ['ffmpeg', 'ffprobe'];
@@ -188,7 +189,9 @@ class OperationRuntimeObserver {
     if (hardware === 'CPU') return null;
     if (!this.#observeNvidia) fail('OPERATION_RUNTIME_UNOBSERVED', 'A fixed main-owned NVIDIA observation provider is required.');
     interrupted(signal); const observed = nvidia(await this.#observeNvidia({ signal })); interrupted(signal);
-    return { ...observed, runtimeVersion: `FFmpeg9.0.2:${this.#pair.runtimeIdentity}` };
+    const { runtimeIdentity } = this.#pair;
+    const version = runtimeIdentity === REGULAR_WINDOWS_PAIR ? '9.1' : '9.0.2';
+    return { ...observed, runtimeVersion: `FFmpeg${version}:${runtimeIdentity}` };
   }
   async observe(options) {
     record(options, ['hardware', 'signal'], ['hardware']); signalValue(options.signal);

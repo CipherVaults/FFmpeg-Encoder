@@ -780,8 +780,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 41911,
-      "sha256": "9207972a29cd896a2d07a0d5e2021ebe14932063564af70b75d672e46b6625e2"
+      "bytes": 42055,
+      "sha256": "070ff5e3708937568cf553f989c623260547b2e54d5ad4959ebb54c92a060e6f"
     },
     {
       "root": "source",
@@ -908,8 +908,8 @@
       "source": "main.js",
       "target": "electron/resources/app/main.js",
       "group": "application",
-      "bytes": 17908,
-      "sha256": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa"
+      "bytes": 17972,
+      "sha256": "c0a7891dfca928ea6729c21ebf58c7f5b885f13e84d346713f02d6cb1df87f37"
     },
     {
       "root": "source",
@@ -1012,8 +1012,8 @@
       "source": "src/candidate-runtime.cjs",
       "target": "electron/resources/app/src/candidate-runtime.cjs",
       "group": "application",
-      "bytes": 11606,
-      "sha256": "22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9"
+      "bytes": 11835,
+      "sha256": "92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9"
     },
     {
       "root": "source",
@@ -1044,8 +1044,8 @@
       "source": "src/encode-operation.cjs",
       "target": "electron/resources/app/src/encode-operation.cjs",
       "group": "application",
-      "bytes": 57371,
-      "sha256": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de"
+      "bytes": 57405,
+      "sha256": "0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 169766,
-      "sha256": "ac04754d0ff4639c4caf58ee22ba7847e1f715265a6b641124a0035042c3673f"
+      "bytes": 169805,
+      "sha256": "72f82458a13a7d7a4d8eddaa7f64894108f5b092c84dd38cb451a86b35f0163f"
     },
     {
       "root": "source",
@@ -1236,8 +1236,8 @@
       "source": "src/media.cjs",
       "target": "electron/resources/app/src/media.cjs",
       "group": "application",
-      "bytes": 24918,
-      "sha256": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7"
+      "bytes": 25811,
+      "sha256": "2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0"
     },
     {
       "root": "source",
@@ -1380,8 +1380,8 @@
       "source": "src/operation-controls.cjs",
       "target": "electron/resources/app/src/operation-controls.cjs",
       "group": "application",
-      "bytes": 3511,
-      "sha256": "bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f"
+      "bytes": 3837,
+      "sha256": "10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471"
     },
     {
       "root": "source",
@@ -1444,8 +1444,8 @@
       "source": "src/operation-runtime.cjs",
       "target": "electron/resources/app/src/operation-runtime.cjs",
       "group": "application",
-      "bytes": 24676,
-      "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+      "bytes": 24869,
+      "sha256": "a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294"
     },
     {
       "root": "source",
@@ -1492,8 +1492,8 @@
       "source": "src/process-runner.cjs",
       "target": "electron/resources/app/src/process-runner.cjs",
       "group": "application",
-      "bytes": 18138,
-      "sha256": "0fc86b3d7a5c03f2d055fa1de4613234084895956f2357920c6bdc1ec999a8fa"
+      "bytes": 18389,
+      "sha256": "8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f"
     },
     {
       "root": "source",
@@ -1505,11 +1505,19 @@
     },
     {
       "root": "source",
+      "source": "src/regular-windows-runtime.cjs",
+      "target": "electron/resources/app/src/regular-windows-runtime.cjs",
+      "group": "application",
+      "bytes": 3348,
+      "sha256": "6a4ff865f95b55b4afeeccc85781c1c213121f94c3bffdb23deff5a811d4fe76"
+    },
+    {
+      "root": "source",
       "source": "src/remux-catalog.cjs",
       "target": "electron/resources/app/src/remux-catalog.cjs",
       "group": "application",
-      "bytes": 5087,
-      "sha256": "d9895047206cf1dd65e6ea776497b32237648c059e28eb710694c38af16614a1"
+      "bytes": 5969,
+      "sha256": "789881be3220d1b926fdc7ddd6b3aa4a395a1884583ecc5730eacdba1569e836"
     },
     {
       "root": "source",
@@ -1716,8 +1724,8 @@
       "source": "src/vendor-encode.cjs",
       "target": "electron/resources/app/src/vendor-encode.cjs",
       "group": "application",
-      "bytes": 10894,
-      "sha256": "1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8"
+      "bytes": 11018,
+      "sha256": "71a10e6d08c293ed681bb5e1f7bbc176361204bd8d98cce14ddc18577827f71f"
     },
     {
       "root": "source",

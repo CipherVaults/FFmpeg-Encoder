@@ -72,7 +72,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   }
   const nativeTheme = { set themeSource(theme) { nativeChanges.push(theme); appearanceOrder.push('native:' + theme); } };
   const appSession = { setPermissionRequestHandler() {}, setPermissionCheckHandler() {}, on() {}, protocol: {}, webRequest: { onBeforeRequest() {} } };
-  vm.runInNewContext(source, { console, process: { resourcesPath: 'resources' }, require(id) {
+  vm.runInNewContext(source, { console, process: { platform: 'win32', arch: 'x64', resourcesPath: 'resources' }, require(id) {
     if (id === 'electron') return { app, BrowserWindow: Window, nativeTheme, ipcMain, session: { fromPartition: () => appSession }, protocol: { registerSchemesAsPrivileged() {} },
       dialog: { showErrorBox() { calls.push('blocking-dialog'); }, showMessageBox(...args) {
         const options = args.at(-1);
@@ -82,7 +82,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     if (id === 'node:fs') return { mkdirSync() {} };
     if (id === 'node:path') return path;
     if (id === 'node:crypto') return require('node:crypto');
-    if (id === './src/candidate-runtime.cjs') return { verifyCandidateRuntime: () => runtime.promise };
+    if (id === './src/regular-windows-runtime.cjs') return { verifyRegularWindowsRuntime: () => runtime.promise };
     if (id === './src/operation-catalog.cjs') return { FAMILIES: families, POLICY_ID: 'fixed-main-policy' };
     if (id === './src/operation-controls.cjs') return { createOperationControls: options => {
       controlOptions = options; return { operationQualifications: qualification, operationTelemetry: true };

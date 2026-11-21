@@ -73,8 +73,8 @@ const SOURCE_PINS = {
     "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
   },
   "main.js": {
-    "bytes": 17908,
-    "sha256": "3543aacaeffe16b72ebb729e81f52b8d416157cb4c8e003cf4d0b05a8301deaa"
+    "bytes": 17972,
+    "sha256": "c0a7891dfca928ea6729c21ebf58c7f5b885f13e84d346713f02d6cb1df87f37"
   },
   "package.json": {
     "bytes": 991,
@@ -113,8 +113,8 @@ const SOURCE_PINS = {
     "sha256": "22b8a83730d303bd5f8159b27ecc8f6be2cbee3df86128fdc749d8119c0c9139"
   },
   "src/candidate-runtime.cjs": {
-    "bytes": 11606,
-    "sha256": "22445a2cf571d2832b3ce5fea1cf9a22b631d28e9e008debe68b09c8d52d8bd9"
+    "bytes": 11835,
+    "sha256": "92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9"
   },
   "src/capabilities.cjs": {
     "bytes": 13255,
@@ -129,8 +129,8 @@ const SOURCE_PINS = {
     "sha256": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901"
   },
   "src/encode-operation.cjs": {
-    "bytes": 57371,
-    "sha256": "aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de"
+    "bytes": 57405,
+    "sha256": "0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287"
   },
   "src/encode-preservation-catalog.cjs": {
     "bytes": 4821,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 169766,
-    "sha256": "ac04754d0ff4639c4caf58ee22ba7847e1f715265a6b641124a0035042c3673f"
+    "bytes": 169805,
+    "sha256": "72f82458a13a7d7a4d8eddaa7f64894108f5b092c84dd38cb451a86b35f0163f"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -217,8 +217,8 @@ const SOURCE_PINS = {
     "sha256": "102de80ca6e3e4509448e015d2012bed7025502584e2f934ae2dbe2dfad19502"
   },
   "src/media.cjs": {
-    "bytes": 24918,
-    "sha256": "79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7"
+    "bytes": 25811,
+    "sha256": "2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0"
   },
   "src/mov-representation.cjs": {
     "bytes": 10263,
@@ -285,8 +285,8 @@ const SOURCE_PINS = {
     "sha256": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d"
   },
   "src/operation-controls.cjs": {
-    "bytes": 3511,
-    "sha256": "bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f"
+    "bytes": 3837,
+    "sha256": "10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471"
   },
   "src/operation-draft.cjs": {
     "bytes": 9030,
@@ -309,8 +309,8 @@ const SOURCE_PINS = {
     "sha256": "2afe94d17bfced1bac25911d484dbf415f52a44404fdc9725858c3811e54cf6d"
   },
   "src/operation-runtime.cjs": {
-    "bytes": 24676,
-    "sha256": "95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79"
+    "bytes": 24869,
+    "sha256": "a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294"
   },
   "src/operation-storage.cjs": {
     "bytes": 28430,
@@ -333,16 +333,20 @@ const SOURCE_PINS = {
     "sha256": "ba49926594e97665064f63b5db440ef9e3144c5b4eee6e60404af5dfde2f82c9"
   },
   "src/process-runner.cjs": {
-    "bytes": 18138,
-    "sha256": "0fc86b3d7a5c03f2d055fa1de4613234084895956f2357920c6bdc1ec999a8fa"
+    "bytes": 18389,
+    "sha256": "8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f"
   },
   "src/provenance.cjs": {
     "bytes": 35994,
     "sha256": "3fcce843cbc995086adda7b45444c23acedce9d54813c01b92123d97cfcff894"
   },
+  "src/regular-windows-runtime.cjs": {
+    "bytes": 3348,
+    "sha256": "6a4ff865f95b55b4afeeccc85781c1c213121f94c3bffdb23deff5a811d4fe76"
+  },
   "src/remux-catalog.cjs": {
-    "bytes": 5087,
-    "sha256": "d9895047206cf1dd65e6ea776497b32237648c059e28eb710694c38af16614a1"
+    "bytes": 5969,
+    "sha256": "789881be3220d1b926fdc7ddd6b3aa4a395a1884583ecc5730eacdba1569e836"
   },
   "src/remux-contract.cjs": {
     "bytes": 34909,
@@ -445,8 +449,8 @@ const SOURCE_PINS = {
     "sha256": "ccfdbd2e35825a77919f25af06553f0bd7b744a1f219860854630600cdb5ac62"
   },
   "src/vendor-encode.cjs": {
-    "bytes": 10894,
-    "sha256": "1037e32ec4bab3f1371b45c413930959121e85dfa911bd0fe9374f0ca201c7c8"
+    "bytes": 11018,
+    "sha256": "71a10e6d08c293ed681bb5e1f7bbc176361204bd8d98cce14ddc18577827f71f"
   },
   "src/vendor-execution.cjs": {
     "bytes": 8441,

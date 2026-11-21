@@ -251,8 +251,8 @@ async function lateFailure(t, source) {
   assert.ok(result.vendorProfiles.every(row => !row.available)); assert.equal(h.service.observedBindings.size, 0);
 }
 test('a late vendor result failure clears bindings; removing that cleanup fails its own test', async t => {
-  const before = sha(serviceFile), source = fs.readFileSync(serviceFile, 'utf8');
-  const needle = 'vendorBindings = new Map();\r\n            capabilityResult.vendorProfiles = failedVendorCapabilities();';
+  const before = sha(serviceFile), source = fs.readFileSync(serviceFile, 'utf8').replaceAll('\r\n', '\n');
+  const needle = 'vendorBindings = new Map();\n            capabilityResult.vendorProfiles = failedVendorCapabilities();';
   assert.ok(source.includes(needle));
   await lateFailure(t, source);
   await assert.rejects(lateFailure(t, source.replace(needle, 'capabilityResult.vendorProfiles = failedVendorCapabilities();')), { code: 'ERR_ASSERTION' });
@@ -260,8 +260,8 @@ test('a late vendor result failure clears bindings; removing that cleanup fails 
 });
 
 for (const throws of [false, true]) test(`cancellation ${throws ? 'with failure' : 'with success'} cannot emit a capability-finished record; guard removal is detected`, async t => {
-  const before = sha(serviceFile), source = fs.readFileSync(serviceFile, 'utf8');
-  const needle = throws ? '} catch (error) {\r\n            notCancelled(signal);' : 'notCancelled(signal);\r\n            capabilityResult.vendorProfiles = projectVendorCapabilities(vendors);';
+  const before = sha(serviceFile), source = fs.readFileSync(serviceFile, 'utf8').replaceAll('\r\n', '\n');
+  const needle = throws ? '} catch (error) {\n            notCancelled(signal);' : 'notCancelled(signal);\n            capabilityResult.vendorProfiles = projectVendorCapabilities(vendors);';
   assert.ok(source.includes(needle));
   const negative = async Service => {
     const events = [];

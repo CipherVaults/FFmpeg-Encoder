@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Refuse an impossible MKV or MOV check before Ready [Q07/Q08]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue kept the dedicated GPT-6.2 Astra Ultra regular Milestone Q worker on isolated exact 135. Blue owns independent integration and private recovery. [Packet verification limit evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).
+
+## 🕒 Time
+November 21 Cairo; the raw local source receipts record UTC.
+
+## 🎯 Session Goal
+Do not offer Ready when the current Linux packet reader would reject that exact already-admitted copy request.
+
+## 🛠️ Actions Taken
+Traced the real Prepare, selected source-derived budget and unchanged shared child invocation. Froze positive neighbors and rejected flow. Applied only the existing early limit to the two already-supported MKV and MOV targets, then rehashed its enclosing source rows.
+
+## 🧠 Key Insights
+MOV and MKV use the same full packet-text bound and invocation guard as MP4. Segmenting QA jobs does not lower this per-request stock limit.
+
+## 📌 Decisions Made
+Keep every stock cap and shared checking rule. Preserve previous typed/target refusal precedence. Explain the correct output target and that no copy started.
+
+## ⚠️ Difficulties / Friction
+The next actual Linux media test needs an exact separately approved execution envelope; offline modeled facts are not a real long file, cloud quota proof or hosted Windows proof.
+
+## 🔧 Adjustments Made
+Use only current selected ISO input targets and the packet-identity method. Preserve the known smaller plans and existing output/stage authority.
+
+## ❌ Mistakes / Risks Noted
+Do not read the modeled seconds as a new fixed duration or general long-file qualification. Do not treat ready at a modeled neighbor as a native success.
+
+## 📍 Current Position
+Two intended red target cases; 14 focused cases passed after correction. Nine affected suites: baseline 305 pass, candidate 311 pass, no failures and one unavailable archived observation on each. Source change privately composed for independent review only.
+
+## 🔜 Next Steps
+Verify exact source/pins on the intended integrated tree. Continue the distinct native media, runner and quota gates when approved; keep old evidence and all unsupported formats unchanged.
+
+## ❓ Open Questions
+No new owner policy choice. Practical long-file operation and native cloud proof are still open.
+
+## 🧾 Session Outcome
+Plan and required packet-reader budget agree on each existing Linux target, with nothing started when known over budget.
+
+## 🔍 Confidence Level
+High on the exact controlled late-budget decision, with no new actual media, GUI, Windows, package, performance or release result.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Bind the Files drawer to its owning editor [R06]
 
 ## 🤖 Models, Effort, Roles and Provenance

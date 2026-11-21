@@ -549,8 +549,8 @@ const SOURCE_PINS = {
     "sha256": "7f354afaff4e17a0d80d49d349975a05e97264702e77e945bf82b4e6b23b9793"
   },
   "linux-blue/product-linux-unified-service.cjs": {
-    "bytes": 39871,
-    "sha256": "0f105326842cc97990a4da043c66ac335cf1f68f255c1da46d9af41073537c7e"
+    "bytes": 39881,
+    "sha256": "19859c98283ffb6c898823a243ed48fb9b4f24afca25202451bb73b441274a3a"
   },
   "linux-blue/product-linux-unified-shell.cjs": {
     "bytes": 1132,

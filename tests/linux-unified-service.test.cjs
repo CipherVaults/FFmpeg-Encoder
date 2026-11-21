@@ -1194,18 +1194,22 @@ async function packetTextPrepareFixture(t,{seconds,target='mp4',mutate=()=>{},ch
  }};
 }
 
-for(const [seconds,max] of [[96,47636480],[3354,1073514496],[3355,1073829888]])test('Linux MP4 packet-text budget: normal Prepare at '+seconds+' modeled seconds',async t=>{
- const {service,root,file,probe,outward,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds});
+for(const [target,label,cell] of [
+ ['mp4','MP4','internal-isobmff-mp4-081'],
+ ['mov','MOV','internal-isobmff-mov-096'],
+ ['matroska','MKV','internal-isobmff-matroska-093'],
+]) for(const [seconds,max] of [[96,47636480],[3354,1073514496],[3355,1073829888]])test('Linux '+label+' packet-text budget: normal Prepare at '+seconds+' modeled seconds',async t=>{
+ const {service,root,file,probe,outward,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds,target});
  const {invocation}=require('../linux-blue/product-linux-remux-service.cjs');
  const {deriveRemuxAssessmentBudget}=require('../src/remux-operation.cjs');
  const bin=path.join(root,'never-executed-ffprobe'),pins={ffmpeg:{path:path.join(root,'never-executed-ffmpeg')},ffprobe:{path:bin}};
- const fixtureLimit=n=>invocation(pins,bin,['-show_packets','-show_streams','-i',file],
+ const fixtureLimit=n=>invocation(pins,bin,['-v','warning','-protocol_whitelist','file,pipe','-show_packets','-show_streams','-of','json','-i',file],
   {timeoutMs:1000,stdoutLimit:n},path.join(root,'evidence'));
  // Exact predicate, separately from the genuine budget and normal workflow.
  assert.equal(fixtureLimit(1073741824),'ffprobe');
  assert.throws(()=>fixtureLimit(1073741825),/Positive bounded child budgets required/);
  const row=result.items[0],facts=service.plan.remuxFacts.get(row.id);
- assert(facts?.assessment);assert.equal(facts.assessment.target,'mp4');
+ assert(facts?.assessment);assert.equal(facts.assessment.target,target);
  const budget=deriveRemuxAssessmentBudget(facts.assessment,facts.fingerprint.size,'packet-identity-v1').budget;
  assert.equal(budget.maxTextBytes,max);
  assert.equal(facts.fingerprint.size,probe.format.size);
@@ -1214,13 +1218,13 @@ for(const [seconds,max] of [[96,47636480],[3354,1073514496],[3355,1073829888]])t
   assert.equal(row.status,'ready',row.reason);assert.equal(row.remux.status,'qualified');
   const entry=service.plan.entries.get(row.id);assert(entry?.operationRuntimeToken);
   const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
-  assert.equal(selected.budget.maxTextBytes,max);assert.equal(selected.qualification.cellId,'internal-isobmff-mp4-081');
+  assert.equal(selected.budget.maxTextBytes,max);assert.equal(selected.qualification.cellId,cell);
   assert.equal(service.plan.entries.size,1);assert.equal(service.generation.observeCalls,1);
  }else{
   assert.throws(()=>fixtureLimit(max),/Positive bounded child budgets required/);
   t.diagnostic('Normal Prepare: '+JSON.stringify({status:row.status,reasonCode:row.reasonCode,hasEntry:service.plan.entries.has(row.id),maxTextBytes:max}));
   assert.equal(row.status,'unsupported',row.reason);assert.equal(row.reasonCode,'REMUX_PACKET_TEXT_LIMIT');
-  assert.match(row.reason,/verified MP4 copy.*packet verification limit.*no copy was started/i);
+  assert.match(row.reason,new RegExp('verified '+label+' copy.*packet verification limit.*no copy was started','i'));
   assert.equal(row.remux.status,'blocked');
   assert.deepEqual(row.remux.blockers,[{code:row.reasonCode,message:row.reason,streamIndex:null}]);
   assert.deepEqual(row.remux.omissionCandidates,[]);assert.deepEqual(row.remux.omissionDecisionIds,[]);
@@ -1249,10 +1253,15 @@ for(const [label,change,code,reason]of [
  await verifyNoWrite();
 });
 
-for(const target of ['mov','matroska'])test('Linux MP4 packet-text budget does not change the '+target+' target’s existing Prepare behavior',async t=>{
- const {service,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds:3355,target});
- const row=result.items[0];assert.equal(row.status,'ready',row.reason);assert.equal(row.remux.target,target);
- assert.equal(service.plan.entries.size,1);assert.equal(service.generation.observeCalls,1);
+for(const [target,label,change,reason]of [
+ ['mov','MOV', {mutate:p=>p.streams[1].tags.language='deu'},/MOV track metadata is outside the reviewed subset/],
+ ['matroska','MKV', {mutate:p=>Object.assign(p.streams[0],{avg_frame_rate:'24/1',r_frame_rate:'24/1'})},/MKV.*requires CFR30/],
+])test('Linux '+label+' packet-text budget preserves existing target-specific refusal',async t=>{
+ const {service,h,outward,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds:3355,target,...change});
+ const item=result.items[0];assert.equal(item.status,'unsupported');assert.notEqual(item.reasonCode,'REMUX_PACKET_TEXT_LIMIT');
+ assert.match(item.reason,reason);
+ assert(outward.every(update=>update.rows.every(row=>row.status!=='ready'&&!row.entry)));
+ assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>g.observeCalls===0));
  await verifyNoWrite();
 });
 

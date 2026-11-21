@@ -73,14 +73,14 @@ class NarrowRemux extends RemuxOperations{
       throw error;
     }
     const plan=super.prepare(options);
-    // Keep the shared policy and identity refusals above. Only the admitted
-    // legacy MP4→MP4 shape reaches this check. The packet collector passes the
-    // full derived text allowance to the runner, which checks it before spawn.
-    // Refuse before the workspace can observe the runtime or select this plan.
-    if(assessment.inputFamily==='isobmff'&&request.target==='mp4'&&plan.verificationMethod==='packet-identity-v1'){
+    // Existing ISO input targets share the same packet collector and runner
+    // cap. Preserve earlier source/target refusals, then reject a known
+    // over-budget Prepare before runtime observation or plan selection.
+    if(assessment.inputFamily==='isobmff'&&this.#targets.has(request.target)
+        &&Object.hasOwn(REMUX_TARGET_LABELS,request.target)&&plan.verificationMethod==='packet-identity-v1'){
       const {budget}=deriveRemuxAssessmentBudget(assessment,options.sourceIdentity.size,plan.verificationMethod);
       if(budget.maxTextBytes>REMUX_CHILD_STDOUT_MAX_BYTES)
-        throw new ToolError('REMUX_PACKET_TEXT_LIMIT','Verified MP4 copy would exceed this Linux build’s packet verification limit. No copy was started.');
+        throw new ToolError('REMUX_PACKET_TEXT_LIMIT',`Verified ${REMUX_TARGET_LABELS[request.target]} copy would exceed this Linux build’s packet verification limit. No copy was started.`);
     }
     return plan;
   }

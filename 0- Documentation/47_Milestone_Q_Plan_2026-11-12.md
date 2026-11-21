@@ -274,3 +274,7 @@ Q08 presentation follows §8–§9 without altering the fast check. Per-file res
 ## 14. Existing Linux verification limit is visible at Prepare — November 21, 2026
 
 Q07 readiness now agrees with the fixed packet-reader invocation limit for the existing unified single-AAC MP4-to-MP4 path. This is an early refusal of a check the current runtime would not accept, not an owner decision on duration, a relaxed verifier, a new format route or a Q2o timing result. Hosted/platform and real-file gates remain distinct. See [execution evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Packet_Verification_Limit.md).
+
+## 15. Existing Linux MKV and MOV readiness uses the same packet limit — November 21, 2026
+
+Q07 and Q08: Extend the existing early known-budget refusal only to the already admitted verified Linux ISO input targets MKV and MOV. The actual collector and the fixed per-child ceiling never change. Current target-specific / shared-policy refusals still win. This corrects readiness, not length promises, resource optimization, media admission or native qualification. [Packet verification limit evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).

@@ -1,3 +1,9 @@
+# Current State: regular v0.7 Linux, packet check readiness for every current target
+
+An existing single-AAC MP4-to-MP4, MKV or MOV copy is not marked Ready if its planned packet verification cannot fit the unchanged child stdout allowance. Existing source and target refusals take precedence. Controlled evidence only; no new duration, media, input or target qualification. [Packet verification limit evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).
+
+---
+
 # Current State: regular v0.7 Linux, preparation failure and Cancel
 
 Cancel still releases the preparation owner and blocks stale Start. If the same preparation had already failed before cleanup settled, the visible final result keeps that failure instead of replacing it with Cancelled. The existing initial MP4 copy and target-edit paths were checked with controlled fixtures. [Evidence and limits](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Q_Prepare_Failure_Precedence.md).

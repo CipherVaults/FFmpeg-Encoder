@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Packet verification limit evidence](Execution%20Summaries/2026-11-21_Regular_Linux_Remux_All_Target_Packet_Bound.md).** Exact 135 false Ready reproduced for MOV and MKV; controlled before/after, preserving the same bound, policy precedence, and existing MP4 case; no native media.
+
 - **November 21, 2026 — [R06: show the Files disclosure only where its list exists](Execution%20Summaries/2026-11-21_Regular_R06_Files_Disclosure_Ownership.md).** Exact-133 source evidence and proposed native minimum-size/resize recipe; no native run.
 
 - **November 21, 2026 — [Verify the three Remux publication boundaries under Cancel](Execution%20Summaries/2026-11-21_Regular_Q_Remux_Cancel_Publication_Boundaries.md).** Exact 132 controlled service and real owned filesystem checks, no media execution. Test-only; no route or release change.

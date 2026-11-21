@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Subtitle and chapter measurements](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md).** Owned cue and chapter copies, independent clip and native unsupported-policy observations, with earlier failed stages retained.
+
 - **November 21, 2026 — [Multiple-audio laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md).** Two complete exact AAC shapes in owned MP4s, swapped-payload negative, and retained shortened source edit refusal.
 
 - **November 21, 2026 — [MKV audio measurements](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md).** Finite exact copy and uniform-shift measurements, a true-loss negative, failed exact-offset tail and the pending owner decision.

@@ -210,6 +210,7 @@ async function moduleSeals(io, regularProof = false) {
   else if (regularProof === 'resize') names.push('scripts/v07-regular-resize-proof.cjs', 'scripts/v07-sdr-flac-range-calibration.cjs');
   else if (regularProof === 'mkv-audio') names.push('scripts/v07-regular-mkv-audio-proof.cjs');
   else if (regularProof === 'multi-audio') names.push('scripts/v07-regular-multi-audio-proof.cjs', 'linux-blue/qualification-tests/q2l-multiaudio-copy.cjs');
+  else if (regularProof === 'ancillary') names.push('scripts/v07-regular-ancillary-proof.cjs');
   else if (regularProof) names.push('scripts/v07-regular-ts-proof.cjs');
   names.sort();
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
@@ -222,7 +223,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
   assert.ok(['fixtures', 'smoke'].includes(kind));
   const id = uuid();
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
-  const campaign = regularProof === 'multi-audio' ? 'q2l-regular-multi-audio'
+  const campaign = regularProof === 'ancillary' ? 'q2m-regular-ancillary'
+    : regularProof === 'multi-audio' ? 'q2l-regular-multi-audio'
     : regularProof === 'mkv-audio' ? 'q2k-regular-audio'
     : regularProof === 'resize' ? 'q2n-regular-resize' : regularProof === 'mp3-service' ? 'q2j-regular-mp3-service'
     : regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
@@ -309,7 +311,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       if (!regularProof) await bindDirectory(directory);
       reportHandle = await io.open(path.join(directory, 'report.json'), 'wx+'); reportStamp = await reportHandle.stat({ bigint: true }); assert.ok(ordinary(reportStamp));
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
-      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'multi-audio' ? 'Windows Q2l owned MP4 multi-audio proof'
+      await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'ancillary' ? 'Windows Q2m owned ancillary proof'
+        : regularProof === 'multi-audio' ? 'Windows Q2l owned MP4 multi-audio proof'
         : regularProof === 'mkv-audio' ? 'Windows Q2k owned MKV audio measurement'
         : regularProof === 'resize' ? 'Windows Q2n owned CPU resize proof' : regularProof === 'mp3-service' ? 'Windows Q2j MP3 service proof'
         : regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
@@ -354,7 +357,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
         assert.ok(versionOnly || path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
       }
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
-        const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize' || regularProof === 'mkv-audio' || regularProof === 'multi-audio') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
+        const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize' || regularProof === 'mkv-audio' || regularProof === 'multi-audio' || regularProof === 'ancillary') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
         assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
       }
       assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();

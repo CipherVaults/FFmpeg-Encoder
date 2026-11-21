@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Subtitle and chapter measurements
+
+Windows 9.1 test copies preserved the named Matroska cues, chapters and video. The current native index and chapter-language guards still refuse these inputs. Earlier failed stages stay retained. Ahmed separately selected exact MKV audio copy as the default where verified and an explicit choice before a shift. [Subtitle and chapter measurements](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Windows multiple-audio MP4
 
 Two independent AAC layouts and a real swapped-payload negative completed on Windows 9.1. The original partial-terminal source edit remains refused. The normal-service route still needs its own evidence. [Multiple-audio laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md)

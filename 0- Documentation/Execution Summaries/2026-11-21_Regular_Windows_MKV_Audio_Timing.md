@@ -42,3 +42,11 @@ These are owned laboratory outputs on the rebuilt regular Windows pair.
 All 28 children in the three comparison runs closed, with no app Starts or new service publications. Each run released its lease. The focused source set passed 76 checks. The default decision remains with Ahmed.
 Normal-service admission, explicit re-encode and omit choices, other input
 shapes, Linux and the Remux performance targets have separate proof.
+
+## Ahmed’s default decision
+
+Ahmed chose verified exact copy as the regular MKV-to-MP4 audio default on
+November 21. A verified shift requires explicit choice for the current
+file, with the measured time difference visible before Start. The
+laboratory proof stays separate from implementation and normal-service
+qualification of that decision.

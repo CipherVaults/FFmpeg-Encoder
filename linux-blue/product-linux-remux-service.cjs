@@ -14,6 +14,7 @@ const { runTool, ToolError } = require('../src/process-runner.cjs');
 const { requireCandidateCalibrationRuntime } = require('./candidate-calibration-runtime.cjs');
 const { loadRemuxQualification } = require('./product-linux-remux-qualification.cjs');
 const RUNTIME = 'dfbae18ef79bdec94db9cb75260816cd5cddade19f411ca3ff985d37f1d48d13';
+const REMUX_CHILD_STDOUT_MAX_BYTES = 1024 * 1024 * 1024;
 const DEPENDENCIES = 'c0fb3610bd2d66733c3fb0787d94877f0631d63d9fbe00ddb751eaa34741adbf';
 function environment() {
   assert(process.platform === 'linux' && process.arch === 'x64' && !process.env.NODE_OPTIONS);
@@ -47,7 +48,7 @@ function invocation(pins, executable, args, options, evidenceRoot) {
   }
   record(options, ['signal', 'timeoutMs', 'stdoutLimit', 'stderrLimit', 'onChild', 'onProgress', 'onStdoutChunk', 'onOutputBytes'], ['timeoutMs']);
   if (options.signal !== undefined && !(options.signal instanceof AbortSignal)) assert.fail('Native cancellation signal required.');
-  for (const [k, max] of [['timeoutMs', 2147483647], ['stdoutLimit', 1024 * 1024 * 1024], ['stderrLimit', 256 * 1024]])
+  for (const [k, max] of [['timeoutMs', 2147483647], ['stdoutLimit', REMUX_CHILD_STDOUT_MAX_BYTES], ['stderrLimit', 256 * 1024]])
     if (options[k] !== undefined && (!Number.isSafeInteger(options[k]) || options[k] < 1 || options[k] > max)) assert.fail('Positive bounded child budgets required.');
   for (const k of ['onChild', 'onProgress', 'onStdoutChunk', 'onOutputBytes']) if (options[k] !== undefined && typeof options[k] !== 'function') assert.fail('Observation callback required.');
   for (let i = 0; i < args.length; i++) if (/^-(?:hwaccel(?:_.*)?|init_hw_device|filter_hw_device)$/.test(args[i])
@@ -204,4 +205,4 @@ async function createLinuxRemuxService({verifiedRuntime,stateDir,outputAccess,on
     throw primary;
   }
 }
-module.exports={createLinuxRemuxService,admit,invocation,remuxPolicies,remuxSupport};
+module.exports={createLinuxRemuxService,admit,invocation,remuxPolicies,remuxSupport,REMUX_CHILD_STDOUT_MAX_BYTES};

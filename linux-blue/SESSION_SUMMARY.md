@@ -1,3 +1,11 @@
+# Session: Linux verified MP4 copy refuses an impossible check before Start
+
+- **November 21, 2026 Cairo.** Reproduced unusable Ready at exact 127 for a modeled 3,355-second single-AAC MP4. The same genuine plan’s packet check request could never enter the runner. Moved this one refusal to Prepare and preserved existing eligibility and runtime checks.
+- **Evidence:** 8 targeted cases and 402 selected affected checks passed; one archived sample observation intentionally skipped. Existing Node source checks and unchanged active/inert pin scope confirmed. Details and limitations: [execution evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Packet_Verification_Limit.md).
+- **Next:** Keep regular development cloud-first. Preserve the actual two-track intake gate, reserved audio choice and deferred physical checks. No package or release claim.
+
+---
+
 # Session: Explain what a saved verified copy checked
 
 - **November 21, 2026 Cairo.** Exact regular checkpoint 126 lacked a visible verification-scope description although main already supplied it. The shared display describes known checks only after successful per-file publication.

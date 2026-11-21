@@ -1,3 +1,9 @@
+# Current State: regular v0.7 Linux, Milestone Q packet verification limit
+
+The existing single-AAC verified MP4 copy route no longer offers Ready when its planned packet text allowance is over the runner’s unchanged limit. It explains that no copy started. This source correction does not change MOV/MKV behavior, Windows, media qualification or the dormant two-track route. See [execution evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Linux_Remux_Packet_Verification_Limit.md).
+
+---
+
 # Current State: regular v0.7, Milestone Q result disclosure
 
 The shared result shows what media verification actually ran for a published copy. Packet-identity verification explains the full compressed comparison, header checks and start/end-only video decode; unknown or unfinished receipts cannot claim completion. No eligibility, publication, validation, runtime or acceptance changes. See [Q08 execution evidence](../0-%20Documentation/Execution%20Summaries/2026-11-21_Regular_Q08_Remux_Verification_Disclosure.md).

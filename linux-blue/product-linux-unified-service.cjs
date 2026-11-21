@@ -8,7 +8,7 @@ const {installProductTwoAac,composed}=require('./product-two-aac-owner.cjs');
 const {isProportionalFamilySelection}=require('../src/operation-family.cjs');
 const {fingerprintEncodeSource}=require('../src/encode-operation.cjs');
 const {OutputAccess}=require('../src/output-access.cjs');
-const {RemuxOperations}=require('../src/remux-operation.cjs');
+const {RemuxOperations,deriveRemuxAssessmentBudget}=require('../src/remux-operation.cjs');
 const {getRemuxAssessmentSource}=require('../src/remux-contract.cjs');
 const {remuxProbeFingerprint}=require('../src/remux-validation.cjs');
 const {EVIDENCE_BUDGET,EXECUTION_BUDGET_MS}=require('../src/operation-controls.cjs');
@@ -16,7 +16,7 @@ const {openEvidenceStorage}=require('../src/operation-storage.cjs');
 const {createProductSelector}=require('./product-linux-service.cjs');
 const {loadQualification}=require('./product-linux-qualification.cjs');
 const {loadRemuxQualification}=require('./product-linux-remux-qualification.cjs');
-const {admit:admitRemux,remuxPolicies,remuxSupport}=require('./product-linux-remux-service.cjs');
+const {admit:admitRemux,remuxPolicies,remuxSupport,REMUX_CHILD_STDOUT_MAX_BYTES}=require('./product-linux-remux-service.cjs');
 const {PROFILES,validateSettings}=require('../src/media.cjs');
 const {POLICY,admitInput}=require('./ordinary-cpu-policy.cjs');
 const AV1=require('./av1-cpu-policy.cjs');
@@ -72,7 +72,17 @@ class NarrowRemux extends RemuxOperations{
         this.#onRefused(request,assessment,error.code);
       throw error;
     }
-    return super.prepare(options);
+    const plan=super.prepare(options);
+    // Keep the shared policy and identity refusals above. Only the admitted
+    // legacy MP4→MP4 shape reaches this check. The packet collector passes the
+    // full derived text allowance to the runner, which checks it before spawn.
+    // Refuse before the workspace can observe the runtime or select this plan.
+    if(assessment.inputFamily==='isobmff'&&request.target==='mp4'&&plan.verificationMethod==='packet-identity-v1'){
+      const {budget}=deriveRemuxAssessmentBudget(assessment,options.sourceIdentity.size,plan.verificationMethod);
+      if(budget.maxTextBytes>REMUX_CHILD_STDOUT_MAX_BYTES)
+        throw new ToolError('REMUX_PACKET_TEXT_LIMIT','Verified MP4 copy would exceed this Linux build’s packet verification limit. No copy was started.');
+    }
+    return plan;
   }
 }
 class UnifiedService extends EncoderService{

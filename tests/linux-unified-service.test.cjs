@@ -1155,3 +1155,103 @@ for(const target of ['mp4','matroska','mov']){
   assert(h.generations.every(g=>!g.runCalls));assert.deepEqual(await fsp.readdir(o),[]);
  });
 }
+
+async function packetTextPrepareFixture(t,{seconds,target='mp4',mutate=()=>{},changeProbeSize=false}) {
+ const {service,h,root}=await setup(t,{matroska:true,mov:true});
+ const input=path.join(root,'in'),output=path.join(root,'out'),file=path.join(input,'source.mp4'),inspections=[];
+ await fsp.mkdir(input);await fsp.mkdir(output);
+ const {timedFixture,isoLanguageCode}=require('./helpers/mov-fixture.cjs'),probe=sourceProbe();
+ Object.assign(probe.format,{format_name:'mov,mp4,m4a,3gp,3g2,mj2',duration:String(seconds),tags:{major_brand:'isom'}});
+ probe.streams.forEach((s,i)=>{
+  const scale=i?48000:30000;
+  Object.assign(s,{id:String(i+1),time_base:'1/'+scale,duration:String(seconds),duration_ts:seconds*scale,codec_tag_string:i?'mp4a':'avc1'});
+  if(target==='mov')s.tags={language:'und',handler_name:i?'SoundHandler':'VideoHandler'};
+ });
+ mutate(probe);probe.format.nb_streams=probe.streams.length;
+ // Small owned ISO atoms for the actual source observers; no playable samples.
+ const bytes=timedFixture(probe.streams.map(s=>{
+  const scale=Number(s.time_base.split('/')[1]);
+  return {id:Number(s.id),kind:s.codec_type,width:s.width,height:s.height,language:isoLanguageCode(s.tags?.language),
+    scale,pts:[0],durations:[seconds*scale]};
+ }),{brand:'isom'});
+ await fsp.writeFile(file,bytes,{flag:'wx'});probe.format.size=String(bytes.length+Number(changeProbeSize));
+ service.inspect=async inspected=>{
+  inspections.push(inspected);
+  return {probe:structuredClone(probe),duration:seconds,summary:{}};
+ };
+ service.storageEligibility={check:async()=>({eligible:true})};
+ const i=await service.registerFolder(input,'input'),o=await service.registerFolder(output,'output'),outward=[];
+ service.on('update',state=>outward.push({phase:state.phase,rows:state.items.map(row=>({
+  status:row.status,reasonCode:row.reasonCode,entry:service.plan?.entries.has(row.id)??false
+ }))}));
+ const result=await service.prepareRemuxBatch({inputFolderId:i.id,outputFolderId:o.id,target});
+ await service.taskPromise;
+ assert.deepEqual(inspections,[file]);assert.equal(result.items.length,1);assert.deepEqual(result.items,service.snapshot().items);
+ return {service,h,root,output,file,bytes,probe,outward,result,verifyNoWrite:async()=>{
+  assert.equal(service.executionBinding,null);assert(h.generations.every(g=>g.runCalls===0));
+  assert.deepEqual(await fsp.readdir(output),[]);assert.deepEqual(await fsp.readdir(input),['source.mp4']);
+  assert.deepEqual(await fsp.readFile(file),bytes);
+ }};
+}
+
+for(const [seconds,max] of [[96,47636480],[3354,1073514496],[3355,1073829888]])test('Linux MP4 packet-text budget: normal Prepare at '+seconds+' modeled seconds',async t=>{
+ const {service,root,file,probe,outward,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds});
+ const {invocation}=require('../linux-blue/product-linux-remux-service.cjs');
+ const {deriveRemuxAssessmentBudget}=require('../src/remux-operation.cjs');
+ const bin=path.join(root,'never-executed-ffprobe'),pins={ffmpeg:{path:path.join(root,'never-executed-ffmpeg')},ffprobe:{path:bin}};
+ const fixtureLimit=n=>invocation(pins,bin,['-show_packets','-show_streams','-i',file],
+  {timeoutMs:1000,stdoutLimit:n},path.join(root,'evidence'));
+ // Exact predicate, separately from the genuine budget and normal workflow.
+ assert.equal(fixtureLimit(1073741824),'ffprobe');
+ assert.throws(()=>fixtureLimit(1073741825),/Positive bounded child budgets required/);
+ const row=result.items[0],facts=service.plan.remuxFacts.get(row.id);
+ assert(facts?.assessment);assert.equal(facts.assessment.target,'mp4');
+ const budget=deriveRemuxAssessmentBudget(facts.assessment,facts.fingerprint.size,'packet-identity-v1').budget;
+ assert.equal(budget.maxTextBytes,max);
+ assert.equal(facts.fingerprint.size,probe.format.size);
+ if(seconds<3355){
+  assert.equal(fixtureLimit(max),'ffprobe');
+  assert.equal(row.status,'ready',row.reason);assert.equal(row.remux.status,'qualified');
+  const entry=service.plan.entries.get(row.id);assert(entry?.operationRuntimeToken);
+  const selected=service.remuxOperations.requireCurrent(entry.qualificationSelection,entry.qualificationBindings);
+  assert.equal(selected.budget.maxTextBytes,max);assert.equal(selected.qualification.cellId,'internal-isobmff-mp4-081');
+  assert.equal(service.plan.entries.size,1);assert.equal(service.generation.observeCalls,1);
+ }else{
+  assert.throws(()=>fixtureLimit(max),/Positive bounded child budgets required/);
+  t.diagnostic('Normal Prepare: '+JSON.stringify({status:row.status,reasonCode:row.reasonCode,hasEntry:service.plan.entries.has(row.id),maxTextBytes:max}));
+  assert.equal(row.status,'unsupported',row.reason);assert.equal(row.reasonCode,'REMUX_PACKET_TEXT_LIMIT');
+  assert.match(row.reason,/verified MP4 copy.*packet verification limit.*no copy was started/i);
+  assert.equal(row.remux.status,'blocked');
+  assert.deepEqual(row.remux.blockers,[{code:row.reasonCode,message:row.reason,streamIndex:null}]);
+  assert.deepEqual(row.remux.omissionCandidates,[]);assert.deepEqual(row.remux.omissionDecisionIds,[]);
+  assert.equal(service.plan.entries.size,0);assert.equal(service.generation.observeCalls,0);
+  assert(outward.some(update=>update.rows.some(item=>item.status==='unsupported')));
+  assert(outward.every(update=>update.phase!=='running'&&update.rows.every(item=>item.status!=='ready'&&!item.entry)));
+  const plan=service.plan,generation=service.generation,controller=service.controller,task=service.taskPromise;
+  // On the known RED these assertions stop above; never Start a Ready row.
+  await assert.rejects(service.startBatch({planId:result.planId,fileIds:[row.id]}));
+  assert.equal(service.plan,plan);assert.equal(service.generation,generation);
+  assert.equal(service.controller,controller);assert.equal(service.taskPromise,task);
+ }
+ assert.equal(service.plan.remuxGrants.size,0);assert.equal(service.generation.snapshot().phase,null);
+ await verifyNoWrite();
+});
+
+for(const [label,change,code,reason]of [
+ ['SDR color', {mutate:p=>delete p.streams[0].color_primaries},'REMUX_QUALIFICATION_REQUIRED',/explicit coherent BT709/i],
+ ['source identity', {changeProbeSize:true},'REMUX_QUALIFICATION_REQUIRED',/source size must match/i],
+ ['two audio tracks', {mutate:p=>p.streams.push({...structuredClone(p.streams[1]),index:2,id:'3',tags:{language:'deu'},disposition:{default:0}})},'REMUX_MULTI_AUDIO_NOT_QUALIFIED',/has two AAC/i]
+])test('Linux MP4 packet-text budget preserves '+label+' refusal precedence',async t=>{
+ const {service,h,outward,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds:3355,...change});
+ const item=result.items[0];assert.equal(item.status,'unsupported');assert.equal(item.reasonCode,code,item.reason);assert.match(item.reason,reason);
+ assert(outward.every(update=>update.rows.every(row=>row.status!=='ready'&&!row.entry)));
+ assert.equal(service.plan.entries.size,0);assert(h.generations.every(g=>g.observeCalls===0));
+ await verifyNoWrite();
+});
+
+for(const target of ['mov','matroska'])test('Linux MP4 packet-text budget does not change the '+target+' target’s existing Prepare behavior',async t=>{
+ const {service,result,verifyNoWrite}=await packetTextPrepareFixture(t,{seconds:3355,target});
+ const row=result.items[0];assert.equal(row.status,'ready',row.reason);assert.equal(row.remux.target,target);
+ assert.equal(service.plan.entries.size,1);assert.equal(service.generation.observeCalls,1);
+ await verifyNoWrite();
+});

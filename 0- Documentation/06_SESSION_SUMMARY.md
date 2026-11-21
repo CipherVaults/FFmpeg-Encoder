@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Windows multiple-audio MP4
+
+Two independent AAC layouts and a real swapped-payload negative completed on Windows 9.1. The original partial-terminal source edit remains refused. The normal-service route still needs its own evidence. [Multiple-audio laboratory](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md)
+
 # 📘 Session checkpoint — November 21, 2026 — MKV audio copy choices
 
 Owned 9.1 laboratory measurements gave a finite exact copy and a finite uniform −64 ms copy with every retained AAC sample. Plain copy and the offset-preserving trial had different, retained decoded audio failures. Automatic selection awaits Ahmed. Independent Q work continues without treating laboratory files as product publications. [MKV audio measurements](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md)

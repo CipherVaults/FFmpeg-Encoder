@@ -203,7 +203,8 @@ class EncoderService extends EventEmitter {
   constructor({ ffmpeg, ffprobe, stateDir, run = runTool, inspect = inspectInput, verify = validateOutput, capabilities = checkCapabilities, vendorCapabilities = null,
     inspectionCache, storageEligibility, inspectionWorkers = 2, provenanceJournal, preferences, diagnostics, appSettings, outputAccess, runtimeIdentity = null, discoverBackends = null, nativeBackends = null,
     operationQualifications = null, operationEvidenceBudget = null, operationEnvironment = null, operationDeadlineMs = 120000,
-    operationRuntime = null, operationStorage = null, operationTelemetry = false, remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
+    operationRuntime = null, operationStorage = null, operationTelemetry = false, usesProportionalEncodeBudget = null,
+    remuxOperations = null, hdrOperations = null, encodePreservationOperations = null,
     nativeFiles = null, allowInjectedNativeFiles = false, vendorAdapters, ordinaryJobGuard = null }) {
     super();
     if (![1, 2].includes(inspectionWorkers)) throw new TypeError('Inspection workers must be one or two.');
@@ -268,6 +269,10 @@ class EncoderService extends EventEmitter {
     this.operationQualifications = operationQualifications;
     this.operationEvidenceBudget = operationEvidenceBudget;
     this.operationEnvironment = operationEnvironment;
+    if (usesProportionalEncodeBudget !== null && typeof usesProportionalEncodeBudget !== 'function') {
+      throw new TypeError('The proportional Encode budget selector must be main-owned callable.');
+    }
+    this.usesProportionalEncodeBudget = usesProportionalEncodeBudget;
     if (!Number.isSafeInteger(operationDeadlineMs) || operationDeadlineMs < 1 || operationDeadlineMs > 1800000) {
       throw new TypeError('Changed-operation deadline must be bounded to thirty minutes.');
     }
@@ -1774,7 +1779,8 @@ class EncoderService extends EventEmitter {
   }
 
   resolveEncodeControls(operationPlan, settings) {
-    return { budget: this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
+    const proportional = this.usesProportionalEncodeBudget?.(operationPlan, settings) === true;
+    return { budget: proportional ? null : this.operationEvidenceBudget, executionBudgetMs: this.operationDeadlineMs };
   }
 
   requirePreparedEncodeControls(entry) {

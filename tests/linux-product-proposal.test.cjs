@@ -102,7 +102,7 @@ test('Windows construction binds the reviewed regular engine entry point',()=>{
  const begin=current.indexOf('  // Only the reviewed regular Windows engine'),end=current.indexOf('  await service.initializeDiagnostics();');
  assert(begin>=0&&end>begin);
  const branch=current.slice(begin,end).replace(/\n  }\s*$/,'').trim();
- assert.equal(require('node:crypto').createHash('sha256').update(branch).digest('hex'),'9b49d8cc34c47e0f7ef0f372f1a1748d85b5609183171e81c9c633e9b1990aa5');
+ assert.equal(require('node:crypto').createHash('sha256').update(branch).digest('hex'),'1301e639ce7caffe294d3c54ca45b4c1cb453f51683156cec51dd1fb32c394f3');
  assert(current.includes('let nativeFilesFailure = null;'));
 });
 
@@ -227,10 +227,10 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  const regularWindowsSourceDeltas={
    'src/candidate-runtime.cjs': ['9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712',11835,'92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9'],
    'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',57405,'0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287'],
-   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',172031,'70cdf308c36ff1b66d81161e5b16bfc52a25fb9765151e14678641a007f96e02'],
+   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',172468,'dac28a0ded1ba10e26ccd116779c5581c32b6f05bcf2d91e870382ae9464d475'],
    'src/inspection.cjs': ['948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491',34107,'51cd1013264a3886be63ff49a193c2cdfd309bb1425339e5532a7da5cf839b95'],
    'src/media.cjs': ['79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7',25811,'2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0'],
-   'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',3837,'10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471'],
+   'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',6933,'048fd835f88124f69d9846dd374e27a8dae3721a8abb6b2b5b54631a1ddaa767'],
    'src/operation-runtime.cjs': ['95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79',24869,'a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294'],
    'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
    'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',6512,'92f043c0f9fa8f5c9162537fb1773c11dd5c21336166c25d024ed6e23474a608'],

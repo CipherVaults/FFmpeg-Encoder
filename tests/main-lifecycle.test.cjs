@@ -33,7 +33,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
   const ipcMain = { handle: (name, fn) => ipcHandlers.set(name, fn), removeHandler: name => ipcHandlers.delete(name) };
   const calls = []; let window, service, controlOptions, nativeControlOptions, ipcOptions, appearanceOptions, appearanceClosed = false;
   const nativeFileControls = Object.freeze({ policyCount: 0 }), nativeFileCalls = [], incidents = []; let nativeFileOptions;
-  const families = [{ id: 'main-private-family-fixture' }], qualification = Object.freeze({});
+  const qualification = Object.freeze({});
   const app = new EventEmitter();
   Object.assign(app, { isReady: () => true, getAppPath: () => 'test-root', setPath() {}, requestSingleInstanceLock: () => true,
     commandLine: { hasSwitch: () => false }, whenReady: () => Promise.resolve(),
@@ -83,7 +83,6 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     if (id === 'node:path') return path;
     if (id === 'node:crypto') return require('node:crypto');
     if (id === './src/regular-windows-runtime.cjs') return { verifyRegularWindowsRuntime: () => runtime.promise };
-    if (id === './src/operation-catalog.cjs') return { FAMILIES: families, POLICY_ID: 'fixed-main-policy' };
     if (id === './src/operation-controls.cjs') return { createOperationControls: options => {
       controlOptions = options; return { operationQualifications: qualification, operationTelemetry: true };
     } };
@@ -124,7 +123,7 @@ async function harness({ runtimePending = false, diagnosticsPending = false, res
     appearanceReady, appearanceFlushed, appearanceWrites, appearanceSnapshot, nativeChanges, backgroundChanges, appearanceOrder,
     getWindow: () => window, getService: () => service, getControlOptions: () => controlOptions,
     getIpcOptions: () => ipcOptions, getNativeControlOptions: () => nativeControlOptions,
-    getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, families, qualification,
+    getAppearanceOptions: () => appearanceOptions, isAppearanceClosed: () => appearanceClosed, qualification,
     nativeFileControls, nativeFileCalls, incidents, getNativeFileOptions: () => nativeFileOptions };
 }
 
@@ -190,8 +189,8 @@ test('candidate runtime verification precedes any window, service or process aut
   assert.equal(h.getService().options.ffmpeg, h.verified.ffmpeg);
   assert.equal(h.getService().options.ffprobe, h.verified.ffprobe);
   assert.match(h.getService().options.runtimeIdentity, /^[a-f0-9]{64}$/);
-  assert.equal(h.getControlOptions().runtime, h.verified); assert.equal(h.getControlOptions().families, h.families);
-  assert.equal(h.getControlOptions().policyIdentity, 'fixed-main-policy');
+  assert.equal(h.getControlOptions().runtime, h.verified);
+  assert.deepEqual(Object.keys(h.getControlOptions()).sort(), ['runtime', 'stateDir']);
   assert.equal(h.getService().options.operationQualifications, h.qualification); assert.equal(h.getService().options.operationTelemetry, true);
   const discovery = await h.getService().options.discoverBackends({ versions: { ffmpeg: 'ffmpeg version test', ffprobe: 'ffprobe version test' } });
   assert.equal(discovery.ffmpeg, h.verified.ffmpeg);

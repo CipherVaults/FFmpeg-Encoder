@@ -73,8 +73,8 @@ const SOURCE_PINS = {
     "sha256": "6e68df2eb93ddda8282b0a7cec8d6dbedff00871222a1f58ed7bc7e0a6d0c10f"
   },
   "main.js": {
-    "bytes": 17972,
-    "sha256": "c0a7891dfca928ea6729c21ebf58c7f5b885f13e84d346713f02d6cb1df87f37"
+    "bytes": 17853,
+    "sha256": "53fe3a44dfbf52cc09e4f666a5b3e1ccc2c315a2da1f1aec333957e8654afe9b"
   },
   "package.json": {
     "bytes": 991,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 172031,
-    "sha256": "70cdf308c36ff1b66d81161e5b16bfc52a25fb9765151e14678641a007f96e02"
+    "bytes": 172468,
+    "sha256": "dac28a0ded1ba10e26ccd116779c5581c32b6f05bcf2d91e870382ae9464d475"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -285,8 +285,8 @@ const SOURCE_PINS = {
     "sha256": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d"
   },
   "src/operation-controls.cjs": {
-    "bytes": 3837,
-    "sha256": "10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471"
+    "bytes": 6933,
+    "sha256": "048fd835f88124f69d9846dd374e27a8dae3721a8abb6b2b5b54631a1ddaa767"
   },
   "src/operation-draft.cjs": {
     "bytes": 9030,

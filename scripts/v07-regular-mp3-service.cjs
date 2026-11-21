@@ -40,8 +40,8 @@ async function proof(mode) {
     const runtime = session.runtime;
     const stateDir = path.join(session.owned, 'state');
     await io.mkdir(stateDir);
-    const controls = createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID,
-      ...(mode === '--lab' ? labControls : {}) });
+    const overrides = mode === '--lab' ? { families: FAMILIES, policyIdentity: POLICY_ID, ...labControls } : {};
+    const controls = createOperationControls({ runtime, stateDir, ...overrides });
     const invoke = controls.operationRuntime.invoke.bind(controls.operationRuntime);
     controls.operationRuntime.invoke = (token, tool, args, options) => session.run(runtime[tool], args, {
       ...options,
@@ -120,8 +120,7 @@ async function proof(mode) {
         await io.mkdir(recoveryState);
         const recovery = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity: REGULAR_WINDOWS_PAIR,
           stateDir: recoveryState, run: session.run,
-          ...createOperationControls({ runtime, stateDir: recoveryState, families: FAMILIES, policyIdentity: POLICY_ID,
-            ...(mode === '--lab' ? labControls : {}) }) });
+          ...createOperationControls({ runtime, stateDir: recoveryState, ...overrides }) });
         try {
           await recovery.initializeDiagnostics();
           await recovery.provenanceJournal.recordIntent({ outputId: entry.outputId, sourceIdentity: entry.fingerprint,

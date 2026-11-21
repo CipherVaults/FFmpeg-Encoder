@@ -9,7 +9,8 @@ const { buildEncodeOperation, fingerprintEncodeSource } = require('../src/encode
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { classifyColor } = require('../src/media.cjs');
 const { frozenQualifications } = require('../scripts/v07-sdr-flac-range-calibration.cjs');
-const { operationCostLimits } = require('../src/encoder-service.cjs');
+const { EncoderService, operationCostLimits } = require('../src/encoder-service.cjs');
+const { createOperationControls, EVIDENCE_BUDGET, EXECUTION_BUDGET_MS } = require('../src/operation-controls.cjs');
 const { collectOperationEvidence } = require('../src/operation-evidence.cjs');
 // In-memory fixtures only: not measured qualification, process or media execution.
 const RUNTIME = 'a'.repeat(64), settings = { profileId: 'h265-cpu', preset: 'slow', quality: 25 };
@@ -34,15 +35,15 @@ function legacy() {
   const f = descriptor(); delete f.resourcePolicy;
   return { ...f, id: 'short-sdr-range-flac-v1', budget: { ...LEGACY_BUDGET }, executionBudgetMs: 60000 };
 }
-function fixture({ duration = 8, range = null, mutate = () => {}, resolution = '720', families = [descriptor()], legacyMode = false } = {}) {
+function fixture({ duration = 8, range = null, mutate = () => {}, resolution = '720', families = [descriptor()], legacyMode = false, runtime = RUNTIME } = {}) {
   const source = probe(duration); mutate(source);
   const identity = { canonicalPath: path.resolve('/synthetic-proportional/input.mov'), dev: '1', ino: '2', size: source.format.size,
     mtimeNs: '1000', ctimeNs: '1001', birthtimeNs: '900', sparseDigest: `sha256-sparse-v1:${'b'.repeat(64)}` };
   const request = resolveFileRequest({ fileId: 'synthetic', identityRevision: 1, draftRevision: 1, operation: 'encode',
     overrides: { range, resolution, audioPolicy: 'precision-flac' } });
   const plan = buildEncodeOperation({ input: identity.canonicalPath, output: path.resolve('/synthetic-proportional/output.mkv'), settings,
-    inspection: { probe: source, color: classifyColor(source), duration }, request, runtimeIdentity: RUNTIME });
-  const bindings = { plan, settings, sourceIdentity: identity, sourceProbeFingerprint: fingerprintEncodeSource(source), runtimeIdentity: RUNTIME,
+    inspection: { probe: source, color: classifyColor(source), duration }, request, runtimeIdentity: runtime });
+  const bindings = { plan, settings, sourceIdentity: identity, sourceProbeFingerprint: fingerprintEncodeSource(source), runtimeIdentity: runtime,
     environment: null, budget: legacyMode ? { ...LEGACY_BUDGET } : null, executionBudgetMs: legacyMode ? 60000 : 120000 };
   const selector = new OperationFamilySelector({ families, policyIdentity: 'synthetic-proportional-policy' });
   return { source, plan, bindings, selector };
@@ -95,4 +96,43 @@ test('non-UHD selectors preserve early no-precondition orientation return for108
   const request=resolveFileRequest({fileId:'ordinary',identityRevision:1,draftRevision:1,operation:'encode',overrides:{resolution}});
   assert.deepEqual(selector.orientationQualification({inspection:null,request,runtimeIdentity:null,settings:null}),{});
  }
+});
+
+test('default Windows factory derives only the measured resize budgets on the exact pair', () => {
+  const manifest = require('../resources/regular-windows-engine-manifest.json');
+  const stateDir = path.resolve('inert-state');
+  const runtime = { verified: manifest.binaries, ffmpeg: path.resolve('inert-ffmpeg.exe'), ffprobe: path.resolve('inert-ffprobe.exe') };
+  const selected = createOperationControls({ runtime, stateDir });
+  const service = Object.assign(Object.create(EncoderService.prototype), selected);
+  for (const entry of [
+    { source: [3840, 2160], resolution: '1080', range: null },
+    { source: [2560, 1440], resolution: '720', range: { startUs: 110000000 } },
+  ]) {
+    const h = fixture({ duration: 150, runtime: manifest.enginePair, resolution: entry.resolution, range: entry.range,
+      mutate(source) { [source.streams[0].width, source.streams[0].height] = entry.source; } });
+    const controls = service.resolveEncodeControls(h.plan, settings);
+    assert.deepEqual(controls, { budget: null, executionBudgetMs: EXECUTION_BUDGET_MS });
+    const bindings = { ...h.bindings, ...controls };
+    const token = selected.operationQualifications.select(bindings);
+    const observed = selected.operationQualifications.requireCurrent(token, bindings);
+    assert.equal(observed.proportional, true);
+    assert.match(observed.policyIdentity, /^encode-windows-9\.1-v1:/);
+    assert.equal(observed.qualification.tolerances.sampleCount, 0);
+    assert.equal(observed.budget.sourceDecode, 'complete');
+    assert.deepEqual(service.resolveEncodeControls(h.plan, { ...settings, quality: 26 }),
+      { budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS });
+  }
+  const unsupported = fixture({ duration: 150, runtime: manifest.enginePair, range: { startUs: 0, endUs: 1000000 } });
+  assert.deepEqual(service.resolveEncodeControls(unsupported.plan, settings),
+    { budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS });
+  assert.equal(selected.operationEvidenceBudget, EVIDENCE_BUDGET);
+  assert.equal(selected.operationDeadlineMs, EXECUTION_BUDGET_MS);
+
+  const explicitLab = createOperationControls({ runtime, stateDir, families: [], policyIdentity: 'explicit-laboratory' });
+  assert.equal(explicitLab.usesProportionalEncodeBudget, undefined);
+  const differentPair = { ...runtime,
+    verified: [{ ...runtime.verified[0], sha256: 'e'.repeat(64) }, runtime.verified[1]] };
+  const legacy = createOperationControls({ runtime: differentPair, stateDir });
+  assert.equal(legacy.usesProportionalEncodeBudget, undefined);
+  assert.equal(legacy.operationEvidenceBudget, EVIDENCE_BUDGET);
 });

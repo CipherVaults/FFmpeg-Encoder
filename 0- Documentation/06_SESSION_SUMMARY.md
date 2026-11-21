@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 21, 2026 — Default Windows CPU resize
+
+The regular Windows factory admitted the two measured 9.1 CPU precision-FLAC resize families. Two long holdouts published through normal service and an unsupported trim refused before Start. Independent source and evidence review passed. Fresh TS and MP3 regression passed on the same factory. Continue with the measured MKV audio alternatives and keep Ahmed’s default decision open. [Windows default resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Default_Service.md)
+
 # 📘 Session checkpoint — November 21, 2026 — Gauge and long Windows CPU resize
 
 Ahmed approved the theme-aware Gauge and reviewed mid-tone Windows icon. The integrated renderer passed 130 controlled renderer and packaging checks and fresh Electron display in both themes. Linux inert inventory checked 192 source rows. The regular 9.1 service also passed two 150-second laboratory resize cases with exact selected PCM. An independent review reconciled hashes, samples, clocks, staging, publication and closure. Default family proof, packaged Windows appearance and native Linux remain open. [Gauge evidence](Execution%20Summaries/2026-11-21_Regular_Gauge_Live_Preview.md) · [Resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Laboratory.md)

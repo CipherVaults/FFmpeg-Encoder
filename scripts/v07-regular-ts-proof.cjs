@@ -134,8 +134,8 @@ async function run(mode, lab) {
     assert.equal(session.runtime.manifest.enginePair, REGULAR_WINDOWS_PAIR);
     const stateDir = path.join(session.owned, 'state');
     await io.mkdir(stateDir);
-    const state = { runtime: session.runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID };
-    const controls = createOperationControls(mode === '--normal' ? state : { ...state, ...labControls() });
+    const state = { runtime: session.runtime, stateDir };
+    const controls = createOperationControls(mode === '--normal' ? state : { ...state, families: FAMILIES, policyIdentity: POLICY_ID, ...labControls() });
     const { operationRuntime } = controls;
     const invokeRemux = operationRuntime.invokeRemux.bind(operationRuntime);
     operationRuntime.invokeRemux = (token, tool, args, options) => session.run(session.runtime[tool], args, options,

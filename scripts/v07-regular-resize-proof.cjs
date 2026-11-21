@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const { EncoderService } = require('../src/encoder-service.cjs');
 const { PROFILES } = require('../src/media.cjs');
-const { createOperationControls } = require('../src/operation-controls.cjs');
+const { createOperationControls, EVIDENCE_BUDGET, EXECUTION_BUDGET_MS } = require('../src/operation-controls.cjs');
 const { normalizeProbe, parseProbeJson } = require('../src/inspection.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
 const { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY } =
@@ -36,6 +36,16 @@ const LONG_SPECIMENS = Object.freeze([
 const LONG_CASES = Object.freeze([
   { specimen: 0, resolution: '1440', width: 2560, height: 1440, range: null, frames: 4500, samples: 7200000 },
   { specimen: 1, resolution: '720', width: 1280, height: 720, range: { startUs: 110000000 }, frames: 1200, samples: 1920000 },
+]);
+
+
+const NORMAL_SPECIMENS = Object.freeze([
+  { label: 'normal-uhd', width: 3840, height: 2160, seconds: 125, frequency: 587 },
+  { label: 'normal-1440p', width: 2560, height: 1440, seconds: 145, frequency: 641 },
+]);
+const NORMAL_CASES = Object.freeze([
+  { specimen: 0, resolution: '720', width: 1280, height: 720, range: null, frames: 3750, samples: 6000000 },
+  { specimen: 1, resolution: '720', width: 1280, height: 720, range: { startUs: 106000000 }, frames: 1170, samples: 1872000 },
 ]);
 
 function fixtureArgs({ width, height, seconds, frequency }, output) {
@@ -140,13 +150,39 @@ async function previousFixtures(id, digest, recoverRange) {
   return saved;
 }
 
-async function proof(previous, recoverRange, long) {
-  const cases = long ? LONG_CASES : recoverRange ? CASES.slice(-1) : CASES;
-  const specs = long ? LONG_SPECIMENS : SPECIMENS;
-  const limits = long ? { ...LIMITS, maxStarts: 2 } : recoverRange ? { ...LIMITS, maxStarts: 1 } : LIMITS;
+
+async function proveUhdRangeRefusal(session, service, input) {
+  const output = path.join(session.owned, 'unqualified-uhd-range');
+  await session.io.mkdir(output);
+  const a = await service.registerFolder(input, 'input'), b = await service.registerFolder(output, 'output');
+  await service.prepareBatch({ inputFolderId: a.id, outputFolderId: b.id, settings: SETTINGS });
+  const ready = service.snapshot(), item = ready.items[0];
+  assert.equal(item.status, 'ready', item.reason);
+  await service.updateFileOperations({ planId: ready.planId, draftId: ready.operationDraft.id, revision: ready.operationDraft.revision,
+    fileIds: [item.id], overrides: { target: 'matroska', hdrPolicy: 'preserve', range: { startUs: 0, endUs: 4000000 },
+      resolution: '720', audioPolicy: 'precision-flac', aacBitrateKbps: null, omissionRequestIds: [] } });
+  await service.taskPromise;
+  const refused = service.snapshot(), row = refused.items.find(candidate => candidate.id === item.id);
+  assert.equal(row.status, 'unsupported', row.reason);
+  assert.match(row.reasonCode, /^OPERATION_(?:RESIZE_UNQUALIFIED|QUALIFICATION_REQUIRED)$/);
+  const invocations = session.report.invocationAttempts;
+  assert.throws(() => service.startBatch({ planId: refused.planId, fileIds: [row.id] }), { code: 'INVALID_SELECTION' });
+  assert.equal(session.report.invocationAttempts, invocations);
+  assert.deepEqual(await session.io.readdir(output), []);
+  return { item: row, startsFromRefusedRequest: 0, childrenFromRefusedStart: 0, destinationEmpty: true };
+}
+
+async function proof(mode, previous) {
+  const normal = mode === '--owned-normal';
+  const long = mode === '--owned-long-lab';
+  const recoverRange = mode === '--recover-owned-1440-range';
+  const cases = normal ? NORMAL_CASES : long ? LONG_CASES : recoverRange ? CASES.slice(-1) : CASES;
+  const specs = normal ? NORMAL_SPECIMENS : long ? LONG_SPECIMENS : SPECIMENS;
+  const limits = (normal || long) ? { ...LIMITS, maxStarts: 2 } : recoverRange ? { ...LIMITS, maxStarts: 1 } : LIMITS;
   const session = createOwnedSession({ kind: 'smoke', limits, regularProof: 'resize' });
   const { report, io } = session;
-  report.scope = 'Provisional ' + (long ? 'long' : 'short') + ' CPU resize family evidence through the real service';
+  report.scope = normal ? 'Default Windows factory and Encode service with a separately exercised CPU-only capability provider'
+    : 'Provisional ' + (long ? 'long' : 'short') + ' CPU resize family evidence through the real service';
   report.enginePair = REGULAR_WINDOWS_PAIR;
   let service;
   try {
@@ -172,26 +208,38 @@ async function proof(previous, recoverRange, long) {
     }
     const capabilities = await observeCpu(session, specimens[0].file, previous);
     const label = long ? 'long' : 'short';
-    const families = [
-      family(UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, specimens[0].probe, 'windows-91-uhd-' + label + '-prospective'),
-      family(RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, specimens[1].probe, 'windows-91-1440-' + label + '-prospective'),
-    ];
-    report.frozenFamilies = families;
+    if (!normal) {
+      report.frozenFamilies = [
+        family(UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, specimens[0].probe, 'windows-91-uhd-' + label + '-prospective'),
+        family(RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, specimens[1].probe, 'windows-91-1440-' + label + '-prospective'),
+      ];
+    }
     // The service owns atomic state/ledger replacement under its own
     // storage reservation. The media scan keeps its stricter object rule.
     const stateDir = path.join(session.directory, 'state');
     await io.mkdir(stateDir);
     report.stateDirectory = stateDir;
-    const controls = createOperationControls({ runtime: session.runtime, stateDir, families, policyIdentity: 'windows-91-q2n-' + label + '-laboratory' });
+    const factoryInputs = { runtime: session.runtime, stateDir };
+    if (!normal) Object.assign(factoryInputs, { families: report.frozenFamilies, policyIdentity: 'windows-91-q2n-' + label + '-laboratory' });
+    const controls = createOperationControls(factoryInputs);
+    report.factoryInputKeys = Object.keys(factoryInputs).sort();
     const invoke = controls.operationRuntime.invoke.bind(controls.operationRuntime);
     controls.operationRuntime.invoke = (token, tool, args, options) => session.run(session.runtime[tool], args, options,
       (_file, argv, opts) => invoke(token, tool, argv, opts));
     service = new EncoderService({ ffmpeg: session.runtime.ffmpeg, ffprobe: session.runtime.ffprobe, stateDir,
       inspectionWorkers: 1, runtimeIdentity: REGULAR_WINDOWS_PAIR, run: session.run, ...controls,
-      operationEvidenceBudget: null, operationDeadlineMs: 120000, capabilities: async () => capabilities });
+      ...(normal ? {} : { operationEvidenceBudget: null, operationDeadlineMs: 120000 }), capabilities: async () => capabilities });
+    if (normal) {
+      assert.deepEqual(service.operationEvidenceBudget, EVIDENCE_BUDGET);
+      assert.equal(service.operationDeadlineMs, EXECUTION_BUDGET_MS);
+    }
     await service.initializeDiagnostics();
     session.controller.signal.addEventListener('abort', () => { void service.cancelCurrent(); }, { once: true });
 
+    if (normal) {
+      report.refused = await proveUhdRangeRefusal(session, service, specimens[0].input);
+      await session.save();
+    }
     for (const spec of cases) {
       const { input, file, pin } = specimens[spec.specimen];
       const output = path.join(session.owned, 'case-' + spec.specimen + '-' + spec.resolution);
@@ -214,6 +262,14 @@ async function proof(previous, recoverRange, long) {
       assert.equal(item.status, 'ready', item.reason);
       const entry = service.plan.entries.get(item.id);
       assert(entry.operationPlan.args.some(value => value.includes('scale=w=' + spec.width + ':h=' + spec.height + ':flags=lanczos')));
+      if (normal) {
+        const selection = service.operationQualifications.requireCurrent(entry.qualificationSelection, entry.qualificationBindings);
+        assert.equal(selection.policyIdentity, 'encode-windows-9.1-v1:2026-11-21:cpu-precision-flac-resize');
+        assert.equal(selection.resourcePolicy, spec.range ? RESIZE_1440_RESOURCE_POLICY : UHD_FULL_RESOURCE_POLICY);
+        assert.equal(selection.proportional, true);
+        assert.deepEqual(entry.encodeControls, { budget: null, executionBudgetMs: EXECUTION_BUDGET_MS });
+        record.selection = selection;
+      }
       record.preparedArgs = entry.operationPlan.args;
       assert(report.acceptedStarts < limits.maxStarts);
       await service.startBatch({ planId: ready.planId, fileIds: [item.id] });
@@ -247,7 +303,8 @@ async function proof(previous, recoverRange, long) {
       assert.deepEqual(await hashFile(file), pin);
       assert.equal(session.children.size, 0);
     }
-    report.status = long ? 'passed-long-resize-lab' : recoverRange ? 'passed-1440-range-recovery' : 'passed-short-resize-lab';
+    report.status = normal ? 'passed-default-windows-resize' : long ? 'passed-long-resize-lab'
+      : recoverRange ? 'passed-1440-range-recovery' : 'passed-short-resize-lab';
   } catch (error) {
     report.status = 'failed-retained';
     report.failure = fault(error);
@@ -272,10 +329,10 @@ async function proof(previous, recoverRange, long) {
 if (require.main === module) {
   const [mode, id, digest, ...extra] = process.argv.slice(2);
   const recoverRange = mode === '--recover-owned-1440-range';
-  const long = mode === '--owned-long-lab';
   const resume = recoverRange || mode === '--resume-owned-short-lab';
-  assert(((long || mode === '--owned-short-lab') && !id) || (resume && id && digest && !extra.length));
-  (async () => proof(resume ? await previousFixtures(id, digest, recoverRange) : null, recoverRange, long))().then(result => {
+  assert((['--owned-short-lab', '--owned-long-lab', '--owned-normal'].includes(mode) && !id)
+    || (resume && id && digest && !extra.length));
+  (async () => proof(mode, resume ? await previousFixtures(id, digest, recoverRange) : null))().then(result => {
     console.log(JSON.stringify({ id: result.id, status: result.status, acceptedStarts: result.acceptedStarts, children: result.childrenClosed,
       report: path.join(result.directory, 'report.json'), failure: result.failure, serviceClosureFailure: result.serviceClosureFailure, closureFailures: result.closureFailures }));
     if (!result.status.startsWith('passed')) process.exitCode = 1;

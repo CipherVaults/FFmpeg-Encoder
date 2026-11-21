@@ -12,6 +12,9 @@ const { openEvidenceStorage } = require('./operation-storage.cjs');
 const { RemuxOperations } = require('./remux-operation.cjs');
 const { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID } = require('./remux-catalog.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { FAMILIES, POLICY_ID } = require('./operation-catalog.cjs');
+const { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY } =
+  require('./operation-resource-budget.cjs');
 const { HdrOperations } = require('./hdr-operation.cjs');
 const { HDR_POLICIES, HDR_POLICY_ID } = require('./hdr-catalog.cjs');
 const { EncodePreservationOperations } = require('./encode-preservation.cjs');
@@ -21,6 +24,46 @@ const EVIDENCE_BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120
   maxFrameBytes: 8 * 1024 * 1024, maxPcmBytes: 128 * 1024 * 1024,
   maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });
 const EXECUTION_BUDGET_MS = 600000;
+
+const RESIZE_SETTINGS = Object.freeze({ profileId: 'h265-cpu', preset: 'slow', quality: 25 });
+const RESIZE_TOLERANCES = Object.freeze({ videoTimestampUs: 1067, audioTimestampUs: 1042,
+  avSyncUs: 2109, durationUs: 1088, sampleCount: 0 });
+const RESIZE_LONG_RUN = '73532990-b3ff-4aef-81fd-2e8809d56f80';
+
+function resizeFamily(id, resourcePolicy, evidence, shortRun) {
+  const endpointId = `windows-91-q2n:${RESIZE_LONG_RUN}:${evidence}:endpoints`;
+  const interiorId = `windows-91-q2n:${RESIZE_LONG_RUN}:${evidence}:interior`;
+  return Object.freeze({
+    id, resourcePolicy, runtimeIdentity: REGULAR_WINDOWS_PAIR, environment: null, settings: RESIZE_SETTINGS,
+    qualification: Object.freeze({ evidenceId: endpointId, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+      containerDuration: 'end-timestamp', tolerances: RESIZE_TOLERANCES }),
+    timingQualification: Object.freeze({ evidenceId: interiorId, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+      videoDurationUs: 1067, audioTimelineUs: 1042, aac: null }),
+    evidenceIds: Object.freeze([endpointId, interiorId, `windows-91-q2n:${shortRun}:${evidence}:short`]),
+  });
+}
+
+const REGULAR_WINDOWS_ENCODE = Object.freeze({
+  policyIdentity: 'encode-windows-9.1-v1:2026-11-21:cpu-precision-flac-resize',
+  families: Object.freeze([
+    resizeFamily(UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, 'uhd-full', '7a86e7e6-296b-4b7a-b478-171b58c6263a'),
+    resizeFamily(RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, '1440p-range', '382855fe-cf94-41e2-a4a7-cf30ccf58a78'),
+  ]),
+});
+
+// Only choose the kind of budget here. The selector still requires a genuine
+// plan, exact source family, runtime observation and frozen quality settings.
+function usesRegularResizeBudget(plan, settings) {
+  if (plan?.runtimeIdentity !== REGULAR_WINDOWS_PAIR || plan.compatibilityPath
+      || plan.expectedOutput?.color?.classification !== 'sdr'
+      || settings?.profileId !== RESIZE_SETTINGS.profileId
+      || settings.preset !== RESIZE_SETTINGS.preset || settings.quality !== RESIZE_SETTINGS.quality) return false;
+  const { request, geometry, range } = plan.contract;
+  if (request.target !== 'matroska' || request.audioPolicy !== 'precision-flac' || !geometry.filterRequired) return false;
+  const { width, height } = geometry.source;
+  return (range.kind === 'full' && width === 3840 && height === 2160 && ['1440', '1080', '720'].includes(request.resolution))
+    || (range.kind === 'range' && width === 2560 && height === 1440 && request.resolution === '720');
+}
 async function observeNvidia({ signal } = {}) {
   const executable = path.join(process.env.SystemRoot, 'System32', 'nvidia-smi.exe');
   const { stdout } = await promisify(execFile)(executable,
@@ -38,7 +81,12 @@ function createOperationControls({ runtime, stateDir, families, policyIdentity,
   const runtimeIdentity = createHash('sha256').update(JSON.stringify(runtime.verified.slice(0, 2)
     .map(({ sizeBytes, sha256 }) => ({ sizeBytes, sha256 })))).digest('hex');
   const regularWindows = runtimeIdentity === REGULAR_WINDOWS_PAIR;
-  return { operationQualifications: new OperationFamilySelector({ families, policyIdentity }),
+  const defaultEncodeCatalog = families === undefined && policyIdentity === undefined;
+  const encodeCatalog = defaultEncodeCatalog
+    ? (regularWindows ? REGULAR_WINDOWS_ENCODE : { families: FAMILIES, policyIdentity: POLICY_ID })
+    : { families, policyIdentity };
+  return { operationQualifications: new OperationFamilySelector(encodeCatalog),
+    ...(encodeCatalog === REGULAR_WINDOWS_ENCODE ? { usesProportionalEncodeBudget: usesRegularResizeBudget } : {}),
     remuxOperations: new RemuxOperations({ runtimeIdentity,
       policies: remuxPolicies ?? (regularWindows ? REGULAR_WINDOWS_REMUX_POLICIES : REMUX_POLICIES),
       policyIdentity: remuxPolicyIdentity ?? (regularWindows ? REGULAR_WINDOWS_REMUX_POLICY_ID : REMUX_POLICY_ID) }),

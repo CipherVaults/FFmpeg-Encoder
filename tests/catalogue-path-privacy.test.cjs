@@ -11,7 +11,7 @@ const plan = require('../resources/linux-inert-package-plan.json');
 const root = path.resolve(__dirname, '..');
 const catalogues = new Map([
   ['src/operation-catalog.cjs', 'fc1465cb145c974df0aab859cd467e2b1527ffc555b42828839db127d188b032'],
-  ['src/remux-catalog.cjs', '3aaa18c80349b3b9c98cfac165eb63d782c8a6b264e94ff3f71169e976394fac'],
+  ['src/remux-catalog.cjs', '39bf6b42183d98938369f019a7cdff49abfcc3d686cd44dfd4e6f38f43c5c316'],
 ]);
 
 for (const source of catalogues.keys()) {
@@ -38,6 +38,10 @@ test('pathless catalogue comments do not change policy, evidence IDs, device bin
       assert.ok(rows.every(row => Object.isFrozen(row) && Object.isFrozen(row.evidenceIds)));
     }
   }
+  const { REMUX_POLICIES, REMUX_POLICY_ID } = require('../src/remux-catalog.cjs');
+  const legacy = { REMUX_POLICIES, REMUX_POLICY_ID };
+  assert.equal(createHash('sha256').update(JSON.stringify(legacy)).digest('hex'),
+    '3aaa18c80349b3b9c98cfac165eb63d782c8a6b264e94ff3f71169e976394fac');
 });
 
 test('catalogue source inventory remains an inert Linux plan; the historical calibration CLI is not app source', () => {

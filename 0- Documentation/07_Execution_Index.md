@@ -1,3 +1,5 @@
+- **November 21, 2026 — [Windows default resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Default_Service.md).** Exact rebuilt Windows pair, two measured CPU families, fresh default-service publications and unsupported-route refusal, controlled source checks and fresh TS/MP3 regression.
+
 - **November 21, 2026 — [Windows CPU resize evidence](Execution%20Summaries/2026-11-21_Regular_Windows_CPU_Resize_Laboratory.md).** Three independently audited short UHD outcomes, a recovered short 1440p range, the two passed 150-second laboratory cases and retained harness failures.
 
 - **November 21, 2026 — [Gauge live preview evidence](Execution%20Summaries/2026-11-21_Regular_Gauge_Live_Preview.md).** Ahmed’s approval, fresh integrated dark and light captures, saved Light appearance, nine exact Windows icon sizes and the outstanding packaged-shell check.

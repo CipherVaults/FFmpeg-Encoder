@@ -781,7 +781,7 @@
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
       "bytes": 42466,
-      "sha256": "98a0a953a768761e766028d617c204c957ea09a39a97e6520b9d6ff32664e495"
+      "sha256": "301aeaa4f78f3bc30d405767181cbf5906a1b2c1de5fe3f64dfd47b7abda9c9c"
     },
     {
       "root": "source",
@@ -908,8 +908,8 @@
       "source": "main.js",
       "target": "electron/resources/app/main.js",
       "group": "application",
-      "bytes": 17972,
-      "sha256": "c0a7891dfca928ea6729c21ebf58c7f5b885f13e84d346713f02d6cb1df87f37"
+      "bytes": 17853,
+      "sha256": "53fe3a44dfbf52cc09e4f666a5b3e1ccc2c315a2da1f1aec333957e8654afe9b"
     },
     {
       "root": "source",
@@ -1092,8 +1092,8 @@
       "source": "src/encoder-service.cjs",
       "target": "electron/resources/app/src/encoder-service.cjs",
       "group": "application",
-      "bytes": 172031,
-      "sha256": "70cdf308c36ff1b66d81161e5b16bfc52a25fb9765151e14678641a007f96e02"
+      "bytes": 172468,
+      "sha256": "dac28a0ded1ba10e26ccd116779c5581c32b6f05bcf2d91e870382ae9464d475"
     },
     {
       "root": "source",
@@ -1380,8 +1380,8 @@
       "source": "src/operation-controls.cjs",
       "target": "electron/resources/app/src/operation-controls.cjs",
       "group": "application",
-      "bytes": 3837,
-      "sha256": "10aea8bfe82d036c7c8ead7975e13a926af20a8bfb57190f2479204b4fec9471"
+      "bytes": 6933,
+      "sha256": "048fd835f88124f69d9846dd374e27a8dae3721a8abb6b2b5b54631a1ddaa767"
     },
     {
       "root": "source",

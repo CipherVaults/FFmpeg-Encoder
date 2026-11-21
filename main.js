@@ -6,7 +6,6 @@ const { EncoderService } = require('./src/encoder-service.cjs');
 const { checkVendorCapabilities } = require('./src/vendor-capabilities.cjs');
 const { OutputAccess } = require('./src/output-access.cjs');
 const { createOperationControls } = require('./src/operation-controls.cjs');
-const { FAMILIES, POLICY_ID } = require('./src/operation-catalog.cjs');
 const { createNativeBackendControls } = require('./src/native-backend-controls.cjs');
 const { createNativeFileControls, assertProductionNativeFileControls, nativeRefusal } = require('./src/native-file-controls.cjs');
 const { registerIpc } = require('./src/ipc.cjs');
@@ -228,7 +227,7 @@ async function createWindow() {
   }
   if (nativeFiles) assertProductionNativeFileControls(nativeFiles);
   service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, runtimeIdentity, stateDir,
-    ...createOperationControls({ runtime, stateDir, families: FAMILIES, policyIdentity: POLICY_ID }),
+    ...createOperationControls({ runtime, stateDir }),
     ...nativeControls, nativeFiles, vendorCapabilities: checkVendorCapabilities,
     outputAccess: new OutputAccess({ openPath: file => shell.openPath(file), showItemInFolder: file => shell.showItemInFolder(file) }) });
   }

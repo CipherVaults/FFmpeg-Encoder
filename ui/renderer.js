@@ -957,12 +957,21 @@
     return previewCollapsed || closedDrawer || !matchesFilter(item);
   }
 
+  function editorOwnsFileList(name) {
+    const list = byId('batch-panel');
+    return !list.hidden && byId(`workspace-${name}`).contains(list);
+  }
+
+  function filesDrawerTrigger(name) {
+    return byId(name === 'remux' ? 'remux-files-toggle' : 'files-toggle');
+  }
+
   function syncFilesLayout() {
     if (activeWorkspace === 'encode' || activeWorkspace === 'remux') {
       const workspace = byId(`workspace-${activeWorkspace}`);
-      const trigger = byId(activeWorkspace === 'remux' ? 'remux-files-toggle' : 'files-toggle');
-      const batchPanel = byId('batch-panel'), collapse = byId('preview-collapse'), focused = document.activeElement;
-      const ownsList = !batchPanel.hidden && workspace.contains(batchPanel);
+      const trigger = filesDrawerTrigger(activeWorkspace);
+      const collapse = byId('preview-collapse'), focused = document.activeElement;
+      const ownsList = editorOwnsFileList(activeWorkspace);
       // CSS keeps the currently focused control visible long enough for this
       // handoff. Do not reopen the drawer or move focus out of another region.
       if (narrowFilesLayout.matches && ownsList && (focused === collapse || (!filesDrawerExpanded()
@@ -982,14 +991,18 @@
   }
 
   function syncFilesDrawerPresentation() {
-    const expanded = filesDrawerExpanded();
     for (const name of ['encode', 'remux']) {
       const panel = byId(`workspace-${name}`);
+      const trigger = filesDrawerTrigger(name), ownsList = editorOwnsFileList(name);
+      const expanded = ownsList && filesDrawerExpanded();
+      // Escape the disappearing control before hiding it. This is not an
+      // implicit switch to Jobs, and the last drawer choice is not reset.
+      if (!ownsList && document.activeElement === trigger) {
+        (panel.hidden ? byId(`tab-${activeWorkspace}`) : panel).focus();
+      }
+      if (trigger.hidden === ownsList) trigger.hidden = !ownsList;
       const className = `${(panel.className || '').replace(/\bfiles-drawer-open\b/g, '').trim()}${expanded ? ' files-drawer-open' : ''}`;
       if (panel.className !== className) panel.className = className;
-    }
-    for (const id of ['files-toggle', 'remux-files-toggle']) {
-      const trigger = byId(id);
       if (trigger.getAttribute('aria-expanded') !== String(expanded)) trigger.setAttribute('aria-expanded', String(expanded));
     }
   }
@@ -1002,7 +1015,7 @@
       previewCollapsed = false; renderItems();
     } else syncSelection();
     if (returnFocus) {
-      const trigger = byId(isRemux() ? 'remux-files-toggle' : 'files-toggle');
+      const trigger = filesDrawerTrigger(currentOperation());
       const shown = typeof trigger.getClientRects !== 'function' || trigger.getClientRects().length > 0;
       (shown ? trigger : byId('focused-file-name')).focus();
     }
@@ -2093,8 +2106,9 @@
       } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
     });
   }
-  byId('files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerExpanded()));
-  byId('remux-files-toggle').addEventListener('click', () => setFilesDrawer(!filesDrawerExpanded()));
+  for (const name of ['encode', 'remux']) filesDrawerTrigger(name).addEventListener('click', () => {
+    if (activeWorkspace === name && editorOwnsFileList(name)) setFilesDrawer(!filesDrawerExpanded());
+  });
   byId('focused-file-clear').addEventListener('click', () => {
     const previous = itemRows.get(focusedFileId); focusedFileId = null; renderFocusedFile();
     const rowVisible = previous && !previous.row.hidden && !previewCollapsed
@@ -2112,7 +2126,9 @@
   }
   byId('selected-review').addEventListener('toggle', syncReviewDisclosure);
   for (const name of ['encode', 'remux']) byId(`workspace-${name}`).addEventListener('keydown', event => {
-    if (event.key === 'Escape' && filesDrawerExpanded() && !activeHelp) { event.preventDefault(); setFilesDrawer(false, true); }
+    if (event.key === 'Escape' && activeWorkspace === name && editorOwnsFileList(name) && filesDrawerExpanded() && !activeHelp) {
+      event.preventDefault(); setFilesDrawer(false, true);
+    }
   });
   byId('view-jobs').addEventListener('click', () => activateWorkspace('jobs', true));
   byId('jobs-open-encode').addEventListener('click', () => activateWorkspace(currentOperation(), true));

@@ -44,7 +44,7 @@
     <p id="diagnostic-warning" class="attention-warning" role="status" hidden></p>
 
     <div id="workspace-encode" class="workspace" role="tabpanel" aria-labelledby="tab-encode" tabindex="0">
-    <div id="workbench-context" class="workbench-context"><p id="editing-scope-caption" class="scope-caption">Batch encoder settings · File processing overrides are edited in the inspector.</p><button id="files-toggle" class="subtle" type="button" aria-expanded="false" aria-controls="preview-list">Files and selection</button></div>
+    <div id="workbench-context" class="workbench-context"><p id="editing-scope-caption" class="scope-caption">Batch encoder settings · File processing overrides are edited in the inspector.</p><button id="files-toggle" class="subtle" type="button" aria-expanded="false" aria-controls="preview-list" hidden>Files and selection</button></div>
     <section id="setup-panel" class="panel" aria-labelledby="setup-heading">
       <div class="section-heading"><div><p class="eyebrow">ENCODE</p><h2 id="setup-heading">Encoder controls</h2></div><span class="scope-label">Batch settings</span></div>
       <div class="settings-grid">
@@ -112,7 +112,7 @@
         <div class="field remux-target-field"><label for="remux-target">Target container</label><select id="remux-target" aria-describedby="remux-target-summary remux-target-notice"><option value="matroska">Matroska (.mkv)</option><option value="mp4">MP4 (.mp4)</option><option value="mov">QuickTime (.mov)</option></select></div>
         <dl class="remux-facts"><div><dt>Range</dt><dd>Full · The complete file</dd></div><div><dt>Target preference</dt><dd id="remux-target-summary">The saved App Settings preference applies until you choose a target.</dd></div><div><dt>Media handling</dt><dd>Full stream copy. No encoder, quality control or transcoding. Inspect each file's preservation decisions and qualification refusals.</dd></div></dl>
         <p id="remux-target-notice" class="attention-warning" role="status" hidden></p>
-        <div class="action-row prepare-actions"><button id="prepare-remux" class="primary" type="button" disabled>Prepare Remux batch</button><button id="remux-files-toggle" class="subtle" type="button" aria-expanded="false" aria-controls="preview-list">Files and selection</button></div>
+        <div class="action-row prepare-actions"><button id="prepare-remux" class="primary" type="button" disabled>Prepare Remux batch</button><button id="remux-files-toggle" class="subtle" type="button" aria-expanded="false" aria-controls="preview-list" hidden>Files and selection</button></div>
         <p class="hint">Prepare creates a new Remux batch and replaces the current prepared draft. Target changes need a new preparation, which revokes temporary source and omission permissions. Switching tabs alone keeps the current batch.</p>
         <p class="hint">Choose/Change Input and Output above are shared. Frozen jobs retain their operation and settings. Only files marked Ready can start.</p>
       </section>

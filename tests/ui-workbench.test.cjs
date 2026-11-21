@@ -1146,9 +1146,8 @@ test('R06 responsive focus: unrelated controls and Current Jobs retain focus ins
   const before = [...h.calls];
   const jobs = h.snapshot('running');
   jobs.items[0].status = 'running'; jobs.items[1].status = 'pending';
-  h.update(jobs);
   const trigger = h.byId('files-toggle');
-  trigger.focus(); h.setNarrow(false);
+  trigger.focus(); h.update(jobs); h.setNarrow(false);
   assert.equal(h.document.activeElement.id, 'workspace-encode', 'no visible Encode list: use its workspace, not a hidden Jobs control');
   await h.byId('tab-jobs').click();
   const viewport = h.byId('batch-viewport');
@@ -1229,6 +1228,61 @@ test('R06 drawer disclosure: an existing open preference does not mislabel a new
   assert.equal(h.byId('workspace-encode').className.includes('files-drawer-open'), true);
   assert.match(h.byId('hidden-selected-count').textContent, /0 selected hidden/);
   assert.deepEqual(h.calls, before);
+});
+
+test('R06 Files ownership: an editor without a prepared list offers no drawer disclosure', async () => {
+  const h = await harness({}, { narrow: true });
+  assert.equal(h.byId('batch-panel').hidden, true);
+  for (const id of ['files-toggle', 'remux-files-toggle']) {
+    const trigger = h.byId(id);
+    assert.equal(trigger.hidden, true);
+    assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  }
+});
+
+for (const workspace of ['encode', 'remux']) test(`R06 Files ownership: ${workspace} hides stale disclosure while Jobs owns the list and restores it without changing navigation`, async () => {
+  const isRemux = workspace === 'remux';
+  const h = isRemux ? await remuxHarness({ narrow: true }) : await processingHarness({ narrow: true });
+  if (isRemux) await h.byId('tab-remux').click();
+  const editor = h.byId(`workspace-${workspace}`), jobs = h.byId('workspace-jobs'), list = h.byId('batch-panel');
+  const trigger = h.byId(isRemux ? 'remux-files-toggle' : 'files-toggle');
+  const other = h.byId(isRemux ? 'files-toggle' : 'remux-files-toggle');
+  const next = phase => isRemux ? h.snapshot({ phase }) : h.snapshot(phase);
+  assert.equal(editor.contains(list), true);
+  assert.equal(trigger.hidden, false);
+  await trigger.click();
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  const calls = [...h.calls], selected = h.byId('selected-count').textContent;
+  trigger.focus();
+  const running = next('running');
+  running.items[isRemux ? 1 : 0].status = 'running';
+  h.update(running);
+  assert.equal(jobs.contains(list), true);
+  assert.equal(jobs.hidden, true, 'ownership move is not workspace activation');
+  assert.equal(trigger.hidden, true);
+  assert.equal(other.hidden, true);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  assert.equal(h.document.activeElement.id, editor.id, 'recover focus before hiding its former target');
+  assert.equal(h.byId(`tab-${workspace}`).getAttribute('aria-selected'), 'true');
+  await trigger.emit('click'); // Direct stale event, not a user-visible pointer path.
+  assert.equal((await editor.emit('keydown', { key: 'Escape' })).defaultPrevented, false);
+  await h.byId('tab-jobs').click();
+  assert.equal(jobs.hidden, false);
+  assert.equal(h.byId('cancel-bar').hidden, false);
+  assert.equal(list.hidden, false);
+  assert.equal(h.byId('preview-list').hidden, false, 'editor drawer state does not collapse the Jobs list');
+  const jobsTab = h.byId('tab-jobs');
+  jobsTab.focus();
+  h.update(next('ready'));
+  assert.equal(editor.contains(list), true);
+  assert.equal(h.document.activeElement.id, jobsTab.id);
+  assert.equal(jobsTab.getAttribute('aria-selected'), 'true', 'restoring ownership does not navigate');
+  await h.byId(`tab-${workspace}`).click();
+  assert.equal(trigger.hidden, false);
+  assert.equal(other.hidden, true);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true', 'remember and restore the user’s prior drawer preference');
+  assert.equal(h.byId('selected-count').textContent, selected);
+  assert.deepEqual(h.calls, calls);
 });
 
 test('selected-review disclosure reports expansion for its button and native summary toggles', async () => {

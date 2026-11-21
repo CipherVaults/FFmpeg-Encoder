@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Bind the Files drawer to its owning editor [R06]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned the cloud lane in the existing GPT-6.2 Astra Ultra context (coordinating thread's verified configuration). Evidence: original checkpoint 133, prior independent reproduction and [R06 Files ownership evidence and native spot-check](Execution%20Summaries/2026-11-21_Regular_R06_Files_Disclosure_Ownership.md). Blue retains independent review and integration.
+
+## 🕒 Time
+November 21, approximately 03:19–03:25 Cairo. Test receipts record exact UTC.
+
+## 🎯 Session Goal
+Remove the false editor drawer disclosure when Current Jobs owns the shared list, without changing workspace or job behavior.
+
+## 🛠️ Actions Taken
+Reproduced the orphaned disclosure in idle, Encode and Remux. Bound presentation and input handlers to the actual visible list owner. If the disappearing trigger held focus, handed it to the current workspace before hiding. Preserved the drawer preference and checked exact cold source pins and tests.
+
+## 🧠 Key Insights
+A collapse describes list visibility; it cannot substitute for the existence of a controlled list in that workspace. Hiding the trigger is more truthful than redirecting the same control to Jobs.
+
+## 📌 Decisions Made
+Jobs and the shared list remain where the existing renderer puts them. Jobs is still entered by explicit navigation; neither list relocation nor restoration switches workspaces or clicks controls.
+
+## ⚠️ Difficulties / Friction
+The normal app requests a 640×480 minimum window, but older native results clamped differently and the 854×480 smoke only emulates renderer metrics. This lane did not run a native app.
+
+## 🔧 Adjustments Made
+The initial markup hides unowned triggers. The renderer only exposes the owning editor trigger and ignores stale toggle/Escape requests; the stored drawer choice is not recalculated on a job update.
+
+## ❌ Mistakes / Risks Noted
+A simulated hidden flag and active element do not prove platform tab order, viewport geometry, focus rendering or a screen-reader announcement. Keep all such claims open.
+
+## 📍 Current Position
+Exact-133 red: 101 passes and three intended failures; exact-133 cold source: 403 passes, no failures, one historical skip. The unchanged source and pin patch is composed over exact 134; ten selected suites on the composed source have 429 passes, no failure, one historical skip. No native result. [R06 Files ownership evidence and native spot-check](Execution%20Summaries/2026-11-21_Regular_R06_Files_Disclosure_Ownership.md).
+
+## 🔜 Next Steps
+Review, integrate and rerun relevant source tests on the intended tree. On the next authorized exact package, record outer/client bounds, renderer viewport, display scaling, DPR and zoom together, and run the paired focus crossings.
+
+## ❓ Open Questions
+Actual minimum outer and content measurements, supported DPI and assistive technology behavior remain open.
+
+## 🧾 Session Outcome
+No false editor disclosure when no list is present; the same shared list, navigation and preferences survive.
+
+## 🔍 Confidence Level
+High for exact source and injected DOM semantics; no fresh native, package or release evidence.
+
+---
+
 # 📘 Session: November 21, 2026 — FFmpeg Encoder — Verify Remux Cancel around a checked save [Q07/Q08]
 
 ## 🤖 Models, Effort, Roles and Provenance

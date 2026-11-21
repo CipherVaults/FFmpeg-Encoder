@@ -1,3 +1,5 @@
+- **November 21, 2026 — [R06: show the Files disclosure only where its list exists](Execution%20Summaries/2026-11-21_Regular_R06_Files_Disclosure_Ownership.md).** Exact-133 source evidence and proposed native minimum-size/resize recipe; no native run.
+
 - **November 21, 2026 — [Verify the three Remux publication boundaries under Cancel](Execution%20Summaries/2026-11-21_Regular_Q_Remux_Cancel_Publication_Boundaries.md).** Exact 132 controlled service and real owned filesystem checks, no media execution. Test-only; no route or release change.
 
 - **November 21, 2026 — [R06: disclose the Files drawer's actual expansion state](Execution%20Summaries/2026-11-21_Regular_R06_Drawer_Disclosure_Consistency.md).** Exact-131 red/green, source-pin verification and an open native case.

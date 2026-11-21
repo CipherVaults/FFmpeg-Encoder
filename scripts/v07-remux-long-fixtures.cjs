@@ -208,6 +208,8 @@ async function moduleSeals(io, regularProof = false) {
     'scripts/fixtures/q2j-layer3.cjs', 'linux-blue/qualification-tests/q2j-mp3-witness.cjs');
   else if (regularProof === 'mp3-service') names.push('scripts/v07-regular-mp3-service.cjs', 'scripts/fixtures/q2j-layer3.cjs');
   else if (regularProof === 'resize') names.push('scripts/v07-regular-resize-proof.cjs', 'scripts/v07-sdr-flac-range-calibration.cjs');
+  else if (regularProof === 'precision-aac') names.push('scripts/v07-regular-precision-aac-proof.cjs',
+    'scripts/v07-encode-operation-smoke.cjs', 'linux-blue/qualification-tests/q2f-precision-aac-clock.cjs');
   else if (regularProof === 'mkv-audio') names.push('scripts/v07-regular-mkv-audio-proof.cjs');
   else if (regularProof === 'multi-audio') names.push('scripts/v07-regular-multi-audio-proof.cjs', 'linux-blue/qualification-tests/q2l-multiaudio-copy.cjs');
   else if (regularProof === 'ancillary') names.push('scripts/v07-regular-ancillary-proof.cjs');
@@ -225,6 +227,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
   const campaign = regularProof === 'ancillary' ? 'q2m-regular-ancillary'
     : regularProof === 'multi-audio' ? 'q2l-regular-multi-audio'
+    : regularProof === 'precision-aac' ? 'q2f-regular-precision-aac'
     : regularProof === 'mkv-audio' ? 'q2k-regular-audio'
     : regularProof === 'resize' ? 'q2n-regular-resize' : regularProof === 'mp3-service' ? 'q2j-regular-mp3-service'
     : regularProof === 'mp3' ? 'q2j-regular-mp3' : regularProof ? 'q2j-regular' : 'q2i';
@@ -313,6 +316,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       lease = await io.open(leasePath, 'wx+'); leaseStamp = await lease.stat({ bigint: true }); assert.ok(ordinary(leaseStamp));
       await lease.writeFile(JSON.stringify({ token: id, pid: process.pid, purpose: regularProof === 'ancillary' ? 'Windows Q2m owned ancillary proof'
         : regularProof === 'multi-audio' ? 'Windows Q2l owned MP4 multi-audio proof'
+        : regularProof === 'precision-aac' ? 'Windows Q2f owned precision AAC proof'
         : regularProof === 'mkv-audio' ? 'Windows Q2k owned MKV audio measurement'
         : regularProof === 'resize' ? 'Windows Q2n owned CPU resize proof' : regularProof === 'mp3-service' ? 'Windows Q2j MP3 service proof'
         : regularProof === 'mp3' ? 'Windows Q2j MP3 laboratory'
@@ -357,7 +361,7 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
         assert.ok(versionOnly || path.resolve(argv.at(-1)).startsWith(owned + path.sep), 'Owned output only.');
       }
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
-        const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize' || regularProof === 'mkv-audio' || regularProof === 'multi-audio' || regularProof === 'ancillary') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
+        const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize' || regularProof === 'mkv-audio' || regularProof === 'multi-audio' || regularProof === 'ancillary' || regularProof === 'precision-aac') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
         assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
       }
       assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();

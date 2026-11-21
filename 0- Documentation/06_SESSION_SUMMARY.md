@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 22, 2026 — Windows precision AAC clocks
+
+Four canonical range cuts on the rebuilt 9.1 pair matched exact selected sample counts. Both stereo and mono signalled the terminal discard in Matroska. The direct lab admitted no production family. [Windows precision AAC laboratory](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md)
+
 # 📘 Session checkpoint — November 22, 2026 — Verified MKV audio in Windows service
 
 Ahmed’s exact-copy preference now applies to the measured Windows 9.1 route. One accepted batch published two outputs, with a separate current file choice before the 64 ms earlier copy. Full media and native verification preserved all samples and frames. TS seeking and MP3 normal-service regression passed. The prior failed receipts remain available. [MKV audio service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md#regular-windows-service-qualification)

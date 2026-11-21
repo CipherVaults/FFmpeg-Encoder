@@ -211,6 +211,10 @@
   const canAuthorize = item => isGenerated(item) && !item.reencodeAuthorized && item.status === 'generated';
   const formatArguments = args => JSON.stringify(args || [], null, 2);
 
+  function setWorkspaceTabStop(name) {
+    for (const candidate of workspaceNames) byId(`tab-${candidate}`).tabIndex = candidate === name ? 0 : -1;
+  }
+
   // Workspace navigation changes presentation only. It never prepares, cancels
   // or changes main-owned plans. Manual keyboard activation avoids starting a
   // disk-backed History read merely while arrowing through the tab labels.
@@ -219,10 +223,10 @@
     workspaceNavigationRevision++;
     activeWorkspace = name;
     closeHelp();
+    setWorkspaceTabStop(name);
     for (const candidate of workspaceNames) {
       const selected = candidate === name;
       byId(`tab-${candidate}`).setAttribute('aria-selected', String(selected));
-      byId(`tab-${candidate}`).tabIndex = selected ? 0 : -1;
       visible(`workspace-${candidate}`, selected);
     }
     // Navigation never reinterprets or prepares the main-owned operation.
@@ -2035,6 +2039,12 @@
     }
   }
 
+  const workspaceTabList = byId('workspace-tabs');
+  workspaceTabList.addEventListener('focusout', event => {
+    // Keep the roving focus stop during manual navigation. On exit, only the
+    // selected tab should be reachable when tabbing back from either side.
+    if (!workspaceTabList.contains(event.relatedTarget)) setWorkspaceTabStop(activeWorkspace);
+  });
   for (const [index, name] of workspaceNames.entries()) {
     const tab = byId(`tab-${name}`);
     tab.addEventListener('click', () => activateWorkspace(name));
@@ -2044,8 +2054,9 @@
       if (Object.hasOwn(positions, event.key)) {
         event.preventDefault();
         workspaceNavigationRevision++;
-        for (const candidate of workspaceNames) byId(`tab-${candidate}`).tabIndex = -1;
-        const next = byId(`tab-${workspaceNames[positions[event.key]]}`); next.tabIndex = 0; next.focus();
+        const next = workspaceNames[positions[event.key]];
+        setWorkspaceTabStop(next);
+        byId(`tab-${next}`).focus();
       } else if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); activateWorkspace(name); }
     });
   }

@@ -1,3 +1,49 @@
+# 📘 Session: November 21, 2026 — FFmpeg Encoder — Restore keyboard entry to the selected workspace [R06]
+
+## 🤖 Models, Effort, Roles and Provenance
+Blue assigned the implementation in a cloud lane using GPT-6.2 Astra Ultra (launch configuration supplied by the coordinating thread). Separate review and integration remain with Blue. Evidence: Git 127, prior independent renderer assessment, and the [R06 execution receipt](Execution%20Summaries/2026-11-21_Regular_R06_Workspace_Tab_Reentry.md).
+
+## 🕒 Time
+November 21, approximately 02:20–02:28 Cairo. The baseline, candidate, and cold candidate receipts have exact UTC timestamps.
+
+## 🎯 Session Goal
+Restore the selected workspace as the tab sequence re-entry point after manual focus leaves the tab list, without changing selection or job behavior.
+
+## 🛠️ Actions Taken
+Reproduced forward and backward exit against checkpoint 127 before editing the renderer. Used a shared tab-stop setter and restored the selected stop on focus exit. Updated the live Linux renderer pin and its two downstream inert-plan identities, then reconstructed and checked the exact new tree in a separate copy.
+
+## 🧠 Key Insights
+The focused tab and active tab need not match while users navigate a manual tab list. Only the active tab should remain in the sequential order once focus leaves the list.
+
+## 📌 Decisions Made
+Keep the change in the shared renderer. Preserve arrow/Home/End movement, explicit Enter/Space and mouse activation, native movement out of the list, and main-owned batch authority. Leave R06 partial.
+
+## ⚠️ Difficulties / Friction
+The existing vendor mutation precondition still fails on a stale string. The selected Linux service suite omits the unavailable prior real MKV probe fixture. Electron/display and owner-device testing were not exercised.
+
+## 🔧 Adjustments Made
+Published no external artifacts. Separated the behavioral change from exact-127 proof pins so the integrator can reconcile the mechanically overlapping Linux identity on top of Q rather than roll back either policy.
+
+## ❌ Mistakes / Risks Noted
+A simulated focus transition cannot establish a real browser's default Tab sequence or screen-reader output. A stale exact-127 inert qualification digest would reject the merged source; compute it from the intended merged bytes.
+
+## 📍 Current Position
+The exact source candidate is frozen, not integrated or released. Red: 92 passed, two intended failures. Cold candidate: 235 passed, no failures, one pre-existing skip. Full run details and hashes are in the [R06 execution receipt](Execution%20Summaries/2026-11-21_Regular_R06_Workspace_Tab_Reentry.md).
+
+## 🔜 Next Steps
+Independent review and exact integration with the current regular source; repeat the focused workbench tests and both pin censuses on those bytes. Later, verify native Tab and Shift+Tab in an authorized isolated Electron session before using the result for R06 acceptance.
+
+## ❓ Open Questions
+Do native Linux and Windows Electron focus transitions and assistive-technology behavior agree with the controlled model? This slice does not answer that.
+
+## 🧾 Session Outcome
+Controlled forward and backward exits restore the current selected tab without moving focus back, activating another workspace, or issuing a queue action.
+
+## 🔍 Confidence Level
+High for the modeled DOM behavior and exact source bytes. Native/packaged and release behavior remain unqualified.
+
+---
+
 # 📘 Session: November 14 (afternoon) – November 15, 2026 — FFmpeg Encoder — Q2j part 1: TS to MP4 and the playback-field list; Blue handoff to Codex
 
 ## 🤖 Models, Effort, Roles and Provenance

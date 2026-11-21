@@ -261,6 +261,83 @@ test('keyboard tab navigation is manual, preserves controls, and never submits a
   assert.equal(h.calls.some(call => ['prepareBatch', 'startBatch', 'cancelBatch', 'saveSettings'].includes(call.name)), false);
 });
 
+// The fixture does not implement native sequential Tab. Feed the DOM focusout
+// transition through the source and its ancestors, then inspect the tab stops.
+async function workspaceFocusOut(h, from, to) {
+  (to || h.document.body).focus();
+  for (let current = from; current; current = current.parentElement) {
+    const event = await current.emit('focusout', { target: from, relatedTarget: to });
+    assert.equal(event.defaultPrevented, false);
+  }
+}
+
+function workspaceTabStops(h) {
+  return h.byId('workspace-tabs').children.filter(tab => tab.tabIndex === 0).map(tab => tab.id);
+}
+
+test('workspace tab re-entry restores selected Encode on forward exit without activating Remux', async () => {
+  const h = await harness();
+  const encode = h.byId('tab-encode'), help = h.byId('tab-help'), remux = h.byId('tab-remux');
+  const callsBefore = [...h.calls];
+  encode.focus();
+  for (const [from, key, to] of [[encode, 'ArrowLeft', help], [help, 'ArrowRight', encode], [encode, 'ArrowRight', remux]]) {
+    assert.equal((await from.emit('keydown', { key })).defaultPrevented, true);
+    assert.equal(h.document.activeElement, to);
+    await workspaceFocusOut(h, from, to);
+    assert.deepEqual(workspaceTabStops(h), [to.id], 'an internal focus move retains the roving tab stop');
+    assert.equal(encode.getAttribute('aria-selected'), 'true');
+    assert.equal(h.byId('workspace-encode').hidden, false);
+  }
+  assert.equal(remux.getAttribute('aria-selected'), 'false');
+  assert.equal(h.byId('workspace-remux').hidden, true);
+  assert.equal((await remux.emit('keydown', { key: 'Tab' })).defaultPrevented, false);
+  const picker = h.byId('choose-input');
+  await workspaceFocusOut(h, remux, picker);
+  assert.equal(h.document.activeElement, picker, 'restoring re-entry does not pull focus back');
+  assert.deepEqual(workspaceTabStops(h), [encode.id]);
+  assert.equal(encode.getAttribute('aria-selected'), 'true');
+  assert.equal(h.byId('workspace-encode').hidden, false);
+  assert.equal(h.byId('workspace-remux').hidden, true);
+  assert.deepEqual(h.calls, callsBefore, 'focus-only navigation makes no preload calls');
+});
+
+test('workspace tab re-entry restores the newly activated tab on backward exit while a job is running', async () => {
+  const h = await harness();
+  const encode = h.byId('tab-encode'), remux = h.byId('tab-remux'), help = h.byId('tab-help');
+  const item = { id: 'file-1', name: 'Source.mp4', status: 'running', summary: {} };
+  h.update({ revision: 2, operation: 'encode', phase: 'running', batchId: 'batch-1', planId: 'plan-1', items: [item], counts: {},
+    progress: { fileId: item.id, percent: 17.5, seconds: 2, speed: 1.5 } });
+  encode.focus();
+  await encode.emit('keydown', { key: 'ArrowRight' });
+  assert.equal((await remux.emit('keydown', { key: ' ' })).defaultPrevented, true);
+  assert.equal(h.document.activeElement, remux);
+  assert.equal(remux.getAttribute('aria-selected'), 'true');
+  assert.deepEqual(workspaceTabStops(h), [remux.id]);
+  assert.equal(h.byId('workspace-remux').hidden, false);
+  const callsBefore = [...h.calls];
+  for (const [from, key, to] of [[remux, 'End', help], [help, 'Home', encode]]) {
+    assert.equal((await from.emit('keydown', { key })).defaultPrevented, true);
+    assert.equal(h.document.activeElement, to);
+    await workspaceFocusOut(h, from, to);
+    assert.deepEqual(workspaceTabStops(h), [to.id]);
+  }
+  const back = await encode.emit('keydown', { key: 'Tab', shiftKey: true });
+  assert.equal(back.defaultPrevented, false);
+  // The tablist is the first focusable group. Leaving the document may have
+  // no related target (for example, OS/browser focus rather than a DOM node).
+  await workspaceFocusOut(h, encode, null);
+  assert.equal(h.document.activeElement, h.document.body);
+  assert.deepEqual(workspaceTabStops(h), [remux.id]);
+  assert.equal(remux.getAttribute('aria-selected'), 'true');
+  assert.equal(h.byId('workspace-remux').hidden, false);
+  assert.equal(h.byId('workspace-encode').hidden, true);
+  assert.equal(h.byId('workspace-help').hidden, true);
+  assert.equal(h.byId('cancel-bar').hidden, false);
+  assert.equal(h.byId('active-job-progress').value, '17.5');
+  assert.deepEqual(h.calls, callsBefore, 'focus-only navigation neither changes the job nor loads another workspace');
+  assert.equal(h.calls.some(call => ['prepareBatch', 'prepareRemuxBatch', 'startBatch', 'cancelBatch', 'saveSettings'].includes(call.name)), false);
+});
+
 test('running jobs reuse preview nodes, retain live progress across tabs, and keep cancellation available', async () => {
   const h = await harness();
   const item = { id: 'file-1', name: 'Source.mkv', outputName: 'Source_H265-CPU.mkv', status: 'ready', reason: '', summary: {} };

@@ -1,0 +1,105 @@
+name: Regular checkpoint 138 packaged Settings restart successor (success report only)
+on:
+  push:
+    branches: [blue/regular-win-r03-138-succ-1f11f610-once]
+    paths: [.github/workflows/regular-windows-r03-138-successor.yml]
+permissions:
+  contents: read
+concurrency:
+  group: regular-windows-r03-138-succ-1f11f610-once
+  cancel-in-progress: false
+jobs:
+  settings:
+    if: ${{ github.repository == 'CipherVaults/FFmpeg-Encoder' && github.repository_id == '1460111553' && github.ref == 'refs/heads/blue/regular-win-r03-138-succ-1f11f610-once' && github.event_name == 'push' && github.event.before == '__BOUND_SEED__' && github.event.after == github.sha && github.workflow_sha == github.sha && github.workflow_ref == 'CipherVaults/FFmpeg-Encoder/.github/workflows/regular-windows-r03-138-successor.yml@refs/heads/blue/regular-win-r03-138-succ-1f11f610-once' && github.event.created == false && github.event.forced == false && github.event.deleted == false && github.run_attempt == 1 }}
+    runs-on: windows-2022
+    timeout-minutes: 30
+    env:
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_LFS_SKIP_SMUDGE: '1'
+      ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      npm_config_ignore_scripts: 'true'
+      npm_config_audit: 'false'
+      npm_config_fund: 'false'
+    steps:
+      - name: Bind start of this fresh hosted Windows job
+        shell: pwsh
+        run: |
+          if ($env:RUNNER_ENVIRONMENT -ne 'github-hosted' -or $env:RUNNER_OS -ne 'Windows' -or $env:RUNNER_ARCH -ne 'X64') { throw 'Wrong hosted runner.' }
+          $tick = [int64][Environment]::TickCount
+          if ($tick -lt 0) { $tick += 4294967296 }
+          "R03_JOB_TICK=$tick" >> $env:GITHUB_ENV
+      - name: Check out reviewed harness event revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: harness
+          ref: ${{ github.sha }}
+          fetch-depth: 3
+          persist-credentials: false
+          lfs: false
+          submodules: false
+      - name: Check out exact independent checkpoint 138 product
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          path: product
+          ref: 33196f7434d781e683bb35ed4445fd1db3cc118a
+          fetch-depth: 1
+          persist-credentials: false
+          lfs: false
+          submodules: false
+      - name: Verify exact tracked inputs and fixed NTFS capacity before downloads
+        shell: pwsh
+        run: node harness/.github/regular-windows-r03-138/binding.cjs preflight
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - name: Install only locked packaging metadata; lifecycle hooks disabled
+        working-directory: product
+        timeout-minutes: 5
+        shell: pwsh
+        run: |
+          $npmLog = Join-Path $env:RUNNER_TEMP "regular-r03-cp138-successor-npm.log"
+          npm ci --ignore-scripts --no-audit --no-fund *> $npmLog
+          if ($LASTEXITCODE -ne 0) { throw 'Locked dependency setup failed. No report or package retained.' }
+      - name: Run only the reviewed isolated clean Settings journey
+        id: verify
+        timeout-minutes: 24
+        shell: pwsh
+        run: |
+          $tick = [int64][Environment]::TickCount
+          if ($tick -lt 0) { $tick += 4294967296 }
+          $env:R03_STEP_TICK = "$tick"
+          $log = Join-Path $env:RUNNER_TEMP "regular-r03-cp138-successor-run.log"
+          node harness/.github/regular-windows-r03-138/binding.cjs run *> $log
+          $status = $LASTEXITCODE
+          if ($status -ne 0) {
+            $reason = switch ($status) {
+              41 { 'BINDING_REFUSED' }
+              42 { 'FIXED_PREFLIGHT_REFUSED' }
+              43 { 'RUNNER_SETUP_REFUSED' }
+              44 { 'PACKAGE_UNVERIFIED' }
+              45 { 'PRELAUNCH_REFUSED' }
+              46 { 'SCENARIO_REFUSED_AFTER_ONE_DURABLE_CLOSE' }
+              47 { 'SCENARIO_REFUSED_AFTER_TWO_DURABLE_CLOSES' }
+              48 { 'FINAL_BINDING_REFUSED_AFTER_TWO_DURABLE_CLOSES' }
+              49 { 'REPORT_UNAVAILABLE_AFTER_TWO_DURABLE_CLOSES' }
+              default { 'UNCLASSIFIED_FAILURE' }
+            }
+            Write-Host "::error title=Regular R03 hosted check::$reason"
+            exit 1
+          }
+          $bound = @(Select-String -LiteralPath $log -Pattern "^Report SHA256 [a-f0-9]{64}$")
+          if ($bound.Count -ne 1) { throw 'Success report digest unavailable or ambiguous.' }
+          Write-Output $bound[0].Line
+      - name: Retain only the one sanitized successful report
+        if: ${{ success() && !cancelled() && steps.verify.outputs.report_ready == 'true' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: regular-cp138-r03-successor-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.verify.outputs.report_path }}
+          if-no-files-found: error
+          retention-days: 3
+          compression-level: 0

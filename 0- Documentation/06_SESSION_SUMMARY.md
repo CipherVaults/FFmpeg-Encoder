@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — native Windows workbench
+
+The actual workbench prepared 61 files, preserved selection across native resizing, and published one selected Remux per proof run. The revised workbench distinguishes blocked files and applies saved expansion. The restarted corrected app published ordinary CPU and NVIDIA stereo Full outputs. Active close produced and retained one incomplete stage. The short mono PCM Full job failed validation without publication. Final 296 workbench checks passed. [Native Windows workbench](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md)
+
 # 📘 Session checkpoint — November 27, 2026 — Windows Remux packet acquisition
 
 Fresh outputs on the two identical input files reproduced the complete baseline packet and timing transcripts. The higher-byte post-copy time fell from 22.580 to 2.916 seconds. The measured post-copy fit met both targets. The full service measurement including Prepare remains open. All 27 children closed, all 204 focused checks passed, and final normal TS seek passed at all six targets. [Matched Windows timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md#matched-input-optimization)

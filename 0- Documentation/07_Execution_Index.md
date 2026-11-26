@@ -1,3 +1,5 @@
+- **November 27, 2026 — [Native Windows workbench](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md).** Folder pickers, mixed-list navigation, corrected result counts, persisted list expansion, ordinary CPU/NVIDIA Full, active close and retained refusal evidence.
+
 - **November 27, 2026 — [Matched Windows timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md#matched-input-optimization).** Same input seals, independently joined binary TS and native MP4 packets, qualified post-copy fit and retained combined-service speed miss.
 
 - **November 27, 2026 — [Windows Remux timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md).** Same-resolution, matched 1,800-frame sources of two byte sizes, measured verification phases and a retained speed target miss.

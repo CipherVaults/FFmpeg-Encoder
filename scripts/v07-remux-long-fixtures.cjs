@@ -219,11 +219,16 @@ async function moduleSeals(io, regularProof = false) {
   return Promise.all(names.map(async file => { const target = path.join(ROOT, file), stat = await io.lstat(target); assert.ok(stat.isFile() && !stat.isSymbolicLink() && stat.size <= 2 * MiB);
     return { file, sha256: sha(await readBoundedFile(target, 2 * MiB, { io })) }; }));
 }
-function createOwnedSession({ kind, limits, dependencies = {}, regularProof = false }) {
+function createOwnedSession({ kind, limits, dependencies = {}, regularProof = false, readOnlyInputs = [] }) {
   const { fs: io = fs, runTool: execute = runTool,
     verifyCandidateRuntime: verify = regularProof ? verifyRegularWindowsRuntime : verifyCandidateRuntime,
     assertOrdinaryPath: checkPath = assertOrdinaryPath, randomUUID: uuid = randomUUID, platform = process.platform } = dependencies;
   assert.ok(['fixtures', 'smoke'].includes(kind));
+  const retainedRoot = path.join(ROOT, 'artifacts/v0.7/q2o-regular-performance/smoke/7a11e48a-9bfd-4f5c-98c7-8d86f1473056/owned');
+  const retainedFiles = ['high', 'low'].map(id => path.join(retainedRoot, id, 'input', 'ts-av.ts'));
+  assert(Array.isArray(readOnlyInputs) && (!readOnlyInputs.length || regularProof === 'remux-performance'
+    && readOnlyInputs.length === 2 && retainedFiles.every(file => readOnlyInputs.includes(file))));
+  const retainedInputs = new Set(readOnlyInputs);
   const id = uuid();
   const ownedRoot = regularProof ? path.join(ROOT, 'artifacts/v0.7') : OWNED;
   const campaign = regularProof === 'remux-performance' ? 'q2o-regular-performance'
@@ -365,7 +370,8 @@ function createOwnedSession({ kind, limits, dependencies = {}, regularProof = fa
       }
       for (let i = 0; i < argv.length; i++) if (argv[i] === '-i') {
         const lavfi = (kind === 'fixtures' || regularProof === true || regularProof === 'resize' || regularProof === 'mkv-audio' || regularProof === 'multi-audio' || regularProof === 'ancillary' || regularProof === 'precision-aac' || regularProof === 'remux-performance') && argv[i - 2] === '-f' && argv[i - 1] === 'lavfi';
-        assert.ok(lavfi || path.resolve(argv[i + 1]).startsWith(owned + path.sep), 'Only owned or explicit synthetic inputs.');
+        const input = path.resolve(argv[i + 1]);
+        assert.ok(lavfi || input.startsWith(owned + path.sep) || retainedInputs.has(input), 'Only owned, sealed retained, or explicit synthetic inputs.');
       }
       assert.deepEqual(await moduleSeals(io, regularProof), report.modulesBefore, 'Producer modules changed before admission.'); await observe();
       const entry = { ordinal: report.invocations.length + 1, file, argv, admissionStartedAt, startedAt: new Date().toISOString(), status: 'running', stdoutBytes: 0, stderrBytes: 0 };

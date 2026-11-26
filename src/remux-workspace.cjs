@@ -10,6 +10,7 @@ const { fingerprintRemuxSourceIdentity, deriveRemuxAssessmentBudget } = require(
 const { prepareTransport } = require('./remux-transport-evidence.cjs');
 const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { WINDOWS_TWO_AAC, observeTwoAacNative } = require('./remux-windows-two-aac.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { observeNativeInventory } = require('./remux-native-checks.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
 const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
@@ -190,8 +191,13 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
       }
     }
     const transportPreparation = assessment.inputFamily === 'mpegts' ? await prepareTransport({ file, probe: source, identity, ffprobe: this.ffprobe,
+      ffmpeg: this.runtimeIdentity === REGULAR_WINDOWS_PAIR ? this.ffmpeg : null,
       run: typeof this.operationRuntime.invoke === 'function'
-        ? (_file, args, options) => this.operationRuntime.invoke(operationRuntimeToken, 'ffprobe', args, options) : this.run,
+        ? (binary, args, options) => {
+          if (binary !== this.ffprobe && (binary !== this.ffmpeg || this.runtimeIdentity !== REGULAR_WINDOWS_PAIR))
+            throw fail('OPERATION_RUNTIME_STALE', 'The transport read requires an exact observed media tool.');
+          return this.operationRuntime.invoke(operationRuntimeToken, binary === this.ffprobe ? 'ffprobe' : 'ffmpeg', args, options);
+        } : this.run,
       signal, budget: deriveRemuxAssessmentBudget(assessment, identity.size, 'packet-identity-v1').budget }) : null;
     return { operationRuntimeToken, transportPreparation };
   });

@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — Windows Remux packet acquisition
+
+Fresh outputs on the two identical input files reproduced the complete baseline packet and timing transcripts. The higher-byte post-copy time fell from 22.580 to 2.916 seconds. The measured post-copy fit met both targets. The full service measurement including Prepare remains open. All 27 children closed, all 204 focused checks passed, and final normal TS seek passed at all six targets. [Matched Windows timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md#matched-input-optimization)
+
 # 📘 Session checkpoint — November 27, 2026 — Windows Remux timing
 
 Two matched 60-second TS inputs copied and verified through the same Windows 9.1 service. The larger run spent about 42 seconds across the two packet-dump children. The case verdicts passed, the speed verdict missed, and all 21 children closed. [Windows Remux timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md)

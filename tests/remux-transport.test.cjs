@@ -12,7 +12,7 @@ const { RemuxOperations, fingerprintRemuxSourceIdentity, deriveRemuxAssessmentBu
 const { readSourceIdentity } = require('../src/source-identity.cjs');
 const { EVIDENCE_BUDGET, EXECUTION_BUDGET_MS } = require('../src/operation-controls.cjs');
 const { collectRemuxEvidence, compareRemuxPackets } = require('../src/remux-evidence.cjs');
-const { prepareTransport, initialization } = require('../src/remux-transport-evidence.cjs');
+const { prepareTransport, getTransportPreparation, initialization } = require('../src/remux-transport-evidence.cjs');
 const { canonicalTransportVideo, canonicalTransportAudio, transportNals, dumpBytes, transportClock, createTransportIntegrity } = require('../src/remux-transport.cjs');
 const admission = require('./helpers/remux-admission-fixture.cjs');
 const { ffmpeg, ffprobe } = require('../src/candidate-runtime.cjs').resolveCandidateRuntime({ root: path.resolve(__dirname, '..') });
@@ -43,6 +43,43 @@ function owner(qualified = true) { return new RemuxOperations({ runtimeIdentity,
   policies: qualified ? REMUX_POLICIES : [{ ...route, evidenceIds: [] }] }); }
 async function prepare(f, run = runTool, signal) { return prepareTransport({ file: f.file, probe: f.raw, identity: f.identity,
   ffprobe, run, signal, budget: deriveRemuxAssessmentBudget(f.assessment, f.identity.size, 'packet-identity-v1').budget }); }
+test('a complete but disagreeing binary projection falls back after closure and proves the same source transcript', async t => {
+  const f = await fixture(t, { audio: false });
+  const original = await prepare(f);
+  const stat = await fs.lstat(f.file, { bigint: true });
+  const stamp = Object.fromEntries(['dev', 'ino', 'size', 'nlink', 'mtimeNs', 'ctimeNs', 'birthtimeNs'].map(key => [key, String(stat[key])]));
+  const baseline = getTransportPreparation(original, f.file, f.raw, stamp);
+  let altered = false, closed = false, fallbackCalls = 0;
+  const token = await prepareTransport({ file: f.file, probe: f.raw, identity: f.identity, ffmpeg, ffprobe,
+    budget: deriveRemuxAssessmentBudget(f.assessment, f.identity.size, 'packet-identity-v1').budget,
+    run(file, args, options) {
+      if (args.includes('-show_packets') && args.includes('-show_data')) {
+        assert.equal(closed, true);
+        fallbackCalls++;
+      }
+      if (file !== ffmpeg) return runTool(file, args, options);
+      return runTool(file, args, { ...options, onChild(child) {
+        child.once('close', () => { closed = true; });
+        options.onChild?.(child);
+      }, onStdoutChunk(chunk) {
+        if (altered) return options.onStdoutChunk(chunk);
+        const changed = Buffer.from(chunk);
+        changed[0] ^= 1;
+        altered = true;
+        return options.onStdoutChunk(changed);
+      } });
+    },
+  });
+  const result = getTransportPreparation(token, f.file, f.raw, stamp);
+  assert.equal(altered, true);
+  assert.equal(closed, true);
+  assert.equal(fallbackCalls, 1);
+  assert.equal(result.sourceAcquisition.method, 'demux-packet-dump');
+  assert.equal(result.sourceAcquisition.fallback.code, 'REMUX_TS_BINARY_PROJECTION');
+  assert.deepEqual([...result.entries].map(([index, entry]) => [index, entry.record]),
+    [...baseline.entries].map(([index, entry]) => [index, entry.record]));
+});
+
 async function complete(t, shape = {}, mutant = null) {
   const f = await fixture(t, shape), api = owner(), output = path.join(f.dir, 'out.mp4'), outputId = randomUUID();
   const plan = api.prepare({ assessment: f.assessment, request, input: f.file, output, outputId, sourceIdentity: f.identity });

@@ -14,7 +14,7 @@ const { observeMovRepresentation } = require('./mov-representation.cjs');
 const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
-const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
+const { observeNativeInventory, compareNativeInventories, getIsoPayloadExtents } = require('./remux-native-checks.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { WINDOWS_TWO_AAC, assertTwoAacProbe, assertTwoAacPacket, assertTwoAacUnits, observeTwoAacNative } = require('./remux-windows-two-aac.cjs');
 const { WINDOWS_TIMED_MATROSKA, assertWindowsTimedMatroskaProbe } = require('./remux-windows-chapters.cjs');
@@ -1419,11 +1419,45 @@ async function collectRemuxEvidence(options) {
     const primary = failures.find(result => result.reason?.code !== 'CANCELLED') || failures[0];
     if (primary) throw primary.reason;
   }
-  async function collectTransportSides() {
+  async function collectTransportSides(nativeOutput) {
     const { getTransportPreparation, scanTransportPackets } = require('./remux-transport-evidence.cjs');
     const prepared = getTransportPreparation(options.transportPreparation, sourcePath, sourceProbe, stamp(sourceBefore));
-    const scanned = await scanTransportPackets({ file: outputPath, probe: outputProbe, source: false, sourceAdmission: prepared.admitted,
-      budget, signal, invoke: (args, maximum, sink) => invoke('output-all-packets', ffprobe, args, maximum, false, null, sink) });
+    const extents = getIsoPayloadExtents(nativeOutput);
+    const scan = readOutputPacket => scanTransportPackets({ file: outputPath, probe: outputProbe, source: false, sourceAdmission: prepared.admitted,
+      budget, signal, readOutputPacket, invoke: (args, maximum, sink, label) => invoke(label || 'output-all-packets', ffprobe, args, maximum, false, null, sink) });
+    let scanned;
+    if (runtimeIdentity === REGULAR_WINDOWS_PAIR) {
+      need(extents && extents.size === mappings.length, 'The current transport output needs complete native sample extents.', 'REMUX_NATIVE_SAMPLE_EXTENT');
+      await unchanged(outputPath, outputBefore);
+      const stage = await fs.open(outputPath, 'r');
+      let payloadBytes = 0;
+      try {
+        need(same(outputBefore, await stage.stat({ bigint: true })), 'The sample reader opened a different stage.', 'REMUX_EVIDENCE_CHANGED');
+        scanned = await scan(async (packet, ordinal) => {
+          const extent = extents.get(packet.stream_index)?.[ordinal];
+          need(extent && String(packet.pos) === String(extent.start) && String(packet.size) === String(extent.end - extent.start)
+            && (packet.flags?.[0] === 'K') === extent.key && PACKET_HASH.test(String(packet.data_hash)),
+          'Output packet extent or key flag disagrees with its native sample.', 'REMUX_NATIVE_SAMPLE_EXTENT');
+          const length = extent.end - extent.start;
+          need(length > 0 && length <= 8 * 1024 * 1024, 'Native output packet exceeds the transport payload bound.', 'REMUX_TS_PACKET_BYTES');
+          const bytes = Buffer.alloc(length);
+          for (let read = 0; read < length;) {
+            stop();
+            const result = await stage.read(bytes, read, length - read, extent.start + read);
+            need(result.bytesRead > 0, 'Native sample is incomplete.', 'REMUX_NATIVE_SAMPLE_EXTENT');
+            read += result.bytesRead;
+          }
+          need(sha(bytes) === PACKET_HASH.exec(packet.data_hash)[1].toLowerCase(), 'The demuxed packet hash disagrees with its held native output bytes.', 'REMUX_PACKET_PAYLOAD');
+          payloadBytes += length;
+          return bytes;
+        });
+        need([...extents].every(([index, packets]) => scanned.entries.get(index)?.count === packets.length),
+          'Output packet metadata did not cover every native sample.', 'REMUX_NATIVE_SAMPLE_EXTENT');
+        need(same(outputBefore, await stage.stat({ bigint: true })), 'The sample reader observed a changed stage.', 'REMUX_EVIDENCE_CHANGED');
+      } finally { await stage.close(); }
+      await unchanged(outputPath, outputBefore);
+      receipt.nativeTransportPayload = { complete: true, sampleCounts: [...extents].map(([index, rows]) => ({ index, packets: rows.length })), bytesRead: payloadBytes };
+    } else scanned = await scan(null);
     for (const mapping of mappings) {
       const before = prepared.entries.get(mapping.inputIndex), after = scanned.entries.get(mapping.outputIndex);
       need(before && after && before.count === after.count, 'Transport packet count changed.', 'REMUX_PACKET_COUNT');
@@ -1462,7 +1496,7 @@ async function collectRemuxEvidence(options) {
     await invoke('output-' + video.outputIndex + '-complete-parameters', ffmpeg, [...ffmpegArgs(outputPath, video.outputIndex),
       '-an', '-sn', '-dn', '-copyinkf', '-c:v', 'copy', '-bsf:v', ['h264_mp4toannexb', 'filter_units=remove_types=12', 'h264_metadata'].join(','), '-f', 'null', '-'],
     1024, true);
-    receipt.transport = { rule: 'keep-source-clocks-exactly', nalMovements: [], strippedFraming: ['annex-b-start-codes', 'seven-byte-adts-header'],
+    receipt.transport = { rule: 'keep-source-clocks-exactly', sourceAcquisition: prepared.sourceAcquisition, nalMovements: [], strippedFraming: ['annex-b-start-codes', 'seven-byte-adts-header'],
       sampleDescription: 'byte-identical-sps-pps-and-adts-asc', headDroppedPackets: 0 };
   }
   async function collectCodecAdmission() {
@@ -1752,10 +1786,10 @@ async function collectRemuxEvidence(options) {
     const nativeSource=await observeNativeInventory({file:sourcePath,probe:source,family:assessment.inputFamily,target:assessment.target,
       identity:stamp(sourceBefore),selectedIndexes:mappings.map(m=>m.inputIndex),sourceEnvelope:options.sourceEnvelope,...budget,signal});
     const nativeOutput=await observeNativeInventory({file:outputPath,probe:output,family:outputFamily,target:assessment.target,
-      identity:stamp(outputBefore),sourceEnvelope:options.sourceEnvelope,...budget,signal});
+      identity:stamp(outputBefore),sourceEnvelope:options.sourceEnvelope,retainIsoPayloadExtents:transport && runtimeIdentity === REGULAR_WINDOWS_PAIR,...budget,signal});
     receipt.nativeInventory=compareNativeInventories(nativeSource,nativeOutput,mappings);
     if (verificationMethod === 'packet-identity-v1') {
-      if (transport) await collectTransportSides();
+      if (transport) await collectTransportSides(nativeOutput);
       else {
       await collectPacketSides({ source: nativeSource, output: nativeOutput });
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
@@ -1965,6 +1999,9 @@ async function collectRemuxEvidence(options) {
         completeOperations.push({ side, operation: call.label });
       else partialOperations.push({ side, operation: call.label, toolInternalReads: 'unmeasured' });
     }
+    if (receipt.transport?.sourceAcquisition?.method === 'packet-hash-and-binary-demux')
+      completeOperations.push({ side: 'source', operation: 'binary-demux-during-preparation', bytesRead: receipt.transport.sourceAcquisition.streams.reduce((total, row) => total + row.bytes, 0) });
+    if (receipt.nativeTransportPayload) completeOperations.push({ side: 'output', operation: 'held-native-sample-payloads', bytesRead: receipt.nativeTransportPayload.bytesRead });
     completeOperations.push({ side: 'output', operation: 'output-seal', bytesRead: Number(outputBefore.size) });
     if (assessment.target === 'mov') completeOperations.push({ side: 'output', operation: 'mov-representation-reseal', bytesRead: Number(outputBefore.size) });
     if (receipt.nativeEditLists) partialOperations.push({ side: 'output', operation: 'native-edit-list-metadata', bytesRead: receipt.nativeEditLists.metadataBytesRead });

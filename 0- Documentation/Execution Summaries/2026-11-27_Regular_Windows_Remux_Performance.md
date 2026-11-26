@@ -44,3 +44,56 @@ This measurement keeps the target open. Quick copy remains design-only.
 Keep the successful packet proof and the speed verdict intact. Any
 further run must recheck its actual storage reservation above the
 25 GiB floor. Native Linux, full R and final S remain outstanding.
+
+## Matched input optimization
+
+The same two input files were read under their original SHA-256 and
+filesystem identities. The repeat ran high first with new output and
+state paths. It kept the 25 GiB scratch floor and checked the exact
+product reservation before each Start. Its supplemental operational
+margin was 32 MiB because the sources were already retained in place.
+
+Source acquisition uses complete FFprobe metadata and packet SHA-256
+with sequential raw FFmpeg data streams for the regular Windows pair
+within the 20,000-record budget. The source integrity walk, packet
+ordering, exact clocks, codec admission, and before-Ready guards still
+apply. A narrowly typed disagreement can use the legacy collector after
+the read closes cleanly on the same input. Larger record budgets use the
+existing streaming collector. Neither path admits a new source shape.
+
+For the MP4 output, a private native sample walk binds every packet to
+its ordinal, exact file extent and key flag. Each extent is read under
+the held stage identity and its raw hash must match independent FFprobe
+metadata. Output packet checks, edit-list checks, complete coded header
+validation, endpoint decodes and the file seal still apply. Both fresh
+outputs reproduced the baseline's complete packet and timestamp
+transcripts. Independent readback joined all 9,228 output samples to
+their actual nonoverlapping MP4 extents and hashes.
+
+| Coded source | Prepare to Ready | Copy child | Copy close to terminal | Full wall excluding copy | Speed envelope |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 14,335,940 bytes | 1.252 s | 0.076 s | 2.459 s | 4.119 s | 3.086 s |
+| 110,020,420 bytes | 2.903 s | 0.189 s | 2.916 s | 6.215 s | 3.660 s |
+
+The post-copy fit was 2.391 s fixed plus 4.776 s per decimal GB.
+Both measured post-copy times were below the unchanged envelope. The
+full run excluding the copy child fit 3.804 s fixed and 21.911 s/GB,
+and both cases remained above the envelope. The source-origin storage
+cache was warm and the case order differed from the baseline. These
+measurements cover the stated sizes and Windows TS route. The
+broader end-to-end and long-source timing targets remain open.
+
+- Matched run `daeaab42-3eeb-4dcd-93c4-d05dec2277b8`. Report SHA-256
+  `30838413eefd0e6a28a5dc88acf3b9c4106b9865aa421bf5f72bc83000dd9853`.
+  The combined verdict remains `measured-target-miss`, exit 2. Two
+  protected publications, 27 closed children, media lease released and
+  final external census empty.
+- Current normal TS seek run `5974ea64-4fea-4b0e-a972-aebd3368ddd2`.
+  All 240 linear frames and all six exact first-frame hashes and PTS
+  values matched. The before-Start cut-head refusal held. All 23
+  children closed. Report SHA-256
+  `859bcdc70b829f152a058a86aec18a0888ac2218901f354851ce02e99e927b1d`.
+- Final test receipt `20261126T230432Z_q2o-windows-binary-transport-final`
+  records all 204 checks passing, including a same-length wrong binary
+  payload that recovered only after the child closed. SHA-256
+  `13e924b9458c34ab5a83a7080b9974e486039cb30bc748accb046d3dbea0386e`.

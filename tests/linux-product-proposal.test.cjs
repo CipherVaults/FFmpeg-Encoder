@@ -238,13 +238,14 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
    'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',8272,'8acbdae5685ef158c70f4f3a10ef0fd0d01417e1647167c5e080ade9f05420a3'],
    'src/remux-contract.cjs': ['f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da',38772,'c8db0e1df72356716f4f2c888a0b324fd2cb467dd4e245f3498d1b1d9b441300'],
-   'src/remux-evidence.cjs': ['76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75',160265,'5c74c9d7444047f49ede3591d2b38f19b4a974f6f0fb6662565da76f5a44f455'],
-   'src/remux-native-checks.cjs': ['70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7',33654,'ac1254646aed638c3c626e35a6cf8b73e9ee6b984dfa1774a67bf05137d8ef33'],
+   'src/remux-evidence.cjs': ['76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75',163445,'57daf645eb11ac7e3fe41f172684c5c3805cb84fd49c5c22b0e655e21f80389b'],
+   'src/remux-native-checks.cjs': ['70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7',34435,'41c92ef17de659504bf9b5bac8a80ce4e33af63f863916213d73bbefd28cda73'],
    // Before timed SubRip, the Windows Remux current cue reader was 6456 bytes, 93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd.
    'src/remux-native-cues.cjs': ['fe894c5ab1f7f413dd62e824a89398fed5c6ff3d487c3c4590b736de4ef279dd',6980,'38ecafa1539434f95d74f9db994bbfd1672f729432e80efb4f4e7858c6dad072'],
    'src/remux-operation.cjs': ['62715bdbb137e3f0938d26d7394172b6818e4f950f0bc5b7331f18769f51dcac',48827,'f98c9c35c119e56fc8b64d65f7364773784fedbbfd9cfbf700e8eb18919749c5'],
+   'src/remux-transport-evidence.cjs': ['529e67c24200cc216c7f3578f9984d383714de6990c249bf6f3a8453a724b62a',20482,'7d718265d8d41998e8da65c21f7c43833ebd010971e06d90e9f1161568eff20c'],
    'src/remux-validation.cjs': ['6166b0e226b5755a0dfa1ca8b9333a1401c3186e21f6f31ad30cdf1266a6f810',43525,'e554ab2e020baff103d726d2591feb1f18bbe72dac13fd17a92b135c0bf6fe47'],
-   'src/remux-workspace.cjs': ['7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260',22662,'a04933e04ea50e41c5e99d3dd7e6e395f3a8508eaaa881d31e5d9241db12f3fd'],
+   'src/remux-workspace.cjs': ['7430f312bfcbabce39ae942ceeac7c0231ebaf7c387d21b7bc8d64d9de7f5260',23115,'00812f435092efae682d4a3add4dbde08a122142043b78deb3c6575e4fd26faa'],
    'src/vendor-encode.cjs': ['4ace2e31776981382f86fa742f5caca2a8874314c61bf9d6ea1cde069980dd74',11018,'71a10e6d08c293ed681bb5e1f7bbc176361204bd8d98cce14ddc18577827f71f'],
  };
  let changed=0, historicalOnly=0;
@@ -288,7 +289,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,24);
+ assert.equal(changed,25);
  assert.equal(historicalOnly,1);
 });
 

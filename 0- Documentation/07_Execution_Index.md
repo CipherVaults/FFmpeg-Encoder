@@ -1,3 +1,5 @@
+- **November 27, 2026 — [Matched Windows timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md#matched-input-optimization).** Same input seals, independently joined binary TS and native MP4 packets, qualified post-copy fit and retained combined-service speed miss.
+
 - **November 27, 2026 — [Windows Remux timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md).** Same-resolution, matched 1,800-frame sources of two byte sizes, measured verification phases and a retained speed target miss.
 
 - **November 27, 2026 — [Windows timed Matroska service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md#regular-windows-service).** Two default Full Matroska copies, exact subtitle index and ordered chapter proof, five before-Start refusals, and fresh Windows TS/MP3 regression.

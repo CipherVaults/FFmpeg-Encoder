@@ -5,6 +5,7 @@ const { readNativeMetadata,ancestor }=require('./remux-native-reader.cjs');
 const { createHash }=require('node:crypto');
 const { WINDOWS_TIMED_MATROSKA, assertWindowsTimedMatroskaProbe, readWindowsChapterDisplays }=require('./remux-windows-chapters.cjs');
 const { readWindowsSubtitleBlocks }=require('./remux-windows-subrip.cjs');
+const isoPayloadExtents=new WeakMap();
 // ISO/IEC 23091-2/H.273 codes, using the pinned FFmpeg probe names. Native
 // container colour declarations cannot hide behind a codec's different VUI.
 const COLOUR=[{1:'bt709',4:'bt470m',5:'bt470bg',6:'smpte170m',7:'smpte240m',8:'film',9:'bt2020',10:'smpte428',11:'smpte431',12:'smpte432',22:'jedec-p22'},
@@ -13,7 +14,7 @@ const COLOUR=[{1:'bt709',4:'bt470m',5:'bt470bg',6:'smpte170m',7:'smpte240m',8:'f
 const fail=(r,text)=>{throw new ToolError(r.code,`${r.container} ${r.field}: ${text}`);};
 function language(value){try{const s=value||'und';if(!/^[a-zA-Z]{2,8}(?:-[a-zA-Z0-9]{1,8})*$/.test(s)||s.length>255)throw Error();return Intl.getCanonicalLocales(s)[0].toLowerCase();}catch{throw new ToolError('REMUX_NATIVE_LANGUAGE','Native language is malformed or unsupported.');}}
 function groupPartition(tracks){return tracks.map(t=>{const peers=tracks.filter(p=>p.kind===t.kind&&p.group!==0&&p.group===t.group);return{index:t.index,members:peers.length>1?peers.map(p=>p.index).sort((a,b)=>a-b):[]};});}
-async function observeNativeInventory({file,probe,family,target,identity,maxRecords,timeoutMs,signal,selectedIndexes=probe.streams.map(s=>s.index),sourceEnvelope}){
+async function observeNativeInventory({file,probe,family,target,identity,maxRecords,timeoutMs,signal,selectedIndexes=probe.streams.map(s=>s.index),sourceEnvelope,retainIsoPayloadExtents=false}){
   const windowsTimed=sourceEnvelope===WINDOWS_TIMED_MATROSKA;
   if(windowsTimed&&(family!=='matroska'||target!=='matroska'))throw new ToolError('REMUX_NATIVE_CHAPTER_COPY','Exact Windows timed copy requires Matroska on both sides.');
   const kind=windowsTimed?assertWindowsTimedMatroskaProbe(probe):null;
@@ -254,7 +255,18 @@ async function observeNativeInventory({file,probe,family,target,identity,maxReco
       }
       for(const n of meta.nodes.filter(n=>n.type==='data'))if(!ancestor(n,'ilst'))throw new ToolError('REMUX_NATIVE_META_VALUES','Unscoped metadata data box has no verified interpretation.');
       if(target==='matroska'&&!metadataBridgeComplete)throw new ToolError('REMUX_NATIVE_META_TARGET','Native typed/localized metadata cannot be represented by the carried Matroska string tags.');
-      return{version:1,family,fields:records,groups:partition,metadataBridgeComplete,randomAccess:{streams:meta.seeking.streams},encountered:[...meta.seenTypes],metadataBytesRead:meta.bytesRead()};
+      const result={version:1,family,fields:records,groups:partition,metadataBridgeComplete,randomAccess:{streams:meta.seeking.streams},encountered:[...meta.seenTypes],metadataBytesRead:meta.bytesRead()};
+      if(retainIsoPayloadExtents){
+        const extents=new Map();
+        for(const {track,packets} of meta.seeking.states.values()){
+          if(track.selected)extents.set(track.index,packets.map(({start,end,key})=>({start,end,key})));
+        }
+        const ordered=[...extents.values()].flat().sort((a,b)=>a.start-b.start);
+        if(!ordered.length||ordered.some((row,i)=>i>0&&row.start<ordered[i-1].end))
+          throw new ToolError('REMUX_NATIVE_SAMPLE_EXTENT','Native output sample payloads overlap or are missing.');
+        isoPayloadExtents.set(result,extents);
+      }
+      return result;
     }
     const subtitleBlocks=kind==='subrip'?await readWindowsSubtitleBlocks({meta,tracks,integer,text}):null;
     const randomAccess=await require('./remux-native-cues.cjs').matroskaSeeking({meta,tracks,integer,subtitleIndex:subtitleBlocks?1:null}),{packets,...headerWalk}=meta.ebmlWalk;
@@ -290,4 +302,5 @@ function compareNativeInventories(source,output,mappings){
   }
   return{version:1,complete:true,inventorySha256:createHash('sha256').update(JSON.stringify(INVENTORY)).digest('hex'),source,output};
 }
-module.exports={observeNativeInventory,compareNativeInventories,language,groupPartition};
+const getIsoPayloadExtents=observation=>isoPayloadExtents.get(observation);
+module.exports={observeNativeInventory,compareNativeInventories,getIsoPayloadExtents,language,groupPartition};

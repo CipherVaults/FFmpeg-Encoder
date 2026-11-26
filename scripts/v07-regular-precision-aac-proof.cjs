@@ -275,3 +275,5 @@ if (require.main === module) {
     if (!report.status.startsWith('passed')) process.exitCode = 1;
   }).catch(error => { console.error(error); process.exitCode = 1; });
 }
+
+module.exports = { fixtureArgs, audioBytes, videoFrames };

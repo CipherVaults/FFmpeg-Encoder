@@ -11,6 +11,9 @@ const { validateSettings, selectVideo } = require('./media.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
 const { resolveTimeRange, resolveAudio, resolveGeometry } = require('./operation-contract.cjs');
 const { assertEncodeOperationPlan, describeEncodeOperationSource, fingerprintEncodeSource } = require('./encode-operation.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_AAC_FAMILY, EXPLICIT_AAC_DISCARD_CLOCK, EXPLICIT_AAC_DISCARD_ALIGNMENT,
+  isWindowsAacTuple } = require('./operation-aac-discard-clock.cjs');
 
 const { UHD_FULL_FAMILY_ID: UHD_FULL, UHD_FULL_RESOURCE_POLICY, deriveCfrUhdFullFlacResources, FAMILY_ID: PROPORTIONAL, RESOURCE_POLICY, deriveCfrFlacResources,
   RESIZE_1440_FAMILY_ID: RESIZE_1440_PROPORTIONAL, RESIZE_1440_RESOURCE_POLICY, deriveCfrResize1440FlacResources,
@@ -58,7 +61,7 @@ const FAMILY = 'short-sdr-range-v1', MAX_EXTENT_US = 120000000, MAX_BYTES = 512 
 // were measured on a 10 s and a 31 s file, so video, audio, container and the
 // decoded source must all last 10 to 31 s, and audio must end within one AAC
 // frame of the video (as measured). No budget raised.
-const FULL = 'full-sdr-resize-copy-v1', FLAC = 'short-sdr-range-flac-v1', FULL_MIN_SECONDS = 10n, FULL_MAX_SECONDS = 31n, FAMILY_IDS = Object.freeze([FAMILY, FULL, FLAC]);
+const FULL = 'full-sdr-resize-copy-v1', FLAC = 'short-sdr-range-flac-v1', FULL_MIN_SECONDS = 10n, FULL_MAX_SECONDS = 31n, FAMILY_IDS = Object.freeze([FAMILY, FULL, FLAC, WINDOWS_AAC_FAMILY]);
 const AAC_FRAME = Object.freeze({ n: 1024n, d: 48000n });
 const AMBIGUOUS = 'OPERATION_FAMILY_AMBIGUOUS';
 const INVALID = 'INVALID_OPERATION_QUALIFICATION', REQUIRED = 'OPERATION_QUALIFICATION_REQUIRED', STALE = 'OPERATION_QUALIFICATION_STALE';
@@ -128,12 +131,12 @@ function budget(value) {
 function qualification(value, runtimeIdentity) {
   record(value, ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances']);
   const evidenceId = identity(value.evidenceId, 'Endpoint evidence');
-  need(value.runtimeIdentity === runtimeIdentity && ['span', 'end-timestamp', 'matroska-packet-end-plus-codec-delay', 'matroska-copy-end-plus-codec-delay'].includes(value.containerDuration), 'Endpoint qualification must bind this exact runtime.');
+  need(value.runtimeIdentity === runtimeIdentity && ['span', 'end-timestamp', 'matroska-packet-end-plus-codec-delay', 'matroska-copy-end-plus-codec-delay', EXPLICIT_AAC_DISCARD_CLOCK].includes(value.containerDuration), 'Endpoint qualification must bind this exact runtime.');
   const keys = ['videoTimestampUs', 'audioTimestampUs', 'avSyncUs', 'durationUs', 'sampleCount']; record(value.tolerances, keys);
   return { evidenceId, runtimeIdentity, containerDuration: value.containerDuration,
     tolerances: Object.fromEntries(keys.map(key => [key, integer(value.tolerances[key], key, 0, key === 'sampleCount' ? 1048576 : 1000000)])) };
 }
-function timingQualification(value, runtimeIdentity, lossless = false) {
+function timingQualification(value, runtimeIdentity, lossless = false, explicitDiscard = false) {
   record(value, ['evidenceId', 'runtimeIdentity', 'videoDurationUs', 'audioTimelineUs', 'aac']);
   if (lossless) {
     // Copy and integer PCM -> FLAC carry no AAC encoder alignment.
@@ -144,11 +147,14 @@ function timingQualification(value, runtimeIdentity, lossless = false) {
   }
   const evidenceId = identity(value.evidenceId, 'Interior timing evidence'); need(value.runtimeIdentity === runtimeIdentity, 'Interior timing qualification must bind this exact runtime.');
   record(value.aac, ['alignment', 'encoderDelaySamples', 'discardPaddingSamples']);
-  need(value.aac.alignment === 'decoded-after-signalled-skip', 'AAC needs the retained measured decoder-signalled alignment.');
+  const alignment = explicitDiscard ? EXPLICIT_AAC_DISCARD_ALIGNMENT : 'decoded-after-signalled-skip';
+  need(value.aac.alignment === alignment, 'AAC needs the retained measured decoder-signalled alignment.');
+  if (explicitDiscard) need(value.aac.encoderDelaySamples === 1024 && value.aac.discardPaddingSamples === null,
+    'The Windows AAC model derives its terminal discard independently for each file.');
   return { evidenceId, runtimeIdentity, videoDurationUs: integer(value.videoDurationUs, 'Video duration tolerance', 0, 1000000),
     audioTimelineUs: integer(value.audioTimelineUs, 'Audio clock tolerance', 0, 1000000), aac: { alignment: value.aac.alignment,
       encoderDelaySamples: integer(value.aac.encoderDelaySamples, 'AAC encoder delay', 0, 1048576),
-      discardPaddingSamples: integer(value.aac.discardPaddingSamples, 'AAC discard padding', 0, 1048576) } };
+      discardPaddingSamples: explicitDiscard ? null : integer(value.aac.discardPaddingSamples, 'AAC discard padding', 0, 1048576) } };
 }
 function family(value) {
   const id = plain(value) && Object.getOwnPropertyDescriptor(value, 'id');
@@ -162,7 +168,20 @@ function family(value) {
   const runtimeIdentity = digest(value.runtimeIdentity, 'Paired runtime'), config = settings(value.settings);
   need(config.profileId !== 'h265-cpu' || value.environment === null, 'The trusted CPU family must explicitly store a null environment.');
   if (proportional) need(config.profileId === 'h265-cpu', 'The proportional family is CPU-only.');
-  const endpoint = qualification(value.qualification, runtimeIdentity), timing = timingQualification(value.timingQualification, runtimeIdentity, full || flac);
+  const explicitDiscard = value.id === WINDOWS_AAC_FAMILY;
+  const endpoint = qualification(value.qualification, runtimeIdentity);
+  const timing = timingQualification(value.timingQualification, runtimeIdentity, full || flac, explicitDiscard);
+  need((endpoint.containerDuration === EXPLICIT_AAC_DISCARD_CLOCK) === explicitDiscard,
+    'Only the measured Windows AAC range family uses its explicit-discard clock.');
+  if (explicitDiscard) {
+    need(runtimeIdentity === REGULAR_WINDOWS_PAIR && config.profileId === 'h265-cpu' && endpoint.tolerances.sampleCount === 0,
+      'The Windows AAC range family requires the exact regular Windows CPU pair and sample counts.');
+    for (const [key, maximum] of Object.entries({ videoTimestampUs: 1067, audioTimestampUs: 1046, avSyncUs: 2113, durationUs: 1088 })) {
+      need(endpoint.tolerances[key] <= maximum, `The Windows AAC ${key} exceeds the measured clock bound.`);
+    }
+    need(timing.videoDurationUs <= 1067 && timing.audioTimelineUs <= 1046,
+      'The Windows AAC interior bounds follow the measured storage and source ticks.');
+  }
   // The packet clock is the precision-AAC model; the copy clock belongs only to copied audio.
   need(full ? endpoint.containerDuration === 'matroska-copy-end-plus-codec-delay' && endpoint.tolerances.sampleCount === 0
     : endpoint.containerDuration !== 'matroska-copy-end-plus-codec-delay',
@@ -252,10 +271,16 @@ function sourceFacts(probe, actualBytes, proportional = false, familyId = null) 
   need(['30/1', '60/1'].includes(video.avg_frame_rate) && video.r_frame_rate === video.avg_frame_rate, 'Only matching nominal and average 30/1 or 60/1 rates belong to this family.');
   // Refuse unsupported audio before side-data or clock diagnostics. Codec
   // selection remains per family; this common shape grants no applicability.
-  need(String(audio.sample_rate) === '48000' && audio.channels === 2 && audio.channel_layout === 'stereo'
-    && (audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'
-      || audio.codec_name === 'pcm_s16le' && audio.sample_fmt === 's16'),
-  'Only 48 kHz stereo AAC LC/fltp or pcm_s16le/s16 source audio belongs to these families.');
+  const explicitDiscard = familyId === WINDOWS_AAC_FAMILY;
+  const sourceAudioSupported = explicitDiscard
+    ? isWindowsAacTuple(audio.sample_rate, audio.channels, audio.channel_layout)
+      && audio.codec_name === 'pcm_s16le' && audio.sample_fmt === 's16'
+    : String(audio.sample_rate) === '48000' && audio.channels === 2 && audio.channel_layout === 'stereo'
+      && (audio.codec_name === 'aac' && audio.profile === 'LC' && audio.sample_fmt === 'fltp'
+        || audio.codec_name === 'pcm_s16le' && audio.sample_fmt === 's16');
+  need(sourceAudioSupported, explicitDiscard
+    ? 'The Windows AAC range supports only the measured 44.1 kHz stereo or 48 kHz mono PCM stream.'
+    : 'Only 48 kHz stereo AAC LC/fltp or pcm_s16le/s16 source audio belongs to these families.');
   streamSideData(video, audio);
   need(probe.format.format_name === 'mov,mp4,m4a,3gp,3g2,mj2', 'Only the observed MOV/MP4 demuxer family is implemented.');
   const media = probe.mediaEvidence, container = media.container;
@@ -271,7 +296,15 @@ function sourceFacts(probe, actualBytes, proportional = false, familyId = null) 
   need(['color_transfer', 'color_primaries', 'color_space'].every(key => video[key] === 'bt709') && video.color_range === 'tv' && video.chroma_location === 'left'
     && !ve.hdr.entries.length && !ae.hdr.entries.length, 'Explicit BT709 limited-range SDR without reported HDR metadata is required.');
   const videoTimeline = timeline(ve, proportional), audioTimeline = timeline(ae, proportional), rate = Number(video.avg_frame_rate.split('/')[0]);
-  need(compare(videoTimeline.timeBase, rat(1n, BigInt(rate))) <= 0n && compare(audioTimeline.timeBase, rat(1n, 48000n)) <= 0n, 'Observed source timestamp ticks must resolve the nominal video period and audio samples.');
+  const audioRate = explicitDiscard ? BigInt(audio.sample_rate) : 48000n;
+  need(compare(videoTimeline.timeBase, rat(1n, BigInt(rate))) <= 0n && compare(audioTimeline.timeBase, rat(1n, audioRate)) <= 0n,
+    'Observed source timestamp ticks must resolve the nominal video period and audio samples.');
+  if (explicitDiscard) {
+    need(video.width === 1280 && video.height === 720 && rate === 30 && probe.format.tags?.major_brand === 'qt  '
+      && compare(videoTimeline.timeBase, rat(1n, 15360n)) === 0n && compare(audioTimeline.timeBase, rat(1n, audioRate)) === 0n
+      && [videoTimeline.duration, audioTimeline.duration, containerExtent].every(value => compare(value, rat(3n)) === 0n)
+      && reportedBytes <= 8n * 1024n * 1024n, 'The measured Windows AAC source is a three-second 720p30 QuickTime PCM input.');
+  }
   return { rate, width: video.width, videoIndex: video.index, audioIndex: audio.index, sourceAudio: audio,
     majorBrand: probe.format.tags?.major_brand, videoTick: videoTimeline.timeBase,
     audioTick: audioTimeline.timeBase, orientation: orientation(ve.geometry), videoEvidence: ve, audioEvidence: ae,
@@ -337,7 +370,30 @@ function fullExtents(video, audio, label, proportional = false) {
   }
   need(compare(absolute(minus(audio, video)), AAC_FRAME) <= 0n, `The ${label} audio must end within one AAC frame of the video for the whole-file copied-audio family.`);
 }
+function windowsAacRangeScope(request, facts, contract) {
+  need(request.operation === 'encode' && request.target === 'matroska' && request.resolution === 'source'
+    && ['preserve', 'sdr'].includes(request.hdrPolicy) && request.audioPolicy === 'precision-aac'
+    && request.aacBitrateKbps === null && request.omissionRequestIds?.length === 0,
+  'Windows precision AAC requires Keep Source Matroska, the measured layout default and a bounded range.');
+  const range = contract?.range || resolveTimeRange(facts.videoEvidence, request.range);
+  need(range.kind === 'range' && range.resolved.startUs >= 0 && range.resolved.endUs <= 3000000
+    && range.resolved.endUs - range.resolved.startUs >= 500000, 'Windows precision AAC needs a range of at least 0.5 seconds within the measured source.');
+  const audio = contract?.audio || resolveAudio([facts.audioEvidence], { target: request.target, range,
+    audioPolicy: request.audioPolicy, aacBitrateKbps: null });
+  const [stream] = audio.streams;
+  need(audio.streams.length === 1 && stream.index === facts.audioIndex && stream.mode === 'precision-aac'
+    && isWindowsAacTuple(stream.sampleRate, stream.channels, stream.channelLayout)
+    && stream.bitrateOrigin === 'layout-policy' && stream.bitrateKbps === (stream.channels === 1 ? 128 : 320),
+  'Windows precision AAC needs exactly one measured rate, layout and default bitrate.');
+  const tick = time => Math.ceil(time * stream.sampleRate / 1000000);
+  const terminal = (tick(range.resolved.endUs) - tick(range.resolved.startUs)) % 1024;
+  need(terminal === 0 || 2000 * terminal >= stream.sampleRate,
+    'The last AAC frame needs a positive duration on the verified one-millisecond Matroska clock.');
+  return Object.fromEntries(['range', 'resolution', 'target', 'hdrPolicy', 'audioPolicy', 'aacBitrateKbps', 'omissionRequestIds']
+    .map(key => [key, structuredClone(request[key])]));
+}
 function requestScope(request, facts, contract, id = FAMILY) {
+  if (id === WINDOWS_AAC_FAMILY) return windowsAacRangeScope(request, facts, contract);
   const audio = facts.sourceAudio, proportional = proportionalId(id), fullCopy = id === FULL_COPY_PROPORTIONAL, flac = id === FLAC || proportionalFlacId(id);
   if (proportional) {
     need(facts.rate === 30 && (id === UHD_FULL ? facts.width === 3840 && ['1440','1080','720'].includes(request.resolution) : id === RESIZE_1440_PROPORTIONAL ? facts.width === 2560 && request.resolution === '720' : id === RESIZE_PROPORTIONAL || fullCopy
@@ -394,6 +450,7 @@ function forFamily(base, familyId) {
 }
 // The refusal that names the family the request was aimed at (whole file or range).
 function preferredReason(reasons, request) {
+  if (request?.audioPolicy === 'precision-aac' && reasons.has(WINDOWS_AAC_FAMILY)) return reasons.get(WINDOWS_AAC_FAMILY);
   return reasons.get(request?.audioPolicy === 'precision-flac' ? FLAC : request?.range === null ? FULL : FAMILY) || reasons.values().next().value || null;
 }
 function checked(code, action) {
@@ -535,7 +592,9 @@ class OperationFamilySelector {
         && evidence.planFingerprint === selected.state.planFingerprint && evidence.sourcePath === selected.state.sourceIdentity.canonicalPath, 'Complete source collection must bind this exact plan, runtime and source path.');
       record(evidence.completeSource, ['video', 'audio']);
       const video = evidence.completeSource.video, facts = selected.facts, full = selected.state.familyId === FULL, proportional = proportionalId(selected.state.familyId);
-      const seconds = full ? FULL_MAX_SECONDS : 120n, limit = proportional ? rat(BigInt(selected.state.sourceExtentUs), 1000000n) : rat(seconds);
+      const explicitDiscard = selected.state.familyId === WINDOWS_AAC_FAMILY;
+      const seconds = explicitDiscard ? 3n : full ? FULL_MAX_SECONDS : 120n;
+      const limit = proportional ? rat(BigInt(selected.state.sourceExtentUs), 1000000n) : rat(seconds);
       const countLimit = rate => (limit.n * rate + limit.d - 1n) / limit.d;
       record(video, ['frames', 'firstTime', 'endTime', 'maximumNominalCadenceErrorUs', 'maximumNominalDurationErrorUs', 'maximumNominalPhaseErrorUs', 'properties']);
       integer(video.frames, 'Complete video frames', 1, Number(countLimit(BigInt(facts.rate))));
@@ -554,12 +613,15 @@ class OperationFamilySelector {
       const audio = list(evidence.completeSource.audio, 1, 'Complete source audio'); need(audio.length === 1, 'Exactly one complete source audio stream is required.');
       record(audio[0], ['inputIndex', 'sampleCount', 'firstTime', 'endTime', 'gaps']);
       need(audio[0].inputIndex === facts.audioIndex && audio[0].gaps === 0, 'Complete source audio must name the original stream and contain no gaps.');
-      const samples = exactInteger(audio[0].sampleCount, 'Complete source sample count', 1n, countLimit(48000n));
+      const audioRate = explicitDiscard ? BigInt(facts.sourceAudio.sample_rate) : 48000n;
+      const samples = exactInteger(audio[0].sampleCount, 'Complete source sample count', 1n, countLimit(audioRate));
       const audioFirst = rational(audio[0].firstTime, true), audioEnd = rational(audio[0].endTime, true);
       need(audioFirst.n === 0n && audioEnd.n > 0n && compare(audioEnd, limit) <= 0n, proportional
         ? 'Complete decoded audio must start at zero and end within the source-derived extent.'
         : `Complete decoded audio must start at zero and end within ${seconds} seconds.`);
-      need(compare(absolute(minus(audioEnd, rat(samples, 48000n))), facts.audioTick) <= 0n, 'Complete source samples and decoded audio extent disagree beyond one observed audio tick.');
+      need(compare(absolute(minus(audioEnd, rat(samples, audioRate))), facts.audioTick) <= 0n, 'Complete source samples and decoded audio extent disagree beyond one observed audio tick.');
+      if (explicitDiscard) need(video.frames === 90 && samples === 3n * audioRate && compare(end, limit) === 0n
+        && compare(audioEnd, limit) === 0n, 'The complete Windows AAC source must match the measured three-second clocks.');
       // Metadata admitted the whole-file job; the decoded source must keep the same measured shape.
       if (full || selected.state.familyId === FULL_COPY_PROPORTIONAL) fullExtents(end, audioEnd, 'decoded', selected.state.familyId === FULL_COPY_PROPORTIONAL);
       // Closed-factory Full-copy synthetic contract intentionally admits NO

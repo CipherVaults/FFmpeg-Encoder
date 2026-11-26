@@ -59,3 +59,52 @@ unstated-tail model remains historical evidence for its exact
 runtime. A new Windows family needs fresh default-service
 holdouts and refusals. This proof covers the two PCM input layouts,
 not existing AAC input, longer files or GPU encoding.
+
+## Windows default service
+
+The regular Windows factory now qualifies the explicit-discard AAC
+clock on the rebuilt pair. The source gate is the measured three-second
+1280×720 30 fps progressive BT.709 H.264 High QuickTime source with one
+zero-origin PCM track, up to 8 MiB. The measured CPU H.265 slow CRF 25
+plan keeps the source resolution and uses the layout-default bitrate.
+The verifier requires a range of at least half a second within that
+source. It checks the native clock, AAC track, every ordered coded and
+decoded unit, explicit priming and terminal discard, complete decoded
+PCM byte count and the independently observed video and audio clocks.
+Pre-encoder telemetry independently binds the selected inputs.
+
+| Fresh output AAC layout | Exact selected and decoded samples | Terminal discard (samples) | Video frames |
+| --- | ---: | ---: | ---: |
+| 44,100 Hz stereo | 40,929 | 31 | 27 |
+| 48,000 Hz mono | 38,439 | 473 | 24 |
+| 48,000 Hz mono | 32,768 | 0 | 21 |
+
+The zero-tail holdout used an exact 32,768-sample interval and verified
+zero declared discard samples. The fixed one-millisecond Matroska
+clock cannot express a positive terminal span for the paired
+one-extra-sample input. Prepare refused that range with the specific
+clock reason. A custom 160 kb/s request also refused before Start.
+Both rejected Start attempts spawned zero children.
+
+| Run | Report SHA-256 | Outcome |
+| --- | --- | --- |
+| `005a3a13-12a4-4ec3-8526-6b6ab41ff549` | `553f9dc4a6db553be6f6635f278eed2176a49adb427a0e533c3163e248b22396` | Retained first service attempt. The PCM sink had no final byte-count accessor. |
+| `6822d578-d758-4f1b-91a1-e5f7bcf8973c` | `ccaa8d79fe35dc83b8b0112c7d8fb5dd031a43807098f35f681a51e5418feddf` | Prospective service published two holdouts. 33 children closed. |
+| `2a2ac4db-d4a2-4c78-bdba-16920f89112c` | `e29d9d4439b3829b277c4236dc556c5db36283daeb41fe963cd011afb82591da` | Initial default service published three. 48 children closed. |
+| `028cc1a3-d496-4cd7-b3a0-a88a412ffb06` | `e2495e50afcce2d23bcec979c6dbf8d3176b8449bc85d24eb869beb238ae99d9` | Default service published three, with the specific range-clock refusal. 48 children closed. |
+| `5a7990fb-2693-4bf8-b92a-db895cb77b1d` | `3acfbc878b4b232e0686fd19a398b8ca230adc03ce1a4ecd66d2df2e1f722e40` | Final-byte default service published three, with the AAC-specific receipt scope. 48 children closed and the lease was released. |
+
+The exact-byte controlled regression run `q2f-windows-discard-close`
+passed all 405 checks with exit code zero. Receipt SHA-256
+`eb4b37b4c7f682252d76e0f78676dbf44b8b29f2f9862e1b756ab5a2b9423be2`. Three independent Windows-host checks passed for
+Linux source and package inventory integrity. Native Linux execution
+remains pending. The November 27 re-entry matched the current service
+and test files to both saved receipts.
+
+The exact Windows Encode policy is
+`encode-windows-9.1-v2:2026-11-22:cpu-resize-and-explicit-aac-discard`.
+The two Windows precision-FLAC resize families keep their prior
+source and evidence budgets. The existing Linux implicit-tail AAC
+policy retains its own exact runtime records. The current Linux
+source/package inventory includes the shared module, with 165 current
+source pins and 97 preserved historical producer pins.

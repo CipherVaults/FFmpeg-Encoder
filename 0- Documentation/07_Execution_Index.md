@@ -1,3 +1,5 @@
+- **November 22, 2026 — [Windows precision AAC service evidence](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md#windows-default-service).** Exact default-factory sample counts, current native AAC discard and telemetry, zero-tail holdout and named Prepare refusals.
+
 - **November 22, 2026 — [Windows precision AAC laboratory](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md).** Four separately measured exact selected sample counts and native terminal discard for two layouts. Earlier failed receipts retained.
 
 - **November 22, 2026 — [MKV audio service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_MKV_Audio_Timing.md#regular-windows-service-qualification).** Finite Windows default service, exact audio copy and explicit 64 ms earlier, retained failed receipts and fresh TS/MP3 regression.

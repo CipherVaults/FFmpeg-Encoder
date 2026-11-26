@@ -225,12 +225,15 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // Current per-file Remux journal settlement does not requalify the old source.
  // Windows integration changes current shared bytes without replacing the old Linux proof.
  const regularWindowsSourceDeltas={
+   'src/container-clock.cjs': ['b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857',14696,'b945f2c3c9c5082705f16b573fece0890e9b339a80a9458ad512dde0e2c01690'],
+   'src/operation-evidence.cjs': ['5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4',57827,'b9bc49742b011929e4015d8441bea3101d12331f076717661c734568665971bc'],
+   'src/operation-family.cjs': ['3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3',59500,'e342056e7b896a1cd61cf4da3c84c33d16ab792186d4a1ae4c30e5ddadbaf591'],
    'src/candidate-runtime.cjs': ['9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712',11835,'92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9'],
-   'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',57405,'0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287'],
-   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',173909,'8ed285b0861cb375d3d117860431e4ff0fa408f724d8de88e2986a01e61aadb6'],
+   'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',58155,'84b6e759f07794f452ea59d3c4a6852f8e9dafbede805c0f50541dec68d3527c'],
+   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',174030,'10138aba5a89fe4b25bdc8e08ee7231cba91c61a5ec6eeaecb90638fc4a392ee'],
    'src/inspection.cjs': ['948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491',34107,'51cd1013264a3886be63ff49a193c2cdfd309bb1425339e5532a7da5cf839b95'],
    'src/media.cjs': ['79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7',25811,'2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0'],
-   'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',6933,'048fd835f88124f69d9846dd374e27a8dae3721a8abb6b2b5b54631a1ddaa767'],
+   'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',8292,'551246574d74d010d9179094dea47a9c12d5da7c9e5d1ce34fef6175a03b8c4e'],
    'src/operation-runtime.cjs': ['95285842847006e2fbcad43d46bbca7bc3823c3378fdc33a755ee82398681b79',24869,'a831147f2917a938e21083f2a56cc98597c834a464e1bcf1cdaebb937c62d294'],
    'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
    'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',7109,'6548f7fcf55683c04e10821d851364e81c97ca9872a3b64802ae4f74df7d6d35'],
@@ -287,7 +290,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,22);
+ assert.equal(changed,23);
  assert.equal(historicalOnly,1);
 });
 

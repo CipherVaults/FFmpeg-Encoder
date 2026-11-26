@@ -5,6 +5,9 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { ToolError } = require('./process-runner.cjs');
 const { normalizeProbe } = require('./inspection.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_AAC_FAMILY, EXPLICIT_AAC_DISCARD_CLOCK, EXPLICIT_AAC_DISCARD_ALIGNMENT,
+  isWindowsAacTuple, observeExplicitAacClock } = require('./operation-aac-discard-clock.cjs');
 const { assertProportionalCollectionSelection, verifyProportionalCollectedSource } = require('./operation-family.cjs');
 const { UHD_FULL_FAMILY_ID: UHD_FULL, FAMILY_ID: PROPORTIONAL, RESIZE_1440_FAMILY_ID: RESIZE_1440_PROPORTIONAL, RESIZE_FAMILY_ID: RESIZE_PROPORTIONAL, FULL_COPY_FAMILY_ID: FULL_COPY_PROPORTIONAL } = require('./operation-resource-budget.cjs');
 
@@ -223,18 +226,23 @@ async function collectOperationEvidence(options) {
     ...(own(options, 'containerClockPolicy') ? ['containerClockPolicy'] : []), ...(own(options, 'familySelection') ? ['familySelection'] : [])], 'Main collector request');
   const { plan, sourcePath, outputPath, stageDirectory, ffmpeg, ffprobe, run, signal, budget, timingQualification, familySelection, sourcePolicy, sourceProbe } = options;
   const sourceProperties = own(options, 'sourcePolicy');
+  const explicitDiscard = options.containerClockPolicy === EXPLICIT_AAC_DISCARD_CLOCK;
+  need((sourcePolicy?.id === WINDOWS_AAC_FAMILY) === explicitDiscard,
+    'Only the Windows PCM-to-AAC family can collect explicit terminal discard.');
   const collectionBinding = () => assertProportionalCollectionSelection(familySelection, { plan, sourcePath, sourceProbe: sourceProbe, budget, timingQualification, sourcePolicy: sourcePolicy });
   const approvedSource = own(options, 'familySelection') ? collectionBinding() : null;
   if (sourceProperties) {
     exact(sourcePolicy, ['id', 'rate', 'maximumExtentUs'], 'Decoded source policy');
     // Record 47 Q2b: the whole-file copied-audio family uses the same SDR source checks at 30 fps only.
-    need((approvedSource && [UHD_FULL, PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1'].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
+    need((approvedSource && [UHD_FULL, PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL, FULL_COPY_PROPORTIONAL].includes(sourcePolicy.id)) || ((['short-sdr-range-v1', 'short-sdr-range-flac-v1', WINDOWS_AAC_FAMILY].includes(sourcePolicy.id) && [30, 60].includes(sourcePolicy.rate)
       || sourcePolicy.id === 'full-sdr-resize-copy-v1' && sourcePolicy.rate === 30)
       && sourcePolicy.maximumExtentUs === 120000000), 'Only bounded legacy policies or a privately bound proportional FLAC policy or Full-copy policy are implemented.');
   }
   const packetClock = own(options, 'containerClockPolicy');
-  if (packetClock) need(sourceProperties && sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK,
-    'The packet/codec-delay clock requires the qualified short SDR source policy.');
+  if (packetClock) need(sourceProperties && (explicitDiscard
+    ? sourcePolicy.rate === 30 && plan?.runtimeIdentity === REGULAR_WINDOWS_PAIR
+    : sourcePolicy.id === 'short-sdr-range-v1' && options.containerClockPolicy === CONTAINER_CLOCK),
+  'The packet/codec-delay clock requires its exact qualified SDR source policy.');
   exact(budget, ['sourceDecode', 'timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes'], 'Evidence budget');
   need(budget.sourceDecode === 'complete', 'Main must explicitly budget complete source decoding; telemetry alone does not satisfy this validator.', 'OPERATION_EVIDENCE_COST_APPROVAL');
   for (const key of ['timeoutMs', 'maxFrameBytes', 'maxPcmBytes', 'maxRecords', 'maxSpoolBytes']) safe(budget[key], key, 1);
@@ -248,8 +256,13 @@ async function collectOperationEvidence(options) {
   for (const key of ['videoDurationUs', 'audioTimelineUs']) need(safe(timingQualification[key], key) <= 1000000, 'Interior timing bound exceeds the contract.');
   if (timingQualification.aac !== null) {
     exact(timingQualification.aac, ['alignment', 'encoderDelaySamples', 'discardPaddingSamples'], 'Measured AAC decoder alignment');
-    need(timingQualification.aac.alignment === 'decoded-after-signalled-skip', 'AAC requires a measured decoded-sample alignment contract.');
-    for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
+    const alignment = explicitDiscard ? EXPLICIT_AAC_DISCARD_ALIGNMENT : 'decoded-after-signalled-skip';
+    need(timingQualification.aac.alignment === alignment, 'AAC requires a measured decoded-sample alignment contract.');
+    if (explicitDiscard) need(timingQualification.aac.encoderDelaySamples === 1024 && timingQualification.aac.discardPaddingSamples === null,
+      'The Windows AAC route requires independent current terminal discard evidence.');
+    else for (const key of ['encoderDelaySamples', 'discardPaddingSamples']) {
+      need(safe(timingQualification.aac[key], key) <= 1048576, 'Unsupported AAC padding qualification.');
+    }
   }
   const source = normalizeProbe(sourceProbe), output = normalizeProbe(options.outputProbe);
   if (sourceProperties && ['short-sdr-range-flac-v1', UHD_FULL, PROPORTIONAL, RESIZE_1440_PROPORTIONAL, RESIZE_PROPORTIONAL].includes(sourcePolicy.id)) {
@@ -263,6 +276,8 @@ async function collectOperationEvidence(options) {
       && stream.sample_rate === '48000' && stream.channels === 2 && stream.channel_layout === 'stereo',
     'The precision-FLAC source policy requires one 48 kHz stereo pcm_s16le/s16 range stream and no AAC alignment.');
   }
+  if (explicitDiscard) need(timingQualification.aac !== null && plan.contract.range.kind === 'range' && source.streams.length === 2,
+    'The measured Windows AAC collector requires a two-stream range with explicit decoder alignment.');
   if (packetClock) need(output.format.format_name === 'matroska,webm' && output.streams.length === 2
     && output.streams.every(stream => stream.time_base === '1/1000'),
   'The qualified stored-clock representation requires the exact observed1/1000 Matroska output clock.');
@@ -293,8 +308,13 @@ async function collectOperationEvidence(options) {
   const handles = [], spools = [], invocations = [];
   let spoolBytes = 0, completed = false;
   const receipt = { schema: VERSION, runtimeIdentity: plan.runtimeIdentity, planFingerprint: plan.planFingerprint, directory,
-    scope: plan.contract.audio.streams.some(stream => stream.mode === 'copy') ? 'complete-decoded-timing-and-copied-packet-identity' : 'complete-decoded-timing-and-selected-flac-pcm', publicationAuthorized: false, qualificationGranted: false,
-    cost: 'Sequential complete source/output timing decode; extra complete audio PCM decoding for FLAC. No original video prehash. timeoutMs and stream byte/row budgets apply per child; main owns the total operation deadline.',
+    scope: explicitDiscard ? 'complete-decoded-timing-and-native-aac-discard'
+      : plan.contract.audio.streams.some(stream => stream.mode === 'copy') ? 'complete-decoded-timing-and-copied-packet-identity'
+        : 'complete-decoded-timing-and-selected-flac-pcm',
+    publicationAuthorized: false, qualificationGranted: false,
+    cost: explicitDiscard
+      ? 'Sequential complete source and output timing, native Matroska clock inspection and complete output AAC decode to PCM. Main owns the total operation deadline.'
+      : 'Sequential complete source/output timing decode; extra complete audio PCM decoding for FLAC. No original video prehash. timeoutMs and stream byte/row budgets apply per child; main owns the total operation deadline.',
     budget: { ...budget }, timingQualification: { ...timingQualification }, timelineComparisons: { video: null, audio: [] },
     sourcePath, outputPath, sourceBefore: stamps(sourceBefore), outputBefore: stamps(outputBefore), spools, invocations,
     completeSource: { video: null, audio: [] }, encoderInputs: { video: null, audio: [] } };
@@ -454,10 +474,12 @@ async function collectOperationEvidence(options) {
       }
       const outputTimeline = await spool(`output-audio-${mapping.outputIndex}.jsonl`);
       let decodedSamples = 0n, decodedFirst, decodedEnd;
+      const decodedFrames = explicitDiscard ? [] : null;
       await invoke(`output-audio-${mapping.outputIndex}-frames`, ffprobe, frameArgs(outputPath, oa.index), lineSink(async line => {
         const frame = checkFrame(line, oa); need(!decodedEnd || cmp(sub(frame.time, decodedEnd), mul(base(oa.time_base), -1n)) >= 0n,
           'Output audio frames overlap beyond timestamp quantization.');
         decodedFirst ||= frame.time; decodedEnd = add(frame.time, { n: frame.samples, d: frame.rate });
+        if (decodedFrames) decodedFrames.push({ pts: frame.time.n, samples: frame.samples });
         await outputTimeline.append({ offset: String(decodedSamples), samples: String(frame.samples), time: pack(frame.time) }); decodedSamples += frame.samples;
       }, sinkOptions), budget.maxFrameBytes);
       await outputTimeline.seal();
@@ -468,17 +490,24 @@ async function collectOperationEvidence(options) {
         unmatchedSourceTailSamples: numeric(selectedSamples > decodedSamples ? selectedSamples - decodedSamples : 0n),
         unmatchedOutputTailSamples: numeric(decodedSamples > selectedSamples ? decodedSamples - selectedSamples : 0n), ...timelineCheck });
       let skip = 0n, discard = 0n, packets = 0, packetEnd;
+      const explicitPackets = explicitDiscard ? [] : null;
       const packetArgs = ['-v', 'error', ...INPUT_GUARDS, '-select_streams', String(oa.index), '-show_packets', '-show_entries',
         `packet=stream_index${packetClock ? ',pts,duration' : ''}:packet_tags=:packet_side_data=side_data_type,skip_samples,discard_padding`, '-of', 'compact=p=1:nk=0:escape=c', '-i', outputPath];
       await invoke(`output-audio-${mapping.outputIndex}-padding`, ffprobe, packetArgs, lineSink(async line => {
         const row = compactRow(line, 'packet', PACKET_FIELDS); need(int(row.stream_index, 'Packet stream', 0n) === BigInt(oa.index), 'Wrong packet stream.');
-        if (packetClock) {
-          const value = mul(base(oa.time_base), int(row.pts, 'Audio packet PTS') + int(row.duration, 'Audio packet duration', 1n));
-          if (!packetEnd || cmp(value, packetEnd) > 0n) packetEnd = value; packets++;
-        }
-        if (own(row, 'side_data_type') || own(row, 'skip_samples') || own(row, 'discard_padding')) {
+        const signalled = own(row, 'side_data_type') || own(row, 'skip_samples') || own(row, 'discard_padding');
+        let packetSkip = 0n, packetDiscard = 0n;
+        if (signalled) {
           need(row.side_data_type === 'Skip Samples' && own(row, 'skip_samples') && own(row, 'discard_padding'), 'Incomplete/unknown packet padding evidence.');
-          skip += int(row.skip_samples, 'Skip samples', 0n); discard += int(row.discard_padding, 'Discard padding', 0n);
+          packetSkip = int(row.skip_samples, 'Skip samples', 0n); packetDiscard = int(row.discard_padding, 'Discard padding', 0n);
+          skip += packetSkip; discard += packetDiscard;
+        }
+        if (packetClock) {
+          const pts = int(row.pts, 'Audio packet PTS'), duration = int(row.duration, 'Audio packet duration', 1n);
+          const value = mul(base(oa.time_base), pts + duration);
+          if (!packetEnd || cmp(value, packetEnd) > 0n) packetEnd = value;
+          packets++;
+          explicitPackets?.push({ pts, duration, skip: packetSkip, discard: packetDiscard, signalled });
         }
       }, sinkOptions), budget.maxFrameBytes);
       const reconcilePadding = (packets, field) => {
@@ -494,10 +523,40 @@ async function collectOperationEvidence(options) {
         // runtime/codec route; do not subtract padding a second time or infer
         // delay/padding from a convenient count difference. Unknown cells fail.
         need(evidence.encoderDelaySamples === timingQualification.aac.encoderDelaySamples
-          && evidence.discardPaddingSamples === timingQualification.aac.discardPaddingSamples,
+          && (explicitDiscard || evidence.discardPaddingSamples === timingQualification.aac.discardPaddingSamples),
         'Observed AAC skip/padding does not match the independently qualified decoder alignment.', 'OPERATION_EVIDENCE_AAC_ALIGNMENT');
       }
-      if (packetClock) {
+      if (explicitDiscard) {
+        const sampleRate = Number(sa.sample_rate);
+        const phase = mul(sub(selectedFirst, effectiveAudioOrigin), BigInt(sampleRate));
+        need(mode === 'precision-aac' && sa.codec_name === 'pcm_s16le' && sa.sample_fmt === 's16'
+          && isWindowsAacTuple(sampleRate, sa.channels, sa.channel_layout) && oa.codec_name === 'aac' && oa.profile === 'LC'
+          && String(oa.initial_padding) === '1024' && evidence.encoderDelaySamples === 1024
+          && completeAudioGaps === 0 && completeAudioFirst.n === 0n && totalSamples === BigInt(sampleRate * 3)
+          && selectedSamples === decodedSamples && phase.n % phase.d === 0n,
+        'The measured Windows AAC route needs exact PCM membership, layout and decoded sample count.');
+        const native = await observeExplicitAacClock({ file: outputPath, identity: stamps(outputBefore), sampleRate,
+          phaseSamples: phase.n / phase.d, selectedSamples, packets: explicitPackets, decodedFrames, budget, signal });
+        let pcmBytes = 0;
+        const pcmHash = createHash('sha256');
+        const expectedBytes = numeric(decodedSamples * BigInt(sa.channels * 2));
+        const sink = {
+          push(chunk) {
+            pcmBytes += chunk.length;
+            need(Buffer.isBuffer(chunk) && pcmBytes <= expectedBytes, 'The independently decoded AAC byte extent changed.');
+            pcmHash.update(chunk);
+          },
+          finish() {
+            need(pcmBytes === expectedBytes, 'The independently decoded AAC byte count differs from the selected samples.');
+            return { bytes: pcmBytes, sha256: pcmHash.digest('hex') };
+          },
+          get bytes() { return pcmBytes; },
+        };
+        await invoke('output-aac-complete-pcm', ffmpeg, ['-hide_banner', '-nostdin', '-v', 'error', '-xerror', ...INPUT_GUARDS,
+          '-i', outputPath, '-map', `0:${oa.index}`, '-c:a', 'pcm_s16le', '-threads:a', '1', '-f', 's16le', 'pipe:1'], sink, budget.maxPcmBytes);
+        receipt.explicitAacClock = { ...native, pcmBytes };
+        clockStreams.push({ outputIndex: oa.index, packetCount: packets, packetEnd: pack(packetEnd), codecDelaySamples: 1024, sampleRate });
+      } else if (packetClock) {
         need(mode === 'precision-aac' && String(oa.initial_padding) === '1024' && evidence.encoderDelaySamples === 1024
           && evidence.discardPaddingSamples === 0 && sa.sample_rate === '48000', 'The packet clock requires the explicitly observed AAC48k codec delay.');
         clockStreams.push({ outputIndex: oa.index, packetCount: packets, packetEnd: pack(packetEnd), codecDelaySamples: 1024, sampleRate: 48000 });
@@ -573,7 +632,8 @@ async function collectOperationEvidence(options) {
       }
       decodedEvidence.audio.push(evidence);
     }
-    if (packetClock) decodedEvidence.containerClock = { representation: CONTAINER_CLOCK, streams: clockStreams };
+    if (packetClock) decodedEvidence.containerClock = { representation: options.containerClockPolicy, streams: clockStreams,
+      ...(explicitDiscard ? { nativeDurationTicks: receipt.explicitAacClock.durationTicks, discardPaddingNs: receipt.explicitAacClock.discardPaddingNs } : {}) };
     const sourceAfter = await binding(sourcePath), sourceDisposition = sourceChange(sourceBefore, sourceAfter);
     need(sourceDisposition !== 'changed', 'Source content-related identity changed during evidence collection.', 'OPERATION_EVIDENCE_CHANGED');
     receipt.sourceAfter = stamps(sourceAfter); receipt.sourceIdentityDisposition = sourceDisposition;

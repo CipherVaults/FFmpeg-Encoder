@@ -209,7 +209,7 @@ async function moduleSeals(io, regularProof = false) {
   else if (regularProof === 'mp3-service') names.push('scripts/v07-regular-mp3-service.cjs', 'scripts/fixtures/q2j-layer3.cjs');
   else if (regularProof === 'resize') names.push('scripts/v07-regular-resize-proof.cjs', 'scripts/v07-sdr-flac-range-calibration.cjs');
   else if (regularProof === 'precision-aac') names.push('scripts/v07-regular-precision-aac-proof.cjs',
-    'scripts/v07-encode-operation-smoke.cjs', 'linux-blue/qualification-tests/q2f-precision-aac-clock.cjs');
+    'scripts/v07-encode-operation-smoke.cjs', 'scripts/v07-regular-precision-aac-service.cjs');
   else if (regularProof === 'mkv-audio') names.push('scripts/v07-regular-mkv-audio-proof.cjs');
   else if (regularProof === 'multi-audio') names.push('scripts/v07-regular-multi-audio-proof.cjs', 'linux-blue/qualification-tests/q2l-multiaudio-copy.cjs');
   else if (regularProof === 'ancillary') names.push('scripts/v07-regular-ancillary-proof.cjs');

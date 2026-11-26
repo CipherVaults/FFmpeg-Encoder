@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 22, 2026 — Windows precision AAC service
+
+The default factory published three fresh holdouts on the rebuilt engine. Both measured PCM layouts and a zero-discard case independently retained the exact selected sample count. The owned runner closed all 48 children. [Windows precision AAC service evidence](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md#windows-default-service)
+
 # 📘 Session checkpoint — November 22, 2026 — Windows precision AAC clocks
 
 Four canonical range cuts on the rebuilt 9.1 pair matched exact selected sample counts. Both stereo and mono signalled the terminal discard in Matroska. The direct lab admitted no production family. [Windows precision AAC laboratory](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md)

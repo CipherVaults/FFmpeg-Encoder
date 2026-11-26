@@ -8,6 +8,7 @@ const { validateContainerClock } = require('../src/container-clock.cjs');
 // calibration6cedbad8, retained-aac-container.json, casesA/B. No private artifact
 // dependency, media access, decode, executable, network or qualification grant.
 const clone = value => structuredClone(value);
+const { EXPLICIT_AAC_DISCARD_CLOCK } = require('../src/operation-aac-discard-clock.cjs');
 const MODE = 'matroska-packet-end-plus-codec-delay';
 const mappings = [{ inputIndex: 0, outputIndex: 0, codecType: 'video', codecName: 'hevc' },
   { inputIndex: 1, outputIndex: 1, codecType: 'audio', codecName: 'aac' }];
@@ -189,4 +190,30 @@ test('validation is pure and does not add a lossless, padding or publication gra
   assert.deepEqual(f, before); assert.deepEqual(Object.keys(result), ['maximumStoredEndUs']);
   assert.equal(Object.hasOwn(result, 'publicationAuthorized'), false); assert.equal(Object.hasOwn(result, 'contentIdentity'), false);
   assert.equal(f.options.audio[0].outputSampleCount - f.options.audio[0].sourceSampleCount, 576);
+});
+
+test('Windows AAC validates the retained samples after native terminal discard without subtracting it twice', () => {
+  const f = fixture('A');
+  f.clock.representation = EXPLICIT_AAC_DISCARD_CLOCK;
+  f.clock.nativeDurationTicks = 521;
+  f.clock.discardPaddingNs = 12000000;
+  const audio = f.options.audio[0];
+  audio.outputSampleCount = audio.sourceSampleCount;
+  audio.lastOutputEndUs = 500000;
+  audio.discardPaddingSamples = 576;
+  Object.assign(f.options.audioPolicies[0], { channels: 1, channelLayout: 'mono', bitrateKbps: 128 });
+  assert.deepEqual(validate(f), { maximumStoredEndUs: 521000 });
+  for (const mutate of [
+    bad => { bad.options.audio[0].lastOutputEndUs -= 12000; },
+    bad => { bad.options.audio[0].outputSampleCount--; },
+    bad => { bad.options.audio[0].discardPaddingSamples--; },
+    bad => { bad.clock.discardPaddingNs--; },
+    bad => { bad.clock.nativeDurationTicks -= 2; },
+    bad => { bad.clock.streams[1].sampleRate = 44100; },
+    bad => { bad.options.audioPolicies[0].bitrateKbps = 320; },
+  ]) {
+    const broken = clone(f);
+    mutate(broken);
+    invalid(() => validate(broken));
+  }
 });

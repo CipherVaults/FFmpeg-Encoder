@@ -9,7 +9,10 @@ const { buildOperationContract, resolveFileRequest } = require('./operation-cont
 const { classifyMarker } = require('./provenance.cjs');
 const { FORMATS, assertTelemetryBinding, assertCollectedTelemetry } = require('./operation-telemetry.cjs');
 const { validateContainerClock } = require('./container-clock.cjs');
+const { EXPLICIT_AAC_DISCARD_CLOCK } = require('./operation-aac-discard-clock.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const PACKET_CLOCK = 'matroska-packet-end-plus-codec-delay';
+const usesPacketClock = value => value === PACKET_CLOCK || value === EXPLICIT_AAC_DISCARD_CLOCK;
 // Record 47 Q2b: Matroska stores a copied AAC stream's end plus its own codec
 // delay, so the whole-file copy clock is the decoded end plus the observed delay.
 const COPY_CLOCK = 'matroska-copy-end-plus-codec-delay';
@@ -325,7 +328,7 @@ function finite(value, label, { integer = false, minimum = -Number.MAX_SAFE_INTE
 function qualifier(value, plan) {
   record(value, ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], ['evidenceId', 'runtimeIdentity', 'containerDuration', 'tolerances'], 'Measured qualification');
   if (typeof value.evidenceId !== 'string' || !/^[A-Za-z0-9._:+-]{1,256}$/.test(value.evidenceId)
-      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp', PACKET_CLOCK, COPY_CLOCK].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
+      || value.runtimeIdentity !== plan.runtimeIdentity || !['span', 'end-timestamp', PACKET_CLOCK, EXPLICIT_AAC_DISCARD_CLOCK, COPY_CLOCK].includes(value.containerDuration)) fail('INVALID_OPERATION_VALIDATION', 'Measured qualification must identify matching runtime evidence and duration representation.');
   const keys = ['videoTimestampUs', 'audioTimestampUs', 'avSyncUs', 'durationUs', 'sampleCount'];
   record(value.tolerances, keys, keys, 'Measured tolerances');
   for (const key of keys) finite(value.tolerances[key], key, { minimum: 0, maximum: key === 'sampleCount' ? 1048576 : 1000000, integer: true });
@@ -333,7 +336,7 @@ function qualifier(value, plan) {
 }
 
 function decodedEvidence(value, plan, qualification, errors, warnings) {
-  const packetClock = qualification.containerDuration === PACKET_CLOCK;
+  const packetClock = usesPacketClock(qualification.containerDuration);
   const fields = ['video', 'audio', ...(packetClock ? ['containerClock'] : [])];
   record(value, fields, fields, 'Decoded evidence');
   const videoKeys = ['sourceFrameCount', 'outputFrameCount', 'firstSourcePtsUs', 'lastSourcePtsUs', 'lastSourceDurationUs',
@@ -402,14 +405,16 @@ function decodedEvidence(value, plan, qualification, errors, warnings) {
     if (Math.abs(firstSync) > tolerance.avSyncUs || Math.abs(endSync) > tolerance.avSyncUs) errors.push(`Audio ${item.inputIndex}: relative A/V timing changed beyond measured tolerance.`);
     outputEnds.push(item.lastOutputEndUs); outputStarts.push(item.firstOutputPtsUs);
   }
+  if (packetClock && value.containerClock.representation !== qualification.containerDuration) {
+    fail('INVALID_OPERATION_VALIDATION', 'The collected packet clock differs from the qualified representation.');
+  }
   const audioOrigin = packetClock ? plan.expectedOutput.timestampOrigins?.audio?.[0]?.effectiveOrigin : null;
   if (packetClock && !audioOrigin) fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock needs the canonical selected-audio origin.');
   const clock = packetClock ? validateContainerClock(value.containerClock, { mappings: plan.expectedOutput.streams,
     video, audio: value.audio, audioPolicies: expectedAudio, videoToleranceUs: tolerance.videoTimestampUs,
     audioOrigin: { n: audioOrigin.numerator, d: audioOrigin.denominator },
-    // Fixed48k family: one source tick + one sample + the measured1ms MKV tick.
-    // This is clock quantization, not an added AAC frame/padding allowance.
-    audioToleranceUs: Math.ceil(2000000 / 48000 + 1000) }) : null;
+    // One source tick, one sample and the measured 1 ms Matroska tick.
+    audioToleranceUs: Math.ceil(2000000 / expectedAudio[0].sampleRate + 1000) }) : null;
   return { maximumEndUs: Math.max(...outputEnds), minimumStartUs: Math.min(...outputStarts),
     outputEnds: { video: [outputEnds[0]], audio: value.audio.map(item => ({ inputIndex: item.inputIndex, lastOutputEndUs: item.lastOutputEndUs, encoderDelaySamples: item.encoderDelaySamples })) },
     ...(clock ? { containerEndUs: clock.maximumStoredEndUs } : {}), timing: operationTiming(plan, video, value.audio) };
@@ -482,11 +487,15 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
     let qualified = null, decoded = null;
     if (!plan.compatibilityPath) {
       qualified = qualifier(options.qualification, plan);
-      if (qualified.containerDuration === PACKET_CLOCK && (plan.contract.audio.streams.length !== 1
+      if (qualified.containerDuration === EXPLICIT_AAC_DISCARD_CLOCK
+          && (plan.runtimeIdentity !== REGULAR_WINDOWS_PAIR || qualified.tolerances.sampleCount !== 0)) {
+        fail('INVALID_OPERATION_VALIDATION', 'The explicit-discard clock needs the rebuilt Windows pair and exact sample count.');
+      }
+      if (usesPacketClock(qualified.containerDuration) && (plan.contract.audio.streams.length !== 1
           || plan.contract.audio.streams[0].mode !== 'precision-aac')) {
         fail('INVALID_OPERATION_VALIDATION', 'The packet clock belongs only to precision AAC, never FLAC or copied audio.');
       }
-      if (qualified.containerDuration === PACKET_CLOCK && (output.format.format_name !== 'matroska,webm'
+      if (usesPacketClock(qualified.containerDuration) && (output.format.format_name !== 'matroska,webm'
           || output.streams.length !== 2 || output.streams.some(stream => stream.time_base !== '1/1000'))) {
         fail('INVALID_OPERATION_VALIDATION', 'The qualified packet clock requires the measured1/1000 Matroska output time bases.');
       }
@@ -513,7 +522,7 @@ function validateEncodeOperationOutput(plan, rawOutputProbe, options = {}) {
         if (!Number.isSafeInteger(rate) || rate <= 0) fail('INVALID_OPERATION_VALIDATION', 'The copy clock needs the copied stream\'s own sample rate.');
         return Math.round(item.lastOutputEndUs + item.encoderDelaySamples * 1000000 / rate);
       }));
-      const expectedDurationUs = qualified.containerDuration === PACKET_CLOCK ? decoded.containerEndUs : qualified.containerDuration === COPY_CLOCK ? copyEnd()
+      const expectedDurationUs = usesPacketClock(qualified.containerDuration) ? decoded.containerEndUs : qualified.containerDuration === COPY_CLOCK ? copyEnd()
         : qualified.containerDuration === 'span' ? decoded.maximumEndUs - decoded.minimumStartUs : decoded.maximumEndUs;
       const containerDuration = Number(output.format.duration);
       if (!Number.isFinite(containerDuration) || containerDuration <= 0 || Math.abs(containerDuration * 1000000 - expectedDurationUs) > qualified.tolerances.durationUs) errors.push('Container duration differs from decoded full output extent beyond the measured tolerance.');

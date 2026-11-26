@@ -44,6 +44,7 @@ const { recheckMkvAacSource } = require('./remux-mkv-aac-clock.cjs');
 const { recheckMkvAacStage } = require('./remux-mkv-aac-evidence.cjs');
 const { MAX_SOURCE_BYTES: MAX_MP3_SOURCE_BYTES, MAX_OUTPUT_BYTES: MAX_MP3_OUTPUT_BYTES } = require('./remux-mp3-copy.cjs');
 const { collectRemuxEvidence, REMUX_VERIFICATION_CANCELLED_MESSAGE } = require('./remux-evidence.cjs');
+const { EXPLICIT_AAC_DISCARD_CLOCK } = require('./operation-aac-discard-clock.cjs');
 const { createRemuxStorageAllowance } = require('./operation-storage.cjs');
 const { prepareHdrItem } = require('./hdr-workspace.cjs');
 const { fingerprintHdrProbe } = require('./hdr-operation.cjs');
@@ -2180,7 +2181,7 @@ class EncoderService extends EventEmitter {
               budget: qualified.budget, timingQualification: qualified.timingQualification,
               ...(qualified.sourcePolicy ? { sourcePolicy: qualified.sourcePolicy } : {}),
               ...(isProportionalFamilySelection(qualified, entry.operationPlan) ? { familySelection: qualified } : {}),
-              ...(qualified.qualification.containerDuration === 'matroska-packet-end-plus-codec-delay'
+              ...(['matroska-packet-end-plus-codec-delay', EXPLICIT_AAC_DISCARD_CLOCK].includes(qualified.qualification.containerDuration)
                 ? { containerClockPolicy: qualified.qualification.containerDuration } : {}) });
             if (remuxGroup) { entry.operationRuntimeGroup = await this.operationRuntime.closeRemuxGroup(remuxGroup); remuxGroup = null; }
             entry.operationEvidence = evidence;

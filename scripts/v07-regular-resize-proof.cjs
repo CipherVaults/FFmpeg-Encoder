@@ -264,7 +264,7 @@ async function proof(mode, previous) {
       assert(entry.operationPlan.args.some(value => value.includes('scale=w=' + spec.width + ':h=' + spec.height + ':flags=lanczos')));
       if (normal) {
         const selection = service.operationQualifications.requireCurrent(entry.qualificationSelection, entry.qualificationBindings);
-        assert.equal(selection.policyIdentity, 'encode-windows-9.1-v1:2026-11-21:cpu-precision-flac-resize');
+        assert.equal(selection.policyIdentity, 'encode-windows-9.1-v2:2026-11-22:cpu-resize-and-explicit-aac-discard');
         assert.equal(selection.resourcePolicy, spec.range ? RESIZE_1440_RESOURCE_POLICY : UHD_FULL_RESOURCE_POLICY);
         assert.equal(selection.proportional, true);
         assert.deepEqual(entry.encodeControls, { budget: null, executionBudgetMs: EXECUTION_BUDGET_MS });

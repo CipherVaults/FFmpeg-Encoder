@@ -121,16 +121,16 @@ const SOURCE_PINS = {
     "sha256": "88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca"
   },
   "src/container-clock.cjs": {
-    "bytes": 13353,
-    "sha256": "b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857"
+    "bytes": 14696,
+    "sha256": "b945f2c3c9c5082705f16b573fece0890e9b339a80a9458ad512dde0e2c01690"
   },
   "src/diagnostics.cjs": {
     "bytes": 48267,
     "sha256": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901"
   },
   "src/encode-operation.cjs": {
-    "bytes": 57405,
-    "sha256": "0b56f6980c1a970625e1a2986469d9a384513324e2c985b77d42079a06618287"
+    "bytes": 58155,
+    "sha256": "84b6e759f07794f452ea59d3c4a6852f8e9dafbede805c0f50541dec68d3527c"
   },
   "src/encode-preservation-catalog.cjs": {
     "bytes": 4821,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 173909,
-    "sha256": "8ed285b0861cb375d3d117860431e4ff0fa408f724d8de88e2986a01e61aadb6"
+    "bytes": 174030,
+    "sha256": "10138aba5a89fe4b25bdc8e08ee7231cba91c61a5ec6eeaecb90638fc4a392ee"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,
@@ -276,6 +276,10 @@ const SOURCE_PINS = {
     "bytes": 3514,
     "sha256": "032d30b043934cfbb6e5063f799128ddabd6aef2aa7a6a3ec1c851153823caa7"
   },
+  "src/operation-aac-discard-clock.cjs": {
+    "bytes": 5563,
+    "sha256": "3ac98fbdc72e31ae78d12a441cfaeb96eabf592bdf0a873ecd06ad4137be215b"
+  },
   "src/operation-catalog.cjs": {
     "bytes": 14470,
     "sha256": "6f955334bfa4a3e567d4037b0ad1ce0fcb84a6a08e85a4b40bc45a6b594198ab"
@@ -285,20 +289,20 @@ const SOURCE_PINS = {
     "sha256": "e87c0bd40a27e9bc4309cfff489a3270899edc6505face10a9c4461272bb343d"
   },
   "src/operation-controls.cjs": {
-    "bytes": 6933,
-    "sha256": "048fd835f88124f69d9846dd374e27a8dae3721a8abb6b2b5b54631a1ddaa767"
+    "bytes": 8292,
+    "sha256": "551246574d74d010d9179094dea47a9c12d5da7c9e5d1ce34fef6175a03b8c4e"
   },
   "src/operation-draft.cjs": {
     "bytes": 9030,
     "sha256": "9c4a25e65021be52bff887830a5cbdf5db07c03720be69b0352020437707251a"
   },
   "src/operation-evidence.cjs": {
-    "bytes": 53448,
-    "sha256": "55cb42b3e8e5f7886e1909058a136a63723c5b4cb4056a89345d3df16a7eef44"
+    "bytes": 57827,
+    "sha256": "b9bc49742b011929e4015d8441bea3101d12331f076717661c734568665971bc"
   },
   "src/operation-family.cjs": {
-    "bytes": 54395,
-    "sha256": "2f30becd87c6b181873c99fbbbe0b5cf2ddc75c33cfb30189d5bedf237e63fb9"
+    "bytes": 59500,
+    "sha256": "e342056e7b896a1cd61cf4da3c84c33d16ab792186d4a1ae4c30e5ddadbaf591"
   },
   "src/operation-names.cjs": {
     "bytes": 1511,

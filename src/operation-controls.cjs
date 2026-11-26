@@ -12,6 +12,7 @@ const { openEvidenceStorage } = require('./operation-storage.cjs');
 const { RemuxOperations } = require('./remux-operation.cjs');
 const { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID } = require('./remux-catalog.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_AAC_FAMILY, EXPLICIT_AAC_DISCARD_CLOCK, EXPLICIT_AAC_DISCARD_ALIGNMENT } = require('./operation-aac-discard-clock.cjs');
 const { FAMILIES, POLICY_ID } = require('./operation-catalog.cjs');
 const { UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY } =
   require('./operation-resource-budget.cjs');
@@ -43,11 +44,27 @@ function resizeFamily(id, resourcePolicy, evidence, shortRun) {
   });
 }
 
+const WINDOWS_AAC_LAB = 'c38c5ef3-0e2f-428d-ad66-0bd7c61faf3f';
+const WINDOWS_AAC_SERVICE = '6822d578-d758-4f1b-91a1-e5f7bcf8973c';
+const WINDOWS_AAC_ENDPOINT = WINDOWS_AAC_LAB + ':endpoints';
+const WINDOWS_AAC_INTERIOR = WINDOWS_AAC_LAB + ':interior';
+const WINDOWS_AAC_RANGE = Object.freeze({
+  id: WINDOWS_AAC_FAMILY, runtimeIdentity: REGULAR_WINDOWS_PAIR, environment: null, settings: RESIZE_SETTINGS,
+  budget: EVIDENCE_BUDGET, executionBudgetMs: EXECUTION_BUDGET_MS,
+  qualification: Object.freeze({ evidenceId: WINDOWS_AAC_ENDPOINT, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+    containerDuration: EXPLICIT_AAC_DISCARD_CLOCK,
+    tolerances: Object.freeze({ videoTimestampUs: 1067, audioTimestampUs: 1046, avSyncUs: 2113, durationUs: 1088, sampleCount: 0 }) }),
+  timingQualification: Object.freeze({ evidenceId: WINDOWS_AAC_INTERIOR, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+    videoDurationUs: 1067, audioTimelineUs: 1046, aac: Object.freeze({ alignment: EXPLICIT_AAC_DISCARD_ALIGNMENT,
+      encoderDelaySamples: 1024, discardPaddingSamples: null }) }),
+  evidenceIds: Object.freeze([WINDOWS_AAC_ENDPOINT, WINDOWS_AAC_INTERIOR, WINDOWS_AAC_SERVICE + ':two-published-holdouts']),
+});
 const REGULAR_WINDOWS_ENCODE = Object.freeze({
-  policyIdentity: 'encode-windows-9.1-v1:2026-11-21:cpu-precision-flac-resize',
+  policyIdentity: 'encode-windows-9.1-v2:2026-11-22:cpu-resize-and-explicit-aac-discard',
   families: Object.freeze([
     resizeFamily(UHD_FULL_FAMILY_ID, UHD_FULL_RESOURCE_POLICY, 'uhd-full', '7a86e7e6-296b-4b7a-b478-171b58c6263a'),
     resizeFamily(RESIZE_1440_FAMILY_ID, RESIZE_1440_RESOURCE_POLICY, '1440p-range', '382855fe-cf94-41e2-a4a7-cf30ccf58a78'),
+    WINDOWS_AAC_RANGE,
   ]),
 });
 

@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — Windows Remux timing
+
+Two matched 60-second TS inputs copied and verified through the same Windows 9.1 service. The larger run spent about 42 seconds across the two packet-dump children. The case verdicts passed, the speed verdict missed, and all 21 children closed. [Windows Remux timing](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md)
+
 # 📘 Session checkpoint — November 27, 2026 — Windows Matroska chapters and captions
 
 Two normal-service holdouts preserved 75 video frames each, two native chapter markers in one output and five native plain subtitles in the other. All 42 owned children closed. The final run passed 243 focused checks. One historical 9.0.2 fixture skipped because its audited pair directory was unset. TS and standalone MP3 passed fresh Windows service regression. [Windows timed Matroska service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md#regular-windows-service)

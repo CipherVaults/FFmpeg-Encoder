@@ -15,6 +15,8 @@ const { projectRequiredRemuxTags } = require('./remux-metadata-policy.cjs');
 const { deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
 const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_TWO_AAC, assertTwoAacProbe, assertTwoAacPacket, assertTwoAacUnits, observeTwoAacNative } = require('./remux-windows-two-aac.cjs');
 const { TextDecoder, isDeepStrictEqual } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
 
@@ -710,7 +712,9 @@ async function compareRemuxPackets(beforeCount, afterCount, sourceRows, outputRo
       for (const field of ['pts', 'dts', 'duration']) {
         if (ar[field].numerator === br[field].numerator && ar[field].denominator === br[field].denominator) continue;
         const error = abs(sub(exact(ar, field), exact(br, field)));
-        need(!exactTiming || error.n === 0n, `Transport packet ${field} changed` + at, 'REMUX_TS_PACKET_IDENTITY');
+        const twoAac = exactTiming === WINDOWS_TWO_AAC;
+        need(!exactTiming || error.n === 0n, `${twoAac ? 'Two-track MP4' : 'Transport'} packet ${field} changed` + at,
+          twoAac ? 'REMUX_TWO_AAC_TIMING' : 'REMUX_TS_PACKET_IDENTITY');
         need(!greater(error, PACKET_TOLERANCE), `Packet ${field} exceeds 1/500s` + at, 'REMUX_PACKET_TIMING');
         if (field === 'pts' && greater(error, ptsError)) ptsError = error;
         if (field === 'dts' && greater(error, dtsError)) dtsError = error;
@@ -975,6 +979,14 @@ async function collectRemuxEvidence(options) {
   const sourceProbeFingerprint = remuxProbeFingerprint(sourceProbe), outputProbeFingerprint = remuxProbeFingerprint(outputProbe);
   need(sourceProbeFingerprint === remuxProbeFingerprint(source) && sourceProbeFingerprint === assessment.sourceEvidenceFingerprint, 'Source probe does not belong to the genuine assessment.');
   const output = normalizeProbe(outputProbe), mappings = assessment.expectedOutput.streams;
+  const windowsTwoAac = options.sourceEnvelope === WINDOWS_TWO_AAC;
+  if (options.sourceEnvelope !== undefined) {
+    need(windowsTwoAac && verificationMethod === 'packet-identity-v1' && runtimeIdentity === REGULAR_WINDOWS_PAIR
+      && assessment.inputFamily === 'isobmff' && assessment.target === 'mp4' && mappings.length === 3
+      && mappings.every((mapping, index) => mapping.inputIndex === index && mapping.outputIndex === index),
+    'Only the exact Windows three-track MP4 plan can request the two-AAC clock witness.', 'REMUX_TWO_AAC_SOURCE_UNQUALIFIED');
+    need(assertTwoAacProbe(source) === assertTwoAacProbe(output), 'The two-AAC MP4 track layout changed in the stage.', 'REMUX_TWO_AAC_SOURCE_UNQUALIFIED');
+  }
   need(assessment.request.range === null && !assessment.expectedOutput.auxiliaryStreams.chapterCarrierQualificationRequired,
     'Only complete source preservation without unqualified chapter carriers is collectible.');
   need(Array.isArray(mappings) && mappings.length > 0 && mappings.length <= 32 && output.streams.length === mappings.length
@@ -1465,6 +1477,9 @@ async function collectRemuxEvidence(options) {
         // these bytes against each side's own admitted stream properties.
         const codecBytes = await boundCodecBytes.get(cacheKey);
         const admitted = mapping.codecType === 'video' ? parseRemuxAvcc(codecBytes, stream) : parseRemuxAsc(codecBytes, stream);
+        if (windowsTwoAac && mapping.codecType === 'audio') {
+          need(admitted.samples === 1024, 'The two-track MP4 route requires 1024-sample AAC initialization.', 'REMUX_AAC_CONFIG');
+        }
         codecAdmission[side].set(index, admitted);
         const collected = collections[side].get(index);
         if (mapping.codecType === 'video') {
@@ -1589,7 +1604,8 @@ async function collectRemuxEvidence(options) {
           const accumulator = createRemuxPacketAccumulator(stream, { maxRecords: budget.maxRecords, maxSourceBytes: Number(side === 'source' ? sourceBefore.size : outputBefore.size),
             maxDurationSeconds: budget.maxDurationSeconds, family, semanticAudio: semanticAudio(stream.codec_type), deferPayloadHash: true });
           const writer = await rowSpool(side + '-' + index + '.packets');
-          pending.set(index, { writer, accumulator, stream, parametersSha256, hash: createHash('sha256'), sideHash: createHash('sha256'), inferredDts: 0 });
+          pending.set(index, { writer, accumulator, stream, parametersSha256, hash: createHash('sha256'), sideHash: createHash('sha256'),
+            inferredDts: 0, ...(windowsTwoAac ? { exactPackets: 0 } : {}) });
         }
         const sink = createRemuxJsonSink('packets', { maxRecords: budget.maxRecords, maxRecordBytes: Math.min(65536, budget.maxFrameBytes),
           async onRecord(packet) {
@@ -1600,6 +1616,7 @@ async function collectRemuxEvidence(options) {
               need(side === 'source' && !mappings.some(m => m.inputIndex === packet.stream_index), 'Unexpected output/attachment packet.', 'REMUX_PACKET_STREAM');
               return; // Only an explicit assessed omission may bypass comparison.
             }
+            if (windowsTwoAac) assertTwoAacPacket(stream, packet, entry.exactPackets++);
             const row = entry.accumulator.push(packet); if (!row.dts) entry.inferredDts++;
             payloadBytes += BigInt(row.size);
             need(payloadBytes <= (side === 'source' ? sourceBefore.size : outputBefore.size), 'Aggregate packet payload exceeds its file byte budget.', 'REMUX_PROPORTIONAL_BUDGET');
@@ -1631,6 +1648,7 @@ async function collectRemuxEvidence(options) {
           const observedBFrames = headers.get(index).has_b_frames || 0;
           need(entry.inferredDts <= observedBFrames, 'Missing DTS exceeds the observed reorder depth.', 'REMUX_PACKET_DTS');
           const summary = entry.accumulator.finish(), held = await entry.writer.finish();
+          if (windowsTwoAac) assertTwoAacUnits(entry.stream, summary.count);
           need(!summary.reordered || observedBFrames > 0, 'Packet reordering contradicts the decoder header.', 'REMUX_PACKET_REORDER');
           const decoderParametersSha256 = sha(entry.parametersSha256 + ':' + observedBFrames);
           const sideHash = entry.sideHash.digest('hex');
@@ -1700,6 +1718,7 @@ async function collectRemuxEvidence(options) {
           const sampleBytes = stream.channels * representation.bytesPerSample;
           need(pcm.bytes > 0 && pcm.bytes % sampleBytes === 0, 'Incomplete native audio samples.', 'REMUX_PACKET_PCM');
           collected.pcmWindows = pcm.summary; collected.record.pcm = { bytes: pcm.bytes, samples: String(pcm.bytes / sampleBytes), sha256: pcm.sha256 };
+          if (windowsTwoAac) assertTwoAacUnits(stream, collected.count, collected.record.pcm.samples);
           packetPcmBytes[side] += pcm.bytes;
         } finally { await sink.close(); }
       });
@@ -1729,14 +1748,14 @@ async function collectRemuxEvidence(options) {
           `Decoder parameters/extradata changed for stream ${mapping.inputIndex} → ${mapping.outputIndex}.`, 'REMUX_CODEC_PARAMETERS');
         need(before.count === after.count, 'Complete packet counts differ.', 'REMUX_PACKET_COUNT');
         if (!semanticAudio(mapping.codecType)) await compareRemuxPackets(before.count, after.count, rows(before.held), rows(after.held), { signal,
-          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska' });
+          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska', exactTiming: windowsTwoAac && WINDOWS_TWO_AAC });
       }
       await collectCodecAdmission();
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
         const before = collections.source.get(mapping.inputIndex), after = collections.output.get(mapping.outputIndex);
         if (semanticAudio(mapping.codecType)) continue; // ASC sample grid is admitted below, before semantic audio comparison.
         before.packetComparison = await compareRemuxPackets(before.count, after.count, rows(before.held), rows(after.held), { signal,
-          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska' });
+          sourcePrefix: before.family === 'matroska', outputPrefix: after.family === 'matroska', exactTiming: windowsTwoAac && WINDOWS_TWO_AAC });
         need(before.presentationSha256 === after.presentationSha256, 'Complete presentation packet order changed.', 'REMUX_PACKET_REORDER');
       }
       for (const mapping of mappings.filter(m => semanticAudio(m.codecType))) {
@@ -1870,13 +1889,20 @@ async function collectRemuxEvidence(options) {
       maxRecords: budget.maxRecords, timeoutMs: budget.timeoutMs, signal, onProgress: value => progress('source-playback-controls', value.completed, value.total) }) : null;
     if (sourcePlayback) receipt.sourcePlayback = sourcePlayback;
     if (['mp4', 'mov'].includes(assessment.target)) {
-      receipt.nativeEditLists = await observeRemuxEditLists({ outputProbe, signal, maxRecords: budget.maxRecords, exact: transport,
+      receipt.nativeEditLists = await observeRemuxEditLists({ outputProbe, signal, maxRecords: budget.maxRecords, exact: transport || windowsTwoAac,
         fileReceipt: { path: outputPath, sha256: essence.outputFileSha256, bytes: Number(outputBefore.size), identity: stamp(outputBefore) },
         intervals: mappings.map(m => ({ outputIndex: m.outputIndex,
           ...remuxEditInterval(collections.source.get(m.inputIndex).record, source.streams.find(s => s.index === m.inputIndex)),
           ...(sourcePlayback ? { sourceControls: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).controls,
             sourceDimensions: sourcePlayback.tracks.find(t => t.outputIndex === m.inputIndex).dimensions } : {}) })),
         onProgress: value => progress('native-edit-lists', value.completed, value.total) });
+      if (windowsTwoAac) {
+        const before = await observeTwoAacNative({ file: sourcePath, probe: source, identity: stamp(sourceBefore),
+          playback: sourcePlayback, signal, ...budget });
+        const after = await observeTwoAacNative({ file: outputPath, probe: output, identity: stamp(outputBefore),
+          playback: receipt.nativeEditLists, signal, ...budget });
+        receipt.windowsTwoAac = { complete: true, source: before, output: after };
+      }
       await paths();
     }
     // A MOV target's unspecified track languages are read from the sealed
@@ -1909,6 +1935,9 @@ async function collectRemuxEvidence(options) {
       const native=receipt.nativeInventory?.[side];
       if(native?.metadataBytesRead!==undefined)partialOperations.push({side,operation:'native-inventory-metadata',bytesRead:native.metadataBytesRead,
         ...(side==='source'?{preparationRead:'Normal-service preparation separately inspects native source metadata; those metadata bytes are unmeasured here.'}:{})});
+    }
+    if (windowsTwoAac) for (const side of ['source', 'output']) {
+      partialOperations.push({ side, operation: 'native-windows-two-aac-metadata', bytesRead: receipt.windowsTwoAac[side].metadataBytesRead });
     }
     if (sourcePlayback) partialOperations.push({ side: 'source', operation: 'native-source-playback-metadata', bytesRead: sourcePlayback.metadataBytesRead,
       preparationRead: 'Normal-service preparation separately inspects ISO source metadata; those preparation metadata bytes are unmeasured here.' });

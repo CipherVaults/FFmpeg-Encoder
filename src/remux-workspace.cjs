@@ -9,6 +9,7 @@ const { remuxProbeFingerprint } = require('./remux-validation.cjs');
 const { fingerprintRemuxSourceIdentity, deriveRemuxAssessmentBudget } = require('./remux-operation.cjs');
 const { prepareTransport } = require('./remux-transport-evidence.cjs');
 const { observeRemuxSourcePlayback } = require('./remux-edit-lists.cjs');
+const { WINDOWS_TWO_AAC, observeTwoAacNative } = require('./remux-windows-two-aac.cjs');
 const { observeNativeInventory } = require('./remux-native-checks.cjs');
 const { readSourceIdentity, sameIdentity } = require('./source-identity.cjs');
 const { normalizeProbe, normalizeMp3RemuxProbe } = require('./inspection.cjs');
@@ -174,9 +175,14 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
     if (!mp3Source && assessment.inputFamily !== 'mpegts') await observeNativeInventory({file,probe:source,identity,signal,family:assessment.inputFamily,target:assessment.target,
       selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),...deriveRemuxAssessmentBudget(assessment,identity.size,operationPlan.verificationMethod).budget});
-    if (assessment.inputFamily === 'isobmff') await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,
-      selectedIndexes: assessment.expectedOutput.streams.map(s => s.inputIndex),
-      ...deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget });
+    if (assessment.inputFamily === 'isobmff') {
+      const budget = deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget;
+      const playback = await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,
+        selectedIndexes: assessment.expectedOutput.streams.map(stream => stream.inputIndex), ...budget });
+      if (operationPlan.sourceEnvelope === WINDOWS_TWO_AAC) {
+        await observeTwoAacNative({ file, probe: source, identity, playback, signal, ...budget });
+      }
+    }
     const transportPreparation = assessment.inputFamily === 'mpegts' ? await prepareTransport({ file, probe: source, identity, ffprobe: this.ffprobe,
       run: typeof this.operationRuntime.invoke === 'function'
         ? (_file, args, options) => this.operationRuntime.invoke(operationRuntimeToken, 'ffprobe', args, options) : this.run,

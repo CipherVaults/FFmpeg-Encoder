@@ -25,6 +25,7 @@
 // two-audio/cut-head refusals. All five earlier routes pass normal run 16477e14.
 // Other MOV/TS shapes and HDR remain unqualified.
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_TWO_AAC } = require('./remux-windows-two-aac.cjs');
 const runtimeIdentity = '56006c748ed2ee641597cd57e0874c11a86e52e6f634879afc503adb943f99d6';
 const REMUX_POLICIES = Object.freeze([
   { id: 'full-remux-mpegts-mp4-v1', inputFamily: 'mpegts', target: 'mp4', allowAncillary: false,
@@ -56,7 +57,7 @@ const REMUX_POLICY_ID = 'full-remux-v6:2026-11-14:packet-identity-transport';
 // rejects a paired cut before the first IDR. The packet-identity collector
 // and exact transport thresholds stay mandatory on every admitted file.
 // Lab receipt SHA-256: 80d755b40cb8e0b8d2bd42fd3ba1af194793ce2463127d818edfe44dfa47a364
-const REGULAR_WINDOWS_REMUX_POLICY_ID = 'full-remux-windows-9.1-v3:2026-11-22:aac-clock';
+const REGULAR_WINDOWS_REMUX_POLICY_ID = 'full-remux-windows-9.1-v4:2026-11-27:two-aac-mp4';
 const REGULAR_WINDOWS_REMUX_POLICIES = Object.freeze([Object.freeze({
   ...REMUX_POLICIES[0], id: 'full-remux-mpegts-mp4-windows-9.1-v1', runtimeIdentity: REGULAR_WINDOWS_PAIR,
   evidenceIds: Object.freeze(['6fe624a3-bb17-4e18-94b4-97ad2017515a:moving-h264-aac-ts-seek',
@@ -77,6 +78,13 @@ const REGULAR_WINDOWS_REMUX_POLICIES = Object.freeze([Object.freeze({
   evidenceIds: Object.freeze(['fe7617d6-0113-4ab2-9e04-874c3946f56c:exact-copy',
     'fe7617d6-0113-4ab2-9e04-874c3946f56c:explicit-audio-shift',
     'fe7617d6-0113-4ab2-9e04-874c3946f56c:refusals']),
+}), Object.freeze({
+  id: 'full-remux-isobmff-mp4-two-aac-windows-9.1-v1', inputFamily: 'isobmff', target: 'mp4',
+  runtimeIdentity: REGULAR_WINDOWS_PAIR, allowAncillary: false, allowRotation90: false,
+  sourceEnvelope: WINDOWS_TWO_AAC, verificationMethod: 'packet-identity-v1',
+  evidenceIds: Object.freeze(['2a7969b6-f64f-47f9-b302-bdf40e551082:exact-mixed',
+    '2a7969b6-f64f-47f9-b302-bdf40e551082:exact-twins',
+    'a4e71a9b-880d-4b87-b0d5-40c64805d8ad:service-holdouts-and-refusals']),
 })]);
 
 module.exports = { REMUX_POLICIES, REMUX_POLICY_ID, REGULAR_WINDOWS_REMUX_POLICIES, REGULAR_WINDOWS_REMUX_POLICY_ID };

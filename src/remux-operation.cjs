@@ -7,6 +7,7 @@ const { ToolError } = require('./process-runner.cjs');
 const { getRemuxAssessmentSource, validateRemuxRequest, buildRemuxQualificationArgs, getRemuxMp3Source, getRemuxMkvAacClock, remuxVerificationDescription } = require('./remux-contract.cjs');
 const { createRemuxValidator, remuxProbeFingerprint, qualifiedSingletonDefault } = require('./remux-validation.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
+const { WINDOWS_TWO_AAC, assertTwoAacProbe } = require('./remux-windows-two-aac.cjs');
 const { validateMp3SourceProbe, COPY_NOTICE, MAX_SOURCE_BYTES, MAX_OUTPUT_BYTES, MAX_PACKETS } = require('./remux-mp3-copy.cjs');
 const { requireMp3Source } = require('./remux-mp3-source.cjs');
 const { VERIFICATION_METHOD: AAC_CLOCK_METHOD, requireMkvAacClock } = require('./remux-mkv-aac-clock.cjs');
@@ -23,7 +24,7 @@ const BINDINGS = ['plan', 'settings', 'sourceIdentity', 'sourceProbeFingerprint'
 const BUDGET = Object.freeze({ sourceDecode: 'complete', timeoutMs: 120000, maxFrameBytes: 8 * 1024 * 1024,
   maxPcmBytes: 128 * 1024 * 1024, maxRecords: 20000, maxSpoolBytes: 32 * 1024 * 1024 });
 const TIMING = Object.freeze({ numerator: '1', denominator: '500' });
-const TRANSPORT_TIMING = Object.freeze({ numerator: '0', denominator: '1' });
+const EXACT_TIMING = Object.freeze({ numerator: '0', denominator: '1' });
 const EXECUTION_MS = 600000;
 const MiB = 1024 * 1024, EVIDENCE_SANITY_BYTES = 64 * 1024 ** 4;
 // Root's Q2o decision: these existing main-owned routes use complete compressed
@@ -127,9 +128,12 @@ function policy(value) {
     && !value.allowAncillary && value.allowRotation90 !== true;
   need(value.inputFamily !== 'mp3' || standaloneMp3, 'MP3 requires the exact regular Windows runtime and finite audio-only envelope.');
   need(value.inputFamily !== 'mpegts' || transport && value.verificationMethod === 'packet-identity-v1' && value.allowRotation90 !== true, 'TS requires its explicit unrotated fast transport envelope.');
-  if (own(value, 'sourceEnvelope')) need(transport || standaloneMp3 || ['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
+  const twoAac = value.sourceEnvelope === WINDOWS_TWO_AAC && value.inputFamily === 'isobmff' && value.target === 'mp4'
+    && value.runtimeIdentity === REGULAR_WINDOWS_PAIR && value.verificationMethod === 'packet-identity-v1'
+    && !value.allowAncillary && value.allowRotation90 !== true && !own(value, 'audio');
+  if (own(value, 'sourceEnvelope')) need(transport || standaloneMp3 || twoAac || ['h264-aac-lc-48k-stereo-v1', 'h264-aac-lc-48k-stereo-v2'].includes(value.sourceEnvelope)
     && value.inputFamily === 'isobmff' && value.target === 'mov' && value.allowRotation90 !== true,
-  'The measured H264/AAC source envelope is available only for unrotated ISOBMFF-to-MOV routes.');
+  'The source envelope requires its exact measured container, target, runtime and stream policy.');
   const evidenceIds = list(value.evidenceIds, 32, 'Retained route evidence').map(item => id(item, 'Retained route evidence'));
   need((evidenceIds.length > 0 || transport) && new Set(evidenceIds).size === evidenceIds.length, 'A reviewed route needs unique retained evidence IDs.');
   return freeze({ id: id(value.id, 'Route policy'), inputFamily: value.inputFamily, target: value.target, evidenceIds,
@@ -254,6 +258,12 @@ function sourcePolicy(assessment, source, identity, route) {
       maximumDurationSeconds: Math.ceil(mp3.sampleFrames / mp3.rate), videoInputIndex: null, audioInputIndexes: [0], ancillary: false });
   }
   const mapped = assessment.expectedOutput.streams.map(mapping => source.streams.find(stream => stream.index === mapping.inputIndex));
+  if (route.sourceEnvelope === WINDOWS_TWO_AAC) {
+    assertTwoAacProbe(source);
+    need(mapped.length === 3 && mapped.every((stream, index) => stream.index === index)
+      && assessment.expectedOutput.omittedStreams.length === 0,
+    'The measured two-track audio route preserves all three tracks in source order.', 'REMUX_TWO_AAC_SOURCE_UNQUALIFIED');
+  }
   // This measured MOV cell cannot borrow the broader AAC/omission envelopes of
   // other routes. Inspect the whole source, so an omission cannot hide a track
   // whose muxer relationships or decoder alignment have not been measured.
@@ -389,7 +399,9 @@ class RemuxOperations {
     const facts = sourcePolicy(options.assessment, source, identity, route), epoch = this.#epoch;
     need(route.evidenceIds.length > 0, 'MPEG-TS to MP4 awaits measured route evidence; Start is disabled.', REQUIRED);
     const costs = deriveRemuxAssessmentBudget(options.assessment, identity.size, route.verificationMethod);
-    const args = buildRemuxQualificationArgs({ assessment: options.assessment, input: options.input, output: options.output, outputId: options.outputId });
+    const twoAac = route.sourceEnvelope === WINDOWS_TWO_AAC;
+    const args = buildRemuxQualificationArgs({ assessment: options.assessment, input: options.input, output: options.output, outputId: options.outputId,
+      ...(twoAac ? { sourceEnvelope: WINDOWS_TWO_AAC } : {}) });
     const outputId = options.outputId.toLowerCase();
     need(!this.#outputIds.has(outputId), 'Every prepare requires a fresh output identity; cancelled or superseded output identities cannot be reused.');
     const validator = createRemuxValidator({ requireQualification: binding => {
@@ -402,13 +414,13 @@ class RemuxOperations {
         || ['media-content-and-timeline', 'chapters-and-container-tags', `provenance:${route.target}`,
           'publication-and-lifecycle', 'mov-family-metadata-mode', ...(route.inputFamily === 'mpegts' ? ['transport-timestamps-and-framing'] : [])].includes(requirement)), 'This route contains an unreviewed qualification requirement.', REQUIRED);
       return { status: 'verified', runtimeIdentity: this.#runtime, operation: 'remux', inputFamily: route.inputFamily, target: route.target,
-        cellId: route.id, evidenceId: route.evidenceIds[0], requirementIds: [...binding.requirementIds], maxTimestampError: route.inputFamily === 'mpegts' ? TRANSPORT_TIMING : TIMING, maxChapterError: TIMING };
+        cellId: route.id, evidenceId: route.evidenceIds[0], requirementIds: [...binding.requirementIds], maxTimestampError: route.inputFamily === 'mpegts' || twoAac ? EXACT_TIMING : TIMING, maxChapterError: TIMING };
     } });
     const innerPlan = validator.prepare({ assessment: options.assessment, runtimeIdentity: this.#runtime, cellId: route.id, outputId: options.outputId });
     const sourceProbeFingerprint = remuxProbeFingerprint(source, route.inputFamily), contract = freeze({ operation: 'remux', range: { kind: 'full' }, target: request.target, request });
     const description = { operation: 'remux', compatibilityPath: false, verificationMethod: route.verificationMethod,
       verificationClaim: remuxVerificationDescription(route.verificationMethod, route.inputFamily), args, contract, expectedOutput: options.assessment.expectedOutput,
-      sourceProbeFingerprint, runtimeIdentity: this.#runtime };
+      sourceProbeFingerprint, runtimeIdentity: this.#runtime, ...(twoAac ? { sourceEnvelope: WINDOWS_TWO_AAC } : {}) };
     const plan = freeze({ ...description, planFingerprint: hash({ ...description, sourceIdentity: identity, outputId: options.outputId.toLowerCase(),
       policyIdentity: this.#policyIdentity, route, epoch,
       ...(route.inputFamily === 'mp3' ? { sourceSha256: getRemuxMp3Source(options.assessment).sha256 } : {}),
@@ -433,7 +445,9 @@ class RemuxOperations {
         verificationClaim: remuxVerificationDescription(state.route.verificationMethod, state.route.inputFamily),
         evidenceIds: state.route.evidenceIds, policyIdentity: this.#policyIdentity,
         qualification: { status: 'verified', operation: 'remux', runtimeIdentity: this.#runtime, inputFamily: state.route.inputFamily,
-          target: state.route.target, cellId: state.route.id, evidenceId: state.route.evidenceIds[0], maxTimestampError: state.route.inputFamily === 'mpegts' ? TRANSPORT_TIMING : TIMING, maxChapterError: TIMING }, sourcePolicy: state.facts });
+          target: state.route.target, cellId: state.route.id, evidenceId: state.route.evidenceIds[0],
+          maxTimestampError: state.route.inputFamily === 'mpegts' || state.route.sourceEnvelope === WINDOWS_TWO_AAC ? EXACT_TIMING : TIMING,
+          maxChapterError: TIMING }, sourcePolicy: state.facts });
       state.selected = true; this.#selections.set(token, { epoch: this.#epoch, plan: options.plan, result }); return token;
     } catch (error) { throw new ToolError(REQUIRED, error.message); }
   }
@@ -458,6 +472,8 @@ class RemuxOperations {
     const essence = getCollectedRemuxEvidence(collectorReceipt, bindings), collectedMov = getCollectedMovRepresentation(collectorReceipt, bindings);
     need(essence.verificationMethod === state.route.verificationMethod,
       'Collected verification method differs from the main-reviewed route.', 'REMUX_VERIFICATION_METHOD');
+    need(state.route.sourceEnvelope !== WINDOWS_TWO_AAC || collectorReceipt.windowsTwoAac?.complete === true,
+      'This two-track MP4 copy needs complete exact clocks and native track evidence.', 'REMUX_TWO_AAC_NATIVE');
     // The collector's own observation is the MOV representation; a caller may
     // pass only that same receipt, never a different one in its place.
     need(!own(optional, 'movRepresentationReceipt') || collectedMov !== null && optional.movRepresentationReceipt === collectedMov,

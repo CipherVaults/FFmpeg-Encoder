@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — Windows two-track MP4 copy
+
+The default factory published two fresh Full MP4 holdouts. Each output kept 60 exact video frames and both complete AAC tracks in their original order. The swapped-payload negative failed verification and the shortened terminal edit was refused before Start. All 70 owned children closed and 256 focused checks passed. [Windows two-track service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md#regular-windows-service)
+
 # 📘 Session checkpoint — November 22, 2026 — Windows precision AAC service
 
 The default factory published three fresh holdouts on the rebuilt engine. Both measured PCM layouts and a zero-discard case independently retained the exact selected sample count. The owned runner closed all 48 children. [Windows precision AAC service evidence](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md#windows-default-service)

@@ -180,11 +180,13 @@ test('bounded metadata command obtains groups/programs with fixed protocols and 
 
 test('normalization ignores forged derived claims and old policy cannot share the new cache identity', () => {
   const probe = source();
+  probe.streams.push({ index: 1, codec_type: 'audio', codec_name: 'aac', seek_preroll: 1024 });
   probe.mediaEvidence = { version: 1, streams: [{ geometry: { sampleAspectRatio: rational('1', '1') }, hdr: { supported: true } }] };
   const normalized = normalizeProbe(probe);
   assert.equal(normalized.mediaEvidence.streams[0].geometry.sampleAspectRatio.state, 'unknown');
   assert.equal(normalized.mediaEvidence.streams[0].hdr.supported, undefined);
-  assert.equal(INSPECTION_POLICY.normalization, 5);
+  assert.equal(INSPECTION_POLICY.normalization, 6);
+  assert.equal(normalized.streams[1].seek_preroll, 1024);
 });
 
 test('source and output objects never share side-data mutation or relationship references', () => {

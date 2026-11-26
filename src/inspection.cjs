@@ -10,10 +10,10 @@ const GENERATED_TAGS = new Set(['encoder', 'duration', 'number_of_frames', 'numb
 const APPLICATION_GENERATION_TAGS = new Set(['ffmpeg_encoder_provenance', 'ffmpeg_encoder_output_id', 'ffmpeg_encoder_generation']);
 // Bump these when normalization, stream selection, color policy or sample coverage
 // changes. A cache entry is evidence for these exact rules, not a lasting approval.
-const INSPECTION_POLICY = Object.freeze({ normalization: 5, color: 1, sampling: 1, selection: 1, preservation: 2 });
+const INSPECTION_POLICY = Object.freeze({ normalization: 6, color: 1, sampling: 1, selection: 1, preservation: 2 });
 const INSPECTION_STDERR_LIMIT = 256 * 1024;
 const SAMPLING_LIMIT = 'Bounded metadata samples cannot prove the absence of untagged HDR or HDR outside inspected frames. Demuxer seeking may begin at an earlier keyframe.';
-const STREAM_FIELDS = ['index', 'id', 'codec_type', 'codec_name', 'profile', 'codec_tag_string', 'codec_tag', 'level', 'width', 'height', 'coded_width', 'coded_height', 'sample_aspect_ratio', 'display_aspect_ratio', 'field_order', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location', 'avg_frame_rate', 'r_frame_rate', 'time_base', 'start_pts', 'start_time', 'duration_ts', 'duration', 'nb_frames', 'bit_rate', 'sample_fmt', 'sample_rate', 'channels', 'channel_layout', 'bits_per_sample', 'bits_per_raw_sample', 'initial_padding', 'trailing_padding', 'extradata_size', 'extradata_hash'];
+const STREAM_FIELDS = ['index', 'id', 'codec_type', 'codec_name', 'profile', 'codec_tag_string', 'codec_tag', 'level', 'width', 'height', 'coded_width', 'coded_height', 'sample_aspect_ratio', 'display_aspect_ratio', 'field_order', 'pix_fmt', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location', 'avg_frame_rate', 'r_frame_rate', 'time_base', 'start_pts', 'start_time', 'duration_ts', 'duration', 'nb_frames', 'bit_rate', 'sample_fmt', 'sample_rate', 'channels', 'channel_layout', 'bits_per_sample', 'bits_per_raw_sample', 'initial_padding', 'trailing_padding', 'seek_preroll', 'extradata_size', 'extradata_hash'];
 const FRAME_FIELDS = ['media_type', 'stream_index', 'best_effort_timestamp', 'best_effort_timestamp_time', 'pts', 'pts_time', 'duration', 'duration_time', 'width', 'height', 'pix_fmt', 'sample_aspect_ratio', 'interlaced_frame', 'top_field_first', 'repeat_pict', 'color_transfer', 'color_primaries', 'color_space', 'color_range', 'chroma_location'];
 
 function invalidEvidence(message) { throw new ToolError('INVALID_PROBE', message); }

@@ -2160,7 +2160,7 @@ class EncoderService extends EventEmitter {
               remuxGroup = this.operationRuntime.createRemuxGroup(entry.operationRuntimeToken, entry.remuxAssessment);
             }
             const evidence = entry.remux ? await collectRemuxEvidence({ assessment: entry.remuxAssessment,
-              transportPreparation: entry.transportPreparation,
+              transportPreparation: entry.transportPreparation, sourceEnvelope: entry.operationPlan.sourceEnvelope,
               runtimeIdentity: this.runtimeIdentity, outputId: entry.outputId, sourceProbe: entry.inspection.probe,
               outputProbe, sourcePath: entry.file, outputPath: stage.file, stageDirectory: evidenceDirectory,
               ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, run, signal: jobSignal, budget: qualified.budget, verificationMethod: qualified.verificationMethod, maxConcurrentChildren: remuxGroup ? 2 : 1,

@@ -4,6 +4,12 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const { createHash } = require('node:crypto');
 const { readSourceIdentity } = require('../src/source-identity.cjs');
+const { EncoderService } = require('../src/encoder-service.cjs');
+const { createOperationControls } = require('../src/operation-controls.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
+const { WINDOWS_TWO_AAC } = require('../src/remux-windows-two-aac.cjs');
+const { collectRemuxEvidence } = require('../src/remux-evidence.cjs');
+const { inspectMetadata } = require('../src/inspection.cjs');
 const { readNativeMetadata, ancestor } = require('../src/remux-native-reader.cjs');
 const { observeNativeInventory } = require('../src/remux-native-checks.cjs');
 const { observeRemuxSourcePlayback } = require('../src/remux-edit-lists.cjs');
@@ -14,6 +20,7 @@ const MiB = 1024 ** 2, GiB = 1024 ** 3;
 const LIMITS = Object.freeze({ totalMs: 180000, childMs: 30000, maxChildren: 32, maxStarts: 0,
   minimumDFreeBytes: 25 * GiB, marginBytes: 256 * MiB, forecastBytes: 256 * MiB, reportBytes: 6 * MiB });
 const MOVIE_CLOCK = '35280000';
+const LAB_ID = '2a7969b6-f64f-47f9-b302-bdf40e551082';
 const SHAPES = [
   { id: 'mixed', width: 192, tracks: [
     { rate: 48000, channels: 2, frequency: 397, samples: 95232, language: 'eng', isDefault: true },
@@ -234,11 +241,144 @@ async function proof() {
   return report;
 }
 
+function holdouts(normal) {
+  return SHAPES.map((shape, index) => ({ ...shape, width: 208 + 16 * index,
+    tracks: shape.tracks.map((track, ordinal) => ({ ...track, frequency: track.frequency + (normal ? 127 : 82) + ordinal * 33,
+      samples: ((index ? 90 : ordinal ? 84 : 92) - Number(normal)) * 1024 })) }));
+}
+
+async function serviceProof(normal) {
+  const limits = { ...LIMITS, totalMs: 360000, maxChildren: 88, maxStarts: 2, reportBytes: 12 * MiB };
+  const session = createOwnedSession({ kind: 'smoke', limits, regularProof: 'multi-audio' });
+  const { report, io } = session;
+  report.scope = normal ? 'Default Windows service exact two-track MP4 copies' : 'Prospective Windows service exact two-track MP4 copies';
+  report.lab = LAB_ID;
+  let service;
+  try {
+    await session.open();
+    const { runtime } = session, stateDir = path.join(session.owned, 'state');
+    await io.mkdir(stateDir);
+    const options = { runtime, stateDir, ...(normal ? {} : {
+      remuxPolicyIdentity: 'windows-two-aac-prospective-v1',
+      remuxPolicies: [{ id: 'full-remux-windows-two-aac-prospective-v1', inputFamily: 'isobmff', target: 'mp4',
+        sourceEnvelope: WINDOWS_TWO_AAC, runtimeIdentity: REGULAR_WINDOWS_PAIR, allowAncillary: false, allowRotation90: false,
+        verificationMethod: 'packet-identity-v1', evidenceIds: [LAB_ID + ':exact-mixed', LAB_ID + ':exact-twins'] }],
+    }) };
+    report.factoryInputs = Object.keys(options).sort();
+    const controls = createOperationControls(options), { operationRuntime } = controls;
+    for (const method of ['invoke', 'invokeRemux']) {
+      const invoke = operationRuntime[method].bind(operationRuntime);
+      operationRuntime[method] = (token, tool, args, options) => session.run(runtime[tool], args, options,
+        (_file, argv, owned) => invoke(token, tool, argv, owned));
+    }
+    service = new EncoderService({ ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, stateDir,
+      runtimeIdentity: REGULAR_WINDOWS_PAIR, inspectionWorkers: 1, run: session.run, ...controls });
+    await service.initializeDiagnostics();
+    const { signal } = session.controller;
+    signal.addEventListener('abort', () => { void service.cancelCurrent(); }, { once: true });
+    async function prepare(shape, label) {
+      const dir = path.join(session.owned, label), input = path.join(dir, 'input'), output = path.join(dir, 'output');
+      for (const folder of [dir, input, output]) await io.mkdir(folder);
+      const source = path.join(input, 'source.mp4');
+      await makeSource(session, shape, source);
+      const a = await service.registerFolder(input, 'input'), b = await service.registerFolder(output, 'output');
+      await service.prepareRemuxBatch({ inputFolderId: a.id, outputFolderId: b.id, target: 'mp4' });
+      await service.taskPromise;
+      const ready = service.snapshot();
+      assert.equal(ready.phase, 'ready', ready.error);
+      assert.equal(ready.items.length, 1);
+      return { dir, source, output, ready, prepared: ready.items[0] };
+    }
+    for (const shape of holdouts(normal)) {
+      const { dir, source, output, ready, prepared } = await prepare(shape, shape.id);
+      const row = { shape, prepared };
+      report.cases.push(row);
+      await session.save();
+      assert.equal(prepared.status, 'ready', prepared.reason);
+      row.source = await observeFile(session, source, shape);
+      const entry = service.plan.entries.get(prepared.id);
+      assert.equal(entry.operationPlan.sourceEnvelope, WINDOWS_TWO_AAC);
+      const selected = service.remuxOperations.requireCurrent(entry.qualificationSelection, entry.qualificationBindings);
+      assert.equal(selected.verificationMethod, 'packet-identity-v1');
+      for (const [arg, value] of [['-video_track_timescale', '30000'], ['-movie_timescale', MOVIE_CLOCK], ['-use_editlist', '1']]) {
+        const index = entry.preparedArgs.indexOf(arg);
+        assert(index >= 0 && entry.preparedArgs[index + 1] === value);
+      }
+      service.startBatch({ planId: ready.planId, fileIds: [prepared.id] });
+      report.acceptedStarts++;
+      await service.taskPromise;
+      row.result = service.snapshot().items[0];
+      row.evidence = entry.operationEvidence;
+      await session.save();
+      assert.equal(row.result.status, 'success', row.result.reason);
+      assert.equal(row.result.outputDisposition.published, true);
+      assert.equal(row.evidence.windowsTwoAac.complete, true);
+      assert.equal(row.evidence.windowsTwoAac.source.variant, shape.id);
+      assert.equal(row.evidence.windowsTwoAac.output.variant, shape.id);
+      assert.deepEqual(row.evidence.essenceEvidence.streams.slice(1).map(stream => Number(stream.source.pcm.samples)),
+        shape.tracks.map(track => track.samples));
+      assert(row.evidence.comparisons.filter(value => value.maxDtsError).every(value => value.maxDtsError.numerator === '0'));
+      const outputFile = entry.destination;
+      row.copy = await observeFile(session, outputFile, shape);
+      assert.equal(row.copy.pin.sha256, row.evidence.essenceEvidence.outputFileSha256);
+      assert.equal(compareTracks(row.source.summaries, row.copy.summaries), true);
+      assert.notEqual(row.copy.summaries[1].decodedSha256, row.copy.summaries[2].decodedSha256);
+      assert.deepEqual(await io.readdir(output), [path.basename(outputFile)]);
+      assert.deepEqual(await hashFile(source), row.source.pin);
+      if (shape.id === 'twins') {
+        const negative = path.join(dir, 'swap-audio-payloads.mp4');
+        const evidenceDir = path.join(dir, 'swap-evidence');
+        await io.mkdir(evidenceDir);
+        await makeCopy(session, source, negative, shape.tracks, true);
+        row.negative = await observeFile(session, negative, shape);
+        assert.equal(row.negative.summaries[1].decodedSha256, row.source.summaries[2].decodedSha256);
+        assert.equal(row.negative.summaries[2].decodedSha256, row.source.summaries[1].decodedSha256);
+        const outputProbe = await inspectMetadata(negative, { ffprobe: runtime.ffprobe, run: session.run, signal });
+        row.swappedEvidence = await collectRemuxEvidence({ assessment: entry.remuxAssessment, sourceProbe: entry.inspection.probe,
+          outputProbe, sourcePath: source, outputPath: negative, stageDirectory: evidenceDir, runtimeIdentity: REGULAR_WINDOWS_PAIR,
+          outputId: entry.outputId, ffmpeg: runtime.ffmpeg, ffprobe: runtime.ffprobe, run: session.run, signal,
+          budget: selected.budget, verificationMethod: 'packet-identity-v1', sourceEnvelope: WINDOWS_TWO_AAC });
+        assert.equal(row.swappedEvidence.status, 'failed');
+        assert.match(row.swappedEvidence.failure.code, /^REMUX_PACKET_(PAYLOAD|SIZE)$/);
+      }
+      await session.save();
+    }
+    const partial = holdouts(normal)[0];
+    partial.tracks[0].samples--;
+    const rejected = await prepare(partial, 'partial-tail');
+    const before = report.invocations.length;
+    report.partialTailRefusal = rejected.prepared;
+    await session.save();
+    assert.equal(rejected.prepared.status, 'unsupported', rejected.prepared.reason);
+    assert.equal(rejected.prepared.reasonCode, 'REMUX_SOURCE_EDIT_UNSUPPORTED');
+    assert.throws(() => service.startBatch({ planId: rejected.ready.planId, fileIds: [rejected.prepared.id] }), { code: 'INVALID_SELECTION' });
+    assert.equal(report.invocations.length, before);
+    assert.deepEqual(await io.readdir(rejected.output), []);
+    report.status = normal ? 'passed-regular-multi-audio-service' : 'passed-regular-multi-audio-prospective';
+  } catch (error) {
+    report.status = 'failed-retained';
+    report.failure = fault(error);
+    if (typeof error.stderr === 'string') report.toolDiagnostic = error.stderr.slice(-8192);
+  } finally {
+    try {
+      if (service) {
+        await service.cancelCurrent();
+        await service.closeOperationResources();
+        report.diagnosticClosure = await service.closeDiagnostics(report.status.startsWith('passed') ? 'completed' : 'failed');
+        assert.equal(report.diagnosticClosure.persisted, true);
+      }
+    } catch (error) { report.status = 'failed-retained'; report.serviceClosureFailure = fault(error); }
+    finally { await session.close(); }
+  }
+  return report;
+}
+
 if (require.main === module) {
-  assert.equal(process.argv.length, 2);
-  proof().then(report => {
+  const [mode, ...extra] = process.argv.slice(2);
+  assert(extra.length === 0 && [undefined, '--prospective', '--normal'].includes(mode));
+  (mode === undefined ? proof() : serviceProof(mode === '--normal')).then(report => {
     console.log(JSON.stringify({ id: report.id, status: report.status, children: report.childrenClosed,
       report: path.join(report.directory, 'report.json'), failure: report.failure, closureFailures: report.closureFailures }));
-    if (report.status !== 'passed-regular-multi-audio-laboratory') process.exitCode = 1;
+    if (!report.status.startsWith('passed')) process.exitCode = 1;
   }).catch(error => { console.error(error); process.exitCode = 1; });
 }

@@ -393,8 +393,8 @@ function localPath(value, role) {
 // only after main supplies runtime-qualified PreparedPlan ownership. Serialized
 // UI copies and hand-edited assessments are intentionally not accepted here.
 function buildRemuxQualificationArgs(options) {
-  record(options, ['assessment', 'input', 'output', 'outputId'], 'Remux argument request');
-  const { assessment, input, output, outputId } = options;
+  record(options, ['assessment', 'input', 'output', 'outputId', 'sourceEnvelope'], 'Remux argument request', ['assessment', 'input', 'output', 'outputId']);
+  const { assessment, input, output, outputId, sourceEnvelope } = options;
   const privateState = assessments.get(assessment);
   if (!privateState || assessment.status !== 'qualification-required') fail('REMUX_NOT_PLANNABLE', 'A genuine unblocked main assessment is required.');
   localPath(input, 'Input'); localPath(output, 'Output');
@@ -402,6 +402,10 @@ function buildRemuxQualificationArgs(options) {
   const markerArgs = provenanceArgs(outputId);
   if (assessment.sourceAdmission.marker.outputId === String(outputId).toLowerCase()) fail('INVALID_REMUX_PROVENANCE', 'A remux needs a new output identity.');
   const { probe, mp3Source, mkvAacClock } = privateState;
+  const { WINDOWS_TWO_AAC, VIDEO_SCALE, MOVIE_SCALE } = require('./remux-windows-two-aac.cjs');
+  if (sourceEnvelope !== undefined && (sourceEnvelope !== WINDOWS_TWO_AAC || assessment.inputFamily !== 'isobmff' || assessment.target !== 'mp4')) {
+    fail('REMUX_NOT_PLANNABLE', 'The two-track MP4 clock needs its measured ISO-to-MP4 source envelope.');
+  }
   if (assessment.inputFamily === 'mp3') {
     requireMp3Source(mp3Source);
     return freeze(['-hide_banner', '-nostdin', '-loglevel', 'warning', '-nostats', '-progress', 'pipe:1', '-n',
@@ -426,6 +430,7 @@ function buildRemuxQualificationArgs(options) {
   // TS keeps its complete native clocks, including common non-zero start.
   // A 90 kHz video timescale prevents an independent video clock rescale.
   if (assessment.inputFamily === 'mpegts') args.push('-video_track_timescale', '90000', '-movie_timescale', '90000', '-use_editlist', '1');
+  if (sourceEnvelope === WINDOWS_TWO_AAC) args.push('-video_track_timescale', String(VIDEO_SCALE), '-movie_timescale', String(MOVIE_SCALE), '-use_editlist', '1');
   if (mkvAacClock) args.push('-bsf:a:0', CLOCK_FILTER, '-video_track_timescale', '1000', '-movie_timescale', '48000', '-use_editlist', '1');
   // A copied old encode description must not be advertised as a new remux's
   // configuration. Clear original casing too, then write the existing v1 marker.

@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — Windows Matroska chapters and captions
+
+Two normal-service holdouts preserved 75 video frames each, two native chapter markers in one output and five native plain subtitles in the other. All 42 owned children closed. The final run passed 243 focused checks. One historical 9.0.2 fixture skipped because its audited pair directory was unset. TS and standalone MP3 passed fresh Windows service regression. [Windows timed Matroska service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md#regular-windows-service)
+
 # 📘 Session checkpoint — November 27, 2026 — Windows two-track MP4 copy
 
 The default factory published two fresh Full MP4 holdouts. Each output kept 60 exact video frames and both complete AAC tracks in their original order. The swapped-payload negative failed verification and the shortened terminal edit was refused before Start. All 70 owned children closed and 256 focused checks passed. [Windows two-track service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md#regular-windows-service)

@@ -178,4 +178,4 @@ function clipSubRip(observation,currentSourceSha256,startSeconds,endSeconds) {
   }
   return freeze({sourceSha256:observation.sourceSha256,track:observation.track,timeBase:'1/1000',cues,clipped,omitted});
 }
-module.exports={observeSubRip,clipSubRip,LIMITS};
+module.exports={observeSubRip,clipSubRip,cueText,LIMITS};

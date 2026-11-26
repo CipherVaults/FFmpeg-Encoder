@@ -75,7 +75,8 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     ? await prepareMp3Source(file, identity, { signal }) : undefined;
   const source = (mp3Source ? normalizeMp3RemuxProbe : normalizeProbe)(structuredClone(probe));
   let mkvAacClock, audioShift, clockRefusal;
-  const measuredAudioRoute = this.remuxOperations.allowsMkvAacClock?.(request.target) && source.format.format_name === 'matroska,webm';
+  const measuredAudioRoute = this.remuxOperations.allowsMkvAacClock?.(request.target)
+    && source.format.format_name === 'matroska,webm' && source.chapters.length === 0;
   if (measuredAudioRoute && !request.omissionRequestIds.length) {
     try {
       mkvAacClock = await observeMkvAacClock({ file, identity, probe: source, signal });
@@ -141,7 +142,9 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
       reasons: blocked.length ? blocked.map(value => value.message) : localBlocker
         ? ['This file is blocked as a whole. No stream will be copied.'] : [], representations: mapped?.metadata?.representations || [] };
   });
-  const blockers = [...assessment.blockers, ...(localBlocker ? [localBlocker] : []), ...(clockRefusal ? [clockRefusal] : [])];
+  const chapterCarrierBlocker = assessment.expectedOutput.auxiliaryStreams.chapterCarrierQualificationRequired
+    ? { code: 'REMUX_AUXILIARY_UNQUALIFIED', message: 'This target needs a separately verified chapter carrier. Choose Matroska to retain supported chapters.', streamIndex: null } : null;
+  const blockers = [...assessment.blockers, ...[chapterCarrierBlocker, localBlocker, clockRefusal].filter(Boolean)];
   item.remux = { target: request.target, status: 'assessment', streams, blockers,
     omissionCandidates: candidates.map(({ id, streamIndex, label, reasons, target }) => ({ id, streamIndex, label, reasons, target })),
     omissionDecisionIds: request.omissionRequestIds,
@@ -159,8 +162,10 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
   if (assessment.blockers.length) {
     item.remux.status = 'blocked'; throw fail(assessment.blockers[0].code, assessment.blockers.map(value => value.message).join(' '));
   }
-  if (localBlocker) { item.remux.status = 'blocked'; throw fail(localBlocker.code, localBlocker.message); }
-  if (clockRefusal) { item.remux.status = 'blocked'; throw fail(clockRefusal.code, clockRefusal.message); }
+  if (blockers.length) {
+    const [first] = blockers;
+    item.remux.status = 'blocked'; throw fail(first.code, first.message);
+  }
   const outputId = randomUUID();
   let operationPlan;
   try { operationPlan = this.remuxOperations.prepare({ assessment, input: file, output: destination, outputId, sourceIdentity: identity, request }); }
@@ -174,7 +179,8 @@ async function prepareRemuxItem(item, { file, destination, probe, identity, mark
     const observed = this.operationRuntime.snapshot(operationRuntimeToken);
     if (observed.runtimeIdentity !== this.runtimeIdentity) throw fail('OPERATION_RUNTIME_STALE', 'The current Remux runtime differs from the prepared pair.');
     if (!mp3Source && assessment.inputFamily !== 'mpegts') await observeNativeInventory({file,probe:source,identity,signal,family:assessment.inputFamily,target:assessment.target,
-      selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),...deriveRemuxAssessmentBudget(assessment,identity.size,operationPlan.verificationMethod).budget});
+      sourceEnvelope:operationPlan.sourceEnvelope,selectedIndexes:assessment.expectedOutput.streams.map(s=>s.inputIndex),
+      ...deriveRemuxAssessmentBudget(assessment,identity.size,operationPlan.verificationMethod).budget});
     if (assessment.inputFamily === 'isobmff') {
       const budget = deriveRemuxAssessmentBudget(assessment, identity.size, operationPlan.verificationMethod).budget;
       const playback = await observeRemuxSourcePlayback({ file, probe: source, identity, signal, target: assessment.target,

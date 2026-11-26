@@ -780,8 +780,8 @@
       "source": "linux-blue/product-linux-qualification.cjs",
       "target": "electron/resources/app/linux-blue/product-linux-qualification.cjs",
       "group": "application",
-      "bytes": 43040,
-      "sha256": "937cb828376be000fb91cb37b252ea6d96dd50036cdb02c42c2beb2c0010fead"
+      "bytes": 43462,
+      "sha256": "8f26629dbc68d6942846f9865162158bf6bd506cb459394551493291eee535dd"
     },
     {
       "root": "source",
@@ -1465,6 +1465,14 @@
     },
     {
       "root": "source",
+      "source": "src/operation-subrip.cjs",
+      "target": "electron/resources/app/src/operation-subrip.cjs",
+      "group": "application",
+      "bytes": 13754,
+      "sha256": "3fd2bd2dcf7d1c01f1dfb1dcd3a854dae33dfaf0bbfc7c022a4e43f19972027a"
+    },
+    {
+      "root": "source",
       "source": "src/operation-telemetry.cjs",
       "target": "electron/resources/app/src/operation-telemetry.cjs",
       "group": "application",
@@ -1524,8 +1532,8 @@
       "source": "src/remux-catalog.cjs",
       "target": "electron/resources/app/src/remux-catalog.cjs",
       "group": "application",
-      "bytes": 7672,
-      "sha256": "bf7f1c1f50bf7018100f934d8d40309f77579f7b3919908fe443c7f657939c73"
+      "bytes": 8272,
+      "sha256": "8acbdae5685ef158c70f4f3a10ef0fd0d01417e1647167c5e080ade9f05420a3"
     },
     {
       "root": "source",
@@ -1556,8 +1564,8 @@
       "source": "src/remux-evidence.cjs",
       "target": "electron/resources/app/src/remux-evidence.cjs",
       "group": "application",
-      "bytes": 158731,
-      "sha256": "e0f2d8867c21c9a630f7222bbf4ef2f53bf8d3159b74e478bf7960583b2a5e4e"
+      "bytes": 160265,
+      "sha256": "5c74c9d7444047f49ede3591d2b38f19b4a974f6f0fb6662565da76f5a44f455"
     },
     {
       "root": "source",
@@ -1628,16 +1636,16 @@
       "source": "src/remux-native-checks.cjs",
       "target": "electron/resources/app/src/remux-native-checks.cjs",
       "group": "application",
-      "bytes": 31906,
-      "sha256": "70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7"
+      "bytes": 33654,
+      "sha256": "ac1254646aed638c3c626e35a6cf8b73e9ee6b984dfa1774a67bf05137d8ef33"
     },
     {
       "root": "source",
       "source": "src/remux-native-cues.cjs",
       "target": "electron/resources/app/src/remux-native-cues.cjs",
       "group": "application",
-      "bytes": 6456,
-      "sha256": "93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd"
+      "bytes": 6980,
+      "sha256": "38ecafa1539434f95d74f9db994bbfd1672f729432e80efb4f4e7858c6dad072"
     },
     {
       "root": "source",
@@ -1700,8 +1708,8 @@
       "source": "src/remux-operation.cjs",
       "target": "electron/resources/app/src/remux-operation.cjs",
       "group": "application",
-      "bytes": 47260,
-      "sha256": "f1a6b63ef902ad5a827b2657a4bfb02c387be690fefa57beeebf31a1ab9016d7"
+      "bytes": 48827,
+      "sha256": "f98c9c35c119e56fc8b64d65f7364773784fedbbfd9cfbf700e8eb18919749c5"
     },
     {
       "root": "source",
@@ -1729,6 +1737,22 @@
     },
     {
       "root": "source",
+      "source": "src/remux-windows-chapters.cjs",
+      "target": "electron/resources/app/src/remux-windows-chapters.cjs",
+      "group": "application",
+      "bytes": 3872,
+      "sha256": "628f31d33970c252460dcb6acbad0c06bad716c1ac9001e5ef1431db51d6c7de"
+    },
+    {
+      "root": "source",
+      "source": "src/remux-windows-subrip.cjs",
+      "target": "electron/resources/app/src/remux-windows-subrip.cjs",
+      "group": "application",
+      "bytes": 4214,
+      "sha256": "9f6f4ffb6844e17c522504da6ff87e87ca627d70dd77acd5a43f7ca19c13c10b"
+    },
+    {
+      "root": "source",
       "source": "src/remux-windows-two-aac.cjs",
       "target": "electron/resources/app/src/remux-windows-two-aac.cjs",
       "group": "application",
@@ -1740,8 +1764,8 @@
       "source": "src/remux-workspace.cjs",
       "target": "electron/resources/app/src/remux-workspace.cjs",
       "group": "application",
-      "bytes": 22369,
-      "sha256": "4af03459feca81836ef53f4a055884da818de2c638eada04f6fd8280689c27e9"
+      "bytes": 22662,
+      "sha256": "a04933e04ea50e41c5e99d3dd7e6e395f3a8508eaaa881d31e5d9241db12f3fd"
     },
     {
       "root": "source",

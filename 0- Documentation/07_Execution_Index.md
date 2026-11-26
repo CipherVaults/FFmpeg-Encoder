@@ -1,3 +1,5 @@
+- **November 27, 2026 — [Windows timed Matroska service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Subtitles_and_Chapters_Laboratory.md#regular-windows-service).** Two default Full Matroska copies, exact subtitle index and ordered chapter proof, five before-Start refusals, and fresh Windows TS/MP3 regression.
+
 - **November 27, 2026 — [Windows two-track service evidence](Execution%20Summaries/2026-11-21_Regular_Windows_Multiple_Audio_Laboratory.md#regular-windows-service).** Current exact Windows 9.1 pair, two default Full MP4 copies, per-slot packet/sample/native proof, swap and source-edit refusals, and a retained failed prospective attempt.
 
 - **November 22, 2026 — [Windows precision AAC service evidence](Execution%20Summaries/2026-11-22_Regular_Windows_Precision_AAC_Laboratory.md#windows-default-service).** Exact default-factory sample counts, current native AAC discard and telemetry, zero-tail holdout and named Prepare refusals.

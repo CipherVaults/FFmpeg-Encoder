@@ -320,6 +320,10 @@ const SOURCE_PINS = {
     "bytes": 28430,
     "sha256": "fb9bcf00b2bf1fac3fe70f5421355a1aea0a2ded5358a38f41f7fd28fe7b1226"
   },
+  "src/operation-subrip.cjs": {
+    "bytes": 13754,
+    "sha256": "3fd2bd2dcf7d1c01f1dfb1dcd3a854dae33dfaf0bbfc7c022a4e43f19972027a"
+  },
   "src/operation-telemetry.cjs": {
     "bytes": 18149,
     "sha256": "ef1f30ac5d311224cb8b0e79f60f55f55c69c0610d920d17e5f9c7e191a55814"
@@ -349,8 +353,8 @@ const SOURCE_PINS = {
     "sha256": "6a4ff865f95b55b4afeeccc85781c1c213121f94c3bffdb23deff5a811d4fe76"
   },
   "src/remux-catalog.cjs": {
-    "bytes": 7672,
-    "sha256": "bf7f1c1f50bf7018100f934d8d40309f77579f7b3919908fe443c7f657939c73"
+    "bytes": 8272,
+    "sha256": "8acbdae5685ef158c70f4f3a10ef0fd0d01417e1647167c5e080ade9f05420a3"
   },
   "src/remux-contract.cjs": {
     "bytes": 38772,
@@ -365,8 +369,8 @@ const SOURCE_PINS = {
     "sha256": "2c43bcd88ee7772470abddc232d428751e37b95a072e4f989189a5a4178a99de"
   },
   "src/remux-evidence.cjs": {
-    "bytes": 158731,
-    "sha256": "e0f2d8867c21c9a630f7222bbf4ef2f53bf8d3159b74e478bf7960583b2a5e4e"
+    "bytes": 160265,
+    "sha256": "5c74c9d7444047f49ede3591d2b38f19b4a974f6f0fb6662565da76f5a44f455"
   },
   "src/remux-fragments.cjs": {
     "bytes": 5772,
@@ -401,12 +405,12 @@ const SOURCE_PINS = {
     "sha256": "072986180f2b5f443bcd4b74aacb90fe4569381d3a3703b8238868e319721971"
   },
   "src/remux-native-checks.cjs": {
-    "bytes": 31906,
-    "sha256": "70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7"
+    "bytes": 33654,
+    "sha256": "ac1254646aed638c3c626e35a6cf8b73e9ee6b984dfa1774a67bf05137d8ef33"
   },
   "src/remux-native-cues.cjs": {
-    "bytes": 6456,
-    "sha256": "93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd"
+    "bytes": 6980,
+    "sha256": "38ecafa1539434f95d74f9db994bbfd1672f729432e80efb4f4e7858c6dad072"
   },
   "src/remux-native-indexes.cjs": {
     "bytes": 10122,
@@ -437,8 +441,8 @@ const SOURCE_PINS = {
     "sha256": "9d24c8191d1ea6d35dee7f7727643def30c0a0b3def2b1c81dfdd00174da05c7"
   },
   "src/remux-operation.cjs": {
-    "bytes": 47260,
-    "sha256": "f1a6b63ef902ad5a827b2657a4bfb02c387be690fefa57beeebf31a1ab9016d7"
+    "bytes": 48827,
+    "sha256": "f98c9c35c119e56fc8b64d65f7364773784fedbbfd9cfbf700e8eb18919749c5"
   },
   "src/remux-transport-evidence.cjs": {
     "bytes": 14174,
@@ -452,13 +456,21 @@ const SOURCE_PINS = {
     "bytes": 43525,
     "sha256": "e554ab2e020baff103d726d2591feb1f18bbe72dac13fd17a92b135c0bf6fe47"
   },
+  "src/remux-windows-chapters.cjs": {
+    "bytes": 3872,
+    "sha256": "628f31d33970c252460dcb6acbad0c06bad716c1ac9001e5ef1431db51d6c7de"
+  },
+  "src/remux-windows-subrip.cjs": {
+    "bytes": 4214,
+    "sha256": "9f6f4ffb6844e17c522504da6ff87e87ca627d70dd77acd5a43f7ca19c13c10b"
+  },
   "src/remux-windows-two-aac.cjs": {
     "bytes": 8402,
     "sha256": "d30b5379e88b501c87751078054468198dd1f141c9f006c0b8840a8b183fcb76"
   },
   "src/remux-workspace.cjs": {
-    "bytes": 22369,
-    "sha256": "4af03459feca81836ef53f4a055884da818de2c638eada04f6fd8280689c27e9"
+    "bytes": 22662,
+    "sha256": "a04933e04ea50e41c5e99d3dd7e6e395f3a8508eaaa881d31e5d9241db12f3fd"
   },
   "src/source-catalog-seals.cjs": {
     "bytes": 2619,

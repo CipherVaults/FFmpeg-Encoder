@@ -3,6 +3,8 @@ const { ToolError }=require('./process-runner.cjs');
 const { INVENTORY }=require('./remux-native-inventory.cjs');
 const { readNativeMetadata,ancestor }=require('./remux-native-reader.cjs');
 const { createHash }=require('node:crypto');
+const { WINDOWS_TIMED_MATROSKA, assertWindowsTimedMatroskaProbe, readWindowsChapterDisplays }=require('./remux-windows-chapters.cjs');
+const { readWindowsSubtitleBlocks }=require('./remux-windows-subrip.cjs');
 // ISO/IEC 23091-2/H.273 codes, using the pinned FFmpeg probe names. Native
 // container colour declarations cannot hide behind a codec's different VUI.
 const COLOUR=[{1:'bt709',4:'bt470m',5:'bt470bg',6:'smpte170m',7:'smpte240m',8:'film',9:'bt2020',10:'smpte428',11:'smpte431',12:'smpte432',22:'jedec-p22'},
@@ -11,7 +13,10 @@ const COLOUR=[{1:'bt709',4:'bt470m',5:'bt470bg',6:'smpte170m',7:'smpte240m',8:'f
 const fail=(r,text)=>{throw new ToolError(r.code,`${r.container} ${r.field}: ${text}`);};
 function language(value){try{const s=value||'und';if(!/^[a-zA-Z]{2,8}(?:-[a-zA-Z0-9]{1,8})*$/.test(s)||s.length>255)throw Error();return Intl.getCanonicalLocales(s)[0].toLowerCase();}catch{throw new ToolError('REMUX_NATIVE_LANGUAGE','Native language is malformed or unsupported.');}}
 function groupPartition(tracks){return tracks.map(t=>{const peers=tracks.filter(p=>p.kind===t.kind&&p.group!==0&&p.group===t.group);return{index:t.index,members:peers.length>1?peers.map(p=>p.index).sort((a,b)=>a-b):[]};});}
-async function observeNativeInventory({file,probe,family,target,identity,maxRecords,timeoutMs,signal,selectedIndexes=probe.streams.map(s=>s.index)}){
+async function observeNativeInventory({file,probe,family,target,identity,maxRecords,timeoutMs,signal,selectedIndexes=probe.streams.map(s=>s.index),sourceEnvelope}){
+  const windowsTimed=sourceEnvelope===WINDOWS_TIMED_MATROSKA;
+  if(windowsTimed&&(family!=='matroska'||target!=='matroska'))throw new ToolError('REMUX_NATIVE_CHAPTER_COPY','Exact Windows timed copy requires Matroska on both sides.');
+  const kind=windowsTimed?assertWindowsTimedMatroskaProbe(probe):null;
   if(family==='mpegts')return {version:1,family,fields:[],encountered:[],coverage:'PAT/PMT/PCR/PES/ADTS/AVC transport preparation'};
   return readNativeMetadata({file,family,identity,maxRecords,timeoutMs,signal,seekRecords:true,withMetadata:async meta=>{
     const records=[],tracks=[],typeRows=INVENTORY.filter(r=>r.container===family),known=new Set(typeRows.map(r=>family==='matroska'?r.element:r.atom).filter(Boolean)),byType=new Map();
@@ -26,6 +31,11 @@ async function observeNativeInventory({file,probe,family,target,identity,maxReco
       const hex=typeof d==='string'&&/^(-?)0x([0-9a-f]+)(?:\.([0-9a-f]+))?p([+-]?\d+)$/i.exec(d);
       return hex?(hex[1]?-1:1)*(parseInt(hex[2],16)+(hex[3]?parseInt(hex[3],16)/16**hex[3].length:0))*2**Number(hex[4]):d;}
     async function text(n,offset=0){const size=n.end-n.body-offset;if(size<0||size>1024)throw new ToolError('REMUX_NATIVE_STRUCTURE','Native string exceeds its bound.');if(!size&&family==='matroska')return String(scalarDefault(n)??'');const b=await meta.read(n.body+offset,size);try{return new TextDecoder('utf-8',{fatal:true}).decode(b).replace(/\0+$/,'');}catch{throw new ToolError('REMUX_NATIVE_STRUCTURE','Invalid native UTF-8.');}}
+    if(windowsTimed){
+      const types=byType.get('0x4282')||[];
+      if(types.length!==1||await text(types[0])!=='matroska')throw new ToolError('REMUX_NATIVE_DOCTYPE','The measured timed route requires the Matroska DocType.');
+    }
+    const chapterDisplays=kind==='chapters'?await readWindowsChapterDisplays({meta,probe,integer,text}):null;
     const parents=meta.nodes.filter(n=>n.type===(family==='isobmff'?'trak':'0xae'));
     for(const t of parents){let stream,id;
       if(family==='isobmff'){const h=t.children.find(n=>n.type==='tkhd');if(!h)throw new ToolError('REMUX_NATIVE_STRUCTURE','Native track lacks tkhd.');const v=Number(await integer(h,0,1));id=await integer(h,v?20:12,4);stream=probe.streams.find(s=>s.id&&BigInt(s.id)===id);}
@@ -158,7 +168,7 @@ async function observeNativeInventory({file,probe,family,target,identity,maxReco
           // BCP47 overrides all legacy ChapLanguage values in its display.
           // Do not reject an overridden legacy code when the effective label
           // is the same English label the muxer will carry.
-          if(n.type==='0x437c'&&n.parent.children.some(p=>p.type==='0x437d'))value=null;
+          if(chapterDisplays||n.type==='0x437c'&&n.parent.children.some(p=>p.type==='0x437d'))value=null;
           else{value=language(await text(n));if(value!=='en')fail(r,'non-English chapter language is not carried by the pinned muxer.');value=null;}
         }else if(r.check==='chapter-display'){
           const labels=n.parent.children.filter(p=>p.type==='0x80'),titles=[];
@@ -246,13 +256,21 @@ async function observeNativeInventory({file,probe,family,target,identity,maxReco
       if(target==='matroska'&&!metadataBridgeComplete)throw new ToolError('REMUX_NATIVE_META_TARGET','Native typed/localized metadata cannot be represented by the carried Matroska string tags.');
       return{version:1,family,fields:records,groups:partition,metadataBridgeComplete,randomAccess:{streams:meta.seeking.streams},encountered:[...meta.seenTypes],metadataBytesRead:meta.bytesRead()};
     }
-    const randomAccess=await require('./remux-native-cues.cjs').matroskaSeeking({meta,tracks,integer}),{packets,...headerWalk}=meta.ebmlWalk;
-    return{version:1,family,fields:records,randomAccess,encountered:[...meta.seenTypes],metadataBytesRead:meta.bytesRead(),headerWalk};
+    const subtitleBlocks=kind==='subrip'?await readWindowsSubtitleBlocks({meta,tracks,integer,text}):null;
+    const randomAccess=await require('./remux-native-cues.cjs').matroskaSeeking({meta,tracks,integer,subtitleIndex:subtitleBlocks?1:null}),{packets,...headerWalk}=meta.ebmlWalk;
+    return{version:1,family,fields:records,randomAccess,encountered:[...meta.seenTypes],metadataBytesRead:meta.bytesRead(),headerWalk,...(chapterDisplays?{chapterDisplays}:{}),...(subtitleBlocks?{subtitleBlocks}:{})};
   }});
 }
 function compareNativeInventories(source,output,mappings){
+  if((source.chapterDisplays||output.chapterDisplays)&&JSON.stringify(source.chapterDisplays)!==JSON.stringify(output.chapterDisplays))
+    throw new ToolError('REMUX_NATIVE_CHAPTER_COPY','The exact native chapter IDs, clocks, titles or language changed.');
+  if(source.subtitleBlocks||output.subtitleBlocks){
+    const view=rows=>rows?.map(({ordinal,pts,duration,size,sha256})=>[ordinal,pts,duration,size,sha256]);
+    if(JSON.stringify(view(source.subtitleBlocks))!==JSON.stringify(view(output.subtitleBlocks)))
+      throw new ToolError('REMUX_NATIVE_SUBRIP_COPY','The exact native subtitle payload, order or intervals changed.');
+  }
   for(const m of mappings){const a=source.randomAccess?.streams.find(s=>s.index===m.inputIndex),b=output.randomAccess?.streams.find(s=>s.index===m.outputIndex);
-    if(a&&a.indexed.some(ordinal=>!b?.indexed.includes(ordinal)))throw new ToolError('REMUX_NATIVE_SEEK_COVERAGE','Output index omits a source-indexed keyframe of its mapped video track.');}
+    if(a&&a.indexed.some(ordinal=>!b?.indexed.includes(ordinal)))throw new ToolError('REMUX_NATIVE_SEEK_COVERAGE','Output index omits a source-indexed packet of its mapped track.');}
   if(source.family==='isobmff'&&output.family==='isobmff')for(const m of mappings){const a=source.groups.find(g=>g.index===m.inputIndex),b=output.groups.find(g=>g.index===m.outputIndex);
     const members=a.members.map(i=>mappings.find(m=>m.inputIndex===i)?.outputIndex).sort((x,y)=>x-y);if(JSON.stringify(members)!==JSON.stringify(b.members))fail(INVENTORY.find(r=>r.check==='groups'),'output alternate-group membership changed.');}
   for(const r of INVENTORY.filter(r=>r.treatment==='compare'&&r.check!=='groups'))for(const m of [{inputIndex:null,outputIndex:null},...mappings]){

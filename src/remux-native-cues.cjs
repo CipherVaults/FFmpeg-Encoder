@@ -1,7 +1,7 @@
 'use strict';
 const {ToolError}=require('./process-runner.cjs'),{packetSync}=require('./remux-native-sync.cjs');
 const fail=(field,why)=>{throw new ToolError('REMUX_NATIVE_'+(field==='BlockFlags'?'BLOCK_FLAGS':field.toUpperCase()),'Matroska '+field+': '+why);};
-async function matroskaSeeking({meta,tracks,integer}){
+async function matroskaSeeking({meta,tracks,integer,subtitleIndex=null}){
   const nodes=meta.nodes,all=type=>nodes.filter(n=>n.type===type),one=(p,type,field,required=false)=>{const a=p.children.filter(n=>n.type===type);if(a.length>1||required&&!a.length)fail(field,'required unique native index field is missing or duplicated.');return a[0];};
   const value=async(p,type,field,required=false,fallback=0n)=>{const n=one(p,type,field,required);return n?integer(n):fallback;};
   const segments=all('0x18538067');if(segments.length!==1)fail('SeekHead','one segment is required for native seek offsets.');const segment=segments[0],top=segment.children;
@@ -29,21 +29,27 @@ async function matroskaSeeking({meta,tracks,integer}){
       if(!candidateTrack)fail('CueTrack','does not identify a native admitted track.');if(pointTracks.has(track))fail('CueTrackPositions','duplicate native cue track.');pointTracks.add(track);
       // Omitted audio still needs exact native locators, but contributes no
       // target seek coverage. Probe kind alone cannot authorize another native
-      // TrackType; selected audio and every other non-video kind stay refused.
-      if(candidateTrack.kind!=='video'&&!(candidateTrack.kind==='audio'&&candidateTrack.selected===false
+      // TrackType. The measured selected SubRip track binds every cue below.
+      const subtitle=candidateTrack.index===subtitleIndex&&candidateTrack.kind==='subtitle'&&candidateTrack.selected;
+      if(candidateTrack.kind!=='video'&&!subtitle&&!(candidateTrack.kind==='audio'&&candidateTrack.selected===false
         &&await value(candidateTrack.node,'0x83','CueTrack',true)===2n))fail('CueTrack','non-video cue packet ordinals have no proved target index/trim mapping.');
       const clusterNode=top.find(n=>n.type==='0x1f43b675'&&BigInt(n.start-segment.body)===cluster);if(!clusterNode)fail('CueClusterPosition','does not resolve to the start of a cluster.');
       let choices=(byTrack.get(track)||[]).filter(p=>p.cluster===clusterNode.start&&p.key);
-      const relative=one(position,'0xf0','CueRelativePosition');if(relative){const offset=await integer(relative);choices=choices.filter(p=>BigInt(p.start-p.clusterBody)===offset);if(!choices.length)fail('CueRelativePosition','does not locate a keyframe block of the declared track.');}
+      const relative=one(position,'0xf0','CueRelativePosition',subtitle);if(relative){const offset=await integer(relative);choices=choices.filter(p=>BigInt(p.start-p.clusterBody)===offset);if(!choices.length)fail('CueRelativePosition','does not locate a keyframe block of the declared track.');}
       const number=one(position,'0x5378','CueBlockNumber');if(number){const ordinal=await integer(number);choices=choices.filter(p=>BigInt(p.number)===ordinal);if(!choices.length)fail('CueBlockNumber','does not locate the declared track block in the cluster.');}
       choices=choices.filter(p=>BigInt(p.pts)===time);if(choices.length!==1)fail('CueTime','does not uniquely identify a keyframe at this native timestamp.');const packet=choices[0];
       if(previous.has(track)&&time<=previous.get(track))fail('CueTime','native cue times are duplicated or run backwards.');previous.set(track,time);
       if(await value(position,'0xea','CueCodecState')!==0n)fail('CueCodecState','only the initial codec state has a verified target mapping.');
-      const duration=one(position,'0xb2','CueDuration');if(duration&&(!packet.duration||await integer(duration)!==BigInt(packet.duration)))fail('CueDuration','does not equal the native indexed block duration.');
+      const duration=one(position,'0xb2','CueDuration',subtitle);if(duration&&(!packet.duration||await integer(duration)!==BigInt(packet.duration)))fail('CueDuration','does not equal the native indexed block duration.');
       if(position.children.some(n=>n.type==='0xdb'))fail('CueReference','dependent cue reference graphs have no proved rewritten target mapping.');
       indexed.get(track).add(packet.ordinal);
     }
   }
-  return{streams:tracks.filter(t=>t.selected&&t.kind==='video').map(t=>({index:t.index,indexed:[...indexed.get(t.trackId)]}))};
+  if(subtitleIndex!==null){
+    const subtitle=tracks.find(t=>t.index===subtitleIndex&&t.kind==='subtitle'&&t.selected);
+    if(!subtitle||indexed.get(subtitle.trackId).size!==byTrack.get(subtitle.trackId).length)
+      fail('CueTrack','the measured SubRip track needs exactly one located cue for every timed subtitle packet.');
+  }
+  return{streams:tracks.filter(t=>t.selected&&(t.kind==='video'||t.index===subtitleIndex)).map(t=>({index:t.index,indexed:[...indexed.get(t.trackId)]}))};
 }
 module.exports={matroskaSeeking};

@@ -17,6 +17,8 @@ const { observeRemuxEditLists, remuxEditInterval, observeRemuxSourcePlayback } =
 const { observeNativeInventory, compareNativeInventories } = require('./remux-native-checks.cjs');
 const { REGULAR_WINDOWS_PAIR } = require('./regular-windows-runtime.cjs');
 const { WINDOWS_TWO_AAC, assertTwoAacProbe, assertTwoAacPacket, assertTwoAacUnits, observeTwoAacNative } = require('./remux-windows-two-aac.cjs');
+const { WINDOWS_TIMED_MATROSKA, assertWindowsTimedMatroskaProbe } = require('./remux-windows-chapters.cjs');
+const { requireSubtitlePacket } = require('./remux-windows-subrip.cjs');
 const { TextDecoder, isDeepStrictEqual } = require('node:util');
 const { setImmediate: yieldIO } = require('node:timers/promises');
 
@@ -980,7 +982,15 @@ async function collectRemuxEvidence(options) {
   need(sourceProbeFingerprint === remuxProbeFingerprint(source) && sourceProbeFingerprint === assessment.sourceEvidenceFingerprint, 'Source probe does not belong to the genuine assessment.');
   const output = normalizeProbe(outputProbe), mappings = assessment.expectedOutput.streams;
   const windowsTwoAac = options.sourceEnvelope === WINDOWS_TWO_AAC;
-  if (options.sourceEnvelope !== undefined) {
+  const windowsTimed = options.sourceEnvelope === WINDOWS_TIMED_MATROSKA;
+  if (windowsTimed) {
+    need(verificationMethod === 'packet-identity-v1' && runtimeIdentity === REGULAR_WINDOWS_PAIR
+      && assessment.inputFamily === 'matroska' && assessment.target === 'matroska' && mappings.length === source.streams.length
+      && mappings.every((mapping, index) => mapping.inputIndex === index && mapping.outputIndex === index),
+    'Only the exact Windows Matroska plan can request the timed native witness.', 'REMUX_TIMED_MATROSKA_SOURCE_UNQUALIFIED');
+    need(assertWindowsTimedMatroskaProbe(source) === assertWindowsTimedMatroskaProbe(output),
+      'The native Matroska shape changed in the stage.', 'REMUX_TIMED_MATROSKA_SOURCE_UNQUALIFIED');
+  } else if (options.sourceEnvelope !== undefined) {
     need(windowsTwoAac && verificationMethod === 'packet-identity-v1' && runtimeIdentity === REGULAR_WINDOWS_PAIR
       && assessment.inputFamily === 'isobmff' && assessment.target === 'mp4' && mappings.length === 3
       && mappings.every((mapping, index) => mapping.inputIndex === index && mapping.outputIndex === index),
@@ -1583,10 +1593,11 @@ async function collectRemuxEvidence(options) {
       }
     });
   }
-  async function collectPacketSides() {
+  async function collectPacketSides(nativeBySide) {
     await eachSide(async (side, file, media) => {
       const family = side === 'source' ? assessment.inputFamily : outputFamily;
-      const pending = new Map(), headers = new Map(); let payloadBytes = 0n;
+      const pending = new Map(), headers = new Map(); let payloadBytes = 0n, subtitlePackets = 0;
+      const subtitleBlocks = nativeBySide[side].subtitleBlocks;
       try {
         for (const mapping of mappings) {
           const index = side === 'source' ? mapping.inputIndex : mapping.outputIndex, stream = media.streams.find(s => s.index === index);
@@ -1618,6 +1629,10 @@ async function collectRemuxEvidence(options) {
             }
             if (windowsTwoAac) assertTwoAacPacket(stream, packet, entry.exactPackets++);
             const row = entry.accumulator.push(packet); if (!row.dts) entry.inferredDts++;
+            if (subtitleBlocks && stream.codec_type === 'subtitle') {
+              row.hash = requireSubtitlePacket(packet, subtitleBlocks[subtitlePackets], subtitlePackets + 1);
+              subtitlePackets++;
+            }
             payloadBytes += BigInt(row.size);
             need(payloadBytes <= (side === 'source' ? sourceBefore.size : outputBefore.size), 'Aggregate packet payload exceeds its file byte budget.', 'REMUX_PROPORTIONAL_BUDGET');
             entry.hash.update(row.size + ':' + row.hash + '\n');
@@ -1644,6 +1659,7 @@ async function collectRemuxEvidence(options) {
         await invoke(side + '-all-packets', ffprobe, ['-v', 'warning', '-protocol_whitelist', 'file,pipe',
           '-show_packets', '-show_streams', '-of', 'json', '-i', file], budget.maxTextBytes, false, { file, kind: 'all-packets' }, sink);
         need(headers.size === media.streams.length, 'Incomplete codec header coverage.', 'REMUX_CODEC_PARAMETERS');
+        need(!subtitleBlocks || subtitlePackets === subtitleBlocks.length, 'Incomplete exact subtitle block coverage.', 'REMUX_NATIVE_SUBRIP_COPY');
         for (const [index, entry] of pending) {
           const observedBFrames = headers.get(index).has_b_frames || 0;
           need(entry.inferredDts <= observedBFrames, 'Missing DTS exceeds the observed reorder depth.', 'REMUX_PACKET_DTS');
@@ -1734,14 +1750,14 @@ async function collectRemuxEvidence(options) {
   }
   try {
     const nativeSource=await observeNativeInventory({file:sourcePath,probe:source,family:assessment.inputFamily,target:assessment.target,
-      identity:stamp(sourceBefore),selectedIndexes:mappings.map(m=>m.inputIndex),...budget,signal});
+      identity:stamp(sourceBefore),selectedIndexes:mappings.map(m=>m.inputIndex),sourceEnvelope:options.sourceEnvelope,...budget,signal});
     const nativeOutput=await observeNativeInventory({file:outputPath,probe:output,family:outputFamily,target:assessment.target,
-      identity:stamp(outputBefore),...budget,signal});
+      identity:stamp(outputBefore),sourceEnvelope:options.sourceEnvelope,...budget,signal});
     receipt.nativeInventory=compareNativeInventories(nativeSource,nativeOutput,mappings);
     if (verificationMethod === 'packet-identity-v1') {
       if (transport) await collectTransportSides();
       else {
-      await collectPacketSides();
+      await collectPacketSides({ source: nativeSource, output: nativeOutput });
       for (const mapping of mappings) if (mapping.codecType !== 'attachment') {
         const before = collections.source.get(mapping.inputIndex), after = collections.output.get(mapping.outputIndex);
         need(before.record.decoderParametersSha256 === after.record.decoderParametersSha256,

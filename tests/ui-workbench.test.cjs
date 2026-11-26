@@ -412,7 +412,53 @@ test('App Settings persist exact visible defaults and revision without modifying
   await h.byId('app-settings-reset').click();
   assert.deepEqual(h.calls.find(call => call.name === 'resetAppSettings').args, [{ revision: 5 }]);
   assert.match(h.byId('app-settings-integration-note').textContent, /Saved processing defaults apply to new batches/);
-  assert.match(h.byId('app-settings-integration-note').textContent, /Preview expansion.*not yet applied/);
+  assert.match(h.byId('app-settings-integration-note').textContent, /File list expansion applies when you prepare a batch/);
+});
+
+for (const operation of ['encode', 'remux']) test('stored file expansion applies prospectively to ' + operation + ' plans', async () => {
+  const h = await harness({ getAppSettings: async () => ({ ...defaults(), defaults: { ...defaults().defaults, previewExpanded: true } }) }, { narrow: true });
+  const items = Array.from({ length: 21 }, (_, index) => ({ id: String(index), name: 'Film ' + index + '.mkv', status: 'ready', summary: {} }));
+  const plan = { revision: 2, phase: 'ready', operation, planId: 'first', operationDraft: { id: 'draft-one' }, items, counts: {} };
+  if (operation === 'remux') await h.byId('tab-remux').click();
+  const trigger = h.byId(operation === 'remux' ? 'remux-files-toggle' : 'files-toggle');
+  h.update(plan);
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  assert.equal(h.byId('preview-list').hidden, false);
+  await trigger.click();
+  h.update({ ...plan, revision: 3 });
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  h.update({ ...plan, revision: 4, planId: 'same-draft-reprepare' });
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  h.update({ ...plan, revision: 5, planId: 'second', operationDraft: { id: 'draft-two' } });
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  await h.byId('tab-settings').click();
+  h.byId('default-preview-expanded').checked = false;
+  await h.byId('default-preview-expanded').emit('change');
+  await h.byId('app-settings-form').emit('submit');
+  await h.byId('tab-' + operation).click();
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  h.update({ ...plan, revision: 6, planId: 'second-reprepared', operationDraft: { id: 'draft-two' } });
+  assert.equal(trigger.getAttribute('aria-expanded'), 'true');
+  h.update({ ...plan, revision: 7, planId: 'third', operationDraft: { id: 'draft-three' } });
+  assert.equal(trigger.getAttribute('aria-expanded'), 'false');
+  assert.equal(h.byId('preview-list').hidden, true);
+  assert.equal(h.calls.filter(call => call.name === 'getAppSettings').length, 1);
+});
+
+test('a Ready snapshot arriving during startup waits for the saved list preference', async () => {
+  let resolveDefaults;
+  const defaultsRead = new Promise(resolve => { resolveDefaults = resolve; });
+  const items = Array.from({ length: 21 }, (_, index) => ({ id: String(index), name: 'Film ' + index + '.mkv', status: 'ready', summary: {} }));
+  const initial = { revision: 2, phase: 'ready', operation: 'encode', planId: 'startup', items, counts: {} };
+  const h = await harness({ getAppSettings: () => defaultsRead, getSnapshot: async () => initial }, { narrow: true });
+  h.update({ ...initial, revision: 3, planId: 'latest-during-startup' });
+  assert.equal(h.byId('batch-panel').hidden, true);
+  resolveDefaults({ ...defaults(), defaults: { ...defaults().defaults, previewExpanded: true } });
+  await settle();
+  assert.equal(h.byId('files-toggle').getAttribute('aria-expanded'), 'true');
+  await h.byId('files-toggle').click();
+  h.update({ ...initial, revision: 4, planId: 'latest-during-startup' });
+  assert.equal(h.byId('files-toggle').getAttribute('aria-expanded'), 'false');
 });
 
 test('failed or stale default saves retain edits and require explicit reload before retrying', async () => {
@@ -2480,6 +2526,18 @@ for (const operation of ['encode', 'remux']) test('R06 Jobs live status announce
   h.update({ ...scope, revision: 10, phase: 'completed', items: [saved, { ...next, status: 'failed' }], counts: { success: 1, failed: 1 } });
   assert.equal(writes.length, 6);
   assert.equal(h.calls.some(call => ['startBatch', 'cancelBatch', 'prepareBatch', 'prepareRemuxBatch'].includes(call.name)), false);
+});
+
+test('terminal results and announcements distinguish failed jobs from files blocked before Start', async () => {
+  const h = await harness();
+  const statuses = ['success', 'failed', 'unsupported', 'provenance-issue', 'unprocessed'];
+  h.update({ revision: 2, operation: 'remux', phase: 'completed', batchId: 'mixed-batch', planId: 'mixed-plan',
+    counts: { success: 1, failed: 3, unprocessed: 1 },
+    items: statuses.map(status => ({ id: status, name: status + '.mkv', status, summary: {} })) });
+  for (const [key, expected] of Object.entries({ success: '1', failed: '1', blocked: '2', unprocessed: '1' })) {
+    assert.equal(h.byId('count-' + key).textContent, expected);
+  }
+  assert.equal(h.byId('current-job-announcement').textContent, 'Batch finished. 1 succeeded, 1 failed, 2 blocked before Start, 1 unprocessed');
 });
 
 for (const settles of [true, false]) test('R06 Jobs live status follows the actual Cancel reply: '+(settles?'settled':'not confirmed'), async () => {

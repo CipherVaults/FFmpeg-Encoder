@@ -530,7 +530,7 @@ progress:not([value])::-webkit-progress-bar { background: repeating-linear-gradi
 dt { color: var(--muted); font-size: .75rem; }
 dd { margin: .3rem 0 0; font-size: 1.08rem; overflow-wrap: anywhere; }
 .telemetry dd, .result-counts dd { font-family: var(--mono); }
-.result-counts { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-bottom: 1rem; }
+.result-counts { margin-bottom: 1rem; }
 #count-success { color: var(--green); }
 #count-failed { color: var(--red); }
 #new-batch, #jobs-open-encode { margin-top: .9rem; }
@@ -615,6 +615,7 @@ footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wr
   #files-toggle { font-size: .78rem; }
   .defaults-grid { grid-template-columns: 1fr; }
   .active-job-bar { bottom: .4rem; padding: .55rem .7rem; gap: .7rem; }
+  .result-counts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .active-job-actions { justify-content: flex-end; }
   .active-job-actions button { padding-inline: .5rem; font-size: .78rem; }
   .remux-facts > div { grid-template-columns: 1fr; gap: .3rem; }
@@ -631,7 +632,6 @@ footer { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wr
   .status-cell, #batch-panel .status-cell { width: 6.5rem; }
   .selection-cell { width: 2.5rem; }
   td, th { padding: .55rem .4rem; }
-  .result-counts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .telemetry { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .focused-file-facts { grid-template-columns: 1fr; gap: .65rem; }
   .operation-fields { grid-template-columns: 1fr; }

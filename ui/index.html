@@ -134,7 +134,7 @@
 
     <section id="results-panel" class="panel" aria-labelledby="results-heading" hidden>
       <div class="section-heading"><h2 id="results-heading">Batch results</h2><span id="result-phase" class="muted"></span></div>
-      <dl class="result-counts"><div><dt>Succeeded</dt><dd id="count-success">0</dd></div><div><dt>Failed</dt><dd id="count-failed">0</dd></div><div><dt>Skipped</dt><dd id="count-skipped">0</dd></div><div><dt>Cancelled</dt><dd id="count-cancelled">0</dd></div><div><dt>Unprocessed</dt><dd id="count-unprocessed">0</dd></div></dl>
+      <dl class="result-counts"><div><dt>Succeeded</dt><dd id="count-success">0</dd></div><div><dt>Failed</dt><dd id="count-failed">0</dd></div><div><dt>Blocked before Start</dt><dd id="count-blocked">0</dd></div><div><dt>Skipped</dt><dd id="count-skipped">0</dd></div><div><dt>Cancelled</dt><dd id="count-cancelled">0</dd></div><div><dt>Unprocessed</dt><dd id="count-unprocessed">0</dd></div></dl>
       <p class="hint"><span id="result-elapsed-label">Elapsed time</span>: <strong id="result-elapsed">—</strong></p>
       <p id="result-elapsed-note" class="hint"></p>
       <p id="result-message" class="hint"></p>
@@ -197,7 +197,7 @@
       <section class="panel" aria-labelledby="app-settings-heading">
         <div class="section-heading"><h2 id="app-settings-heading">Defaults for new batches</h2><button id="app-settings-reload" class="subtle" type="button">Reload stored defaults</button></div>
         <p class="hint">Factory defaults → saved app defaults → batch choices → file overrides → compatibility validation. Saving never changes prepared, queued or running jobs.</p>
-        <p id="app-settings-integration-note" class="hint">Saved processing defaults apply to new batches. Existing drafts adopt them only through Apply saved App Settings in Batch preview; frozen jobs never change. Preview expansion is stored but is not yet applied automatically.</p>
+        <p id="app-settings-integration-note" class="hint">Saved processing defaults apply to new batches. Existing drafts adopt them only through Apply saved App Settings in Batch preview; frozen jobs never change. File list expansion applies when you prepare a batch.</p>
         <p id="app-settings-status" class="hint" role="status">Open App Settings to load stored defaults.</p><p id="app-settings-error" class="attention-warning" role="alert" hidden></p>
         <form id="app-settings-form">
           <fieldset id="app-settings-fields" disabled><legend>Processing defaults</legend><div class="defaults-grid">

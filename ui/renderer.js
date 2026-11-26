@@ -16,6 +16,7 @@
     cancelled: 'Cancelled', unprocessed: 'Unprocessed',
     generated: 'Generated output', ambiguous: 'Possible previous output', 'provenance-issue': 'Provenance issue',
   };
+  const resultLabels = { success: 'succeeded', failed: 'failed', blocked: 'blocked before Start', skipped: 'skipped', cancelled: 'cancelled', unprocessed: 'unprocessed' };
   const phaseLabels = {
     idle: 'Ready', checking: 'Checking encoders', 'native-checking': 'Checking native backend', preparing: 'Inspecting files',
     ready: 'Review batch', running: 'Encoding', cancelling: 'Cancelling',
@@ -159,6 +160,7 @@
   let focusedFileId = null;
   let displayedFileId = null;
   let filesDrawerOpen = false;
+  let expandPreparedFiles = false;
   const narrowFilesLayout = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 900px)') : null;
   narrowFilesLayout?.addEventListener('change', syncFilesLayout);
   let selectedReviewKey = null;
@@ -566,7 +568,10 @@
       selectionDraftId = next.operationDraft?.id || null;
       dirty = Boolean(next.encodingSettingsStale);
       batchFilter = next.items.some(item => attentionStatuses.has(item.status)) ? 'attention' : 'all';
-      previewCollapsed = batchFilter === 'all' && next.items.length > 20;
+      if (!sameDraft) expandPreparedFiles = appDefaults?.defaults.previewExpanded === true;
+      if (!expandPreparedFiles) previewCollapsed = batchFilter === 'all' && next.items.length > 20;
+      else if (!sameDraft || batchFilter === 'attention') previewCollapsed = false;
+      if (!sameDraft && expandPreparedFiles) filesDrawerOpen = true;
       previousAttention = new Set(next.items.filter(item => attentionStatuses.has(item.status)).map(item => `${item.id}:${item.status}`));
     } else if (next.phase !== 'preparing' && next.phase !== 'checking') {
       const attention = new Set((next.items || []).filter(item => attentionStatuses.has(item.status)).map(item => `${item.id}:${item.status}`));
@@ -1938,11 +1943,19 @@
     syncSelection();
   }
 
-  function renderJobAnnouncement(error, reviewActivity) {
+  function resultCounts() {
+    const counts = snapshot.counts || {};
+    // Older snapshot consumers use an aggregate failed count. The workbench
+    // separates preparation refusals from jobs that actually failed.
+    const blocked = (snapshot.items || []).filter(item => item.status === 'unsupported' || item.status === 'provenance-issue').length;
+    return { ...counts, blocked, failed: Math.max(0, (counts.failed || 0) - blocked) };
+  }
+
+  function renderJobAnnouncement(error, reviewActivity, counts) {
     // One persistent live region receives only authoritative semantic changes.
     // Neither visual progress nor the visibility of the Jobs/Cancel panels
     // decides what is announced. Display-only telemetry continues unchanged.
-    const { phase, batchId, planId, preparation, progress, counts } = snapshot;
+    const { phase, batchId, planId, preparation, progress } = snapshot;
     const items = snapshot.items || [];
     let keyPhase = phase, label = '', item = null, detail = '';
     if (cancelPending || phase === 'cancelling') {
@@ -1954,9 +1967,8 @@
       // announce a successful settlement from a snapshot kept after failed IPC.
       if (!unconfirmed && !(phase === 'failed' && error)) {
         label = { completed: 'Batch finished.', failed: 'Batch stopped.', cancelled: 'Operation cancelled.' }[phase];
-        detail = ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']
-          .filter(key => counts?.[key] > 0)
-          .map(key => `${counts[key]} ${statusLabels[key].toLowerCase()}`).join(', ');
+        detail = Object.entries(resultLabels).filter(([key]) => counts?.[key] > 0)
+          .map(([key, result]) => `${counts[key]} ${result}`).join(', ');
       }
     } else if (phase === 'running') {
       const reported = items.find(entry => entry.id === progress?.fileId);
@@ -2185,12 +2197,13 @@
     put('result-elapsed-note', cancelPending ? 'The terminal snapshot is retained while cancellation and cleanup settlement are still being awaited.' : cancelSettlementFailure ? 'The cancellation request failed to confirm settlement. Cleanup completion is unverified; the retained terminal time is not proof of cleanup success.' : showResults ? (phase === 'completed'
       ? 'Wall-clock time from Start through all selected files, validation and cleanup. Excludes batch preparation; not encode-only time.'
       : 'Wall-clock time until this operation stopped and cleanup finished. May include preparation if stopped before Start; not encode-only time.') : '');
+    const counts = showResults ? resultCounts() : null;
     if (showResults) {
-      for (const key of ['success', 'failed', 'skipped', 'cancelled', 'unprocessed']) put(`count-${key}`, snapshot.counts?.[key] || 0);
+      for (const key of Object.keys(resultLabels)) put(`count-${key}`, counts[key] || 0);
       put('result-phase', phaseLabels[phase]);
       put('result-message', phase === 'completed' ? 'The batch has finished. Review individual results above; skipped and unsupported files are listed with their reasons.' : phase === 'cancelled' ? 'The operation was cancelled. Completed outputs are preserved. Remaining files were not processed.' : snapshot.error || 'The batch stopped. Review the file results before preparing a new batch.');
     }
-    renderJobAnnouncement(error, ready && !snapshot.encodingSettingsStale ? readyActivity : setupActivity);
+    renderJobAnnouncement(error, ready && !snapshot.encodingSettingsStale ? readyActivity : setupActivity, counts);
   }
 
   const workspaceTabList = byId('workspace-tabs');
@@ -2523,10 +2536,21 @@
     put('activity-message', 'Unable to connect to the application.');
     return;
   }
-  unsubscribe = api.onUpdate(applySnapshot);
+  let waitingForDefaults = true, startupReady = null;
+  unsubscribe = api.onUpdate(next => {
+    if (waitingForDefaults && next?.phase === 'ready') {
+      if (!startupReady || next.revision >= startupReady.revision) startupReady = next;
+    } else applySnapshot(next);
+  });
+  const defaultsRead = loadAppDefaults().then(() => {
+    waitingForDefaults = false;
+    applySnapshot(startupReady);
+  });
   void loadAppearance();
   command(async () => {
-    applySnapshot(await api.getSnapshot());
+    const initial = await api.getSnapshot();
+    await defaultsRead;
+    applySnapshot(initial);
     await loadCapabilities();
     applyPreferences(await api.getPreferences());
   });

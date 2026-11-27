@@ -129,8 +129,8 @@ const SOURCE_PINS = {
     "sha256": "fa785aaca639324959339acceefbeaf7bfa1dfce4d38d27598b20c4d82df7901"
   },
   "src/encode-operation.cjs": {
-    "bytes": 58155,
-    "sha256": "84b6e759f07794f452ea59d3c4a6852f8e9dafbede805c0f50541dec68d3527c"
+    "bytes": 59039,
+    "sha256": "4e671e0bff4d70d4d38fd450a738a6322176651ff6d0b492e6b79144f7c250f1"
   },
   "src/encode-preservation-catalog.cjs": {
     "bytes": 4821,

@@ -6,6 +6,7 @@ const { buildEncodeOperation, validateEncodeOperationOutput, fingerprintEncodeSo
 const { buildEncodeArgs, PROFILES, ARCHIVE_RECIPE, classifyColor } = require('../src/media.cjs');
 const { resolveFileRequest } = require('../src/operation-contract.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
 const clone = value => structuredClone(value);
 const RUNTIME = 'ffmpeg9.0.2:qualified-pair-fixture';
 const OUTPUT_ID = '3f4c3d1f-891e-497e-8daf-690151ae4dc7';
@@ -75,6 +76,25 @@ test('every ordinary profile and Archive CQ29 retain byte-for-byte accepted buil
     assert.deepEqual(result.qualificationRequirements, []);
     assert.equal(result.args.includes('-copyts'), false); assert.equal(result.args.includes('-filter:v:0'), false);
   }
+});
+
+test('pinned Windows Full MOV mono PCM copy refuses before building the incompatible output', () => {
+  const probe = source({ width: 1280, height: 720 });
+  Object.assign(probe.streams[1], { codec_name: 'pcm_s16le', codec_tag_string: 'sowt', sample_fmt: 's16', channels: 1, channel_layout: 'mono' });
+  const runtime = { runtimeIdentity: REGULAR_WINDOWS_PAIR };
+  assert.throws(() => build(probe, {}, runtime), {
+    code: 'ENCODE_PCM_LAYOUT_COPY_UNAVAILABLE',
+    message: /cannot preserve.*declared mono PCM layout/,
+  });
+  assert.throws(() => build(probe, { resolution: '1080' }, runtime), { code: 'ENCODE_PCM_LAYOUT_COPY_UNAVAILABLE' });
+  assert.equal(build(probe).compatibilityPath, true);
+  assert.equal(build(source(), {}, runtime).compatibilityPath, true);
+  const matroska = clone(probe);
+  matroska.format.format_name = 'matroska,webm';
+  assert.equal(build(matroska, {}, runtime).compatibilityPath, true);
+  const range = build(probe, { range: { startUs: 1000000, endUs: 2000000 }, audioPolicy: 'precision-flac' }, runtime);
+  assert.equal(range.compatibilityPath, false);
+  assert.equal(option(range.args, '-c:a:0'), 'flac');
 });
 
 test('legacy validation remains available without synthetic new decoded evidence', () => {

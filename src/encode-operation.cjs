@@ -130,12 +130,24 @@ function ordinaryRequest(request) {
     && validated.omissionRequestIds.length === 0;
 }
 
+function checkCompatibilityAudioLayout(probe, mapped, runtimeIdentity) {
+  // The pinned Matroska writer keeps the PCM samples and channel count, but
+  // cannot carry this declared layout through its ordinary stream-copy path.
+  if (runtimeIdentity === REGULAR_WINDOWS_PAIR && probe.format?.format_name === 'mov,mp4,m4a,3gp,3g2,mj2'
+      && mapped.some(stream => stream.codec_type === 'audio' && stream.codec_name === 'pcm_s16le'
+        && stream.channels === 1 && stream.channel_layout === 'mono')) {
+    fail('ENCODE_PCM_LAYOUT_COPY_UNAVAILABLE', 'Copy compatible audio cannot preserve this file’s declared mono PCM layout in Matroska. Select a qualified audio processing option for this file.');
+  }
+}
+
 function buildCompatibility(options) {
   const { input, output, outputId, generationDescription, runtimeIdentity = null } = options;
   const settings = validateSettings(options.settings), probe = structuredClone(options.inspection.probe), color = structuredClone(options.inspection.color);
   const preservation = options.preservationSelection === undefined ? null
     : require('./encode-preservation.cjs').getEncodePreservationSelection(options.preservationSelection, probe);
   const video = selectVideo(probe), mapped = mappedStreams(probe, video, options.preservationSelection);
+
+  if (!preservation) checkCompatibilityAudioLayout(probe, mapped, runtimeIdentity);
   const args = buildEncodeArgs({ input, output, settings, probe, colorEvidence: color, runtimeIdentity,
     ...(preservation ? { preservationSelection: options.preservationSelection } : {}),
     ...(outputId === undefined ? {} : { outputId }), ...(generationDescription === undefined ? {} : { generationDescription }) });
@@ -211,6 +223,7 @@ function buildEncodeOperation(options) {
   const resize = contract.geometry.filterRequired;
   const precisionAudio = contract.audio.policy !== 'copy' && contract.audio.streams.length > 0;
   const compatibilityPath = !isRange && !resize && !precisionAudio;
+  if (compatibilityPath) checkCompatibilityAudioLayout(probe, mapped, runtimeIdentity);
   const requirements = [], videoFilters = [], audioFilters = [];
   const audioPrecision = [], preservedOrientation = !compatibilityPath && !resize ? sourceOrientation(videoEvidence.geometry) : null;
   let seek = null;

@@ -1,3 +1,5 @@
+- **November 27, 2026 — [Native settings recovery](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#native-settings-recovery-and-archive-control).** Actual v1 preference read, byte-exact malformed archive, factory recovery and Archive p7/CQ 29 persisted as v2.
+
 - **November 27, 2026 — [Mixed sources and Archive](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#mixed-sources-same-folder-and-archive).** Exact grant membership, same-folder no-overwrite and generated rescan, narrow keyboard/zoom and local 9.1 Archive capability at both depths.
 
 - **November 27, 2026 — [PCM and native settings](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#mono-pcm-admission-and-native-settings).** Pinned layout-loss diagnostic, normal Prepare refusal and eligible AAC range, app adoption/override/reset, Help and local redaction proof.

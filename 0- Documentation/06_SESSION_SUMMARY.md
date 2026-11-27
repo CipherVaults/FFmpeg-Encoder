@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — settings recovery and Archive control
+
+In the actual Windows app, an isolated v1 preferences record loaded before any write. A malformed App Settings file was preserved and then archived by explicit reset. The enabled Archive helper applied p7/CQ 29 and wrote v2 preferences without changing other profiles. No workflow Start occurred. The TS scan's source-level batching and Annex B search passed the affected checks with full service timing still open. [Native settings recovery](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#native-settings-recovery-and-archive-control)
+
 # 📘 Session checkpoint — November 27, 2026 — mixed sources and Archive capability
 
 The native 70-file session verified two exact generated permissions and revoked them on reprepare. One protected same-folder output was published and excluded on the 71-file rescan. Keyboard focus and 120% zoom kept the same membership. The pinned runtime now reaches Archive capability at both depths after a separate reviewed source correction. [Mixed sources and Archive](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#mixed-sources-same-folder-and-archive)

@@ -97,3 +97,11 @@ broader end-to-end and long-source timing targets remain open.
   records all 204 checks passing, including a same-length wrong binary
   payload that recovered only after the child closed. SHA-256
   `13e924b9458c34ab5a83a7080b9974e486039cb30bc748accb046d3dbea0386e`.
+
+## TS parser source checkpoint
+
+Source `edb4beaf96d0bc1e701adf6e424ad9bb647e7a48` reduces repeated work in the native TS assessment. It passes each complete 188-byte chunk prefix to the existing integrity walk in one call, copies the partial tail and uses a bounded native search for the same Annex B start code. Every transport packet, native clock, refusal, NAL boundary, byte limit and packet hash comparison remains required.
+
+382 transport and native inventory checks passed, as did four additional direct framing and timing checks. Three current Linux source and inert-plan checks passed with the historical pins preserved. The focused split-tail receipt `20261127T004735Z_q2o-transport-chunk-and-annexb-boundaries` is SHA-256 `8abac84cb5268b6c5f6cc3867f483be6a49579a0a2c5d206b68ced7f8bb72d0e`.
+
+The existing measured combined-service verdict remains a miss. This change has no new normal-service timing, publication or seek receipt yet. Reuse only the exact sealed low and high inputs under the previously approved timing guard. Preserve the full timing envelope, exact packet joins and final first-frame/PTS comparisons.

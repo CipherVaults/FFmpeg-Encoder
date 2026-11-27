@@ -531,6 +531,38 @@ function createRemuxAvccClipSink(admitted, writer) {
 const PACKET_TOLERANCE = rational(1, 500), MAX_REORDER = 16;
 const PACKET_FIELDS = new Set(['codec_type', 'stream_index', 'pts', 'pts_time', 'dts', 'dts_time', 'duration', 'duration_time',
   'size', 'pos', 'flags', 'data_hash', 'side_data_list', 'sample_rate', 'sample_fmt', 'channels', 'channel_layout', 'profile', 'codec_name']);
+function createRemuxSampleReader(stage, fileBytes, stop) {
+  const windowSize = 1024 * 1024;
+  let window, windowStart = -1, previousEnd = 0, inFileOrder = true;
+  async function readExactly(bytes, position) {
+    for (let read = 0; read < bytes.length;) {
+      stop();
+      const result = await stage.read(bytes, read, bytes.length - read, position + read);
+      need(result.bytesRead > 0, 'Native sample is incomplete.', 'REMUX_NATIVE_SAMPLE_EXTENT');
+      read += result.bytesRead;
+    }
+    return bytes;
+  }
+  return async ({ start, end }) => {
+    stop();
+    // Native inventory has already bounded the extents and rejected overlap.
+    // Read each aligned window at most once while packet offsets increase.
+    inFileOrder &&= start >= previousEnd;
+    previousEnd = end;
+    if (!inFileOrder) return readExactly(Buffer.alloc(end - start), start);
+    const base = Math.floor(start / windowSize) * windowSize;
+    const limit = Math.min(base + windowSize, fileBytes);
+    if (end > limit) return readExactly(Buffer.alloc(end - start), start);
+    if (base !== windowStart) {
+      window ??= Buffer.alloc(windowSize);
+      await readExactly(window.subarray(0, limit - base), base);
+      windowStart = base;
+    }
+    // Preserve each sample's ownership when a later read refreshes the window.
+    return Buffer.from(window.subarray(start - base, end - base));
+  };
+}
+
 function createRemuxPacketAccumulator(stream, { maxRecords, maxSourceBytes, maxDurationSeconds, family, semanticAudio = false, deferPayloadHash = false }) {
   let count = 0, bytes = 0n, first = null, end = null, previous = null, firstStep = null, differingStep = null;
   let firstKey = null, lastKey = null, keyCount = 0, lastDecodePts = null, reordered = false, peakRows = 0;
@@ -1433,6 +1465,7 @@ async function collectRemuxEvidence(options) {
       let payloadBytes = 0;
       try {
         need(same(outputBefore, await stage.stat({ bigint: true })), 'The sample reader opened a different stage.', 'REMUX_EVIDENCE_CHANGED');
+        const readSample = createRemuxSampleReader(stage, Number(outputBefore.size), stop);
         scanned = await scan(async (packet, ordinal) => {
           const extent = extents.get(packet.stream_index)?.[ordinal];
           need(extent && String(packet.pos) === String(extent.start) && String(packet.size) === String(extent.end - extent.start)
@@ -1440,13 +1473,7 @@ async function collectRemuxEvidence(options) {
           'Output packet extent or key flag disagrees with its native sample.', 'REMUX_NATIVE_SAMPLE_EXTENT');
           const length = extent.end - extent.start;
           need(length > 0 && length <= 8 * 1024 * 1024, 'Native output packet exceeds the transport payload bound.', 'REMUX_TS_PACKET_BYTES');
-          const bytes = Buffer.alloc(length);
-          for (let read = 0; read < length;) {
-            stop();
-            const result = await stage.read(bytes, read, length - read, extent.start + read);
-            need(result.bytesRead > 0, 'Native sample is incomplete.', 'REMUX_NATIVE_SAMPLE_EXTENT');
-            read += result.bytesRead;
-          }
+          const bytes = await readSample(extent);
           need(sha(bytes) === PACKET_HASH.exec(packet.data_hash)[1].toLowerCase(), 'The demuxed packet hash disagrees with its held native output bytes.', 'REMUX_PACKET_PAYLOAD');
           payloadBytes += length;
           return bytes;
@@ -2046,5 +2073,5 @@ function getCollectedMovRepresentation(receipt, bindings) {
 }
 
 module.exports = { REMUX_VERIFICATION_CANCELLED_MESSAGE, REMUX_EVIDENCE_LIMITS: LIMITS, collectRemuxEvidence, getCollectedRemuxEvidence, getCollectedMovRepresentation, createRemuxJsonSink, createLineSink, decodeRemuxTimelineRow, compareRemuxTimelines,
-  remuxCodecParameters, createRemuxPacketAccumulator, compareRemuxPackets, inspectRemuxSps, parseRemuxAvcc, parseRemuxAsc,
+  remuxCodecParameters, createRemuxPacketAccumulator, createRemuxSampleReader, compareRemuxPackets, inspectRemuxSps, parseRemuxAvcc, parseRemuxAsc,
   createRemuxHexSink, createRemuxParameterSink, createRemuxHeaderSink, createRemuxPacketHeaderSink, createRemuxAvccClipSink, createRemuxAudioTrim };

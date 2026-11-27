@@ -10,7 +10,7 @@ const Module = require('node:module');
 const syncFs = require('node:fs');
 const { assessRemux } = require('../src/remux-contract.cjs');
 const { createRemuxValidator } = require('../src/remux-validation.cjs');
-const { collectRemuxEvidence, getCollectedRemuxEvidence, remuxCodecParameters, createRemuxPacketAccumulator, compareRemuxPackets } = require('../src/remux-evidence.cjs');
+const { collectRemuxEvidence, getCollectedRemuxEvidence, remuxCodecParameters, createRemuxPacketAccumulator, createRemuxSampleReader, compareRemuxPackets } = require('../src/remux-evidence.cjs');
 const { EVIDENCE_BUDGET } = require('../src/operation-controls.cjs');
 const { MARKER_KEY, OUTPUT_ID_KEY } = require('../src/provenance.cjs');
 const { RemuxOperations, fingerprintRemuxSourceIdentity } = require('../src/remux-operation.cjs');
@@ -18,6 +18,43 @@ const { readSourceIdentity } = require('../src/source-identity.cjs');
 const admission = require('./helpers/remux-admission-fixture.cjs');
 const HASH = 'a'.repeat(64), OUTPUT = '715e278f-1b7e-4d19-948d-a952b68c328e';
 const clone = structuredClone, sha = n => createHash('sha256').update(String(n)).digest('hex');
+test('held MP4 samples share bounded reads, with exact reads for spanning and out-of-order samples', async () => {
+  const mib = 1024 * 1024, file = Buffer.alloc(2 * mib + 6);
+  for (let offset = 0; offset < file.length; offset++) file[offset] = offset % 251;
+  const calls = [];
+  const handle = { async read(buffer, offset, length, position) {
+    calls.push([position, length]);
+    return { bytesRead: file.copy(buffer, offset, position, position + length) };
+  } };
+  const readSample = createRemuxSampleReader(handle, file.length, () => {});
+  const first = await readSample({ start: 3, end: 7 });
+  assert.deepEqual(await readSample({ start: 100, end: 109 }), file.subarray(100, 109));
+  assert.deepEqual(await readSample({ start: mib - 2, end: mib + 3 }), file.subarray(mib - 2, mib + 3));
+  assert.deepEqual(await readSample({ start: mib + 8, end: mib + 13 }), file.subarray(mib + 8, mib + 13));
+  assert.deepEqual(first, file.subarray(3, 7), 'refreshing a window preserves earlier bytes');
+  assert.deepEqual(await readSample({ start: 31, end: 35 }), file.subarray(31, 35));
+  assert.deepEqual(await readSample({ start: 2 * mib + 1, end: 2 * mib + 6 }), file.subarray(2 * mib + 1));
+  assert.deepEqual(calls, [[0, mib], [mib - 2, 5], [mib, mib], [31, 4], [2 * mib + 1, 5]]);
+});
+
+test('held sample read-ahead completes short reads and checks cancellation on a cache hit', async () => {
+  const file = Buffer.from('abcdefghijkl'), calls = [];
+  let cancelled = false;
+  const handle = { async read(buffer, offset, length, position) {
+    calls.push([position, length]);
+    return { bytesRead: file.copy(buffer, offset, position, position + Math.min(4, length)) };
+  } };
+  const readSample = createRemuxSampleReader(handle, file.length, () => {
+    if (cancelled) throw Object.assign(new Error('Cancelled'), { code: 'CANCELLED' });
+  });
+  assert.deepEqual(await readSample({ start: 1, end: 3 }), Buffer.from('bc'));
+  assert.deepEqual(calls, [[0, 12], [4, 8], [8, 4]]);
+  cancelled = true;
+  await assert.rejects(readSample({ start: 4, end: 7 }), { code: 'CANCELLED' });
+  const missing = createRemuxSampleReader({ async read() { return { bytesRead: 0 }; } }, 12, () => {});
+  await assert.rejects(missing({ start: 1, end: 3 }), { code: 'REMUX_NATIVE_SAMPLE_EXTENT' });
+});
+
 function source() {
   return { streams: [{ index: 1, codec_type: 'video', codec_name: 'h264', profile: 'High', level: 40, width: 2, height: 2,
     pix_fmt: 'yuv420p', sample_aspect_ratio: '1:1', display_aspect_ratio: '1:1', field_order: 'progressive',

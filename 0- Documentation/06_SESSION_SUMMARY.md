@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — Windows mono PCM and settings
+
+The pinned Matroska writer dropped the declared mono layout despite matching decoded audio. The normal Windows workbench now refuses this case during Prepare and accepts the tested Precision AAC range as an explicit alternative. A native isolation pass covered app save/adoption, batch and file precedence, factory reset, Help versions and redacted History preview with zero Starts. [PCM and native settings](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#mono-pcm-admission-and-native-settings)
+
 # 📘 Session checkpoint — November 27, 2026 — native Windows workbench
 
 The actual workbench prepared 61 files, preserved selection across native resizing, and published one selected Remux per proof run. The revised workbench distinguishes blocked files and applies saved expansion. The restarted corrected app published ordinary CPU and NVIDIA stereo Full outputs. Active close produced and retained one incomplete stage. The short mono PCM Full job failed validation without publication. Final 296 workbench checks passed. [Native Windows workbench](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md)

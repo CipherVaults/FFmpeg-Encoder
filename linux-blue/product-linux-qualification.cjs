@@ -449,8 +449,8 @@ const SOURCE_PINS = {
     "sha256": "7d718265d8d41998e8da65c21f7c43833ebd010971e06d90e9f1161568eff20c"
   },
   "src/remux-transport.cjs": {
-    "bytes": 28038,
-    "sha256": "cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e"
+    "bytes": 28227,
+    "sha256": "7cdafcb4f18c8b5dcd13ddc4a4738c4703c0b76f6f9d41b5005da7a7c700eed3"
   },
   "src/remux-validation.cjs": {
     "bytes": 43525,

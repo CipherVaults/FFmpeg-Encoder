@@ -275,6 +275,14 @@ test('TS clock refuses missing, backwards, wrap and audio gaps with specific cod
   assert.throws(()=>transportClock({...s,time_base:'1/1000'})({pts:0,dts:0}),{code:'REMUX_TS_TIME_BASE'});
   const audio=transportClock({...s,codec_type:'audio'});audio({pts:0,dts:0});assert.throws(()=>audio({pts:2000,dts:2000}),{code:'REMUX_TS_DISCONTINUITY'});
 });
+test('Annex B recognizes mixed start code lengths and excludes only framing and padding', () => {
+  const packet = Buffer.from([0, 0, 0, 1, 0x67, 2, 0, 0, 1, 0x68, 0, 3, 0, 0, 0, 1, 0x65, 4, 0, 0]);
+  assert.deepEqual(transportNals(packet).map(unit => [...unit]), [[0x67, 2], [0x68, 0, 3], [0x65, 4]]);
+  const dirtyLead = Buffer.from(packet);
+  dirtyLead[0] = 2;
+  assert.throws(() => transportNals(dirtyLead), { code: 'REMUX_TS_NAL_FRAMING' });
+});
+
 test('NAL framing and packet dump bounds fail closed',()=>{
   for(const value of [Buffer.from([1]),Buffer.from([0,0,1]),Buffer.from([0,0,0,10,1])]) assert.throws(()=>transportNals(value,'avcc'),{code:'REMUX_TS_NAL_FRAMING'});
   assert.throws(()=>dumpBytes('\n00000001: 00                                      .\n',1),{code:'REMUX_TS_PACKET_BYTES'});

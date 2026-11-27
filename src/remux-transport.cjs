@@ -9,6 +9,7 @@ const { ToolError } = require('./process-runner.cjs');
 const sha = data => createHash('sha256').update(data).digest('hex');
 const need = (ok, code, message) => { if (!ok) throw new ToolError(code, message); };
 const MAX_PACKET = 8 * 1024 * 1024;
+const ANNEX_B_PREFIX = Buffer.from([0, 0, 1]);
 // Finite continuous-transport envelope: PCR observations at most one second
 // apart; each delivered PES decode clock within ten seconds of the latest PCR.
 const PCR_GAP = 27000000n, PCR_PES_DISTANCE = 270000000n;
@@ -116,11 +117,11 @@ function transportNals(data, framing = 'annexb', lengthBytes = 4) {
   };
   if (framing === 'annexb') {
     let start = -1;
-    for (let i = 0; i + 2 < data.length; i++) if (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 1) {
+    for (let i = data.indexOf(ANNEX_B_PREFIX); i !== -1; i = data.indexOf(ANNEX_B_PREFIX, start)) {
       if (start === -1) need(data.subarray(0, i).every(b => b === 0), 'REMUX_TS_NAL_FRAMING', 'Missing Annex B start code.');
       else { need(units.length < 1024, 'REMUX_TS_NAL_LIMIT', 'An AVC packet contains more than 1,024 NAL units.');
         let end = i; while (end > start && data[end - 1] === 0) end--; push(start, end); }
-      start = i + 3; i += 2;
+      start = i + ANNEX_B_PREFIX.length;
     }
     need(start !== -1, 'REMUX_TS_NAL_FRAMING', 'Missing Annex B start code.');
     need(units.length < 1024, 'REMUX_TS_NAL_LIMIT', 'An AVC packet contains more than 1,024 NAL units.');
@@ -331,7 +332,12 @@ function createTransportIntegrity(streams,programs=null,{packetSize=programs===n
   function drain(final=false){if(!framing){if(!final&&tail.length<612)return;framing=transportFraming(tail,final);need(framing,'REMUX_TS_FRAMING','Transport framing is truncated, ambiguous or unclassified.');}
     need(framing.size!==192,'REMUX_TS_M2TS_ARRIVAL_CONTROL','M2TS copy/arrival timestamp controls have no verified native target mapping.');
     need(framing.size!==204,'REMUX_TS_RS204_PARITY','RS204 outer error-correction parity has no verified native interpretation.');
-    let at=0;for(;at+framing.size<=tail.length;at+=framing.size)core.push(tail.subarray(at+framing.offset,at+framing.offset+188));tail=Buffer.from(tail.subarray(at));}
+    // The core still walks every packet in order. Pass each chunk's complete
+    // packet prefix once and retain only the unprocessed bytes.
+    const complete = tail.length - tail.length % 188;
+    if (complete) core.push(tail.subarray(0, complete));
+    tail = Buffer.from(tail.subarray(complete));
+  }
   return{push(chunk){need(Buffer.isBuffer(chunk),'REMUX_TS_FRAMING','Transport input must be bytes.');tail=tail.length?Buffer.concat([tail,chunk]):chunk;drain();},finish(){drain(true);need(!tail.length,'REMUX_TS_FRAMING','Native transport wrapper is truncated.');return{...core.finish(),packetSize:framing.size};}};
 }
 async function inspectTransportHead(file, signal) {

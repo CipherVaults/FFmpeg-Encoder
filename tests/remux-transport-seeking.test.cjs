@@ -4,7 +4,7 @@ const {createTransportIntegrity}=require('../src/remux-transport.cjs'),{table,pc
 const streams=[{id:'0x100',codec_type:'video',codec_name:'h264'}],programs=[{pmt_pid:4096,pcr_pid:256}];
 function pes({random=true,nal=0x65,optional=0,scrambling=0}={}){const b=Buffer.alloc(188,255);b.set([71,65,0,48,1,random?64:0]);b.set([0,0,1,224,0,0,128|scrambling,128|optional,5,33,0,1,0,1,0,0,1,nal,0x88],6);return b;}
 function bytes(options){return Buffer.concat([table(0,0),table(4096,2),pcr(90000),pes(options)]);}
-function inspect(b,size=188){const c=createTransportIntegrity(streams,programs,{packetSize:size});for(let i=0;i<b.length;i+=37)c.push(b.subarray(i,i+37));return c.finish();}
+function inspect(b,size=188,chunkSize=37){const c=createTransportIntegrity(streams,programs,{packetSize:size});for(let i=0;i<b.length;i+=chunkSize)c.push(b.subarray(i,i+chunkSize));return c.finish();}
 test('asserted TS random access binds the complete own PES IDR, with an unasserted non-IDR neighbour admitted',()=>{
   assert.equal(inspect(bytes()).randomAccessCount,1);assert.equal(inspect(bytes({random:false,nal:0x41})).randomAccessCount,0);
   assert.throws(()=>inspect(bytes({nal:0x41})),{code:'REMUX_TS_RANDOM_ACCESS'});
@@ -14,6 +14,16 @@ test('asserted TS random access binds the complete own PES IDR, with an unassert
 test('every PES seeking control refuses its own field, beside the neutral timestamp-only header',()=>{
   inspect(bytes());for(const [options,code]of [[{scrambling:32},'REMUX_TS_PES_ENCRYPTED'],[{optional:8},'REMUX_TS_PES_TRICK_MODE'],...[32,16,4,2,1].map(optional=>[{optional},'REMUX_TS_PES_OPTIONAL'])])assert.throws(()=>inspect(bytes(options)),{code});
 });
+test('complete packet prefixes and split tails yield the same transport checks at every tested chunk size', () => {
+  const stream = bytes();
+  const expected = inspect(stream, 188, 188);
+  const truncated = stream.subarray(0, stream.length - 1);
+  for (const framing of [188, null]) for (const chunkSize of [1, 187, 189, 612, 65536]) {
+    assert.deepEqual(inspect(stream, framing, chunkSize), expected);
+    assert.throws(() => inspect(truncated, framing, chunkSize), { code: 'REMUX_TS_FRAMING' });
+  }
+});
+
 test('the whole declared random-access PES has an explicit budget, including its final byte',()=>{
   const limit=8*1024**2;
   function huge(length){const c=createTransportIntegrity(streams,programs,{packetSize:188});c.push(Buffer.concat([table(0,0),table(4096,2),pcr(90000)]));let used=0,counter=0;

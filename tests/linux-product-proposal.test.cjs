@@ -239,6 +239,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
    'src/process-runner.cjs': ['257ae0ce717d086635a133535df9a73afd2609b83ad231ea8ed0798b3596395c',18389,'8c2395eb2e2d7d32d8c11e756e3762d3ce04c926185b4b66d6b89df2f587af1f'],
    'src/remux-catalog.cjs': ['ba299093370dd87e7e154cbeba22cd9f9fe8bc5246eb64266dff193ad21093ec',8272,'8acbdae5685ef158c70f4f3a10ef0fd0d01417e1647167c5e080ade9f05420a3'],
    'src/remux-contract.cjs': ['f420e73a9a95b310459c4dd7adb5b4e5657ea819d1b6f61a405ef72531c284da',38772,'c8db0e1df72356716f4f2c888a0b324fd2cb467dd4e245f3498d1b1d9b441300'],
+   'src/remux-transport.cjs': ['cd99370b3971d80cc917fa63c374005b3a895d25775b5084a91f9c6740b27c5e',28227,'7cdafcb4f18c8b5dcd13ddc4a4738c4703c0b76f6f9d41b5005da7a7c700eed3'],
    'src/remux-evidence.cjs': ['76ed8963119b7217b3d94cf6058bcf9afca081cadf0d51f6166be5fbdd408a75',163445,'57daf645eb11ac7e3fe41f172684c5c3805cb84fd49c5c22b0e655e21f80389b'],
    'src/remux-native-checks.cjs': ['70764d731e52a6b648b902147cdd2492bc153b22d877d56510902120a97ff3c7',34435,'41c92ef17de659504bf9b5bac8a80ce4e33af63f863916213d73bbefd28cda73'],
    // Before timed SubRip, the Windows Remux current cue reader was 6456 bytes, 93c30683ba9cb5efa6b1537f86b759ddaf84a9562d98d67a964ff5bb110a06cd.
@@ -290,7 +291,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,26);
+ assert.equal(changed,27);
  assert.equal(historicalOnly,1);
 });
 

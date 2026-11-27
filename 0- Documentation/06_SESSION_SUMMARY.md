@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — generated-source permissions and omission
+
+Windows refused a two-file generated-source permission request after a replacement and cleared later valid grants on restart. It also refused a named unqualified subtitle omission and restored the source stream. The revised renderer reports the refusal accurately, as confirmed in a fresh native run. Seven sampled text pairs per theme passed 4.5:1. These sessions had zero Starts. [Generated-source permissions and stream omission](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#generated-source-permissions-and-stream-omission)
+
 # 📘 Session checkpoint — November 27, 2026 — settings recovery and Archive control
 
 In the actual Windows app, an isolated v1 preferences record loaded before any write. A malformed App Settings file was preserved and then archived by explicit reset. The enabled Archive helper applied p7/CQ 29 and wrote v2 preferences without changing other profiles. No workflow Start occurred. The TS scan's source-level batching and Annex B search passed the affected checks with full service timing still open. [Native settings recovery](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#native-settings-recovery-and-archive-control)

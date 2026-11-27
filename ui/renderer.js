@@ -1477,19 +1477,30 @@
     const details = entry.item[field];
     entry.remuxDetails.hidden = !details;
     if (!details) { entry.remuxButtons = []; return; }
-    const key = JSON.stringify([snapshot.planId, snapshot.operationDraft?.id, snapshot.operationDraft?.revision, details]);
+    const omissionInPlan = details.status === 'qualified' && !['pending', 'unsupported', 'cancelled', 'unprocessed'].includes(entry.item.status);
+    const key = JSON.stringify([snapshot.planId, snapshot.operationDraft?.id, snapshot.operationDraft?.revision, details, omissionInPlan]);
     if (key !== entry.remuxKey) {
       entry.remuxKey = key; entry.remuxBody.replaceChildren(); entry.remuxButtons = [];
       const text = value => typeof value === 'string' ? value : value?.message || value?.reason || value?.label || '';
+      const omissionEffectsPrefix = !remux && !omissionInPlan ? 'These effects apply only if the plan includes the omission. ' : '';
       const addText = value => { const p = document.createElement('p'); p.className = 'hint'; p.textContent = value; entry.remuxBody.append(p); };
       addText(`Full · ${details.target} · ${details.status}. ${details.notice || ''}`);
       const streams = document.createElement('ul'); streams.className = 'remux-streams';
-      const actions = { 'preserve-copy': 'Preserve by stream copy', 'encode-video': 'Encode video with the displayed settings', 'explicitly-omitted': 'Explicitly omitted from this output', blocked: 'Blocked; preservation is not qualified' };
+      const actions = {
+        'preserve-copy': 'Preserve by stream copy',
+        'encode-video': 'Encode video with the displayed settings',
+        'explicitly-omitted': omissionInPlan ? 'Omission included in the prepared plan' : 'Omission requested',
+        blocked: 'Blocked; preservation is not qualified',
+      };
       for (const stream of details.streams || []) {
         const li = document.createElement('li');
         li.textContent = `${stream.label || `Stream ${stream.streamIndex}: ${stream.codecType} / ${stream.codecName}`} · ${actions[stream.action] || stream.action}`;
         const notes = [...(stream.reasons || []), ...(stream.representations || [])].map(text).filter(Boolean);
-        if (notes.length) { const p = document.createElement('p'); p.className = 'hint'; p.textContent = notes.join(' '); li.append(p); }
+        if (notes.length) {
+          const p = document.createElement('p'); p.className = 'hint';
+          const prefix = stream.action === 'explicitly-omitted' || stream.action === 'blocked' ? omissionEffectsPrefix : '';
+          p.textContent = prefix + notes.join(' '); li.append(p);
+        }
         streams.append(li);
       }
       entry.remuxBody.append(streams);
@@ -1530,7 +1541,10 @@
         const approved = (details.omissionDecisionIds || []).includes(candidate.id);
         const row = document.createElement('div'); row.className = 'remux-decision';
         const description = document.createElement('p'); description.className = 'hint';
-        description.textContent = `${candidate.label} · Target: ${candidate.target}. ${(candidate.reasons || []).map(text).filter(Boolean).join(' ')} ${approved ? 'This stream is deliberately omitted from the prepared output.' : 'Omitting removes this stream from the output. The source is preserved. Other qualification blockers may remain.'}`;
+        const omissionNotice = !approved ? 'If preparation succeeds, this stream will be omitted from the output. The source is preserved.'
+          : omissionInPlan ? 'The prepared plan omits this stream.'
+          : 'Omission requested. No prepared output is available for this file.';
+        description.textContent = `${candidate.label} · Target: ${candidate.target}. ${omissionEffectsPrefix}${(candidate.reasons || []).map(text).filter(Boolean).join(' ')} ${omissionNotice}`;
         const button = document.createElement('button'); button.type = 'button'; button.className = 'subtle';
         button.dataset.testid = remux ? 'remux-omission' : 'encode-preservation-decision'; button.dataset.decisionId = candidate.id;
         button.textContent = remux ? approved ? 'Restore preservation of this stream' : 'Omit this stream and prepare again'

@@ -1721,7 +1721,23 @@ test('Encode timecode loss uses named exact-set IPC, clear functional warning an
   assert.equal(h.calls.some(call => call.name === 'setRemuxOmissions'), false);
   button = slot.querySelector('[data-testid="encode-preservation-decision"]');
   assert.match(button.textContent, /Require preservation/); assert.equal(h.document.activeElement, button);
-  await button.click();
+  assert.match(details.textContent, /<timed tmcd track> · Omission included in the prepared plan/);
+  const refused = snapshot();
+  refused.items[0].status = 'unsupported';
+  refused.items[0].reason = 'The final command could not be prepared.';
+  h.update(refused);
+  assert.match(details.textContent, /<timed tmcd track> · Omission requested/);
+  assert.match(details.textContent, /These effects apply only if the plan includes the omission\. Timed track and linked editing\/synchronization relationship are lost/);
+  assert.match(details.textContent, /No prepared output is available for this file/);
+  assert.doesNotMatch(details.textContent, /Omission included in the prepared plan|The prepared plan omits this stream/);
+  const interrupted = snapshot();
+  interrupted.planId = null;
+  interrupted.items[0].status = 'unprocessed';
+  h.update(interrupted);
+  assert.match(details.textContent, /No prepared output is available for this file/);
+  assert.doesNotMatch(details.textContent, /Omission included in the prepared plan|The prepared plan omits this stream/);
+  h.update(snapshot());
+  await details.querySelector('[data-testid="encode-preservation-decision"]').click();
   assert.deepEqual(h.calls.filter(call => call.name === 'setEncodePreservationDecisions').at(-1).args[0].decisionIds, ['decision-other']);
   h.update(snapshot('running')); assert.equal(slot.querySelector('[data-testid="encode-preservation-decision"]')?.disabled ?? true, true);
 });
@@ -1772,11 +1788,17 @@ test('Remux omission actions submit the exact main-issued decision set and retai
   assert.deepEqual(h.calls.find(call => call.name === 'setRemuxOmissions').args,
     [{ planId: 'remux-plan-1', draftId: 'remux-draft-1', revision: 0, decisionIds: ['decision-other', 'decision-a'] }]);
   assert.equal(row.querySelector('[data-testid="encode-file"]').disabled, true, 'unresolved blockers cannot become selectable');
-  assert.match(details.textContent, /Explicitly omitted.*Unknown relationships remain blocked/);
+  assert.match(details.textContent, /<stream 5> · Omission requested.*Unknown relationships remain blocked/);
+  assert.match(details.textContent, /Omission requested\. No prepared output is available for this file\./);
+  assert.doesNotMatch(details.textContent, /Omission included in the prepared plan|The prepared plan omits this stream/);
   await details.querySelector('[data-testid="remux-omission"]').click();
   const requests = h.calls.filter(call => call.name === 'setRemuxOmissions');
   assert.deepEqual(requests[1].args[0].decisionIds, ['decision-other']);
   assert.deepEqual(Object.keys(requests[1].args[0]).sort(), ['decisionIds', 'draftId', 'planId', 'revision']);
+  await h.byId('batch-items').children[1].querySelector('[data-testid="inspect-file"]').click();
+  const qualifiedDetails = h.byId('focused-file-details-slot').querySelector('[data-testid="remux-preservation"]');
+  assert.match(qualifiedDetails.textContent, /<stream 6> · Omission included in the prepared plan/);
+  assert.match(qualifiedDetails.textContent, /The prepared plan omits this stream/);
 });
 
 test('Remux discloses the exact audio shift and sends only an explicit current file choice', async () => {

@@ -7,6 +7,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { checkCapabilities } = require('../src/capabilities.cjs');
 const { ARCHIVE_RECIPE } = require('../src/media.cjs');
+const { REGULAR_WINDOWS_PAIR } = require('../src/regular-windows-runtime.cjs');
 
 async function harness(t, fault = () => {}) {
   const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), 'ffmpeg-capabilities-test-'));
@@ -122,6 +123,18 @@ test('Archive Quality probes its complete options at both depths and separately 
   assert.equal(normal[normal.indexOf('-tune:v:0') + 1], 'hq');
   assert.equal(normal.includes('-multipass:v:0'), false);
   assert.deepEqual(await fs.readdir(h.stateDir), ['fake-tool.exe']);
+});
+
+test('the regular Windows capability probe uses the same paired metadata options as file jobs', async t => {
+  const h = await harness(t);
+  const result = await checkCapabilities({ ffmpeg: h.binary, ffprobe: h.binary, stateDir: h.stateDir,
+    run: h.run, runtimeIdentity: REGULAR_WINDOWS_PAIR });
+  const encodes = h.commands.filter(args => args.includes('-c:v:0'));
+  assert.equal(encodes.length, 14);
+  for (const args of encodes) {
+    assert.ok(args.some((arg, index) => arg === '-keep_metadata' && args[index + 1] === 'DURATION'));
+  }
+  assert.deepEqual(result.recipes[0].supportedBitDepths, [8, 10]);
 });
 
 test('only the recipe uses the longer fixture and complete picture-type evidence', async t => {

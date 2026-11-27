@@ -225,12 +225,13 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
  // Current per-file Remux journal settlement does not requalify the old source.
  // Windows integration changes current shared bytes without replacing the old Linux proof.
  const regularWindowsSourceDeltas={
+   'src/capabilities.cjs': ['88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca',13289,'d7784aeae2535d49a8619ded8aee8ccbcfd3fd41662493952018c9d91e7c0be0'],
    'src/container-clock.cjs': ['b823f1e41c4cca19a0b06d82dadf1941f4e0a0326b6d16bd910691c702763857',14696,'b945f2c3c9c5082705f16b573fece0890e9b339a80a9458ad512dde0e2c01690'],
    'src/operation-evidence.cjs': ['5ec5452881d01789f7f181e4540cfcca268371f13f6abdd7f59fa9ad57e8b8d4',57827,'b9bc49742b011929e4015d8441bea3101d12331f076717661c734568665971bc'],
    'src/operation-family.cjs': ['3e27335e4228969d670545b0fb6aeb77a6fd9303529c248ae7560d0c9e4fade3',59500,'e342056e7b896a1cd61cf4da3c84c33d16ab792186d4a1ae4c30e5ddadbaf591'],
    'src/candidate-runtime.cjs': ['9566a7691feab7cb65f5c739a723f99c48833064aea2edfe8cf410cc5dc0d712',11835,'92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9'],
    'src/encode-operation.cjs': ['aae37c5479897a13f9ee66b1ea1a8a9a6a46d2c57f76d36bdebdedf21569a5de',59039,'4e671e0bff4d70d4d38fd450a738a6322176651ff6d0b492e6b79144f7c250f1'],
-   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',174082,'f6468d2c362dcbd3e1dbae5f6a95ec8c968b33d2ad69bfd096dedf961a786c48'],
+   'src/encoder-service.cjs': ['5f1d0ed985bb82166f52b8498f69e72e30e018973f7c1ee361f745a26e643dc7',174131,'8f11c951e8c5e98cc2d31f1607f61a00850c2827250b76bc3413d218811f0422'],
    'src/inspection.cjs': ['948559c31919629326f02ebabe30a3a6918677c91cf9bba338bf382b3401c491',34123,'441551923f7b6dde45e08e57ae53e52876ddd1f712d6662dd967ec0a1389e089'],
    'src/media.cjs': ['79f040a7e136b2b06235090675360996e12d7ff815ea776eb800fd479ce9a7e7',25811,'2f3bc260e1969684e9374c9d60dc41cb326c0f6d5b09066649abfc8889b7f5c0'],
    'src/operation-controls.cjs': ['bd0977641d5fe62b182a70e58d9f89a69f4af4564daeea0c616dcb066238f59f',8292,'551246574d74d010d9179094dea47a9c12d5da7c9e5d1ce34fef6175a03b8c4e'],
@@ -289,7 +290,7 @@ test('historical 97 pins remain intact with explicitly reviewed current source d
   }else assert.equal(actual,hash,name);
   assert.deepEqual(pins[name],{bytes:bytes.length,sha256:actual},name);
  }
- assert.equal(changed,25);
+ assert.equal(changed,26);
  assert.equal(historicalOnly,1);
 });
 

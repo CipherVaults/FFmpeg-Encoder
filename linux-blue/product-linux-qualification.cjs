@@ -117,8 +117,8 @@ const SOURCE_PINS = {
     "sha256": "92b8b5169302bfe0225ea5d5ca4802cec62c239b367605ce6f400f19eb0b50a9"
   },
   "src/capabilities.cjs": {
-    "bytes": 13255,
-    "sha256": "88b697955e5f938c98455faf0f2b98e51b98295cf0237da7dab9ecd360f31aca"
+    "bytes": 13289,
+    "sha256": "d7784aeae2535d49a8619ded8aee8ccbcfd3fd41662493952018c9d91e7c0be0"
   },
   "src/container-clock.cjs": {
     "bytes": 14696,
@@ -153,8 +153,8 @@ const SOURCE_PINS = {
     "sha256": "1fd039577d83fbb35c8424d098fa06056822f538ae65e6b855c3021aab314cf2"
   },
   "src/encoder-service.cjs": {
-    "bytes": 174082,
-    "sha256": "f6468d2c362dcbd3e1dbae5f6a95ec8c968b33d2ad69bfd096dedf961a786c48"
+    "bytes": 174131,
+    "sha256": "8f11c951e8c5e98cc2d31f1607f61a00850c2827250b76bc3413d218811f0422"
   },
   "src/hdr-catalog-seals.cjs": {
     "bytes": 6748,

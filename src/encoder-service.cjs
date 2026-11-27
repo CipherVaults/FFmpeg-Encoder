@@ -585,7 +585,8 @@ class EncoderService extends EventEmitter {
       try {
         await this.recordIncident({ stage: 'capability', reason: 'CAPABILITY_STARTED' });
         await fs.mkdir(this.stateDir, { recursive: true });
-        const capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir, signal, run: this.run });
+        const capabilityResult = await this.capabilities({ ffmpeg: this.ffmpeg, ffprobe: this.ffprobe, stateDir: this.stateDir,
+          signal, run: this.run, runtimeIdentity: this.runtimeIdentity });
         await this.recordRuntimeVersions(capabilityResult.versions);
         let nativeCapabilities = null;
         if (this.discoverBackends) {

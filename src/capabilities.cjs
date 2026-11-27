@@ -65,7 +65,7 @@ function verifyVideo(data, { bitDepth, codec, countFrames = false, expectedFrame
  * All temporary media lives in a unique owned directory. Cleanup names only the
  * files this invocation reserved; it never recursively removes a directory.
  */
-async function checkCapabilitiesRun({ ffmpeg, ffprobe, stateDir, signal, run = runTool }, versions) {
+async function checkCapabilitiesRun({ ffmpeg, ffprobe, stateDir, signal, runtimeIdentity, run = runTool }, versions) {
   if (signal?.aborted) throw new ToolError('CANCELLED', 'Capability inspection cancelled.');
   for (const [name, executable] of Object.entries({ ffmpeg, ffprobe })) {
     try {
@@ -141,7 +141,7 @@ async function checkCapabilitiesRun({ ffmpeg, ffprobe, stateDir, signal, run = r
         const settings = { profileId: profile.profileId || profile.id, preset: profile.defaultPreset, quality: profile.quality.default,
           ...(profile.recipeId ? { recipeId: profile.recipeId } : {}) };
         try {
-          const encoded = await execute(ffmpeg, buildEncodeArgs({ input, output, settings, probe }));
+          const encoded = await execute(ffmpeg, buildEncodeArgs({ input, output, settings, probe, runtimeIdentity }));
           if (profile.recipeId && (encoded.stderrCapture?.truncated || unexpectedRecipeWarnings(encoded.stderr))) {
             // A retained tail containing only the known override cannot prove
             // an earlier ignored-option warning was absent.

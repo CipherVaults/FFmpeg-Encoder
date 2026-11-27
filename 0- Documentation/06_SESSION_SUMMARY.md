@@ -1,3 +1,7 @@
+# 📘 Session checkpoint — November 27, 2026 — History recovery and Archive file
+
+Actual Windows History surfaced a path failure and recovered on Refresh with its known gap still disclosed. On a separate native launch, the single NVIDIA Archive p7/CQ 29 file published after validation. All 115 displayed arguments matched the actual invocation after resolving the stage path. [History recovery and ordinary Archive encode](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#history-recovery-and-ordinary-archive-encode)
+
 # 📘 Session checkpoint — November 27, 2026 — generated-source permissions and omission
 
 Windows refused a two-file generated-source permission request after a replacement and cleared later valid grants on restart. It also refused a named unqualified subtitle omission and restored the source stream. The revised renderer reports the refusal accurately, as confirmed in a fresh native run. Seven sampled text pairs per theme passed 4.5:1. These sessions had zero Starts. [Generated-source permissions and stream omission](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#generated-source-permissions-and-stream-omission)

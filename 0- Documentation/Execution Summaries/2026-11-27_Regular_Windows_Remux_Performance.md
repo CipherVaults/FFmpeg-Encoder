@@ -105,3 +105,18 @@ Source `edb4beaf96d0bc1e701adf6e424ad9bb647e7a48` reduces repeated work in the n
 382 transport and native inventory checks passed, as did four additional direct framing and timing checks. Three current Linux source and inert-plan checks passed with the historical pins preserved. The focused split-tail receipt `20261127T004735Z_q2o-transport-chunk-and-annexb-boundaries` is SHA-256 `8abac84cb5268b6c5f6cc3867f483be6a49579a0a2c5d206b68ced7f8bb72d0e`.
 
 The existing measured combined-service verdict remains a miss. This change has no new normal-service timing, publication or seek receipt yet. Reuse only the exact sealed low and high inputs under the previously approved timing guard. Preserve the full timing envelope, exact packet joins and final first-frame/PTS comparisons.
+
+## Held MP4 sample read-ahead
+
+Source `4d5fd026d810d2ad923921e5a35273a63b54ff59` uses one bounded 1 MiB window to read already inspected native sample extents from the held staged MP4. Samples crossing windows use exact reads. An offset reversal switches the remaining samples to exact reads. The conservative physical read bound is twice the stage size. The exact sample ordinal, offset, size, key flag, independent FFprobe SHA-256, completeness, held/path stamps and full output seal still apply. The receipt continues to record logical payload bytes. Cancellation is checked on window hits and reads.
+
+A read-only helper benchmark reopened the two saved MP4s on their recorded identities. Each pass independently matched all 4,614 packet hashes per file. Four samples per file followed one untimed exact-read warm-up. The old per-packet read and the current production helper measured:
+
+| Input | Old helper | Current helper | Read calls |
+|---|---:|---:|---:|
+| 14.34 MB TS | 180.02–180.30 ms | 26.16–26.38 ms | 4,614 → 25 |
+| 110.02 MB TS | 296.34–315.83 ms | 133.87–135.51 ms | 4,614 → 205 |
+
+Receipt `artifacts/v0.7/q2o-regular-performance/saved-extent-io-26eb00ad-f4e7-4b98-95c1-fe54dcd4e994/production-helper-results.json` SHA-256 is `28a26136d95225a009352ff44b13c5b15940c3ce8fec524ab03f0ff0975d74a7`. These are warmed sample-reader timings on retained outputs. The last actual combined service result remains a miss of 3 s fixed plus 6 s per decimal GB. The pinned matched pair needs its normal-service timing and final-source linear first-frame/PTS comparison. The fixed 25 GiB floor and the separately recorded 800 MiB run allowance still apply.
+
+The broader Windows controlled run recorded 703 passes and 23 failures, SHA-256 `e9e3a57f38a97f81c7a9b44664d9fbed0f92b86ab621fbe6b7c87635a1815c6d`. Both new read-ahead regressions passed. The same 23 failed case titles reproduced against the exact parent module bytes on the same Windows D: volume, SHA-256 `98caea081b9673a5ab55c2b29ec4e906fca37716ff3b60a25458ae17566126d1`. The failed cases include storage-admission-dependent scenarios and a MOV refusal-code expectation. Both failed receipts are retained. The three platform-neutral Linux source and inert-plan checks passed, SHA-256 `e511267aaa1620cf56d6edf93d1c34bd3363943d84597ff2c2a04841d0ab00fb`. Historical package source pins remain intact.

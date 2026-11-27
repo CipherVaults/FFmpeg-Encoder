@@ -1,3 +1,7 @@
+- **November 27, 2026 — [History recovery and ordinary Archive encode](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#history-recovery-and-ordinary-archive-encode).** Actual same-session diagnostic recovery with retained gaps, plus one exact NVIDIA Archive p7/CQ 29 validation and publication.
+
+- **November 27, 2026 — [Held sample read-ahead](Execution%20Summaries/2026-11-27_Regular_Windows_Remux_Performance.md#held-mp4-sample-read-ahead).** Final helper matched every saved MP4 packet with fewer reads. Full timing and seek remain open.
+
 - **November 27, 2026 — [Generated-source permissions and stream omission](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#generated-source-permissions-and-stream-omission).** Actual replacement refusal and restart revocation, named omission refusal and restoration, corrected native wording, and sampled text contrast.
 
 - **November 27, 2026 — [Native settings recovery](Execution%20Summaries/2026-11-27_Regular_Windows_Native_Workbench.md#native-settings-recovery-and-archive-control).** Actual v1 preference read, byte-exact malformed archive, factory recovery and Archive p7/CQ 29 persisted as v2.
